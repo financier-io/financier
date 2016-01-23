@@ -32,7 +32,7 @@ gulp.task('styles', function() {
 });
 
 gulp.task('scripts', function() {
-  return gulp.src('src/scripts/**/*.js', '!src/scripts/**/*.test.js')
+  return gulp.src('src/scripts/**/*.js', '!src/scripts/**/*.spec.js')
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(babel({
@@ -101,13 +101,13 @@ gulp.task('watch', ['default'], function() {
     });
 
     // Watch .js files
-    gulp.watch(['src/scripts/**/*.js', '!src/scripts/**/*.test.js'], function(event) {
+    gulp.watch(['src/scripts/**/*.js', '!src/scripts/**/*.spec.js'], function(event) {
       console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
       gulp.run('scripts');
     });
 
     // Watch .test.js files
-    gulp.watch(['src/scripts/**/*.js', '!src/scripts/**/*.test.js'], function(event) {
+    gulp.watch(['src/scripts/**/*.js', '!src/scripts/**/*.spec.js'], function(event) {
       console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
       gulp.run('test');
     });

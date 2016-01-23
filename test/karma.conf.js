@@ -60,7 +60,7 @@ module.exports = function(config) {
 
     preprocessors: {
       'src/**/*.test.js': ['babel'],
-      'src/**/*.js': ['babel', 'coverage', 'coveralls']
+      'src/**/!(.spec).js': ['babel', 'coverage', 'coveralls']
     },
 
     babelPreprocessor: {
