@@ -22,7 +22,13 @@ gulp.task('styles', function() {
   return gulp.src('src/styles/app.scss')
     .pipe(sassLint())
     .pipe(sassLint.format())
-    .pipe(sass({ outputStyle: 'expanded', }))
+    .pipe(sass({
+      outputStyle: 'expanded',
+      includePaths: require('node-bourbon').includePaths.concat([
+        'bower_components/normalize-css/',
+        'bower_components/lato/css/'
+      ])
+    }))
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
     .pipe(gulp.dest('dist/styles'))
     .pipe(rename({ suffix: '.min' }))
@@ -32,7 +38,7 @@ gulp.task('styles', function() {
 });
 
 gulp.task('scripts', function() {
-  return gulp.src('src/scripts/**/*.js', '!src/scripts/**/*.spec.js')
+  return gulp.src(['src/scripts/**/*.js', '!src/scripts/**/*.spec.js'])
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(babel({
@@ -74,13 +80,13 @@ gulp.task('test', function (done) {
   }, process.exit).start();
 });
 
-gulp.task('tdd', function (done) {
+gulp.task('tdd', function () {
   new Server({
-    configFile: __dirname + '/test/karma.conf.js'
-  }, done).start();
+    configFile: __dirname + '/test/tdd.conf.js'
+  }).start();
 });
 
-gulp.task('watch', ['default'], function() {
+gulp.task('watch', ['default', 'tdd'], function() {
 
   // Listen on port 35729
   server.listen(35729, function (err) {
@@ -89,7 +95,7 @@ gulp.task('watch', ['default'], function() {
     };
 
     // Watch .scss files
-    gulp.watch('src/styles/**/*.scss', function(event) {
+    gulp.watch('src/**/*.scss', function(event) {
       console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
       gulp.run('styles');
     });
@@ -101,13 +107,13 @@ gulp.task('watch', ['default'], function() {
     });
 
     // Watch .js files
-    gulp.watch(['src/scripts/**/*.js', '!src/scripts/**/*.spec.js'], function(event) {
+    gulp.watch(['src/**/*.js', '!src/scripts/**/*.spec.js'], function(event) {
       console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
-      gulp.run('scripts');
+      gulp.run('scripts', 'test');
     });
 
     // Watch .test.js files
-    gulp.watch(['src/scripts/**/*.js', '!src/scripts/**/*.spec.js'], function(event) {
+    gulp.watch(['src/**/*.js', '!src/scripts/**/*.spec.js'], function(event) {
       console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
       gulp.run('test');
     });

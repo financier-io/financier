@@ -1,3 +1,42 @@
+@import 'bourbon';
+@import 'normalize';
+@import 'lato';
+@import 'core/variables';
+
+html {
+  box-sizing: border-box;
+}
+
 body {
-  background-color: red;
+  background-color: $primary;
+  // $tablet: new-breakpoint(max-width 768px 8);
+  // @include media($tablet) {
+  //   font-size: 0.8em;
+  // }
+
+  font-family: 'Lato', sans-serif;
+}
+
+* {
+  &,
+  &:before,
+  &:after {
+    box-sizing: inherit;
+  }
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: normal;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }

@@ -28,7 +28,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress', 'coverage', 'coveralls'],
+    reporters: ['progress', 'coverage'],
 
 
     // web server port
@@ -50,7 +50,7 @@ module.exports = function(config) {
 
     preprocessors: {
       'src/**/*.spec.js': ['babel'],
-      'src/**/!(.spec).js': ['babel', 'coverage', 'coveralls']
+      'src/**/!(*spec|*mock).js': ['babel', 'coverage']
     },
 
     babelPreprocessor: {
@@ -72,7 +72,7 @@ module.exports = function(config) {
     },
 
     coverageReporter: {
-      type: 'lcov', // lcov or lcovonly are required for generating lcov.info files
+      type: 'html',
       dir: 'coverage/'
     },
 
