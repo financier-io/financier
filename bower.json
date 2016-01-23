@@ -1,0 +1,23 @@
+{
+  "name": "financier",
+  "description": "A javascript, offline, electron-based YNAB4 ideology alternative.",
+  "main": "index.js",
+  "authors": [
+    "Alexander Harding"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/aeharding/Financier",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "angular": "~1.4.9",
+    "angular-animate": "~1.4.9",
+    "angular-mocks": "~1.4.9"
+  }
+}
