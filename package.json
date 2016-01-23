@@ -1,0 +1,19 @@
+{
+  "name": "financier",
+  "version": "0.1.0",
+  "description": "A javascript, offline, electron-based YNAB4 ideology alternative.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aeharding/Financier.git"
+  },
+  "author": "Alexander Harding",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aeharding/Financier/issues"
+  },
+  "homepage": "https://github.com/aeharding/Financier#readme"
+}
