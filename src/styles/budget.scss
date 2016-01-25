@@ -1,0 +1,12 @@
+.budget {
+  display: flex;
+}
+
+.budget__label-column {
+  flex-basis: 15em;
+}
+
+.budget__month-overview {
+  flex: 1;
+  margin: 0 2px;
+}

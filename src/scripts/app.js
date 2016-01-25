@@ -16,11 +16,11 @@ financier.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: "views/budget.html"
     })
     .state('app.reports', {
-      url: "/budget",
+      url: "/reports",
       templateUrl: "views/reports.html"
     })
     .state('app.allAccounts', {
-      url: "/budget",
+      url: "/all-accounts",
       templateUrl: "views/allAccounts.html"
     });
 });

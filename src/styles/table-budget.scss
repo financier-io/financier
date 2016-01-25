@@ -20,3 +20,42 @@
 .table-budget__cell-separator {
   width: 0.25em;
 }
+
+.table-budget__month-overview {
+  background-color: $darkGray;
+  color: $white;
+  font-weight: 500;
+}
+
+.table-budget__month-list {
+  font-size: 0.8em;
+  margin: 0;
+
+  dt {
+    float: left;
+    clear: left;
+    width: 7em;
+    text-align: right;
+  }
+
+  dd {
+    text-align: left;
+    margin-left: 8em;
+  }
+}
+
+.table-budget__month-total {
+  margin-top: 0.2em;
+  font-size: 2em;
+  line-height: 1em;
+  color: lightgreen;
+}
+
+.table-budget__month-total--negative {
+  color: red;
+}
+
+.table-budget__month-total-subtext {
+  font-size: 0.9em;
+  margin-bottom: 0.5em;
+}
