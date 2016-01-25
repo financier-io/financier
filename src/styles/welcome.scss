@@ -1,0 +1,22 @@
+.welcome__container {
+  background-color: $primary;
+  height: 100%;
+  color: $white;
+  font-weight: 100;
+  text-align: center;
+}
+
+.welcome {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.welcome__title {
+  font-size: 6em;
+}
+
+.welcome__sub {
+  font-size: 1.4em;
+}
