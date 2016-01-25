@@ -19,7 +19,8 @@
     "angular": "~1.4.9",
     "angular-animate": "~1.4.9",
     "angular-mocks": "~1.4.9",
-    "normalize-css": "normalize.css#~3.0.3"
+    "normalize-css": "normalize.css#~3.0.3",
+    "angular-ui-router": "~0.2.16"
   },
   "dependencies": {
     "lato": "~0.3.0"

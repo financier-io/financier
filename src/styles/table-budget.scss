@@ -1,0 +1,22 @@
+.table-budget {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.table-budget__cell-head {
+  font-weight: 500;
+  font-size: 0.8em;
+  background-color: $cell-header;
+}
+
+.table-budget__cell-head,
+.table-budget__cell {
+  text-align: right;
+  padding: 5px;
+  border-left: 1px solid $white;
+  border-right: 1px solid $white;
+}
+
+.table-budget__cell-separator {
+  width: 0.25em;
+}

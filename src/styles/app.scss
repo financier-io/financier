@@ -1,6 +1,9 @@
 @import 'bourbon';
 @import 'normalize';
+
+$lato-font-path: '../bower_components/lato/font';
 @import 'lato';
+
 @import 'core/variables';
 
 html {
@@ -8,7 +11,6 @@ html {
 }
 
 body {
-  background-color: $primary;
   // $tablet: new-breakpoint(max-width 768px 8);
   // @include media($tablet) {
   //   font-size: 0.8em;
@@ -40,3 +42,7 @@ a {
     text-decoration: underline;
   }
 }
+
+
+@import 'header';
+@import 'table-budget';
