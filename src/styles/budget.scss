@@ -1,12 +1,28 @@
+.budget__head,
+.budget__body {
+  display: flex;
+}
+
+.budget__body {
+  margin-top: -1px;
+}
+
 .budget {
   display: flex;
+  flex-flow: column;
+  height: 100%;
+}
+
+.budget__container-body {
+  flex: 2;
+  overflow: auto;
 }
 
 .budget__label-column {
   flex-basis: 15em;
 }
 
-.budget__month-overview {
+.budget__month-column {
   flex: 1;
   margin: 0 2px;
 }

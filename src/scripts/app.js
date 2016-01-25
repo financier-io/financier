@@ -1,4 +1,4 @@
-let financier = angular.module('financier', ['ui.router']);
+let financier = angular.module('financier', ['ui.router', 'ngResize']);
 
 financier.config(function($stateProvider, $urlRouterProvider) {
   //
@@ -13,7 +13,8 @@ financier.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('app.budget', {
       url: "/budget",
-      templateUrl: "views/budget.html"
+      templateUrl: "views/budget.html",
+      controller: 'budgetCtrl as budgetCtrl'
     })
     .state('app.reports', {
       url: "/reports",

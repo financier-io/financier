@@ -23,6 +23,7 @@
     "angular-ui-router": "~0.2.16"
   },
   "dependencies": {
-    "lato": "~0.3.0"
+    "lato": "~0.3.0",
+    "ng-resize": "~1.2.0"
   }
 }

@@ -1,0 +1,38 @@
+.month-body {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.month-body__cell-head {
+  font-weight: 500;
+  font-size: 0.8em;
+}
+
+.month-body__cell-head,
+.month-body__cell {
+  text-align: right;
+  padding: 5px;
+  border: 1px solid $primary;
+}
+
+table tr:first-child td {
+  border-top: 0;
+}
+table tr:last-child td {
+  border-bottom: 0;
+}
+table tr td:first-child,
+table tr th:first-child {
+  border-left: 0;
+}
+table tr td:last-child,
+table tr th:last-child {
+  border-right: 0;
+}
+
+.month-body__month-body {
+  background-color: $darkGray;
+  color: $white;
+  font-weight: 500;
+}

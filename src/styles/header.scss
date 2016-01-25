@@ -42,3 +42,7 @@
   font-weight: 500;
   border-bottom: 1px solid $white;
 }
+
+.header__body {
+  height: calc(100% - #{$headerHeight});
+}

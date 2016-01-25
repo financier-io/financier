@@ -1,10 +1,17 @@
 <div class="budget">
-  <div class="budget__label-column"></div>
-  <month-overview class="budget__month-overview"></month-overview>
-  <month-overview class="budget__month-overview"></month-overview>
-  <month-overview class="budget__month-overview"></month-overview>
-</div>
+  <div class="budget__container-head">
+    <div class="budget__head">
+      <div class="budget__label-column"></div>
+      <month-overview class="budget__month-column" ng-repeat="month in flexMonths track by $index"></month-overview>
+    </div>
+  </div>
 
-<div class="budget">
-  <div class="budget__label-column"></div>
+  <div class="budget__container-body">
+    <div class="budget__body" flex-months>
+      <div class="budget__label-column">
+        TODO
+      </div>
+      <month-body class="budget__month-column" ng-repeat="month in flexMonths track by $index"></month-body>
+    </div>
+  </div>  
 </div>

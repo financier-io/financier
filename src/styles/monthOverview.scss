@@ -1,33 +1,29 @@
-.table-budget {
+.month-overview {
   width: 100%;
   table-layout: fixed;
+  border-collapse: collapse;
 }
 
-.table-budget__cell-head {
+.month-overview__cell-head {
   font-weight: 500;
   font-size: 0.8em;
   background-color: $cell-header;
 }
 
-.table-budget__cell-head,
-.table-budget__cell {
+.month-overview__cell-head,
+.month-overview__cell {
   text-align: right;
   padding: 5px;
-  border-left: 1px solid $white;
-  border-right: 1px solid $white;
+  // border: 1px solid $primary;
 }
 
-.table-budget__cell-separator {
-  width: 0.25em;
-}
-
-.table-budget__month-overview {
+.month-overview__month-overview {
   background-color: $darkGray;
   color: $white;
   font-weight: 500;
 }
 
-.table-budget__month-list {
+.month-overview__month-list {
   font-size: 0.8em;
   margin: 0;
 
@@ -44,18 +40,18 @@
   }
 }
 
-.table-budget__month-total {
+.month-overview__month-total {
   margin-top: 0.2em;
   font-size: 2em;
   line-height: 1em;
   color: lightgreen;
 }
 
-.table-budget__month-total--negative {
+.month-overview__month-total--negative {
   color: red;
 }
 
-.table-budget__month-total-subtext {
+.month-overview__month-total-subtext {
   font-size: 0.9em;
   margin-bottom: 0.5em;
 }
