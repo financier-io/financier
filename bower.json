@@ -20,10 +20,15 @@
     "angular-animate": "~1.4.9",
     "angular-mocks": "~1.4.9",
     "normalize-css": "normalize.css#~3.0.3",
-    "angular-ui-router": "~0.2.16"
+    "angular-ui-router": "~0.2.16",
+    "es5-shim": "^4.5.2"
   },
   "dependencies": {
     "lato": "~0.3.0",
-    "ng-resize": "~1.2.0"
+    "ng-resize": "~1.2.0",
+    "pouchdb": "^5.2.0"
+  },
+  "resolutions": {
+    "angular": "1.4.9"
   }
 }

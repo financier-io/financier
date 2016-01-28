@@ -15,8 +15,22 @@
 
 .welcome__title {
   font-size: 6em;
+  line-height: 1em;
 }
 
 .welcome__sub {
   font-size: 1.4em;
+  font-variant: small-caps;
+  margin-bottom: 1em;
+}
+
+.welcome__dropdown,
+.welcome__button {
+  border: 1px solid $white;
+  background: none;
+  text-transform: uppercase;
+  font-size: 0.9em;
+  padding: 0.5em 1em;
+  height: 3em;
+  vertical-align: bottom;
 }

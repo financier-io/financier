@@ -1,4 +1,9 @@
 [
+  "bower_components/es5-shim/es5-shim.js",
   "bower_components/angular/angular.js",
-  "bower_components/angular-animate/angular-animate.js"
+  "bower_components/angular-animate/angular-animate.js",
+  "bower_components/angular-ui-router/release/angular-ui-router.js",
+  "bower_components/ng-resize/dist/ng-resize.js",
+  "bower_components/pouchdb/dist/pouchdb.js",
+  "bower_components/pouchdb/dist/pouchdb.memory.js"
 ]

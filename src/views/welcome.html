@@ -2,5 +2,10 @@
   <div class="welcome">
     <div class="welcome__title">Financier</div>
     <div class="welcome__sub">Budget like you give a fuck</div>
+    <select class="welcome__dropdown" ng-model="welcomeCtrl.budget" ng-options="budget as budget.label for budget in welcomeCtrl.budgets track by budget.id" ng-if="welcomeCtrl.budgets.length">
+      <option value="">Select budget</option>
+    </select>
+
+    <button class="welcome__button" ui-sref="newBudget">New budget</button>
   </div>
 </div>

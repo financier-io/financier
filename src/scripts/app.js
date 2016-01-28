@@ -1,4 +1,7 @@
-let financier = angular.module('financier', ['ui.router', 'ngResize']);
+let financier = angular.module('financier', [
+  'ui.router',
+  'ngResize'
+]);
 
 financier.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
   //
@@ -12,8 +15,13 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider)
       templateUrl: 'views/welcome.html',
       controller: 'welcomeCtrl as welcomeCtrl'
     })
+    .state('newBudget', {
+      url: '/',
+      templateUrl: 'views/newBudget.html',
+      controller: 'newBudgetCtrl as newBudgetCtrl'
+    })
     .state('app', {
-      abstract: true,
+      url: '/:budgetId',
       templateUrl: 'views/header.html'
     })
     .state('app.budget', {
@@ -25,9 +33,10 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider)
       url: '/reports',
       templateUrl: 'views/reports.html'
     })
-    .state('app.allAccounts', {
-      url: '/all-accounts',
-      templateUrl: 'views/allAccounts.html'
+    .state('app.account', {
+      url: '/account',
+      templateUrl: 'views/account.html',
+      controller: 'accountCtrl as accountCtrl'
     });
 
   $locationProvider.html5Mode(true);

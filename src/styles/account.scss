@@ -1,0 +1,40 @@
+.account {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+
+  font-size: 0.9em;
+}
+
+.account__cell--view {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.account__cell-memo {
+  width: 25%;
+}
+
+.account__input {
+  border: 0;
+  width: 100%;
+  padding: 0;
+}
+
+.account__inflow,
+.account__outflow {
+  width: 4em;
+}
+
+.account__row {
+  td {
+    border: 1px solid transaction;
+  }
+}
+
+.account__row--editing {
+  td {
+    border: 1px solid black;
+  }
+}

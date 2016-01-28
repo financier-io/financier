@@ -1,0 +1,57 @@
+<h1>All accounts</h1>
+
+<button>Add transaction</button>
+
+<table class="account">
+  <thead>
+    <tr>
+      <th>Account</th>
+      <th>Date</th>
+      <th>Payee</th>
+      <th>Category</th>
+      <th class="account__cell account__cell-memo">Memo</th>
+      <th class="account__outflow">Outflow</th>
+      <th class="account__inflow">Inflow</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat-start="transaction in accountCtrl.transactions"
+        ng-hide="accountCtrl.transactionEdit.id === transaction.id"
+        class="account__row"
+        ng-click="accountCtrl.editTransaction(transaction)">
+      <td class="account__cell--view">{{:: transaction.account}}</td>
+      <td class="account__cell--view">{{:: transaction.date | date}}</td>
+      <td class="account__cell--view">{{:: transaction.payee}}</td>
+      <td class="account__cell--view">{{:: transaction.category}}</td>
+      <td class="account__cell--view account__cell-memo">{{:: transaction.memo}}</td>
+      <td class="account__cell--view account__outflow">{{:: transaction.outflow}}</td>
+      <td class="account__cell--view account__inflow">{{:: transaction.inflow}}</td>
+    </tr>
+    <tr ng-repeat-end
+        ng-if="accountCtrl.transactionEdit.id === transaction.id"
+        class="account__row account__row--editing"
+        ng-click="editTransaction(transaction)">
+      <td>
+        <input type="text" class="account__input" ng-model="transaction.account">
+      </td>
+      <td>
+        <input type="date" class="account__input" ng-model="transaction.date">
+      </td>
+      <td>
+        <input type="text" class="account__input" ng-model="transaction.payee">
+      </td>
+      <td>
+        <input type="text" class="account__input" ng-model="transaction.category">
+      </td>
+      <td class="account__cell account__cell-memo">
+        <input type="text" class="account__input" ng-model="transaction.memo">
+      </td>
+      <td class="account__outflow">
+        <input type="text" class="account__input" ng-model="transaction.outflow">
+      </td>
+      <td class="account__inflow">
+        <input type="text" class="account__input" ng-model="transaction.inflow">
+      </td>
+    </tr>
+  </tbody>
+</table>
