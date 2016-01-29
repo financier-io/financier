@@ -1,8 +1,8 @@
-angular.module('financier').provider('db', function(Month) {
+angular.module('financier').provider('db', function() {
   const that = this;
   that.adapter = 'idb';
 
-  this.$get = () => {
+  this.$get = (Month) => {
     const db = new PouchDB('financier', {
       adapter: that.adapter
     });
@@ -23,11 +23,23 @@ angular.module('financier').provider('db', function(Month) {
       }
 
       function getMonth(date) {
-        return budget.get(date);
+        return budget.get(date).then(data => {
+          return new Month({
+            date,
+            db: budget,
+            data
+          });
+        });
       }
 
-      function setMonth(date, obj) {
-        return budget.put(obj, date);
+      function setMonth(date, data) {
+        return budget.put(data, date).then((res) => {
+          return new Month({
+            date,
+            db: budget,
+            data
+          })
+        });
       }
 
       function createMonth(date) {

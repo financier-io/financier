@@ -38,14 +38,26 @@ describe("Unit Testing Examples", function() {
     expect(typeof db.budget('hello, world!').setMonth).toBe('function');
   });
 
-  it('should allow creating month', (done) => {
+  it('should allow creating Month', (done) => {
     const now = new Date();
     const date = `${now.getFullYear()}${now.getMonth()}`;
 
-    db.budget('hello, world!').setMonth(date, {
+    db.budget('hello, world!').setMonth(date).then(res => {
+      expect(res.constructor.name).toBe('Month');
+      done()
+    }).catch(err => {
+      done(new Error('Promise should not be rejected', err));
+    })
+  });
+
+  it('should allow retrieving a Month', (done) => {
+    const now = new Date();
+    const date = `${now.getFullYear()}${now.getMonth()}`;
+
+    db.budget('hello, world!').getMonth(date, {
       category: {}
     }).then(res => {
-      expect(res.ok).toBe(true);
+      expect(res.constructor.name).toBe('Month');
       done()
     }).catch(err => {
       done(new Error('Promise should not be rejected', err));
