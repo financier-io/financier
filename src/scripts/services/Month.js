@@ -6,32 +6,15 @@ angular.module('financier').factory('Month', () => {
       this.data = data;
     }
 
-    // setRolling(catId, prevRolling) {
-    //   createCategoryIfEmpty(catId);
+    setRolling(catId, rolling) {
+      this.createCategoryIfEmpty(catId);
 
-    //   if (angular.isNumber(prevRolling)) {
-    //     this.data.categories.catId.prevRolling = prevRolling;
-    //   }
-
-    //   let myRolling = this.prevRolling + this.data.categories.catId.budget;
-
-    //   for (let i = 0; i < this.data.categories.catId.transactions.length; i++) {
-    //     myRolling -= this.data.categories.catId.transactions[i].value;
-    //   }
-
-    //   this.data.categories.catId.rolling = myRolling;
-    // }
-
-    // setNextMonth(next) {
-    //   this.next = next;
-    // }
-
-    // getRolling(catId) {
-    //   if (!angular.isDefined(this.data.categories.catId)) {
-    //     throw new Error('Have not calculated rolling value yet!')
-    //   }
-    //   return this.data.categories.catId.rolling;
-    // }
+      const oldRolling = this.data.categories[catId].rolling;
+      this.data.categories[catId].rolling = rolling;
+      
+      this.data.categories[catId].total += rolling - oldRolling;
+      this.fn && this.fn(catId, this.data.categories[catId].total);
+    }
 
     addTransaction(catId, transaction) {
       if (transaction.constructor.name !== 'Transaction') {
@@ -41,7 +24,6 @@ angular.module('financier').factory('Month', () => {
       this.createCategoryIfEmpty(catId);
 
       transaction.subscribe((newValue, oldValue) => {
-        console.log(this.data.categories[catId].total, newValue, oldValue)
         this.data.categories[catId].total += (oldValue - newValue);
 
         this.fn && this.fn(catId, this.data.categories[catId].total);
@@ -53,19 +35,33 @@ angular.module('financier').factory('Month', () => {
       this.fn && this.fn(catId, this.data.categories[catId].total);
     }
 
-    // removeTransaction(catId, transaction) {
-    //   createCategoryIfEmpty(catId);
+    removeTransaction(catId, transaction) {
+      this.createCategoryIfEmpty(catId);
 
-    //   const index = this.data.categories.catId.transactions.indexOf(transaction);
+      const index = this.data.categories[catId].transactions.indexOf(transaction);
 
-    //   if (index > -1) {
-    //     this.data.categories.catId.transactions.splice(index, 1);
-    //   }
-    //   next && next.setRolling();
-    // }
+      if (index > -1) {
+        this.data.categories[catId].transactions.splice(index, 1);
+        transaction.subscribe(null);
+      }
+
+      this.data.categories[catId].total += transaction.value;
+      this.fn && this.fn(catId, this.data.categories[catId].total);
+    }
+
+    setBudget(catId, amount) {
+      this.createCategoryIfEmpty(catId);
+
+      const oldBudget = this.data.categories[catId].budget;
+      this.data.categories[catId].budget = amount;
+
+      this.data.categories[catId].total += amount - oldBudget;
+
+      this.fn && this.fn(catId, this.data.categories[catId].total);
+    }
 
     createCategoryIfEmpty(catId) {
-      if (!this.data.categories.catId) {
+      if (!this.data.categories[catId]) {
         this.data.categories[catId] = {
           rolling: 0,
           budget: 0,
