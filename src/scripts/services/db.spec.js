@@ -1,4 +1,4 @@
-describe("Unit Testing Examples", function() {
+describe('db', function() {
 
   beforeEach(module('financier', dbProvider => {
     dbProvider.adapter = 'memory';
@@ -25,11 +25,33 @@ describe("Unit Testing Examples", function() {
     expect(typeof db.budget).toBe('function');
   });
 
-  it('should return with object', () => {
-    const arr = db.budget('hello, world!');
-    console.log(arr[0].cache.total, arr[1].cache.total, arr[2].cache.total)
-    arr[0].setBudget(123, 23);
-    console.log(arr[0].cache[123].total, arr[1].cache[123].total, arr[2].cache[123].total)
+  it('should return with object', (done) => {
+    const d = new PouchDB('financier1', {
+      adapter: 'memory'
+    });
+
+    const budgetDB = new PouchDB('financierer', {
+      adapter: 'memory'
+    });
+
+    budgetDB.bulkDocs([{
+      _id: '20150',
+      categories: {}
+    }, {
+      _id: '20151',
+      categories: {}
+    }, {
+      _id: '20152',
+      categories: {}
+    }]).then(res => {
+      const arr = db.budget(budgetDB).then(arr => {
+        console.log(arr[0].cache.total, arr[1].cache.total, arr[2].cache.total)
+        arr[0].setBudget(123, 23);
+        console.log(arr[0].cache[123].total, arr[1].cache[123].total, arr[2].cache[123].total)
+        done();
+      })
+      
+    })
   });
 
   // it('should return with object of functions', () => {

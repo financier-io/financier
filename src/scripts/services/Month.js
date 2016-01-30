@@ -1,13 +1,19 @@
-angular.module('financier').factory('Month', () => {
+angular.module('financier').factory('Month', (Transaction) => {
   return class Month {
 
-    constructor(date, fn, data = {categories: {}}) {
-      if (!angular.isDate(date)) {
+    constructor(data = {categories: {}}) {
+      if (!data._id) {
         throw new TypeError('date is not Date!');
       }
-      this.fn = fn;
+      for (var k in data.categories){
+        if (data.categories.hasOwnProperty(k)) {
+          let category = data.categories[k];
+          if (category.transactions) {
+            category.transactions = category.transactions.map(transaction => new Transaction(transaction));
+          }
+        }
+      }
       this.data = data;
-      this.data._id = this.normalizeMonth(date);
       this.cache = {};
     }
 
@@ -94,7 +100,7 @@ angular.module('financier').factory('Month', () => {
       return this.data;
     }
 
-    normalizeMonth(date) {
+    static normalizeID(date) {
       return `${date.getFullYear()}${date.getMonth()}`;
     }
   }

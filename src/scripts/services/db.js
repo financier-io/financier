@@ -12,38 +12,27 @@ angular.module('financier').provider('db', function() {
       budget
     };
 
-    function budget(name) {
-      const budget = new PouchDB(`financier ${name}`, {
-        adapter: that.adapter
-      });
-
-      const ret = [
-        new Month(new Date('1/1/16')),
-        new Month(new Date('2/1/16')),
-        new Month(new Date('3/1/16'))
-      ];
-
-      for (let i = 0; i < ret.length - 1; i++) {
-        ret[i].subscribe((catId, total) => {
-          ret[i + 1].setRolling(catId, total);
+    function budget(budgetDB) {
+      return budgetDB.allDocs({
+        include_docs: true
+      }).then(res => {
+        const months = res.rows.map(row => {
+          return new Month(row.doc);
         });
-      }
 
-      return ret;
+        for (let i = 0; i < months.length - 1; i++) {
+          months[i].subscribe((catId, total) => {
+            months[i + 1].setRolling(catId, total);
+          });
+        }
 
-
-
-      // budget.allDocs().then(res => {
-      //   if (res.rows.length > 0) {
-      //     const lastDoc = res.rows[res.rows.length - 1];
-
-      //     console.log(lastDoc);
-      //   } else {
-      //     console.log('bu')
-      //   }
-
-      //   return this;
-      // })
+        return months;
+      });
+      // const ret = [
+      //   new Month(new Date('1/1/16')),
+      //   new Month(new Date('2/1/16')),
+      //   new Month(new Date('3/1/16'))
+      // ];
 
       function createMonth(date) {
         return budget.put(data, date).then((res) => {
