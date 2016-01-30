@@ -56,24 +56,81 @@ describe("Month", function() {
     });
   });
 
-  it('should notify a subscriber upon transaction update', () => {
+  it('should notify subscribeNextMonth & subscribeRecordChanges upon transaction add/update/remove', () => {
     const foo = {
-      bar: () => {}
+      subscribeNextMonth: () => {},
+      subscribeRecordChanges: () => {}
     }
-    spyOn(foo, 'bar');
+    spyOn(foo, 'subscribeNextMonth');
+    spyOn(foo, 'subscribeRecordChanges');
 
     const mo = new Month(defaultMonth());
-    mo.subscribe(foo.bar);
+    mo.subscribeNextMonth(foo.subscribeNextMonth);
+    mo.subscribeRecordChanges(foo.subscribeRecordChanges);
     const tr = new Transaction(12.33);
 
     mo.addTransaction(123, tr);
 
-    expect(foo.bar).toHaveBeenCalledWith(123, -12.33);
+    expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, -12.33);
+    expect(foo.subscribeRecordChanges).toHaveBeenCalledWith(mo);
+    expect(foo.subscribeRecordChanges.calls.count()).toBe(1);
 
     tr.value = 10.01;
 
-    expect(foo.bar).toHaveBeenCalledWith(123, -10.01);
+    expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, -10.01);
+    expect(foo.subscribeRecordChanges.calls.count()).toBe(2);
 
+    mo.removeTransaction(123, tr);
+
+    expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, 0);
+    expect(foo.subscribeRecordChanges.calls.count()).toBe(3);
+  });
+
+  it('should notify subscribeNextMonth & subscribeRecordChanges upon budget update', () => {
+    const foo = {
+      subscribeNextMonth: () => {},
+      subscribeRecordChanges: () => {}
+    }
+    spyOn(foo, 'subscribeNextMonth');
+    spyOn(foo, 'subscribeRecordChanges');
+
+    const mo = new Month(defaultMonth());
+    mo.subscribeNextMonth(foo.subscribeNextMonth);
+    mo.subscribeRecordChanges(foo.subscribeRecordChanges);
+
+    mo.setBudget(123, 12);
+
+    expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, 12);
+    expect(foo.subscribeRecordChanges).toHaveBeenCalledWith(mo);
+    expect(foo.subscribeRecordChanges.calls.count()).toBe(1);
+
+    mo.setBudget(123, 10);
+
+    expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, 10);
+    expect(foo.subscribeRecordChanges.calls.count()).toBe(2);
+  });
+
+  it('should notify subscribeRecordChanges upon rolling update', () => {
+    const foo = {
+      subscribeNextMonth: () => {},
+      subscribeRecordChanges: () => {}
+    }
+    spyOn(foo, 'subscribeNextMonth');
+    spyOn(foo, 'subscribeRecordChanges');
+
+    const mo = new Month(defaultMonth());
+    mo.subscribeNextMonth(foo.subscribeNextMonth);
+    mo.subscribeRecordChanges(foo.subscribeRecordChanges);
+
+    mo.setRolling(123, 12);
+
+    expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, 12);
+    expect(foo.subscribeRecordChanges).not.toHaveBeenCalled();
+
+    mo.setRolling(123, 10);
+
+    expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, 10);
+    expect(foo.subscribeRecordChanges).not.toHaveBeenCalled();
   });
 
   it('should allow setting budget', () => {

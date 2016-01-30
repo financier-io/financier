@@ -13,36 +13,40 @@ angular.module('financier').provider('db', function() {
     };
 
     function budget(budgetDB) {
-      return budgetDB.allDocs({
-        include_docs: true
-      }).then(res => {
-        const months = res.rows.map(row => {
-          return new Month(row.doc);
-        });
-
-        for (let i = 0; i < months.length - 1; i++) {
-          months[i].subscribe((catId, total) => {
-            months[i + 1].setRolling(catId, total);
+      function all() {
+        return budgetDB.allDocs({
+          include_docs: true
+        }).then(res => {
+          const months = res.rows.map(row => {
+            return new Month(row.doc);
           });
-        }
 
-        return months;
-      });
-      // const ret = [
-      //   new Month(new Date('1/1/16')),
-      //   new Month(new Date('2/1/16')),
-      //   new Month(new Date('3/1/16'))
-      // ];
+          setUpLinks(months);
 
-      function createMonth(date) {
-        return budget.put(data, date).then((res) => {
-          return new Month({
-            date: date,
-            db: budget,
-            data
-          });
+          return months;
         });
       }
+
+      function put(month) {
+        return budgetDB.put(month.toJSON());
+      }
+
+      function setUpLinks(months) {
+        for (let i = 0; i < months.length - 1; i++) {
+          months[i].subscribeNextMonth((catId, total) => {
+            months[i + 1].setRolling(catId, total);
+
+          });
+          months[i].subscribeRecordChanges(() => {
+            return put(months[i]);
+          });
+        }
+      }
+
+      return {
+        all,
+        put
+      };
     }
   }
 });

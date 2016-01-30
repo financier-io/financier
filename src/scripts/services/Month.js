@@ -25,7 +25,7 @@ angular.module('financier').factory('Month', (Transaction) => {
       this.cache[catId].rolling = rolling;
       
       this.cache[catId].total += rolling - oldRolling;
-      this.fn && this.fn(catId, this.cache[catId].total);
+      this.nextRollingFn && this.nextRollingFn(catId, this.cache[catId].total);
     }
 
     addTransaction(catId, transaction) {
@@ -39,13 +39,16 @@ angular.module('financier').factory('Month', (Transaction) => {
       transaction.subscribe((newValue, oldValue) => {
         this.cache[catId].total += (oldValue - newValue);
 
-        this.fn && this.fn(catId, this.cache[catId].total);
+        this.nextRollingFn && this.nextRollingFn(catId, this.cache[catId].total);
+        return this.recordChangesFn && this.recordChangesFn(this);
       });
 
       this.data.categories[catId].transactions.push(transaction);
 
       this.cache[catId].total -= transaction.value;
-      this.fn && this.fn(catId, this.cache[catId].total);
+
+      this.nextRollingFn && this.nextRollingFn(catId, this.cache[catId].total);
+      return this.recordChangesFn && this.recordChangesFn(this);
     }
 
     removeTransaction(catId, transaction) {
@@ -60,7 +63,9 @@ angular.module('financier').factory('Month', (Transaction) => {
       }
 
       this.cache[catId].total += transaction.value;
-      this.fn && this.fn(catId, this.cache[catId].total);
+      
+      this.nextRollingFn && this.nextRollingFn(catId, this.cache[catId].total);
+      return this.recordChangesFn && this.recordChangesFn(this);
     }
 
     setBudget(catId, amount) {
@@ -71,8 +76,8 @@ angular.module('financier').factory('Month', (Transaction) => {
       this.data.categories[catId].budget = amount;
 
       this.cache[catId].total += amount - oldBudget;
-
-      this.fn && this.fn(catId, this.cache[catId].total);
+      this.nextRollingFn && this.nextRollingFn(catId, this.cache[catId].total);
+      return this.recordChangesFn && this.recordChangesFn(this);
     }
 
     createCategoryIfEmpty(catId) {
@@ -92,8 +97,12 @@ angular.module('financier').factory('Month', (Transaction) => {
       }
     }
 
-    subscribe(fn) {
-      this.fn = fn;
+    subscribeNextMonth(nextRollingFn) {
+      this.nextRollingFn = nextRollingFn;
+    }
+
+    subscribeRecordChanges(recordChangesFn) {
+      this.recordChangesFn = recordChangesFn;
     }
 
     toJSON() {

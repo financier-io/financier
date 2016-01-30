@@ -4,6 +4,19 @@ describe('db', function() {
     dbProvider.adapter = 'memory';
   }));
 
+  let budgetDB;
+  beforeEach(() => {
+    budgetDB = new PouchDB('financierer', {
+      adapter: 'memory'
+    });
+  });
+
+  afterEach((done) => {
+    budgetDB.destroy().then(() => {
+      done();
+    });
+  });
+
   let db;
 
   beforeEach(inject(_db_ => {
@@ -26,14 +39,6 @@ describe('db', function() {
   });
 
   it('should return with object', (done) => {
-    const d = new PouchDB('financier1', {
-      adapter: 'memory'
-    });
-
-    const budgetDB = new PouchDB('financierer', {
-      adapter: 'memory'
-    });
-
     budgetDB.bulkDocs([{
       _id: '20150',
       categories: {}
@@ -44,45 +49,62 @@ describe('db', function() {
       _id: '20152',
       categories: {}
     }]).then(res => {
-      const arr = db.budget(budgetDB).then(arr => {
-        console.log(arr[0].cache.total, arr[1].cache.total, arr[2].cache.total)
-        arr[0].setBudget(123, 23);
-        console.log(arr[0].cache[123].total, arr[1].cache[123].total, arr[2].cache[123].total)
+      const arr = db.budget(budgetDB).all().then(arr => {
+        expect(arr.length).toBe(3);
+
         done();
-      })
-      
-    })
+      });
+    });
   });
 
-  // it('should return with object of functions', () => {
-  //   expect(typeof db.budget('hello, world!').getMonth).toBe('function');
-  //   expect(typeof db.budget('hello, world!').setMonth).toBe('function');
-  // });
+  it('should return with object', (done) => {
+    budgetDB.bulkDocs([{
+      _id: '20160',
+      categories: {}
+    }, {
+      _id: '20161',
+      categories: {}
+    }, {
+      _id: '20162',
+      categories: {}
+    }]).then(res => {
+      const arr = db.budget(budgetDB).all().then(arr => {
+        expect(arr[0].cache[123]).toBeUndefined();
+        expect(arr[1].cache[123]).toBeUndefined();
+        expect(arr[2].cache[123]).toBeUndefined();
 
-  // it('should allow creating Month', (done) => {
-  //   const now = new Date();
-  //   const date = `${now.getFullYear()}${now.getMonth()}`;
+        arr[0].setBudget(123, 23);
 
-  //   db.budget('hello, world!').setMonth(date).then(res => {
-  //     expect(res.constructor.name).toBe('Month');
-  //     done()
-  //   }).catch(err => {
-  //     done(new Error('Promise should not be rejected', err));
-  //   })
-  // });
+        expect(arr[0].cache[123].total).toBe(23);
+        expect(arr[1].cache[123].total).toBe(23);
+        expect(arr[2].cache[123].total).toBe(23);
 
-  // it('should allow retrieving a Month', (done) => {
-  //   const now = new Date();
-  //   const date = `${now.getFullYear()}${now.getMonth()}`;
+        done();
+      });
+    });
+  });
 
-  //   db.budget('hello, world!').getMonth(date, {
-  //     category: {}
-  //   }).then(res => {
-  //     expect(res.constructor.name).toBe('Month');
-  //     done()
-  //   }).catch(err => {
-  //     done(new Error('Promise should not be rejected', err));
-  //   })
-  // });
+  it('should update database', (done) => {
+    budgetDB.bulkDocs([{
+      _id: '20160',
+      categories: {}
+    }, {
+      _id: '20161',
+      categories: {}
+    }, {
+      _id: '20162',
+      categories: {}
+    }]).then(res => {
+      const arr = db.budget(budgetDB).all().then(arr => {
+        arr[0].setBudget(123, 23).then(res => {
+          expect(res.ok).toBe(true);
+          done();
+        }).catch(err => {
+          done(err);
+        })
+
+      });
+    });
+  });
 
 });
