@@ -15,7 +15,7 @@ angular.module('financier').provider('db', function() {
     function budget(budgetDB) {
       function all() {
         return budgetDB.allDocs({
-          include_docs: true
+          include_docs: true /* eslint camelcase:0 */
         }).then(res => {
           const months = res.rows.map(row => {
             return new Month(row.doc);
@@ -48,5 +48,5 @@ angular.module('financier').provider('db', function() {
         put
       };
     }
-  }
+  };
 });

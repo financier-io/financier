@@ -10,13 +10,13 @@ angular.module('financier').controller('accountCtrl', function() {
       memo: 'This is a test memo',
       outflow: 0,
       id: i
-    })
+    });
   }
 
   this.transactionEdit = null;
   this.editTransaction = (t) => {
     this.transactionEdit = angular.copy(t);
-  }
+  };
 
 
 

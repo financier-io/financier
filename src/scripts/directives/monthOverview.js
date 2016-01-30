@@ -5,5 +5,5 @@ angular.module('financier').directive('monthOverview', function() {
     scope: {
       overview: '='
     }
-  }
+  };
 });

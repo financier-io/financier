@@ -93,7 +93,7 @@ angular.module('financier').factory('Month', (Transaction) => {
         this.cache[catId] = {
           rolling: 0,
           total: 0
-        }
+        };
       }
     }
 
@@ -112,5 +112,5 @@ angular.module('financier').factory('Month', (Transaction) => {
     static normalizeID(date) {
       return `${date.getFullYear()}${date.getMonth()}`;
     }
-  }
-})
+  };
+});

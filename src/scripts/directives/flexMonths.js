@@ -11,4 +11,4 @@ angular.module('financier').directive('flexMonths', function(resize, $rootScope)
 
     }
   };
-})
+});

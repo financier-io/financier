@@ -1,3 +1,24 @@
----
-"extends":
-  - "defaults/configurations/walmart/es6-browser"
+{
+  "env": {
+    "browser": true,
+  },
+  "globals": {
+    "angular": true,
+  },
+  "rules": {
+    "camelcase": 2,
+    "curly": 2,
+    "brace-style": [2, "1tbs"],
+    "quotes": [2, "single"],
+    "semi": [2, "always"],
+    "space-infix-ops": 2,
+  },
+  "ecmaFeatures": {
+    "arrowFunctions": true,
+    "blockBindings": true,
+    "classes": true,
+    "defaultParams": true,
+    "objectLiteralShorthandProperties": true,
+    "templateStrings": true
+  }
+}

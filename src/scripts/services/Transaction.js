@@ -28,5 +28,5 @@ angular.module('financier').factory('Transaction', () => {
         value: this.amount
       };
     }
-  }
-})
+  };
+});
