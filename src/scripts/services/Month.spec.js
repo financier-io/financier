@@ -23,18 +23,23 @@ describe("Month", function() {
 
     mo.addTransaction(123, tr);
 
-    var obj = JSON.parse(JSON.stringify(mo));
+    var data = JSON.parse(JSON.stringify(mo));
+    var cache = JSON.parse(JSON.stringify(mo.cache));
 
-    expect(obj).toEqual({
+    expect(data).toEqual({
       categories: {
         123: {
-          rolling: 0,
           budget: 0,
           transactions: [{
             value: 12.33
-          }],
-          total: -12.33
+          }]
         }
+      }
+    });
+    expect(cache).toEqual({
+      123: {
+        rolling: 0,
+        total: -12.33
       }
     });
   });
@@ -63,16 +68,22 @@ describe("Month", function() {
 
     mo.setBudget(123, 12);
 
-    var obj = JSON.parse(JSON.stringify(mo));
+    var data = JSON.parse(JSON.stringify(mo));
+    var cache = JSON.parse(JSON.stringify(mo.cache));
 
-    expect(obj).toEqual({
+    expect(data).toEqual({
       categories: {
         123: {
-          rolling: 0,
           budget: 12,
-          transactions: [],
-          total: 12
+          transactions: []
         }
+      }
+    });
+
+    expect(cache).toEqual({
+      123: {
+        rolling: 0,
+        total: 12
       }
     });
   });
@@ -84,16 +95,22 @@ describe("Month", function() {
     mo.addTransaction(123, tr);
     mo.removeTransaction(123, tr);
 
-    var obj = JSON.parse(JSON.stringify(mo));
+    var data = JSON.parse(JSON.stringify(mo));
+    var cache = JSON.parse(JSON.stringify(mo.cache));
 
-    expect(obj).toEqual({
+    expect(data).toEqual({
       categories: {
         123: {
-          rolling: 0,
           budget: 0,
-          transactions: [],
-          total: 0
+          transactions: []
         }
+      }
+    });
+
+    expect(cache).toEqual({
+      123: {
+        rolling: 0,
+        total: 0
       }
     });
   });
@@ -103,16 +120,22 @@ describe("Month", function() {
 
     mo.setRolling(123, 69);
 
-    var obj = JSON.parse(JSON.stringify(mo));
+    var data = JSON.parse(JSON.stringify(mo));
+    var cache = JSON.parse(JSON.stringify(mo.cache));
 
-    expect(obj).toEqual({
+    expect(data).toEqual({
       categories: {
         123: {
-          rolling: 69,
           budget: 0,
-          transactions: [],
-          total: 69
+          transactions: []
         }
+      }
+    });
+
+    expect(cache).toEqual({
+      123: {
+        rolling: 69,
+        total: 69
       }
     });
   });
@@ -130,28 +153,36 @@ describe("Month", function() {
     mo.addTransaction(124, new Transaction(1.02));
     mo.removeTransaction(124, tr);
 
-    var obj = JSON.parse(JSON.stringify(mo));
+    var data = JSON.parse(JSON.stringify(mo));
+    var cache = JSON.parse(JSON.stringify(mo.cache));
 
-    expect(obj).toEqual({
+    expect(data).toEqual({
       categories: {
         123: {
-          rolling: 69,
           budget: 50,
           transactions: [{
             value: 12.33
           }, {
             value: 32
-          }],
-          total: 74.67
+          }]
         },
         124: {
-          rolling: 0,
           budget: 0,
           transactions: [{
             value: 1.02
-          }],
-          total: -1.02
+          }]
         }
+      }
+    });
+
+    expect(cache).toEqual({
+      123: {
+        rolling: 69,
+        total: 74.67
+      },
+      124: {
+        rolling: 0,
+        total: -1.02
       }
     });
   });

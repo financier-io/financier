@@ -4,16 +4,18 @@ angular.module('financier').factory('Month', () => {
     constructor(fn, data = {categories: {}}) {
       this.fn = fn;
       this.data = data;
+      this.cache = {};
     }
 
     setRolling(catId, rolling) {
       this.createCategoryIfEmpty(catId);
+      this.createCategoryCacheIfEmpty(catId);
 
-      const oldRolling = this.data.categories[catId].rolling;
-      this.data.categories[catId].rolling = rolling;
+      const oldRolling = this.cache[catId].rolling;
+      this.cache[catId].rolling = rolling;
       
-      this.data.categories[catId].total += rolling - oldRolling;
-      this.fn && this.fn(catId, this.data.categories[catId].total);
+      this.cache[catId].total += rolling - oldRolling;
+      this.fn && this.fn(catId, this.cache[catId].total);
     }
 
     addTransaction(catId, transaction) {
@@ -22,21 +24,23 @@ angular.module('financier').factory('Month', () => {
       }
 
       this.createCategoryIfEmpty(catId);
+      this.createCategoryCacheIfEmpty(catId);
 
       transaction.subscribe((newValue, oldValue) => {
-        this.data.categories[catId].total += (oldValue - newValue);
+        this.cache[catId].total += (oldValue - newValue);
 
-        this.fn && this.fn(catId, this.data.categories[catId].total);
+        this.fn && this.fn(catId, this.cache[catId].total);
       });
 
       this.data.categories[catId].transactions.push(transaction);
 
-      this.data.categories[catId].total -= transaction.value;
-      this.fn && this.fn(catId, this.data.categories[catId].total);
+      this.cache[catId].total -= transaction.value;
+      this.fn && this.fn(catId, this.cache[catId].total);
     }
 
     removeTransaction(catId, transaction) {
       this.createCategoryIfEmpty(catId);
+      this.createCategoryCacheIfEmpty(catId);
 
       const index = this.data.categories[catId].transactions.indexOf(transaction);
 
@@ -45,29 +49,36 @@ angular.module('financier').factory('Month', () => {
         transaction.subscribe(null);
       }
 
-      this.data.categories[catId].total += transaction.value;
-      this.fn && this.fn(catId, this.data.categories[catId].total);
+      this.cache[catId].total += transaction.value;
+      this.fn && this.fn(catId, this.cache[catId].total);
     }
 
     setBudget(catId, amount) {
       this.createCategoryIfEmpty(catId);
+      this.createCategoryCacheIfEmpty(catId);
 
       const oldBudget = this.data.categories[catId].budget;
       this.data.categories[catId].budget = amount;
 
-      this.data.categories[catId].total += amount - oldBudget;
+      this.cache[catId].total += amount - oldBudget;
 
-      this.fn && this.fn(catId, this.data.categories[catId].total);
+      this.fn && this.fn(catId, this.cache[catId].total);
     }
 
     createCategoryIfEmpty(catId) {
       if (!this.data.categories[catId]) {
         this.data.categories[catId] = {
-          rolling: 0,
           budget: 0,
-          transactions: [],
-          total: 0
+          transactions: []
         };
+      }
+    }
+    createCategoryCacheIfEmpty(catId) {
+      if (!this.cache[catId]) {
+        this.cache[catId] = {
+          rolling: 0,
+          total: 0
+        }
       }
     }
 
