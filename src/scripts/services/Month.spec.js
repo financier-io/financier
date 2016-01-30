@@ -63,6 +63,26 @@ describe("Month", function() {
 
   });
 
+  it('should notify a post-creation subscriber upon transaction update', () => {
+    const foo = {
+      bar: () => {}
+    }
+    spyOn(foo, 'bar');
+
+    const mo = new Month();
+    mo.subscribe(foo.bar);
+    const tr = new Transaction(12.33);
+
+    mo.addTransaction(123, tr);
+
+    expect(foo.bar).toHaveBeenCalledWith(123, -12.33);
+
+    tr.value = 10.01;
+
+    expect(foo.bar).toHaveBeenCalledWith(123, -10.01);
+
+  });
+
   it('should allow setting budget', () => {
     const mo = new Month();
 

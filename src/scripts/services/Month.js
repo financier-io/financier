@@ -82,6 +82,10 @@ angular.module('financier').factory('Month', () => {
       }
     }
 
+    subscribe(fn) {
+      this.fn = fn;
+    }
+
     toJSON() {
       return this.data;
     }
