@@ -17,36 +17,35 @@ angular.module('financier').provider('db', function() {
         adapter: that.adapter
       });
 
-      return {
-        getMonth,
-        setMonth
-      }
+      const ret = [
+        new Month(new Date('1/1/16')),
+        new Month(new Date('2/1/16')),
+        new Month(new Date('3/1/16'))
+      ];
 
-      function getMonth(date) {
-        return budget.get(date).then(data => {
-          return new Month({
-            date,
-            db: budget,
-            data
-          });
+      for (let i = 0; i < ret.length - 1; i++) {
+        ret[i].subscribe((catId, total) => {
+          ret[i + 1].setRolling(catId, total);
         });
       }
 
-      function setMonth(date, data) {
-        return budget.put(data, date).then((res) => {
-          return new Month({
-            date,
-            db: budget,
-            data
-          })
-        });
-      }
+      return ret;
+
+
+
+      // budget.allDocs().then(res => {
+      //   if (res.rows.length > 0) {
+      //     const lastDoc = res.rows[res.rows.length - 1];
+
+      //     console.log(lastDoc);
+      //   } else {
+      //     console.log('bu')
+      //   }
+
+      //   return this;
+      // })
 
       function createMonth(date) {
-        const data = {
-          categories: {}
-        };
-
         return budget.put(data, date).then((res) => {
           return new Month({
             date: date,

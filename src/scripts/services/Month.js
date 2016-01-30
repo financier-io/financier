@@ -1,9 +1,13 @@
 angular.module('financier').factory('Month', () => {
   return class Month {
 
-    constructor(fn, data = {categories: {}}) {
+    constructor(date, fn, data = {categories: {}}) {
+      if (!angular.isDate(date)) {
+        throw new TypeError('date is not Date!');
+      }
       this.fn = fn;
       this.data = data;
+      this.data._id = this.normalizeMonth(date);
       this.cache = {};
     }
 
@@ -88,6 +92,10 @@ angular.module('financier').factory('Month', () => {
 
     toJSON() {
       return this.data;
+    }
+
+    normalizeMonth(date) {
+      return `${date.getFullYear()}${date.getMonth()}`;
     }
   }
 })

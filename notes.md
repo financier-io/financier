@@ -93,6 +93,19 @@ orrrrr
 ```
 
 ### API
+
+#### db Service
+
+```js
+(db) => {
+  db('myBudget')
+    .getMonths(new Date('1/1/16'), new Date('3/1/16'))
+    .then(months => {
+      console.log(months)
+    })
+}
+
+
 ```js
 function Database(name) {
 

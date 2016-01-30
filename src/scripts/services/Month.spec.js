@@ -8,17 +8,21 @@ describe("Month", function() {
     Transaction = _Transaction_;
   }));
 
+  it('throws if not passed Date', () => {
+    expect(() => new Month('boom')).toThrowError(TypeError, 'date is not Date!');
+  });
+
   it('should be a Month', () => {
-    const mo = new Month();
+    const mo = new Month(new Date(new Date()));
     expect(mo.constructor.name).toBe('Month');
   });
 
   it('should serialize to JSON', () => {
-    expect(JSON.stringify(new Month())).toBe('{"categories":{}}');
+    expect(JSON.stringify(new Month(new Date('12/12/12')))).toBe('{"categories":{},"_id":"201211"}');
   });
 
   it('should add a transaction', () => {
-    const mo = new Month();
+    const mo = new Month(new Date('12/12/12'));
     const tr = new Transaction(12.33);
 
     mo.addTransaction(123, tr);
@@ -27,6 +31,7 @@ describe("Month", function() {
     var cache = JSON.parse(JSON.stringify(mo.cache));
 
     expect(data).toEqual({
+      _id: '201211',
       categories: {
         123: {
           budget: 0,
@@ -50,7 +55,7 @@ describe("Month", function() {
     }
     spyOn(foo, 'bar');
 
-    const mo = new Month(foo.bar);
+    const mo = new Month(new Date(), foo.bar);
     const tr = new Transaction(12.33);
 
     mo.addTransaction(123, tr);
@@ -69,7 +74,7 @@ describe("Month", function() {
     }
     spyOn(foo, 'bar');
 
-    const mo = new Month();
+    const mo = new Month(new Date());
     mo.subscribe(foo.bar);
     const tr = new Transaction(12.33);
 
@@ -84,7 +89,7 @@ describe("Month", function() {
   });
 
   it('should allow setting budget', () => {
-    const mo = new Month();
+    const mo = new Month(new Date('12/12/12'));
 
     mo.setBudget(123, 12);
 
@@ -92,6 +97,7 @@ describe("Month", function() {
     var cache = JSON.parse(JSON.stringify(mo.cache));
 
     expect(data).toEqual({
+      _id: '201211',
       categories: {
         123: {
           budget: 12,
@@ -109,7 +115,7 @@ describe("Month", function() {
   });
 
   it('should remove a transaction', () => {
-    const mo = new Month();
+    const mo = new Month(new Date('12/12/12'));
     const tr = new Transaction(12.33);
 
     mo.addTransaction(123, tr);
@@ -119,6 +125,7 @@ describe("Month", function() {
     var cache = JSON.parse(JSON.stringify(mo.cache));
 
     expect(data).toEqual({
+      _id: '201211',
       categories: {
         123: {
           budget: 0,
@@ -136,7 +143,7 @@ describe("Month", function() {
   });
 
   it('can set a rolling (incoming) value', () => {
-    const mo = new Month();
+    const mo = new Month(new Date('12/12/12'));
 
     mo.setRolling(123, 69);
 
@@ -144,6 +151,7 @@ describe("Month", function() {
     var cache = JSON.parse(JSON.stringify(mo.cache));
 
     expect(data).toEqual({
+      _id: '201211',
       categories: {
         123: {
           budget: 0,
@@ -161,7 +169,7 @@ describe("Month", function() {
   });
 
   it('does The Kitchen Sink(tm)', () => {
-    const mo = new Month();
+    const mo = new Month(new Date('12/12/12'));
 
     mo.setRolling(123, 69);
 
@@ -177,6 +185,7 @@ describe("Month", function() {
     var cache = JSON.parse(JSON.stringify(mo.cache));
 
     expect(data).toEqual({
+      _id: '201211',
       categories: {
         123: {
           budget: 50,
