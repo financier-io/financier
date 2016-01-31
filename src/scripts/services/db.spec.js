@@ -106,4 +106,36 @@ describe('db', function() {
     });
   });
 
+  it('should provide Months until specified date', (done) => {
+    budgetDB.bulkDocs([{
+      _id: Month.createID(new Date('1/1/15')),
+      categories: {}
+    }, {
+      _id: Month.createID(new Date('2/1/15')),
+      categories: {}
+    }, {
+      _id: Month.createID(new Date('3/1/15')),
+      categories: {}
+    }]).then(res => {
+      db.budget(budgetDB).allUntil(new Date('6/1/15')).then(res => {
+        const expectedDates = [
+          '2015-01-01',
+          '2015-02-01',
+          '2015-03-01',
+          '2015-04-01',
+          '2015-05-01',
+          '2015-06-01'
+        ];
+
+        expect(res.length).toBe(expectedDates.length);
+
+        for (var i = 0; i < res.length; i++) {
+          expect(res[i].data._id).toBe(expectedDates[i]);
+        }
+
+        done();
+      })
+    });
+  });
+
 });

@@ -18,7 +18,7 @@ describe("Month", function() {
   describe('static properties', () => {
     describe('createID', () => {
       it('converts date', () => {
-        expect(Month.createID(new Date('12/12/15'))).toBe('2015-12-12');
+        expect(Month.createID(new Date('12/12/15'))).toBe('2015-12-01');
       });
 
       it('converts date in two-digit form', () => {
