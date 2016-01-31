@@ -109,8 +109,10 @@ angular.module('financier').factory('Month', (Transaction) => {
       return this.data;
     }
 
-    static normalizeID(date) {
-      return `${date.getFullYear()}${date.getMonth()}`;
+    static createID(date) {
+      const twoDigitMonth = ((date.getMonth() + 1) >= 10) ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1);  
+      const twoDigitDate = ((date.getDate()) >= 10) ? (date.getDate()) : '0' + (date.getDate());
+      return date.getFullYear() + "-" + twoDigitMonth + "-" + twoDigitDate; 
     }
   };
 });

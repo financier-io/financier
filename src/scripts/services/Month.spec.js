@@ -4,7 +4,7 @@ describe("Month", function() {
   function defaultMonth() {
     return {
       categories: {},
-      _id: '201211'
+      _id: Month.createID(new Date('1/1/15'))
     };
   }
 
@@ -14,6 +14,18 @@ describe("Month", function() {
     Month = _Month_;
     Transaction = _Transaction_;
   }));
+
+  describe('static properties', () => {
+    describe('createID', () => {
+      it('converts date', () => {
+        expect(Month.createID(new Date('12/12/15'))).toBe('2015-12-12');
+      });
+
+      it('converts date in two-digit form', () => {
+        expect(Month.createID(new Date('1/1/15'))).toBe('2015-01-01');
+      });
+    });
+  });
 
   it('throws if not passed Date', () => {
     expect(() => new Month('boom')).toThrowError(TypeError, 'date is not Date!');
@@ -25,7 +37,7 @@ describe("Month", function() {
   });
 
   it('should serialize to JSON', () => {
-    expect(JSON.stringify(new Month(defaultMonth()))).toBe('{"categories":{},"_id":"201211"}');
+    expect(JSON.stringify(new Month(defaultMonth()))).toBe('{"categories":{},"_id":"2015-01-01"}');
   });
 
   it('should add a transaction', () => {
@@ -38,7 +50,7 @@ describe("Month", function() {
     var cache = JSON.parse(JSON.stringify(mo.cache));
 
     expect(data).toEqual({
-      _id: '201211',
+      _id: '2015-01-01',
       categories: {
         123: {
           budget: 0,
@@ -142,7 +154,7 @@ describe("Month", function() {
     var cache = JSON.parse(JSON.stringify(mo.cache));
 
     expect(data).toEqual({
-      _id: '201211',
+      _id: Month.createID(new Date('1/1/15')),
       categories: {
         123: {
           budget: 12,
@@ -170,7 +182,7 @@ describe("Month", function() {
     var cache = JSON.parse(JSON.stringify(mo.cache));
 
     expect(data).toEqual({
-      _id: '201211',
+      _id: Month.createID(new Date('1/1/15')),
       categories: {
         123: {
           budget: 0,
@@ -196,7 +208,7 @@ describe("Month", function() {
     var cache = JSON.parse(JSON.stringify(mo.cache));
 
     expect(data).toEqual({
-      _id: '201211',
+      _id: Month.createID(new Date('1/1/15')),
       categories: {
         123: {
           budget: 0,
@@ -230,7 +242,7 @@ describe("Month", function() {
     var cache = JSON.parse(JSON.stringify(mo.cache));
 
     expect(data).toEqual({
-      _id: '201211',
+      _id: Month.createID(new Date('1/1/15')),
       categories: {
         123: {
           budget: 50,

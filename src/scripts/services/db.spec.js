@@ -1,5 +1,4 @@
 describe('db', function() {
-
   beforeEach(module('financier', dbProvider => {
     dbProvider.adapter = 'memory';
   }));
@@ -17,10 +16,10 @@ describe('db', function() {
     });
   });
 
-  let db;
-
-  beforeEach(inject(_db_ => {
+  let db, Month;
+  beforeEach(inject((_db_, _Month_) => {
     db = _db_;
+    Month = _Month_;
   }));
 
   it('should return an object', () => {
@@ -40,13 +39,13 @@ describe('db', function() {
 
   it('should return with object', (done) => {
     budgetDB.bulkDocs([{
-      _id: '20150',
+      _id: Month.createID(new Date('1/1/15')),
       categories: {}
     }, {
-      _id: '20151',
+      _id: Month.createID(new Date('2/1/15')),
       categories: {}
     }, {
-      _id: '20152',
+      _id: Month.createID(new Date('3/1/15')),
       categories: {}
     }]).then(res => {
       const arr = db.budget(budgetDB).all().then(arr => {
@@ -59,13 +58,13 @@ describe('db', function() {
 
   it('should return with object', (done) => {
     budgetDB.bulkDocs([{
-      _id: '20160',
+      _id: Month.createID(new Date('1/1/15')),
       categories: {}
     }, {
-      _id: '20161',
+      _id: Month.createID(new Date('2/1/15')),
       categories: {}
     }, {
-      _id: '20162',
+      _id: Month.createID(new Date('3/1/15')),
       categories: {}
     }]).then(res => {
       const arr = db.budget(budgetDB).all().then(arr => {
@@ -86,13 +85,13 @@ describe('db', function() {
 
   it('should update database', (done) => {
     budgetDB.bulkDocs([{
-      _id: '20160',
+      _id: Month.createID(new Date('1/1/15')),
       categories: {}
     }, {
-      _id: '20161',
+      _id: Month.createID(new Date('2/1/15')),
       categories: {}
     }, {
-      _id: '20162',
+      _id: Month.createID(new Date('3/1/15')),
       categories: {}
     }]).then(res => {
       const arr = db.budget(budgetDB).all().then(arr => {
