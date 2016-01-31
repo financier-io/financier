@@ -167,10 +167,12 @@ describe('db', function() {
     });
   });
 
-  it('should add that date if none exist in database', (done) => {
+  it('should add that date (and two moew) if none exist in database', (done) => {
     db.budget(budgetDB).allUntil(new Date('3/1/15')).then(res => {
       const expectedDates = [
-        '2015-03-01'
+        '2015-03-01',
+        '2015-04-01',
+        '2015-05-01'
       ];
 
       expect(res.length).toBe(expectedDates.length);

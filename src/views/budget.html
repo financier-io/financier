@@ -1,11 +1,11 @@
-<div class="budget">
+<div class="budget" flex-months>
   <table>
     <thead>
       <tr class="month-overview__row">
         <th class="budget__category-label"></th>
         <th class="month-overview__month-overview"
             colspan="3"
-            ng-repeat="month in dbCtrl.months track by month.data._id"
+            ng-repeat="month in dbCtrl.months | limitFlexMonths : budgetCtrl.showMonths"
             ng-class="{'budget__month-end': !$last}">
           <div class="month-overview__month-text">{{month.data._id | date: 'MMMM yyyy'}}</div>
           <dl class="month-overview__month-list">
@@ -19,14 +19,14 @@
             <dd>Budgeted in {{overview.nextDate | date: 'MMM'}}</dd>
           </dl>
 
-          <div class="month-overview__month-total">= {{overview.availableToBudget}}</div>
+          <div class="month-overview__month-total">= $20.00</div>
           <div class="month-overview__month-total-subtext">Available to budget</div>
         </th>
       </tr>
       <tr class="month-overview__row">
         <th class="budget__month-row budget__category-label"></th>
         <th class="budget__month-row month-overview__cell-head"
-            ng-repeat-start="month in dbCtrl.months track by month.data._id">Budgeted<div>{{summary.budgeted}}</div></th>
+            ng-repeat-start="month in dbCtrl.months | limitFlexMonths : budgetCtrl.showMonths">Budgeted<div>{{summary.budgeted}}</div></th>
         <th class="budget__month-row month-overview__cell-head">Outflows<div>{{summary.outflows}}</div></th>
         <th class="budget__month-row month-overview__cell-head"
             ng-class="{'budget__month-end': !$last}"
@@ -37,11 +37,15 @@
       <tr class="month-body__row" ng-repeat="row in dbCtrl.categories">
         <td class="budget__month-row budget__category-label">{{row.name}}</td>
         <td class="budget__month-row month-body__cell-head"
-            ng-repeat-start="month in dbCtrl.months track by month.data._id">{{month.data.categories[row._id].budget}}</td>
+            ng-repeat-start="month in dbCtrl.months | limitFlexMonths : budgetCtrl.showMonths"
+            >
+          <input type="text" class="budget__cell-input"
+                 on-update="month.setBudget(row._id, model)"
+                 view-model="month.data.categories[row._id].budget"></td>
         <td class="budget__month-row month-body__cell-head">0.00</td>
         <td class="budget__month-row month-body__cell-head"
             ng-class="{'budget__month-end': !$last}"
-            ng-repeat-end>{{month.cache[row._id].total}}</td>
+            ng-repeat-end>{{month.cache[row._id].total | currency}}</td>
       </tr>
       
     </tbody>

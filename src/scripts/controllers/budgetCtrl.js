@@ -1,6 +1,6 @@
 angular.module('financier').controller('budgetCtrl', function($rootScope, $scope) {
-  $rootScope.$on('budget:columns', function(event, months) {
-    $scope.flexMonths = [];
-    $scope.flexMonths.length = 3;
+  this.showMonths = 0;
+  $rootScope.$on('budget:columns', (event, months) => {
+    this.showMonths = (months >= 5 ? 5 : months) || 1;
   });
 });

@@ -4,8 +4,6 @@ let financier = angular.module('financier', [
 ]);
 
 financier.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
-  PouchDB.debug.enable('*');
-
   // For any unmatched url, redirect to /state1
   // $urlRouterProvider.otherwise('/state1');
   //

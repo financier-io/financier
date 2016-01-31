@@ -99,7 +99,9 @@ angular.module('financier').provider('db', function(defaultCategories) {
       }
 
       function put(month) {
-        return budgetDB.put(month.toJSON());
+        return budgetDB.put(month.toJSON()).then(function(res) {
+          month.data._rev = res.rev;
+        });
       }
 
       function setUpLinks(months) {
@@ -108,6 +110,8 @@ angular.module('financier').provider('db', function(defaultCategories) {
             months[i + 1].setRolling(catId, total);
 
           });
+        }
+        for (let i = 0; i < months.length; i++) {
           months[i].subscribeRecordChanges(() => {
             return put(months[i]);
           });

@@ -57,7 +57,7 @@
   }
 
   .budget__month-row {
-    padding: 3px 5px;
+    padding: 3px 5px 0;
   }
 
   .budget__category-label {
@@ -68,6 +68,14 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .budget__cell-input {
+    text-align: right;
+
+    &:focus {
+      text-align: left;
+    }
   }
 }
 
