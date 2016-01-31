@@ -14,6 +14,7 @@ body,
 
 html {
   box-sizing: border-box;
+  overflow: hidden; // stop body overscroll
 }
 
 body {
@@ -23,14 +24,6 @@ body {
   // }
 
   font-family: 'Lato', sans-serif;
-}
-
-* {
-  &,
-  &:before,
-  &:after {
-    box-sizing: inherit;
-  }
 }
 
 h1,

@@ -1,33 +1,32 @@
 .header {
   background-color: $primary;
-  height: 2em;
-  line-height: 2em;
+  height: 35px;
+  line-height: 35px;
   width: 100%;
   color: $white;
+  text-align: center;
 }
 
 .header__title {
   font-size: 1.3em;
   font-weight: 300;
-  margin: 0 2em;
-}
-
-.header__title,
-.header__links {
-  display: inline-block;
-  float: left;
+  margin: 0;
+  width: 100%;
 }
 
 .header__links {
   margin: 0;
   padding: 0;
-
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .header__link {
   display: inline-block;
-  padding: 0 0.5em;
+  padding: 0 0.2em;
   font-weight: 300;
+  font-size: 0.9em;
 
   a {
     padding: 0 0.25em;

@@ -10,7 +10,7 @@ angular.module('financier').controller('welcomeCtrl', function($scope, $timeout,
 
   $scope.$watch(() => this.budget, (budget) => {
     if (angular.isDefined(budget)) {
-      $state.go('app.budget', { budgetId: budget.id });
+      $state.go('app.db.budget', { budgetId: budget.id });
     }
   });
 

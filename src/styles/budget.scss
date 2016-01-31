@@ -1,48 +1,73 @@
 .budget {
   height: 100%;
 
-table {
+  table {
     display: flex;
     flex-direction: column;
-    overflow:auto;
+    overflow: auto;
     height: 100%;
-}
+  }
 
-tbody, thead, tfoot {
+  tbody,
+  thead,
+  tfoot {
     display: flex;
     flex-direction: column;
-    flex-grow:0;
-    flex-shrink:0;
-    overflow-y:scroll;
-}
+    flex-grow: 0;
+    flex-shrink: 0;
+    overflow-y: scroll;
+  }
 
-tbody.overflowable, thead.overflowable, tfoot.overflowable {
-    flex-grow: 1;
-    flex-shrink: 1;    
-}
+  tbody,
+  thead,
+  tfoot {
+    &.overflowable {
+      flex-grow: 1;
+      flex-shrink: 1;
+    }
+  }
 
-tr {
+  tr {
     display: flex;
     flex-direction: row;
     flex-grow: 1;
     flex-shrink: 0;
-}
+  }
 
-td, th {
+  td,
+  th {
     width: 0%;
     display: block;
     flex-direction: column;
     flex-shrink: 1;
     flex-grow: 1;
+  }
+
+  th,
+  td {
+    &[colspan='3'] {
+      flex-shrink: 3;
+      flex-grow: 3;
+      flex-basis: 0;
+    }
+  }
+
+  .budget__month-end {
+    margin-right: 5px;
+  }
+
+  .budget__month-row {
+    padding: 3px 5px;
+  }
+
+  .budget__category-label {
+    font-size: 0.8em;
+    width: 5em;
+    text-align: right;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
-th[colspan="3"], td[colspan="3"] {
-    flex-shrink:3;
-    flex-grow:3;
-    flex-basis:0;
-}
-}
-
-.budget__month-end {
-  margin-right: 5px;
-}

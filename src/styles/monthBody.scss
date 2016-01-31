@@ -9,8 +9,11 @@
 .month-body__cell-head,
 .month-body__cell {
   text-align: right;
-  padding: 5px;
-  border: 1px solid $primary;
+  border-bottom: 1px solid $primary;
+
+  &:hover {
+    border-bottom: 1px solid darken($primary, 30%);
+  }
 }
 
 

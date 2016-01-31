@@ -2,14 +2,12 @@
   <table>
     <thead>
       <tr class="month-overview__row">
-        <th class="month-overview__month-overview">
-        boom?
-        </th>
+        <th class="budget__category-label"></th>
         <th class="month-overview__month-overview"
             colspan="3"
             ng-repeat="month in dbCtrl.months track by month.data._id"
             ng-class="{'budget__month-end': !$last}">
-          <div class="month-overview__month-text">Feb 2015</div>
+          <div class="month-overview__month-text">{{month.data._id | date: 'MMMM yyyy'}}</div>
           <dl class="month-overview__month-list">
             <dt>{{overview.notBudgeted}}</dt>
             <dd>Not budgeted in {{overview.date | date: 'MMM'}}</dd>
@@ -26,22 +24,22 @@
         </th>
       </tr>
       <tr class="month-overview__row">
-        <th class="month-overview__cell-head">boom</th>
-        <th class="month-overview__cell-head"
+        <th class="budget__month-row budget__category-label"></th>
+        <th class="budget__month-row month-overview__cell-head"
             ng-repeat-start="month in dbCtrl.months track by month.data._id">Budgeted<div>{{summary.budgeted}}</div></th>
-        <th class="month-overview__cell-head">Outflows<div>{{summary.outflows}}</div></th>
-        <th class="month-overview__cell-head"
+        <th class="budget__month-row month-overview__cell-head">Outflows<div>{{summary.outflows}}</div></th>
+        <th class="budget__month-row month-overview__cell-head"
             ng-class="{'budget__month-end': !$last}"
             ng-repeat-end>Balance<div>{{summary.balance}}</div></th>
       </tr>
     </thead>
     <tbody class="overflowable">
       <tr class="month-body__row" ng-repeat="row in dbCtrl.categories">
-        <td class="month-body__cell-head">boom</td>
-        <td class="month-body__cell-head"
+        <td class="budget__month-row budget__category-label">{{row.name}}</td>
+        <td class="budget__month-row month-body__cell-head"
             ng-repeat-start="month in dbCtrl.months track by month.data._id">{{month.data.categories[row._id].budget}}</td>
-        <td class="month-body__cell-head">0.00</td>
-        <td class="month-body__cell-head"
+        <td class="budget__month-row month-body__cell-head">0.00</td>
+        <td class="budget__month-row month-body__cell-head"
             ng-class="{'budget__month-end': !$last}"
             ng-repeat-end>{{month.cache[row._id].total}}</td>
       </tr>
