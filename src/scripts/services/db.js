@@ -1,4 +1,4 @@
-angular.module('financier').provider('db', function() {
+angular.module('financier').provider('db', function(defaultCategories) {
   const that = this;
   that.adapter = 'idb';
 
@@ -9,8 +9,31 @@ angular.module('financier').provider('db', function() {
 
     return {
       budgets: db.allDocs().then(res => res.rows),
-      budget
+      budget,
+      categories
     };
+
+    function categories(categoriesDB) {
+      function all() {
+        return categoriesDB.allDocs({
+          include_docs: true
+        }).then(res => {
+          return res.rows.map(cat => {
+            return cat.doc;
+          });
+        });
+      }
+
+      return categoriesDB.allDocs().then(res => {
+        if (res.total_rows === 0) {
+          return categoriesDB.bulkDocs(defaultCategories).then(res => {
+            return all();
+          });
+        } else {
+          all();
+        }
+      })
+    }
 
     function budget(budgetDB) {
       function allUntil(date) {
@@ -45,10 +68,16 @@ angular.module('financier').provider('db', function() {
               return all();
             }
           } else {
-            return budgetDB.put({
-              _id: dateUntil,
-              categories: {}
-            }).then(res => {
+            const newMonths = [];
+            let lastDate = dateUntil;
+            for (var i = 0; i < 3; i++) {
+              newMonths.push({
+                _id: lastDate,
+                categories: {}
+              });
+              lastDate = nextDateID(lastDate);
+            }
+            return budgetDB.bulkDocs(newMonths).then(res => {
               return all();
             });
           }

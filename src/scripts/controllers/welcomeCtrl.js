@@ -1,4 +1,4 @@
-angular.module('financier').controller('welcomeCtrl', function($scope, $timeout, $state, budgetsDb) {
+angular.module('financier').controller('welcomeCtrl', function($scope, $timeout, $state) {
   // $timeout(() => {
   //   $state.go('app.budget');
   // }, 2000);

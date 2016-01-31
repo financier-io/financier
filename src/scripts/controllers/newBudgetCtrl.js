@@ -1,2 +1,2 @@
-angular.module('financier').controller('newBudgetCtrl', function(budgetDb) {
+angular.module('financier').controller('newBudgetCtrl', function() {
 });

@@ -4,7 +4,8 @@ let financier = angular.module('financier', [
 ]);
 
 financier.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
-  //
+  PouchDB.debug.enable('*');
+
   // For any unmatched url, redirect to /state1
   // $urlRouterProvider.otherwise('/state1');
   //
@@ -24,16 +25,21 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider)
       url: '/:budgetId',
       templateUrl: 'views/header.html'
     })
-    .state('app.budget', {
+    .state('app.db', {
+      abstract: true,
+      controller: 'dbCtrl as dbCtrl',
+      template: '<ui-view></ui-view>'
+    })
+    .state('app.db.budget', {
       url: '/budget',
       templateUrl: 'views/budget.html',
       controller: 'budgetCtrl as budgetCtrl'
     })
-    .state('app.reports', {
+    .state('app.db.reports', {
       url: '/reports',
       templateUrl: 'views/reports.html'
     })
-    .state('app.account', {
+    .state('app.db.account', {
       url: '/account',
       templateUrl: 'views/account.html',
       controller: 'accountCtrl as accountCtrl'

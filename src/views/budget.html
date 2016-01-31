@@ -1,17 +1,52 @@
 <div class="budget">
-  <div class="budget__container-head">
-    <div class="budget__head">
-      <div class="budget__label-column"></div>
-      <month-overview class="budget__month-column" ng-repeat="month in flexMonths track by $index"></month-overview>
-    </div>
-  </div>
+  <table>
+    <thead>
+      <tr class="month-overview__row">
+        <th class="month-overview__month-overview">
+        boom?
+        </th>
+        <th class="month-overview__month-overview"
+            colspan="3"
+            ng-repeat="month in dbCtrl.months track by month.data._id"
+            ng-class="{'budget__month-end': !$last}">
+          <div class="month-overview__month-text">Feb 2015</div>
+          <dl class="month-overview__month-list">
+            <dt>{{overview.notBudgeted}}</dt>
+            <dd>Not budgeted in {{overview.date | date: 'MMM'}}</dd>
+            <dt>{{overview.overspent}}</dt>
+            <dd>Overspent in {{overview.date | date: 'MMM'}}</dd>
+            <dt>{{overview.nextMonthIncome}}</dt>
+            <dd>Income for {{overview.nextDate | date: 'MMM'}}</dd>
+            <dt>{{overview.nextMonthBudgeted}}</dt>
+            <dd>Budgeted in {{overview.nextDate | date: 'MMM'}}</dd>
+          </dl>
 
-  <div class="budget__container-body">
-    <div class="budget__body" flex-months>
-      <div class="budget__label-column">
-        TODO
-      </div>
-      <month-body class="budget__month-column" ng-repeat="month in flexMonths track by $index"></month-body>
-    </div>
-  </div>  
+          <div class="month-overview__month-total">= {{overview.availableToBudget}}</div>
+          <div class="month-overview__month-total-subtext">Available to budget</div>
+        </th>
+      </tr>
+      <tr class="month-overview__row">
+        <th class="month-overview__cell-head">boom</th>
+        <th class="month-overview__cell-head"
+            ng-repeat-start="month in dbCtrl.months track by month.data._id">Budgeted<div>{{summary.budgeted}}</div></th>
+        <th class="month-overview__cell-head">Outflows<div>{{summary.outflows}}</div></th>
+        <th class="month-overview__cell-head"
+            ng-class="{'budget__month-end': !$last}"
+            ng-repeat-end>Balance<div>{{summary.balance}}</div></th>
+      </tr>
+    </thead>
+    <tbody class="overflowable">
+      <tr class="month-body__row" ng-repeat="row in dbCtrl.categories">
+        <td class="month-body__cell-head">boom</td>
+        <td class="month-body__cell-head"
+            ng-repeat-start="month in dbCtrl.months track by month.data._id">{{month.data.categories[row._id].budget}}</td>
+        <td class="month-body__cell-head">0.00</td>
+        <td class="month-body__cell-head"
+            ng-class="{'budget__month-end': !$last}"
+            ng-repeat-end>{{month.cache[row._id].total}}</td>
+      </tr>
+      
+    </tbody>
+
+  </table>
 </div>
