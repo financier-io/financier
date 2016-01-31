@@ -138,4 +138,48 @@ describe('db', function() {
     });
   });
 
+  it('should provide existing if populating to that last month', (done) => {
+    budgetDB.bulkDocs([{
+      _id: Month.createID(new Date('1/1/15')),
+      categories: {}
+    }, {
+      _id: Month.createID(new Date('2/1/15')),
+      categories: {}
+    }, {
+      _id: Month.createID(new Date('3/1/15')),
+      categories: {}
+    }]).then(res => {
+      db.budget(budgetDB).allUntil(new Date('3/1/15')).then(res => {
+        const expectedDates = [
+          '2015-01-01',
+          '2015-02-01',
+          '2015-03-01'
+        ];
+
+        expect(res.length).toBe(expectedDates.length);
+
+        for (var i = 0; i < res.length; i++) {
+          expect(res[i].data._id).toBe(expectedDates[i]);
+        }
+
+        done();
+      })
+    });
+  });
+
+  it('should add that date if none exist in database', (done) => {
+    db.budget(budgetDB).allUntil(new Date('3/1/15')).then(res => {
+      const expectedDates = [
+        '2015-03-01'
+      ];
+
+      expect(res.length).toBe(expectedDates.length);
+
+      for (var i = 0; i < res.length; i++) {
+        expect(res[i].data._id).toBe(expectedDates[i]);
+      }
+
+      done();
+    })
+  });
 });

@@ -41,7 +41,16 @@ angular.module('financier').provider('db', function() {
               return budgetDB.bulkDocs(newMonths).then(res => {
                 return all();
               });
+            } else {
+              return all();
             }
+          } else {
+            return budgetDB.put({
+              _id: dateUntil,
+              categories: {}
+            }).then(res => {
+              return all();
+            });
           }
         });
       }
