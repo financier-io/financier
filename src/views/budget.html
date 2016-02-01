@@ -34,12 +34,16 @@
       </tr>
     </thead>
     <tbody class="overflowable">
-      <tr class="month-body__row" ng-repeat="row in dbCtrl.categories">
+      <tr class="month-body__row"
+          ng-repeat="row in dbCtrl.categories"
+          ng-init="catIndex = $index">
         <td class="budget__month-row budget__category-label">{{row.name}}</td>
         <td class="budget__month-row month-body__cell-head"
             ng-repeat-start="month in dbCtrl.months | limitFlexMonths : budgetCtrl.showMonths"
             >
-          <input type="text" class="budget__cell-input"
+          <input type="text"
+                 class="budget__cell-input"
+                 ng-attr-tabindex="{{(($index * dbCtrl.categories.length) + catIndex) + 1}}"
                  on-update="month.setBudget(row._id, model)"
                  view-model="month.data.categories[row._id].budget"></td>
         <td class="budget__month-row month-body__cell-head">0.00</td>
