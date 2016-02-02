@@ -1,14 +1,12 @@
 angular.module('financier').directive('onUpdate', ($filter) => {
-  const currency = $filter('currency');
-
   function link(scope, element, attrs) {
     let oldValue;
 
-    scope.$watch('viewModel', (newV, oldV) => {
+    scope.$watch('viewModel', (val) => {
       if (document.activeElement !== element[0]) {
-        oldValue = newV;
+        oldValue = ((val || 0) / 100).toFixed(2);
         if (oldValue && +oldValue !== 0) {
-          element.val(currency(newV));
+          element.val(oldValue);
         } else {
           element.val('');
         }
@@ -20,16 +18,21 @@ angular.module('financier').directive('onUpdate', ($filter) => {
 
       if (!isNaN(val) && angular.isNumber(val)) {
         scope.onUpdate({
-          model: val
+          model: Math.round(val * 100) // float $2.50123 ==> int 250
         });
         scope.$apply();
       }
     });
 
     element.bind('blur', () => {
-      oldValue = element.val();
+      const val = +element.val();
+      if (angular.isNumber(val) && !isNaN(val)) {
+        oldValue = (+element.val()).toFixed(2);
+      } else {
+        oldValue = 0;
+      }
       if (oldValue && +oldValue !== 0) {
-        element.val(currency(oldValue));
+        element.val(oldValue);
       } else {
         element.val('');
       }
