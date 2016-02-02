@@ -9,14 +9,16 @@
             ng-class="{'budget__month-end': !$last}">
           <div class="month-overview__month-text">{{month.data._id | date: 'MMMM yyyy'}}</div>
           <dl class="month-overview__month-list">
-            <dt>{{overview.notBudgeted}}</dt>
-            <dd>Not budgeted in {{overview.date | date: 'MMM'}}</dd>
+            <dt>
+              <span ng-if="dbCtrl.months[$index - 1]">{{dbCtrl.months[$index - 1].cache.totalIncome - dbCtrl.months[$index - 1].cache.totalBudget | currency}}</span>
+            </dt>
+            <dd>Not budgeted in {{dbCtrl.months[$index - 1].data._id | date: 'MMM'}}</dd>
             <dt>{{overview.overspent}}</dt>
-            <dd>Overspent in {{overview.date | date: 'MMM'}}</dd>
-            <dt>{{overview.nextMonthIncome}}</dt>
-            <dd>Income for {{overview.nextDate | date: 'MMM'}}</dd>
-            <dt>{{overview.nextMonthBudgeted}}</dt>
-            <dd>Budgeted in {{overview.nextDate | date: 'MMM'}}</dd>
+            <dd>Overspent in {{dbCtrl.months[$index - 1].data._id | date: 'MMM'}}</dd>
+            <dt>{{overview.cache.totalIncome}}</dt>
+            <dd>Income for {{month.data._id | date: 'MMM'}}</dd>
+            <dt>{{month.cache.totalBudget | currency}}</dt>
+            <dd>Budgeted in {{month.data._id | date: 'MMM'}}</dd>
           </dl>
 
           <div class="month-overview__month-total">= $20.00</div>
