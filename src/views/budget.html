@@ -26,11 +26,11 @@
       <tr class="month-overview__row">
         <th class="budget__month-row budget__category-label"></th>
         <th class="budget__month-row month-overview__cell-head"
-            ng-repeat-start="month in dbCtrl.months | limitFlexMonths : budgetCtrl.showMonths">Budgeted<div>{{summary.budgeted}}</div></th>
-        <th class="budget__month-row month-overview__cell-head">Outflows<div>{{summary.outflows}}</div></th>
+            ng-repeat-start="month in dbCtrl.months | limitFlexMonths : budgetCtrl.showMonths">Budgeted<div>{{month.cache.totalBudget | currency}}</div></th>
+        <th class="budget__month-row month-overview__cell-head">Outflows<div>{{month.cache.totalTransactions | currency}}</div></th>
         <th class="budget__month-row month-overview__cell-head"
             ng-class="{'budget__month-end': !$last}"
-            ng-repeat-end>Balance<div>{{summary.balance}}</div></th>
+            ng-repeat-end>Balance<div>{{month.cache.totalBalance | currency}}</div></th>
       </tr>
     </thead>
     <tbody class="overflowable">
@@ -49,7 +49,7 @@
         <td class="budget__month-row month-body__cell-head">0.00</td>
         <td class="budget__month-row month-body__cell-head"
             ng-class="{'budget__month-end': !$last}"
-            ng-repeat-end>{{month.cache[row._id].total | currency}}</td>
+            ng-repeat-end>{{month.categoryCache[row._id].balance | currency}}</td>
       </tr>
       
     </tbody>

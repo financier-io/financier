@@ -106,8 +106,8 @@ angular.module('financier').provider('db', function(defaultCategories) {
 
       function setUpLinks(months) {
         for (let i = 0; i < months.length - 1; i++) {
-          months[i].subscribeNextMonth((catId, total) => {
-            months[i + 1].setRolling(catId, total);
+          months[i].subscribeNextMonth((catId, balance) => {
+            months[i + 1].setRolling(catId, balance);
 
           });
         }

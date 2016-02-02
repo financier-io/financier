@@ -68,15 +68,15 @@ describe('db', function() {
       categories: {}
     }]).then(res => {
       const arr = db.budget(budgetDB).all().then(arr => {
-        expect(arr[0].cache[123]).toBeUndefined();
-        expect(arr[1].cache[123]).toBeUndefined();
-        expect(arr[2].cache[123]).toBeUndefined();
+        expect(arr[0].categoryCache[123]).toBeUndefined();
+        expect(arr[1].categoryCache[123]).toBeUndefined();
+        expect(arr[2].categoryCache[123]).toBeUndefined();
 
         arr[0].setBudget(123, 23);
 
-        expect(arr[0].cache[123].total).toBe(23);
-        expect(arr[1].cache[123].total).toBe(23);
-        expect(arr[2].cache[123].total).toBe(23);
+        expect(arr[0].categoryCache[123].balance).toBe(23);
+        expect(arr[1].categoryCache[123].balance).toBe(23);
+        expect(arr[2].categoryCache[123].balance).toBe(23);
 
         done();
       });

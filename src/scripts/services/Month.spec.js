@@ -42,12 +42,12 @@ describe("Month", function() {
 
   it('should add a transaction', () => {
     const mo = new Month(defaultMonth());
-    const tr = new Transaction(12.33);
+    const tr = new Transaction(1233);
 
     mo.addTransaction(123, tr);
 
     var data = JSON.parse(JSON.stringify(mo));
-    var cache = JSON.parse(JSON.stringify(mo.cache));
+    var categoryCache = JSON.parse(JSON.stringify(mo.categoryCache));
 
     expect(data).toEqual({
       _id: '2015-01-01',
@@ -55,15 +55,15 @@ describe("Month", function() {
         123: {
           budget: 0,
           transactions: [{
-            value: 12.33
+            value: 1233
           }]
         }
       }
     });
-    expect(cache).toEqual({
+    expect(categoryCache).toEqual({
       123: {
         rolling: 0,
-        total: -12.33
+        balance: -1233
       }
     });
   });
@@ -79,17 +79,17 @@ describe("Month", function() {
     const mo = new Month(defaultMonth());
     mo.subscribeNextMonth(foo.subscribeNextMonth);
     mo.subscribeRecordChanges(foo.subscribeRecordChanges);
-    const tr = new Transaction(12.33);
+    const tr = new Transaction(1233);
 
     mo.addTransaction(123, tr);
 
-    expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, -12.33);
+    expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, -1233);
     expect(foo.subscribeRecordChanges).toHaveBeenCalledWith(mo);
     expect(foo.subscribeRecordChanges.calls.count()).toBe(1);
 
-    tr.value = 10.01;
+    tr.value = 1001;
 
-    expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, -10.01);
+    expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, -1001);
     expect(foo.subscribeRecordChanges.calls.count()).toBe(2);
 
     mo.removeTransaction(123, tr);
@@ -110,15 +110,15 @@ describe("Month", function() {
     mo.subscribeNextMonth(foo.subscribeNextMonth);
     mo.subscribeRecordChanges(foo.subscribeRecordChanges);
 
-    mo.setBudget(123, 12);
+    mo.setBudget(123, 1200);
 
-    expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, 12);
+    expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, 1200);
     expect(foo.subscribeRecordChanges).toHaveBeenCalledWith(mo);
     expect(foo.subscribeRecordChanges.calls.count()).toBe(1);
 
-    mo.setBudget(123, 10);
+    mo.setBudget(123, 1000);
 
-    expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, 10);
+    expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, 1000);
     expect(foo.subscribeRecordChanges.calls.count()).toBe(2);
   });
 
@@ -134,52 +134,52 @@ describe("Month", function() {
     mo.subscribeNextMonth(foo.subscribeNextMonth);
     mo.subscribeRecordChanges(foo.subscribeRecordChanges);
 
-    mo.setRolling(123, 12);
+    mo.setRolling(123, 1200);
 
-    expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, 12);
+    expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, 1200);
     expect(foo.subscribeRecordChanges).not.toHaveBeenCalled();
 
-    mo.setRolling(123, 10);
+    mo.setRolling(123, 1000);
 
-    expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, 10);
+    expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, 1000);
     expect(foo.subscribeRecordChanges).not.toHaveBeenCalled();
   });
 
   it('should allow setting budget', () => {
     const mo = new Month(defaultMonth());
 
-    mo.setBudget(123, 12);
+    mo.setBudget(123, 1200);
 
     var data = JSON.parse(JSON.stringify(mo));
-    var cache = JSON.parse(JSON.stringify(mo.cache));
+    var categoryCache = JSON.parse(JSON.stringify(mo.categoryCache));
 
     expect(data).toEqual({
       _id: Month.createID(new Date('1/1/15')),
       categories: {
         123: {
-          budget: 12,
+          budget: 1200,
           transactions: []
         }
       }
     });
 
-    expect(cache).toEqual({
+    expect(categoryCache).toEqual({
       123: {
         rolling: 0,
-        total: 12
+        balance: 1200
       }
     });
   });
 
   it('should remove a transaction', () => {
     const mo = new Month(defaultMonth());
-    const tr = new Transaction(12.33);
+    const tr = new Transaction(1233);
 
     mo.addTransaction(123, tr);
     mo.removeTransaction(123, tr);
 
     var data = JSON.parse(JSON.stringify(mo));
-    var cache = JSON.parse(JSON.stringify(mo.cache));
+    var categoryCache = JSON.parse(JSON.stringify(mo.categoryCache));
 
     expect(data).toEqual({
       _id: Month.createID(new Date('1/1/15')),
@@ -191,10 +191,10 @@ describe("Month", function() {
       }
     });
 
-    expect(cache).toEqual({
+    expect(categoryCache).toEqual({
       123: {
         rolling: 0,
-        total: 0
+        balance: 0
       }
     });
   });
@@ -202,10 +202,10 @@ describe("Month", function() {
   it('can set a rolling (incoming) value', () => {
     const mo = new Month(defaultMonth());
 
-    mo.setRolling(123, 69);
+    mo.setRolling(123, 6900);
 
     var data = JSON.parse(JSON.stringify(mo));
-    var cache = JSON.parse(JSON.stringify(mo.cache));
+    var categoryCache = JSON.parse(JSON.stringify(mo.categoryCache));
 
     expect(data).toEqual({
       _id: Month.createID(new Date('1/1/15')),
@@ -217,10 +217,10 @@ describe("Month", function() {
       }
     });
 
-    expect(cache).toEqual({
+    expect(categoryCache).toEqual({
       123: {
-        rolling: 69,
-        total: 69
+        rolling: 6900,
+        balance: 6900
       }
     });
   });
@@ -228,48 +228,124 @@ describe("Month", function() {
   it('does The Kitchen Sink(tm)', () => {
     const mo = new Month(defaultMonth());
 
-    mo.setRolling(123, 69);
+    mo.setRolling(123, 6900);
 
-    mo.addTransaction(123, new Transaction(12.33));
-    mo.setBudget(123, 50);
-    mo.addTransaction(123, new Transaction(32));
-    const tr = new Transaction(1.02);
+    mo.addTransaction(123, new Transaction(1233));
+    mo.setBudget(123, 5000);
+    mo.addTransaction(123, new Transaction(3200));
+    const tr = new Transaction(10200);
     mo.addTransaction(124, tr);
-    mo.addTransaction(124, new Transaction(1.02));
+    mo.addTransaction(124, new Transaction(10200));
     mo.removeTransaction(124, tr);
 
     var data = JSON.parse(JSON.stringify(mo));
-    var cache = JSON.parse(JSON.stringify(mo.cache));
+    var categoryCache = JSON.parse(JSON.stringify(mo.categoryCache));
 
     expect(data).toEqual({
       _id: Month.createID(new Date('1/1/15')),
       categories: {
         123: {
-          budget: 50,
+          budget: 5000,
           transactions: [{
-            value: 12.33
+            value: 1233
           }, {
-            value: 32
+            value: 3200
           }]
         },
         124: {
           budget: 0,
           transactions: [{
-            value: 1.02
+            value: 10200
           }]
         }
       }
     });
 
-    expect(cache).toEqual({
+    expect(categoryCache).toEqual({
       123: {
-        rolling: 69,
-        total: 74.67
+        rolling: 6900,
+        balance: 7467
       },
       124: {
         rolling: 0,
-        total: -1.02
+        balance: -10200
       }
     });
   });
+
+  describe('totals', () => {
+    it('totalTransactions should update upon transaction add/update/remove', () => {
+      const mo = new Month(defaultMonth());
+
+      const tr = new Transaction(1233);
+
+      mo.addTransaction(123, tr);
+
+      expect(mo.cache.totalTransactions).toBe(1233);
+
+      tr.value = 1001;
+
+      expect(mo.cache.totalTransactions).toBe(1001);
+
+      mo.removeTransaction(123, tr);
+
+      expect(mo.cache.totalTransactions).toBe(0);
+    });
+  });
+
+  it('totalBudget should update on setBudget', () => {
+    const mo = new Month(defaultMonth());
+
+    mo.setBudget(123, 5000);
+
+    expect(mo.cache.totalBudget).toBe(5000);
+
+    mo.setBudget(124, 1000);
+
+    expect(mo.cache.totalBudget).toBe(6000);
+  });
+
+  describe('totalBalance', () => {
+    it('totalBalance should update on add/update/remove', () => {
+      const mo = new Month(defaultMonth());
+
+      const tr = new Transaction(1233);
+
+      mo.addTransaction(123, tr);
+
+      expect(mo.cache.totalBalance).toBe(-1233);
+
+      tr.value = 1001;
+
+      expect(mo.cache.totalBalance).toBe(-1001);
+
+      mo.removeTransaction(123, tr);
+
+      expect(mo.cache.totalBalance).toBe(0);
+    });
+
+    it('totalBalance should update on setRolling', () => {
+      const mo = new Month(defaultMonth());
+
+      mo.setRolling(123, 5000);
+
+      expect(mo.cache.totalBalance).toBe(5000);
+
+      mo.setRolling(124, 1000);
+
+      expect(mo.cache.totalBalance).toBe(6000);
+    });
+
+    it('totalBalance should update on setBudget', () => {
+      const mo = new Month(defaultMonth());
+
+      mo.setBudget(123, 5000);
+
+      expect(mo.cache.totalBalance).toBe(5000);
+
+      mo.setBudget(124, 1000);
+
+      expect(mo.cache.totalBalance).toBe(6000);
+    });
+  })
 });
