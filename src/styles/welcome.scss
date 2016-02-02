@@ -1,5 +1,10 @@
 .welcome__container {
-  background-color: $primary;
+  // background-color: $primary;
+  background-image:
+    radial-gradient(
+      darken($primary, 10%),
+      lighten($primary, 10%)
+    );
   height: 100%;
   color: $white;
   font-weight: 100;
