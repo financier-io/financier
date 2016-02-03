@@ -46,6 +46,7 @@ angular.module('financier').provider('db', function(defaultCategories) {
 
         return budgetDB.allDocs().then(res => {
           if (res.rows.length) {
+            // Read existing months, add those needed
             const lastDate = res.rows[res.rows.length - 1].id;
             
             if (lastDate < dateUntil) {
@@ -68,6 +69,7 @@ angular.module('financier').provider('db', function(defaultCategories) {
               return all();
             }
           } else {
+            // initialize new Months
             const newMonths = [];
             let lastDate = dateUntil;
             for (var i = 0; i < 3; i++) {
@@ -108,9 +110,9 @@ angular.module('financier').provider('db', function(defaultCategories) {
         for (let i = 0; i < months.length - 1; i++) {
           months[i].subscribeNextMonth((catId, balance) => {
             months[i + 1].setRolling(catId, balance);
-
           });
         }
+
         for (let i = 0; i < months.length; i++) {
           months[i].subscribeRecordChanges(() => {
             return put(months[i]);
@@ -118,10 +120,17 @@ angular.module('financier').provider('db', function(defaultCategories) {
         }
       }
 
+      function propagateRolling(categories, firstMonth) {
+        for (var i = 0; i < categories.length; i++) {
+          firstMonth.startRolling(categories[i]._id);
+        }
+      }
+
       return {
         all,
         put,
-        allUntil
+        allUntil,
+        propagateRolling
       };
     }
   };

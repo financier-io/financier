@@ -1,4 +1,4 @@
-angular.module('financier').controller('dbCtrl', function(db, $scope) {
+angular.module('financier').controller('dbCtrl', function(db, $scope, $q) {
   const budgetDB = new PouchDB('financierer', {
     adapter: 'idb'
   });
@@ -6,15 +6,16 @@ angular.module('financier').controller('dbCtrl', function(db, $scope) {
     adapter: 'idb'
   });
 
-  db.budget(budgetDB).allUntil(new Date()).then(res => {
-    console.log(res)
-    this.months = res;
-    $scope.$apply(); // #dealwithit
-  });
+  const bdg = db.budget(budgetDB);
 
-  db.categories(categoriesDB).then(res => {
-    console.log(res)
-    this.categories = res;
-    $scope.$apply(); // #dealwithit
+  $q.all([
+    bdg.allUntil(new Date()),
+    db.categories(categoriesDB)
+  ])
+  .then(([months, categories]) => {
+    this.months = months;
+    this.categories = categories;
+
+    bdg.propagateRolling(categories, months[0]);
   });
 });

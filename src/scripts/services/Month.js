@@ -60,6 +60,12 @@ angular.module('financier').factory('Month', (Transaction) => {
       this.nextRollingFn && this.nextRollingFn(catId, this.categoryCache[catId].balance);
     }
 
+    startRolling(catId) {
+      this.createCategoryCacheIfEmpty(catId);
+
+      return this.setRolling(catId, this.categoryCache[catId].rolling);
+    }
+
     addTransaction(catId, transaction) {
       if (transaction.constructor.name !== 'Transaction') {
         throw new TypeError('Not passed a Transaction!');
