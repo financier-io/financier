@@ -30,7 +30,7 @@ angular.module('financier').provider('db', function(defaultCategories) {
             return all();
           });
         } else {
-          all();
+          return all();
         }
       })
     }

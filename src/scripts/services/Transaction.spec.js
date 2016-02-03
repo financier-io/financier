@@ -8,23 +8,23 @@ describe("Transaction", function() {
   }));
 
   it('should be a Transaction', () => {
-    const tr = new Transaction(1);
+    const tr = new Transaction({value: 1});
     expect(tr.constructor.name).toBe('Transaction');
   });
 
   it('should throw when passed non-number', () => {
     expect(() => {
-      new Transaction('boom');
+      new Transaction({});
     }).toThrow();
   });
 
   it('should store value', () => {
-    const tr = new Transaction(3.45);
+    const tr = new Transaction({value: 3.45});
     expect(tr.value).toBe(3.45);
   });
 
   it('should allow setting value', () => {
-    const tr = new Transaction(3.45);
+    const tr = new Transaction({value: 3.45});
     expect(tr.value).toBe(3.45);
     tr.value = 2.12;
     expect(tr.value).toBe(2.12);
@@ -36,7 +36,7 @@ describe("Transaction", function() {
     };
     spyOn(foo, 'bar');
 
-    const tr = new Transaction(3.45, foo.bar);
+    const tr = new Transaction({value: 3.45}, foo.bar);
     expect(foo.bar).not.toHaveBeenCalled();
     tr.value = 2.12;
     expect(foo.bar).toHaveBeenCalledWith(2.12, 3.45);
@@ -48,7 +48,7 @@ describe("Transaction", function() {
     };
     spyOn(foo, 'bar');
 
-    const tr = new Transaction(3.45);
+    const tr = new Transaction({value: 3.45});
     tr.subscribe(foo.bar);
     expect(foo.bar).not.toHaveBeenCalled();
     tr.value = 2.12;
@@ -56,7 +56,7 @@ describe("Transaction", function() {
   });
 
   it('should serialize to JSON', () => {
-    const tr = new Transaction(5.22);
+    const tr = new Transaction({value: 5.22});
     expect(JSON.stringify(tr)).toBe('{"value":5.22}')
   })
 });

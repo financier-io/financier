@@ -6,19 +6,12 @@ angular.module('financier').factory('Month', (Transaction) => {
         data = {
           categories: {},
           income: []
-        }
+        };
       }
       if (!data._id) {
         throw new TypeError('date is not Date!');
       }
-      for (var k in data.categories){
-        if (data.categories.hasOwnProperty(k)) {
-          let category = data.categories[k];
-          if (category.transactions) {
-            category.transactions = category.transactions.map(transaction => new Transaction(transaction));
-          }
-        }
-      }
+
       this.data = data;
       this.categoryCache = {};
       this.cache = {
@@ -26,6 +19,33 @@ angular.module('financier').factory('Month', (Transaction) => {
         totalBudget: 0,
         totalBalance: 0
       };
+
+      this.initialLoad();
+    }
+
+    initialLoad() {
+      // loop through all categories
+      for (var k in this.data.categories){
+        if (this.data.categories.hasOwnProperty(k)) {
+          let category = this.data.categories[k];
+
+          // initialize transaction data as Transaction
+          if (category.transactions) {
+            const trs = category.transactions;
+            category.transactions = [];
+            trs.forEach((tr) => {
+              this.addTransaction(k, new Transaction(tr));
+            });
+          }
+
+          // initialize budgets
+          if (category.budget) {
+            const bdg = category.budget;
+            category.budget = 0;
+            this.setBudget(k, bdg);
+          }
+        }
+      }
     }
 
     setRolling(catId, rolling) {

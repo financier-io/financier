@@ -42,7 +42,7 @@ describe("Month", function() {
 
   it('should add a transaction', () => {
     const mo = new Month(defaultMonth());
-    const tr = new Transaction(1233);
+    const tr = new Transaction({value: 1233});
 
     mo.addTransaction(123, tr);
 
@@ -79,7 +79,7 @@ describe("Month", function() {
     const mo = new Month(defaultMonth());
     mo.subscribeNextMonth(foo.subscribeNextMonth);
     mo.subscribeRecordChanges(foo.subscribeRecordChanges);
-    const tr = new Transaction(1233);
+    const tr = new Transaction({value: 1233});
 
     mo.addTransaction(123, tr);
 
@@ -173,7 +173,7 @@ describe("Month", function() {
 
   it('should remove a transaction', () => {
     const mo = new Month(defaultMonth());
-    const tr = new Transaction(1233);
+    const tr = new Transaction({value: 1233});
 
     mo.addTransaction(123, tr);
     mo.removeTransaction(123, tr);
@@ -230,12 +230,12 @@ describe("Month", function() {
 
     mo.setRolling(123, 6900);
 
-    mo.addTransaction(123, new Transaction(1233));
+    mo.addTransaction(123, new Transaction({value: 1233}));
     mo.setBudget(123, 5000);
-    mo.addTransaction(123, new Transaction(3200));
-    const tr = new Transaction(10200);
+    mo.addTransaction(123, new Transaction({value: 3200}));
+    const tr = new Transaction({value: 10200});
     mo.addTransaction(124, tr);
-    mo.addTransaction(124, new Transaction(10200));
+    mo.addTransaction(124, new Transaction({value: 10200}));
     mo.removeTransaction(124, tr);
 
     var data = JSON.parse(JSON.stringify(mo));
@@ -277,7 +277,7 @@ describe("Month", function() {
     it('totalTransactions should update upon transaction add/update/remove', () => {
       const mo = new Month(defaultMonth());
 
-      const tr = new Transaction(1233);
+      const tr = new Transaction({value: 1233});
 
       mo.addTransaction(123, tr);
 
@@ -309,7 +309,7 @@ describe("Month", function() {
     it('totalBalance should update on add/update/remove', () => {
       const mo = new Month(defaultMonth());
 
-      const tr = new Transaction(1233);
+      const tr = new Transaction({value: 1233});
 
       mo.addTransaction(123, tr);
 
@@ -347,5 +347,57 @@ describe("Month", function() {
 
       expect(mo.cache.totalBalance).toBe(6000);
     });
-  })
+  });
+
+  describe('importing data', () => {
+    it('transforms transactions', () => {
+      const mo = new Month({
+        categories: {
+          123: {
+            transactions: [{
+              value: 12
+            }],
+            budget: 12
+          }
+        },
+        _id: Month.createID(new Date('1/1/15'))
+      });
+      
+      expect(mo.data.categories[123].transactions[0].constructor.name).toBe('Transaction');
+    });
+
+    it('adds up category balance', () => {
+      const mo = new Month({
+        categories: {
+          123: {
+            transactions: [{
+              value: 12
+            }, {
+              value: 20
+            }]
+          }
+        },
+        _id: Month.createID(new Date('1/1/15'))
+      });
+
+      expect(mo.categoryCache[123].balance).toBe(-32);
+
+      expect(mo.cache.totalBalance).toBe(-32);
+    });
+
+    it('adds up category budgets', () => {
+      const mo = new Month({
+        categories: {
+          123: {
+            budget: 12
+          }
+        },
+        _id: Month.createID(new Date('1/1/15'))
+      });
+
+      expect(mo.categoryCache[123].balance).toBe(12);
+
+      expect(mo.cache.totalBalance).toBe(12);
+    });
+  });
 });

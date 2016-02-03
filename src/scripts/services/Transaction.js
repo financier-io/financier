@@ -1,10 +1,10 @@
 angular.module('financier').factory('Transaction', () => {
   return class Transaction {
-    constructor(amount, fn) {
-      if (!angular.isNumber(amount)) {
+    constructor(obj, fn) {
+      if (!angular.isNumber(obj.value)) {
         throw new TypeError('Must provide number');
       }
-      this.amount = amount;
+      this.amount = obj.value;
       this.fn = fn;
     }
 
