@@ -72,7 +72,8 @@ describe("Month", function() {
     const foo = {
       subscribeNextMonth: () => {},
       subscribeRecordChanges: () => {}
-    }
+    };
+
     spyOn(foo, 'subscribeNextMonth');
     spyOn(foo, 'subscribeRecordChanges');
 
@@ -102,7 +103,8 @@ describe("Month", function() {
     const foo = {
       subscribeNextMonth: () => {},
       subscribeRecordChanges: () => {}
-    }
+    };
+
     spyOn(foo, 'subscribeNextMonth');
     spyOn(foo, 'subscribeRecordChanges');
 
@@ -126,7 +128,8 @@ describe("Month", function() {
     const foo = {
       subscribeNextMonth: () => {},
       subscribeRecordChanges: () => {}
-    }
+    };
+
     spyOn(foo, 'subscribeNextMonth');
     spyOn(foo, 'subscribeRecordChanges');
 
@@ -398,6 +401,26 @@ describe("Month", function() {
       expect(mo.categoryCache[123].balance).toBe(12);
 
       expect(mo.cache.totalBalance).toBe(12);
+    });
+  });
+  
+  describe('startRolling', () => {
+    it('runs on existing data', () => {
+      const mo = new Month({
+        categories: {
+          123: {
+            budget: 333
+          }
+        },
+        _id: Month.createID(new Date('1/1/15'))
+      });
+
+      spyOn(mo, 'setRolling').and.callThrough();
+
+      mo.startRolling(123);
+
+      expect(mo.setRolling).toHaveBeenCalledWith(123, 0);
+      expect(mo.cache.totalBalance).toBe(333);
     });
   });
 });
