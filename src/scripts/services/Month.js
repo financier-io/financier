@@ -2,12 +2,11 @@ angular.module('financier').factory('Month', (Transaction) => {
   return class Month {
 
     constructor(data) {
-      if (!data) {
-        data = {
-          categories: {},
-          income: []
-        };
-      }
+      data = angular.extend({}, {
+        categories: {},
+        income: []
+      }, data);
+
       if (!data._id) {
         throw new TypeError('date is not Date!');
       }
@@ -17,7 +16,8 @@ angular.module('financier').factory('Month', (Transaction) => {
       this.cache = {
         totalTransactions: 0,
         totalBudget: 0,
-        totalBalance: 0
+        totalBalance: 0,
+        totalIncome: 0
       };
 
       this.initialLoad();
@@ -109,6 +109,33 @@ angular.module('financier').factory('Month', (Transaction) => {
       this.cache.totalBalance += transaction.value;
       
       this.nextRollingFn && this.nextRollingFn(catId, this.categoryCache[catId].balance);
+      return this.recordChangesFn && this.recordChangesFn(this);
+    }
+
+    addIncome(income) {
+      this.cache.totalIncome += income.value;
+
+      income.subscribe((newValue, oldValue) => {
+        this.cache.totalIncome += newValue - oldValue;
+
+        return this.recordChangesFn && this.recordChangesFn(this);
+      });
+
+      this.data.income.push(income);
+
+      return this.recordChangesFn && this.recordChangesFn(this);
+    }
+
+    removeIncome(income) {
+      const index = this.data.income.indexOf(income);
+
+      if (index > -1) {
+        this.data.income.splice(index, 1);
+        income.subscribe(null);
+      }
+
+      this.cache.totalIncome -= income.value;
+
       return this.recordChangesFn && this.recordChangesFn(this);
     }
 

@@ -1,5 +1,5 @@
-describe("Month", function() {
-  let Month, Transaction;
+describe('Month', function() {
+  let Month, Transaction, Income;
 
   function defaultMonth() {
     return {
@@ -10,9 +10,10 @@ describe("Month", function() {
 
   beforeEach(module('financier'));
 
-  beforeEach(inject((_Month_, _Transaction_) => {
+  beforeEach(inject((_Month_, _Transaction_, _Income_) => {
     Month = _Month_;
     Transaction = _Transaction_;
+    Income = _Income_;
   }));
 
   describe('static properties', () => {
@@ -37,7 +38,7 @@ describe("Month", function() {
   });
 
   it('should serialize to JSON', () => {
-    expect(JSON.stringify(new Month(defaultMonth()))).toBe('{"categories":{},"_id":"2015-01-01"}');
+    expect(JSON.stringify(new Month(defaultMonth()))).toBe('{"categories":{},"income":[],"_id":"2015-01-01"}');
   });
 
   it('should add a transaction', () => {
@@ -58,7 +59,8 @@ describe("Month", function() {
             value: 1233
           }]
         }
-      }
+      },
+      income: []
     });
     expect(categoryCache).toEqual({
       123: {
@@ -163,7 +165,8 @@ describe("Month", function() {
           budget: 1200,
           transactions: []
         }
-      }
+      },
+      income: []
     });
 
     expect(categoryCache).toEqual({
@@ -191,7 +194,8 @@ describe("Month", function() {
           budget: 0,
           transactions: []
         }
-      }
+      },
+      income: []
     });
 
     expect(categoryCache).toEqual({
@@ -217,7 +221,8 @@ describe("Month", function() {
           budget: 0,
           transactions: []
         }
-      }
+      },
+      income: []
     });
 
     expect(categoryCache).toEqual({
@@ -261,7 +266,8 @@ describe("Month", function() {
             value: 10200
           }]
         }
-      }
+      },
+      income: []
     });
 
     expect(categoryCache).toEqual({
@@ -421,6 +427,64 @@ describe("Month", function() {
 
       expect(mo.setRolling).toHaveBeenCalledWith(123, 0);
       expect(mo.cache.totalBalance).toBe(333);
+    });
+  });
+
+  describe('income', () => {
+    it('#addIncome', () => {
+      const obj = { mock: () => {} };
+
+      spyOn(obj, 'mock');
+
+      const mo = new Month({
+        _id: Month.createID(new Date('1/1/15'))
+      });
+      const income = new Transaction({ value: 20 });
+
+      mo.subscribeRecordChanges(obj.mock);
+
+      mo.addIncome(income);
+
+      expect(mo.data.income).toEqual([income]);
+      expect(obj.mock).toHaveBeenCalledWith(mo);
+      expect(mo.cache.totalIncome).toBe(20);
+    });
+
+    it('changing income', () => {
+      const mo = new Month({
+        _id: Month.createID(new Date('1/1/15'))
+      });
+      const income = new Transaction({ value: 20 });
+      mo.addIncome(income);
+
+      const obj = { mock: () => {} };
+      spyOn(obj, 'mock');
+      mo.subscribeRecordChanges(obj.mock);
+
+      expect(obj.mock).not.toHaveBeenCalledWith(mo);
+
+      income.value = 40;
+
+      expect(obj.mock).toHaveBeenCalledWith(mo);
+      expect(mo.cache.totalIncome).toBe(40);
+    });
+
+    it('#removeIncome', () => {
+      const mo = new Month({
+        _id: Month.createID(new Date('1/1/15'))
+      });
+      const income = new Transaction({ value: 20 });
+      mo.addIncome(income);
+
+      const obj = { mock: () => {} };
+      spyOn(obj, 'mock');
+      mo.subscribeRecordChanges(obj.mock);
+
+      mo.removeIncome(income);
+
+      expect(mo.data.income).toEqual([]);
+      expect(obj.mock).toHaveBeenCalledWith(mo);
+      expect(mo.cache.totalIncome).toBe(0);
     });
   });
 });
