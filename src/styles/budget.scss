@@ -45,10 +45,12 @@
 
   th,
   td {
-    &[colspan='3'] {
-      flex-shrink: 3;
-      flex-grow: 3;
-      flex-basis: 0;
+    @for $i from 1 through 18 {
+      &[colspan='#{$i}'] {
+        flex-shrink: $i;
+        flex-grow: $i;
+        flex-basis: 0;
+      }
     }
   }
 
@@ -78,4 +80,3 @@
     }
   }
 }
-

@@ -1,0 +1,39 @@
+.month-select {
+  display: flex;
+  width: 100%;
+
+  font-weight: 500;
+}
+
+.month-select__month {
+  flex: 1;
+}
+
+.month-select__year-control,
+.month-select__year,
+.month-select__month {
+  text-align: center;
+  color: $white;
+  background-color: $primary;
+
+  padding: 0.25em 0;
+}
+
+.month-select__year {
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+}
+
+.month-select__year-control {
+  padding-left: 3px;
+  padding-right: 3px;
+}
+
+.month-select__year {
+  background-color: darken($primary, 30%);
+}
+
+.month-select__month--selected {
+  background-color: lighten($primary, 10%);
+}
+
