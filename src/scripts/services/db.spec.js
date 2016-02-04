@@ -3,15 +3,22 @@ describe('db', function() {
     dbProvider.adapter = 'memory';
   }));
 
-  let budgetDB;
+  let budgetDB, categoriesDB;
   beforeEach(() => {
     budgetDB = new PouchDB('financierer', {
+      adapter: 'memory'
+    });
+    categoriesDB = new PouchDB('financierercats', {
       adapter: 'memory'
     });
   });
 
   afterEach((done) => {
-    budgetDB.destroy().then(() => {
+    budgetDB.destroy()
+    .then(() => {
+      return categoriesDB.destroy();
+    })
+    .then(() => {
       done();
     });
   });
@@ -30,7 +37,7 @@ describe('db', function() {
     db.budgets.then(budgets => {
       expect(angular.isArray(budgets)).toBe(true);
       done(); 
-    })
+    });
   });
 
   it('has budget function', () => {
@@ -100,7 +107,7 @@ describe('db', function() {
           done();
         }).catch(err => {
           done(err);
-        })
+        });
 
       });
     });
@@ -134,7 +141,7 @@ describe('db', function() {
         }
 
         done();
-      })
+      });
     });
   });
 
@@ -163,7 +170,7 @@ describe('db', function() {
         }
 
         done();
-      })
+      });
     });
   });
 
@@ -182,6 +189,24 @@ describe('db', function() {
       }
 
       done();
-    })
+    });
+  });
+
+  it('propagateRolling should call startRolling on first Month', (done) => {
+    const bdg = db.budget(budgetDB);
+
+    bdg.allUntil(new Date('3/1/15')).then(months => {
+      db.categories(categoriesDB).then(categories => {
+        spyOn(months[0], 'startRolling').and.callThrough();
+
+        bdg.propagateRolling(categories, months[0]);
+
+        for (var i = 0; i < categories.length; i++) {
+          expect(months[0].startRolling).toHaveBeenCalledWith(categories[i]._id);
+        }
+
+        done();
+      });
+    });
   });
 });

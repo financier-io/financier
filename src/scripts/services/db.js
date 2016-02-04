@@ -32,7 +32,7 @@ angular.module('financier').provider('db', function(defaultCategories) {
         } else {
           return all();
         }
-      })
+      });
     }
 
     function budget(budgetDB) {
