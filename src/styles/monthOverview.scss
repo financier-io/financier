@@ -40,11 +40,11 @@
   margin-top: 0.2em;
   font-size: 2em;
   line-height: 1em;
-  color: lightgreen;
+  color: $positiveNumber;
 }
 
 .month-overview__month-total--negative {
-  color: red;
+  color: $negativeNumber;
 }
 
 .month-overview__month-total-subtext {

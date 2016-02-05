@@ -13,15 +13,18 @@
               <span ng-if="dbCtrl.months[$index - 1]">{{dbCtrl.months[$index - 1].cache.totalIncome - dbCtrl.months[$index - 1].cache.totalBudget | intCurrency | currency}}</span>
             </dt>
             <dd>Not budgeted in {{dbCtrl.months[$index - 1].data._id | date: 'MMM'}}</dd>
-            <dt>{{overview.overspent}}</dt>
+            <dt>{{dbCtrl.months[$index - 1].cache.totalBalance}}</dt>
             <dd>Overspent in {{dbCtrl.months[$index - 1].data._id | date: 'MMM'}}</dd>
-            <dt>{{overview.cache.totalIncome}}</dt>
+            <dt>{{month.cache.totalIncome | intCurrency | currency}}</dt>
             <dd>Income for {{month.data._id | date: 'MMM'}}</dd>
             <dt>{{month.cache.totalBudget | intCurrency | currency}}</dt>
             <dd>Budgeted in {{month.data._id | date: 'MMM'}}</dd>
           </dl>
 
-          <div class="month-overview__month-total">= $20.00</div>
+          <div class="month-overview__month-total" ng-class="
+            {
+              'month-overview__month-total--negative': month.cache.totalIncome - month.cache.totalBudget < 0
+            }">= {{month.cache.totalIncome - month.cache.totalBudget | intCurrency | currency}}</div>
           <div class="month-overview__month-total-subtext">Available to budget</div>
         </th>
       </tr>

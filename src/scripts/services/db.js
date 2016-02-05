@@ -41,6 +41,10 @@ angular.module('financier').provider('db', function(defaultCategories) {
           const [year, month] = date.split('-');
           return Month.createID(new Date(year, month, 1));
         }
+        function previousDateID(date) {
+          const [year, month] = date.split('-');
+          return Month.createID(new Date(year, month - 2, 1));
+        }
 
         const dateUntil = Month.createID(date);
 
@@ -71,8 +75,8 @@ angular.module('financier').provider('db', function(defaultCategories) {
           } else {
             // initialize new Months
             const newMonths = [];
-            let lastDate = dateUntil;
-            for (var i = 0; i < 3; i++) {
+            let lastDate = previousDateID(dateUntil);
+            for (var i = 0; i < 5; i++) {
               newMonths.push({
                 _id: lastDate,
                 categories: {}
