@@ -9,7 +9,8 @@
   flex: 1;
 }
 
-.month-select__year-control,
+
+.month-select__control,
 .month-select__year,
 .month-select__month {
   text-align: center;
@@ -19,21 +20,30 @@
   padding: 0.25em 0;
 }
 
+.month-select__control,
+.month-select__month {
+  cursor: pointer;
+  transition: background-color 250ms linear;
+
+  &:hover {
+    background-color: lighten($primary, 5%);
+  }
+}
+
+.month-select__month--selected {
+  &,
+  &:hover {
+    background-color: lighten($primary, 10%);
+  }
+}
+
+.month-select__control,
 .month-select__year {
   padding-left: 0.8em;
   padding-right: 0.8em;
 }
 
-.month-select__year-control {
-  padding-left: 3px;
-  padding-right: 3px;
-}
-
 .month-select__year {
   background-color: darken($primary, 30%);
-}
-
-.month-select__month--selected {
-  background-color: lighten($primary, 10%);
 }
 

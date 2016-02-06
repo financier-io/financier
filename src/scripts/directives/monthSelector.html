@@ -1,0 +1,9 @@
+<div class="month-select">
+  <div class="month-select__control" ng-click="previousMonth()">&lt;</div>
+  <div class="month-select__year">{{months[0].date.toDate() | date: 'yyyy'}}</div>
+  <div class="month-select__month"
+       ng-repeat="month in months track by $index"
+       ng-class="{ 'month-select__month--selected': month.view }"
+       ng-click="setMonth(month.date)">{{month.date.toDate() | date: dateFormat | limitTo: limitTo}}</div>
+  <div class="month-select__control" ng-click="nextMonth()">&gt;</div>
+</div>

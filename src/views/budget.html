@@ -1,6 +1,11 @@
 <div class="budget" flex-months>
   <table>
-    <thead>
+    <thead>            <tr>
+    <td class="budget__category-label"></td>
+        <td colspan="{{budgetCtrl.showMonths * 3}}">
+          <month-selector ng-model="dbCtrl.currentMonth"></month-selector>
+        </td>
+      </tr>
       <tr class="month-overview__row">
         <th class="budget__category-label"></th>
         <th class="month-overview__month-overview"
@@ -38,7 +43,7 @@
             ng-repeat-end>Balance<div>{{month.cache.totalBalance | intCurrency | currency}}</div></th>
       </tr>
     </thead>
-    <tbody class="overflowable">
+    <tbody class="overflowable" ng-sortable>
       <tr class="month-body__row"
           ng-repeat="row in dbCtrl.categories"
           ng-init="catIndex = $index">
@@ -60,27 +65,7 @@
     </tbody>
 
     <tfoot>
-            <tr>
-        <td colspan="{{budgetCtrl.showMonths * 3 + 1}}">
-          <div class="month-select">
-            <div class="month-select__year-control">&lt;</div>
-            <div class="month-select__year">2016</div>
-            <div class="month-select__year-control">&gt;</div>
-            <div class="month-select__month">Jan</div>
-            <div class="month-select__month month-select__month--selected">Feb</div>
-            <div class="month-select__month month-select__month--selected">Mar</div>
-            <div class="month-select__month month-select__month--selected">Apr</div>
-            <div class="month-select__month">May</div>
-            <div class="month-select__month">Jun</div>
-            <div class="month-select__month">Jul</div>
-            <div class="month-select__month">Aug</div>
-            <div class="month-select__month">Sep</div>
-            <div class="month-select__month">Oct</div>
-            <div class="month-select__month">Nov</div>
-            <div class="month-select__month">Dec</div>
-          </div>
-        </td>
-      </tr>
+
     </tfoot>
 
   </table>

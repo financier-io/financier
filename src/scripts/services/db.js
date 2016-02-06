@@ -36,7 +36,7 @@ angular.module('financier').provider('db', function(defaultCategories) {
     }
 
     function budget(budgetDB) {
-      function allUntil(date) {
+      function getFourMonthsFrom(date) {
         function nextDateID(date) {
           const [year, month] = date.split('-');
           return Month.createID(new Date(year, month, 1));
@@ -46,40 +46,50 @@ angular.module('financier').provider('db', function(defaultCategories) {
           return Month.createID(new Date(year, month - 2, 1));
         }
 
-        const dateUntil = Month.createID(date);
+        const dateFrom = Month.createID(date);
+        const dateUntil = Month.createID(moment(date).add(5, 'months').toDate());
 
         return budgetDB.allDocs().then(res => {
           if (res.rows.length) {
             // Read existing months, add those needed
             const lastDate = res.rows[res.rows.length - 1].id;
             
-            if (lastDate < dateUntil) {
-              const newMonths = [];
-              let currentDate = lastDate;
+            const newMonths = [];
+            let currentDate = lastDate;
 
-              while(currentDate !== dateUntil) {
-                currentDate = nextDateID(currentDate);
+            while(currentDate < dateUntil) {
+              currentDate = nextDateID(currentDate);
 
-                newMonths.push({
-                  _id: currentDate,
-                  categories: {}
-                });
-              }
+              newMonths.push({
+                _id: currentDate
+              });
+            }
 
+            const firstDate = res.rows[0].id;
+            currentDate = firstDate;
+
+            while(currentDate > dateFrom) {
+              currentDate = previousDateID(currentDate);
+
+              newMonths.push({
+                _id: currentDate
+              });
+            }
+
+            if(newMonths.length) {
               return budgetDB.bulkDocs(newMonths).then(res => {
                 return all();
               });
-            } else {
-              return all();
             }
+            return all();
+
           } else {
             // initialize new Months
             const newMonths = [];
-            let lastDate = previousDateID(dateUntil);
-            for (var i = 0; i < 5; i++) {
+            let lastDate = dateFrom;
+            while(lastDate < dateUntil) {
               newMonths.push({
-                _id: lastDate,
-                categories: {}
+                _id: lastDate
               });
               lastDate = nextDateID(lastDate);
             }
@@ -133,7 +143,7 @@ angular.module('financier').provider('db', function(defaultCategories) {
       return {
         all,
         put,
-        allUntil,
+        getFourMonthsFrom,
         propagateRolling
       };
     }

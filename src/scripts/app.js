@@ -1,6 +1,7 @@
 let financier = angular.module('financier', [
   'ui.router',
-  'ngResize'
+  'ngResize',
+  'ng-sortable'
 ]);
 
 financier.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
