@@ -1,4 +1,4 @@
-angular.module('financier').factory('Month', (Transaction) => {
+angular.module('financier').factory('Month', (Transaction, Income) => {
   return class Month {
 
     constructor(data) {
@@ -17,7 +17,8 @@ angular.module('financier').factory('Month', (Transaction) => {
         totalTransactions: 0,
         totalBudget: 0,
         totalBalance: 0,
-        totalIncome: 0
+        totalIncome: 0,
+        totalAvailable: 0
       };
 
       this.initialLoad();
@@ -25,7 +26,7 @@ angular.module('financier').factory('Month', (Transaction) => {
 
     initialLoad() {
       // loop through all categories
-      for (var k in this.data.categories){
+      for (let k in this.data.categories) {
         if (this.data.categories.hasOwnProperty(k)) {
           let category = this.data.categories[k];
 
@@ -44,6 +45,15 @@ angular.module('financier').factory('Month', (Transaction) => {
             category.budget = 0;
             this.setBudget(k, bdg);
           }
+
+        }
+      }
+      // initialize income
+      if (this.data.income && this.data.income.length) {
+        const income = this.data.income;
+        this.data.income = [];
+        for (let i = 0; i < income.length; i++) {
+          this.addIncome(new Income(income[i]));
         }
       }
     }
@@ -64,6 +74,11 @@ angular.module('financier').factory('Month', (Transaction) => {
       this.createCategoryCacheIfEmpty(catId);
 
       return this.setRolling(catId, this.categoryCache[catId].rolling);
+    }
+
+    changeAvailable(value) {
+      this.cache.totalAvailable += value;
+      this.nextChangeAvailableFn && this.nextChangeAvailableFn(value);
     }
 
     addTransaction(catId, transaction) {
@@ -114,9 +129,12 @@ angular.module('financier').factory('Month', (Transaction) => {
 
     addIncome(income) {
       this.cache.totalIncome += income.value;
+      this.cache.totalAvailable += income.value;
+      this.nextChangeAvailableFn && this.nextChangeAvailableFn(income.value);
 
       income.subscribe((newValue, oldValue) => {
         this.cache.totalIncome += newValue - oldValue;
+        this.cache.totalAvailable += newValue - oldValue;
 
         return this.recordChangesFn && this.recordChangesFn(this);
       });
@@ -135,6 +153,8 @@ angular.module('financier').factory('Month', (Transaction) => {
       }
 
       this.cache.totalIncome -= income.value;
+      this.cache.totalAvailable -= income.value;
+      this.nextChangeAvailableFn && this.nextChangeAvailableFn(-income.value);
 
       return this.recordChangesFn && this.recordChangesFn(this);
     }
@@ -147,6 +167,8 @@ angular.module('financier').factory('Month', (Transaction) => {
       this.data.categories[catId].budget = amount;
 
       this.cache.totalBudget += amount - oldBudget;
+      this.cache.totalAvailable -= amount - oldBudget;
+      this.nextChangeAvailableFn && this.nextChangeAvailableFn(-(amount - oldBudget));
       this.categoryCache[catId].balance += amount - oldBudget;
       this.cache.totalBalance += amount - oldBudget;
       this.nextRollingFn && this.nextRollingFn(catId, this.categoryCache[catId].balance);
@@ -170,8 +192,12 @@ angular.module('financier').factory('Month', (Transaction) => {
       }
     }
 
-    subscribeNextMonth(nextRollingFn) {
+    subscribeNextMonth(nextRollingFn, nextChangeAvailableFn) {
       this.nextRollingFn = nextRollingFn;
+      this.nextChangeAvailableFn = nextChangeAvailableFn;
+
+      // initialize totalAvailable of next month
+      this.nextChangeAvailableFn && this.nextChangeAvailableFn(this.cache.totalAvailable);
     }
 
     subscribeRecordChanges(recordChangesFn) {

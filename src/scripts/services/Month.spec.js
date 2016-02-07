@@ -358,6 +358,78 @@ describe('Month', function() {
     });
   });
 
+  describe('totalAvailable', () => {
+    it('runs on existing data', () => {
+      const mo = new Month({
+        categories: {
+          123: {
+            budget: 1234,
+            transactions: [{
+              value: 222
+            }]
+          }
+        },
+        income: [{
+          value: 10000
+        }],
+        _id: Month.createID(new Date('1/1/15'))
+      });
+
+      // prevMo.totalAvailable - |prevMo.totalBalance| + totalIncome - totalBudgeted
+      expect(mo.cache.totalAvailable).toBe(10000 - 1234);
+    });
+
+    it('propagates to following months', () => {
+      const foo = { bar: () => {}};
+
+      const mo = new Month({
+        categories: {
+          123: {
+            budget: 1234,
+            transactions: [{
+              value: 222
+            }]
+          }
+        },
+        income: [{
+          value: 10000
+        }],
+        _id: Month.createID(new Date('1/1/15'))
+      });
+
+      spyOn(foo, 'bar');
+
+      mo.subscribeNextMonth(
+        () => {},
+        foo.bar
+      );
+
+
+      expect(foo.bar).toHaveBeenCalledWith(10000 - 1234);
+    });
+  });
+  // describe('totalRolling', () => {
+  
+  //   it('runs on existing data', () => {
+  //     const mo = new Month({
+  //       categories: {
+  //         123: {
+  //           budget: 333
+  //         }
+  //       },
+  //       _id: Month.createID(new Date('1/1/15'))
+  //     });
+
+  //     spyOn(mo, 'setRolling').and.callThrough();
+
+  //     mo.startRolling(123);
+
+  //     expect(mo.setRolling).toHaveBeenCalledWith(123, 0);
+  //     expect(mo.cache.totalBalance).toBe(333);
+  //   });
+
+  // })
+
   describe('importing data', () => {
     it('transforms transactions', () => {
       const mo = new Month({
@@ -485,6 +557,19 @@ describe('Month', function() {
       expect(mo.data.income).toEqual([]);
       expect(obj.mock).toHaveBeenCalledWith(mo);
       expect(mo.cache.totalIncome).toBe(0);
+    });
+
+    it('existing income', () => {
+      const mo = new Month({
+        _id: Month.createID(new Date('1/1/15')),
+        income: [{
+          value: 10
+        }, {
+          value: 20
+        }]
+      });
+
+      expect(mo.cache.totalIncome).toBe(30);
     });
   });
 });

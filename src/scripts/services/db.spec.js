@@ -115,16 +115,47 @@ describe('db', function() {
 
   it('should provide Months until specified date', (done) => {
     budgetDB.bulkDocs([{
-      _id: Month.createID(new Date('1/1/15')),
-      categories: {}
+      _id: Month.createID(new Date('1/1/15'))
     }, {
-      _id: Month.createID(new Date('2/1/15')),
-      categories: {}
+      _id: Month.createID(new Date('2/1/15'))
     }, {
-      _id: Month.createID(new Date('3/1/15')),
-      categories: {}
+      _id: Month.createID(new Date('3/1/15'))
     }]).then(res => {
-      db.budget(budgetDB).allUntil(new Date('6/1/15')).then(res => {
+      db.budget(budgetDB).getFourMonthsFrom(new Date('6/1/15')).then(res => {
+        const expectedDates = [
+          '2015-01-01',
+          '2015-02-01',
+          '2015-03-01',
+          '2015-04-01',
+          '2015-05-01',
+          '2015-06-01',
+          '2015-07-01',
+          '2015-08-01',
+          '2015-09-01',
+          '2015-10-01',
+          '2015-11-01'
+        ];
+
+        expect(res.length).toBe(expectedDates.length);
+
+        for (var i = 0; i < res.length; i++) {
+          expect(res[i].data._id).toBe(expectedDates[i]);
+        }
+
+        done();
+      });
+    });
+  });
+
+  it('should provide Months before specified date', (done) => {
+    budgetDB.bulkDocs([{
+      _id: Month.createID(new Date('4/1/15'))
+    }, {
+      _id: Month.createID(new Date('5/1/15'))
+    }, {
+      _id: Month.createID(new Date('6/1/15'))
+    }]).then(res => {
+      db.budget(budgetDB).getFourMonthsFrom(new Date('1/1/15')).then(res => {
         const expectedDates = [
           '2015-01-01',
           '2015-02-01',
@@ -156,11 +187,16 @@ describe('db', function() {
       _id: Month.createID(new Date('3/1/15')),
       categories: {}
     }]).then(res => {
-      db.budget(budgetDB).allUntil(new Date('3/1/15')).then(res => {
+      db.budget(budgetDB).getFourMonthsFrom(new Date('3/1/15')).then(res => {
         const expectedDates = [
           '2015-01-01',
           '2015-02-01',
-          '2015-03-01'
+          '2015-03-01',
+          '2015-04-01',
+          '2015-05-01',
+          '2015-06-01',
+          '2015-07-01',
+          '2015-08-01'
         ];
 
         expect(res.length).toBe(expectedDates.length);
@@ -174,12 +210,14 @@ describe('db', function() {
     });
   });
 
-  it('should add that date (and two moew) if none exist in database', (done) => {
-    db.budget(budgetDB).allUntil(new Date('3/1/15')).then(res => {
+  it('should add that date if none exists in database', (done) => {
+    db.budget(budgetDB).getFourMonthsFrom(new Date('3/1/15')).then(res => {
       const expectedDates = [
         '2015-03-01',
         '2015-04-01',
-        '2015-05-01'
+        '2015-05-01',
+        '2015-06-01',
+        '2015-07-01',
       ];
 
       expect(res.length).toBe(expectedDates.length);
@@ -195,7 +233,7 @@ describe('db', function() {
   it('propagateRolling should call startRolling on first Month', (done) => {
     const bdg = db.budget(budgetDB);
 
-    bdg.allUntil(new Date('3/1/15')).then(months => {
+    bdg.getFourMonthsFrom(new Date('3/1/15')).then(months => {
       db.categories(categoriesDB).then(categories => {
         spyOn(months[0], 'startRolling').and.callThrough();
 

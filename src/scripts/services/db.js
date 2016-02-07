@@ -124,6 +124,8 @@ angular.module('financier').provider('db', function(defaultCategories) {
         for (let i = 0; i < months.length - 1; i++) {
           months[i].subscribeNextMonth((catId, balance) => {
             months[i + 1].setRolling(catId, balance);
+          }, val => {
+            months[i + 1].changeAvailable(val);
           });
         }
 

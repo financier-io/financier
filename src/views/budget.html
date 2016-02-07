@@ -28,8 +28,8 @@
 
           <div class="month-overview__month-total" ng-class="
             {
-              'month-overview__month-total--negative': month.cache.totalIncome - month.cache.totalBudget < 0
-            }">= {{month.cache.totalIncome - month.cache.totalBudget | intCurrency | currency}}</div>
+              'month-overview__month-total--negative': month.cache.totalAvailable < 0
+            }">= {{month.cache.totalAvailable | intCurrency | currency}}</div>
           <div class="month-overview__month-total-subtext">Available to budget</div>
         </th>
       </tr>
