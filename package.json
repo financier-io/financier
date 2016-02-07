@@ -52,6 +52,7 @@
     "tiny-lr": "^0.2.1"
   },
   "dependencies": {
-    "eslint-plugin-filenames": "^0.2.0"
+    "eslint-plugin-filenames": "^0.2.0",
+    "font-awesome": "^4.5.0"
   }
 }

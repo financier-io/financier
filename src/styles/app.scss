@@ -4,7 +4,13 @@
 $lato-font-path: '../bower_components/lato/font';
 @import 'lato';
 
+$fa-font-path: '../node_modules/font-awesome/fonts';
+@import 'font-awesome';
+
+@import 'angular-tooltips';
+
 @import 'core/variables';
+
 
 html,
 body,

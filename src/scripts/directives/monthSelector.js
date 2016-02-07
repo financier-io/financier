@@ -35,7 +35,9 @@ angular.module('financier').directive('monthSelector', function() {
       };
 
 
-      scope.$on('resize', function($event) {
+      scope.$on('resize', changeHeaderStyle);
+
+      function changeHeaderStyle() {
         if (document.body.clientWidth < 675) {
           scope.limitTo = 1;
         } else {
@@ -47,7 +49,9 @@ angular.module('financier').directive('monthSelector', function() {
         } else {
           scope.dateFormat = 'MMMM';
         }
-      });
+      }
+
+      changeHeaderStyle();
 
       scope.setMonth = function(date) {
         scope.ngModel = date;

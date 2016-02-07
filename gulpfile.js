@@ -24,7 +24,9 @@ gulp.task('styles', function() {
       outputStyle: 'expanded',
       includePaths: require('node-bourbon').includePaths.concat([
         'bower_components/normalize-css/',
-        'bower_components/lato/scss/'
+        'bower_components/lato/scss/',
+        'node_modules/font-awesome/scss/',
+        'bower_components/angular-tooltips/dist'
       ])
     }).on('error', sass.logError))
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))

@@ -28,7 +28,8 @@
     "ng-resize": "~1.2.0",
     "pouchdb": "^5.2.0",
     "moment": "^2.11.2",
-    "Sortable": "^1.4.2"
+    "Sortable": "^1.4.2",
+    "angular-tooltips": "^1.0.7"
   },
   "resolutions": {
     "angular": "1.4.9"

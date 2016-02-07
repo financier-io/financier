@@ -7,6 +7,7 @@ app.use(require('connect-livereload')({
 
 app.use(express.static('dist'));
 app.use('/bower_components', express.static('bower_components'));
+app.use('/node_modules', express.static('node_modules'));
 
 // html5mode
 app.all('/*', function(req, res) {

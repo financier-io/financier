@@ -30,7 +30,7 @@
   tr {
     display: flex;
     flex-direction: row;
-    flex-grow: 1;
+    // flex-grow: 1;
     flex-shrink: 0;
   }
 
@@ -58,8 +58,27 @@
     margin-right: 5px;
   }
 
+  .budget__month-row-note {
+    opacity: 0;
+    transition: opacity 250ms linear;
+  }
+
+  .budget__month-row-note--showing {
+    opacity: 1;
+  }
+
   .budget__month-row {
     padding: 3px 5px 0;
+
+    &:hover {
+      .budget__month-row-note {
+        opacity: 1;
+      }
+    }
+  }
+
+  .budget__month-row--ghost {
+    visibility: hidden;
   }
 
   .budget__category-label {
@@ -73,6 +92,7 @@
   }
 
   .budget__cell-input {
+    background: none;
     text-align: right;
 
     &:focus {

@@ -3,4 +3,9 @@ angular.module('financier').controller('budgetCtrl', function($rootScope, $scope
   $rootScope.$on('budget:columns', (event, months) => {
     this.showMonths = (months >= 5 ? 5 : months) || 1;
   });
+
+  $scope.categorySortable = {
+    animation: 200,
+    ghostClass: 'budget__month-row--ghost'
+  };
 });

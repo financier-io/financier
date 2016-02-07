@@ -43,11 +43,14 @@
             ng-repeat-end>Balance<div>{{month.cache.totalBalance | intCurrency | currency}}</div></th>
       </tr>
     </thead>
-    <tbody class="overflowable" ng-sortable>
+    <tbody class="overflowable" ng-sortable="categorySortable">
       <tr class="month-body__row"
           ng-repeat="row in dbCtrl.categories"
           ng-init="catIndex = $index">
-        <td class="budget__month-row budget__category-label">{{row.name}}</td>
+        <td class="budget__month-row budget__category-label">
+          <i class="budget__month-row-note fa fa-sticky-note-o"></i>
+          {{row.name}}
+        </td>
         <td class="budget__month-row month-body__cell-head"
             ng-repeat-start="month in dbCtrl.months | limitFlexMonths : budgetCtrl.showMonths"
             >
