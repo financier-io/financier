@@ -2,7 +2,8 @@ let financier = angular.module('financier', [
   'ui.router',
   'ngResize',
   'ng-sortable',
-  '720kb.tooltips'
+  '720kb.tooltips',
+  'ngAnimate'
 ]);
 
 financier.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -28,7 +29,7 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider)
     .state('app.db', {
       abstract: true,
       controller: 'dbCtrl as dbCtrl',
-      template: '<ui-view></ui-view>'
+      template: '<ui-view state-class class="default left"></ui-view>'
     })
     .state('app.db.budget', {
       url: '/budget',
