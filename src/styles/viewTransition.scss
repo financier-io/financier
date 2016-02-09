@@ -29,6 +29,7 @@
   left: 0;
   right: 0;
   bottom: 0;
+  transform: translate3d(0, 0, 0);
 }
 
     .ng-enter       { z-index: 8888; }
@@ -54,6 +55,12 @@
     }
     .state-app-db-account + .state-app-db-reports.ng-leave {
       animation: slideOutLeft 0.5s both ease;
+    }
+    .state-app-db-reports.state-app-db-budget-leave.ng-enter {
+      animation: slideInRight 0.5s both ease;
+    }
+    .state-app-db-reports.state-app-db-account-leave.ng-enter {
+      animation: slideInLeft 0.5s both ease;
     }
 
     // /* about ------------------------ */

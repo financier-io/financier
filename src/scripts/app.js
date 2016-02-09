@@ -38,7 +38,8 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider)
     })
     .state('app.db.reports', {
       url: '/reports',
-      templateUrl: 'views/reports.html'
+      templateUrl: 'views/reports.html',
+      controller: 'reportCtrl as reportCtrl'
     })
     .state('app.db.account', {
       url: '/account',
