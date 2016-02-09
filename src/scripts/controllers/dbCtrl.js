@@ -39,7 +39,7 @@ angular.module('financier').controller('dbCtrl', function(db, $scope, $q, Income
 
     for (let i = allMonths.length - 1; i >= 0; i--) {
       if (allMonths[i].data._id === dateId) {
-        return allMonths.slice(i, i + 4);
+        return allMonths.slice(i, i + 5);
       }
     }
     throw new Error(`Couldn't find base month in database!`);
