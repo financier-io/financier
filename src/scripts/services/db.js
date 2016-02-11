@@ -115,7 +115,7 @@ angular.module('financier').provider('db', function(defaultCategories) {
       }
 
       function put(month) {
-        return budgetDB.put(month.toJSON()).then(function(res) {
+        return budgetDB.put(JSON.parse(JSON.stringify(month))).then(function(res) {
           month.data._rev = res.rev;
         });
       }

@@ -6,6 +6,18 @@ angular.module('financier').controller('budgetCtrl', function($rootScope, $scope
 
   $scope.categorySortable = {
     animation: 200,
+    group: 'categories',
     ghostClass: 'budget__month-row--ghost'
   };
+
+  $scope.masterCategorySortable = {
+    animation: 200,
+    ghostClass: 'budget__month-row--ghost'
+  };
+
+  this.masterCategories = [{
+    name: 'Master 1'
+  }, {
+    name: 'Master 2'
+  }];
 });

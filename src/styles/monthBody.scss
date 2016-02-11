@@ -22,3 +22,8 @@
   color: $white;
   font-weight: 500;
 }
+
+.month-body__row--master {
+  background-color: lighten($primary, 30%);
+  font-weight: bold;
+}

@@ -1,4 +1,4 @@
-angular.module('financier').controller('dbCtrl', function(db, $scope, $q, Income, Month) {
+angular.module('financier').controller('dbCtrl', function(db, $scope, $q, Income, Month, Transaction) {
   const budgetDB = new PouchDB('financierer', {
     adapter: 'idb'
   });
@@ -15,6 +15,8 @@ angular.module('financier').controller('dbCtrl', function(db, $scope, $q, Income
       db.categories(categoriesDB)
     ])
     .then(([allMonths, categories]) => {
+      this.allMonths = allMonths;
+      allMonths[0].addTransaction(123, new Transaction({value: 23}));
       this.months = getView(date, allMonths);
       this.categories = categories;
 

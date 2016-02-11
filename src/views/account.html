@@ -2,56 +2,60 @@
 
 <button>Add transaction</button>
 
-<table class="account">
-  <thead>
-    <tr>
-      <th>Account</th>
-      <th>Date</th>
-      <th>Payee</th>
-      <th>Category</th>
-      <th class="account__cell account__cell-memo">Memo</th>
-      <th class="account__outflow">Outflow</th>
-      <th class="account__inflow">Inflow</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat-start="transaction in accountCtrl.transactions"
-        ng-hide="accountCtrl.transactionEdit.id === transaction.id"
-        class="account__row"
-        ng-click="accountCtrl.editTransaction(transaction)">
-      <td class="account__cell--view">{{:: transaction.account}}</td>
-      <td class="account__cell--view">{{:: transaction.date | date}}</td>
-      <td class="account__cell--view">{{:: transaction.payee}}</td>
-      <td class="account__cell--view">{{:: transaction.category}}</td>
-      <td class="account__cell--view account__cell-memo">{{:: transaction.memo}}</td>
-      <td class="account__cell--view account__outflow">{{:: transaction.outflow}}</td>
-      <td class="account__cell--view account__inflow">{{:: transaction.inflow}}</td>
-    </tr>
-    <tr ng-repeat-end
+<div class="account">
+  <div class="account__thead">
+    <div class="account__tr">
+      <div class="account__th">Account</div>
+      <div class="account__th">Date</div>
+      <div class="account__th">Payee</div>
+      <div class="account__th">Category</div>
+      <div class="account__th" class="account__cell account__cell-memo">Memo</div>
+      <div class="account__th account__outflow">Outflow</div>
+      <div class="account__th account__inflow">Inflow</div>
+    </div>
+  </div>
+  <div class="account__tbody">
+    <div ng-repeat="month in dbCtrl.allMonths">
+      <div ng-repeat="(catId, category) in month.data.categories">
+        <div ng-repeat="transaction in category.transactions"
+            class="account__tr account__row"
+            ng-click="accountCtrl.editTransaction(transaction)">
+          <div class="account__td account__cell--view">{{:: transaction.value}}</div>
+          <div class="account__td account__cell--view">{{:: transaction.date | date}}</div>
+          <div class="account__td account__cell--view">{{:: transaction.payee}}</div>
+          <div class="account__td account__cell--view">{{:: transaction.category}}</div>
+          <div class="account__td account__cell--view account__cell-memo">{{:: transaction.memo}}</div>
+          <div class="account__td account__cell--view account__outflow">{{:: transaction.outflow}}</div>
+          <div class="account__td account__cell--view account__inflow">{{:: transaction.inflow}}</div>
+        </div>
+        
+      </div>
+    </div>
+<!--     <div ng-repeat-end
         ng-if="accountCtrl.transactionEdit.id === transaction.id"
-        class="account__row account__row--editing"
+        class="account__tr account__row account__row--editing"
         ng-click="editTransaction(transaction)">
-      <td>
+      <div class="account__td">
         <input type="text" class="account__input" ng-model="transaction.account">
-      </td>
-      <td>
+      </div>
+      <div class="account__td">
         <input type="date" class="account__input" ng-model="transaction.date">
-      </td>
-      <td>
+      </div>
+      <div class="account__td">
         <input type="text" class="account__input" ng-model="transaction.payee">
-      </td>
-      <td>
+      </div>
+      <div class="account__td">
         <input type="text" class="account__input" ng-model="transaction.category">
-      </td>
-      <td class="account__cell account__cell-memo">
+      </div>
+      <div class="account__td account__cell account__cell-memo">
         <input type="text" class="account__input" ng-model="transaction.memo">
-      </td>
-      <td class="account__outflow">
+      </div>
+      <div class="account__td account__outflow">
         <input type="text" class="account__input" ng-model="transaction.outflow">
-      </td>
-      <td class="account__inflow">
+      </div>
+      <div class="account__td account__inflow">
         <input type="text" class="account__input" ng-model="transaction.inflow">
-      </td>
-    </tr>
-  </tbody>
-</table>
+      </div>
+    </div> -->
+  </div>
+</div>

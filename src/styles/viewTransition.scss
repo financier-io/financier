@@ -4,6 +4,7 @@
   left: 0;
   right: 0;
   bottom: 0;
+  overflow: auto;
 
   // prepare for change
   transform: translate3d(0, 0, 0);
@@ -82,5 +83,22 @@
 
   to {
     transform: translateX(0);
+  }
+}
+
+.view-transition__fade {
+  // start 'enter' transition on main view
+  &.ng-enter {
+    // transition on enter for 0.5s
+    transition: 0.5s;
+
+    // start with opacity 0 (invisible)
+    opacity: 0;
+  }
+
+  // end 'enter' transition on main view
+  &.ng-enter-active {
+    // end with opacity 1 (fade in)
+    opacity: 1;
   }
 }
