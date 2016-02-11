@@ -2,7 +2,7 @@ angular.module('financier').provider('db', function(defaultCategories) {
   const that = this;
   that.adapter = 'idb';
 
-  this.$get = (Month) => {
+  this.$get = (Month, uuid) => {
     const db = new PouchDB('financier', {
       adapter: that.adapter
     });
@@ -16,16 +16,52 @@ angular.module('financier').provider('db', function(defaultCategories) {
     function categories(categoriesDB) {
       function all() {
         return categoriesDB.allDocs({
-          include_docs: true
+          include_docs: true,
+          startkey: 'masterCategory_',
+          endkey: 'masterCategory_\uffff'
         }).then(res => {
-          return res.rows.map(cat => {
-            return cat.doc;
-          });
+          const ret = res.rows.map(cat => cat.doc);
+          const promises = [];
+
+          for (var i = 0; i < ret.length; i++) {
+            (function(i) {
+              promises.push(
+                categoriesDB.allDocs({
+                  include_docs: true,
+                  keys: ret[i].categories
+                })
+                .then(c => {
+                  ret[i].categories = c.rows.map(cat => cat.doc);
+                  return ret[i];
+                })
+              );
+              
+            }(i));
+          }
+          return Promise.all(promises);
         });
       }
 
       return categoriesDB.allDocs().then(res => {
         if (res.total_rows === 0) {
+          const promises = [];
+
+          for (let i = 0; i < defaultCategories.length; i++) {
+            promises.push(
+              categoriesDB.bulkDocs(defaultCategories[i].categories)
+              .then(res => {
+                return categoriesDB.post({
+                  name: defaultCategories[i].name,
+                  categories: res.map(r => r.id),
+                  _id: 'masterCategory_' + uuid()
+                });
+              })
+            );
+          }
+
+          return Promise.all(promises).then((r) => {
+            return all();
+          });
           return categoriesDB.bulkDocs(defaultCategories).then(res => {
             return all();
           });

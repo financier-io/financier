@@ -45,7 +45,7 @@
       </div>
     </div>
     <div class="budget__tbody overflowable" ng-sortable="masterCategorySortable">
-      <div ng-repeat="masterCategory in budgetCtrl.masterCategories">
+      <div ng-repeat="masterCategory in dbCtrl.categories">
         <div class="budget__tr month-body__row month-body__row--master">
           <div class="budget__td budget__month-row budget__category-label">{{masterCategory.name}}</div>
             <div class="budget__td budget__month-row month-body__cell-head"
@@ -59,7 +59,7 @@
         
         <div ng-sortable="categorySortable" ng-mouseenter="masterCategorySortable.disabled = true" ng-mouseleave="masterCategorySortable.disabled = false">
           <div class="budget__tr month-body__row"
-              ng-repeat="row in dbCtrl.categories"
+              ng-repeat="row in masterCategory.categories"
               ng-init="catIndex = $index">
             <div class="budget__td budget__month-row budget__category-label">
               <i class="budget__month-row-note fa fa-sticky-note-o"></i>

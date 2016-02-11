@@ -1,9 +1,9 @@
 angular.module('financier').controller('dbCtrl', function(db, $scope, $q, Income, Month, Transaction) {
   const budgetDB = new PouchDB('financierer', {
-    adapter: 'idb'
+    adapter: 'memory'
   });
   const categoriesDB = new PouchDB('financierercats', {
-    adapter: 'idb'
+    adapter: 'memory'
   });
 
   const bdg = db.budget(budgetDB);
@@ -19,6 +19,7 @@ angular.module('financier').controller('dbCtrl', function(db, $scope, $q, Income
       allMonths[0].addTransaction(123, new Transaction({value: 23}));
       this.months = getView(date, allMonths);
       this.categories = categories;
+      console.log(categories)
 
       bdg.propagateRolling(categories, allMonths[0]);
     });

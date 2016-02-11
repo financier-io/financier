@@ -1,39 +1,73 @@
 angular.module('financier').constant('defaultCategories', [
   {
-    name: 'Charitable'
+    name: 'Giving',
+    categories: [{
+      name: 'Tithing'
+    }, {
+      name: 'Charitable'
+    }]
   }, {
-    name: 'Car Replacement'
+    name: 'Monthly Bills',
+    categories: [{
+      name: 'Rent/Mortgage'
+    }, {
+      name: 'Phone'
+    }, {
+      name: 'Internet'
+    }, {
+      name: 'Cable TV'
+    }, {
+      name: 'Electricity'
+    }, {
+      name: 'Water'
+    }]
   }, {
-    name: 'Vacation'
+    name: 'Everyday Expenses',
+    categories: [{
+      name: 'Spending Money'
+    }, {
+      name: 'Groceries'
+    }, {
+      name: 'Fuel'
+    }, {
+      name: 'Restaurants'
+    }, {
+      name: 'Medical/Dental'
+    }, {
+      name: 'Clothing'
+    }, {
+      name: 'Household Goods'
+    }]
   }, {
-    name: 'Emergency Fund'
+    name: 'Rainy Day Funds',
+    categories: [{
+      name: 'Emergency Fund'
+    }, {
+      name: 'Car Maintenance'
+    }, {
+      name: 'Car Insurance'
+    }, {
+      name: 'Birthdays'
+    }, {
+      name: 'Christmas'
+    }, {
+      name: 'Renters Insurance'
+    }, {
+      name: 'Retirement'
+    }]
   }, {
-    name: 'Car Repairs'
+    name: 'Savings Goals',
+    categories: [{
+      name: 'Car Replacement'
+    }, {
+      name: 'Vacation'
+    }]
   }, {
-    name: 'Home Maintenance'
-  }, {
-    name: 'Car Insurance'
-  }, {
-    name: 'Life Insurance'
-  }, {
-    name: 'Health Insurance'
-  }, {
-    name: 'Birthdays'
-  }, {
-    name: 'Christmas'
-  }, {
-    name: 'Groceries'
-  }, {
-    name: 'Fuel'
-  }, {
-    name: 'Restaurants'
-  }, {
-    name: 'Medical'
-  }, {
-    name: 'Clothing'
-  }, {
-    name: 'Household Goods'
-  }, {
-    name: 'Rent'
+    name: 'Debt',
+    categories: [{
+      name: 'Car Payment'
+    }, {
+      name: 'Student Loan Payment'
+    }]
   }
 ]);
