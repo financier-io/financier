@@ -57,7 +57,7 @@
                 ng-repeat-end>{{month.categoryCache[row._id].balance | intCurrency}}</div>
         </div>
         
-        <div ng-sortable="categorySortable">
+        <div ng-sortable="categorySortable" ng-mouseenter="masterCategorySortable.disabled = true" ng-mouseleave="masterCategorySortable.disabled = false">
           <div class="budget__tr month-body__row"
               ng-repeat="row in dbCtrl.categories"
               ng-init="catIndex = $index">
