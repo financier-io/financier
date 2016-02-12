@@ -7,8 +7,25 @@
 
 .month-select__month {
   flex: 1;
+
+  position: relative;
 }
 
+
+.month-select__month--current {
+  $size: 0.5em;
+
+  &::after {
+    border-left: $size solid transparent;
+    border-top: $size solid $danger;
+    content: '';
+    height: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 0;
+  }
+}
 
 .month-select__control,
 .month-select__year,

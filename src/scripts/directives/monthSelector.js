@@ -4,14 +4,17 @@ angular.module('financier').directive('monthSelector', function() {
     templateUrl: 'scripts/directives/monthSelector.html',
     require: 'ngModel',
     scope: {
-      ngModel: '='
+      ngModel: '=',
+      showMonths: '='
     },
     link: function(scope, element, attrs, ngModelCtrl) {
       scope.months = [];
+      scope.today = moment().startOf('month');
 
-      scope.$watch(function () {
-        return ngModelCtrl.$modelValue;
-      }, function(newValue) {
+      scope.$watchCollection(() => [
+        ngModelCtrl.$modelValue,
+        scope.showMonths
+      ], function([newValue, showMonths]) {
         if (angular.isDefined(newValue)) {
           const modelMonth = moment(newValue);
 
@@ -22,7 +25,8 @@ angular.module('financier').directive('monthSelector', function() {
               scope.months[i] = [];
             }
             scope.months[i].date = month;
-            scope.months[i].view = modelMonth.diff(month, 'months') === 0;
+            scope.months[i].view = modelMonth.diff(month, 'months') > -showMonths &&
+                                   modelMonth.diff(month, 'months') <= 0;
           }
         }
       });

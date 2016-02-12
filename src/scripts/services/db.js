@@ -172,9 +172,9 @@ angular.module('financier').provider('db', function(defaultCategories) {
         }
       }
 
-      function propagateRolling(categories, firstMonth) {
-        for (var i = 0; i < categories.length; i++) {
-          firstMonth.startRolling(categories[i]._id);
+      function propagateRolling(categoryIds, firstMonth) {
+        for (var i = 0; i < categoryIds.length; i++) {
+          firstMonth.startRolling(categoryIds[i]);
         }
       }
 

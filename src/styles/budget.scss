@@ -69,6 +69,10 @@
   opacity: 1;
 }
 
+.budget__month--current {
+
+}
+
 .budget__month-row {
   padding: 3px 5px 0;
 
@@ -81,6 +85,11 @@
 
 .budget__month-row--ghost {
   visibility: hidden;
+}
+
+.budget__category-sortable {
+  // Drop area for categories when empty
+  min-height: 3px;
 }
 
 

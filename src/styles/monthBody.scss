@@ -24,6 +24,10 @@
 }
 
 .month-body__row--master {
-  background-color: lighten($primary, 30%);
+  background-color: #efefef;
   font-weight: bold;
+
+  .month-body__cell-head {
+    border-bottom: 0;
+  }
 }

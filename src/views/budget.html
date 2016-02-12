@@ -4,7 +4,7 @@
       <div class="budget__tr">
         <div class="budget__td budget__category-label"></div>
         <div class="budget__td" colspan="{{budgetCtrl.showMonths * 3}}">
-          <month-selector ng-model="dbCtrl.currentMonth"></month-selector>
+          <month-selector ng-model="dbCtrl.currentMonth" show-months="budgetCtrl.showMonths"></month-selector>
         </div>
       </div>
       <div class="budget__tr month-overview__row">
@@ -12,7 +12,11 @@
         <div class="budget__th month-overview__month-overview"
              colspan="3"
              ng-repeat="month in dbCtrl.months | limitTo : budgetCtrl.showMonths"
-             ng-class="{'budget__month-end': !$last}">
+             ng-class="{
+                         'budget__month-end': !$last,
+                         'month-overview__month-overview--old': month.data._id < budgetCtrl.currentMonth,
+                         'month-overview__month-overview--current': month.data._id === budgetCtrl.currentMonth
+                       }">
           <div class="month-overview__month-text">{{month.data._id | date: 'MMMM yyyy'}}</div>
           <dl class="month-overview__month-list">
             <dt>
@@ -57,7 +61,7 @@
                 ng-repeat-end>{{month.categoryCache[row._id].balance | intCurrency}}</div>
         </div>
         
-        <div ng-sortable="categorySortable" ng-mouseenter="masterCategorySortable.disabled = true" ng-mouseleave="masterCategorySortable.disabled = false">
+        <div class="budget__category-sortable" ng-sortable="categorySortable" ng-mouseenter="masterCategorySortable.disabled = true" ng-mouseleave="masterCategorySortable.disabled = false">
           <div class="budget__tr month-body__row"
               ng-repeat="row in masterCategory.categories"
               ng-init="catIndex = $index">

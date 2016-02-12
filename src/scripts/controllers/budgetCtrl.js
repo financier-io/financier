@@ -1,4 +1,4 @@
-angular.module('financier').controller('budgetCtrl', function($rootScope, $scope) {
+angular.module('financier').controller('budgetCtrl', function($rootScope, $scope, Month) {
   this.showMonths = 0;
   $rootScope.$on('budget:columns', (event, months) => {
     this.showMonths = (months >= 5 ? 5 : months) || 1;
@@ -14,4 +14,6 @@ angular.module('financier').controller('budgetCtrl', function($rootScope, $scope
     animation: 200,
     ghostClass: 'budget__month-row--ghost'
   };
+
+  this.currentMonth = Month.createID(new Date());
 });
