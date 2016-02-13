@@ -62,9 +62,6 @@ angular.module('financier').provider('db', function(defaultCategories) {
           return Promise.all(promises).then((r) => {
             return all();
           });
-          return categoriesDB.bulkDocs(defaultCategories).then(res => {
-            return all();
-          });
         } else {
           return all();
         }

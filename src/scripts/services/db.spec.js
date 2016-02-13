@@ -230,21 +230,21 @@ describe('db', function() {
     });
   });
 
-  it('propagateRolling should call startRolling on first Month', (done) => {
-    const bdg = db.budget(budgetDB);
+  // it('propagateRolling should call startRolling on first Month', (done) => {
+  //   const bdg = db.budget(budgetDB);
 
-    bdg.getFourMonthsFrom(new Date('3/1/15')).then(months => {
-      db.categories(categoriesDB).then(categories => {
-        spyOn(months[0], 'startRolling').and.callThrough();
+  //   bdg.getFourMonthsFrom(new Date('3/1/15')).then(months => {
+  //     db.categories(categoriesDB).then(categories => {
+  //       spyOn(months[0], 'startRolling').and.callThrough();
 
-        bdg.propagateRolling(categories, months[0]);
+  //       bdg.propagateRolling(categories, months[0]);
 
-        for (var i = 0; i < categories.length; i++) {
-          expect(months[0].startRolling).toHaveBeenCalledWith(categories[i]._id);
-        }
+  //       for (var i = 0; i < categories.length; i++) {
+  //         expect(months[0].startRolling).toHaveBeenCalledWith(categories[i]._id);
+  //       }
 
-        done();
-      });
-    });
-  });
+  //       done();
+  //     });
+  //   });
+  // });
 });
