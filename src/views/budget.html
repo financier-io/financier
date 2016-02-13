@@ -54,17 +54,18 @@
           <div class="budget__td budget__month-row budget__category-label">{{masterCategory.name}}</div>
             <div class="budget__td budget__month-row month-body__cell-head"
                 ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths"
-                ></div>
+                ng-controller="masterCategoryCtrl as masterCategoryCtrl"
+                >{{masterCategoryCtrl.budget | intCurrency}}</div>
             <div class="budget__td budget__month-row month-body__cell-head">0.00</div>
             <div class="budget__td budget__month-row month-body__cell-head"
                 ng-class="{'budget__month-end': !$last}"
-                ng-repeat-end>{{month.categoryCache[row._id].balance | intCurrency}}</div>
+                ng-controller="masterCategoryCtrl as masterCategoryCtrl"
+                ng-repeat-end>{{masterCategoryCtrl.balance | intCurrency}}</div>
         </div>
         
         <div class="budget__category-sortable" ng-sortable="categorySortable" ng-mouseenter="masterCategorySortable.disabled = true" ng-mouseleave="masterCategorySortable.disabled = false">
           <div class="budget__tr month-body__row"
-              ng-repeat="row in masterCategory.categories"
-              ng-init="catIndex = $index">
+              ng-repeat="row in masterCategory.categories">
             <div class="budget__td budget__month-row budget__category-label">
               <i class="budget__month-row-note fa fa-sticky-note-o"></i>
               {{row.name}}
@@ -74,7 +75,6 @@
                 >
               <input type="text"
                      class="budget__cell-input"
-                     ng-attr-tabindex="{{(($index * dbCtrl.categories.length) + catIndex) + 1}}"
                      on-update="month.setBudget(row._id, model)"
                      view-model="month.data.categories[row._id].budget"></div>
             <div class="budget__td budget__month-row month-body__cell-head">0.00</div>
