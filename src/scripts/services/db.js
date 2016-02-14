@@ -2,7 +2,7 @@ angular.module('financier').provider('db', function(defaultCategories) {
   const that = this;
   that.adapter = 'idb';
 
-  this.$get = (Month, uuid) => {
+  this.$get = (Month, uuid, $q) => {
     const db = new PouchDB('financier', {
       adapter: that.adapter
     });
@@ -26,19 +26,19 @@ angular.module('financier').provider('db', function(defaultCategories) {
           for (var i = 0; i < ret.length; i++) {
             (function(i) {
               promises.push(
-                categoriesDB.allDocs({
+                $q.when(categoriesDB.allDocs({
                   include_docs: true,
                   keys: ret[i].categories
                 })
                 .then(c => {
                   ret[i].categories = c.rows.map(cat => cat.doc);
                   return ret[i];
-                })
+                }))
               );
               
             }(i));
           }
-          return Promise.all(promises);
+          return $q.all(promises);
         });
       }
 
@@ -48,18 +48,18 @@ angular.module('financier').provider('db', function(defaultCategories) {
 
           for (let i = 0; i < defaultCategories.length; i++) {
             promises.push(
-              categoriesDB.bulkDocs(defaultCategories[i].categories)
+              $q.when(categoriesDB.bulkDocs(defaultCategories[i].categories)
               .then(res => {
-                return categoriesDB.post({
+                return $q.when(categoriesDB.post({
                   name: defaultCategories[i].name,
                   categories: res.map(r => r.id),
                   _id: 'masterCategory_' + uuid()
-                });
-              })
+                }));
+              }))
             );
           }
 
-          return Promise.all(promises).then((r) => {
+          return $q.all(promises).then((r) => {
             return all();
           });
         } else {

@@ -1,0 +1,17 @@
+.collapse {
+    display: none;
+}
+
+.collapse.in {
+    display: block;
+}
+
+.collapsing {
+    @include animation-timing-function(linear);
+    @include transition-duration(250ms);
+    @include transition-property(height, visibility);
+
+    position: relative;
+    height: 0;
+    overflow: hidden;
+}

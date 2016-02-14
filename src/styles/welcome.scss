@@ -1,41 +1,105 @@
-.welcome__container {
-  // background-color: $primary;
-  background-image:
-    radial-gradient(
-      darken($primary, 10%),
-      lighten($primary, 10%)
-    );
-  height: 100%;
+.welcome {
+  background-image: url('symphony.png');
+  padding: 3em 0 4em;
   color: $white;
   font-weight: 100;
   text-align: center;
-}
+  position: relative;
+  box-shadow: 0 0 3em 2px #999999;
 
-.welcome {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+
+    background: $primary; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #76b852 , #8DC26F); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #76b852 , #8DC26F); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  }
 }
 
 .welcome__title {
   font-size: 6em;
   line-height: 1em;
+  letter-spacing: 5px;
 }
 
 .welcome__sub {
-  font-size: 1.4em;
-  font-variant: small-caps;
+  font-size: 1.2em;
   margin-bottom: 1em;
+  font-weight: 300;
+  letter-spacing: 5.2px;
+  font-variant: small-caps;
 }
 
-.welcome__dropdown,
 .welcome__button {
+  margin-top: 1.5em;
+  display: inline-block;
+
+  font-weight: 300;
   border: 1px solid $white;
   background: none;
-  text-transform: uppercase;
-  font-size: 0.9em;
-  padding: 0.5em 1em;
-  height: 3em;
+  padding: 0.8em 2em;
+  font-size: 1.1em;
   vertical-align: bottom;
+  transition-timing-function: ease;
+  transition-duration: 250ms;
+  transition-property: color, background-color;
+  transition: all 250ms ease;
+  position: relative;
+
+  span {
+    position: relative;
+    display: inline-block;
+    transition: transform 250ms ease;
+  }
+
+  i {
+    margin-left: 0.3em;
+    position: absolute;
+    transform: scale(0);
+    transition-timing-function: ease;
+    transition-duration: 250ms;
+    transition-property: transform;
+    line-height: 3rem;
+    top: 0;
+    right: 1em;
+    font-size: 1.4em;
+    margin-top: 3px;
+  }
+
+  &:hover {
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.05);
+
+    span {
+      transform: translateX(-0.5em);
+    }
+
+    i {
+      transform: scale(1);
+    }
+  }
+
+  &:active {
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: scale(1.025);
+  }
+}
+
+.welcome__about {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 5px;
+}
+
+.welcome__warning {
+  color: red;
+  font-size: 1.1em;
+  text-align: center;
 }

@@ -20,8 +20,8 @@ body,
 
 html {
   box-sizing: border-box;
-  overflow: hidden; // stop body overscroll
-  user-select: none; // prevent highlighting
+  line-height: 1.5;
+  // overflow: hidden; // stop body overscroll
 }
 
 body {
@@ -42,11 +42,6 @@ h4 {
 
 a {
   color: inherit;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
 }
 
 

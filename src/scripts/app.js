@@ -17,13 +17,8 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider)
       templateUrl: 'views/welcome.html',
       controller: 'welcomeCtrl as welcomeCtrl'
     })
-    .state('newBudget', {
-      url: '/',
-      templateUrl: 'views/newBudget.html',
-      controller: 'newBudgetCtrl as newBudgetCtrl'
-    })
     .state('app', {
-      url: '/:budgetId',
+      url: '/app',
       templateUrl: 'views/header.html'
     })
     .state('app.db', {

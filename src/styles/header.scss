@@ -4,14 +4,17 @@
   line-height: $headerHeight;
   width: 100%;
   color: $white;
-  padding-left: 0.5em;
+
+  a {
+    text-decoration: none;
+  }
 }
 
 .header__title {
   font-size: 1.3em;
   font-weight: 300;
   margin: 0;
-  width: 100%;
+  margin-left: 1em;
 }
 
 .header__links {
