@@ -15,6 +15,44 @@
   font-weight: 300;
   margin: 0;
   margin-left: 1em;
+
+  a {
+    display: inline-block;
+
+    background: none;
+    transition: all 250ms ease;
+    position: relative;
+
+    span {
+      position: relative;
+      display: inline-block;
+      transition: transform 250ms ease;
+    }
+
+    i {
+      position: absolute;
+      transform: scale(0);
+      transition-timing-function: ease;
+      transition-duration: 250ms;
+      transition-property: transform;
+      line-height: 3rem;
+      top: 0;
+      left: 0;
+      font-size: 1.15em;
+    }
+
+    &:hover {
+      text-decoration: none;
+
+      span {
+        transform: translateX(0.8em);
+      }
+
+      i {
+        transform: scale(1);
+      }
+    }
+  }
 }
 
 .header__links {
