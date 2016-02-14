@@ -1,0 +1,12 @@
+<div ng-if="serviceWorkerStatus.status === 'unsupported'">
+  <i class="fa fa-circle service-worker-status__icon service-worker-status__icon--red"></i>
+  <span class="service-worker-status__description">No offline support</span>
+</div>
+<div ng-if="serviceWorkerStatus.status === 'cached'">
+  <i class="fa fa-circle service-worker-status__icon service-worker-status__icon--green"></i>
+  <span class="service-worker-status__description">App downloaded</span>
+</div>
+<div ng-if="serviceWorkerStatus.status === 'downloading'">
+  <i class="fa fa-circle service-worker-status__icon service-worker-status__icon--yellow"></i>
+  <span class="service-worker-status__description">App downloading...</span>
+</div>

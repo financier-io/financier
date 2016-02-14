@@ -1,15 +1,16 @@
 @import 'bourbon';
 @import 'normalize';
 
-$lato-font-path: '../bower_components/lato/font';
+$lato-font-path: '../vendor';
 @import 'lato';
 
-$fa-font-path: '../node_modules/font-awesome/fonts';
+$fa-font-path: '../vendor';
 @import 'font-awesome';
 
 @import 'angular-tooltips';
 
 @import 'core/variables';
+@import 'core/fp';
 
 
 html,
@@ -53,4 +54,5 @@ a {
 @import 'monthBody';
 @import 'account';
 @import 'monthSelect';
+@import 'serviceWorkerStatus';
 

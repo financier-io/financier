@@ -1,0 +1,25 @@
+.service-worker-status__description,
+.service-worker-status__icon {
+  vertical-align: middle;
+}
+
+.service-worker-status__description {
+  font-weight: 300;
+}
+
+.service-worker-status__icon {
+  font-size: 0.5em;
+  margin-right: 0.5em;
+}
+
+.service-worker-status__icon--red {
+  color: red;
+}
+
+.service-worker-status__icon--green {
+  color: lighten(green, 30%);
+}
+
+.service-worker-status__icon--yellow {
+  color: yellow;
+}

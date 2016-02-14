@@ -1,11 +1,24 @@
 .welcome {
-  background-image: url('symphony.png');
   padding: 3em 0 4em;
   color: $white;
   font-weight: 100;
   text-align: center;
   position: relative;
   box-shadow: 0 0 3em 2px #999999;
+  overflow: hidden;
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: -396px;
+    top: -198px;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+    background-image: url('assets/symphony.png');
+    animation: scrollBack 40s linear;
+    animation-iteration-count: infinite;
+  }
 
   &:before {
     content: '';
@@ -22,14 +35,32 @@
   }
 }
 
+@keyframes scrollBack {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(396px, 198px);
+  }
+}
+
+.welcome__service-worker-status {
+  position: absolute;
+  top: 0.5em;
+  right: 1em;
+}
+
 .welcome__title {
-  font-size: 6em;
+  @include fp(font-size, 50, 100);
+
   line-height: 1em;
   letter-spacing: 5px;
 }
 
 .welcome__sub {
-  font-size: 1.2em;
+  @include fp(font-size, 14, 25);
+
   margin-bottom: 1em;
   font-weight: 300;
   letter-spacing: 5.2px;
@@ -37,6 +68,8 @@
 }
 
 .welcome__button {
+  @include fp(font-size, 14, 25);
+
   margin-top: 1.5em;
   display: inline-block;
 
@@ -44,7 +77,6 @@
   border: 1px solid $white;
   background: none;
   padding: 0.8em 2em;
-  font-size: 1.1em;
   vertical-align: bottom;
   transition-timing-function: ease;
   transition-duration: 250ms;
@@ -65,7 +97,7 @@
     transition-timing-function: ease;
     transition-duration: 250ms;
     transition-property: transform;
-    line-height: 3rem;
+    line-height: 1.95em;
     top: 0;
     right: 1em;
     font-size: 1.4em;
@@ -96,6 +128,13 @@
   max-width: 600px;
   margin: 0 auto;
   padding: 0 5px;
+
+  h1,
+  h2,
+  h3,
+  strong {
+    color: darken($primary, 10%); // little more readable for text
+  }
 }
 
 .welcome__warning {
