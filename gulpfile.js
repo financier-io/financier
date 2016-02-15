@@ -1,27 +1,14 @@
 // Load plugins
 var gulp = require('gulp'),
-    sass = require('gulp-sass'),
-    autoprefixer = require('gulp-autoprefixer'),
-    cssnano = require('gulp-cssnano'),
-    eslint = require('gulp-eslint'),
-    babel = require('gulp-babel'),
-    uglify = require('gulp-uglify'),
-    rename = require('gulp-rename'),
-    clean = require('gulp-clean'),
-    concat = require('gulp-concat'),
-    cache = require('gulp-cache'),
-    livereload = require('gulp-livereload'),
+    plugins = require('gulp-load-plugins')(),
     http = require('http'),
-    st = require('st'),
-    sassLint = require('gulp-sass-lint'),
-    Server = require('karma').Server,
     runSequence = require('run-sequence');
 
 gulp.task('styles', function() {
   return gulp.src('src/styles/app.scss')
-    .pipe(sassLint())
-    .pipe(sassLint.format())
-    .pipe(sass({
+    .pipe(plugins.sassLint())
+    .pipe(plugins.sassLint.format())
+    .pipe(plugins.sass({
       outputStyle: 'expanded',
       includePaths: require('node-bourbon').includePaths.concat([
         'bower_components/normalize-css/',
@@ -29,12 +16,12 @@ gulp.task('styles', function() {
         'node_modules/font-awesome/scss/',
         'bower_components/angular-tooltips/dist'
       ])
-    }).on('error', sass.logError))
-    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    }).on('error', plugins.sass.logError))
+    .pipe(plugins.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
     .pipe(gulp.dest('dist/styles'))
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(cssnano())
-    .pipe(livereload())
+    .pipe(plugins.rename({ suffix: '.min' }))
+    .pipe(plugins.cssnano())
+    .pipe(plugins.livereload())
     .pipe(gulp.dest('dist/styles'));
 });
 
@@ -43,16 +30,16 @@ gulp.task('scripts', function() {
     'src/scripts/**/*.js',
     '!src/scripts/**/*.spec.js'
   ])
-    .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(babel({
+    .pipe(plugins.eslint())
+    .pipe(plugins.eslint.format())
+    .pipe(plugins.babel({
       presets: ['es2015']
     }))
-    .pipe(concat('app.js'))
+    .pipe(plugins.concat('app.js'))
     .pipe(gulp.dest('dist/scripts'))
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(uglify())
-    .pipe(livereload())
+    .pipe(plugins.rename({ suffix: '.min' }))
+    .pipe(plugins.uglify())
+    .pipe(plugins.livereload())
     .pipe(gulp.dest('dist/scripts'));
 });
 
@@ -81,13 +68,13 @@ gulp.task('copy:vendor', function() {
 
 gulp.task('html', function() {
   return gulp.src('src/**/*.html')
-    .pipe(livereload())
+    .pipe(plugins.livereload())
     .pipe(gulp.dest('dist/'));
 });
 
 gulp.task('clean', function() {
   return gulp.src(['dist/'], {read: false})
-    .pipe(clean());
+    .pipe(plugins.clean());
 });
 
 gulp.task('server', function(done) {
@@ -95,10 +82,16 @@ gulp.task('server', function(done) {
 });
 
 gulp.task('default', ['clean'], function() {
-    runSequence('styles', 'scripts', 'copy:assets', 'copy:vendor', 'html', 'generate-service-worker-dist', 'server');
+    runSequence('build', 'server');
+});
+
+gulp.task('build', function(done) {
+    runSequence('styles', 'scripts', 'copy:assets', 'copy:vendor', 'html', 'generate-service-worker-dist', done);
 });
 
 gulp.task('test', function (done) {
+  var Server = require('karma').Server;
+
   new Server({
     configFile: __dirname + '/test/karma.conf.js',
     singleRun: true
@@ -106,13 +99,15 @@ gulp.task('test', function (done) {
 });
 
 gulp.task('tdd', function () {
+  var Server = require('karma').Server;
+
   new Server({
     configFile: __dirname + '/test/tdd.conf.js'
   }).start();
 });
 
 gulp.task('watch', ['default', 'tdd'], function() {
-  livereload.listen();
+  plugins.livereload.listen();
 
   // Watch .scss files
   gulp.watch('src/**/*.scss', function(event) {

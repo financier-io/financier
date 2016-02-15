@@ -1,9 +1,11 @@
 var express = require('express');
 var app = express();
 
-app.use(require('connect-livereload')({
-  port: 35729
-}));
+if (process.env.NODE_ENV === 'development') {
+  app.use(require('connect-livereload')({
+    port: 35729
+  }));  
+}
 
 app.use(express.static('dist'));
 app.use('/bower_components', express.static('bower_components'));
