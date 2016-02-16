@@ -16,7 +16,7 @@
   </div>
   <div class="account__tbody">
 
-    <div ng-repeat="transaction in accountCtrl.transactions">{{transaction}}</div>
+    <div ng-repeat="transaction in accountCtrl.transactions">{{transaction.transaction.value}}</div>
     <!-- <div ng-repeat="month in dbCtrl.allMonths">
       <div ng-repeat="(catId, category) in month.data.categories">
         <div ng-repeat="transaction in category.transactions"

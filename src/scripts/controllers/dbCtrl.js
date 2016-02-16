@@ -1,4 +1,4 @@
-angular.module('financier').controller('dbCtrl', function(db, $scope, $q, Income, Month, Transaction) {
+angular.module('financier').controller('dbCtrl', function(db, $scope, $q, Month) {
   this.getNewBudgetView = function(date) {
     date = new Date(date);
     $q.all([

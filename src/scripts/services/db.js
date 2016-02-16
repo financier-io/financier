@@ -10,8 +10,25 @@ angular.module('financier').provider('db', function(defaultCategories) {
     return {
       budget: budget(db),
       categories: categories(db),
+      accounts: accounts(db),
       _pouch: db
     };
+
+    function accounts(db) {
+      function all() {
+        return db.allDocs({
+          include_docs: true,
+          startkey: 'account_',
+          endkey: 'account_\uffff'
+        }).then(res => {
+          return res.rows.map(account => account.doc);
+        });
+      }
+
+      return {
+        all
+      };
+    }
 
     function categories(db) {
       function all() {

@@ -31,15 +31,23 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider)
       templateUrl: 'views/budget.html',
       controller: 'budgetCtrl as budgetCtrl'
     })
+    .state('app.db.account', {
+      url: '/account',
+      templateUrl: 'views/account.html',
+      controller: 'accountCtrl as accountCtrl',
+      resolve: {
+        accounts: db => {
+          return db.accounts.all();
+        },
+        budget: db => {
+          return db.budget.all();
+        }
+      }
+    })
     .state('app.db.reports', {
       url: '/reports',
       templateUrl: 'views/reports.html',
       controller: 'reportCtrl as reportCtrl'
-    })
-    .state('app.db.account', {
-      url: '/account',
-      templateUrl: 'views/account.html',
-      controller: 'accountCtrl as accountCtrl'
     });
 
   $locationProvider.html5Mode(true);
