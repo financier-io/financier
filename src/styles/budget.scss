@@ -1,3 +1,5 @@
+$budgetMonthCellPadding: 3px 5px 0;
+
 .budget {
   height: 100%;
 
@@ -74,12 +76,87 @@
 }
 
 .budget__month-row {
-  padding: 3px 5px 0;
+  padding: $budgetMonthCellPadding;
+  transition: color 250ms linear;
 
   &:hover {
     .budget__month-row-note {
       opacity: 1;
     }
+  }
+}
+
+.budget__month-row--inactive {
+  color: #aaa;
+}
+
+.budget__month-cell--input {
+  margin-right: -1px;
+  margin-bottom: -1px;
+
+  .budget__month-row--last & {
+    margin-bottom: 0;
+  }
+
+  // we want the input to emulate the cell
+  // ...
+  // prepare yoself before u wrek yoself
+  input {
+    // behave like a normal element
+    box-sizing: border-box;
+  
+    // cancel out padding from the cell
+    // we can't set padding from the cell to zero
+    // because it would wreck the layout
+    margin-left: -5px;
+    margin-top: -3px;
+    
+    // "effective" 100%, after adding margin
+    width: calc(100% + 10px);
+  
+    // now we add the padding back to the input
+    padding: $budgetMonthCellPadding;
+  
+    // this is weird. 2em "magic number" minus 1px
+    // for border collapsing (see the cell
+    // border-bottom: -1px)
+    height: calc(2em - 1px);
+
+    appearance: none;
+    background: none;
+    text-align: right;
+    border: 1px solid lighten(desaturate($primary, 10%), 20%);
+    
+    // should override the grey border of the cell to
+    // the right (after in the DOM, aka on top by default)
+    position: relative;
+    z-index: $zMonthCellInput;
+
+    &:hover,
+    &:focus {
+      // make sure all borders are seen of the
+      // important cell
+      z-index: $zMonthCellInputFocus;
+      border: 1px solid desaturate($primary, 10%);
+    }
+
+    &:focus {
+      text-align: left;
+      outline: none;
+    }
+  }
+}
+
+.budget__month-cell--display {
+  border-top: 1px dotted #ddd;
+  border-left: 1px dotted #ddd;
+
+  &.budget__month-end {
+    border-right: 1px dotted #ddd;
+  }
+
+  .budget__month-row--last & {
+    border-bottom: 1px dotted #ddd;
   }
 }
 
@@ -90,16 +167,6 @@
 .budget__category-sortable {
   // Drop area for categories when empty
   min-height: 3px;
-}
-
-
-.budget__cell-input {
-  background: none;
-  text-align: right;
-
-  &:focus {
-    text-align: left;
-  }
 }
 
 .budget__category-label {

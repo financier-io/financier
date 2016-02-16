@@ -10,8 +10,7 @@ angular.module('financier').controller('accountCtrl', function($q, $scope, $stat
 
         for (let j = 0; j < category.transactions.length; j++) {
           const transaction = category.transactions[i];
-          b++;
-          // console.log(transaction)
+
           this.transactions.push({
             transaction,
             month,

@@ -8,13 +8,7 @@
 .month-body__cell-head,
 .month-body__cell {
   text-align: right;
-  border-bottom: 1px solid $primary;
-
-  &:hover {
-    border-bottom: 1px solid darken($primary, 30%);
-  }
 }
-
 
 .month-body__month-body {
   background-color: $darkGray;
