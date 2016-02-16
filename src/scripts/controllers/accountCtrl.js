@@ -1,7 +1,11 @@
-angular.module('financier').controller('accountCtrl', function() {
+angular.module('financier').controller('accountCtrl', function($scope, $stateParams) {
+  if (!$stateParams.accountId) {
+    console.log($scope.dbCtrl)
+  }
+
   this.transactions = [];
   
-  for (var i = 0; i < 30; i++) {
+  for (var i = 0; i < 300; i++) {
     this.transactions.push({
       account: 'HelloWorld',
       date: new Date(),
@@ -12,12 +16,5 @@ angular.module('financier').controller('accountCtrl', function() {
       id: i
     });
   }
-
-  this.transactionEdit = null;
-  this.editTransaction = (t) => {
-    this.transactionEdit = angular.copy(t);
-  };
-
-
 
 });

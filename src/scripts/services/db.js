@@ -8,14 +8,14 @@ angular.module('financier').provider('db', function(defaultCategories) {
     });
 
     return {
-      budgets: db.allDocs().then(res => res.rows),
-      budget,
-      categories
+      budget: budget(db),
+      categories: categories(db),
+      _pouch: db
     };
 
-    function categories(categoriesDB) {
+    function categories(db) {
       function all() {
-        return categoriesDB.allDocs({
+        return db.allDocs({
           include_docs: true,
           startkey: 'masterCategory_',
           endkey: 'masterCategory_\uffff'
@@ -26,7 +26,7 @@ angular.module('financier').provider('db', function(defaultCategories) {
           for (var i = 0; i < ret.length; i++) {
             (function(i) {
               promises.push(
-                $q.when(categoriesDB.allDocs({
+                $q.when(db.allDocs({
                   include_docs: true,
                   keys: ret[i].categories
                 })
@@ -42,15 +42,22 @@ angular.module('financier').provider('db', function(defaultCategories) {
         });
       }
 
-      return categoriesDB.allDocs().then(res => {
+      return db.allDocs({
+        startkey: 'masterCategory_',
+        endkey: 'masterCategory_\uffff'
+      }).then(res => {
         if (res.total_rows === 0) {
           const promises = [];
 
           for (let i = 0; i < defaultCategories.length; i++) {
             promises.push(
-              $q.when(categoriesDB.bulkDocs(defaultCategories[i].categories)
+              $q.when(db.bulkDocs(defaultCategories[i].categories.map(function(cat) {
+                // add id namespace to category
+                cat._id = 'category_' + uuid();
+                return cat;
+              }))
               .then(res => {
-                return $q.when(categoriesDB.post({
+                return $q.when(db.post({
                   name: defaultCategories[i].name,
                   categories: res.map(r => r.id),
                   _id: 'masterCategory_' + uuid()
@@ -59,7 +66,7 @@ angular.module('financier').provider('db', function(defaultCategories) {
             );
           }
 
-          return $q.all(promises).then((r) => {
+          return $q.all(promises).then(r => {
             return all();
           });
         } else {
@@ -68,7 +75,7 @@ angular.module('financier').provider('db', function(defaultCategories) {
       });
     }
 
-    function budget(budgetDB) {
+    function budget(db) {
       function getFourMonthsFrom(date) {
         function nextDateID(date) {
           const [year, month] = date.split('-');
@@ -82,10 +89,13 @@ angular.module('financier').provider('db', function(defaultCategories) {
         const dateFrom = Month.createID(date);
         const dateUntil = Month.createID(moment(date).add(5, 'months').toDate());
 
-        return budgetDB.allDocs().then(res => {
+        return db.allDocs({
+          startkey: 'month_',
+          endkey: 'month_\uffff'
+        }).then(res => {
           if (res.rows.length) {
             // Read existing months, add those needed
-            const lastDate = res.rows[res.rows.length - 1].id;
+            const lastDate = res.rows[res.rows.length - 1].id.replace('month_', '');
             
             const newMonths = [];
             let currentDate = lastDate;
@@ -94,23 +104,23 @@ angular.module('financier').provider('db', function(defaultCategories) {
               currentDate = nextDateID(currentDate);
 
               newMonths.push({
-                _id: currentDate
+                _id: 'month_' + currentDate
               });
             }
 
-            const firstDate = res.rows[0].id;
+            const firstDate = res.rows[0].id.replace('month_', '');
             currentDate = firstDate;
 
             while(currentDate > dateFrom) {
               currentDate = previousDateID(currentDate);
 
               newMonths.push({
-                _id: currentDate
+                _id: 'month_' + currentDate
               });
             }
 
             if(newMonths.length) {
-              return budgetDB.bulkDocs(newMonths).then(res => {
+              return db.bulkDocs(newMonths).then(res => {
                 return all();
               });
             }
@@ -122,11 +132,13 @@ angular.module('financier').provider('db', function(defaultCategories) {
             let lastDate = dateFrom;
             while(lastDate < dateUntil) {
               newMonths.push({
-                _id: lastDate
+                _id: 'month_' + lastDate
               });
+
               lastDate = nextDateID(lastDate);
             }
-            return budgetDB.bulkDocs(newMonths).then(res => {
+
+            return db.bulkDocs(newMonths).then(res => {
               return all();
             });
           }
@@ -134,21 +146,22 @@ angular.module('financier').provider('db', function(defaultCategories) {
       }
 
       function all() {
-        return budgetDB.allDocs({
-          include_docs: true /* eslint camelcase:0 */
+        return db.allDocs({
+          include_docs: true, /* eslint camelcase:0 */
+          startkey: 'month_',
+          endkey: 'month_\uffff'
         }).then(res => {
           const months = res.rows.map(row => {
             return new Month(row.doc);
           });
 
           setUpLinks(months);
-
           return months;
         });
       }
 
       function put(month) {
-        return budgetDB.put(JSON.parse(JSON.stringify(month))).then(function(res) {
+        return db.put(JSON.parse(JSON.stringify(month))).then(function(res) {
           month.data._rev = res.rev;
         });
       }

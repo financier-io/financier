@@ -1,26 +1,17 @@
 angular.module('financier').controller('dbCtrl', function(db, $scope, $q, Income, Month, Transaction) {
-  const budgetDB = new PouchDB('financierer', {
-    adapter: 'idb'
-  });
-  const categoriesDB = new PouchDB('financierercats', {
-    adapter: 'idb'
-  });
-
-  const bdg = db.budget(budgetDB);
-
   this.getNewBudgetView = function(date) {
     date = new Date(date);
     $q.all([
-      bdg.getFourMonthsFrom(date),
-      db.categories(categoriesDB)
+      db.budget.getFourMonthsFrom(date),
+      db.categories
     ])
     .then(([allMonths, categories]) => {
       this.allMonths = allMonths;
-      allMonths[0].addTransaction(123, new Transaction({value: 23}));
+
       this.months = getView(date, allMonths);
       this.categories = categories;
 
-      bdg.propagateRolling(
+      db.budget.propagateRolling(
         categories
           .map((m => m.categories.map(c => c._id)))
           .reduce((a, b) => a.concat(b)), 
@@ -45,7 +36,7 @@ angular.module('financier').controller('dbCtrl', function(db, $scope, $q, Income
     const dateId = Month.createID(date);
 
     for (let i = allMonths.length - 1; i >= 0; i--) {
-      if (allMonths[i].data._id === dateId) {
+      if (allMonths[i].date === dateId) {
         return allMonths.slice(i, i + 5);
       }
     }
