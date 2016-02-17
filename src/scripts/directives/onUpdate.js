@@ -1,4 +1,4 @@
-angular.module('financier').directive('onUpdate', ($filter) => {
+angular.module('financier').directive('onUpdate', ($filter, $timeout) => {
   function link(scope, element, attrs) {
     let oldValue;
 
@@ -40,6 +40,10 @@ angular.module('financier').directive('onUpdate', ($filter) => {
       } else {
         element.val(oldValue);
       }
+
+      $timeout(() => {
+        element[0].select();
+      });
     });
   }
 
