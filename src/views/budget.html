@@ -38,7 +38,7 @@
           <div class="month-overview__month-total-subtext">Available to budget</div>
         </div>
       </div>
-      <div class="budget__tr month-overview__row">
+      <div class="budget__tr month-overview__row" disable-ng-animate>
         <div class="budget__th budget__month-row budget__category-label"></div>
         <div class="budget__th budget__month-row month-overview__cell-head"
              ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths">Budgeted<div>{{month.cache.totalBudget | intCurrency | currency}}</div></div>
@@ -48,7 +48,7 @@
             ng-repeat-end>Balance<div>{{month.cache.totalBalance | intCurrency | currency}}</div></div>
       </div>
     </div>
-    <div class="budget__tbody overflowable" ng-sortable="masterCategorySortable">
+    <div class="budget__tbody overflowable" ng-sortable="masterCategorySortable" disable-ng-animate>
       <div ng-repeat="masterCategory in dbCtrl.categories">
         <div class="budget__tr month-body__row month-body__row--master">
           <div class="budget__td budget__month-row budget__category-label">{{masterCategory.name}}</div>
