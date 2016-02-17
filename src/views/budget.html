@@ -77,7 +77,9 @@
               <input type="text"
                      class="budget__cell-input"
                      on-update="month.setBudget(row._id, model)"
-                     view-model="month.data.categories[row._id].budget"></div>
+                     view-model="month.data.categories[row._id].budget"
+                     ng-attr-tabindex="{{$index + 2}}"
+                     on-enter-go-next></div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--display"><!--0.00--></div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--display"
                 ng-class="{'budget__month-end': !$last,
