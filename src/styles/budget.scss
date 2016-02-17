@@ -137,7 +137,7 @@ $budgetMonthCellPadding: 3px 5px 0;
       // make sure all borders are seen of the
       // important cell
       z-index: $zMonthCellInputFocus;
-      border: 1px solid desaturate($primary, 10%);
+      border: 1px solid darken($primary, 20%);
     }
 
     &:focus {

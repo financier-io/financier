@@ -60,6 +60,7 @@ gulp.task('copy:vendor', function() {
     './bower_components/pouchdb/dist/pouchdb.memory.js',
     './bower_components/moment/min/moment-with-locales.js',
     './bower_components/angular-tooltips/dist/angular-tooltips.js',
+    './bower_components/mathjs/dist/math.js',
     './bower_components/lato/font/**',
     './node_modules/font-awesome/fonts/**'
   ])

@@ -29,7 +29,8 @@
     "pouchdb": "^5.2.0",
     "moment": "^2.11.2",
     "Sortable": "^1.4.2",
-    "angular-tooltips": "^1.0.7"
+    "angular-tooltips": "^1.0.7",
+    "mathjs": "^2.7.0"
   },
   "resolutions": {
     "angular": "1.4.9"

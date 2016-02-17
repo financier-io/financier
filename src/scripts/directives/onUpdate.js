@@ -13,29 +13,25 @@ angular.module('financier').directive('onUpdate', ($filter) => {
       }
     });
 
-    element.bind('input propertychange', () => {
-      const val = +element.val();
-
-      if (!isNaN(val) && angular.isNumber(val)) {
-        scope.onUpdate({
-          model: Math.round(val * 100) // float $2.50123 ==> int 250
-        });
-        scope.$apply();
-      }
-    });
-
     element.bind('blur', () => {
-      const val = +element.val();
-      if (angular.isNumber(val) && !isNaN(val)) {
-        oldValue = (+element.val()).toFixed(2);
-      } else {
+      try {
+        const val = math.eval(element.val());
+        oldValue = val.toFixed(2);
+      } catch(e) {
         oldValue = 0;
       }
-      if (oldValue && +oldValue !== 0) {
+
+      scope.onUpdate({
+        model: Math.round(oldValue * 100) // float $2.50123 ==> int 250
+      });
+
+      if (oldValue && oldValue !== 0) {
         element.val(oldValue);
       } else {
         element.val('');
       }
+
+      scope.$apply();
     });
 
     element.bind('focus', () => {
