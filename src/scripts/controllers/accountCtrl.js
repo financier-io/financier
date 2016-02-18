@@ -1,5 +1,6 @@
 angular.module('financier').controller('accountCtrl', function($q, $scope, $stateParams, budget, accounts, Transaction) {
   this.transactions = [];
+  this.totalDisplayed = 100;
 
   for (let i = 0; i < budget.length; i++) {
     const month = budget[i];
@@ -20,4 +21,8 @@ angular.module('financier').controller('accountCtrl', function($q, $scope, $stat
       }
     }
   }
+
+  this.viewMore = function() {
+    this.totalDisplayed += 100;
+  };
 });

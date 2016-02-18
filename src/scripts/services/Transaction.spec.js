@@ -56,7 +56,7 @@ describe("Transaction", function() {
   });
 
   it('should serialize to JSON', () => {
-    const tr = new Transaction({value: 5.22});
-    expect(JSON.stringify(tr)).toBe('{"value":5.22}')
+    const tr = new Transaction({value: 5.22, id: 'foobar'});
+    expect(JSON.stringify(tr)).toBe('{"value":5.22,"id":"foobar"}')
   })
 });

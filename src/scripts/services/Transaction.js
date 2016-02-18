@@ -1,22 +1,36 @@
-angular.module('financier').factory('Transaction', () => {
+angular.module('financier').factory('Transaction', uuid => {
   return class Transaction {
     constructor(obj, fn) {
       if (!angular.isNumber(obj.value)) {
         throw new TypeError('Must provide number');
       }
-      this.amount = obj.value;
+
+      if (!obj.id) {
+        this.id = uuid();
+      } else {
+        this.id = obj.id;
+      }
+
+      this._value = obj.value;
+      this.date = obj.date;
+      this.account = obj.account;
+      this.payee = obj.payee;
+      this.memo = obj.memo;
+      this.cleared = obj.cleared;
+      this.flag = obj.flag;
+
       this.fn = fn;
     }
 
     get value() {
-      return this.amount;
+      return this._value;
     }
 
-    set value(amount) {
-      const old = this.amount;
-      this.amount = amount;
+    set value(_value) {
+      const old = this._value;
+      this._value = _value;
 
-      this.fn && this.fn(amount, old);
+      this.fn && this.fn(_value, old);
     }
 
     subscribe(fn) {
@@ -25,7 +39,14 @@ angular.module('financier').factory('Transaction', () => {
 
     toJSON() {
       return {
-        value: this.amount
+        value: this._value,
+        date: this.date,
+        account: this.account,
+        payee: this.payee,
+        memo: this.memo,
+        cleared: this.cleared,
+        flag: this.flag,
+        id: this.id
       };
     }
   };

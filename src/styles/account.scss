@@ -1,40 +1,104 @@
-.account {
-  width: 100%;
-  table-layout: fixed;
-  border-collapse: collapse;
+// .account {
+//   width: 100%;
+//   table-layout: fixed;
+//   border-collapse: collapse;
+//   display: table;
 
-  font-size: 0.9em;
+//   font-size: 0.9em;
+// }
+
+// .account__thead {
+//   display: table-header-group;
+
+//   font-weight: bold;
+// }
+
+// .account__th {
+//   display: table-cell;
+// }
+
+// .account__tbody {
+//   display: table-row-group;
+// }
+
+// .account__tr {
+//   display: table-row;
+// }
+
+.account__tbody {
+  .account__tr {
+    &:nth-child(even) {
+      background-color: lighten($primary, 40%);
+    }
+  }
 }
 
-.account__cell--view {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.account {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    height: 100%;
+
+    font-size: 0.9em;
+}
+
+.account * {
+    box-sizing: inherit;
+    -moz-box-sizing: inherit;
+}
+
+.account__thead {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    font-weight: bold;
+    border-bottom: 1px solid $primary;
+}
+
+.account__tbody {
+    overflow-y: scroll;
+    display: inline-block;
+}
+
+.account__thead > .account__tr,
+.account__tbody > .account__tr,
+.account__tfoot > .account__tr {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.account__thead,
+.account__tfoot {
+    flex-shrink: 0;
+}
+
+.account__th,
+.account__tbody .account__td {
+    width: 20%; /* this can vary */
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+}
+
+.account__tfoot {
+    display: inline-block;
+}
+
+.account__tfoot .account__td {
+    width: 100%;
+    display: inline-block;
+}
+
+.account__td {
+  display: table-cell;
 }
 
 .account__cell-memo {
   width: 25%;
 }
 
-.account__input {
-  border: 0;
-  width: 100%;
-  padding: 0;
-}
-
-.account__inflow,
-.account__outflow {
-  width: 4em;
-}
-
-.account__row {
-  td {
-    border: 1px solid transaction;
-  }
-}
-
-.account__row--editing {
-  td {
-    border: 1px solid black;
-  }
-}

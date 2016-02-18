@@ -43,7 +43,7 @@ describe('Month', function() {
 
   it('should add a transaction', () => {
     const mo = new Month(defaultMonth());
-    const tr = new Transaction({value: 1233});
+    const tr = new Transaction({value: 1233, id: 'tr1'});
 
     mo.addTransaction(123, tr);
 
@@ -56,7 +56,8 @@ describe('Month', function() {
         123: {
           budget: 0,
           transactions: [{
-            value: 1233
+            value: 1233,
+            id: 'tr1'
           }]
         }
       },
@@ -238,12 +239,21 @@ describe('Month', function() {
 
     mo.setRolling(123, 6900);
 
-    mo.addTransaction(123, new Transaction({value: 1233}));
+    mo.addTransaction(123, new Transaction({
+      value: 1233,
+      id: 'tr1'
+    }));
     mo.setBudget(123, 5000);
-    mo.addTransaction(123, new Transaction({value: 3200}));
+    mo.addTransaction(123, new Transaction({
+      value: 3200,
+      id: 'tr2'
+    }));
     const tr = new Transaction({value: 10200});
     mo.addTransaction(124, tr);
-    mo.addTransaction(124, new Transaction({value: 10200}));
+    mo.addTransaction(124, new Transaction({
+      value: 10200,
+      id: 'tr3'
+    }));
     mo.removeTransaction(124, tr);
 
     var data = JSON.parse(JSON.stringify(mo));
@@ -255,15 +265,18 @@ describe('Month', function() {
         123: {
           budget: 5000,
           transactions: [{
-            value: 1233
+            value: 1233,
+            id: 'tr1'
           }, {
-            value: 3200
+            value: 3200,
+            id: 'tr2'
           }]
         },
         124: {
           budget: 0,
           transactions: [{
-            value: 10200
+            value: 10200,
+            id: 'tr3'
           }]
         }
       },
