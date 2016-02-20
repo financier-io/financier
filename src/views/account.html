@@ -1,11 +1,21 @@
-<ul class="account__accounts-list"
-    ng-repeat="account in accountCtrl.accounts">
-  <li class="account__all">All accounts</li>
-  <li class="account__account">{{account.name}}
-    <span class="{'account__account--positive': account.balance >= 0,
-                 'account__account--negative': account.balance < 0}">{{account.balance}}</span>
+<ul class="account__accounts-list">
+  <li class="account__account account__account--active">
+    All accounts
+    <span class="account__amount account__account--positive">$11,234.05</span>
   </li>
-  <li class="account__new">+</li>
+  <li class="account__account">
+    <span class="account__name">Checking</span>
+    <span class="account__amount account__account--positive">$1,234.05</span>
+  </li>
+  <li class="account__account">
+    <span class="account__name">Savings</span>
+    <span class="account__amount account__account--positive">$10,234.05</span>
+  </li>
+  <li class="account__account">
+    <span class="account__name">American Express</span>
+    <span class="account__amount account__account--positive">$1,234.93</span>
+  </li>
+  <li class="account__plus">+</li>
 </ul>
 
 <div class="account">

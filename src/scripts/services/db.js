@@ -2,7 +2,7 @@ angular.module('financier').provider('db', function(defaultCategories) {
   const that = this;
   that.adapter = 'idb';
 
-  this.$get = (Month, uuid, $q) => {
+  this.$get = (Month, Account, uuid, $q) => {
     const db = new PouchDB('financier', {
       adapter: that.adapter
     });
@@ -21,7 +21,7 @@ angular.module('financier').provider('db', function(defaultCategories) {
           startkey: 'account_',
           endkey: 'account_\uffff'
         }).then(res => {
-          return res.rows.map(account => account.doc);
+          return res.rows.map(account => new Account(account.doc));
         });
       }
 

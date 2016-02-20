@@ -102,3 +102,40 @@
   width: 25%;
 }
 
+.account__accounts-list {
+  background-color: $primary;
+  margin: 0;
+  padding: 0;
+  color: white;
+}
+
+.account__account {
+  display: inline-block;
+  list-style: none;
+  padding: 0 1rem;
+  margin: 0;
+
+  height: 3.2rem;
+  vertical-align: top;
+}
+
+.account__name {
+
+}
+
+.account__plus {
+    @extend .account__account;
+
+    font-size: 3em;
+    line-height: 1em;
+    font-weight: 300;
+}
+
+.account__amount {
+    display: block;
+    font-weight: 300;
+}
+
+.account__account--active {
+    background-color: lighten($primary, 10%);
+}
