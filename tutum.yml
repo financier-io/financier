@@ -1,0 +1,11 @@
+lb:
+  image: 'tutum/haproxy:latest'
+  links:
+    - web
+  ports:
+    - '80:80'
+  roles:
+    - global
+web:
+  image: 'aeharding/financier:latest'
+  target_num_containers: 2
