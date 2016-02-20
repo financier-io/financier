@@ -4,6 +4,7 @@
 
 [![Build Status](https://travis-ci.org/aeharding/financier.svg?branch=master)](https://travis-ci.org/aeharding/financier)
 [![Coverage Status](https://coveralls.io/repos/github/aeharding/financier/badge.svg?branch=master)](https://coveralls.io/github/aeharding/financier?branch=master)
+[![Docker automated build](https://img.shields.io/badge/docker.io-aeharding/financier-blue.svg)](https://hub.docker.com/r/aeharding/financier/)
 
 Officially hosted at [https://financier.io](https://financier.io)
  
