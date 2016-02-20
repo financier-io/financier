@@ -19,7 +19,14 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider)
     })
     .state('app', {
       url: '/app',
-      templateUrl: 'views/header.html'
+      templateUrl: 'views/header.html',
+      controller: $scope => {
+        angular.element(document.body).addClass('overflow-hidden');
+
+        $scope.$on('$destroy', () => {
+          angular.element(document.body).removeClass('overflow-hidden');
+        });
+      }
     })
     .state('app.db', {
       abstract: true,
