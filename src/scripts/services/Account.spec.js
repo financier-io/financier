@@ -93,7 +93,7 @@ describe('Account', function() {
 
       acc.name = 'My custom name';
 
-      expect(foo.change).toHaveBeenCalledWith(acc.data);
+      expect(foo.change).toHaveBeenCalledWith(acc);
     });
 
     it('type', () => {
@@ -113,7 +113,7 @@ describe('Account', function() {
 
       acc.type = 'DEBIT';
 
-      expect(foo.change).toHaveBeenCalledWith(acc.data);
+      expect(foo.change).toHaveBeenCalledWith(acc);
     });
 
   });

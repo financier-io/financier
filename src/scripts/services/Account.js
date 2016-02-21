@@ -43,7 +43,7 @@ angular.module('financier').factory('Account', uuid => {
     }
 
     emitChange() {
-      return this.fn && this.fn(this.toJSON());
+      return this.fn && this.fn(this);
     }
 
     toJSON() {

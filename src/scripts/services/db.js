@@ -21,12 +21,29 @@ angular.module('financier').provider('db', function(defaultCategories) {
           startkey: 'account_',
           endkey: 'account_\uffff'
         }).then(res => {
-          return res.rows.map(account => new Account(account.doc));
+          const accounts = [];
+
+          for (let i = 0; i < res.rows.length; i++) {
+            const acc = new Account(res.rows[i].doc);
+
+            acc.subscribe(put);
+
+            accounts.push(acc);
+          }
+
+          return accounts;
+        });
+      }
+
+      function put(account) {
+        return db.put(account.toJSON()).then(res => {
+          account.data._rev = res.rev;
         });
       }
 
       return {
-        all
+        all,
+        put
       };
     }
 
