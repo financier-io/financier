@@ -135,15 +135,15 @@ gulp.task('watch', ['default', 'tdd'], function() {
   });
 });
 
-
+var git = require('git-rev');
 var packageJson = require('./package.json');
 var path = require('path');
 var swPrecache = require('sw-precache');
 
 
-function writeServiceWorkerFile(rootDir, handleFetch, callback) {
+function writeServiceWorkerFile(sha, rootDir, handleFetch, callback) {
   var config = {
-    cacheId: packageJson.name,
+    cacheId: sha, // packageJson.name
     dynamicUrlToDependencies: {
       // 'dynamic/page1': [
       //   path.join(rootDir, 'views', 'layout.jade'),
@@ -188,6 +188,9 @@ function writeServiceWorkerFile(rootDir, handleFetch, callback) {
 }
 
 var DIST_DIR = 'dist';
+
 gulp.task('generate-service-worker-dist', function(callback) {
-  writeServiceWorkerFile(DIST_DIR, true, callback);
+  git.long(function (sha) {
+    writeServiceWorkerFile(sha, DIST_DIR, true, callback);
+  });
 });
