@@ -25,7 +25,7 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout) => {
         model: Math.round(oldValue * 100) // float $2.50123 ==> int 250
       });
 
-      if (oldValue && oldValue !== 0) {
+      if (oldValue && +oldValue !== 0) {
         element.val(oldValue);
       } else {
         element.val('');
