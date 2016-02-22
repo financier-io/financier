@@ -65,6 +65,12 @@ $budgetMonthCellPadding: 3px 5px 0;
 .budget__month-row-note {
   opacity: 0;
   transition: opacity 250ms linear;
+
+  cursor: pointer;
+
+  &.drop-enabled {
+    opacity: 1;
+  }
 }
 
 .budget__month-row-note--showing {

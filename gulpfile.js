@@ -14,7 +14,7 @@ gulp.task('styles', function() {
         'bower_components/normalize-css/',
         'bower_components/lato/scss/',
         'node_modules/font-awesome/scss/',
-        'bower_components/angular-tooltips/dist'
+        'bower_components/tether-drop/dist/css'
       ])
     }).on('error', plugins.sass.logError))
     .pipe(plugins.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
@@ -59,10 +59,11 @@ gulp.task('copy:vendor', function() {
     './bower_components/pouchdb/dist/pouchdb.js',
     './bower_components/pouchdb/dist/pouchdb.memory.js',
     './bower_components/moment/min/moment-with-locales.js',
-    './bower_components/angular-tooltips/dist/angular-tooltips.js',
     './bower_components/mathjs/dist/math.js',
     './bower_components/lato/font/**',
-    './node_modules/font-awesome/fonts/**'
+    './node_modules/font-awesome/fonts/**',
+    './bower_components/tether/dist/js/tether.js',
+    './bower_components/tether-drop/dist/js/drop.js'
   ])
     .pipe(gulp.dest('dist/vendor'));
 });

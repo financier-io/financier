@@ -2,7 +2,7 @@ angular.module('financier').provider('db', function(defaultCategories) {
   const that = this;
   that.adapter = 'idb';
 
-  this.$get = (Month, Account, uuid, $q) => {
+  this.$get = (Month, Account, Category, uuid, $q) => {
     const db = new PouchDB('financier', {
       adapter: that.adapter
     });
@@ -65,7 +65,14 @@ angular.module('financier').provider('db', function(defaultCategories) {
                   keys: ret[i].categories
                 })
                 .then(c => {
-                  ret[i].categories = c.rows.map(cat => cat.doc);
+                  ret[i].categories = [];
+
+                  for (let j = 0; j < c.rows.length; j++) {
+                    const cat = new Category(c.rows[j].doc);
+                    ret[i].categories.push(cat);
+                    cat.subscribe(putCategory);
+                  }
+
                   return ret[i];
                 }))
               );
@@ -73,6 +80,12 @@ angular.module('financier').provider('db', function(defaultCategories) {
             }(i));
           }
           return $q.all(promises);
+        });
+      }
+
+      function putCategory(category) {
+        return db.put(category.toJSON()).then(res => {
+          category.data._rev = res.rev;
         });
       }
 

@@ -283,6 +283,86 @@ describe('db', function() {
 
   });
 
+  // describe('categories', () => {
+
+  //   it('should get all that exist', (done) => {
+  //     db._pouch.bulkDocs([{
+  //       _id: 'category_foo',
+  //       name: 'foobar',
+  //       type: 'CREDIT'
+  //     }]).then(res => {
+  //       db.accounts.all().then(accounts => {
+  //         expect(accounts.length).toBe(1);
+
+  //         expect(accounts[0].constructor.name).toBe('Account');
+
+  //         expect(accounts[0].data._id).toBe('account_foo');
+  //         expect(accounts[0].name).toBe('foobar');
+  //         expect(accounts[0].type).toBe('CREDIT');
+
+  //         done();
+  //       });
+  //     });
+  //   });
+
+  //   it('should update database on type change', (done) => {
+  //     db._pouch.bulkDocs([{
+  //       _id: 'account_foo',
+  //       name: 'foobar',
+  //       type: 'CREDIT'
+  //     }]).then(res => {
+  //       db.accounts.all().then(accounts => {
+
+  //         accounts[0].type = 'DEBIT';
+
+  //         db._pouch.get('account_foo').then(r => {
+  //           expect(r.type).toBe('DEBIT');
+
+  //           done();
+  //         });
+
+  //       });
+  //     });
+  //   });
+
+  //   it('should update database on name change', (done) => {
+  //     db._pouch.bulkDocs([{
+  //       _id: 'account_foo',
+  //       name: 'foobar',
+  //       type: 'CREDIT'
+  //     }]).then(res => {
+  //       db.accounts.all().then(accounts => {
+
+  //         accounts[0].name = 'mynewname';
+
+  //         db._pouch.get('account_foo').then(r => {
+  //           expect(r.name).toBe('mynewname');
+
+  //           done();
+  //         });
+
+  //       });
+  //     });
+  //   });
+
+  //   it('put', done => {
+  //     db.accounts.put(new Account({
+  //       name: 'myNewAccount',
+  //       type: 'CREDIT'
+  //     })).then(() => {
+  //       db.accounts.all().then(accounts => {
+  //         expect(accounts[0].name).toBe('myNewAccount');
+  //         expect(accounts[0].type).toBe('CREDIT');
+  //         expect(accounts[0].data._id).toBeDefined();
+  //         expect(accounts[0].data._id.indexOf('account_')).toBe(0);
+
+  //         done();
+  //       });
+  //     });
+  //   });
+
+  // });
+
 
 
   // it('propagateRolling should call startRolling on first Month', (done) => {

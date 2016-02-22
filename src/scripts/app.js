@@ -2,7 +2,6 @@ let financier = angular.module('financier', [
   'ui.router',
   'ngResize',
   'ng-sortable',
-  '720kb.tooltips',
   'ngAnimate'
 ]);
 
