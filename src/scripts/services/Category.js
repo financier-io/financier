@@ -30,6 +30,10 @@ angular.module('financier').factory('Category', uuid => {
       this.emitChange();
     }
 
+    get _id() {
+      return this.data._id;
+    }
+
     subscribe(fn) {
       this.fn = fn;
     }

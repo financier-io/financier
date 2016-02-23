@@ -33,7 +33,7 @@ describe('Category', function() {
     it('generates _id if none exists', () => {
       let cat = new Category();
 
-      expect(cat.data._id).toBeDefined();
+      expect(cat._id).toBeDefined();
     });
 
     it('uses existing _id if exists', () => {
@@ -41,13 +41,13 @@ describe('Category', function() {
         _id: 'myid'
       });
 
-      expect(cat.data._id).toBe('myid');
+      expect(cat._id).toBe('myid');
     });
 
     it('prefixes _id in data with "category_"', () => {
       let cat = new Category();
 
-      expect(cat.data._id.indexOf('category_')).toEqual(0);
+      expect(cat._id.indexOf('category_')).toEqual(0);
     });
   });
 
@@ -70,6 +70,12 @@ describe('Category', function() {
       cat.note = 'newnote2';
 
       expect(cat.toJSON().note).toBe('newnote2');
+    });
+
+    it('cannot set _id', () => {
+      let cat = new Category();
+
+      expect(() => cat._id = 123).toThrow();
     });
   });
 
