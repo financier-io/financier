@@ -64,7 +64,7 @@ $budgetMonthCellPadding: 3px 5px 0;
 
 .budget__month-row-note {
   opacity: 0;
-  transition: opacity 250ms linear;
+  // transition: opacity 250ms linear;
 
   cursor: pointer;
 
@@ -97,6 +97,8 @@ $budgetMonthCellPadding: 3px 5px 0;
 }
 
 .budget__month-cell--input {
+  position: relative;
+
   margin-right: -1px;
   margin-bottom: -1px;
 
@@ -150,6 +152,19 @@ $budgetMonthCellPadding: 3px 5px 0;
       text-align: left;
       outline: none;
     }
+
+    &:focus + i {
+      opacity: 0 !important;
+    }
+  }
+
+  i {
+    position: absolute;
+    left: 0.5em;
+    top: 0;
+    line-height: 2em;
+
+    z-index: $zMonthCellNote;
   }
 }
 
