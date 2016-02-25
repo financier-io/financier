@@ -1,8 +1,6 @@
 angular.module('financier').directive('note', ($sce, $templateRequest, $templateCache, $compile) => {
 
-  function link(scope, element, attrs) {
-    scope.myNote = scope.note;
-
+  function link(scope, element, attrs, ngModelCtrl) {
     const templateUrl = $sce.getTrustedResourceUrl('/scripts/directives/note.html');
 
     $templateRequest(templateUrl).then(template => {
@@ -25,15 +23,18 @@ angular.module('financier').directive('note', ($sce, $templateRequest, $template
       });
 
       dropInstance.on('open', () => {
+        scope.myNote = ngModelCtrl.$viewValue;
+        scope.$apply();
+
         content.find('textarea')[0].focus();
       });
 
       dropInstance.on('close', () => {
-        scope.myNote = scope.note;
+        scope.myNote = ngModelCtrl.$viewValue;
       });
 
       scope.submit = note => {
-        scope.note = note;
+        ngModelCtrl.$setViewValue(note);
 
         dropInstance.close();
       };
@@ -46,9 +47,7 @@ angular.module('financier').directive('note', ($sce, $templateRequest, $template
 
   return {
     restrict: 'A',
-    link,
-    scope: {
-      note: '='
-    }
+    require: 'ngModel',
+    link
   };
 });

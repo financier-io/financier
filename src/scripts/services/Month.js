@@ -178,6 +178,22 @@ angular.module('financier').factory('Month', (Transaction, Income) => {
       return this.recordChangesFn && this.recordChangesFn(this);
     }
 
+    note(catId) {
+      this.createCategoryIfEmpty(catId);
+
+      return note => {
+
+        if (note) {
+          this.data.categories[catId].note = note;
+
+          return this.recordChangesFn && this.recordChangesFn(this);
+        } else {
+          return this.data.categories[catId].note;
+        }
+
+      };
+    }
+
     createCategoryIfEmpty(catId) {
       if (!this.data.categories[catId]) {
         this.data.categories[catId] = {
