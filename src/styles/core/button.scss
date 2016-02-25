@@ -12,3 +12,13 @@
     background-color: lighten($primary, 10%);
   }
 }
+
+.button--link-danger {
+  background: none;
+
+  color: $danger;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

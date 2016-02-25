@@ -183,7 +183,7 @@ angular.module('financier').factory('Month', (Transaction, Income) => {
 
       return note => {
 
-        if (note) {
+        if (angular.isDefined(note)) {
           this.data.categories[catId].note = note;
 
           return this.recordChangesFn && this.recordChangesFn(this);

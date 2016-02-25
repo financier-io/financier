@@ -2,5 +2,9 @@
   <textarea class="form__textarea form__textarea--monospace" cols="30" rows="4" ng-model="myNote" placeholder="Enter your notes here"></textarea>
   <br>
   <button class="button button--primary" ng-click="submit(myNote)"><i class="fa fa-check"></i> Save note</button>
+  <button class="tooltip__delete button button--link-danger"
+          ng-click="submit('')">
+    <i class="fa fa-minus-circle"></i>Delete note
+  </button>
 </div>
 

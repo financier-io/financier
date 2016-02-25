@@ -74,7 +74,7 @@ $budgetMonthCellPadding: 3px 5px 0;
 }
 
 .budget__month-row-note--showing {
-  opacity: 1;
+  opacity: 0.5;
 }
 
 .budget__month--current {
@@ -149,12 +149,7 @@ $budgetMonthCellPadding: 3px 5px 0;
     }
 
     &:focus {
-      text-align: left;
       outline: none;
-    }
-
-    &:focus + i {
-      opacity: 0 !important;
     }
   }
 
