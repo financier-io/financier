@@ -3,7 +3,8 @@
   <br>
   <button class="button button--primary" ng-click="submit(myNote)"><i class="fa fa-check"></i> Save note</button>
   <button class="tooltip__delete button button--link-danger"
-          ng-click="submit('')">
+          ng-click="submit('')"
+          ng-class="{'tooltip__delete--show': canDelete}">
     <i class="fa fa-minus-circle"></i>Delete note
   </button>
 </div>

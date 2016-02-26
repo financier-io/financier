@@ -3,13 +3,16 @@ angular.module('financier').controller('dbCtrl', function(db, $scope, $q, Month)
     date = new Date(date);
     $q.all([
       db.budget.getFourMonthsFrom(date),
-      db.categories
+      db.categories,
+      db.settings
     ])
-    .then(([allMonths, categories]) => {
+    .then(([allMonths, categories, settings]) => {
       this.allMonths = allMonths;
 
       this.months = getView(date, allMonths);
       this.categories = categories;
+
+      this.settings = settings;
 
       db.budget.propagateRolling(
         categories

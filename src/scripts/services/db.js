@@ -2,7 +2,14 @@ angular.module('financier').provider('db', function(defaultCategories) {
   const that = this;
   that.adapter = 'idb';
 
-  this.$get = (Month, Account, Category, uuid, $q) => {
+  this.$get = (
+    Settings,
+    Month,
+    Account,
+    Category,
+    uuid,
+    $q
+  ) => {
     const db = new PouchDB('financier', {
       adapter: that.adapter
     });
@@ -11,8 +18,34 @@ angular.module('financier').provider('db', function(defaultCategories) {
       budget: budget(db),
       categories: categories(db),
       accounts: accounts(db),
+      settings: settings(db),
       _pouch: db
     };
+
+    function settings(db) {
+      function put(settings) {
+        return db.put(settings.toJSON()).then(res => {
+          settings._rev = res.rev;
+        });
+      }
+
+      function get() {
+        return db.get('settings').then(res => {
+          const settings = new Settings(res);
+          settings.subscribe(put);
+
+          return settings;
+        });
+      }
+
+      return get().catch((e) => {
+        if (e.status !== 404) {
+          throw e;
+        }
+
+        return put(new Settings()).then(get);
+      });
+    }
 
     function accounts(db) {
       function all() {

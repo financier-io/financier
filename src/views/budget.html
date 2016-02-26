@@ -92,7 +92,11 @@
                  ng-model-options="{ getterSetter: true }"></i>
 
             </div>
-            <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--display"><!--0.00--></div>
+            <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--display"
+                 outflow-helper
+                 outflow-date="month.date"
+                 outflow-category="row.name"
+                 outflow-setting="dbCtrl.settings.hints.outflow"><!--0.00--></div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--display"
                 ng-class="{'budget__month-end': !$last,
                            'budget__month-row--inactive': !month.categoryCache[row._id].balance}"

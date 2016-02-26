@@ -4,7 +4,8 @@ angular.module('financier').directive('note', ($sce, $templateRequest, $template
     const templateUrl = $sce.getTrustedResourceUrl('/scripts/directives/note.html');
 
     $templateRequest(templateUrl).then(template => {
-      var content = $compile(template)(scope);
+      const wrap = angular.element('<div></div>').append(template);
+      const content = $compile(wrap)(scope);
 
       content.on('keypress keydown', e => {
         if (e.which === 27) {
@@ -18,12 +19,17 @@ angular.module('financier').directive('note', ($sce, $templateRequest, $template
         classes: 'drop-theme-arrows-bounce',
         openOn: 'click',
         tetherOptions: {
-          targetOffset: '0 -19px'
+          targetOffset: '0 -19px',
+          optimizations: {
+            moveElement: true
+          }
         }
       });
 
       dropInstance.on('open', () => {
         scope.myNote = ngModelCtrl.$viewValue;
+        scope.canDelete = ngModelCtrl.$viewValue &&
+                          ngModelCtrl.$viewValue.length;
         scope.$apply();
 
         content.find('textarea')[0].focus();

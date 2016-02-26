@@ -1,7 +1,21 @@
+.tooltip {
+  max-width: 20em;
+  font-size: 0.8rem;
+  line-height: 1.3em;
+}
+
 .tooltip__delete {
   float: right;
+
+  opacity: 0;
+
+  transition: opacity 200ms linear;
 
   i {
     padding-right: 0.25em;
   }
+}
+
+.tooltip__delete--show {
+  opacity: 1;
 }
