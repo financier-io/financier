@@ -1,12 +1,23 @@
-<div ng-if="serviceWorkerStatus.status === 'unsupported'">
-  <i class="fa fa-circle service-worker-status__icon service-worker-status__icon--red"></i>
-  <span class="service-worker-status__description">No offline support</span>
+<div ng-switch="serviceWorkerStatus.status">
+  <div ng-switch-when="unsupported">
+    <i class="fa fa-circle service-worker-status__icon service-worker-status__icon--red"></i>
+    <span class="service-worker-status__description">No offline support</span>
+  </div>
+  <div ng-switch-when="error">
+    <i class="fa fa-circle service-worker-status__icon service-worker-status__icon--red"></i>
+    <span class="service-worker-status__description">Error installing for offline support!</span>
+  </div>
+  <div ng-switch-when="refresh">
+    <span class="service-worker-status__description">New version available! Refresh to get it.</span>
+  </div>
+  <div ng-switch-when="installed">
+    <i class="fa fa-circle service-worker-status__icon service-worker-status__icon--green"></i>
+    <span class="service-worker-status__description">App downloaded</span>
+  </div>
+  <div ng-switch-when="installing">
+    <i class="fa fa-circle service-worker-status__icon service-worker-status__icon--yellow"></i>
+    <span class="service-worker-status__description">App downloading...</span>
+  </div>
 </div>
-<div ng-if="serviceWorkerStatus.status === 'cached'">
-  <i class="fa fa-circle service-worker-status__icon service-worker-status__icon--green"></i>
-  <span class="service-worker-status__description">App downloaded</span>
-</div>
-<div ng-if="serviceWorkerStatus.status === 'downloading'">
-  <i class="fa fa-circle service-worker-status__icon service-worker-status__icon--yellow"></i>
-  <span class="service-worker-status__description">App downloading...</span>
-</div>
+
+

@@ -1,16 +1,12 @@
-angular.module('financier').directive('serviceWorkerStatus', offline => {
-  function controller() {
-    if (offline) {
-      this.status = 'downloading';
-
-      offline.then(() => {
-        this.status = 'cached';
-      }).catch(() => {
-        this.status = 'cached';
+angular.module('financier').directive('serviceWorkerStatus', (offline, $timeout) => {
+  function controller($scope, $rootScope) {
+    $scope.$on('serviceWorker', (e, status) => {
+      $timeout(() => {
+        this.status = status;
       });
-    } else {
-      this.status = 'unsupported';
-    }
+    });
+
+    offline.install();
   }
 
   return {
