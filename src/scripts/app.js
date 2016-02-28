@@ -3,7 +3,15 @@ let financier = angular.module('financier', [
   'ngResize',
   'ng-sortable',
   'ngAnimate'
-]);
+]).run((offline, $rootScope, $timeout) => {
+  offline.register();
+
+  $rootScope.$on('serviceWorker', (e, status) => {
+    $timeout(() => {
+      $rootScope._offlineStatus = status;
+    });
+  });
+});
 
 financier.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
   // For any unmatched url, redirect to /state1

@@ -1,5 +1,5 @@
 angular.module('financier').factory('offline', $rootScope => {
-  function install() {
+  function register() {
     if ('serviceWorker' in navigator) {
       $rootScope.$broadcast('serviceWorker', 'installing');
 
@@ -53,7 +53,7 @@ angular.module('financier').factory('offline', $rootScope => {
   }
 
   return {
-    install
+    register
   };
 
 });
