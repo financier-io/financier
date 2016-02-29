@@ -1,0 +1,22 @@
+.staging-warning {
+  // TODO remove these 2 rules that make this
+  // go on top of box-shadow of welcome page
+  position: relative;
+  z-index: 2;
+  
+  background-color: $danger;
+  border-bottom: 2px solid $primary;
+  text-align: center;
+  color: $white;
+  line-height: 2;
+
+  button {
+    background: none;
+    border: 0;
+
+    position: absolute;
+    right: 0;
+    line-height: 2;
+    padding: 0 0.5em;
+  }
+}

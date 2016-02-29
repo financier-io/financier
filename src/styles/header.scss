@@ -1,8 +1,15 @@
 .header {
-  background-color: $primary;
-  height: $headerHeight;
-  line-height: $headerHeight;
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+}
+
+.header__header {
+  position: relative;
+
+  background-color: $primary;
+  line-height: 3rem;
   color: $white;
 
   a {
@@ -116,5 +123,8 @@
 }
 
 .header__body {
-  height: calc(100% - #{$headerHeight});
+  // height: calc(100% - #{$headerHeight});
+  position: relative;
+  width: 100%;
+  flex: 1;
 }

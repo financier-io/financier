@@ -1,24 +1,29 @@
 <header class="header">
-  <h1 class="header__title">
-    <a ui-sref="welcome">
-      <i class="fa fa-angle-left"></i>
-      <span>Financier</span>
-    </a>
-  </h1>
+  <staging-warning></staging-warning>
 
-  <ul class="header__links">
-    <li class="header__link" ui-sref-active="header__link--active">
-      <a ui-sref="app.db.budget"><i class="fa fa-tags"></i> Budget</a>
-    </li>
-    <li class="header__link" ui-sref-active="header__link--active">
-      <a ui-sref="app.db.account"><i class="fa fa-credit-card"></i> Accounts</a>
-    </li>
-    <li class="header__link" ui-sref-active="header__link--active">
-      <a ui-sref="app.db.reports"><i class="fa fa-pie-chart"></i> Reports</a>
-    </li>
+  <div class="header__header">
+    <h1 class="header__title">
+      <a ui-sref="welcome">
+        <i class="fa fa-angle-left"></i>
+        <span>Financier</span>
+      </a>
+    </h1>
 
-    <hr class="header__underline" />
-  </ul>
+    <ul class="header__links">
+      <li class="header__link" ui-sref-active="header__link--active">
+        <a ui-sref="app.db.budget"><i class="fa fa-tags"></i> Budget</a>
+      </li>
+      <li class="header__link" ui-sref-active="header__link--active">
+        <a ui-sref="app.db.account"><i class="fa fa-credit-card"></i> Accounts</a>
+      </li>
+      <li class="header__link" ui-sref-active="header__link--active">
+        <a ui-sref="app.db.reports"><i class="fa fa-pie-chart"></i> Reports</a>
+      </li>
+
+      <hr class="header__underline" />
+    </ul>
+  </div>
+
+  <div ui-view class="header__body"></div>
 </header>
 
-<div ui-view class="header__body"></div>

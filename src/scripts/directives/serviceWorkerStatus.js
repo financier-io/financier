@@ -1,4 +1,4 @@
-angular.module('financier').directive('serviceWorkerStatus', (offline, $timeout) => {
+angular.module('financier').directive('serviceWorkerStatus', () => {
   return {
     restrict: 'E',
     scope: false,
