@@ -144,7 +144,7 @@ var swPrecache = require('sw-precache');
 
 function writeServiceWorkerFile(sha, rootDir, handleFetch, callback) {
   var config = {
-    cacheId: sha, // packageJson.name
+    cacheId: packageJson.name,
     dynamicUrlToDependencies: {
       // 'dynamic/page1': [
       //   path.join(rootDir, 'views', 'layout.jade'),
