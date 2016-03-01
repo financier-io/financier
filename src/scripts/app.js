@@ -19,13 +19,13 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider)
   //
   // Now set up the states
   $stateProvider
-    .state('welcome', {
+    .state('budget', {
       url: '/',
-      templateUrl: 'views/welcome.html',
-      controller: 'welcomeCtrl as welcomeCtrl'
+      templateUrl: 'views/budgets.html',
+      controller: 'budgetsCtrl as budgetsCtrl'
     })
     .state('app', {
-      url: '/app',
+      url: '/:budgetId',
       templateUrl: 'views/header.html',
       controller: $scope => {
         angular.element(document.body).addClass('overflow-hidden');

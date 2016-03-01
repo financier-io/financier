@@ -1,4 +1,4 @@
-angular.module('financier').controller('welcomeCtrl', function($scope, $http) {
+angular.module('financier').controller('budgetsCtrl', function($scope, $http) {
   $http.get('/api/version').then(res => {
     this.version = res.data;
   });
