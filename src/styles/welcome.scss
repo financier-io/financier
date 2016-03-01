@@ -123,22 +123,3 @@
     transform: scale(1.025);
   }
 }
-
-.welcome__about {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 0 5px;
-
-  h1,
-  h2,
-  h3,
-  strong {
-    color: darken($primary, 10%); // little more readable for text
-  }
-}
-
-.welcome__warning {
-  color: red;
-  font-size: 1.1em;
-  text-align: center;
-}
