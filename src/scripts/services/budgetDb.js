@@ -1,5 +1,4 @@
-angular.module('financier').factory('Category', (
-  Settings,
+angular.module('financier').factory('budgetDb', (
   Month,
   Account,
   Category,
@@ -8,38 +7,12 @@ angular.module('financier').factory('Category', (
 
   return (db, budgetId) => {
     return {
-      settings: settings(db, budgetId),
       accounts: accounts(db, budgetId),
       categories: categories(db, budgetId),
       budget: budget(db, budgetId)
     };
   };
 
-  function settings(db) {
-    function put(settings) {
-      return db.put(settings.toJSON()).then(res => {
-        settings._rev = res.rev;
-      });
-    }
-
-    function get() {
-      return db.get('settings').then(res => {
-        const settings = new Settings(res);
-        settings.subscribe(put);
-
-        return settings;
-      });
-    }
-
-    return get().catch((e) => {
-      if (e.status !== 404) {
-        throw e;
-      }
-
-      return put(new Settings()).then(get);
-    });
-  }
-    
   function accounts(db, budgetId) {
     function all() {
       return db.allDocs({
