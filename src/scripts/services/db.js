@@ -9,7 +9,7 @@ angular.module('financier').provider('db', function(defaultCategories) {
 
     return {
       budget,
-      budgets,
+      budgets: budgets(),
       _pouch: db
     };
 
@@ -26,15 +26,14 @@ angular.module('financier').provider('db', function(defaultCategories) {
         });
       }
 
-      function get() {
+      function all() {
         return db.allDocs({
           include_docs: true,
-          startkey: 'budgets_',
-          endkey: 'budgets_\uffff'
+          startkey: 'budget_',
+          endkey: 'budget_\uffff'
         }).then(res => {
           const budgets = [];
-
-          for (let i = 0; i < res.rows.length.length; i++) {
+          for (let i = 0; i < res.rows.length; i++) {
             const budget = new Budget(res.rows[i].doc);
             budget.subscribe(put);
 

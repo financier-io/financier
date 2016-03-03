@@ -5,7 +5,8 @@ angular.module('financier').factory('Budget', uuid => {
         hints: {
           outflow: true
         },
-        _id: 'budget_' + uuid()
+        _id: 'budget_' + uuid(),
+        created: new Date().toUTCString()
       }, data);
 
       const that = this;
@@ -23,6 +24,19 @@ angular.module('financier').factory('Budget', uuid => {
 
     get hints() {
       return this._hints;
+    }
+
+    get name() {
+      return this.data.name;
+    }
+
+    set name(n) {
+      this.data.name = n;
+      this.emitChange();
+    }
+
+    get created() {
+      return new Date(this.data.created);
     }
 
     subscribe(fn) {
