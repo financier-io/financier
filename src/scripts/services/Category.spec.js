@@ -10,51 +10,51 @@ describe('Category', function() {
   describe('new Category()', () => {
     it('can take an existing database document', () => {
       let cat = new Category({
-        name: 'My cat'
+        name: 'My cat',
+        _id: 'b_123-123-123-123_category_321-321-321-321'
       });
 
       expect(cat.constructor.name).toBe('Category');
     });
 
-    it('can take no constructor params', () => {
-      let cat = new Category();
+    it('must have constructor params', () => {
+      expect(() => {
+        let cat = new Category();
+      }).toThrow();
+    });
 
-      expect(cat.constructor.name).toBe('Category');
+    it('must have _id', () => {
+      expect(() => {
+        let cat = new Category({
+          name: 'foobar'
+        });
+      }).toThrow();
     });
 
     it('exposes default name and no default note', () => {
-      let cat = new Category();
+      let cat = new Category({
+        _id: 'foo'
+      });
 
       expect(cat.note).not.toBeDefined();
-      expect(cat.data._id).toBeDefined(); // randomly generated if not provided
+      expect(cat.data._id).toBeDefined();
       expect(cat.name).toBe('New category');
-    });
-
-    it('generates _id if none exists', () => {
-      let cat = new Category();
-
-      expect(cat._id).toBeDefined();
     });
 
     it('uses existing _id if exists', () => {
       let cat = new Category({
-        _id: 'myid'
+        _id: 'b_123-123-123-123_category_321-321-321-321'
       });
 
-      expect(cat._id).toBe('myid');
-    });
-
-    it('prefixes _id in data with "category_"', () => {
-      let cat = new Category();
-
-      expect(cat._id.indexOf('category_')).toEqual(0);
+      expect(cat._id).toBe('b_123-123-123-123_category_321-321-321-321');
     });
   });
 
   describe('set', () => {
     it('name', () => {
       let cat = new Category({
-        name: 'My cat'
+        name: 'My cat',
+        _id: 'foobar'
       });
 
       cat.name = 'My custom name';
@@ -64,7 +64,8 @@ describe('Category', function() {
 
     it('note', () => {
       let cat = new Category({
-        note: 'newnote'
+        note: 'newnote',
+        _id: 'foobar'
       });
 
       cat.note = 'newnote2';
@@ -73,7 +74,9 @@ describe('Category', function() {
     });
 
     it('cannot set _id', () => {
-      let cat = new Category();
+      let cat = new Category({
+        _id: 'foobar'
+      });
 
       expect(() => cat._id = 123).toThrow();
     });
@@ -89,7 +92,8 @@ describe('Category', function() {
       spyOn(foo, 'change');
 
       let cat = new Category({
-        name: 'My catount'
+        name: 'My catount',
+        _id: 'foobar'
       });
 
       cat.subscribe(foo.change);
@@ -109,7 +113,8 @@ describe('Category', function() {
       spyOn(foo, 'change');
 
       let cat = new Category({
-        note: 'first note'
+        note: 'first note',
+        _id: 'foobar'
       });
 
       cat.subscribe(foo.change);

@@ -1,14 +1,16 @@
 angular.module('financier').factory('Category', uuid => {
   return class Category {
-    constructor(data = {
-      name: 'New category'
-    }) {
+    constructor(data) {
+      const myData = angular.extend({}, data, {
+        name: 'New category'
+      });
+
       // add _id if none exists
       if (!data._id) {
-        data._id = 'category_' + uuid();
+        throw new Error('Need an _id to create!');
       }
 
-      this.data = data;
+      this.data = myData;
 
     }
 

@@ -34,6 +34,7 @@ describe('Budget', function() {
 
       // should compare *that* second... may cause race conditions :/
       expect(sets.created.toUTCString()).toBe(new Date().toUTCString());
+      expect(sets.toJSON().created).toBe(new Date().toUTCString());
     });
 
     it('exposes default settings', () => {

@@ -17,8 +17,8 @@ angular.module('financier').factory('budgetDb', (
     function all() {
       return db.allDocs({
         include_docs: true,
-        startkey: 'account_',
-        endkey: 'account_\uffff'
+        startkey: `b_${budgetId}_account_`,
+        endkey: `b_${budgetId}_account_\uffff`
       }).then(res => {
         const accounts = [];
 
@@ -50,8 +50,8 @@ angular.module('financier').factory('budgetDb', (
     function all() {
       return db.allDocs({
         include_docs: true,
-        startkey: 'masterCategory_',
-        endkey: 'masterCategory_\uffff'
+        startkey: `b_${budgetId}_masterCategory_`,
+        endkey: `b_${budgetId}_masterCategory_\uffff`
       }).then(res => {
         const ret = res.rows.map(cat => cat.doc);
         const promises = [];
@@ -89,8 +89,8 @@ angular.module('financier').factory('budgetDb', (
     }
 
     return db.allDocs({
-      startkey: 'masterCategory_',
-      endkey: 'masterCategory_\uffff'
+      startkey: `b_${budgetId}_masterCategory_`,
+      endkey: `b_${budgetId}_masterCategory_\uffff`
     }).then(res => {
       if (res.total_rows === 0) {
         const promises = [];
@@ -99,14 +99,14 @@ angular.module('financier').factory('budgetDb', (
           promises.push(
             $q.when(db.bulkDocs(defaultCategories[i].categories.map(function(cat) {
               // add id namespace to category
-              cat._id = 'category_' + uuid();
+              cat._id = `b_${budgetId}_category_` + uuid();
               return cat;
             }))
             .then(res => {
               return $q.when(db.post({
                 name: defaultCategories[i].name,
                 categories: res.map(r => r.id),
-                _id: 'masterCategory_' + uuid()
+                _id: `b_${budgetId}_masterCategory_` + uuid()
               }));
             }))
           );
@@ -136,12 +136,12 @@ angular.module('financier').factory('budgetDb', (
       const dateUntil = Month.createID(moment(date).add(5, 'months').toDate());
 
       return db.allDocs({
-        startkey: 'month_',
-        endkey: 'month_\uffff'
+        startkey: `b_${budgetId}_month_`,
+        endkey: `b_${budgetId}_month_\uffff`
       }).then(res => {
         if (res.rows.length) {
           // Read existing months, add those needed
-          const lastDate = res.rows[res.rows.length - 1].id.replace('month_', '');
+          const lastDate = res.rows[res.rows.length - 1].id.replace(`b_${budgetId}_month_`, '');
           
           const newMonths = [];
           let currentDate = lastDate;
@@ -150,18 +150,18 @@ angular.module('financier').factory('budgetDb', (
             currentDate = nextDateID(currentDate);
 
             newMonths.push({
-              _id: 'month_' + currentDate
+              _id: `b_${budgetId}_month_` + currentDate
             });
           }
 
-          const firstDate = res.rows[0].id.replace('month_', '');
+          const firstDate = res.rows[0].id.replace(`b_${budgetId}_month_`, '');
           currentDate = firstDate;
 
           while(currentDate > dateFrom) {
             currentDate = previousDateID(currentDate);
 
             newMonths.push({
-              _id: 'month_' + currentDate
+              _id: `b_${budgetId}_month_` + currentDate
             });
           }
 
@@ -178,7 +178,7 @@ angular.module('financier').factory('budgetDb', (
           let lastDate = dateFrom;
           while(lastDate < dateUntil) {
             newMonths.push({
-              _id: 'month_' + lastDate
+              _id: `b_${budgetId}_month_` + lastDate
             });
 
             lastDate = nextDateID(lastDate);
@@ -194,8 +194,8 @@ angular.module('financier').factory('budgetDb', (
     function all() {
       return db.allDocs({
         include_docs: true, /* eslint camelcase:0 */
-        startkey: 'month_',
-        endkey: 'month_\uffff'
+        startkey: `b_${budgetId}_month_`,
+        endkey: `b_${budgetId}_month_\uffff`
       }).then(res => {
         const months = res.rows.map(row => {
           return new Month(row.doc);

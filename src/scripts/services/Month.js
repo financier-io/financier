@@ -11,8 +11,8 @@ angular.module('financier').factory('Month', (Transaction, Income) => {
         throw new TypeError('date is not Date!');
       }
 
-      // database prefix
-      this.date = data._id.replace('month_', '');
+      // database prefix TODO
+      this.date = data._id.slice(data._id.lastIndexOf('_') + 1);
 
       this.data = data;
       this.categoryCache = {};

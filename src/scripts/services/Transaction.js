@@ -6,6 +6,7 @@ angular.module('financier').factory('Transaction', uuid => {
       }
 
       if (!obj.id) {
+        // TODO
         this.id = uuid();
       } else {
         this.id = obj.id;

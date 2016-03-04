@@ -29,8 +29,8 @@ angular.module('financier').provider('db', function(defaultCategories) {
       function all() {
         return db.allDocs({
           include_docs: true,
-          startkey: 'budget_',
-          endkey: 'budget_\uffff'
+          startkey: `b_${budgetId}_budget_`,
+          endkey: `b_${budgetId}_budget_\uffff`
         }).then(res => {
           const budgets = [];
           for (let i = 0; i < res.rows.length; i++) {

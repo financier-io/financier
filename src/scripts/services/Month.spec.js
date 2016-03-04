@@ -4,7 +4,7 @@ describe('Month', function() {
   function defaultMonth() {
     return {
       categories: {},
-      _id: Month.createID(new Date('1/1/15'))
+      _id: 'b_123-123-123-123_' + Month.createID(new Date('1/1/15'))
     };
   }
 
@@ -38,7 +38,11 @@ describe('Month', function() {
   });
 
   it('should serialize to JSON', () => {
-    expect(JSON.stringify(new Month(defaultMonth()))).toBe('{"categories":{},"income":[],"_id":"2015-01-01"}');
+    expect(JSON.stringify(new Month(defaultMonth()))).toBe('{"categories":{},"income":[],"_id":"b_123-123-123-123_2015-01-01"}');
+  });
+
+  it('should properly extract date', () => {
+    expect(new Month(defaultMonth()).date).toBe('2015-01-01');
   });
 
   it('should add a transaction', () => {
@@ -51,7 +55,7 @@ describe('Month', function() {
     var categoryCache = JSON.parse(JSON.stringify(mo.categoryCache));
 
     expect(data).toEqual({
-      _id: '2015-01-01',
+      _id: 'b_123-123-123-123_2015-01-01',
       categories: {
         123: {
           budget: 0,
@@ -160,7 +164,7 @@ describe('Month', function() {
     var categoryCache = JSON.parse(JSON.stringify(mo.categoryCache));
 
     expect(data).toEqual({
-      _id: Month.createID(new Date('1/1/15')),
+      _id: 'b_123-123-123-123_2015-01-01',
       categories: {
         123: {
           budget: 1200,
@@ -189,7 +193,7 @@ describe('Month', function() {
     var categoryCache = JSON.parse(JSON.stringify(mo.categoryCache));
 
     expect(data).toEqual({
-      _id: Month.createID(new Date('1/1/15')),
+      _id: 'b_123-123-123-123_2015-01-01',
       categories: {
         123: {
           budget: 0,
@@ -216,7 +220,7 @@ describe('Month', function() {
     var categoryCache = JSON.parse(JSON.stringify(mo.categoryCache));
 
     expect(data).toEqual({
-      _id: Month.createID(new Date('1/1/15')),
+      _id: 'b_123-123-123-123_2015-01-01',
       categories: {
         123: {
           budget: 0,
@@ -260,7 +264,7 @@ describe('Month', function() {
     var categoryCache = JSON.parse(JSON.stringify(mo.categoryCache));
 
     expect(data).toEqual({
-      _id: Month.createID(new Date('1/1/15')),
+      _id: 'b_123-123-123-123_2015-01-01',
       categories: {
         123: {
           budget: 5000,
