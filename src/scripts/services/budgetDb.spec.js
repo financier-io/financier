@@ -1,15 +1,21 @@
 describe('budgetDb', function() {
-  let db, budgetDb, Month, Account;
+  let db, budgetDb, month, account, Month, Account;
+
+  // a random budget uuid to test with
+  const UUID = '555-555-555-555';
 
   beforeEach(module('financier', dbProvider => {
     dbProvider.adapter = 'memory';
   }));
 
-  beforeEach(inject((_db_, _budgetDb_, _Month_, _Account_) => {
+  beforeEach(inject((_db_, _budgetDb_, _month_, _account_) => {
     db = _db_;
     budgetDb = _budgetDb_;
-    Month = _Month_;
-    Account = _Account_;
+    month = _month_;
+    account = _account_;
+
+    Month = month(UUID);
+    Account = account(UUID);
   }));
 
   afterEach(done => {
@@ -28,7 +34,7 @@ describe('budgetDb', function() {
     let budget;
 
     beforeEach(() => {
-      budget = budgetDb(db._pouch, '1234');
+      budget = budgetDb(db._pouch, UUID);
     });
 
     it('should return an object', () => {
@@ -37,11 +43,11 @@ describe('budgetDb', function() {
     
     it('should return with object', (done) => {
       db._pouch.bulkDocs([{
-        _id: 'month_' + Month.createID(new Date('1/1/15'))
+        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('1/1/15'))
       }, {
-        _id: 'month_' + Month.createID(new Date('2/1/15'))
+        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('2/1/15'))
       }, {
-        _id: 'month_' + Month.createID(new Date('3/1/15'))
+        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('3/1/15'))
       }]).then(res => {
         const arr = budget.budget.all().then(arr => {
           expect(arr.length).toBe(3);
@@ -53,11 +59,11 @@ describe('budgetDb', function() {
 
     it('should return with object', (done) => {
       db._pouch.bulkDocs([{
-        _id: 'month_' + Month.createID(new Date('1/1/15'))
+        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('1/1/15'))
       }, {
-        _id: 'month_' + Month.createID(new Date('2/1/15'))
+        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('2/1/15'))
       }, {
-        _id: 'month_' + Month.createID(new Date('3/1/15'))
+        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('3/1/15'))
       }]).then(res => {
         const arr = budget.budget.all().then(arr => {
           expect(arr[0].categoryCache[123]).toBeUndefined();
@@ -77,11 +83,11 @@ describe('budgetDb', function() {
 
     it('should update database', (done) => {
       db._pouch.bulkDocs([{
-        _id: 'month_' + Month.createID(new Date('1/1/15'))
+        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('1/1/15'))
       }, {
-        _id: 'month_' + Month.createID(new Date('2/1/15'))
+        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('2/1/15'))
       }, {
-        _id: 'month_' + Month.createID(new Date('3/1/15'))
+        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('3/1/15'))
       }]).then(res => {
         const arr = budget.budget.all().then(arr => {
           arr[0].setBudget(123, 23).then(res => {
@@ -97,11 +103,11 @@ describe('budgetDb', function() {
 
     it('should provide Months until specified date', (done) => {
       db._pouch.bulkDocs([{
-        _id: 'month_' + Month.createID(new Date('1/1/15'))
+        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('1/1/15'))
       }, {
-        _id: 'month_' + Month.createID(new Date('2/1/15'))
+        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('2/1/15'))
       }, {
-        _id: 'month_' + Month.createID(new Date('3/1/15'))
+        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('3/1/15'))
       }]).then(res => {
         budget.budget.getFourMonthsFrom(new Date('6/1/15')).then(res => {
           const expectedDates = [
@@ -121,7 +127,7 @@ describe('budgetDb', function() {
           expect(res.length).toBe(expectedDates.length);
 
           for (var i = 0; i < res.length; i++) {
-            expect(res[i].data._id).toBe('month_' + expectedDates[i]);
+            expect(res[i].data._id).toBe('b_555-555-555-555_month_' + expectedDates[i]);
           }
 
           done();
@@ -131,11 +137,11 @@ describe('budgetDb', function() {
 
     it('should provide Months before specified date', (done) => {
       db._pouch.bulkDocs([{
-        _id: 'month_' + Month.createID(new Date('4/1/15'))
+        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('4/1/15'))
       }, {
-        _id: 'month_' + Month.createID(new Date('5/1/15'))
+        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('5/1/15'))
       }, {
-        _id: 'month_' + Month.createID(new Date('6/1/15'))
+        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('6/1/15'))
       }]).then(res => {
         budget.budget.getFourMonthsFrom(new Date('1/1/15')).then(res => {
           const expectedDates = [
@@ -150,7 +156,7 @@ describe('budgetDb', function() {
           expect(res.length).toBe(expectedDates.length);
 
           for (var i = 0; i < res.length; i++) {
-            expect(res[i].data._id).toBe('month_' + expectedDates[i]);
+            expect(res[i].data._id).toBe('b_555-555-555-555_month_' + expectedDates[i]);
           }
 
           done();
@@ -160,11 +166,11 @@ describe('budgetDb', function() {
 
     it('should provide existing if populating to that last month', (done) => {
       db._pouch.bulkDocs([{
-        _id: 'month_' + Month.createID(new Date('1/1/15'))
+        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('1/1/15'))
       }, {
-        _id: 'month_' + Month.createID(new Date('2/1/15'))
+        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('2/1/15'))
       }, {
-        _id: 'month_' + Month.createID(new Date('3/1/15'))
+        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('3/1/15'))
       }]).then(res => {
         budget.budget.getFourMonthsFrom(new Date('3/1/15')).then(res => {
           const expectedDates = [
@@ -181,7 +187,7 @@ describe('budgetDb', function() {
           expect(res.length).toBe(expectedDates.length);
 
           for (var i = 0; i < res.length; i++) {
-            expect(res[i].data._id).toBe('month_' + expectedDates[i]);
+            expect(res[i].data._id).toBe('b_555-555-555-555_month_' + expectedDates[i]);
           }
 
           done();
@@ -202,7 +208,7 @@ describe('budgetDb', function() {
         expect(res.length).toBe(expectedDates.length);
 
         for (var i = 0; i < res.length; i++) {
-          expect(res[i].data._id).toBe('month_' + expectedDates[i]);
+          expect(res[i].data._id).toBe('b_555-555-555-555_month_' + expectedDates[i]);
         }
 
         done();
@@ -214,12 +220,12 @@ describe('budgetDb', function() {
     let budget;
 
     beforeEach(() => {
-      budget = budgetDb(db._pouch, '1234');
+      budget = budgetDb(db._pouch, UUID);
     });
 
     it('should get all that exist', (done) => {
       db._pouch.bulkDocs([{
-        _id: 'account_foo',
+        _id: 'b_555-555-555-555_account_foo',
         name: 'foobar',
         type: 'CREDIT'
       }]).then(res => {
@@ -228,7 +234,7 @@ describe('budgetDb', function() {
 
           expect(accounts[0].constructor.name).toBe('Account');
 
-          expect(accounts[0].data._id).toBe('account_foo');
+          expect(accounts[0].data._id).toBe('b_555-555-555-555_account_foo');
           expect(accounts[0].name).toBe('foobar');
           expect(accounts[0].type).toBe('CREDIT');
 
@@ -239,7 +245,7 @@ describe('budgetDb', function() {
 
     it('should update database on type change', (done) => {
       db._pouch.bulkDocs([{
-        _id: 'account_foo',
+        _id: 'b_555-555-555-555_account_foo',
         name: 'foobar',
         type: 'CREDIT'
       }]).then(res => {
@@ -247,7 +253,7 @@ describe('budgetDb', function() {
 
           accounts[0].type = 'DEBIT';
 
-          db._pouch.get('account_foo').then(r => {
+          db._pouch.get('b_555-555-555-555_account_foo').then(r => {
             expect(r.type).toBe('DEBIT');
 
             done();
@@ -259,7 +265,7 @@ describe('budgetDb', function() {
 
     it('should update database on name change', (done) => {
       db._pouch.bulkDocs([{
-        _id: 'account_foo',
+        _id: 'b_555-555-555-555_account_foo',
         name: 'foobar',
         type: 'CREDIT'
       }]).then(res => {
@@ -267,7 +273,7 @@ describe('budgetDb', function() {
 
           accounts[0].name = 'mynewname';
 
-          db._pouch.get('account_foo').then(r => {
+          db._pouch.get('b_555-555-555-555_account_foo').then(r => {
             expect(r.name).toBe('mynewname');
 
             done();
@@ -286,7 +292,7 @@ describe('budgetDb', function() {
           expect(accounts[0].name).toBe('myNewAccount');
           expect(accounts[0].type).toBe('CREDIT');
           expect(accounts[0].data._id).toBeDefined();
-          expect(accounts[0].data._id.indexOf('account_')).toBe(0);
+          expect(accounts[0].data._id.indexOf('b_555-555-555-555_account_')).toBe(0);
 
           done();
         });

@@ -5,7 +5,7 @@ angular.module('financier').factory('Budget', uuid => {
         hints: {
           outflow: true
         },
-        _id: `b_${budgetId}_budget_` + uuid(),
+        _id: `budget_` + uuid(),
         created: new Date().toUTCString()
       }, data);
 

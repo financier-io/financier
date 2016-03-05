@@ -1,13 +1,31 @@
-describe('Category', function() {
-  let Category;
+describe('category', function() {
+  let category;
 
   beforeEach(module('financier'));
 
-  beforeEach(inject(_Category_ => {
-    Category = _Category_;
+  beforeEach(inject(_category_ => {
+    category = _category_;
   }));
 
+  it('is a function', () => {
+    expect(typeof category).toBe('function');
+  });
+
+  it('takes a budgetId and returns Category', () => {
+    const Category = category('123-123-123-123');
+
+    const cat = new Category();
+
+    expect(cat.constructor.name).toBe('Category');
+  });
+
   describe('new Category()', () => {
+    let Category;
+
+    beforeEach(() => {
+      Category = category('111-111-111-111');
+    });
+
     it('can take an existing database document', () => {
       let cat = new Category({
         name: 'My cat',
@@ -17,18 +35,10 @@ describe('Category', function() {
       expect(cat.constructor.name).toBe('Category');
     });
 
-    it('must have constructor params', () => {
-      expect(() => {
-        let cat = new Category();
-      }).toThrow();
-    });
+    it('can create default id', () => {
+      let cat = new Category();
 
-    it('must have _id', () => {
-      expect(() => {
-        let cat = new Category({
-          name: 'foobar'
-        });
-      }).toThrow();
+      expect(cat._id.indexOf('b_111-111-111-111_category_')).toBe(0);
     });
 
     it('exposes default name and no default note', () => {
@@ -51,6 +61,12 @@ describe('Category', function() {
   });
 
   describe('set', () => {
+    let Category;
+
+    beforeEach(() => {
+      Category = category('111-111-111-111');
+    });
+
     it('name', () => {
       let cat = new Category({
         name: 'My cat',
@@ -83,6 +99,11 @@ describe('Category', function() {
   });
 
   describe('pub/sub', () => {
+    let Category;
+
+    beforeEach(() => {
+      Category = category('111-111-111-111');
+    });
 
     it('name', () => {
       const foo = {

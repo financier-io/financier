@@ -1,53 +1,63 @@
-angular.module('financier').factory('Account', uuid => {
-  return class Account {
-    constructor(data = {
-      name: 'New account',
-      type: 'DEBIT'
-    }) {
-      // add _id if none exists
-      if (!data._id) {
-        data._id = 'account_' + uuid();
+angular.module('financier').factory('account', uuid => {
+  return budgetId => {
+    return class Account {
+      constructor(data = {
+        name: 'New account',
+        type: 'DEBIT'
+      }) {
+        // add _id if none exists
+        if (!data._id) {
+          data._id = `b_${budgetId}_account_${uuid()}`;
+        }
+
+        this.data = data;
+
       }
 
-      this.data = data;
+      get name() {
+        return this.data.name;
+      }
 
-    }
+      set name(n) {
+        this.data.name = n;
+        this.emitChange();
+      }
 
-    get name() {
-      return this.data.name;
-    }
+      /*
+        TYPE is one of:
 
-    set name(n) {
-      this.data.name = n;
-      this.emitChange();
-    }
+        'DEBIT'
+        'CREDIT'
+      */
 
-    /*
-      TYPE is one of:
+      get type() {
+        return this.data.type;
+      }
 
-      'DEBIT'
-      'CREDIT'
-    */
+      set type(t) {
+        this.data.type = t;
+        this.emitChange();
+      }
 
-    get type() {
-      return this.data.type;
-    }
+      subscribe(fn) {
+        this.fn = fn;
+      }
 
-    set type(t) {
-      this.data.type = t;
-      this.emitChange();
-    }
+      emitChange() {
+        return this.fn && this.fn(this);
+      }
 
-    subscribe(fn) {
-      this.fn = fn;
-    }
+      toJSON() {
+        return this.data;
+      }
 
-    emitChange() {
-      return this.fn && this.fn(this);
-    }
+      static get startKey() {
+        return `b_${budgetId}_account_`;
+      }
 
-    toJSON() {
-      return this.data;
-    }
+      static get endKey() {
+        return `b_${budgetId}_account_\uffff`;
+      }
+    };
   };
 });

@@ -1,13 +1,24 @@
-describe('Account', function() {
-  let Account;
+describe('account', function() {
+  let account, Account;
 
   beforeEach(module('financier'));
 
-  beforeEach(inject(_Account_ => {
-    Account = _Account_;
+  beforeEach(inject(_account_ => {
+    account = _account_;
+
+    Account = account('111-111-111-111');
   }));
 
   describe('new Account()', () => {
+    describe('static methods', () => {
+      it('startKey', () => {
+        expect(Account.startKey).toBe('b_111-111-111-111_account_');
+      });
+      it('startKey', () => {
+        expect(Account.endKey).toBe('b_111-111-111-111_account_\uffff');
+      });
+    });
+
     it('can take an existing database document', () => {
       let acc = new Account({
         name: 'My account',
@@ -45,10 +56,10 @@ describe('Account', function() {
       expect(acc.data._id).toBe('myid');
     });
 
-    it('prefixes _id in data with "account_"', () => {
+    it('prefixes _id properly', () => {
       let acc = new Account();
 
-      expect(acc.data._id.indexOf('account_')).toEqual(0);
+      expect(acc.data._id.indexOf('b_111-111-111-111_account_')).toEqual(0);
     });
   });
 
