@@ -1,0 +1,86 @@
+.ngdialog.ngdialog-theme-default .ngdialog-content {
+  background-color: $white;
+  border-radius: 0;
+  border: 5px solid $primary;
+}
+
+
+.modal {
+  line-height: 1.5;
+
+  h1,
+  h2,
+  h3 {
+    text-align: center;
+  }
+
+  form {
+    label {
+      display: block;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      padding: 5px;
+      font-size: 1rem;
+      line-height: 1.5em;
+      border: 1px solid #bbb;
+
+      &:invalid {
+        border-color: $danger;
+      }
+
+      &:focus {
+        border-color: $primary;
+        outline: 0;
+      }
+    }
+  }
+
+  footer {
+    display: flex;
+    margin-top: 1em;
+    text-align: center;
+
+    button {
+      flex: 1;
+      padding: 0.8em 0;
+      font-size: 0.8rem;
+      background-color: $white;
+      border: 1px solid #bbb;
+      text-transform: uppercase;
+
+      transition: background-color 250ms ease;
+      
+      &:focus {
+        outline: 0;
+      }
+
+      &:hover {
+        background-color: #eee;
+      }
+
+      &:active {
+        background-color: #ddd;
+      }
+
+      &.primary {
+        background-color: $primary;
+        color: $white;
+
+        &:hover {
+          background-color: lighten($primary, 10%);
+        }
+
+        &:active {
+          background-color: darken($primary, 10%);
+        }
+      }
+
+      &:not(:last-child) {
+        margin-right: 2em;
+      }
+    }
+  }
+}

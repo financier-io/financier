@@ -2,7 +2,9 @@ let financier = angular.module('financier', [
   'ui.router',
   'ngResize',
   'ng-sortable',
-  'ngAnimate'
+  'ngAnimate',
+  'ngDialog',
+  'ngMessages'
 ]).run((offline, $rootScope, $timeout) => {
   offline.register();
 
@@ -13,7 +15,7 @@ let financier = angular.module('financier', [
   });
 });
 
-financier.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+financier.config(function($stateProvider, $urlRouterProvider, $locationProvider, ngDialogProvider) {
   // For any unmatched url, redirect to /state1
   // $urlRouterProvider.otherwise('/state1');
   //
@@ -23,6 +25,21 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider)
       url: '/',
       templateUrl: 'views/budgets.html',
       controller: 'budgetsCtrl as budgetsCtrl'
+    })
+    .state('budget.create', {
+      url: 'create-budget',
+      onEnter: function(ngDialog, $state) {
+        ngDialog.open({
+          template: 'views/modal/createBudget.html',
+          controller: 'createBudgetCtrl',
+          controllerAs: 'createBudgetCtrl'
+        }).closePromise.finally(function() {
+            $state.go('^');
+        });
+      },
+      onExit: function(ngDialog) {
+          ngDialog.closeAll();
+      }
     })
     .state('app', {
       url: '/:budgetId',
@@ -65,4 +82,8 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider)
     });
 
   $locationProvider.html5Mode(true);
+
+  ngDialogProvider.setDefaults({
+    className: 'ngdialog-theme-default modal'
+  });
 });

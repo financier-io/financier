@@ -1,0 +1,21 @@
+<h2>New budget</h2>
+
+<form name="createBudgetForm" ng-submit="createBudgetCtrl.submit(name)">
+  <label>
+    <input type="text"
+           name="name"
+           ng-model="name"
+           placeholder="My budget name"
+           required>
+    <div ng-messages="createBudgetForm.name.$error"
+         ng-if="createBudgetForm.name.$touched">
+      <div ng-message="required" class="message">This is required!</div>
+    </div>
+  </label>
+  
+  <footer>
+    <button class="primary"
+            ng-disabed="createBudgetForm.$invalid">Create budget</button>
+    <button ng-click="closeThisDialog()">Cancel</button>
+  </footer>
+</form>

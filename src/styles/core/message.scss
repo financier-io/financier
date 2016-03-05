@@ -1,0 +1,40 @@
+$messageHeight: 1.2em;
+$messageHeightAnimationTime: 250ms;
+
+.message {
+    @include animation(heightEnter $messageHeightAnimationTime ease);
+    @include animation-fill-mode(forwards);
+
+    overflow: hidden;
+    line-height: $messageHeight;
+    font-size: 0.9em;
+    color: $danger;
+}
+
+.message.ng-leave {
+    @include animation(heightLeave $messageHeightAnimationTime ease);
+    @include animation-fill-mode(forwards);
+}
+
+@include keyframes(heightEnter) {
+    0% {
+        height: 0;
+    }
+
+    100% {
+        height: $messageHeight;
+    }
+}
+@include keyframes(heightLeave) {
+    100% {
+        height: 0;
+    }
+
+    0% {
+        height: $messageHeight;
+    }
+}
+
+.message.ng-enter-active {
+    height: 100px;
+}

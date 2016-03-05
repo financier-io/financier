@@ -14,7 +14,8 @@ gulp.task('styles', function() {
         'bower_components/normalize-css/',
         'bower_components/lato/scss/',
         'node_modules/font-awesome/scss/',
-        'bower_components/tether-drop/dist/css'
+        'bower_components/tether-drop/dist/css',
+        'bower_components/ng-dialog/css'
       ])
     }).on('error', plugins.sass.logError))
     .pipe(plugins.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
@@ -52,6 +53,7 @@ gulp.task('copy:vendor', function() {
   return gulp.src([
     './bower_components/angular/angular.js',
     './bower_components/angular-animate/angular-animate.js',
+    './bower_components/angular-messages/angular-messages.js',
     './bower_components/angular-ui-router/release/angular-ui-router.js',
     './bower_components/ng-resize/dist/ng-resize.js',
     './bower_components/Sortable/Sortable.js',
@@ -63,7 +65,8 @@ gulp.task('copy:vendor', function() {
     './bower_components/lato/font/**',
     './node_modules/font-awesome/fonts/**',
     './bower_components/tether/dist/js/tether.js',
-    './bower_components/tether-drop/dist/js/drop.js'
+    './bower_components/tether-drop/dist/js/drop.js',
+    './bower_components/ng-dialog/js/ngDialog.js'
   ])
     .pipe(gulp.dest('dist/vendor'));
 });

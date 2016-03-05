@@ -30,7 +30,9 @@
     "moment": "^2.11.2",
     "Sortable": "^1.4.2",
     "mathjs": "^2.7.0",
-    "tether-drop": "^1.4.2"
+    "tether-drop": "^1.4.2",
+    "ng-dialog": "^0.5.8",
+    "angular-messages": "1.4.9"
   },
   "resolutions": {
     "angular": "1.4.9"

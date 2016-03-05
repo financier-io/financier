@@ -5,8 +5,10 @@
   
   <ul>
     <li ng-repeat="budget in budgetsCtrl.budgets">
-      <a ui-sref="app.db.budget({budgetId: budget.id})">{{budget.name}} <i class="fa fa-angle-right"></i></a>
+      <a ui-sref="app.db.budget({budgetId: budget._id})">{{budget.name}} <i class="fa fa-angle-right"></i></a>
     </li>
   </ul>
+
+  <button ui-sref="budget.create">Create a new budget</button>
 
 </div>
