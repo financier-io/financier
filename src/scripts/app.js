@@ -67,11 +67,11 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
       templateUrl: 'views/account.html',
       controller: 'accountCtrl as accountCtrl',
       resolve: {
-        accounts: db => {
-          return db.accounts.all();
+        accounts: ($stateParams, db) => {
+          return db.budget($stateParams.budgetId).accounts.all();
         },
-        budget: db => {
-          return db.budget.all();
+        budget: ($stateParams, db) => {
+          return db.budget($stateParams.budgetId).budget.all();
         }
       }
     })
