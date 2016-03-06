@@ -33,12 +33,12 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
           template: 'views/modal/createBudget.html',
           controller: 'createBudgetCtrl',
           controllerAs: 'createBudgetCtrl'
-        }).closePromise.finally(function() {
-            $state.go('^');
+        }).closePromise.finally(() => {
+          $state.go('^');
         });
       },
-      onExit: function(ngDialog) {
-          ngDialog.closeAll();
+      onExit: ngDialog => {
+        ngDialog.closeAll();
       }
     })
     .state('app', {

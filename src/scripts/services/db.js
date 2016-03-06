@@ -26,9 +26,18 @@ angular.module('financier').provider('db', function() {
         });
       }
 
+      function get(budgetId) {
+        return db.get(budgetId).then(b => {
+          const budget = new Budget(b);
+          budget.subscribe(put);
+
+          return budget;
+        });
+      }
+
       function all() {
         return db.allDocs({
-          include_docs: true,
+          include_docs: true, /* eslint camelcase:0 */
           startkey: `budget_`,
           endkey: `budget_\uffff`
         }).then(res => {
@@ -46,7 +55,8 @@ angular.module('financier').provider('db', function() {
 
       return {
         all,
-        put
+        put,
+        get
       };
     }
 
