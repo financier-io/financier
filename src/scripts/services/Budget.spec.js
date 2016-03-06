@@ -24,6 +24,7 @@ describe('Budget', function() {
 
       expect(sets.hints.outflow).toBe(false);
       expect(sets.name).toBe('foobar');
+      expect(sets.created instanceof Date).toBe(true);
       expect(sets.created.toISOString()).toBe('2016-03-03T03:16:34.882Z');
     });
 
@@ -34,7 +35,7 @@ describe('Budget', function() {
 
       // should compare *that* second... may cause race conditions :/
       expect(sets.created.toUTCString()).toBe(new Date().toUTCString());
-      expect(sets.toJSON().created).toBe(new Date().toUTCString());
+      expect(new Date(sets.toJSON().created).toISOString()).toBe(new Date().toISOString());
     });
 
     it('exposes default settings', () => {
@@ -63,6 +64,27 @@ describe('Budget', function() {
 
       expect(foo.change).toHaveBeenCalledWith(sets);
       expect(sets.toJSON()._deleted).toBe(true);
+  });
+
+  it('can be opened', () => {
+      const foo = {
+        change: () => {},
+      };
+
+      spyOn(foo, 'change');
+
+      let sets = new Budget();
+
+      sets.subscribe(foo.change);
+
+      expect(foo.change).not.toHaveBeenCalled();
+      expect(sets.toJSON().opened).not.toBeDefined();
+
+      sets.open();
+
+      expect(foo.change).toHaveBeenCalledWith(sets);
+      expect(sets.opened instanceof Date).toBe(true);
+      expect(new Date(sets.toJSON().opened).toISOString()).toBe(new Date().toISOString());
   });
 
   describe('set', () => {

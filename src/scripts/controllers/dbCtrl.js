@@ -1,5 +1,7 @@
 angular.module('financier').controller('dbCtrl', function(db, $stateParams, $scope, $q, month) {
   const b = db.budget($stateParams.budgetId);
+
+
   const Month = month($stateParams.budgetId);
 
   this.getNewBudgetView = function(date) {
@@ -13,6 +15,9 @@ angular.module('financier').controller('dbCtrl', function(db, $stateParams, $sco
       this.allMonths = allMonths;
       this.categories = categories;
       this.budget = budget;
+
+      // Triggers 'last opened on' date change
+      budget.open();
 
       this.months = getView(date, allMonths);
 

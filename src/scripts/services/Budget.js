@@ -6,7 +6,7 @@ angular.module('financier').factory('Budget', uuid => {
           outflow: true
         },
         _id: `budget_` + uuid(),
-        created: new Date().toUTCString()
+        created: new Date().toISOString()
       }, data);
 
       const that = this;
@@ -42,6 +42,17 @@ angular.module('financier').factory('Budget', uuid => {
     remove() {
       this.data._deleted = true;
       return this.emitChange();
+    }
+
+    // call this when you've actually 'opened'
+    // the budget (to show 'last opened on')
+    open() {
+      this.data.opened = new Date().toISOString();
+      return this.emitChange();
+    }
+
+    get opened() {
+      return new Date(this.data.opened);
     }
 
     subscribe(fn) {

@@ -37,6 +37,7 @@
     bottom: 0;
     left: 0;
 
+    text-align: center;
     text-decoration: none;
 
     transition: all 250ms ease;
@@ -46,13 +47,28 @@
       outline: 0;
 
       background-color: $primary;
-      color: $white;
+
+      &,
+      .budget__budget-opened {
+        color: $white;
+      }
+
+      .budget__budget-opened {
+        opacity: 0.6;
+      }
 
       .budget__budget-new-icon {
         transform: scale(1.5);
       }
     }
   } 
+}
+
+.budget__budget-opened {
+  font-size: 0.9em;
+  color: #aaa;
+
+  transition: all 250ms ease;
 }
 
 .budget__budget-close {

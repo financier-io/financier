@@ -6,6 +6,7 @@ angular.module('financier').controller('budgetsCtrl', function($scope, $http, db
   const getBudgets = () => {
     db.budgets.all().then(res => {
       this.budgets = res;
+
       $scope.$apply();
     });
   };

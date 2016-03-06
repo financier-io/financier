@@ -5,9 +5,11 @@
   <div class="budgets__title">Your budgets</div>
   
   <ul class="budgets__budgets">
-    <li ng-repeat="budget in budgetsCtrl.budgets" class="budgets__budget">
+    <li ng-repeat="budget in budgetsCtrl.budgets | orderBy: '-opened'"
+        class="budgets__budget">
       <a ui-sref="app.db.budget({budgetId: budget._id})">
         <div class="budget__budget-name">{{budget.name}}</div>
+        <div class="budget__budget-opened"><sub>Last opened</sub><br>{{budget.opened | timeAgo}}</div>
 
         <div class="budget__budget-close" ng-click="budgetsCtrl.remove(budget, $event)" tabindex="0">✕</div>
       </a>
