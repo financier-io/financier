@@ -84,7 +84,7 @@ describe('Budget', function() {
 
       expect(foo.change).toHaveBeenCalledWith(sets);
       expect(sets.opened instanceof Date).toBe(true);
-      expect(new Date(sets.toJSON().opened).toISOString()).toBe(new Date().toISOString());
+      expect(new Date(sets.toJSON().opened).toUTCString()).toBe(new Date().toUTCString());
   });
 
   describe('set', () => {
