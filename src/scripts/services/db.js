@@ -1,8 +1,8 @@
-angular.module('financier').provider('db', function(defaultCategories) {
+angular.module('financier').provider('db', function() {
   const that = this;
   that.adapter = 'idb';
 
-  this.$get = Budget => {
+  this.$get = (Budget, budgetDb) => {
     const db = new PouchDB('financier', {
       adapter: that.adapter
     });

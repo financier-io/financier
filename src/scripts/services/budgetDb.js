@@ -3,18 +3,38 @@ angular.module('financier').factory('budgetDb', (
   account,
   category,
   uuid,
-  $q) => {
+  $q,
+  defaultCategories) => {
 
   return (db, budgetId) => {
     const Month = month(budgetId);
     const Account = account(budgetId);
     const Category = category(budgetId);
 
-    return {
+    const ret = {
       accounts: accounts(),
       categories: categories(),
-      budget: budget()
+      budget: budget(),
+      remove
     };
+
+    function remove() {
+      ret.accounts.removeAll();
+      ret.budget.removeAll();
+
+      // TODO... refactor
+      ret.categories.then(categories => {
+        for (let i = 0; i < categories.length; i++) {
+
+          for (let j = 0; j < categories[i].categories.length; j++) {
+            categories[i].categories[j].remove();
+          }
+          // categories[i].remove(); // TODO
+        }
+      });
+    }
+
+    return ret;
 
 
     function accounts() {
@@ -44,9 +64,18 @@ angular.module('financier').factory('budgetDb', (
         });
       }
 
+      function removeAll() {
+        return all().then(accounts => {
+          for (let i = 0; i < accounts.length; i++) {
+            accounts[i].remove();
+          }
+        });
+      }
+
       return {
         all,
-        put
+        put,
+        removeAll
       };
     }
 
@@ -96,7 +125,7 @@ angular.module('financier').factory('budgetDb', (
         startkey: `b_${budgetId}_masterCategory_`,
         endkey: `b_${budgetId}_masterCategory_\uffff`
       }).then(res => {
-        if (res.total_rows === 0) {
+        if (res.rows.length === 0) {
           const promises = [];
 
           for (let i = 0; i < defaultCategories.length; i++) {
@@ -189,6 +218,14 @@ angular.module('financier').factory('budgetDb', (
         });
       }
 
+      function removeAll() {
+        return all().then(months => {
+          for (let i = 0; i < months.length; i++) {
+            months[i].remove();
+          }
+        });
+      }
+
       function all() {
         return db.allDocs({
           include_docs: true, /* eslint camelcase:0 */
@@ -235,6 +272,7 @@ angular.module('financier').factory('budgetDb', (
       return {
         all,
         put,
+        removeAll,
         getFourMonthsFrom,
         propagateRolling
       };

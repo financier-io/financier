@@ -39,6 +39,11 @@ angular.module('financier').factory('Budget', uuid => {
       return new Date(this.data.created);
     }
 
+    remove() {
+      this.data._deleted = true;
+      return this.emitChange();
+    }
+
     subscribe(fn) {
       this.fn = fn;
     }

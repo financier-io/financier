@@ -94,6 +94,26 @@ describe('month', function() {
       });
     });
 
+    it('can be removed', () => {
+        const foo = {
+          change: () => {},
+        };
+
+        spyOn(foo, 'change');
+
+        const mo = new Month(defaultMonth());
+
+        mo.subscribeRecordChanges(foo.change);
+
+        expect(foo.change).not.toHaveBeenCalled();
+        expect(mo.toJSON()._deleted).not.toBeDefined();
+
+        mo.remove();
+
+        expect(foo.change).toHaveBeenCalledWith(mo);
+        expect(mo.toJSON()._deleted).toBe(true);
+    });
+
     it('should notify subscribeNextMonth & subscribeRecordChanges upon transaction add/update/remove', () => {
       const foo = {
         subscribeNextMonth: () => {},

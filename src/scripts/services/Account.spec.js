@@ -63,6 +63,29 @@ describe('account', function() {
     });
   });
 
+  it('can be removed', () => {
+      const foo = {
+        change: () => {},
+      };
+
+      spyOn(foo, 'change');
+
+      let acc = new Account({
+        type: 'CREDIT'
+      });
+
+      acc.subscribe(foo.change);
+
+      expect(foo.change).not.toHaveBeenCalled();
+      expect(acc.toJSON()._deleted).not.toBeDefined();
+
+      acc.remove();
+
+      expect(foo.change).toHaveBeenCalledWith(acc);
+      expect(acc.toJSON()._deleted).toBe(true);
+
+  });
+
   describe('set', () => {
     it('name', () => {
       let acc = new Account({

@@ -39,6 +39,11 @@ angular.module('financier').factory('account', uuid => {
         this.emitChange();
       }
 
+      remove() {
+        this.data._deleted = true;
+        return this.emitChange();
+      }
+
       subscribe(fn) {
         this.fn = fn;
       }

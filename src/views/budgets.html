@@ -5,7 +5,8 @@
   
   <ul>
     <li ng-repeat="budget in budgetsCtrl.budgets">
-      <a ui-sref="app.db.budget({budgetId: budget._id})">{{budget.name}} <i class="fa fa-angle-right"></i></a>
+      <a ui-sref="app.db.budget({budgetId: budget._id})">{{budget.name}} <i class="fa fa-angle-right"></i></a></a>
+      <i class="fa fa-remove" ng-click="budgetsCtrl.remove(budget)"></i>
     </li>
   </ul>
 

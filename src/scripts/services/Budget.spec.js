@@ -45,6 +45,26 @@ describe('Budget', function() {
     });
   });
 
+  it('can be removed', () => {
+      const foo = {
+        change: () => {},
+      };
+
+      spyOn(foo, 'change');
+
+      let sets = new Budget();
+
+      sets.subscribe(foo.change);
+
+      expect(foo.change).not.toHaveBeenCalled();
+      expect(sets.toJSON()._deleted).not.toBeDefined();
+
+      sets.remove();
+
+      expect(foo.change).toHaveBeenCalledWith(sets);
+      expect(sets.toJSON()._deleted).toBe(true);
+  });
+
   describe('set', () => {
     it('hints.outflow', () => {
       let sets = new Budget();

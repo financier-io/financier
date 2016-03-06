@@ -1,4 +1,6 @@
-angular.module('financier').controller('budgetCtrl', function($rootScope, $scope, Month) {
+angular.module('financier').controller('budgetCtrl', function($stateParams, $rootScope, $scope, month) {
+  const Month = month($stateParams.budgetId);
+
   this.showMonths = 0;
   $rootScope.$on('budget:columns', (event, months) => {
     this.showMonths = (months >= 5 ? 5 : months) || 1;

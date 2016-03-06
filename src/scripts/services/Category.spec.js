@@ -60,6 +60,30 @@ describe('category', function() {
     });
   });
 
+  it('can be removed', () => {
+      const Category = category('111-111-111-111');
+
+      const foo = {
+        change: () => {},
+      };
+
+      spyOn(foo, 'change');
+
+      let cat = new Category({
+        _id: 'foo'
+      });
+
+      cat.subscribe(foo.change);
+
+      expect(foo.change).not.toHaveBeenCalled();
+      expect(cat.toJSON()._deleted).not.toBeDefined();
+
+      cat.remove();
+
+      expect(foo.change).toHaveBeenCalledWith(cat);
+      expect(cat.toJSON()._deleted).toBe(true);
+  });
+
   describe('set', () => {
     let Category;
 

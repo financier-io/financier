@@ -33,6 +33,11 @@ angular.module('financier').factory('category', uuid => {
         return this.data._id;
       }
 
+      remove() {
+        this.data._deleted = true;
+        return this.emitChange();
+      }
+
       subscribe(fn) {
         this.fn = fn;
       }

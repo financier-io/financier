@@ -1,4 +1,4 @@
-angular.module('financier').controller('budgetsCtrl', function($scope, $http, db, ngDialog) {
+angular.module('financier').controller('budgetsCtrl', function($scope, $http, db, ngDialog, budgetDb) {
   // $http.get('/api/version').then(res => {
   //   this.version = res.data;
   // });
@@ -8,7 +8,6 @@ angular.module('financier').controller('budgetsCtrl', function($scope, $http, db
       this.budgets = res;
       $scope.$apply();
     });
-
   };
 
   getBudgets();
@@ -16,5 +15,14 @@ angular.module('financier').controller('budgetsCtrl', function($scope, $http, db
   $scope.$on('budgets:update', () => {
     getBudgets();
   });
+
+  this.remove = budget => {
+    const budgetId = budget._id;
+
+    budget.remove().then(() => {
+      getBudgets();
+    });
+    db.budget(budgetId).remove();
+  };
 
 });

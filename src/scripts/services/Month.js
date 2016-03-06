@@ -200,6 +200,11 @@ angular.module('financier').factory('month', (Transaction, Income) => {
         };
       }
 
+      remove() {
+        this.data._deleted = true;
+        return this.recordChangesFn && this.recordChangesFn(this);
+      }
+
       createCategoryIfEmpty(catId) {
         if (!this.data.categories[catId]) {
           this.data.categories[catId] = {
