@@ -1,15 +1,26 @@
 <staging-warning></staging-warning>
+<!-- <service-worker-status></service-worker-status> -->
 
-<div class="welcome">
-  <service-worker-status></service-worker-status>
+<div class="budgets">
+  <div class="budgets__title">Your budgets</div>
   
-  <ul>
-    <li ng-repeat="budget in budgetsCtrl.budgets">
-      <a ui-sref="app.db.budget({budgetId: budget._id})">{{budget.name}} <i class="fa fa-angle-right"></i></a></a>
-      <i class="fa fa-remove" ng-click="budgetsCtrl.remove(budget)"></i>
+  <ul class="budgets__budgets">
+    <li ng-repeat="budget in budgetsCtrl.budgets" class="budgets__budget">
+      <a ui-sref="app.db.budget({budgetId: budget._id})">
+        <div class="budget__budget-name">{{budget.name}}</div>
+
+        <div class="budget__budget-close" ng-click="budgetsCtrl.remove(budget, $event)" tabindex="0">✕</div>
+      </a>
+    </li>
+
+    <li class="budgets__budget">
+      <a ui-sref="budget.create">
+        <div>
+          <div class="budget__budget-new-icon">+</div>
+        </div>
+      </a>
     </li>
   </ul>
 
-  <button ui-sref="budget.create">Create a new budget</button>
 
 </div>

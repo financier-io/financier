@@ -16,7 +16,10 @@ angular.module('financier').controller('budgetsCtrl', function($scope, $http, db
     getBudgets();
   });
 
-  this.remove = budget => {
+  this.remove = (budget, e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     const budgetId = budget._id;
 
     budget.remove().then(() => {
