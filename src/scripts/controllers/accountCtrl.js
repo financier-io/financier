@@ -1,4 +1,4 @@
-angular.module('financier').controller('accountCtrl', function($q, $scope, $stateParams, budget, accounts, Transaction) {
+angular.module('financier').controller('accountCtrl', function($q, $scope, budget, accounts, Transaction) {
   this.transactions = [];
   this.totalDisplayed = 100;
 

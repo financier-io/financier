@@ -1,23 +1,24 @@
-angular.module('financier').controller('dbCtrl', function(db, $stateParams, $scope, $q, month) {
-  const b = db.budget($stateParams.budgetId);
+angular.module('financier').controller('dbCtrl', function(db, myBudget, $stateParams, $scope, $q, month) {
+  const budgetId = $stateParams.budgetId;
 
+  const b = db.budget(budgetId);
+  const Month = month(budgetId);
 
-  const Month = month($stateParams.budgetId);
+  this.budget = myBudget;
+
+  // Triggers 'last opened on' date change
+  this.budget.open();
+
 
   this.getNewBudgetView = function(date) {
     date = new Date(date);
     $q.all([
       b.budget.getFourMonthsFrom(date),
-      b.categories,
-      db.budgets.get($stateParams.budgetId)
+      b.categories
     ])
-    .then(([allMonths, categories, budget]) => {
+    .then(([allMonths, categories]) => {
       this.allMonths = allMonths;
       this.categories = categories;
-      this.budget = budget;
-
-      // Triggers 'last opened on' date change
-      budget.open();
 
       this.months = getView(date, allMonths);
 

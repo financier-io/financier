@@ -44,6 +44,14 @@ describe('Budget', function() {
       expect(sets._id.indexOf('budget_')).toBe(0);
       expect(sets.hints.outflow).toBe(true);
     });
+
+    it('returns id from _id', () => {
+      let sets = new Budget({
+        _id: 'budget_222-222-222-222'
+      });
+
+      expect(sets.id).toBe('222-222-222-222');
+    });
   });
 
   it('can be removed', () => {

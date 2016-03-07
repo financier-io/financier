@@ -26,8 +26,8 @@ angular.module('financier').provider('db', function() {
         });
       }
 
-      function get(budgetId) {
-        return db.get(budgetId).then(b => {
+      function get(id) {
+        return db.get(`budget_${id}`).then(b => {
           const budget = new Budget(b);
           budget.subscribe(put);
 

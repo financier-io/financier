@@ -55,7 +55,12 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
     .state('app.db', {
       abstract: true,
       controller: 'dbCtrl as dbCtrl',
-      template: '<ui-view state-class class="view-transition"></ui-view>'
+      template: '<ui-view state-class class="view-transition"></ui-view>',
+      resolve: {
+        myBudget: function(db, $stateParams) {
+          return db.budgets.get($stateParams.budgetId);
+        }
+      }
     })
     .state('app.db.budget', {
       url: '/budget',

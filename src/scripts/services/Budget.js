@@ -52,7 +52,11 @@ angular.module('financier').factory('Budget', uuid => {
     }
 
     get opened() {
-      return new Date(this.data.opened);
+      if (!this._opened && this.data.opened) {
+        this._opened = new Date(this.data.opened);
+      }
+
+      return this._opened;
     }
 
     subscribe(fn) {
@@ -65,6 +69,10 @@ angular.module('financier').factory('Budget', uuid => {
 
     get _id() {
       return this.data._id;
+    }
+
+    get id() {
+      return this.data._id.slice(this.data._id.lastIndexOf('_') + 1);
     }
 
     set _rev(r) {
