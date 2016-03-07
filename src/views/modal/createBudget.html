@@ -8,7 +8,7 @@
            placeholder="My budget name"
            required>
     <div ng-messages="createBudgetForm.name.$error"
-         ng-if="createBudgetForm.name.$touched">
+         ng-if="createBudgetForm.name.$dirty">
       <div ng-message="required" class="message">This is required!</div>
     </div>
   </label>
