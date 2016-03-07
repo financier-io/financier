@@ -1,3 +1,4 @@
+var path = require('path');
 var express = require('express');
 var app = express();
 var git = require('git-rev');
@@ -10,8 +11,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use(express.static('dist'));
-app.use('/bower_components', express.static('bower_components'));
-app.use('/node_modules', express.static('node_modules'));
 
 app.get('/api/version', function(req, res, next) {
   git.long(function (sha) {
@@ -24,7 +23,7 @@ app.get('/api/version', function(req, res, next) {
 
 // html5mode
 app.all('/*', function(req, res) {
-  res.sendfile('dist/index.html');
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 app.listen(8080, function () {
