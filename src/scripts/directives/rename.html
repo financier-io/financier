@@ -1,0 +1,15 @@
+<div class="drop__content">
+  <input type="text"
+         class="form__textarea form__textarea--monospace"
+         ng-model="myNote"
+         placeholder="Category name"
+         required>
+  <br>
+  <button class="button button--primary" ng-click="submit(myNote)"><i class="fa fa-check"></i> Save</button>
+  <button class="tooltip__delete button button--link-danger"
+          ng-click="submit('')"
+          ng-class="{'tooltip__delete--show': canDelete}">
+    <i class="fa fa-minus-circle"></i>Delete category
+  </button>
+</div>
+

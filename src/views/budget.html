@@ -51,7 +51,9 @@
     <div class="budget__tbody overflowable" ng-sortable="masterCategorySortable" disable-ng-animate>
       <div ng-repeat="masterCategory in dbCtrl.categories">
         <div class="budget__tr month-body__row month-body__row--master">
-          <div class="budget__td budget__month-row budget__category-label">{{masterCategory.name}}</div>
+          <div class="budget__td budget__month-row budget__category-label">
+            <span rename ng-model="masterCategory.name">{{masterCategory.name}}</span>
+          </div>
             <div class="budget__td budget__month-row month-body__cell-head"
                 ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths"
                 ng-controller="masterCategoryCtrl as masterCategoryCtrl"
@@ -72,7 +74,7 @@
                  ng-class="{'budget__month-row-note--showing': row.note.length}"
                  note
                  ng-model="row.note"></i>
-              {{row.name}}
+              <span rename ng-model="row.name">{{row.name}}</span>
             </div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--input"
                 ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths"

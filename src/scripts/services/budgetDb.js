@@ -2,6 +2,7 @@ angular.module('financier').factory('budgetDb', (
   month,
   account,
   category,
+  masterCategory,
   uuid,
   $q,
   defaultCategories) => {
@@ -10,6 +11,7 @@ angular.module('financier').factory('budgetDb', (
     const Month = month(budgetId);
     const Account = account(budgetId);
     const Category = category(budgetId);
+    const MasterCategory = masterCategory(budgetId);
 
     const ret = {
       accounts: accounts(),
@@ -87,6 +89,12 @@ angular.module('financier').factory('budgetDb', (
           endkey: `b_${budgetId}_masterCategory_\uffff`
         }).then(res => {
           const ret = res.rows.map(cat => cat.doc);
+
+          // Sort master categories
+          ret.sort((a, b) => {
+            return a.sort - b.sort;
+          });
+
           const promises = [];
 
           for (var i = 0; i < ret.length; i++) {
@@ -97,15 +105,19 @@ angular.module('financier').factory('budgetDb', (
                   keys: ret[i].categories
                 })
                 .then(c => {
-                  ret[i].categories = [];
+                  const masterCat = new MasterCategory(ret[i]);
+                  masterCat.subscribe(putCategory);
+                  const cats = [];
 
                   for (let j = 0; j < c.rows.length; j++) {
                     const cat = new Category(c.rows[j].doc);
-                    ret[i].categories.push(cat);
+                    cats.push(cat);
                     cat.subscribe(putCategory);
                   }
 
-                  return ret[i];
+                  masterCat.categories = cats;
+
+                  return masterCat;
                 }))
               );
               
