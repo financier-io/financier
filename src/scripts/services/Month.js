@@ -2,7 +2,7 @@ angular.module('financier').factory('month', (Transaction, Income) => {
   return budgetId => {
     return class Month {
 
-      constructor(data) {
+      constructor(data, getBudgetValue) {
         const defaults = {
           categories: {},
           income: []
