@@ -12,7 +12,7 @@ Built with Angular 1 and PouchDB.
 
 ## Are you a user?
 
-This is for developers. If you need help with financier, check out [the wiki](https://github.com/aeharding/financier/wiki) or [the website](https://financier.io).
+This page is for developers. If you need help with financier, check out [the wiki](https://github.com/aeharding/financier/wiki) or [the website](https://financier.io).
 
 ## Install
 
