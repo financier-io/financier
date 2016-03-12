@@ -51,6 +51,12 @@ describe('month', function() {
       })).toBe(true);
     });
 
+    fit('can take string', () => {
+      var mo = new Month('2015-01-01');
+
+      console.log(mo.categories.boom)
+    });
+
     it('should be a Month', () => {
       const mo = new Month(defaultMonth());
       expect(mo.constructor.name).toBe('Month');

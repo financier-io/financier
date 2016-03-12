@@ -5,6 +5,7 @@ angular.module('financier').factory('budgetDb', (
   masterCategory,
   uuid,
   $q,
+  BudgetValue,
   defaultCategories) => {
 
   return (db, budgetId) => {
@@ -238,18 +239,48 @@ angular.module('financier').factory('budgetDb', (
         });
       }
 
+      function getAllCategories(monthDate) {
+        return db.allDocs({
+          include_docs: true,
+          startKey: BudgetValue.startKey(budgetId, monthDate),
+          endKey: BudgetValue.endKey(budgetId, monthDate)
+        })
+        .then(res => {
+          return res.rows.map(row => {
+            const bValue = new BudgetValue(row.doc);
+            bValue.subscribe(put);
+
+            return bValue;
+          });
+        })
+        .then(res => {
+          return $q.all(res);
+        });
+      }
+
       function all() {
         return db.allDocs({
           include_docs: true, /* eslint camelcase:0 */
           startkey: Month.startKey,
           endkey: Month.endKey
         }).then(res => {
-          const months = res.rows.map(row => {
-            return new Month(row.doc);
+          return $q.all(res.rows.map(row => {
+            const month = new Month(row.doc);
+
+            return getAllCategories(month.date)
+            .then(budgetVals => {
+              for (let i = 0; i < budgetVals.length; i++) {
+                month.setBudget(budgetVals[i]);
+              }
+
+              return month;
+            });
+          }))
+          .then(months => {
+            setUpLinks(months);
+            return months;
           });
 
-          setUpLinks(months);
-          return months;
         });
       }
 

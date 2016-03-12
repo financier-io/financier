@@ -2,10 +2,8 @@ angular.module('financier').factory('month', (Transaction, Income) => {
   return budgetId => {
     return class Month {
 
-      constructor(data, getBudgetValue) {
+      constructor(data, categories) {
         const defaults = {
-          categories: {},
-          income: []
         };
 
         let myData;
@@ -30,41 +28,11 @@ angular.module('financier').factory('month', (Transaction, Income) => {
           totalAvailable: 0
         };
 
-        this.initialLoad();
-      }
-
-      initialLoad() {
-        // loop through all categories
-        for (let k in this.data.categories) {
-          if (this.data.categories.hasOwnProperty(k)) {
-            let category = this.data.categories[k];
-
-            // initialize transaction data as Transaction
-            if (category.transactions) {
-              const trs = category.transactions;
-              category.transactions = [];
-              trs.forEach((tr) => {
-                this.addTransaction(k, new Transaction(tr));
-              });
-            }
-
-            // initialize budgets
-            if (category.budget) {
-              const bdg = category.budget;
-              category.budget = 0;
-              this.setBudget(k, bdg);
-            }
-
+        this.categories = new Proxy({}, {
+          get: function(target, property) {
+            return 'boom';
           }
-        }
-        // initialize income
-        if (this.data.income && this.data.income.length) {
-          const income = this.data.income;
-          this.data.income = [];
-          for (let i = 0; i < income.length; i++) {
-            this.addIncome(new Income(income[i]));
-          }
-        }
+        });
       }
 
       setRolling(catId, rolling) {
@@ -168,11 +136,13 @@ angular.module('financier').factory('month', (Transaction, Income) => {
         return this.recordChangesFn && this.recordChangesFn(this);
       }
 
-      setBudget(catId, amount) {
+      setBudget(budgetValue) {
         this.createCategoryIfEmpty(catId);
         this.createCategoryCacheIfEmpty(catId);
 
-        const oldBudget = this.data.categories[catId].budget;
+        const oldBudget = this.data.categories[catId].budget.value;
+        const amount = budgetValue.value;
+        const catId = budgetValue.category;
         this.data.categories[catId].budget = amount;
 
         this.cache.totalBudget += amount - oldBudget;

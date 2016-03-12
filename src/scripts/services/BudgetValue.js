@@ -44,5 +44,13 @@ angular.module('financier').factory('BudgetValue', uuid => {
     toJSON() {
       return this.data;
     }
+
+    static startKey(budgetId, monthDate) {
+      return `b_${budgetId}_m_${monthDate}_budget-value_`;
+    }
+
+    static endKey(budgetId, monthDate) {
+      return `b_${budgetId}_m_${monthDate}_budget-value_\uffff`;
+    }
   };
 });
