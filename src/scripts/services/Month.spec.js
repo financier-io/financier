@@ -51,10 +51,10 @@ describe('month', function() {
       })).toBe(true);
     });
 
-    fit('can take string', () => {
+    it('can take string', () => {
       var mo = new Month('2015-01-01');
 
-      console.log(mo.categories.boom)
+      console.log(mo.categories.boom);
     });
 
     it('should be a Month', () => {
@@ -68,36 +68,6 @@ describe('month', function() {
 
     it('should properly extract date', () => {
       expect(new Month(defaultMonth()).date).toBe('2015-01-01');
-    });
-
-    it('should add a transaction', () => {
-      const mo = new Month(defaultMonth());
-      const tr = new Transaction({value: 1233, id: 'tr1'});
-
-      mo.addTransaction(123, tr);
-
-      var data = JSON.parse(JSON.stringify(mo));
-      var categoryCache = JSON.parse(JSON.stringify(mo.categoryCache));
-
-      expect(data).toEqual({
-        _id: 'b_123-123-123-123_2015-01-01',
-        categories: {
-          123: {
-            budget: 0,
-            transactions: [{
-              value: 1233,
-              id: 'tr1'
-            }]
-          }
-        },
-        income: []
-      });
-      expect(categoryCache).toEqual({
-        123: {
-          rolling: 0,
-          balance: -1233
-        }
-      });
     });
 
     it('can be removed', () => {
@@ -118,37 +88,6 @@ describe('month', function() {
 
         expect(foo.change).toHaveBeenCalledWith(mo);
         expect(mo.toJSON()._deleted).toBe(true);
-    });
-
-    it('should notify subscribeNextMonth & subscribeRecordChanges upon transaction add/update/remove', () => {
-      const foo = {
-        subscribeNextMonth: () => {},
-        subscribeRecordChanges: () => {}
-      };
-
-      spyOn(foo, 'subscribeNextMonth');
-      spyOn(foo, 'subscribeRecordChanges');
-
-      const mo = new Month(defaultMonth());
-      mo.subscribeNextMonth(foo.subscribeNextMonth);
-      mo.subscribeRecordChanges(foo.subscribeRecordChanges);
-      const tr = new Transaction({value: 1233});
-
-      mo.addTransaction(123, tr);
-
-      expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, -1233);
-      expect(foo.subscribeRecordChanges).toHaveBeenCalledWith(mo);
-      expect(foo.subscribeRecordChanges.calls.count()).toBe(1);
-
-      tr.value = 1001;
-
-      expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, -1001);
-      expect(foo.subscribeRecordChanges.calls.count()).toBe(2);
-
-      mo.removeTransaction(123, tr);
-
-      expect(foo.subscribeNextMonth).toHaveBeenCalledWith(123, 0);
-      expect(foo.subscribeRecordChanges.calls.count()).toBe(3);
     });
 
     it('should notify subscribeNextMonth & subscribeRecordChanges upon budget update', () => {
