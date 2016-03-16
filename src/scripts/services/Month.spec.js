@@ -3,8 +3,7 @@ describe('month', function() {
 
   function defaultMonth() {
     return {
-      categories: {},
-      _id: 'b_123-123-123-123_' + Month.createID(new Date('1/1/15'))
+      _id: 'b_111-111-111-111_month_' + Month.createID(new Date('1/1/15'))
     };
   }
 
@@ -16,7 +15,7 @@ describe('month', function() {
     Income = _Income_;
   }));
 
-  describe('Month', () => {
+  fdescribe('Month', () => {
     beforeEach(() => {
       Month = month('111-111-111-111');
     });
@@ -45,16 +44,8 @@ describe('month', function() {
       var mo = new Month('2015-01-01');
 
       expect(angular.equals(mo.data, {
-        categories: {},
-        income: [],
         _id: 'b_111-111-111-111_month_2015-01-01'
       })).toBe(true);
-    });
-
-    it('can take string', () => {
-      var mo = new Month('2015-01-01');
-
-      console.log(mo.categories.boom);
     });
 
     it('should be a Month', () => {
@@ -63,7 +54,7 @@ describe('month', function() {
     });
 
     it('should serialize to JSON', () => {
-      expect(JSON.stringify(new Month(defaultMonth()))).toBe('{"categories":{},"income":[],"_id":"b_123-123-123-123_2015-01-01"}');
+      expect(JSON.stringify(new Month(defaultMonth()))).toBe('{"_id":"b_111-111-111-111_month_2015-01-01"}');
     });
 
     it('should properly extract date', () => {

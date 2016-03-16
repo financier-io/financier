@@ -2,7 +2,7 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
   return budgetId => {
     return class Month {
 
-      constructor(data, categories, saveFn) {
+      constructor(data, saveFn) {
         const defaults = {
         };
 
@@ -21,6 +21,9 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
         this.date = myData._id.slice(myData._id.lastIndexOf('_') + 1);
 
         this.data = myData;
+
+        this.categories = {};
+
         this.categoryCache = {};
         this.cache = {
           totalTransactions: 0,
@@ -29,8 +32,6 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
           totalIncome: 0,
           totalAvailable: 0
         };
-
-        this.initialLoad();
       }
 
       setRolling(catId, rolling) {
@@ -52,9 +53,27 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
       }
 
       setBudget(catId, amount) {
-        this.createCategoryIfEmpty(catId);
 
-        this.data.categories[catId].budget = amount;
+        if (angular.isString(catId)) {
+          this.createCategoryCacheIfEmpty(catId);
+          // backward compatibility (for now)
+
+          this.createCategoryIfEmpty(catId);
+          this.categories[catId].budget = amount;
+        } else {
+          // assume is MonthCategory
+          this.categories[catId] = catId;
+          this.createCategoryCacheIfEmpty(catId.categoryId);
+
+          catId.subscribe(record => {
+            this.saveFn(record);
+          });
+
+          catId.subscribeBudget((newBudget, oldBudget) => {
+            this.uponBudgetUpdate(catId.categoryId, newBudget, oldBudget);
+          });
+        }
+
       }
 
 
@@ -64,9 +83,9 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
         return note => {
 
           if (angular.isDefined(note)) {
-            this.data.categories[catId].note = note;
+            this.categories[catId].note = note;
           } else {
-            return this.data.categories[catId].note;
+            return this.categories[catId].note;
           }
 
         };
@@ -78,26 +97,21 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
       }
 
       createCategoryIfEmpty(catId) {
-        if (!this.data.categories[catId]) {
-          this.data.categories[catId] = new MonthCategory.from(budgetId, this.date, catId);
+        if (!this.categories[catId]) {
+          this.categories[catId] = new MonthCategory.from(budgetId, this.date, catId);
 
-          this.data.categories[catId].subscribe(record => {
+          this.categories[catId].subscribe(record => {
+            console.log(record)
             this.saveFn(record);
           });
 
-          this.data.categories[catId].subscribeBudget((newBudget, oldBudget) => {
-            this.cache.totalBudget += newBudget - oldBudget;
-            this.cache.totalAvailable -= newBudget - oldBudget;
-            this.nextChangeAvailableFn && this.nextChangeAvailableFn(-(newBudget - oldBudget));
-            this.categoryCache[catId].balance += newBudget - oldBudget;
-            this.cache.totalBalance += newBudget - oldBudget;
 
-            this.nextRollingFn && this.nextRollingFn(catId, this.categoryCache[catId].balance);
-
-            return this.recordChangesFn && this.recordChangesFn(this);
+          this.categories[catId].subscribeBudget((newBudget, oldBudget) => {
+            this.uponBudgetUpdate(catId, newBudget, oldBudget);
           });
         }
       }
+
       createCategoryCacheIfEmpty(catId) {
         if (!this.categoryCache[catId]) {
           this.categoryCache[catId] = {
@@ -107,12 +121,29 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
         }
       }
 
+      uponBudgetUpdate(catId, newBudget, oldBudget) {
+        this.cache.totalBudget += newBudget - oldBudget;
+        this.cache.totalAvailable -= newBudget - oldBudget;
+        this.nextChangeAvailableFn && this.nextChangeAvailableFn(-(newBudget - oldBudget));
+        this.categoryCache[catId].balance += newBudget - oldBudget;
+        this.cache.totalBalance += newBudget - oldBudget;
+
+        this.nextRollingFn && this.nextRollingFn(catId, this.categoryCache[catId].balance);
+
+        return this.recordChangesFn && this.recordChangesFn(this);
+      }
+
       subscribeNextMonth(nextRollingFn, nextChangeAvailableFn) {
         this.nextRollingFn = nextRollingFn;
         this.nextChangeAvailableFn = nextChangeAvailableFn;
 
         // initialize totalAvailable of next month
         this.nextChangeAvailableFn && this.nextChangeAvailableFn(this.cache.totalAvailable);
+      }
+
+      changeAvailable(value) {
+        this.cache.totalAvailable += value;
+        this.nextChangeAvailableFn && this.nextChangeAvailableFn(value);
       }
 
       subscribeRecordChanges(recordChangesFn) {

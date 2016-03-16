@@ -1,4 +1,4 @@
-fdescribe('MonthCategory', function() {
+describe('MonthCategory', function() {
   let MonthCategory;
 
   beforeEach(module('financier'));

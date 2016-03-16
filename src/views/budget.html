@@ -83,12 +83,12 @@
               <input type="text"
                      class="budget__cell-input"
                      on-update="month.setBudget(row._id, model)"
-                     view-model="month.data.categories[row._id].budget"
+                     view-model="month.categories[row._id].budget"
                      ng-attr-tabindex="{{$index + 2}}"
                      on-enter-go-next>
 
               <i class="budget__month-row-note fa fa-sticky-note-o"
-                 ng-class="{'budget__month-row-note--showing': month.data.categories[row._id].note.length}"
+                 ng-class="{'budget__month-row-note--showing': month.categories[row._id].note.length}"
                  note
                  ng-model="month.note(row._id)"
                  ng-model-options="{ getterSetter: true }"></i>

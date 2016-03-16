@@ -14,6 +14,8 @@ angular.module('financier').factory('MonthCategory', uuid => {
 
       this.data = myData;
 
+      this.categoryId = myData._id.slice(myData._id.lastIndexOf('_'));
+
     }
 
     static _fromId(budgetId, monthId, categoryId) {

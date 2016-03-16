@@ -5,7 +5,7 @@ angular.module('financier').factory('budgetDb', (
   masterCategory,
   uuid,
   $q,
-  BudgetValue,
+  MonthCategory,
   defaultCategories) => {
 
   return (db, budgetId) => {
@@ -242,12 +242,12 @@ angular.module('financier').factory('budgetDb', (
       function getAllCategories(monthDate) {
         return db.allDocs({
           include_docs: true,
-          startKey: BudgetValue.startKey(budgetId, monthDate),
-          endKey: BudgetValue.endKey(budgetId, monthDate)
+          startkey: MonthCategory.startKey(budgetId, monthDate),
+          endkey: MonthCategory.endKey(budgetId, monthDate)
         })
         .then(res => {
           return res.rows.map(row => {
-            const bValue = new BudgetValue(row.doc);
+            const bValue = new MonthCategory(row.doc);
             bValue.subscribe(put);
 
             return bValue;
@@ -265,7 +265,7 @@ angular.module('financier').factory('budgetDb', (
           endkey: Month.endKey
         }).then(res => {
           return $q.all(res.rows.map(row => {
-            const month = new Month(row.doc);
+            const month = new Month(row.doc, put);
 
             return getAllCategories(month.date)
             .then(budgetVals => {
@@ -285,7 +285,7 @@ angular.module('financier').factory('budgetDb', (
       }
 
       function put(month) {
-        return db.put(JSON.parse(JSON.stringify(month))).then(function(res) {
+        return db.put(JSON.parse(JSON.stringify(month))).then(res => {
           month.data._rev = res.rev;
         });
       }
