@@ -41,7 +41,7 @@ angular.module('financier').factory('MonthCategory', uuid => {
     }
 
     get note() {
-      return this.data.budget;
+      return this.data.note;
     }
 
     set note(n) {
