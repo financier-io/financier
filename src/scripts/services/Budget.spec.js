@@ -112,6 +112,14 @@ describe('Budget', function() {
       expect(sets.toJSON().name).toBe('foobar');
     });
 
+    it('lastMonthOpenedId', () => {
+      let sets = new Budget();
+
+      sets.lastMonthOpenedId = '2015-01-01';
+
+      expect(sets.toJSON().lastMonthOpenedId).toBe('2015-01-01');
+    });
+
     it('cannot set _id', () => {
       let sets = new Budget();
 
@@ -165,6 +173,26 @@ describe('Budget', function() {
       expect(foo.change).not.toHaveBeenCalled();
 
       sets.name = 'barfoo';
+
+      expect(foo.change).toHaveBeenCalledWith(sets);
+    });
+
+    it('lastMonthOpenedId', () => {
+      const foo = {
+        change: () => {},
+      };
+
+      spyOn(foo, 'change');
+
+      let sets = new Budget({
+        lastMonthOpenedId: '2015-01-01'
+      });
+
+      sets.subscribe(foo.change);
+
+      expect(foo.change).not.toHaveBeenCalled();
+
+      sets.lastMonthOpenedId = '2015-02-01';
 
       expect(foo.change).toHaveBeenCalledWith(sets);
     });

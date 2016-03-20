@@ -35,6 +35,15 @@ angular.module('financier').factory('Budget', uuid => {
       this.emitChange();
     }
 
+    get lastMonthOpenedId() {
+      return this.data.lastMonthOpenedId;
+    }
+
+    set lastMonthOpenedId(id) {
+      this.data.lastMonthOpenedId = id;
+      this.emitChange();
+    }
+
     get created() {
       return new Date(this.data.created);
     }

@@ -15,7 +15,7 @@ describe('month', function() {
     Income = _Income_;
   }));
 
-  fdescribe('Month', () => {
+  describe('Month', () => {
     beforeEach(() => {
       Month = month('111-111-111-111');
     });
