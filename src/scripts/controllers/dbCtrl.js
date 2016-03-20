@@ -24,7 +24,7 @@ angular.module('financier').controller('dbCtrl', function(db, myBudget, $statePa
 
       b.budget.propagateRolling(
         categories
-          .map((m => m.categories.map(c => c._id)))
+          .map((m => m.categories.map(c => c.id)))
           .reduce((a, b) => a.concat(b)), 
         allMonths[0]
       );

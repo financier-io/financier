@@ -82,15 +82,15 @@
 
               <input type="text"
                      class="budget__cell-input"
-                     on-update="month.setBudget(row._id, model)"
-                     view-model="month.categories[row._id].budget"
+                     on-update="month.setBudget(row.id, model)"
+                     view-model="month.categories[row.id].budget"
                      ng-attr-tabindex="{{$index + 2}}"
                      on-enter-go-next>
 
               <i class="budget__month-row-note fa fa-sticky-note-o"
-                 ng-class="{'budget__month-row-note--showing': month.categories[row._id].note.length}"
+                 ng-class="{'budget__month-row-note--showing': month.categories[row.id].note.length}"
                  note
-                 ng-model="month.note(row._id)"
+                 ng-model="month.note(row.id)"
                  ng-model-options="{ getterSetter: true }"></i>
 
             </div>
@@ -101,9 +101,9 @@
                  outflow-setting="dbCtrl.budget.hints.outflow"><!--0.00--></div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--display"
                 ng-class="{'budget__month-end': !$last,
-                           'budget__month-row--inactive': !month.categoryCache[row._id].balance}"
+                           'budget__month-row--inactive': !month.categoryCache[row.id].balance}"
                 ng-repeat-end>
-              {{month.categoryCache[row._id].balance | intCurrency}}
+              {{month.categoryCache[row.id].balance | intCurrency}}
             </div>
           </div>
         </div>

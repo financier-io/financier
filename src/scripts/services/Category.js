@@ -7,6 +7,8 @@ angular.module('financier').factory('category', uuid => {
           _id: `b_${budgetId}_category_${uuid()}`
         }, data);
 
+        this.id = myData._id.slice(myData._id.lastIndexOf('_') + 1);
+
         this.data = myData;
 
       }

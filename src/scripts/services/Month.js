@@ -62,7 +62,7 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
           this.categories[catId].budget = amount;
         } else {
           // assume is MonthCategory
-          this.categories[catId] = catId;
+          this.categories[catId.categoryId] = catId;
           this.createCategoryCacheIfEmpty(catId.categoryId);
 
           catId.subscribe(record => {
@@ -72,6 +72,12 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
           catId.subscribeBudget((newBudget, oldBudget) => {
             this.uponBudgetUpdate(catId.categoryId, newBudget, oldBudget);
           });
+
+          this.cache.totalBudget += catId.budget;
+          this.cache.totalAvailable -= catId.budget;
+
+          this.categoryCache[catId.categoryId].balance += catId.budget;
+          this.cache.totalBalance += catId.budget;
         }
 
       }
@@ -97,11 +103,11 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
       }
 
       createCategoryIfEmpty(catId) {
+
         if (!this.categories[catId]) {
           this.categories[catId] = new MonthCategory.from(budgetId, this.date, catId);
 
           this.categories[catId].subscribe(record => {
-            console.log(record)
             this.saveFn(record);
           });
 
