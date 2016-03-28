@@ -254,7 +254,10 @@ angular.module('financier').factory('budgetDb', (
           });
         })
         .then(res => {
-          return $q.all(res);
+          if (res.length) {
+            return $q.all(res);
+          }
+          return [];
         });
       }
 
@@ -264,13 +267,13 @@ angular.module('financier').factory('budgetDb', (
           startkey: Month.startKey,
           endkey: Month.endKey
         }).then(res => {
-          return $q.all(res.rows.map(row => {
+          return Promise.all(res.rows.map(row => {
             const month = new Month(row.doc, put);
 
             return getAllCategories(month.date)
-            .then(budgetVals => {
-              for (let i = 0; i < budgetVals.length; i++) {
-                month.setBudget(budgetVals[i]);
+            .then(monthCatVals => {
+              for (let i = 0; i < monthCatVals.length; i++) {
+                month.setBudget(monthCatVals[i]);
               }
 
               return month;

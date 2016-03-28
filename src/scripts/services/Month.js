@@ -54,13 +54,7 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
 
       setBudget(catId, amount) {
 
-        if (angular.isString(catId)) {
-          this.createCategoryCacheIfEmpty(catId);
-          // backward compatibility (for now)
-
-          this.createCategoryIfEmpty(catId);
-          this.categories[catId].budget = amount;
-        } else {
+        if (catId.constructor && catId.constructor.name === 'MonthCategory') {
           // assume is MonthCategory
           this.categories[catId.categoryId] = catId;
           this.createCategoryCacheIfEmpty(catId.categoryId);
@@ -78,6 +72,12 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
 
           this.categoryCache[catId.categoryId].balance += catId.budget;
           this.cache.totalBalance += catId.budget;
+        } else {
+          this.createCategoryCacheIfEmpty(catId);
+          // backward compatibility (for now)
+
+          this.createCategoryIfEmpty(catId);
+          this.categories[catId].budget = amount;
         }
 
       }
@@ -135,8 +135,6 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
         this.cache.totalBalance += newBudget - oldBudget;
 
         this.nextRollingFn && this.nextRollingFn(catId, this.categoryCache[catId].balance);
-
-        return this.recordChangesFn && this.recordChangesFn(this);
       }
 
       subscribeNextMonth(nextRollingFn, nextChangeAvailableFn) {

@@ -12,5 +12,6 @@
   "bower_components/ng-dialog/js/ngDialog.js",
   "bower_components/moment/min/moment-with-locales.js",
   "bower_components/tether/dist/js/tether.js",
-  "bower_components/tether-drop/dist/js/drop.js"
+  "bower_components/tether-drop/dist/js/drop.js",
+  "node_modules/lie/dist/lie.polyfill.js"
 ]
