@@ -34,10 +34,14 @@ angular.module('financier').factory('MonthCategory', uuid => {
 
     set budget(v) {
       const old = this.data.budget;
-      this.data.budget = v;
 
-      this.emitChange();
-      this.emitBudgetChange(v, old);
+      // do not re-update the database if the same
+      if (v !== old) {
+        this.data.budget = v;
+
+        this.emitChange();
+        this.emitBudgetChange(v, old);
+      }
     }
 
     get note() {

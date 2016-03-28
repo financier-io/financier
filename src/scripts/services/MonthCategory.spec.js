@@ -99,6 +99,32 @@ describe('MonthCategory', function() {
       expect(foo.bdgSub).toHaveBeenCalledWith(222, 12);
     });
 
+    it('budget does not emit event if the same', () => {
+      const foo = {
+        sub: () => {},
+        bdgSub: () => {}
+      };
+
+      spyOn(foo, 'sub');
+      spyOn(foo, 'bdgSub');
+
+      let sets = new MonthCategory({
+        _id: 'b_111-111_m_201501_month-category_222-222',
+        budget: 12
+      });
+
+      sets.subscribe(foo.sub);
+      sets.subscribeBudget(foo.bdgSub);
+
+      expect(foo.sub).not.toHaveBeenCalled();
+      expect(foo.bdgSub).not.toHaveBeenCalled();
+
+      sets.budget = 12;
+
+      expect(foo.sub).not.toHaveBeenCalled();
+      expect(foo.bdgSub).not.toHaveBeenCalled();
+    });
+
     it('note', () => {
       const foo = {
         sub: () => {},
