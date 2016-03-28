@@ -9,8 +9,8 @@ angular.module('financier').controller('masterCategoryCtrl', function($scope) {
     for (let i = 0; i < $scope.masterCategory.categories.length; i++) {
       const cat = $scope.masterCategory.categories[i];
 
-      budget += $scope.month.data.categories[cat._id].budget || 0;
-      balance += $scope.month.categoryCache[cat._id].balance || 0;
+      budget += $scope.month.categories[cat.id].budget || 0;
+      balance += $scope.month.categoryCache[cat.id].balance || 0;
     }
 
     return [budget, balance];

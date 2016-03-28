@@ -66,7 +66,8 @@ gulp.task('copy:vendor', function() {
     './node_modules/font-awesome/fonts/**',
     './bower_components/tether/dist/js/tether.js',
     './bower_components/tether-drop/dist/js/drop.js',
-    './bower_components/ng-dialog/js/ngDialog.js'
+    './bower_components/ng-dialog/js/ngDialog.js',
+    './node_modules/lie/dist/lie.polyfill.js'
   ])
     .pipe(gulp.dest('dist/vendor'));
 });
@@ -160,7 +161,7 @@ function writeServiceWorkerFile(sha, rootDir, handleFetch, callback) {
     ignoreUrlParametersMatching: [/^v/],
 
     // verbose defaults to false, but for the purposes of this demo, log more.
-    verbose: true
+    verbose: false
   };
 
   swPrecache.write(path.join(rootDir, 'service-worker.js'), config, callback);

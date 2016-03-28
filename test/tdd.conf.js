@@ -15,6 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: require('../src/vendor').concat([
+      'node_modules/jasmine-promises/dist/jasmine-promises.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'src/scripts/**/*.js'
     ]),

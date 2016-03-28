@@ -18,11 +18,8 @@ describe('budgetDb', function() {
     Account = account(UUID);
   }));
 
-  afterEach(done => {
-    db._pouch.destroy()
-    .then(() => {
-      done();
-    });
+  afterEach(() => {
+    return db._pouch.destroy();
   });
 
 
@@ -41,75 +38,54 @@ describe('budgetDb', function() {
       expect(typeof budget).toBe('object');
     });
     
-    it('should return with object', (done) => {
-      db._pouch.bulkDocs([{
-        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('1/1/15'))
-      }, {
-        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('2/1/15'))
-      }, {
-        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('3/1/15'))
-      }]).then(res => {
-        const arr = budget.budget.all().then(arr => {
-          expect(arr.length).toBe(3);
+    describe('all', () => {
+      it('should return with Months', () => {
+        return db._pouch.bulkDocs([{
+          _id: 'b_555-555-555-555_month_' + Month.createID(new Date('1/1/15'))
+        }, {
+          _id: 'b_555-555-555-555_month_' + Month.createID(new Date('2/1/15'))
+        }, {
+          _id: 'b_555-555-555-555_month_' + Month.createID(new Date('3/1/15'))
+        }]).then(res => {
+          return budget.budget.all().then(arr => {
+            expect(arr.length).toBe(3);
 
-          done();
-        });
-      });
-    });
-
-    it('should return with object', (done) => {
-      db._pouch.bulkDocs([{
-        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('1/1/15'))
-      }, {
-        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('2/1/15'))
-      }, {
-        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('3/1/15'))
-      }]).then(res => {
-        const arr = budget.budget.all().then(arr => {
-          expect(arr[0].categoryCache[123]).toBeUndefined();
-          expect(arr[1].categoryCache[123]).toBeUndefined();
-          expect(arr[2].categoryCache[123]).toBeUndefined();
-
-          arr[0].setBudget(123, 23);
-
-          expect(arr[0].categoryCache[123].balance).toBe(23);
-          expect(arr[1].categoryCache[123].balance).toBe(23);
-          expect(arr[2].categoryCache[123].balance).toBe(23);
-
-          done();
-        });
-      });
-    });
-
-    it('should update database', (done) => {
-      db._pouch.bulkDocs([{
-        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('1/1/15'))
-      }, {
-        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('2/1/15'))
-      }, {
-        _id: 'b_555-555-555-555_month_' + Month.createID(new Date('3/1/15'))
-      }]).then(res => {
-        const arr = budget.budget.all().then(arr => {
-          arr[0].setBudget(123, 23).then(res => {
-            expect(res.ok).toBe(true);
-            done();
-          }).catch(err => {
-            done(err);
+            expect(arr[0].constructor.name).toBe('Month');
+            expect(arr[1].constructor.name).toBe('Month');
+            expect(arr[2].constructor.name).toBe('Month');
           });
+        });
+      });
 
+      it('should update database', () => {
+        return db._pouch.bulkDocs([{
+          _id: 'b_555-555-555-555_month_' + Month.createID(new Date('1/1/15'))
+        }, {
+          _id: 'b_555-555-555-555_month_' + Month.createID(new Date('2/1/15'))
+        }, {
+          _id: 'b_555-555-555-555_month_' + Month.createID(new Date('3/1/15'))
+        }]).then(res => {
+          return budget.budget.all().then(arr => {
+            arr[0].setBudget('123', 323);
+
+            return db._pouch.get(`b_${UUID}_m_${arr[0].date}_month-category_123`)
+            .then(item => {
+              expect(item.budget).toBe(323);
+            });
+          });
         });
       });
     });
 
-    it('should provide Months until specified date', (done) => {
-      db._pouch.bulkDocs([{
+    it('should provide Months until specified date', () => {
+      return db._pouch.bulkDocs([{
         _id: 'b_555-555-555-555_month_' + Month.createID(new Date('1/1/15'))
       }, {
         _id: 'b_555-555-555-555_month_' + Month.createID(new Date('2/1/15'))
       }, {
         _id: 'b_555-555-555-555_month_' + Month.createID(new Date('3/1/15'))
       }]).then(res => {
-        budget.budget.getFourMonthsFrom(new Date('6/1/15')).then(res => {
+        return budget.budget.getFourMonthsFrom(new Date('6/1/15')).then(res => {
           const expectedDates = [
             '2015-01-01',
             '2015-02-01',
@@ -129,21 +105,19 @@ describe('budgetDb', function() {
           for (var i = 0; i < res.length; i++) {
             expect(res[i].data._id).toBe('b_555-555-555-555_month_' + expectedDates[i]);
           }
-
-          done();
         });
       });
     });
 
-    it('should provide Months before specified date', (done) => {
-      db._pouch.bulkDocs([{
+    it('should provide Months before specified date', () => {
+      return db._pouch.bulkDocs([{
         _id: 'b_555-555-555-555_month_' + Month.createID(new Date('4/1/15'))
       }, {
         _id: 'b_555-555-555-555_month_' + Month.createID(new Date('5/1/15'))
       }, {
         _id: 'b_555-555-555-555_month_' + Month.createID(new Date('6/1/15'))
       }]).then(res => {
-        budget.budget.getFourMonthsFrom(new Date('1/1/15')).then(res => {
+        return budget.budget.getFourMonthsFrom(new Date('1/1/15')).then(res => {
           const expectedDates = [
             '2015-01-01',
             '2015-02-01',
@@ -159,20 +133,19 @@ describe('budgetDb', function() {
             expect(res[i].data._id).toBe('b_555-555-555-555_month_' + expectedDates[i]);
           }
 
-          done();
         });
       });
     });
 
-    it('should provide existing if populating to that last month', (done) => {
-      db._pouch.bulkDocs([{
+    it('should provide existing if populating to that last month', () => {
+      return db._pouch.bulkDocs([{
         _id: 'b_555-555-555-555_month_' + Month.createID(new Date('1/1/15'))
       }, {
         _id: 'b_555-555-555-555_month_' + Month.createID(new Date('2/1/15'))
       }, {
         _id: 'b_555-555-555-555_month_' + Month.createID(new Date('3/1/15'))
       }]).then(res => {
-        budget.budget.getFourMonthsFrom(new Date('3/1/15')).then(res => {
+        return budget.budget.getFourMonthsFrom(new Date('3/1/15')).then(res => {
           const expectedDates = [
             '2015-01-01',
             '2015-02-01',
@@ -189,14 +162,12 @@ describe('budgetDb', function() {
           for (var i = 0; i < res.length; i++) {
             expect(res[i].data._id).toBe('b_555-555-555-555_month_' + expectedDates[i]);
           }
-
-          done();
         });
       });
     });
 
-    it('should add that date if none exists in database', (done) => {
-      budget.budget.getFourMonthsFrom(new Date('3/1/15')).then(res => {
+    it('should add that date if none exists in database', () => {
+      return budget.budget.getFourMonthsFrom(new Date('3/1/15')).then(res => {
         const expectedDates = [
           '2015-03-01',
           '2015-04-01',
@@ -210,8 +181,6 @@ describe('budgetDb', function() {
         for (var i = 0; i < res.length; i++) {
           expect(res[i].data._id).toBe('b_555-555-555-555_month_' + expectedDates[i]);
         }
-
-        done();
       });
     });
   });
@@ -223,13 +192,13 @@ describe('budgetDb', function() {
       budget = budgetDb(db._pouch, UUID);
     });
 
-    it('should get all that exist', (done) => {
-      db._pouch.bulkDocs([{
+    it('should get all that exist', () => {
+      return db._pouch.bulkDocs([{
         _id: 'b_555-555-555-555_account_foo',
         name: 'foobar',
         type: 'CREDIT'
       }]).then(res => {
-        budget.accounts.all().then(accounts => {
+        return budget.accounts.all().then(accounts => {
           expect(accounts.length).toBe(1);
 
           expect(accounts[0].constructor.name).toBe('Account');
@@ -237,64 +206,56 @@ describe('budgetDb', function() {
           expect(accounts[0].data._id).toBe('b_555-555-555-555_account_foo');
           expect(accounts[0].name).toBe('foobar');
           expect(accounts[0].type).toBe('CREDIT');
-
-          done();
         });
       });
     });
 
-    it('should update database on type change', (done) => {
-      db._pouch.bulkDocs([{
+    it('should update database on type change', () => {
+      return db._pouch.bulkDocs([{
         _id: 'b_555-555-555-555_account_foo',
         name: 'foobar',
         type: 'CREDIT'
       }]).then(res => {
-        budget.accounts.all().then(accounts => {
+        return budget.accounts.all().then(accounts => {
 
           accounts[0].type = 'DEBIT';
 
-          db._pouch.get('b_555-555-555-555_account_foo').then(r => {
+          return db._pouch.get('b_555-555-555-555_account_foo').then(r => {
             expect(r.type).toBe('DEBIT');
-
-            done();
           });
 
         });
       });
     });
 
-    it('should update database on name change', (done) => {
+    return it('should update database on name change', () => {
       db._pouch.bulkDocs([{
         _id: 'b_555-555-555-555_account_foo',
         name: 'foobar',
         type: 'CREDIT'
       }]).then(res => {
-        budget.accounts.all().then(accounts => {
+        return budget.accounts.all().then(accounts => {
 
           accounts[0].name = 'mynewname';
 
-          db._pouch.get('b_555-555-555-555_account_foo').then(r => {
+          return db._pouch.get('b_555-555-555-555_account_foo').then(r => {
             expect(r.name).toBe('mynewname');
-
-            done();
           });
 
         });
       });
     });
 
-    it('put', done => {
-      budget.accounts.put(new Account({
+    it('put', () => {
+      return budget.accounts.put(new Account({
         name: 'myNewAccount',
         type: 'CREDIT'
       })).then(() => {
-        budget.accounts.all().then(accounts => {
+        return budget.accounts.all().then(accounts => {
           expect(accounts[0].name).toBe('myNewAccount');
           expect(accounts[0].type).toBe('CREDIT');
           expect(accounts[0].data._id).toBeDefined();
           expect(accounts[0].data._id.indexOf('b_555-555-555-555_account_')).toBe(0);
-
-          done();
         });
       });
     });

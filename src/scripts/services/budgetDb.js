@@ -5,6 +5,7 @@ angular.module('financier').factory('budgetDb', (
   masterCategory,
   uuid,
   $q,
+  MonthCategory,
   defaultCategories) => {
 
   return (db, budgetId) => {
@@ -238,23 +239,56 @@ angular.module('financier').factory('budgetDb', (
         });
       }
 
+      function getAllCategories(monthDate) {
+        return db.allDocs({
+          include_docs: true,
+          startkey: MonthCategory.startKey(budgetId, monthDate),
+          endkey: MonthCategory.endKey(budgetId, monthDate)
+        })
+        .then(res => {
+          return res.rows.map(row => {
+            const bValue = new MonthCategory(row.doc);
+            bValue.subscribe(put);
+
+            return bValue;
+          });
+        })
+        .then(res => {
+          if (res.length) {
+            return $q.all(res);
+          }
+          return [];
+        });
+      }
+
       function all() {
         return db.allDocs({
           include_docs: true, /* eslint camelcase:0 */
           startkey: Month.startKey,
           endkey: Month.endKey
         }).then(res => {
-          const months = res.rows.map(row => {
-            return new Month(row.doc);
+          return Promise.all(res.rows.map(row => {
+            const month = new Month(row.doc, put);
+
+            return getAllCategories(month.date)
+            .then(monthCatVals => {
+              for (let i = 0; i < monthCatVals.length; i++) {
+                month.setBudget(monthCatVals[i]);
+              }
+
+              return month;
+            });
+          }))
+          .then(months => {
+            setUpLinks(months);
+            return months;
           });
 
-          setUpLinks(months);
-          return months;
         });
       }
 
       function put(month) {
-        return db.put(JSON.parse(JSON.stringify(month))).then(function(res) {
+        return db.put(JSON.parse(JSON.stringify(month))).then(res => {
           month.data._rev = res.rev;
         });
       }

@@ -12,7 +12,7 @@ angular.module('financier').controller('dbCtrl', function(db, myBudget, $statePa
 
   this.getNewBudgetView = function(date) {
     date = new Date(date);
-    $q.all([
+    return $q.all([
       b.budget.getFourMonthsFrom(date),
       b.categories
     ])
@@ -24,21 +24,28 @@ angular.module('financier').controller('dbCtrl', function(db, myBudget, $statePa
 
       b.budget.propagateRolling(
         categories
-          .map((m => m.categories.map(c => c._id)))
+          .map((m => m.categories.map(c => c.id)))
           .reduce((a, b) => a.concat(b)), 
         allMonths[0]
       );
     });
   };
 
-  const m = new Date();
+  let m = new Date();
+  if (myBudget.lastMonthOpenedId) {
+    m = moment(myBudget.lastMonthOpenedId);
+  }
   this.currentMonth = m;
 
   $scope.$watch(
     () => this.currentMonth,
-    currentMonth => {
+    (currentMonth, oldCurrentMonth) => {
       if (angular.isDefined(currentMonth)) {
         this.getNewBudgetView(currentMonth);
+      }
+
+      if (currentMonth && currentMonth !== m) {
+        myBudget.lastMonthOpenedId = Month.createID(new Date(currentMonth));
       }
     }
   );
