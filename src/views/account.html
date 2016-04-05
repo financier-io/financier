@@ -1,27 +1,23 @@
 <ul class="account__accounts-list">
-  <li class="account__account account__account--active">
+  <li class="account__account" ui-sref="app.db.account({accountId: null})"
+      ui-sref-active="account__account--active">
     All accounts
-    <span class="account__amount account__account--positive">$11,234.05</span>
+    <span class="account__amount account__account--positive">$0.00</span>
   </li>
-  <li class="account__account">
-    <span class="account__name">Checking</span>
-    <span class="account__amount account__account--positive">$1,234.05</span>
+  <li class="account__account"
+      ng-repeat="account in accountCtrl.accounts | filter: accountCtrl.isOpen"
+      ui-sref="app.db.account({accountId: account.id})"
+      ui-sref-active="account__account--active">
+    <span class="account__name">{{account.name}}</span> <i class="account__edit fa fa-cog" ng-click="accountCtrl.edit($event, account)"></i>
+    <span class="account__amount account__account--positive">$0.00</span>
   </li>
-  <li class="account__account">
-    <span class="account__name">Savings</span>
-    <span class="account__amount account__account--positive">$10,234.05</span>
-  </li>
-  <li class="account__account">
-    <span class="account__name">American Express</span>
-    <span class="account__amount account__account--positive">$1,234.93</span>
-  </li>
-  <li class="account__plus">+</li>
+  <li class="account__plus" ui-sref="app.db.account.create">+</li>
 </ul>
 
 <div class="account">
   <div class="account__thead">
     <div class="account__tr">
-      <div class="account__th">Account</div>
+      <div class="account__th" ng-if="!accountCtrl.accountId">Account</div>
       <div class="account__th">Flag</div>
       <div class="account__th">Date</div>
       <div class="account__th">Payee</div>
@@ -32,6 +28,11 @@
     </div>
   </div>
   <div class="account__tbody" infinite-scroll="accountCtrl.viewMore()">
+
+    <div class="account__tr">
+      <button><i class="fa fa-plus"></i> Add a new transaction</button>
+      <button><i class="fa fa-transfer"></i> Make a transfer</button>
+    </div>
 
     <div class="account__tr" ng-repeat="tWrap in accountCtrl.transactions | limitTo:accountCtrl.totalDisplayed">
       <div class="account__td">{{:: tWrap.transaction.account}}</div>

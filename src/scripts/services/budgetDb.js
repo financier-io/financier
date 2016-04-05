@@ -2,6 +2,7 @@ angular.module('financier').factory('budgetDb', (
   month,
   account,
   category,
+  transaction,
   masterCategory,
   uuid,
   $q,
@@ -12,11 +13,13 @@ angular.module('financier').factory('budgetDb', (
     const Month = month(budgetId);
     const Account = account(budgetId);
     const Category = category(budgetId);
+    const Transaction = transaction(budgetId);
     const MasterCategory = masterCategory(budgetId);
 
     const ret = {
       accounts: accounts(),
       categories: categories(),
+      transactions: transactions(),
       budget: budget(),
       remove
     };
@@ -52,12 +55,19 @@ angular.module('financier').factory('budgetDb', (
           for (let i = 0; i < res.rows.length; i++) {
             const acc = new Account(res.rows[i].doc);
 
-            acc.subscribe(put);
+            // acc.subscribe(put);
 
             accounts.push(acc);
           }
 
           return accounts;
+        });
+      }
+
+      function get(accountId) {
+        return db.get(Account.prefix + accountId)
+        .then(acc => {
+          return new Account(acc);
         });
       }
 
@@ -78,6 +88,57 @@ angular.module('financier').factory('budgetDb', (
       return {
         all,
         put,
+        get,
+        removeAll
+      };
+    }
+
+    function transactions() {
+      function all() {
+        return db.allDocs({
+          include_docs: true,
+          startkey: Transaction.startKey,
+          endkey: Transaction.endKey
+        }).then(res => {
+          const transactions = [];
+
+          for (let i = 0; i < res.rows.length; i++) {
+            const acc = new Transaction(res.rows[i].doc);
+
+            // acc.subscribe(put);
+
+            transactions.push(acc);
+          }
+
+          return transactions;
+        });
+      }
+
+      function get(accountId) {
+        return db.get(Transaction.prefix + accountId)
+        .then(acc => {
+          return new Transaction(acc);
+        });
+      }
+
+      function put(transaction) {
+        return db.put(transaction.toJSON()).then(res => {
+          transaction.data._rev = res.rev;
+        });
+      }
+
+      function removeAll() {
+        return all().then(transactions => {
+          for (let i = 0; i < transactions.length; i++) {
+            transactions[i].remove();
+          }
+        });
+      }
+
+      return {
+        all,
+        put,
+        get,
         removeAll
       };
     }

@@ -14,26 +14,52 @@
     text-align: center;
   }
 
+  .split {
+    display: flex;
+
+    * {
+      flex: 1;
+      margin-left: 4px;
+      margin-right: 4px;
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
   form {
     label {
+      font-size: 0.9em;
       display: block;
+      margin-top: 0.5em;
     }
 
-    input {
+    input,
+    select {
       display: block;
       width: 100%;
       padding: 5px 10px;
       font-size: 1rem;
       line-height: 1.5em;
+      height: 2.2em;
       border: 1px solid #bbb;
-
-      &:invalid {
-        border-color: $danger;
-      }
+      background: none;
 
       &:focus {
         border-color: $primary;
         outline: 0;
+      }
+
+      &:invalid,
+      .ng-invalid {
+        &.ng-touched {
+          border-color: $danger;
+        }
       }
     }
   }
@@ -75,6 +101,27 @@
 
         &:active {
           background-color: darken($primary, 10%);
+        }
+
+        &:disabled {
+          background-color: desaturate($primary, 20%);
+        }
+      }
+
+      &.danger {
+        background-color: $danger;
+        color: $white;
+
+        &:hover {
+          background-color: lighten($danger, 10%);
+        }
+
+        &:active {
+          background-color: darken($danger, 10%);
+        }
+
+        &:disabled {
+          background-color: desaturate($danger, 20%);
         }
       }
 

@@ -2,13 +2,15 @@ angular.module('financier').factory('account', uuid => {
   return budgetId => {
     return class Account {
       constructor(data = {
-        name: 'New account',
-        type: 'DEBIT'
+        type: 'DEBIT',
+        closed: false
       }) {
         // add _id if none exists
         if (!data._id) {
-          data._id = `b_${budgetId}_account_${uuid()}`;
+          data._id = Account.prefix + uuid();
         }
+
+        this.id = data._id.slice(data._id.lastIndexOf('_') + 1);
 
         this.data = data;
 
@@ -20,6 +22,24 @@ angular.module('financier').factory('account', uuid => {
 
       set name(n) {
         this.data.name = n;
+        this.emitChange();
+      }
+
+      get startingBalance() {
+        return this.data.startingBalance;
+      }
+
+      set startingBalance(n) {
+        this.data.startingBalance = n;
+        this.emitChange();
+      }
+
+      get startingBalanceDate() {
+        return this.data.startingBalanceDate;
+      }
+
+      set startingBalanceDate(n) {
+        this.data.startingBalanceDate = n;
         this.emitChange();
       }
 
@@ -44,6 +64,15 @@ angular.module('financier').factory('account', uuid => {
         return this.emitChange();
       }
 
+      get closed() {
+        return this.data.closed;
+      }
+
+      set closed(c) {
+        this.data.closed = c;
+        this.emitChange();
+      }
+
       subscribe(fn) {
         this.fn = fn;
       }
@@ -61,7 +90,11 @@ angular.module('financier').factory('account', uuid => {
       }
 
       static get endKey() {
-        return `b_${budgetId}_account_\uffff`;
+        return this.startKey + '\uffff';
+      }
+
+      static get prefix() {
+        return this.startKey;
       }
     };
   };

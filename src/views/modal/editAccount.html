@@ -1,0 +1,71 @@
+<h2>New account</h2>
+
+<form name="createAccountForm" ng-submit="editAccountCtrl.submit()" novalidate>
+  <label>
+    Account name
+    <input type="text"
+           name="name"
+           ng-model="editAccountCtrl.account.name"
+           placeholder="My account name"
+           required>
+    <div ng-messages="createAccountForm.name.$error"
+         ng-if="createAccountForm.name.$touched">
+      <div ng-message="required" class="message">This is required!</div>
+    </div>
+  </label>
+
+  <label>
+    Account type
+    <select name="type"
+            ng-model="editAccountCtrl.account.type"
+            required>
+      <option value="CREDIT">Credit</option>
+      <option value="DEBIT">Debit</option>
+    </select>
+  </label>
+  
+  <div class="split">
+    <label>
+      Current balance
+      <input type="number"
+             min="0"
+             step="0.01"
+             name="startingBalance"
+             ng-model="editAccountCtrl.account.startingBalance"
+             placeholder="0.00">
+      <div ng-messages="createAccountForm.startingBalance.$error"
+           ng-if="createAccountForm.startingBalance.$touched">
+        <div ng-message="number" class="message">Not a valid dollar amount</div>
+      </div>
+    </label>
+
+    <label>
+      Date of current balance
+      <input type="date"
+             name="startingBalanceDate"
+             ng-model="editAccountCtrl.account.startingBalanceDate"
+             placeholder="0.00">
+      <div ng-messages="createAccountForm.startingBalanceDate.$error"
+           ng-if="createAccountForm.startingBalanceDate.$touched">
+      </div>
+    </label>
+
+  </div>
+
+  <label>
+    Account closed
+    <input type="checkbox"
+           name="closed"
+           ng-model="editAccountCtrl.account.closed">
+    <div ng-messages="createAccountForm.startingBalanceDate.$error"
+         ng-if="createAccountForm.startingBalanceDate.$touched">
+    </div>
+  </label>
+
+  
+  <footer>
+    <button class="primary"
+            ng-disabled="createAccountForm.$invalid">Save</button>
+    <button ng-click="closeThisDialog()" type="button">Cancel</button>
+  </footer>
+</form>

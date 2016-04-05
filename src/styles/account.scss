@@ -40,7 +40,7 @@
     flex-direction: column;
     align-items: stretch;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 3.2rem);
 
     font-size: 0.9em;
 }
@@ -109,6 +109,11 @@
   color: white;
 }
 
+.account__edit {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .account__account {
   display: inline-block;
   list-style: none;
@@ -117,25 +122,38 @@
 
   height: 3.2rem;
   vertical-align: top;
+
+  cursor: pointer;
 }
 
 .account__name {
 
 }
 
-.account__plus {
-    @extend .account__account;
 
-    font-size: 3em;
-    line-height: 1em;
-    font-weight: 300;
+.account__plus {
+  @extend .account__account;
+
+  font-size: 3em;
+  line-height: 1em;
+  font-weight: 300;
 }
 
 .account__amount {
-    display: block;
-    font-weight: 300;
+  display: block;
+  font-weight: 300;
 }
 
 .account__account--active {
-    background-color: lighten($primary, 10%);
+  background-color: lighten($primary, 10%);
+
+  .account__edit {
+    opacity: 0.8;
+    pointer-events: auto;
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
+  }
 }

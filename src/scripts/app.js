@@ -68,16 +68,64 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
       controller: 'budgetCtrl as budgetCtrl'
     })
     .state('app.db.account', {
-      url: '/account',
+      url: '/account/:accountId',
       templateUrl: 'views/account.html',
       controller: 'accountCtrl as accountCtrl',
       resolve: {
-        accounts: ($stateParams, db) => {
-          return db.budget($stateParams.budgetId).accounts.all();
+        myBudget: (db, $stateParams) => {
+          return db.budget($stateParams.budgetId);
         },
-        budget: ($stateParams, db) => {
-          return db.budget($stateParams.budgetId).budget.all();
+        myAccounts: (db, $stateParams) => {
+          return db.budget($stateParams.budgetId).accounts.all();
         }
+      }
+    })
+    .state('app.db.account.edit', {
+      url: '/edit',
+      onEnter: function(ngDialog, $state, $stateParams) {
+        ngDialog.open({
+          template: 'views/modal/editAccount.html',
+          controller: 'editAccountCtrl',
+          controllerAs: 'editAccountCtrl',
+          resolve: {
+            myBudget: function(db) {
+              return db.budget($stateParams.budgetId);
+            },
+            myAccount: function(db) {
+              return db.budget($stateParams.budgetId).accounts.get($stateParams.accountId);
+            }
+          }
+        }).closePromise.finally(() => {
+          $state.go('^');
+        });
+      },
+      onExit: ngDialog => {
+        ngDialog.closeAll();
+      }
+    })
+    .state('app.db.account.create', {
+      url: '/create',
+      onEnter: function(ngDialog, $state, $stateParams) {
+        ngDialog.open({
+          template: 'views/modal/editAccount.html',
+          controller: 'editAccountCtrl',
+          controllerAs: 'editAccountCtrl',
+          resolve: {
+            myBudget: function(db) {
+              return db.budget($stateParams.budgetId);
+            },
+            myAccount: function($stateParams, account) {
+              const Account = account($stateParams.budgetId);
+
+              return new Account();
+            }
+          }
+        }).closePromise.finally(() => {
+          $state.go('^');
+        });
+      },
+      onExit: ngDialog => {
+        ngDialog.closeAll();
       }
     })
     .state('app.db.reports', {

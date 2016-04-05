@@ -1,28 +1,41 @@
-angular.module('financier').controller('accountCtrl', function($q, $scope, budget, accounts, Transaction) {
+angular.module('financier').controller('accountCtrl', function(myAccounts, $rootScope, $scope, $state, $stateParams, myBudget) {
+  this.accountId = $stateParams.accountId;
+
+  // The first load, to prevent flickering
+  this.accounts = myAccounts;
+
+
   this.transactions = [];
   this.totalDisplayed = 100;
-
-  for (let i = 0; i < budget.length; i++) {
-    const month = budget[i];
-
-    for (let categoryId in month.data.categories) {
-      if (month.data.categories.hasOwnProperty(categoryId)) {
-        const category = month.data.categories[categoryId];
-
-        for (let j = 0; j < category.transactions.length; j++) {
-          const transaction = category.transactions[i];
-
-          this.transactions.push({
-            transaction,
-            month,
-            categoryId
-          });
-        }
-      }
-    }
-  }
 
   this.viewMore = function() {
     this.totalDisplayed += 100;
   };
+
+  const getAccounts = () => {
+    return myBudget.accounts.all()
+    .then(accounts => {
+      this.accounts = accounts;
+      $scope.$apply();
+    });
+  };
+
+  $rootScope.$on('accounts:update', () => {
+    getAccounts();
+  });
+
+  this.remove = function(account) {
+    account.remove();
+
+    $scope.$apply();
+  };
+
+  this.edit = function(e, account) {
+    e.stopPropagation();
+
+    $state.go('app.db.account.edit');
+  };
+
+  this.isOpen = account => !account.closed;
+
 });

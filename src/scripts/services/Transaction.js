@@ -1,4 +1,4 @@
-angular.module('financier').factory('Transaction', uuid => {
+angular.module('financier').factory('transaction', uuid => {
   return class Transaction {
     constructor(obj, fn) {
       if (!angular.isNumber(obj.value)) {
