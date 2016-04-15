@@ -15,7 +15,8 @@ gulp.task('styles', function() {
         'bower_components/lato/scss/',
         'node_modules/font-awesome/scss/',
         'bower_components/tether-drop/dist/css',
-        'bower_components/ng-dialog/css'
+        'bower_components/ng-dialog/css',
+        'bower_components/angular-ladda-lw/dist'
       ])
     }).on('error', plugins.sass.logError))
     .pipe(plugins.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
@@ -67,7 +68,9 @@ gulp.task('copy:vendor', function() {
     './bower_components/tether/dist/js/tether.js',
     './bower_components/tether-drop/dist/js/drop.js',
     './bower_components/ng-dialog/js/ngDialog.js',
-    './node_modules/lie/dist/lie.polyfill.js'
+    './node_modules/lie/dist/lie.polyfill.js',
+    './bower_components/angular-ladda-lw/dist/angular-ladda-lw.js',
+    './bower_components/node-uuid/uuid.js'
   ])
     .pipe(gulp.dest('dist/vendor'));
 });

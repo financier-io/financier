@@ -1,4 +1,4 @@
-$budgetMonthCellPadding: 3px 5px 0;
+$budgetMonthCellPadding: 2px 5px 0;
 
 .budget {
   height: 100%;
@@ -103,7 +103,7 @@ $budgetMonthCellPadding: 3px 5px 0;
   margin-bottom: -1px;
 
   .budget__month-row--last & {
-    margin-bottom: 0;
+    margin-bottom: 0px;
   }
 
   // we want the input to emulate the cell
@@ -117,18 +117,19 @@ $budgetMonthCellPadding: 3px 5px 0;
     // we can't set padding from the cell to zero
     // because it would wreck the layout
     margin-left: -5px;
-    margin-top: -3px;
+    margin-top: -2px;
     
     // "effective" 100%, after adding margin
     width: calc(100% + 10px);
   
     // now we add the padding back to the input
-    padding: $budgetMonthCellPadding;
+    padding-right: 5px;
   
     // this is weird. 2em "magic number" minus 1px
     // for border collapsing (see the cell
     // border-bottom: -1px)
-    height: calc(2em - 1px);
+    height: 24px;
+    line-height: 24px;
 
     appearance: none;
     background: none;

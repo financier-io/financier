@@ -1,54 +1,130 @@
 angular.module('financier').factory('transaction', uuid => {
-  return class Transaction {
-    constructor(obj, fn) {
-      if (!angular.isNumber(obj.value)) {
-        throw new TypeError('Must provide number');
+  return budgetId => {
+    return class Transaction {
+      constructor(data) {
+        const myData = angular.extend({
+          _id: `b_${budgetId}_transaction_${uuid()}`,
+          value: null,
+          date: null,
+          category: null,
+          account: null,
+          payee: null,
+          memo: null,
+          cleared: false,
+          flag: false
+        }, data);
+
+        this.id = myData._id.slice(myData._id.lastIndexOf('_') + 1);
+
+        if (myData.date) {
+          this._date = new Date(myData.date);
+        }
+
+        this.data = myData;
       }
 
-      if (!obj.id) {
-        // TODO
-        this.id = uuid();
-      } else {
-        this.id = obj.id;
+      get value() {
+        return this.data.value;
       }
 
-      this._value = obj.value;
-      this.date = obj.date;
-      this.account = obj.account;
-      this.payee = obj.payee;
-      this.memo = obj.memo;
-      this.cleared = obj.cleared;
-      this.flag = obj.flag;
+      set value(x) {
+        this.data.value = x;
 
-      this.fn = fn;
-    }
+        this.emitChange();
+      }
 
-    get value() {
-      return this._value;
-    }
+      get date() {
+        return this._date;
+      }
 
-    set value(_value) {
-      const old = this._value;
-      this._value = _value;
+      set date(x) {
+        this.data.date = x.toISOString();
+        this._date = x;
 
-      this.fn && this.fn(_value, old);
-    }
+        this.emitChange();
+      }
 
-    subscribe(fn) {
-      this.fn = fn;
-    }
+      get category() {
+        return this.data.category;
+      }
 
-    toJSON() {
-      return {
-        value: this._value,
-        date: this.date,
-        account: this.account,
-        payee: this.payee,
-        memo: this.memo,
-        cleared: this.cleared,
-        flag: this.flag,
-        id: this.id
-      };
-    }
+      set category(x) {
+        this.data.category = x;
+
+        this.emitChange();
+      }
+
+      get account() {
+        return this.data.account;
+      }
+
+      set account(x) {
+        this.data.account = x;
+
+        this.emitChange();
+      }
+
+      get payee() {
+        return this.data.payee;
+      }
+
+      set payee(x) {
+        this.data.payee = x;
+
+        this.emitChange();
+      }
+
+      get memo() {
+        return this.data.memo;
+      }
+
+      set memo(x) {
+        this.data.memo = x;
+
+        this.emitChange();
+      }
+
+      get cleared() {
+        return this.data.cleared;
+      }
+
+      set cleared(x) {
+        this.data.cleared = x;
+
+        this.emitChange();
+      }
+
+      get flag() {
+        return this.data.flag;
+      }
+
+      set flag(x) {
+        this.data.flag = x;
+
+        this.emitChange();
+      }
+
+      get _id() {
+        return this.data._id;
+      }
+
+      subscribe(fn) {
+        this.fn = fn;
+      }
+
+      emitChange() {
+        return this.fn && this.fn(this);
+      }
+
+      remove() {
+        this.data._deleted = true;
+
+        return this.emitChange();
+      }
+
+      toJSON() {
+        return this.data;
+      }
+    };
   };
 });

@@ -1,0 +1,146 @@
+.signup {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  max-width: 900px;
+  margin: 0 auto;
+
+  h1 {
+    text-align: center;
+    margin-bottom: 0;
+  }
+}
+
+.signup__compare {
+  flex: 1;
+
+  max-width: 400px;
+  
+  margin: 0 1em 1em;
+  padding: 0 1em;
+
+  border-radius: 1em;
+
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    margin: 0.5em 0;
+  }
+
+  h2 {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.5em;
+    text-align: center;
+    line-height: 1.5em;
+
+    em {
+      letter-spacing: 1px;
+    }
+
+    small {
+      opacity: 0.6;
+      font-size: 60%;
+      display: block;
+      line-height: 1;
+    }
+  }
+
+  i {
+    font-size: 1.5em;
+    margin-right: 0.25rem;
+
+  }
+
+  .fa-check-circle-o {
+    color: $primary;
+  }
+
+  .fa-times-circle-o {
+    color: $danger;
+  }
+
+  i,
+  span {
+    vertical-align: middle;
+  }
+}
+
+.signup__upcoming {
+  opacity: 0.4;
+}
+
+.signup__button {
+  padding: 1em 0;
+  border: 0;
+  width: 100%;
+
+  background: $primary-alt;
+  color: $white;
+  text-decoration: none;
+
+  &:hover {
+    background: darken($primary-alt, 3%);
+  }
+
+  &:disabled {
+    background: darken($primary-alt, 3%);
+  }
+}
+
+.signup__footer {
+  width: 100%;
+}
+
+.signup__footer-container {
+  border: 1px solid $primary-alt;
+  max-width: 300px;
+  margin: 0 auto 1em;
+  padding: 1em 2em 2em;
+
+  h2 {
+    margin: 0 0 0.5em;
+    text-align: center;
+  }
+}
+
+.signup__footer-row {
+  &:not(:last-child) {
+    margin-bottom: 1em;
+  }
+
+  input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 6px 35px 6px 5px;
+    border: 1px solid #ddd;
+
+    &:focus {
+      outline: 0;
+      border: 1px solid $primary-alt;
+    }
+  }
+}
+
+.signup__password-field {
+  position: relative;
+
+  i {
+    position: absolute;
+    right: 15px;
+    top: 0;
+    line-height: 36px; // magic numbers ftw
+  }
+}
+
+.signup__footer-note {
+  font-size: 0.75em;
+  color: $darkGray;
+  text-align: justify;
+}

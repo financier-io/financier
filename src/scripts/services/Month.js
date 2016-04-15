@@ -1,4 +1,4 @@
-angular.module('financier').factory('month', (Transaction, Income, MonthCategory) => {
+angular.module('financier').factory('month', (MonthCategory) => {
   return budgetId => {
     return class Month {
 
@@ -14,6 +14,9 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
           myData = defaults;
           myData._id = `b_${budgetId}_month_${data}`;
         } else {
+          if (!data._id) {
+            throw 'boom!'
+          }
           myData = angular.extend(defaults, data);
         }
 
@@ -82,6 +85,34 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
 
       }
 
+      addTransaction(trans) {
+        const categoryChangeFn = (newCatId, oldCatId) => {
+          if (this.categoryCache[oldCatId]) {
+            this.categoryCache[oldCatId].balance -= trans.value;
+          }
+
+          this.createCategoryCacheIfEmpty(newCatId);
+          this.categoryCache[newCatId].balance += trans.value;
+        };
+
+        const valueChangeFn = (newValue, oldValue) => {
+          this.createCategoryIfEmpty(trans.category);
+
+          this.categoryCache[trans.category].balance += newValue - oldValue;
+        };
+
+        trans.subscribeCategoryChange(categoryChangeFn);
+        trans.subscribeValueChange(valueChangeFn);
+
+        this.createCategoryCacheIfEmpty(trans.category);
+
+        this.categoryCache[trans.category].balance += trans.value;
+      }
+
+      removeTransaction(trans) {
+        this.categoryCache[trans.category].balance -= trans.value;
+      }
+
 
       note(catId) {
         this.createCategoryIfEmpty(catId);
@@ -97,13 +128,7 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
         };
       }
 
-      remove() {
-        this.data._deleted = true;
-        return this.recordChangesFn && this.recordChangesFn(this);
-      }
-
       createCategoryIfEmpty(catId) {
-
         if (!this.categories[catId]) {
           this.categories[catId] = new MonthCategory.from(budgetId, this.date, catId);
 
@@ -145,13 +170,17 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
         this.nextChangeAvailableFn && this.nextChangeAvailableFn(this.cache.totalAvailable);
       }
 
+      subscribeTransactionDateChange(fn) {
+        // TODO
+      }
+
       changeAvailable(value) {
         this.cache.totalAvailable += value;
         this.nextChangeAvailableFn && this.nextChangeAvailableFn(value);
       }
 
-      subscribeRecordChanges(recordChangesFn) {
-        this.recordChangesFn = recordChangesFn;
+      subscribeTransactionDateChange(fn) {
+        this.subscribeTransactionDateChangeFn = fn;
       }
 
       toJSON() {
@@ -168,7 +197,11 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
       }
 
       static get endKey() {
-        return `b_${budgetId}_month_\uffff`;
+        return this.startKey + '\uffff';
+      }
+
+      static get prefix() {
+        return this.startKey;
       }
     };
   };

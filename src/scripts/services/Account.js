@@ -3,7 +3,8 @@ angular.module('financier').factory('account', uuid => {
     return class Account {
       constructor(data = {
         type: 'DEBIT',
-        closed: false
+        closed: false,
+        name: null
       }) {
         // add _id if none exists
         if (!data._id) {

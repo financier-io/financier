@@ -1,7 +1,8 @@
-angular.module('financier').controller('dbCtrl', function(db, myBudget, $stateParams, $scope, $q, month) {
+angular.module('financier').controller('dbCtrl', function(data, myBudget, $stateParams, $scope, $q, month) {
+  const {manager, categories} = data;
+
   const budgetId = $stateParams.budgetId;
 
-  const b = db.budget(budgetId);
   const Month = month(budgetId);
 
   this.budget = myBudget;
@@ -9,27 +10,9 @@ angular.module('financier').controller('dbCtrl', function(db, myBudget, $statePa
   // Triggers 'last opened on' date change
   this.budget.open();
 
+  this.categories = categories;
 
-  this.getNewBudgetView = function(date) {
-    date = new Date(date);
-    return $q.all([
-      b.budget.getFourMonthsFrom(date),
-      b.categories
-    ])
-    .then(([allMonths, categories]) => {
-      this.allMonths = allMonths;
-      this.categories = categories;
-
-      this.months = getView(date, allMonths);
-
-      b.budget.propagateRolling(
-        categories
-          .map((m => m.categories.map(c => c.id)))
-          .reduce((a, b) => a.concat(b)), 
-        allMonths[0]
-      );
-    });
-  };
+  this.months = getView(new Date());
 
   let m = new Date();
   if (myBudget.lastMonthOpenedId) {
@@ -41,7 +24,7 @@ angular.module('financier').controller('dbCtrl', function(db, myBudget, $statePa
     () => this.currentMonth,
     (currentMonth, oldCurrentMonth) => {
       if (angular.isDefined(currentMonth)) {
-        this.getNewBudgetView(currentMonth);
+        this.months = getView(currentMonth.toDate ? currentMonth.toDate() : currentMonth);
       }
 
       if (currentMonth && currentMonth !== m) {
@@ -50,12 +33,17 @@ angular.module('financier').controller('dbCtrl', function(db, myBudget, $statePa
     }
   );
 
-  function getView(date, allMonths) {
+  function getView(date) {
+    // Make sure that we have the months
+    manager.getMonth(date);
+    const dateUntil = moment(date).add(5, 'months').toDate();
+    manager.getMonth(dateUntil);
+
     const dateId = Month.createID(date);
 
-    for (let i = allMonths.length - 1; i >= 0; i--) {
-      if (allMonths[i].date === dateId) {
-        return allMonths.slice(i, i + 5);
+    for (let i = manager.months.length - 1; i >= 0; i--) {
+      if (manager.months[i].date === dateId) {
+        return manager.months.slice(i, i + 5);
       }
     }
     throw new Error(`Couldn't find base month in database!`);

@@ -1,0 +1,55 @@
+<header class="header">
+  <staging-warning></staging-warning>
+
+  <div class="header__header">
+    <h1 class="header__title">
+      <a ui-sref="budget">Financier</a>
+    </h1>
+
+
+    <ul class="header__links">
+      <li class="header__link" ui-sref-active="header__link--active">
+        <a ui-sref="app.db.budget"><i class="fa fa-tags"></i> Budget</a>
+      </li>
+      <li class="header__link" ui-sref-active="header__link--active">
+        <a ui-sref="app.db.account">
+          <i class="fa fa-credit-card"></i> Accounts
+          <aside>{{(accountCtrl.total || 0) | intCurrency | currency}}</aside>
+        </a>
+      </li>
+      <li class="header__link" ui-sref-active="header__link--active">
+        <a ui-sref="app.db.reports"><i class="fa fa-pie-chart"></i> Reports</a>
+      </li>
+
+      <hr class="header__underline" />
+    </ul>
+
+    <div class="header__accounts">
+      <div class="header__accounts-title">My accounts</div>
+
+      <ul class="account__accounts-list">
+        <li class="account__account" ui-sref="app.db.account({accountId: null})"
+            ui-sref-active="account__account--active">
+          All accounts
+          <span class="account__amount account__account--positive">{{(accountCtrl.total || 0) | intCurrency | currency}}</span>
+        </li>
+        <li class="account__account"
+            ng-repeat="account in accountCtrl.accounts | filter: accountCtrl.isOpen"
+            ui-sref="app.db.account({accountId: account.id})"
+            ui-sref-active="account__account--active">
+          <span class="account__name">{{account.name}}</span> <i class="account__edit fa fa-cog" ng-click="accountCtrl.edit($event, account)"></i>
+          <span class="account__amount account__account--positive">{{(accountCtrl.accountTotals[account.id] || 0) | intCurrency | currency}}</span>
+        </li>
+        <li class="account__plus" ui-sref="app.db.account.create">+</li>
+      </ul>
+    </div>
+
+
+    <a class="header__sync" ui-sref="signup">
+      Upgrade to unlock syncing.<br>Free for 30 days!
+    </a>
+  </div>
+
+  <div ui-view class="header__body"></div>
+</header>
+

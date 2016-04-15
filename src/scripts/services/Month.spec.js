@@ -1,5 +1,5 @@
 describe('month', function() {
-  let month, Month, Transaction, Income;
+  let month, Month, transaction, Transaction, Income;
 
   function defaultMonth() {
     return {
@@ -9,15 +9,16 @@ describe('month', function() {
 
   beforeEach(module('financier'));
 
-  beforeEach(inject((_month_, _Transaction_, _Income_) => {
+  beforeEach(inject((_month_, _transaction_, _Income_) => {
     month = _month_;
-    Transaction = _Transaction_;
+    transaction = _transaction_;
     Income = _Income_;
   }));
 
   describe('Month', () => {
     beforeEach(() => {
       Month = month('111-111-111-111');
+      Transaction = transaction('111-111-111-111');
     });
 
     describe('static properties', () => {
@@ -37,6 +38,10 @@ describe('month', function() {
 
       it('endKey', () => {
         expect(Month.endKey).toBe('b_111-111-111-111_month_\uffff');
+      });
+
+      it('prefix', () => {
+        expect(Month.prefix).toBe('b_111-111-111-111_month_');
       });
     });
 

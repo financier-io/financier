@@ -14,12 +14,13 @@ angular.module('financier').factory('MonthCategory', uuid => {
 
       this.data = myData;
 
-      this.categoryId = myData._id.slice(myData._id.lastIndexOf('_') + 1);
-
+      const s = myData._id.split('_');
+      this.categoryId = s[s.length - 1];
+      this.monthId = s[s.length - 2];
     }
 
     static _fromId(budgetId, monthId, categoryId) {
-      return `b_${budgetId}_m_${monthId}_month-category_${categoryId}`;
+      return `b_${budgetId}_m_category_${monthId}_${categoryId}`;
     }
 
     static from(budgetId, monthId, categoryId) {
@@ -78,12 +79,12 @@ angular.module('financier').factory('MonthCategory', uuid => {
       return this.data;
     }
 
-    static startKey(budgetId, monthDate) {
-      return `b_${budgetId}_m_${monthDate}_month-category_`;
+    static startKey(budgetId) {
+      return `b_${budgetId}_m_category_`;
     }
 
-    static endKey(budgetId, monthDate) {
-      return `b_${budgetId}_m_${monthDate}_month-category_\uffff`;
+    static endKey(budgetId) {
+      return `b_${budgetId}_m_category_\uffff`;
     }
   };
 });

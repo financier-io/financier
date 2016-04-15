@@ -1,4 +1,4 @@
-angular.module('financier').controller('budgetsCtrl', function($scope, $http, db, ngDialog, budgetDb) {
+angular.module('financier').controller('budgetsCtrl', function(myBudgets, $scope, $http, db, ngDialog, budgetDb) {
   // $http.get('/api/version').then(res => {
   //   this.version = res.data;
   // });
@@ -11,7 +11,7 @@ angular.module('financier').controller('budgetsCtrl', function($scope, $http, db
     });
   };
 
-  getBudgets();
+  this.budgets = myBudgets;
 
   $scope.$on('budgets:update', () => {
     getBudgets();

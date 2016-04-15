@@ -210,25 +210,7 @@ describe('budgetDb', function() {
       });
     });
 
-    it('should update database on type change', () => {
-      return db._pouch.bulkDocs([{
-        _id: 'b_555-555-555-555_account_foo',
-        name: 'foobar',
-        type: 'CREDIT'
-      }]).then(res => {
-        return budget.accounts.all().then(accounts => {
-
-          accounts[0].type = 'DEBIT';
-
-          return db._pouch.get('b_555-555-555-555_account_foo').then(r => {
-            expect(r.type).toBe('DEBIT');
-          });
-
-        });
-      });
-    });
-
-    return it('should update database on name change', () => {
+    it('should update database on name change', () => {
       db._pouch.bulkDocs([{
         _id: 'b_555-555-555-555_account_foo',
         name: 'foobar',

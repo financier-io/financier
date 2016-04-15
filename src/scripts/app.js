@@ -4,7 +4,8 @@ let financier = angular.module('financier', [
   'ng-sortable',
   'ngAnimate',
   'ngDialog',
-  'ngMessages'
+  'ngMessages',
+  'angular-ladda-lw'
 ]).run((offline, $rootScope, $timeout) => {
   offline.register();
 
@@ -21,10 +22,20 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
   //
   // Now set up the states
   $stateProvider
+    .state('signup', {
+      url: '/signup',
+      templateUrl: 'views/signup.html',
+      controller: 'signupCtrl as signupCtrl'
+    })
     .state('budget', {
       url: '/',
       templateUrl: 'views/budgets.html',
-      controller: 'budgetsCtrl as budgetsCtrl'
+      controller: 'budgetsCtrl as budgetsCtrl',
+      resolve: {
+        myBudgets: function(db) {
+          return db.budgets.all();
+        }
+      }
     })
     .state('budget.create', {
       url: 'create-budget',
@@ -43,22 +54,40 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
     })
     .state('app', {
       url: '/:budgetId',
-      templateUrl: 'views/header.html',
-      controller: $scope => {
-        angular.element(document.body).addClass('overflow-hidden');
-
-        $scope.$on('$destroy', () => {
-          angular.element(document.body).removeClass('overflow-hidden');
-        });
-      }
+      templateUrl: 'views/sidebar.html',
+      resolve: {
+        myBudget: function(db, $stateParams) {
+          return db.budgets.get($stateParams.budgetId);
+        },
+        myBudgeter: (db, $stateParams) => {
+          return db.budget($stateParams.budgetId); // .accounts.all();
+        }
+      },
+      controller: 'accountCtrl as accountCtrl'
     })
     .state('app.db', {
       abstract: true,
       controller: 'dbCtrl as dbCtrl',
       template: '<ui-view state-class class="view-transition"></ui-view>',
       resolve: {
-        myBudget: function(db, $stateParams) {
-          return db.budgets.get($stateParams.budgetId);
+        data: function($q, db, $stateParams, myBudgeter) {
+
+          return $q.all([
+            myBudgeter.budget(),
+            myBudgeter.categories
+          ])
+          .then(([manager, categories]) => {
+            manager.propagateRolling(
+              categories
+                .map((m => m.categories.map(c => c.id)))
+                .reduce((a, b) => a.concat(b))
+            );
+
+            return {manager, categories};
+          })
+          .catch(e => {
+            throw e;
+          });
         }
       }
     })
@@ -69,16 +98,7 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
     })
     .state('app.db.account', {
       url: '/account/:accountId',
-      templateUrl: 'views/account.html',
-      controller: 'accountCtrl as accountCtrl',
-      resolve: {
-        myBudget: (db, $stateParams) => {
-          return db.budget($stateParams.budgetId);
-        },
-        myAccounts: (db, $stateParams) => {
-          return db.budget($stateParams.budgetId).accounts.all();
-        }
-      }
+      templateUrl: 'views/account.html'
     })
     .state('app.db.account.edit', {
       url: '/edit',

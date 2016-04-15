@@ -10,13 +10,13 @@
   transform: translate3d(0, 0, 0);
 }
 
-.ng-enter {
-  z-index: 8888;
-}
+// .ng-enter {
+//   z-index: $zPageEnter;
+// }
 
-.ng-leave {
-  z-index: 9999;
-}
+// .ng-leave {
+//   z-index: $zPageLeave;
+// }
 
 .state-app-db-budget.ng-enter {
   animation: slideInLeft 0.5s both ease;
@@ -53,36 +53,36 @@
 // slide in from the bottom
 @keyframes slideOutLeft {
   to {
-    transform: translateX(-100%);
+    transform: translateY(-100%);
   }
 }
 
 // slide in from the right
 @keyframes slideInRight {
   from {
-    transform: translateX(100%);
+    transform: translateY(100%);
   }
 
   to {
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 
 // slide in from the bottom
 @keyframes slideOutRight {
   to {
-    transform: translateX(100%);
+    transform: translateY(100%);
   }
 }
 
 // slide in from the right
 @keyframes slideInLeft {
   from {
-    transform: translateX(-100%);
+    transform: translateY(-100%);
   }
 
   to {
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 

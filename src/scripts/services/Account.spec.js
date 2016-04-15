@@ -42,7 +42,7 @@ describe('account', function() {
 
       expect(acc.type).toBe('DEBIT');
       expect(acc.data._id).toBeDefined(); // randomly generated if not provided
-      expect(acc.name).toBe('New account');
+      expect(acc.name).toBe(null);
     });
 
     it('generates _id if none exists', () => {

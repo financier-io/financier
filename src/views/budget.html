@@ -57,12 +57,12 @@
             <div class="budget__td budget__month-row month-body__cell-head"
                 ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths"
                 ng-controller="masterCategoryCtrl as masterCategoryCtrl"
-                >{{masterCategoryCtrl.budget | intCurrency}}</div>
+                >{{masterCategoryCtrl.budget | intCurrency | currency : ''}}</div>
             <div class="budget__td budget__month-row month-body__cell-head">0.00</div>
             <div class="budget__td budget__month-row month-body__cell-head"
                 ng-class="{'budget__month-end': !$last}"
                 ng-controller="masterCategoryCtrl as masterCategoryCtrl"
-                ng-repeat-end>{{masterCategoryCtrl.balance | intCurrency}}</div>
+                ng-repeat-end>{{masterCategoryCtrl.balance | intCurrency | currency : ''}}</div>
         </div>
         
         <div class="budget__category-sortable" ng-sortable="categorySortable" ng-mouseenter="masterCategorySortable.disabled = true" ng-mouseleave="masterCategorySortable.disabled = false">
@@ -103,7 +103,7 @@
                 ng-class="{'budget__month-end': !$last,
                            'budget__month-row--inactive': !month.categoryCache[row.id].balance}"
                 ng-repeat-end>
-              {{month.categoryCache[row.id].balance | intCurrency}}
+              {{(month.categoryCache[row.id].balance || 0) | intCurrency | currency : ''}}
             </div>
           </div>
         </div>

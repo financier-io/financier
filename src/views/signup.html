@@ -1,0 +1,61 @@
+<div class="signup">
+  <h1>Sign up today for Financier Premium. No credit card required.</h1>
+
+  
+  <div class="signup__compare">
+    <h2><em>Free plan</em> <small>Free, forever!</small></h2>
+    
+    <ul>
+      <li><i class="fa fa-check-circle-o"></i> <span>100% offline functionality</span></li>
+      <li><i class="fa fa-times-circle-o"></i> <span>No syncing, data stored in browser</span></li>
+      <li><i class="fa fa-times-circle-o"></i> <span><strong>Clearing your browser cache will delete budgets!</strong></span></li>
+    </ul>
+  </div>
+
+  <div class="signup__compare">
+    <h2><em>Premium plan</em> <small>$5/month</small></h2>
+
+    <ul>
+      <li><i class="fa fa-check-circle-o"></i> <span>100% offline functionality</span></li>
+      <li><i class="fa fa-check-circle-o"></i> <span>Syncing and backups to the cloud</span></li>
+      <li><i class="fa fa-check-circle-o"></i> <span>Access your budgets across devices</span></li>
+      <li><i class="fa fa-check-circle-o"></i> <span>Feed the developer</span></li>
+      <li class="signup__upcoming"><i class="fa fa-check-circle-o"></i> <span>Mobile app &mdash; coming soon!</span></li>
+    </ul>  
+  </div>
+  
+  <div class="signup__footer">
+    <div class="signup__footer-container">
+      <h2>Sign up</h2>
+      
+      <form ng-submit="signupCtrl.submit()">
+        <div class="signup__footer-row">
+          <label>
+            Your email
+            <input type="email">
+          </label>
+        </div>
+        <div class="signup__footer-row">
+          <label>
+            Your password
+            <div class="signup__password-field">
+              <input type="password">
+              <i class="fa fa-lock"></i>
+            </div>
+          </label>
+        </div>
+
+        <div class="signup__footer-row">
+          <button class="signup__button" ladda="signupCtrl.loading">Try free for 28 days</button>
+        </div>
+
+        <div class="signup__footer-note">
+          Your password is immediately encrypted with PBKDF2. We will never share your personal information. By signing up, you agree to our <a href="https://financier.io/terms-of-service">terms of service</a> and <a href="https://financier.io/privacy-policy">privacy policy</a>.
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>
+
+

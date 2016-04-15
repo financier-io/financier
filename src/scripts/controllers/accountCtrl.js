@@ -1,41 +1,66 @@
-angular.module('financier').controller('accountCtrl', function(myAccounts, $rootScope, $scope, $state, $stateParams, myBudget) {
-  this.accountId = $stateParams.accountId;
+angular.module('financier').controller('accountCtrl', function(myBudgeter, $rootScope, $scope, $state, $stateParams, myBudget) {
+  // this.accountId = $stateParams.accountId;
 
   // The first load, to prevent flickering
-  this.accounts = myAccounts;
+  // this.accounts = myAccounts;
 
+  // const getAccounts = () => {
+  //   return myBudget.accounts.all()
+  //   .then(accounts => {
+  //     this.accounts = accounts;
+  //     $scope.$apply();
+  //   });
+  // };
 
-  this.transactions = [];
-  this.totalDisplayed = 100;
+  // const getTransactions = () => {
+  //   return myBudget.transactions.all()
+  //   .then(transactions => {
+  //     this.calculateTransactionTotals(transactions);
+  //     $scope.$apply();
+  //   });
+  // };
 
-  this.viewMore = function() {
-    this.totalDisplayed += 100;
-  };
+  // const calculateTransactionTotals = transactions => {
+  //   this.accountTotals = {};
+  //   this.total = 0;
 
-  const getAccounts = () => {
-    return myBudget.accounts.all()
-    .then(accounts => {
-      this.accounts = accounts;
-      $scope.$apply();
-    });
-  };
+  //   for (let i = 0; i < transactions.length; i++) {
+  //     if (!this.accountTotals[transactions[i].account]) {
+  //       this.accountTotals[transactions[i].account] = 0;
+  //     }
 
-  $rootScope.$on('accounts:update', () => {
-    getAccounts();
-  });
+  //     this.accountTotals[transactions[i].account] += transactions[i].value;
+  //     this.total += transactions[i].value;
+  //   }
+  // };
 
-  this.remove = function(account) {
-    account.remove();
+  // $rootScope.$on('accounts:update', () => {
+  //   getAccounts();
+  // });
 
-    $scope.$apply();
-  };
+  // $rootScope.$on('transactions:update', () => {
+  //   getTransactions();
+  // });
 
-  this.edit = function(e, account) {
-    e.stopPropagation();
+  // this.remove = account => {
+  //   account.remove();
 
-    $state.go('app.db.account.edit');
-  };
+  //   $scope.$apply();
+  // };
 
-  this.isOpen = account => !account.closed;
+  // this.edit = (e, account) => {
+  //   e.stopPropagation();
+
+  //   $state.go('app.db.account.edit');
+  // };
+
+  // this.isOpen = account => !account.closed;
+
+  // this.transactions = [];
+  // this.totalDisplayed = 100;
+
+  // this.viewMore = function() {
+  //   this.totalDisplayed += 100;
+  // };
 
 });
