@@ -1,5 +1,11 @@
-angular.module('financier').controller('signupCtrl', function(User) {
+angular.module('financier').controller('signupCtrl', function($timeout, User) {
+
   this.submit = (email, password) => {
+    $timeout(() => {
+    this.success = true;
+      this.loading = false;
+      document.activeElement.blur();
+    }, 1000)
     this.loading = true;
 
     // User.create(email, password)
@@ -10,7 +16,6 @@ angular.module('financier').controller('signupCtrl', function(User) {
     //   this.error = true;
     // })
     // .finally(() => {
-    //   this.loading = false;
     // });
   };
 });

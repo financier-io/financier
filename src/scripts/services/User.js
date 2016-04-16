@@ -1,7 +1,10 @@
-angular.module('financier').factory('User', () => {
+angular.module('financier').factory('User', $http => {
   return {
-    create: (username, password) => {
-
+    create: (email, password) => {
+      return $http.post('/manage/users', {
+        email,
+        password
+      });
     }
   };
 });

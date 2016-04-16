@@ -1,16 +1,23 @@
-.header {
-  width: 100%;
-  height: 100%;
+.app-view {
+  height: 100vh;
   display: flex;
-  // flex-flow: column;
+  flex-direction: column;
 }
 
-.header__header {
+.app-view__header {
+  width: 100%;
+}
+
+.app-view__main {
+  flex: 1000;
+  display: flex;
+}
+
+.app-view__sidebar {
+  width: 15em;
   position: relative;
 
   background-color: $primary;
-  height: 100%;
-  width: 15em;
   color: $white;
 
   a {
@@ -18,7 +25,12 @@
   }
 }
 
-.header__sync {
+.app-view__body {
+  flex: 1;
+  position: relative;
+}
+
+.app-view__sync {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -28,7 +40,7 @@
   text-align: center;
 }
 
-.header__title {
+.app-view__title {
   display: inline-block;
   font-size: 1.4em;
   font-weight: 300;
@@ -52,13 +64,13 @@
   }
 }
 
-.header__links {
+.app-view__links {
   margin: 0;
   padding: 0;
   position: relative;
 }
 
-.header__link {
+.app-view__link {
   display: inline-block;
   width: 100%;
   padding: 0 0.2em;
@@ -90,7 +102,7 @@
   }
 
   &:nth-child(1) {
-    &.header__link--active {
+    &.app-view__link--active {
       background-color: rgba(255, 255, 255, 0.1);
 
       ~ hr {
@@ -100,7 +112,7 @@
   }
 
   &:nth-child(2) {
-    &.header__link--active {
+    &.app-view__link--active {
       background-color: rgba(255, 255, 255, 0.1);
 
       ~ hr {
@@ -110,7 +122,7 @@
   }
 
   &:nth-child(3) {
-    &.header__link--active {
+    &.app-view__link--active {
       background-color: rgba(255, 255, 255, 0.1);
 
       ~ hr {
@@ -144,7 +156,7 @@
   }
 }
 
-.header__underline {
+.app-view__underline {
   width: 5px;
   height: 33.33%;
   position: absolute;
@@ -155,21 +167,14 @@
   transition: 200ms ease;
 }
 
-.header__link--active {
+.app-view__link--active {
   opacity: 1;
 }
 
-.header__accounts {
+.app-view__accounts {
   margin: 0.5em;
 }
 
-.header__accounts-title {
+.app-view__accounts-title {
   font-size: 0.9em;
-}
-
-.header__body {
-  // height: calc(100% - #{$headerHeight});
-  position: relative;
-  // width: 100%;
-  flex: 1;
 }

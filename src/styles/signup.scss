@@ -102,6 +102,8 @@
   max-width: 300px;
   margin: 0 auto 1em;
   padding: 1em 2em 2em;
+  position: relative;
+  overflow: hidden;
 
   h2 {
     margin: 0 0 0.5em;
@@ -121,10 +123,106 @@
     padding: 6px 35px 6px 5px;
     border: 1px solid #ddd;
 
+    &:invalid {
+      &.ng-touched {
+        border: 1px solid $danger;
+      }
+    }
+
+    &:invalid:focus,
     &:focus {
       outline: 0;
       border: 1px solid $primary-alt;
     }
+  }
+}
+
+.signup__footer-success {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  color: $white;
+  background-color: rgba(255, 255, 255, 0);
+
+  animation: signupEaseUp 500ms ease;
+  animation-fill-mode: forwards;
+
+  div {
+    animation: signupTextEaseUp 500ms ease;
+    animation-fill-mode: forwards;
+    animation-delay: 250ms;
+
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    left: 0;
+    right: 0;
+    opacity: 0;
+
+    font-size: 2em;
+
+  }
+
+  i {
+    font-size: 1.5em;
+
+    animation: signupIconOut 2s ease;
+    animation-fill-mode: forwards;
+    animation-delay: 1s;
+  }
+
+  span {
+    display: inline-block;
+    position: relative;
+
+    animation: slightlyUp 1s ease;
+    animation-fill-mode: forwards;
+    animation-delay: 1s;
+  }
+}
+
+@keyframes signupEaseUp {
+  0% {
+    background-color: $white;
+  }
+
+  100% {
+    background-color: rgba($primary-alt, 0.8);
+  }
+}
+
+@keyframes signupTextEaseUp {
+  0% {
+    transform: translateY(-25%);
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes signupIconOut {
+  0% {
+    transform: translate(0);
+  }
+
+  100% {
+    transform: translate(3em, -5em);
+  }
+}
+
+@keyframes slightlyUp {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-1.5em);
   }
 }
 

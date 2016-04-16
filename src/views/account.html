@@ -1,4 +1,10 @@
 <div class="account">
+  <div class="account__tbody">
+    <div class="account__tr">
+      <button class="account__add-button" ng-click="accountCtrl.createTransaction()"><i class="fa fa-plus"></i> Add a new transaction</button>
+      <button class="account__add-button"><i class="fa fa-exchange"></i> Make a transfer</button>
+    </div>
+  </div>
   <div class="account__thead">
     <div class="account__tr">
       <div class="account__th" ng-if="!accountCtrl.accountId">Account</div>
@@ -13,20 +19,15 @@
   </div>
   <div class="account__tbody" infinite-scroll="accountCtrl.viewMore()">
 
-    <div class="account__tr">
-      <button><i class="fa fa-plus"></i> Add a new transaction</button>
-      <button><i class="fa fa-transfer"></i> Make a transfer</button>
-    </div>
-
-    <div class="account__tr" ng-repeat="tWrap in accountCtrl.transactions | limitTo:accountCtrl.totalDisplayed">
-      <div class="account__td">{{:: tWrap.transaction.account}}</div>
-      <div class="account__td">{{:: tWrap.transaction.flag}}</div>
-      <div class="account__td">{{:: tWrap.transaction.date | date}}</div>
-      <div class="account__td">{{:: tWrap.transaction.payee}}</div>
-      <div class="account__td">{{:: tWrap.categoryId}}</div>
-      <div class="account__td" class="account__cell-memo">{{:: tWrap.transaction.memo}}</div>
-      <div class="account__td">{{:: tWrap.transaction.value}}</div>
-      <div class="account__td">{{:: tWrap.transaction.cleared}}</div>
+    <div class="account__tr" ng-repeat="transaction in accountCtrl.transactions | limitTo : accountCtrl.totalDisplayed track by transaction.id">
+      <div class="account__td">{{transaction.transaction.account}}</div>
+      <div class="account__td">{{transaction.transaction.flag}}</div>
+      <div class="account__td">{{transaction.transaction.date | date}}</div>
+      <div class="account__td">{{transaction.transaction.payee}}</div>
+      <div class="account__td">{{transaction.categoryId}}</div>
+      <div class="account__td" class="account__cell-memo">{{:: transaction.transaction.memo}}</div>
+      <div class="account__td">{{transaction.transaction.value}}</div>
+      <div class="account__td">{{transaction.transaction.cleared}}</div>
     </div>
 
   </div>

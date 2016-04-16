@@ -3,6 +3,20 @@ angular.module('financier').controller('budgetsCtrl', function(myBudgets, $scope
   //   this.version = res.data;
   // });
 
+  const dbChanges = db._pouch.changes({
+    live: true,
+    since: 'now'
+  })
+  .on('change', change => {
+    if (change.id.indexOf('budget_') === 0) {
+      $scope.$broadcast('budgets:update');
+    }
+  });
+
+  $scope.$on('$destroy', () => {
+    dbChanges.cancel();
+  });
+
   const getBudgets = () => {
     db.budgets.all().then(res => {
       this.budgets = res;
@@ -12,6 +26,7 @@ angular.module('financier').controller('budgetsCtrl', function(myBudgets, $scope
   };
 
   this.budgets = myBudgets;
+
 
   $scope.$on('budgets:update', () => {
     getBudgets();

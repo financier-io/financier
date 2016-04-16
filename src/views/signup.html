@@ -28,31 +28,54 @@
     <div class="signup__footer-container">
       <h2>Sign up</h2>
       
-      <form ng-submit="signupCtrl.submit()">
+      <form name="signupForm" ng-submit="signupCtrl.submit(email, password)">
         <div class="signup__footer-row">
           <label>
             Your email
-            <input type="email">
+            <input type="email" name="email" ng-model="email" required autofocus>
+            <div ng-messages="signupForm.email.$error"
+                 ng-if="signupForm.email.$touched">
+              <div ng-message="required" class="message">This is required!</div>
+              <div ng-message="email" class="message">Invalid email address</div>
+            </div>
           </label>
         </div>
         <div class="signup__footer-row">
           <label>
             Your password
             <div class="signup__password-field">
-              <input type="password">
+              <input type="password" name="password" ng-model="password" required ng-minlength="6">
+              <div ng-messages="signupForm.password.$error"
+                   ng-if="signupForm.password.$touched">
+                <div ng-message="required" class="message">This is required!</div>
+                <div ng-message="minlength" class="message">Password must be at least six characters</div>
+              </div>
               <i class="fa fa-lock"></i>
             </div>
           </label>
         </div>
 
         <div class="signup__footer-row">
-          <button class="signup__button" ladda="signupCtrl.loading">Try free for 28 days</button>
+          <button class="signup__button" ladda="signupCtrl.loading" ng-disabled="signupForm.$invalid">Try free for 28 days</button>
         </div>
 
         <div class="signup__footer-note">
           Your password is immediately encrypted with PBKDF2. We will never share your personal information. By signing up, you agree to our <a href="https://financier.io/terms-of-service">terms of service</a> and <a href="https://financier.io/privacy-policy">privacy policy</a>.
         </div>
       </form>
+
+      <div class="signup__footer-success" ng-if="signupCtrl.success">
+
+        <div>
+          <i class="fa fa-paper-plane"></i>  
+          <br>
+          <span>
+            Almost done!
+            <br>
+            <small>Go check your inbox.</small>
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 

@@ -157,3 +157,15 @@
     }
   }
 }
+
+.account__add-button {
+  border: 0;
+  background: none;
+  color: $primary;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+    outline: 0;
+  }
+}

@@ -18,35 +18,35 @@
 //   z-index: $zPageLeave;
 // }
 
-.state-app-db-budget.ng-enter {
+.state-app-manager-view-budget.ng-enter {
   animation: slideInLeft 0.5s both ease;
 }
 
-.state-app-db-budget.ng-leave {
+.state-app-manager-view-budget.ng-leave {
   animation: slideOutLeft 0.5s both ease;
 }
 
-.state-app-db-reports.ng-enter {
+.state-app-manager-view-reports.ng-enter {
   animation: slideInRight 0.5s both ease;
 }
 
-.state-app-db-reports.ng-leave {
+.state-app-manager-view-reports.ng-leave {
   animation: slideOutRight 0.5s both ease;
 }
 
-.state-app-db-budget + .state-app-db-account.ng-leave {
+.state-app-manager-view-budget + .state-app-manager-view-account.ng-leave {
   animation: slideOutRight 0.5s both ease;
 }
 
-.state-app-db-reports + .state-app-db-account.ng-leave {
+.state-app-manager-view-reports + .state-app-manager-view-account.ng-leave {
   animation: slideOutLeft 0.5s both ease;
 }
 
-.state-app-db-account.state-app-db-budget-leave.ng-enter {
+.state-app-manager-view-account.state-app-manager-view-budget-leave.ng-enter {
   animation: slideInRight 0.5s both ease;
 }
 
-.state-app-db-account.state-app-db-reports-leave.ng-enter {
+.state-app-manager-view-account.state-app-manager-view-reports-leave.ng-enter {
   animation: slideInLeft 0.5s both ease;
 }
 

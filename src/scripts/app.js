@@ -54,27 +54,29 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
     })
     .state('app', {
       url: '/:budgetId',
-      templateUrl: 'views/sidebar.html',
+      abstract: true,
+      template: '<ui-view></ui-view>',
       resolve: {
         myBudget: function(db, $stateParams) {
-          return db.budgets.get($stateParams.budgetId);
-        },
-        myBudgeter: (db, $stateParams) => {
-          return db.budget($stateParams.budgetId); // .accounts.all();
+          return db.budget($stateParams.budgetId);
         }
       },
-      controller: 'accountCtrl as accountCtrl'
+      onEnter: (db, $stateParams) => {
+        db.budgets.get($stateParams.budgetId)
+        .then(budgetRecord => {
+          budgetRecord.open();
+        });
+      }
     })
-    .state('app.db', {
+    .state('app.manager', {
       abstract: true,
+      templateUrl: 'views/sidebar.html',
       controller: 'dbCtrl as dbCtrl',
-      template: '<ui-view state-class class="view-transition"></ui-view>',
       resolve: {
-        data: function($q, db, $stateParams, myBudgeter) {
-
+        data: function(myBudget, $q) {
           return $q.all([
-            myBudgeter.budget(),
-            myBudgeter.categories
+            myBudget.budget(),
+            myBudget.categories()
           ])
           .then(([manager, categories]) => {
             manager.propagateRolling(
@@ -91,25 +93,29 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
         }
       }
     })
-    .state('app.db.budget', {
+    .state('app.manager.view', {
+      abstract: true,
+      template: '<ui-view state-class class="view-transition"></ui-view>',
+    })
+    .state('app.manager.view.budget', {
       url: '/budget',
       templateUrl: 'views/budget.html',
       controller: 'budgetCtrl as budgetCtrl'
     })
-    .state('app.db.account', {
+    .state('app.manager.view.account', {
       url: '/account/:accountId',
       templateUrl: 'views/account.html'
     })
-    .state('app.db.account.edit', {
+    .state('app.manager.view.account.edit', {
       url: '/edit',
-      onEnter: function(ngDialog, $state, $stateParams) {
+      onEnter: function(ngDialog, $state, $stateParams, myBudget) {
         ngDialog.open({
           template: 'views/modal/editAccount.html',
           controller: 'editAccountCtrl',
           controllerAs: 'editAccountCtrl',
           resolve: {
             myBudget: function(db) {
-              return db.budget($stateParams.budgetId);
+              return myBudget;
             },
             myAccount: function(db) {
               return db.budget($stateParams.budgetId).accounts.get($stateParams.accountId);
@@ -123,16 +129,16 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
         ngDialog.closeAll();
       }
     })
-    .state('app.db.account.create', {
+    .state('app.manager.view.account.create', {
       url: '/create',
-      onEnter: function(ngDialog, $state, $stateParams) {
+      onEnter: function(ngDialog, $state, $stateParams, myBudget) {
         ngDialog.open({
           template: 'views/modal/editAccount.html',
           controller: 'editAccountCtrl',
           controllerAs: 'editAccountCtrl',
           resolve: {
             myBudget: function(db) {
-              return db.budget($stateParams.budgetId);
+              return myBudget;
             },
             myAccount: function($stateParams, account) {
               const Account = account($stateParams.budgetId);
@@ -148,7 +154,7 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
         ngDialog.closeAll();
       }
     })
-    .state('app.db.reports', {
+    .state('app.manager.view.reports', {
       url: '/reports',
       templateUrl: 'views/reports.html',
       controller: 'reportCtrl as reportCtrl'

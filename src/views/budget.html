@@ -77,7 +77,7 @@
               <span rename ng-model="row.name">{{row.name}}</span>
             </div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--input"
-                ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths"
+                ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by month.date"
                 >
 
               <input type="text"

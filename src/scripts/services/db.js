@@ -2,9 +2,19 @@ angular.module('financier').provider('db', function() {
   const that = this;
   that.adapter = 'idb';
 
-  this.$get = (Budget, budgetDb) => {
+  this.$get = (Budget, budgetDb, $http) => {
+    $http.post('/db/_session/', {
+      name: 'boom',
+      password: 'boom'
+    });
+
     const db = new PouchDB('financier', {
       adapter: that.adapter
+    });
+
+    db.sync('https://192.168.99.100/db/test', {
+      live: true,
+      retry: true
     });
 
     return {

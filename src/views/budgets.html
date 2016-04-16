@@ -7,7 +7,7 @@
   <ul class="budgets__budgets">
     <li ng-repeat="budget in budgetsCtrl.budgets | orderBy: '-opened'"
         class="budgets__budget">
-      <a ui-sref="app.db.budget({budgetId: budget.id})">
+      <a ui-sref="app.manager.view.budget({budgetId: budget.id})">
         <div class="budget__budget-name">{{budget.name}}</div>
         <div class="budget__budget-opened"
              ng-if="budget.opened"
