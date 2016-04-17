@@ -2,7 +2,7 @@ angular.module('financier').directive('stagingWarning', () => {
   let show;
 
   function controller() {
-    const isStaging = true;
+    const isStaging = location.hostname.indexOf('staging') > -1;
     this.show = angular.isDefined(show) ? show : isStaging;
 
     this.close = () => {

@@ -1,0 +1,57 @@
+@mixin loading($color, $speed: 400ms, $width: 2px) {
+  animation: spin $speed linear infinite;
+
+  border:  solid $width transparent;
+  border-top-color:  $color;
+  border-left-color: $color;
+  border-radius: 50%;
+}
+
+.sync-status {
+  display: block;
+  text-align: center;
+  line-height: 1.5em;
+  vertical-align: middle;
+  text-transform: capitalize;
+}
+
+.sync-status--syncing {
+  &:before {
+    @include loading(inherit, 400ms, 2px);
+    
+    vertical-align: middle;
+    display: inline-block;
+    content: '';
+    margin-right: 0.5em;
+    height: 0.8em;
+    width: 0.8em;
+  }
+}
+
+.sync-status--offline {
+  &:before {
+    vertical-align: middle;
+    display: inline-block;
+    content: '';
+    margin-right: 0.1em;
+    margin-bottom: 0.1em;
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+
+    transform: scale(0.4);
+
+    background-color: $danger;
+  }
+}
+
+@keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+}
+

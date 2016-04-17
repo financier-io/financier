@@ -5,7 +5,7 @@ angular.module('financier').controller('signupCtrl', function($timeout, User) {
     this.success = true;
       this.loading = false;
       document.activeElement.blur();
-    }, 1000)
+    }, 1000);
     this.loading = true;
 
     // User.create(email, password)

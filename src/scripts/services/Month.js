@@ -14,9 +14,6 @@ angular.module('financier').factory('month', (MonthCategory) => {
           myData = defaults;
           myData._id = `b_${budgetId}_month_${data}`;
         } else {
-          if (!data._id) {
-            throw 'boom!'
-          }
           myData = angular.extend(defaults, data);
         }
 
@@ -70,8 +67,11 @@ angular.module('financier').factory('month', (MonthCategory) => {
             this.uponBudgetUpdate(catId.categoryId, newBudget, oldBudget);
           });
 
+
           this.cache.totalBudget += catId.budget;
           this.cache.totalAvailable -= catId.budget;
+
+          this.nextChangeAvailableFn && this.nextChangeAvailableFn(-catId.budget);
 
           this.categoryCache[catId.categoryId].balance += catId.budget;
           this.cache.totalBalance += catId.budget;

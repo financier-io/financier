@@ -49,7 +49,7 @@
       </div>
     </div>
     <div class="budget__tbody overflowable" ng-sortable="masterCategorySortable" disable-ng-animate>
-      <div ng-repeat="masterCategory in dbCtrl.categories">
+      <div ng-repeat="masterCategory in dbCtrl.categories track by masterCategory.data._id">
         <div class="budget__tr month-body__row month-body__row--master">
           <div class="budget__td budget__month-row budget__category-label">
             <span rename ng-model="masterCategory.name">{{masterCategory.name}}</span>
@@ -67,7 +67,7 @@
         
         <div class="budget__category-sortable" ng-sortable="categorySortable" ng-mouseenter="masterCategorySortable.disabled = true" ng-mouseleave="masterCategorySortable.disabled = false">
           <div class="budget__tr month-body__row"
-              ng-repeat="row in masterCategory.categories"
+              ng-repeat="row in masterCategory.categories track by row._id"
               ng-class="{'budget__month-row--last': $last}">
             <div class="budget__td budget__month-row budget__category-label">
               <i class="budget__month-row-note fa fa-sticky-note-o"

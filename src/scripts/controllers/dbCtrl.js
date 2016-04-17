@@ -1,4 +1,4 @@
-angular.module('financier').controller('dbCtrl', function(db, data, $stateParams, $scope, $q, month) {
+angular.module('financier').controller('dbCtrl', function(db, data, myBudget, $stateParams, $scope, $q, month) {
   let {manager, categories} = data;
 
   const budgetId = $stateParams.budgetId;
@@ -21,8 +21,8 @@ angular.module('financier').controller('dbCtrl', function(db, data, $stateParams
 
   const refreshEverything = () => {
       return $q.all([
-        myBudgeter.budget(),
-        myBudgeter.categories()
+        myBudget.budget(),
+        myBudget.categories()
       ])
       .then(([_manager, _categories]) => {
         _manager.propagateRolling(
@@ -34,14 +34,14 @@ angular.module('financier').controller('dbCtrl', function(db, data, $stateParams
         this.categories = _categories;
         manager = _manager;
 
-        this.months = getView(this.currentMonth);
+        this.months = getView(this.currentMonth.toDate ? this.currentMonth.toDate() : this.currentMonth);
       })
       .catch(e => {
         throw e;
       });
   };
 
-  db._pouch.changes({
+  const dbChanges = db._pouch.changes({
     live: true,
     since: 'now'
   })
@@ -49,6 +49,10 @@ angular.module('financier').controller('dbCtrl', function(db, data, $stateParams
     if (change.id.indexOf('b_' + $stateParams.budgetId) === 0) {
       refreshEverything();
     }
+  });
+
+  $scope.$on('$destroy', () => {
+    dbChanges.cancel();
   });
 
   function getView(date) {
