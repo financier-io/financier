@@ -1,4 +1,4 @@
-angular.module('financier').controller('userCtrl', function(User, db) {
+angular.module('financier').controller('userCtrl', function($rootScope, User, db) {
   const getSession = () => {
     return User.session()
     .then(s => {
@@ -36,4 +36,12 @@ angular.module('financier').controller('userCtrl', function(User, db) {
       this.email = null;
     });
   };
+
+  // Default is no syncing
+  this.status = 'offline';
+
+  $rootScope.$on('syncStatus:update', (e, status) => {
+    this.status = status;
+    $rootScope.$apply();
+  });
 });
