@@ -7,6 +7,8 @@
 [![Docker automated build](https://img.shields.io/badge/docker-aeharding/financier-blue.svg)](https://hub.docker.com/r/aeharding/financier/)
 
 Officially hosted at [https://financier.io](https://financier.io)
+
+[Trello board](https://trello.com/b/bXcFuXrm)
  
 Built with Angular 1 and PouchDB.
 

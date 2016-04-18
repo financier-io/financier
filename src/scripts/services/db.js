@@ -28,7 +28,9 @@ angular.module('financier').provider('db', function() {
     function startSync(dbName) {
       cancelSync();
 
-      sync = db.sync(`https://192.168.99.100/db/${dbName}`, {
+      const host = window.location.host;
+
+      sync = db.sync(`https://${host}/db/${dbName}`, {
         live: true,
         retry: true
       })
