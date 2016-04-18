@@ -1,21 +1,26 @@
-angular.module('financier').controller('signupCtrl', function($timeout, User) {
+angular.module('financier').controller('signupCtrl', function($scope, User) {
 
   this.submit = (email, password) => {
-    $timeout(() => {
-    this.success = true;
-      this.loading = false;
-      document.activeElement.blur();
-    }, 1000);
     this.loading = true;
 
-    // User.create(email, password)
-    // .then(() => {
-    //   this.success = true;
-    // })
-    // .catch(() => {
-    //   this.error = true;
-    // })
-    // .finally(() => {
-    // });
+    User.create(email, password)
+    .then(() => {
+      this.success = true;
+      document.activeElement.blur();
+    })
+    .catch(e => {
+      if (e.data.errorMessage === 'existingEmail') {
+        this.form.email.$setValidity('duplicate', false);
+      } else {
+        this.form.$setValidity('internalError', true);
+      }
+    })
+    .finally(() => {
+      this.loading = false;
+    });
   };
+
+  $scope.$watch(() => this.email, () => {
+    this.form.email.$setValidity('duplicate', true);
+  });
 });

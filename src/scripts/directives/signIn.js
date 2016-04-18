@@ -39,8 +39,15 @@ angular.module('financier').directive('signIn', ($sce, $templateRequest, $templa
           });
         });
 
-        scope.submit = note => {
-          dropInstance.close();
+        scope.login = (email, password) => {
+          scope.loading = true;
+          scope.userCtrl.login(email, password)
+          .then(() => {
+            dropInstance.close();
+          })
+          .finally(() => {
+            scope.loading = false;
+          });
         };
 
 

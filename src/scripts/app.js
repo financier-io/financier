@@ -5,7 +5,8 @@ let financier = angular.module('financier', [
   'ngAnimate',
   'ngDialog',
   'ngMessages',
-  'angular-ladda-lw'
+  'angular-ladda-lw',
+  'angular-md5'
 ]).run((offline, $rootScope, $timeout) => {
   offline.register();
 
@@ -22,12 +23,17 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
   //
   // Now set up the states
   $stateProvider
-    .state('signup', {
+    .state('user', {
+      abstract: true,
+      template: '<div ui-view class="full-height view-transition__fade"></div>',
+      controller: 'userCtrl as userCtrl'
+    })
+    .state('user.signup', {
       url: '/signup',
       templateUrl: 'views/signup.html',
       controller: 'signupCtrl as signupCtrl'
     })
-    .state('budget', {
+    .state('user.budget', {
       url: '/',
       templateUrl: 'views/budgets.html',
       controller: 'budgetsCtrl as budgetsCtrl',
@@ -37,7 +43,7 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
         }
       }
     })
-    .state('budget.create', {
+    .state('user.budget.create', {
       url: 'create-budget',
       onEnter: function(ngDialog, $state) {
         ngDialog.open({
@@ -52,7 +58,7 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
         ngDialog.closeAll();
       }
     })
-    .state('app', {
+    .state('user.app', {
       url: '/:budgetId',
       abstract: true,
       template: '<ui-view></ui-view>',
@@ -68,7 +74,7 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
         });
       }
     })
-    .state('app.manager', {
+    .state('user.app.manager', {
       abstract: true,
       templateUrl: 'views/sidebar.html',
       controller: 'dbCtrl as dbCtrl',
@@ -76,14 +82,16 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
         data: function(myBudget, $q) {
           return $q.all([
             myBudget.budget(),
-            myBudget.categories()
+            myBudget.categories.all()
           ])
           .then(([manager, categories]) => {
-            manager.propagateRolling(
-              categories
-                .map((m => m.categories.map(c => c.id)))
-                .reduce((a, b) => a.concat(b))
-            );
+            if (categories.length) {
+              manager.propagateRolling(
+                categories
+                  .map((m => m.categories.map(c => c.id)))
+                  .reduce((a, b) => a.concat(b))
+              );
+            }
 
             return {manager, categories};
           })
@@ -93,20 +101,20 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
         }
       }
     })
-    .state('app.manager.view', {
+    .state('user.app.manager.view', {
       abstract: true,
       template: '<ui-view state-class class="view-transition"></ui-view>',
     })
-    .state('app.manager.view.budget', {
+    .state('user.app.manager.view.budget', {
       url: '/budget',
       templateUrl: 'views/budget.html',
       controller: 'budgetCtrl as budgetCtrl'
     })
-    .state('app.manager.view.account', {
+    .state('user.app.manager.view.account', {
       url: '/account/:accountId',
       templateUrl: 'views/account.html'
     })
-    .state('app.manager.view.account.edit', {
+    .state('user.app.manager.view.account.edit', {
       url: '/edit',
       onEnter: function(ngDialog, $state, $stateParams, myBudget) {
         ngDialog.open({
@@ -129,7 +137,7 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
         ngDialog.closeAll();
       }
     })
-    .state('app.manager.view.account.create', {
+    .state('user.app.manager.view.account.create', {
       url: '/create',
       onEnter: function(ngDialog, $state, $stateParams, myBudget) {
         ngDialog.open({
@@ -154,7 +162,7 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
         ngDialog.closeAll();
       }
     })
-    .state('app.manager.view.reports', {
+    .state('user.app.manager.view.reports', {
       url: '/reports',
       templateUrl: 'views/reports.html',
       controller: 'reportCtrl as reportCtrl'

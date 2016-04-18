@@ -28,15 +28,16 @@
     <div class="signup__footer-container">
       <h2>Sign up</h2>
       
-      <form name="signupForm" ng-submit="signupCtrl.submit(email, password)">
+      <form name="signupCtrl.form" ng-submit="signupCtrl.submit(signupCtrl.email, signupCtrl.password)">
         <div class="signup__footer-row">
           <label>
             Your email
-            <input type="email" name="email" ng-model="email" required autofocus>
-            <div ng-messages="signupForm.email.$error"
-                 ng-if="signupForm.email.$touched">
+            <input type="email" name="email" ng-model="signupCtrl.email" required autofocus>
+            <div ng-messages="signupCtrl.form.email.$error"
+                 ng-if="signupCtrl.form.email.$touched">
               <div ng-message="required" class="message">This is required!</div>
               <div ng-message="email" class="message">Invalid email address</div>
+              <div ng-message="duplicate" class="message">This email address is already registered</div>
             </div>
           </label>
         </div>
@@ -44,9 +45,9 @@
           <label>
             Your password
             <div class="signup__password-field">
-              <input type="password" name="password" ng-model="password" required ng-minlength="6">
-              <div ng-messages="signupForm.password.$error"
-                   ng-if="signupForm.password.$touched">
+              <input type="password" name="password" ng-model="signupCtrl.password" required ng-minlength="6">
+              <div ng-messages="signupCtrl.form.password.$error"
+                   ng-if="signupCtrl.form.password.$touched">
                 <div ng-message="required" class="message">This is required!</div>
                 <div ng-message="minlength" class="message">Password must be at least six characters</div>
               </div>
@@ -56,7 +57,7 @@
         </div>
 
         <div class="signup__footer-row">
-          <button class="signup__button" ladda="signupCtrl.loading" ng-disabled="signupForm.$invalid">Try free for 28 days</button>
+          <button class="signup__button" ladda="signupCtrl.loading" ng-disabled="signupCtrl.form.$invalid">Try free for 28 days</button>
         </div>
 
         <div class="signup__footer-note">

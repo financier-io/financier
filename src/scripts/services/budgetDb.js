@@ -23,8 +23,13 @@ angular.module('financier').factory('budgetDb', (
       categories: categories(),
       transactions: transactions(),
       budget: budget(),
-      remove
+      remove,
+      initialize
     };
+
+    function initialize() {
+      return ret.categories.initialize();
+    }
 
     function remove() {
       ret.accounts.removeAll();
@@ -197,41 +202,33 @@ angular.module('financier').factory('budgetDb', (
         });
       }
 
-      function createByDefault() {
-        return db.allDocs({
-          startkey: `b_${budgetId}_masterCategory_`,
-          endkey: `b_${budgetId}_masterCategory_\uffff`
-        }).then(res => {
-          if (res.rows.length === 0) {
-            const promises = [];
+      function initialize() {
+        const promises = [];
 
-            for (let i = 0; i < defaultCategories.length; i++) {
-              promises.push(
-                $q.when(db.bulkDocs(defaultCategories[i].categories.map(function(cat) {
-                  // add id namespace to category
-                  cat._id = `b_${budgetId}_category_` + uuid();
-                  return cat;
-                }))
-                .then(res => {
-                  return $q.when(db.post({
-                    name: defaultCategories[i].name,
-                    categories: res.map(r => r.id),
-                    _id: `b_${budgetId}_masterCategory_` + uuid()
-                  }));
-                }))
-              );
-            }
+        for (let i = 0; i < defaultCategories.length; i++) {
+          promises.push(
+            $q.when(db.bulkDocs(defaultCategories[i].categories.map(function(cat) {
+              // add id namespace to category
+              cat._id = `b_${budgetId}_category_` + uuid();
+              return cat;
+            }))
+            .then(res => {
+              return $q.when(db.post({
+                name: defaultCategories[i].name,
+                categories: res.map(r => r.id),
+                _id: `b_${budgetId}_masterCategory_` + uuid()
+              }));
+            }))
+          );
+        }
 
-            return $q.all(promises).then(r => {
-              return all();
-            });
-          } else {
-            return all();
-          }
-        });
+        return $q.all(promises);
       }
 
-      return createByDefault;
+      return {
+        all,
+        initialize
+      };
     }
 
     function budget() {

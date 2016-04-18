@@ -70,7 +70,8 @@ gulp.task('copy:vendor', function() {
     './bower_components/ng-dialog/js/ngDialog.js',
     './node_modules/lie/dist/lie.polyfill.js',
     './bower_components/angular-ladda-lw/dist/angular-ladda-lw.js',
-    './bower_components/node-uuid/uuid.js'
+    './bower_components/node-uuid/uuid.js',
+    './bower_components/angular-md5/angular-md5.js'
   ])
     .pipe(gulp.dest('dist/vendor'));
 });

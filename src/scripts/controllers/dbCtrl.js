@@ -22,14 +22,16 @@ angular.module('financier').controller('dbCtrl', function(db, data, myBudget, $s
   const refreshEverything = () => {
       return $q.all([
         myBudget.budget(),
-        myBudget.categories()
+        myBudget.categories.all()
       ])
       .then(([_manager, _categories]) => {
-        _manager.propagateRolling(
-          _categories
-            .map((m => m._categories.map(c => c.id)))
-            .reduce((a, b) => a.concat(b))
-        );
+        if (_categories.length) {
+          _manager.propagateRolling(
+            _categories
+              .map((m => m._categories.map(c => c.id)))
+              .reduce((a, b) => a.concat(b))
+          );
+        }
 
         this.categories = _categories;
         manager = _manager;

@@ -6,22 +6,22 @@
   <div class="app-view__main">
     <div class="app-view__sidebar">
       <h1 class="app-view__title">
-        <a ui-sref="budget">Financier</a>
+        <a ui-sref="user.budget">Financier</a>
       </h1>
 
 
       <ul class="app-view__links">
         <li class="app-view__link" ui-sref-active="app-view__link--active">
-          <a ui-sref="app.manager.view.budget"><i class="fa fa-tags"></i> Budget</a>
+          <a ui-sref="user.app.manager.view.budget"><i class="fa fa-tags"></i> Budget</a>
         </li>
         <li class="app-view__link" ui-sref-active="app-view__link--active">
-          <a ui-sref="app.manager.view.account">
+          <a ui-sref="user.app.manager.view.account">
             <i class="fa fa-credit-card"></i> Accounts
             <aside>{{(accountCtrl.total || 0) | intCurrency | currency}}</aside>
           </a>
         </li>
         <li class="app-view__link" ui-sref-active="app-view__link--active">
-          <a ui-sref="app.manager.view.reports"><i class="fa fa-pie-chart"></i> Reports</a>
+          <a ui-sref="user.app.manager.view.reports"><i class="fa fa-pie-chart"></i> Reports</a>
         </li>
 
         <hr class="app-view__underline" />
@@ -31,24 +31,25 @@
         <div class="app-view__accounts-title">My accounts</div>
 
         <ul class="account__accounts-list">
-          <li class="account__account" ui-sref="app.manager.view.account({accountId: null})"
+          <li class="account__account" ui-sref="user.app.manager.view.account({accountId: null})"
               ui-sref-active="account__account--active">
             All accounts
             <span class="account__amount account__account--positive">{{(accountCtrl.total || 0) | intCurrency | currency}}</span>
           </li>
           <li class="account__account"
               ng-repeat="account in accountCtrl.accounts | filter: accountCtrl.isOpen"
-              ui-sref="app.manager.view.account({accountId: account.id})"
+              ui-sref="user.app.manager.view.account({accountId: account.id})"
               ui-sref-active="account__account--active">
             <span class="account__name">{{account.name}}</span> <i class="account__edit fa fa-cog" ng-click="accountCtrl.edit($event, account)"></i>
             <span class="account__amount account__account--positive">{{(accountCtrl.accountTotals[account.id] || 0) | intCurrency | currency}}</span>
           </li>
-          <li class="account__plus" ui-sref="app.manager.view.account.create">+</li>
+          <li class="account__plus" ui-sref="user.app.manager.view.account.create">+</li>
         </ul>
       </div>
+      <img ng-if="userCtrl.email" ng-src="https://www.gravatar.com/avatar/{{userCtrl.email | gravatar}}" alt="{{email}} Gravatar">
       <button sign-in class="account__sign-in">Sign into your account</button>
       <sync-status></sync-status>
-      <a class="app-view__sync" ui-sref="signup">
+      <a class="app-view__sync" ui-sref="user.signup">
         Don't have an account? Upgrade to unlock syncing.<br>Free for 30 days!
       </a>
     </div>
