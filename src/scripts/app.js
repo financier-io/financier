@@ -76,7 +76,7 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
     })
     .state('user.app.manager', {
       abstract: true,
-      templateUrl: 'views/sidebar.html',
+      templateUrl: 'views/appView.html',
       controller: 'dbCtrl as dbCtrl',
       resolve: {
         data: function(myBudget, $q) {
@@ -104,6 +104,12 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
     .state('user.app.manager.view', {
       abstract: true,
       template: '<ui-view state-class class="view-transition"></ui-view>',
+      onEnter: () => {
+        angular.element(document.body).addClass('no-overflow');
+      },
+      onExit: () => {
+        angular.element(document.body).removeClass('no-overflow');
+      }
     })
     .state('user.app.manager.view.budget', {
       url: '/budget',

@@ -1,4 +1,4 @@
-angular.module('financier').controller('userCtrl', function($rootScope, User, db) {
+angular.module('financier').controller('userCtrl', function($rootScope, User, db, ngDialog) {
   const getSession = () => {
     return User.session()
     .then(s => {
@@ -9,6 +9,12 @@ angular.module('financier').controller('userCtrl', function($rootScope, User, db
           if (s.userCtx.roles[i].indexOf('userdb-') === 0) {
             db.sync.start(s.userCtx.roles[i]);
           }
+
+          if (s.userCtx.roles[i].indexOf('exp-') === 0) {
+            const d = new Date(0);
+            d.setUTCSeconds(+s.userCtx.roles[i].slice(4));
+            this.subscriptionExpiry = d;
+          }
         }
       } else {
         this.email = null;
@@ -18,15 +24,6 @@ angular.module('financier').controller('userCtrl', function($rootScope, User, db
 
   getSession();
 
-  this.login = (username, password) => {
-    return User.login(username, password)
-    .then((data) => {
-      return getSession()
-      .then(() => {
-        return data;
-      });
-    });
-  };
 
   this.logout = () => {
     db.sync.cancel();
@@ -34,6 +31,31 @@ angular.module('financier').controller('userCtrl', function($rootScope, User, db
     return User.logout()
     .then(() => {
       this.email = null;
+    });
+  };
+
+  const scope = $rootScope.$new();
+  scope.login = (username, password, closeThisDialog) => {
+    scope.loading = true;
+    return User.login(username, password)
+    .then((data) => {
+      return getSession()
+      .then(() => {
+        return data;
+      })
+      .then(() => {
+        closeThisDialog();
+      })
+      .finally(() => {
+        scope.loading = false;
+      });
+    });
+  };
+
+  this.signin = () => {
+    ngDialog.open({
+      template: 'views/modal/signin.html',
+      scope
     });
   };
 

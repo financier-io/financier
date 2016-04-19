@@ -10,6 +10,8 @@ angular.module('financier').directive('syncStatus', function() {
         $element.removeClass(`sync-status--${oldStatus}`);
         $element.addClass(`sync-status--${newStatus}`);
       });
+
+      $element.attr('title', 'The current synchronization status of your local data with the server.');
     }
   };
 });

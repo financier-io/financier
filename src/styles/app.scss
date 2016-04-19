@@ -33,10 +33,22 @@ body,
   height: 100%;
 }
 
+.no-overflow {
+  overflow: hidden;
+}
+
 html {
   box-sizing: border-box;
   line-height: 1.5;
   // overflow: hidden; // stop body overscroll
+}
+
+* {
+  &,
+  &:before,
+  &:after {
+    box-sizing: inherit;
+  }
 }
 
 body {
@@ -74,4 +86,5 @@ a {
 @import 'monthSelect';
 @import 'serviceWorkerStatus';
 @import 'syncStatus';
+@import 'userOptions';
 

@@ -30,8 +30,14 @@
 
   <div class="budgets__title">Your subscription</div>
   
-  <p>You're currently using the free version. Your budgets are stored in the browser, and could be deleted if you clear the browser cache!</p>
+  <div ng-if="!userCtrl.email">
+    <p>You're currently using the free version. Your budgets are stored in the browser, and could be deleted if you clear the browser cache!</p>
 
-  <p><a ui-sref="user.signup">Consider upgrading to the premium plan</a>.</p>
+    <p><a ui-sref="user.signup">Consider upgrading to the premium plan</a>.</p>
+  </div>
+
+  <div ng-if="userCtrl.email">
+    <p>Your subscription will expire on {{userCtrl.subscriptionExpiry | date}}.</p>
+  </div>
 
 </div>

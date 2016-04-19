@@ -17,6 +17,10 @@
   width: 15em;
   position: relative;
 
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+
   background-color: $primary;
   color: $white;
 
@@ -25,19 +29,86 @@
   }
 }
 
+.app-view__sidebar-main {
+  flex: 1;
+
+  overflow: auto;
+}
+
+.app-view__sidebar-footer {
+}
+
+.app-view__sidebar-footer--logged-in {
+  position: relative;
+  $height: 30px;
+
+  &:hover {
+    .app-view__sidebar-footer-button {
+      background-color: darken($primary, 10%);
+    }
+
+    .app-view__sidebar-details {
+      transform: translateY(-100%);
+    }
+  }
+
+  img {
+    flex: 1;
+    width: $height;
+    height: $height;
+    border-radius: 50%;
+  }
+
+  span,
+  img {
+    display: inline-block;
+    float: left;
+  }
+
+  span {
+    width: calc(100% - #{$height});
+    line-height: $height;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-wrap: nowrap;
+  }
+}
+
+.app-view__sidebar-footer-button {
+  background-color: darken($primary, 5%);
+
+  padding: 10px 15px;
+
+  cursor: pointer;
+
+  position: relative;
+  z-index: 5;
+  overflow: auto;
+}
+
+.app-view__sidebar-footer-button--sign-in {
+  text-align: center;
+}
+
+.app-view__sidebar-details {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  transition: transform 250ms ease;
+}
+
 .app-view__body {
   flex: 1;
   position: relative;
 }
 
 .app-view__sync {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: 0.5em;
+  margin: 1em;
   font-size: 0.8em;
-  text-align: center;
+  display: block;
 }
 
 .app-view__title {
@@ -71,8 +142,7 @@
 }
 
 .app-view__link {
-  display: inline-block;
-  width: 100%;
+  display: block;
   padding: 0 0.2em;
   font-weight: 300;
   line-height: 3rem;
@@ -157,10 +227,11 @@
 }
 
 .app-view__underline {
-  width: 5px;
+  width: 6px;
   height: 33.33%;
   position: absolute;
   top: 0;
+  left: 0;
   margin: 0;
   background: white;
   border: 0;

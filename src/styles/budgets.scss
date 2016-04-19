@@ -26,6 +26,17 @@
   list-style: none;
   border: 1px solid $primary;
 
+  transition: transform 250ms ease;
+  
+  &:hover,
+  &:focus {
+    transform: scale(1.1);
+
+    .budget__budget-close {
+      transform: scale(1);
+    }
+  }
+
   a {
     display: flex;
     align-items: center;
@@ -43,20 +54,8 @@
 
     transition: all 250ms ease;
 
-    &:hover,
-    &:focus {
+    &:hover {
       outline: 0;
-
-      background-color: $primary;
-
-      &,
-      .budget__budget-opened {
-        color: $white;
-      }
-
-      .budget__budget-opened {
-        opacity: 0.6;
-      }
 
       .budget__budget-new-icon {
         transform: scale(1.5);
@@ -80,7 +79,9 @@
   bottom: 5px;
   right: 5px;
 
-  color: $white;
+  color: black;
+
+  transform: scale(0);
 
   &:hover,
   &:focus {

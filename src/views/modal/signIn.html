@@ -1,0 +1,36 @@
+<h2>Sign in</h2>
+
+<form name="signinForm" ng-submit="login(email, password, closeThisDialog)">
+  <label>
+    Email
+    <input type="text"
+           name="email"
+           ng-model="email"
+           required>
+    <div ng-messages="signinForm.email.$error"
+         ng-if="signinForm.email.$dirty">
+      <div ng-message="required" class="message">This is required!</div>
+      <div ng-message="email" class="message">Invalid email address</div>
+    </div>
+  </label>
+  <label>
+    Password
+    <input type="password"
+           name="password"
+           ng-model="password"
+           required>
+    <div ng-messages="signinForm.password.$error"
+         ng-if="signinForm.password.$dirty">
+      <div ng-message="required" class="message">This is required!</div>
+    </div>
+  </label>
+
+  <small>Don't have an account? <a ui-sref="user.signup" ng-click="closeThisDialog()">Click here to sign up.</a></small>
+  
+  <footer>
+    <button class="primary"
+            ng-disabed="signinForm.$invalid"
+            ladda="loading">Sign in</button>
+    <button ng-click="closeThisDialog()">Cancel</button>
+  </footer>
+</form>
