@@ -85,6 +85,8 @@ $budgetMonthCellPadding: 2px 5px 0;
   padding: $budgetMonthCellPadding;
   transition: color 250ms linear;
 
+  box-sizing: content-box;
+
   &:hover {
     .budget__month-row-note {
       opacity: 1;
@@ -188,7 +190,7 @@ $budgetMonthCellPadding: 2px 5px 0;
 
 .budget__category-label {
   font-size: 0.8em;
-  width: 5em;
+  width: 50px; // px to prevent rounding issues
   text-align: right;
 
   white-space: nowrap;
