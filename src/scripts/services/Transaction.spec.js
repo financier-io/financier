@@ -62,7 +62,7 @@ describe('transaction', function() {
 
     it('can be set', () => {
       const tran = new Transaction();
-      const d = new Date('12/12/12');
+      const d = new Date('2012-12-12T06:00:00.000Z');
 
       tran.date = d;
 
