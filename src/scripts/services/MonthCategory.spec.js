@@ -25,7 +25,7 @@ describe('MonthCategory', function() {
         '333-333-333-333'
       );
 
-      expect(sets._id).toBe('b_111-111-111-111_m_201501_month-category_333-333-333-333');
+      expect(sets._id).toBe('b_111-111-111-111_m_category_201501_333-333-333-333');
     });
   });
 
