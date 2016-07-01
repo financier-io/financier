@@ -40,7 +40,6 @@
     "eslint-plugin-react": "^3.15.0",
     "express": "^4.13.4",
     "font-awesome": "^4.5.0",
-    "git-rev": "^0.2.1",
     "gulp": "^3.9.0",
     "gulp-angular-templatecache": "^1.8.0",
     "gulp-autoprefixer": "^3.1.0",

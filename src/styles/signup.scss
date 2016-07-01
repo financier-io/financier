@@ -80,16 +80,16 @@
   border: 0;
   width: 100%;
 
-  background: $primary-alt;
+  background: $primary;
   color: $white;
   text-decoration: none;
 
   &:hover {
-    background: darken($primary-alt, 3%);
+    background: darken($primary, 3%);
   }
 
   &:disabled {
-    background: darken($primary-alt, 3%);
+    background: darken($primary, 3%);
   }
 }
 
@@ -98,7 +98,7 @@
 }
 
 .signup__footer-container {
-  border: 1px solid $primary-alt;
+  border: 1px solid $primary;
   max-width: 350px;
   margin: 0 auto 1em;
   padding: 1em 2em 2em;
@@ -132,7 +132,7 @@
     &:invalid:focus,
     &:focus {
       outline: 0;
-      border: 1px solid $primary-alt;
+      border: 1px solid $primary;
     }
   }
 }
@@ -190,7 +190,7 @@
   }
 
   100% {
-    background-color: rgba($primary-alt, 0.8);
+    background-color: rgba($primary, 0.8);
   }
 }
 

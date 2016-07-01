@@ -144,13 +144,11 @@ gulp.task('watch', ['default', 'tdd'], function() {
   });
 });
 
-var git = require('git-rev');
 var packageJson = require('./package.json');
 var path = require('path');
 var swPrecache = require('sw-precache');
 
-
-function writeServiceWorkerFile(sha, rootDir, handleFetch, callback) {
+function writeServiceWorkerFile(rootDir, handleFetch, callback) {
   var config = {
     cacheId: packageJson.name,
     handleFetch: handleFetch,
@@ -174,7 +172,5 @@ function writeServiceWorkerFile(sha, rootDir, handleFetch, callback) {
 var DIST_DIR = 'dist';
 
 gulp.task('generate-service-worker-dist', function(callback) {
-  git.long(function (sha) {
-    writeServiceWorkerFile(sha, DIST_DIR, true, callback);
-  });
+  writeServiceWorkerFile(DIST_DIR, true, callback);
 });

@@ -6,7 +6,7 @@
 
   <div class="budgets__title">Your budgets</div>
   
-  <ul class="budgets__budgets">
+  <ul class="budgets__budgets" disable-ng-animate>
     <li ng-repeat="budget in budgetsCtrl.budgets | orderBy: '-opened'"
         class="budgets__budget">
       <a ui-sref="user.app.manager.view.budget({budgetId: budget.id})">

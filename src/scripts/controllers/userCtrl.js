@@ -34,28 +34,10 @@ angular.module('financier').controller('userCtrl', function($rootScope, User, db
     });
   };
 
-  const scope = $rootScope.$new();
-  scope.login = (username, password, closeThisDialog) => {
-    scope.loading = true;
-    return User.login(username, password)
-    .then((data) => {
-      return getSession()
-      .then(() => {
-        return data;
-      })
-      .then(() => {
-        closeThisDialog();
-      })
-      .finally(() => {
-        scope.loading = false;
-      });
-    });
-  };
-
   this.signin = () => {
     ngDialog.open({
       template: 'views/modal/signin.html',
-      scope
+      controller: 'signinCtrl as signinCtrl'
     });
   };
 
@@ -63,6 +45,24 @@ angular.module('financier').controller('userCtrl', function($rootScope, User, db
   this.status = 'offline';
 
   $rootScope.$on('syncStatus:update', (e, status) => {
+
+    //      NEW STATUS                   OLD STATUS
+    if (status === 'complete' && this.status === 'error') {
+
+      // If we get an error, we want to display it even when complete
+      // (usually right after the error comes up). This will still
+      // let syncStatus transition back to syncing if something 
+      // triggers that.
+      //
+      // So, don't update the directive.
+      return;
+    }
+
+    this.status = status;
+    $rootScope.$apply();
+  });
+
+  $rootScope.$on('login', (e, status) => {
     this.status = status;
     $rootScope.$apply();
   });
