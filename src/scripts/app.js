@@ -65,13 +65,10 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
       resolve: {
         myBudget: function(db, $stateParams) {
           return db.budget($stateParams.budgetId);
+        },
+        budgetRecord: function(db, $stateParams) {
+          return db.budgets.get($stateParams.budgetId);
         }
-      },
-      onEnter: (db, $stateParams) => {
-        db.budgets.get($stateParams.budgetId)
-        .then(budgetRecord => {
-          budgetRecord.open();
-        });
       }
     })
     .state('user.app.manager', {

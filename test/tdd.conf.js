@@ -20,6 +20,8 @@ module.exports = function(config) {
       'src/scripts/**/*.js'
     ]),
 
+    // "plugins": [ [ "__coverage__", { "ignore": "*.spec.js" } ] ],
+
 
     // list of files to exclude
     exclude: [
@@ -51,19 +53,14 @@ module.exports = function(config) {
 
     preprocessors: {
       'src/**/*.spec.js': ['babel'],
-      'src/**/!(*spec|*mock).js': ['babel', 'coverage']
+      'src/**/!(*spec|*mock).js': ['babel']
     },
 
     babelPreprocessor: {
       options: {
         presets: ['es2015'],
+        plugins: ['istanbul'],
         sourceMap: 'inline'
-      },
-      filename: function (file) {
-        return file.originalPath.replace(/\.js$/, '.es5.js');
-      },
-      sourceFileName: function (file) {
-        return file.originalPath;
       }
     },
 

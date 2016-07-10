@@ -92,11 +92,11 @@ gulp.task('server', function(done) {
 });
 
 gulp.task('default', ['clean'], function() {
-    runSequence('build', 'server');
+  runSequence('build', 'server');
 });
 
 gulp.task('build', function(done) {
-    runSequence('styles', 'scripts', 'copy:assets', 'copy:vendor', 'html', 'generate-service-worker-dist', done);
+  runSequence('styles', 'scripts', 'copy:assets', 'copy:vendor', 'html', 'generate-service-worker-dist', done);
 });
 
 gulp.task('test', function (done) {

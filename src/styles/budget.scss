@@ -98,6 +98,13 @@ $budgetMonthCellPadding: 2px 5px 0;
   color: #aaa;
 }
 
+.budget__month-row--negative {
+  color: $white;
+  border-radius: 10px;
+  background-color: $danger;
+  padding: 0 5px;
+}
+
 .budget__month-cell--input {
   position: relative;
 

@@ -1,6 +1,16 @@
 angular.module('financier').factory('transaction', uuid => {
   return budgetId => {
-    return class Transaction {
+    
+    /**
+     * Represents a Transaction
+     */
+    class Transaction {
+
+      /**
+       * Create a Transaction.
+       *
+       * @param {object} [data] - The object record from the database.
+       */
       constructor(data) {
         const myData = angular.extend({
           _id: `b_${budgetId}_transaction_${uuid()}`,
@@ -23,6 +33,12 @@ angular.module('financier').factory('transaction', uuid => {
         this.data = myData;
       }
 
+      /**
+       * The currency value of the transaction.
+       * Will call subscriber when changes.
+       *
+       * @type {currency} The value of the transaction.
+       */
       get value() {
         return this.data.value;
       }
@@ -33,6 +49,12 @@ angular.module('financier').factory('transaction', uuid => {
         this.emitChange();
       }
 
+      /**
+       * The date of the transaction.
+       * Will call subscriber when changes.
+       *
+       * @type {date} The date of the transaction.
+       */
       get date() {
         return this._date;
       }
@@ -44,6 +66,12 @@ angular.module('financier').factory('transaction', uuid => {
         this.emitChange();
       }
 
+      /**
+       * The category the transaction is assigned to.
+       * Will call subscriber when changes.
+       *
+       * @type {string} The category UID.
+       */
       get category() {
         return this.data.category;
       }
@@ -54,6 +82,12 @@ angular.module('financier').factory('transaction', uuid => {
         this.emitChange();
       }
 
+      /**
+       * The account the transaction is assigned to.
+       * Will call subscriber when changes.
+       *
+       * @type {string} The account UID.
+       */
       get account() {
         return this.data.account;
       }
@@ -64,6 +98,12 @@ angular.module('financier').factory('transaction', uuid => {
         this.emitChange();
       }
 
+      /**
+       * The payee the transaction is assigned to.
+       * Will call subscriber when changes.
+       *
+       * @type {string} The payee UID.
+       */
       get payee() {
         return this.data.payee;
       }
@@ -74,6 +114,12 @@ angular.module('financier').factory('transaction', uuid => {
         this.emitChange();
       }
 
+      /**
+       * A user-entered memo for the transaction.
+       * Will call subscriber when changes.
+       *
+       * @type {string} The memo.
+       */
       get memo() {
         return this.data.memo;
       }
@@ -84,6 +130,12 @@ angular.module('financier').factory('transaction', uuid => {
         this.emitChange();
       }
 
+      /**
+       * Whether the transaction is cleared.
+       * Will call subscriber when changes.
+       *
+       * @type {boolean} True if cleared.
+       */
       get cleared() {
         return this.data.cleared;
       }
@@ -94,6 +146,12 @@ angular.module('financier').factory('transaction', uuid => {
         this.emitChange();
       }
 
+      /**
+       * Whether the transaction is flagged.
+       * Will call subscriber when changes.
+       *
+       * @type {boolean} True if flagged.
+       */
       get flag() {
         return this.data.flag;
       }
@@ -104,27 +162,54 @@ angular.module('financier').factory('transaction', uuid => {
         this.emitChange();
       }
 
+      /**
+       * The complete transaction ID, including namespacing.
+       *
+       * @type {string} The database `_id`.
+       */
       get _id() {
         return this.data._id;
       }
 
+      /**
+       * Used to set the function to invoke upon record changes.
+       *
+       * @param {function} fn - This function will be invoked upon record
+       * changes with the Transaction object as the first parameter.
+      */
       subscribe(fn) {
         this.fn = fn;
       }
 
+      /**
+       * Will call the subscribed function, if it exists, with self.
+       *
+       * @private
+      */
       emitChange() {
         return this.fn && this.fn(this);
       }
 
+      /**
+       * @todo Remove
+      */
       remove() {
         this.data._deleted = true;
 
         return this.emitChange();
       }
 
+      /**
+       * Will serialize the Transaction object to
+       * a JSON object for sending to the database.
+       *
+       * @returns {object}
+      */
       toJSON() {
         return this.data;
       }
     };
+
+    return Transaction;
   };
 });

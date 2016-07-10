@@ -68,6 +68,7 @@ describe('MonthCategory', function() {
       sets.note = 'foobar';
 
       expect(sets.toJSON().note).toBe('foobar');
+      expect(sets.note).toBe('foobar');
     });
   });
 
@@ -96,7 +97,7 @@ describe('MonthCategory', function() {
       sets.budget = 222;
 
       expect(foo.sub).toHaveBeenCalledWith(sets);
-      expect(foo.bdgSub).toHaveBeenCalledWith(222, 12);
+      expect(foo.bdgSub).toHaveBeenCalledWith(210);
     });
 
     it('budget does not emit event if the same', () => {
