@@ -1,5 +1,5 @@
 language: node_js
 node_js:
-  - "4.1"
+  - "6.3"
 before_install: npm install -g bower gulp
 install: npm install && bower install

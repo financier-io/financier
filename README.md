@@ -35,9 +35,14 @@ gulp watch
 
 ```sh
 gulp build
+npm run-script docs # generate jsdoc documentation
 node ./api
 ```
 
-### Run on your own server
+### Docs
 
-[![Deploy to Docker Cloud](https://files.cloud.docker.com/images/deploy-to-dockercloud.svg)](https://cloud.docker.com/stack/deploy/)
+[📗 Staging docs](https://staging.financier.io/docs)
+
+Local docs would be `http://localhost:8070/docs`.
+
+Generate with `npm run-script docs`.

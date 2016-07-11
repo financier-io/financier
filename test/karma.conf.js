@@ -51,14 +51,14 @@ module.exports = function(config) {
 
     preprocessors: {
       'src/**/*.spec.js': ['babel'],
-      'src/**/!(.spec).js': ['babel', 'coveralls']
+      'src/**/!(*spec|*mock).js': ['babel', 'coveralls']
     },
 
     babelPreprocessor: {
       options: {
         presets: ['es2015'],
-        sourceMap: 'inline',
-        "plugins": [ "__coverage__" ]
+        plugins: ['istanbul'],
+        sourceMap: 'inline'
       }
     },
 

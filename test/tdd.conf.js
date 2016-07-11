@@ -20,8 +20,6 @@ module.exports = function(config) {
       'src/scripts/**/*.js'
     ]),
 
-    // "plugins": [ [ "__coverage__", { "ignore": "*.spec.js" } ] ],
-
 
     // list of files to exclude
     exclude: [
@@ -77,5 +75,5 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity
-  })
-}
+  });
+};

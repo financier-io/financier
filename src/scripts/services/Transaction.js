@@ -37,7 +37,7 @@ angular.module('financier').factory('transaction', uuid => {
        * The currency value of the transaction.
        * Will call subscriber when changes.
        *
-       * @type {currency} The value of the transaction.
+       * @type {currency}
        */
       get value() {
         return this.data.value;
@@ -53,7 +53,7 @@ angular.module('financier').factory('transaction', uuid => {
        * The date of the transaction.
        * Will call subscriber when changes.
        *
-       * @type {date} The date of the transaction.
+       * @type {date}
        */
       get date() {
         return this._date;
@@ -70,7 +70,7 @@ angular.module('financier').factory('transaction', uuid => {
        * The category the transaction is assigned to.
        * Will call subscriber when changes.
        *
-       * @type {string} The category UID.
+       * @type {string}
        */
       get category() {
         return this.data.category;
@@ -86,7 +86,7 @@ angular.module('financier').factory('transaction', uuid => {
        * The account the transaction is assigned to.
        * Will call subscriber when changes.
        *
-       * @type {string} The account UID.
+       * @type {string}
        */
       get account() {
         return this.data.account;
@@ -102,7 +102,7 @@ angular.module('financier').factory('transaction', uuid => {
        * The payee the transaction is assigned to.
        * Will call subscriber when changes.
        *
-       * @type {string} The payee UID.
+       * @type {string}
        */
       get payee() {
         return this.data.payee;
@@ -118,7 +118,7 @@ angular.module('financier').factory('transaction', uuid => {
        * A user-entered memo for the transaction.
        * Will call subscriber when changes.
        *
-       * @type {string} The memo.
+       * @type {string}
        */
       get memo() {
         return this.data.memo;
@@ -134,7 +134,7 @@ angular.module('financier').factory('transaction', uuid => {
        * Whether the transaction is cleared.
        * Will call subscriber when changes.
        *
-       * @type {boolean} True if cleared.
+       * @type {boolean}
        */
       get cleared() {
         return this.data.cleared;
@@ -150,7 +150,7 @@ angular.module('financier').factory('transaction', uuid => {
        * Whether the transaction is flagged.
        * Will call subscriber when changes.
        *
-       * @type {boolean} True if flagged.
+       * @type {boolean}
        */
       get flag() {
         return this.data.flag;
@@ -165,7 +165,7 @@ angular.module('financier').factory('transaction', uuid => {
       /**
        * The complete transaction ID, including namespacing.
        *
-       * @type {string} The database `_id`.
+       * @type {string}
        */
       get _id() {
         return this.data._id;

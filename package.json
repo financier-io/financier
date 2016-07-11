@@ -7,7 +7,7 @@
     "test": "gulp test",
     "start": "node ./api",
     "compile": "gulp build",
-    "docs": "node_modules/.bin/jsdoc --configure .jsdoc.json --verbose"
+    "docs": "node_modules/.bin/jsdoc --configure .jsdoc.json"
   },
   "repository": {
     "type": "git",
@@ -22,8 +22,7 @@
   "devDependencies": {
     "babel-plugin-istanbul": "^1.0.1",
     "connect-livereload": "^0.5.4",
-    "docdash": "^0.4.0",
-    "gulp-jsdoc3": "^0.3.0",
+    "financier-docdash": "^0.6.0",
     "jasmine-core": "^2.4.1",
     "jasmine-promises": "^0.4.1",
     "karma": "^0.13.22",
@@ -58,6 +57,7 @@
     "gulp-sass": "^2.1.1",
     "gulp-sass-lint": "^1.1.1",
     "gulp-uglify": "^1.5.1",
+    "jsdoc": "^3.4.0",
     "lie": "^3.0.2",
     "node-bourbon": "^4.2.3",
     "run-sequence": "^1.1.5",

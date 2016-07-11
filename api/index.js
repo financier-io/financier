@@ -8,6 +8,8 @@ if (process.env.NODE_ENV === 'development') {
   }));  
 }
 
+app.use('/docs', express.static(path.join(__dirname, '../docs')));
+
 app.use(express.static(path.join(__dirname, '../dist')));
 
 // html5mode

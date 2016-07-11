@@ -151,7 +151,7 @@ angular.module('financier').factory('MonthCategory', uuid => {
      *   console.log(amount);
      * });
      * monthCat.budget = 1200; // Will console.log(1200)
-     * monthCat.budget = 1000; // Will not console.log(-200)
+     * monthCat.budget = 1000; // Will console.log(-200)
      *
      * @param {function}
      */
