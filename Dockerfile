@@ -1,11 +1,11 @@
 FROM node:wheezy
 
 WORKDIR /financier
-RUN npm install express
+RUN npm install express@4.13
 
-ADD /dist /financier/dist
-ADD /docs /financier/docs
-ADD /api /financier/api
+ADD ./dist /financier/dist
+ADD ./docs /financier/docs
+ADD ./api /financier/api
 
 WORKDIR /financier/api
 
