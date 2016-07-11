@@ -3,3 +3,27 @@ node_js:
   - "6.3"
 before_install: npm install -g bower gulp
 install: npm install && bower install
+
+# https://docs.travis-ci.com/user/environment-variables/#Encrypting-Variables-Using-a-Public-Key
+env:
+  global:
+    - secure: "ptfUrBEYgJdSUBVjcO7j7FBvSvAvOTOvcFpLja3NdaI6cmfV8Xfcf2YcR8xFNEEKoNPUrDfaIsHdmthE76Gcy8BxmPKSdAeoU4iF4ZGB9onw+CLDFPBItti4N+VkTXaVP+78kNJbjrXlu3xaNznu8tAlkpEA3HglSAQE49kFJHaTF/TBzn8FAHuEJB+y0EN0KkTHlLwMo8NRM6k3Hvgn/a6JLVpaDDRD8f05fljryyGnSymjucazkE+Y9XEoDOupFyyn5ymim4bPsoP5mNLxEIUXjfo5dxIKVk1CuUrdJcRSpeNp91CAJ5eplZZgVYfDlvvJG8Kf1zujRHnjHnxnheteR4Eac+j9dunKqDzo22YXv2VkOyKvQ+eOIuNMk1i83eX4j+/vfud7X6O7zzeK8fdDevhUDdVY85Q7j0iPVEwfH7+XN0FScWGH/RGnycd9A3uGhECLIIDVTvwb1iwofVxq267zL0Yr1+uhIbQDIawMR5BJnJxk4BYAFBZeRKPzU6r0EL9QIecsguMCEGp+mT9px/hLbVyONmsy4NoYEoC1czuPi9pDZetmvB9MRtvvvduxuYCAIMvCBsTPgSnVib5PykMBxOE20nqrZhdQvjYJ12XH2IEO9q8jYUd0A0dg8LbtGfWKzmkznvHhifnlIuhCzYBDc4RVndzjqnz40/k=" # DOCKER_EMAIL
+    - secure: "VPZuci4EpBO/P8to6q2p3Ul1y0X/VePUgAD0sXHELE0B76I1oUkcpi22J2FD6J7qYOOIux5yTriDd2Nyq+gmeryyGtt0A9GRLLHXAgdAtRrRMl09qI5RHZnkm5nv9QnvplvQlUN0BrElbOwOTayS+f9vAJww1KLeOhTWc9QdtwOtB2tYCy9LSNEvR7Sveh8hwxW3PBM9G7vAqd7IsvmMYo8OC6xJdk11wvXazIccSJA+wKJdKQbA59GJaBRM37/3stcHEqOF64BALQXSM6pwrpXYpvSqHxh8hYNPgoTlKJSQZdboqpbsKrAvtR654C0en9kqq630WMnAAwSScsTqfuwT5mHMzoEEyBbZ4mwBiUEM4pyckb2EvNlryniPqTC5eHzGEiivZOHzNN753VB5aicA/4YxNQuhx8d96x8plTjKGCTZIx7X2lgOljqAXQyhZAZTdlpqQnFn9fVKvLKWrPlawrlKVE6oLIy9Z1ZzYkoiVdnHRJMM237AD8F7UdvhhSBjGt/zFOnQ4RcGb4JH0uIMtede1AzqY8HYAQtzIkAAncIBIW7fD7KsqAbf6GEe0WH5aNwlpkOn05pKRHl7ZURUKpOfOHD8lA1wiVTVCtDyU/bOdQY0eEap40HzGPLi3KW0peoSTl/bkTOl6ENdnrUITVo4m/HfwLEHtVDMK3I=" # DOCKER_USER
+    - secure: "X2SKHvkqFo6U+QzmedkcYsqvSKioDGxgCi3cmxHvlY5/ZljJD15FNZUrdvWJiitWor9rHA4Hm0vL8WOroEC4ft7vBIRhFEIvYDBrGmRvi/jlMGqUOIK5BXs5gwWVt0TvBSaKbScRlAPZSM2gduH3mC/s18XOALiT0Gl/MQbHTa4nR0I+o3XdDohk0WDTVSa5CFXdsthvmZ8qW8tjqQdgWheEFkf1USWZvrQQvK7YQ4HYMP0OkcJz11rVo5RfzLcWTrQJ7ybRjjLlF5ww1oj8rPqnQ0qxg5M1bOIZ5DqEMdpuD59hD3P1Y9Q8sVpap5zsbzsN6S7t4X/dnlNK44LQPpdhkIdN1Q7iHUr+Nhj9g//HqZ/B6migt+IIycgV2ekQT45DKGOkQJQNZvvY3a08q7VDEen1jRJHa1QlVSNlOn0au04NtReyYJ2ohrJUWJZXJXB8IeBn1nJHGRSRJgfqrjZ8XenPRh0hS91DRIIk/8OZe1Jpf2ISKuhsOxd8Ree24chriPFZ3iWhpMAxj+RMU16yyHA1isHmLpWV+5OWH1DFLW433Do9GtZ/YrVzMag2GU7B5THuhi30kkXg3vlpVZmAnP2yOPEZxzVOILwWuyjzYeg5l40RtSoBb3oc/tVyHmvk9BBLE+N2yyJaxGJbusKgUOwBVMsl982rkXlPuIM=" # DOCKER_PASS
+    - COMMIT=${TRAVIS_COMMIT::8}
+
+# https://graysonkoonce.com/getting-the-current-branch-name-during-a-pull-request-in-travis-ci/
+script:
+  - export PR=https://api.github.com/repos/$TRAVIS_REPO_SLUG/pulls/$TRAVIS_PULL_REQUEST
+  - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo `curl -s $PR | jq -r .head.ref`; fi)
+  - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH, PR=$PR, BRANCH=$BRANCH"
+
+# https://sebest.github.io/post/using-travis-ci-to-build-docker-images/
+after_success:
+  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  - export REPO=aeharding/financier
+  - export TAG=`if [ "$BRANCH" == "master" ]; then echo "latest"; else echo $BRANCH ; fi`
+  - docker build -f Dockerfile -t $REPO:$COMMIT .
+  - docker tag $REPO:$COMMIT $REPO:$TAG
+  - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+  - docker push $REPO
