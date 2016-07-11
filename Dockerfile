@@ -4,6 +4,7 @@ WORKDIR /financier
 RUN npm install express
 
 ADD /dist /financier/dist
+ADD /docs /financier/docs
 ADD /api /financier/api
 
 WORKDIR /financier/api
