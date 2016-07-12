@@ -42,4 +42,4 @@ after_success:
   - docker push $REPO
 
   # webhook if on master and not pull request
-  - '[ "${TRAVIS_BRANCH}" == "master" ] && [ "${TRAVIS_PULL_REQUEST}" == "false" ] && curl -X POST $REDEPLOY_WEBHOOK_URL > /dev/null || false'
+  - '[ "${TRAVIS_BRANCH}" == "master" ] && [ "${TRAVIS_PULL_REQUEST}" == "false" ] && curl -I -s -L -X POST $REDEPLOY_WEBHOOK_URL | grep "HTTP/1.1" || false'
