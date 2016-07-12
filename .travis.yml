@@ -6,8 +6,6 @@ services:
 language: node_js
 node_js:
   - "6.3"
-before_install: npm install -g bower gulp
-install: npm install && bower install
 
 # https://docs.travis-ci.com/user/environment-variables/#Encrypting-Variables-Using-a-Public-Key
 env:
@@ -18,16 +16,23 @@ env:
     - COMMIT=${TRAVIS_COMMIT::8}
 
 # https://graysonkoonce.com/getting-the-current-branch-name-during-a-pull-request-in-travis-ci/
-script:
+before_install:
   - export PR=https://api.github.com/repos/$TRAVIS_REPO_SLUG/pulls/$TRAVIS_PULL_REQUEST
   - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo `curl -s $PR | jq -r .head.ref`; fi)
   - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH, PR=$PR, BRANCH=$BRANCH"
-  - npm run-script compile
-  - npm run-script docs
+
+install:
+  - npm install -g bower gulp
+  - npm install
+
+script:
   - npm test
 
-# https://sebest.github.io/post/using-travis-ci-to-build-docker-images/
 after_success:
+  - npm run-script compile
+  - npm run-script docs
+
+  # https://sebest.github.io/post/using-travis-ci-to-build-docker-images/
   - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
   - export REPO=aeharding/financier
   - export TAG=`if [ "$BRANCH" == "master" ]; then echo "latest"; else echo $BRANCH ; fi`
