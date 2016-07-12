@@ -11,6 +11,10 @@ $messageHeightAnimationTime: 250ms;
     color: $danger;
 }
 
+.message--main {
+    text-align: center;
+}
+
 .message.ng-leave {
     @include animation(heightLeave $messageHeightAnimationTime ease);
     @include animation-fill-mode(forwards);

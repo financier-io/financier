@@ -1,8 +1,6 @@
 var path = require('path');
 var express = require('express');
 var app = express();
-var git = require('git-rev');
-var pJson = require('../package.json');
 
 if (process.env.NODE_ENV === 'development') {
   app.use(require('connect-livereload')({
@@ -10,16 +8,9 @@ if (process.env.NODE_ENV === 'development') {
   }));  
 }
 
-app.use(express.static('dist'));
+app.use('/docs', express.static(path.join(__dirname, '../docs')));
 
-app.get('/api/version', function(req, res, next) {
-  git.long(function (sha) {
-    res.send({
-      sha: sha,
-      version: pJson.version
-    });
-  });
-});
+app.use(express.static(path.join(__dirname, '../dist')));
 
 // html5mode
 app.all('/*', function(req, res) {

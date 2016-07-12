@@ -1,18 +1,16 @@
 FROM node:wheezy
 
-ADD . /financier
-
 WORKDIR /financier
+RUN npm install express@4.13
+
+ADD ./dist /financier/dist
+ADD ./docs /financier/docs
+ADD ./api /financier/api
+
+WORKDIR /financier/api
 
 EXPOSE 8080
 
-ENV NODE_ENV=production
+# RUN apt-get install -y git-core
 
-RUN apt-get install -y git-core
-
-RUN npm install -g gulp bower && \
-    npm install && \
-    bower install --allow-root && \
-    npm run-script compile
-
-CMD npm start
+CMD node ./index.js

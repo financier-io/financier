@@ -1,5 +1,44 @@
+sudo: required
+
+services:
+  - docker
+
 language: node_js
 node_js:
-  - "4.1"
-before_install: npm install -g bower gulp
-install: npm install && bower install
+  - "6.3"
+
+# https://docs.travis-ci.com/user/environment-variables/#Encrypting-Variables-Using-a-Public-Key
+env:
+  global:
+    - secure: "gmFhqZV63aJ7bRvVpqEV9WVA62qBgMws1w6PXneHc0Jtz5w0EgVb6q/+ES0MT272w+uEwnyiEmi6ehOZexkEXb/LkNyLWAIw1Apm3HwQRlZ/0qsuQ0to/yRTApylRLYd0cMArpWL1800MROD7N3HF/rumdo1y4zTxL4mZYUO/4svJY6WPbjGxnfr5GTK3V2ldEZzzdsVezlu83SVA34zQYpJbb8RRRiccKQoQB2/30NFd61XWsFOHQ4jFKoGxWlV5A/WHk04LavlLqhjkQ4Xsor2diW/DRyXEsLGpFMaTePnqJp1lRgnPevjv6dxpQcEyd7ziZirx/vRy01Jwg9XPdh2bShXXheJfQWf3ZCNAWT5B7rOxpyEgv9DZs/SUXM0P8kZpDypSOoJb99GmxntpT7L0KwHynLAgIIruGD8KapEEpPp7N5dCTQRFaeQ4MVNKL2egrAninpy9lWPNwBrXLe7Vy9yJgPwrDoGdzz5/0jJgnCB2K//aN9m1054tTLStWVtEdPkDQNj2oPkQthl77MDPxd7b8rIFAw+V0rT2QekWKVwyxwr0H2ceVa4QcPlegsW4DpkzP8Ih9SccDi/N9zQR5D762zuiHboU+gZSNuT5crO8+2McwOi0eoGvJrYQK/Q991QDkMrdm1iKDlaoxdcJYJNeC/+Bh0DTuLl9HE=" # DOCKER_EMAIL
+    - secure: "gfByWHYors+Dzh2OElx6xwyqgxAavt07WRDPNWjjKHi0FF4k5Oum4XlzYke44qXy39Jl27CZifYv4bZv8c/NC84pX5Gd6EW6rVBLEvClFkCFpcaNj4UsK1Wp8QcVJhYB4y5f+02GIvdZIeADBdXJchvwAV2NGspWN86w4Yl1K7RaHdVA0pz/NOte/QvnlF+sUlvIJ1cCyLKAx1HrzYTKJ3RWITERZxVdidYx7x7JZgqqM4qQAbTwtOBpp73LpztNO+XD36EVW7M75+bFAKbeir7/nmpW63oFxxKcQd5XdsLKtQbDdFOg0LYeoZILPQ3pNJYI3IRkpQOLHdsKJy0IiFYKa32zvR8aHeR+dD2crpLAZtZHcLMzEAn6Sc1cAm/yTGWM1bb1OfZScUlvHGuISTIR+493hNWnPu7tLbtLlqEsx+rymKM98W7AIM3bT776+0ExbMXOOXIYCtiYYGICQasgqs5xTWiZbz7TjnT6/uTqVXc42l6jrcqLHD4ikxsGLTbRXn7cGSOp42aj7KJ3X65IFrHpwsJkYg/FCBSXn/P4s+tnWDMVfe+y7FCsJG9i0pJvwVTRriNVPqjtSZxLEDSJXp462wIsbfhcUHxnkjAAKybjTAFRzcch0GqNKxcg9VYfOskhiqoDV3dCD9OVpg71uPIORrcyd7srTRWNlD8=" # DOCKER_USER
+    - secure: "KbtYHG6gM2AyvtL5iOB3ZNHQ6FN9oRZF3Fj2PXmVPd2XPB0E6l9KxdbANT0inpo+7D8mB6YQLVJr8wjYaHRbr8SLKkr6StJBxRPsCIjtaaCZ/dUCT1HSC7wQQ9RGkn/Y6PnUGmUmcC2DReMKjPuuTgHztMC72MS2nQDWK6i66QUa7XbHAfDqi42WD/Jcl9K7xfrZwRZ4+rv5XPREqdi8k/0LMOSyABhWHJU1ztNC8jl5YwCv1wd08UATIsbW7YyI8NpAOcO8LLIn3APUcBsUsZpgsR/CmwL5UEHL0/uGvaxWR6tMachBcdmTdiNlvhmFCuI1XUYRkYJ7CzLpXXPXdaUdOQeCKizZ6YFGEsOMZ0/n2iPErhSE49tz8XNJgc3U1cQIf3vtC2gI2Nt/vtAMGU+GbKxMghrDXnkaagsS0mDZs7oGAfszCVtYHnKXvMElutIvEGiPqXE71tvbEnft0BI4s6m8DTkHzGiBXNflNyPvecQT1pHrLbMHeSImqCn2GBkpnZN4GAtQBovqYREWxEFUFigmMm/fXMjRMf/+TzmxZwEWOmY0E+IB25JwZro9l4SKiSjo1ZMbzxgSx+S0qmuhbDm0Xm7eko0tfLxguWOlxnpq4K8V5Ne2iivoG6gFrJ+C4DHJIvtjn/qmSNLFMfuhf1LdYkRIHlSZoEHcC8A=" # DOCKER_PASS
+    - COMMIT=${TRAVIS_COMMIT::8}
+
+# https://graysonkoonce.com/getting-the-current-branch-name-during-a-pull-request-in-travis-ci/
+before_install:
+  - export PR=https://api.github.com/repos/$TRAVIS_REPO_SLUG/pulls/$TRAVIS_PULL_REQUEST
+  - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo `curl -s $PR | jq -r .head.ref`; fi)
+  - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH, PR=$PR, BRANCH=$BRANCH"
+
+install:
+  - npm install -g bower gulp
+  - npm install
+  - bower install
+
+script:
+  - npm test
+
+after_success:
+  - npm run-script compile
+  - npm run-script docs
+
+  # https://sebest.github.io/post/using-travis-ci-to-build-docker-images/
+  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+  - export REPO=aeharding/financier
+  - export TAG=`if [ "$BRANCH" == "master" ]; then echo "latest"; else echo $BRANCH ; fi`
+  - echo "BOOM TAG=$TAG, REPO=$REPO, COMMIT=$COMMIT"
+  - docker build -f Dockerfile -t $REPO:$COMMIT .
+  - docker tag $REPO:$COMMIT $REPO:$TAG
+  - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+  - docker push $REPO

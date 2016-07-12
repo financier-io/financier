@@ -2,12 +2,14 @@
 <!-- <service-worker-status></service-worker-status> -->
 
 <div class="budgets">
+  <sync-status></sync-status>
+
   <div class="budgets__title">Your budgets</div>
   
-  <ul class="budgets__budgets">
+  <ul class="budgets__budgets" disable-ng-animate>
     <li ng-repeat="budget in budgetsCtrl.budgets | orderBy: '-opened'"
         class="budgets__budget">
-      <a ui-sref="app.db.budget({budgetId: budget.id})">
+      <a ui-sref="user.app.manager.view.budget({budgetId: budget.id})">
         <div class="budget__budget-name">{{budget.name}}</div>
         <div class="budget__budget-opened"
              ng-if="budget.opened"
@@ -18,7 +20,7 @@
     </li>
 
     <li class="budgets__budget">
-      <a ui-sref="budget.create">
+      <a ui-sref="user.budget.create">
         <div>
           <div class="budget__budget-new-icon">+</div>
         </div>
@@ -26,5 +28,16 @@
     </li>
   </ul>
 
+  <div class="budgets__title">Your subscription</div>
+  
+  <div ng-if="!userCtrl.email">
+    <p>You're currently using the free version. Your budgets are stored in the browser, and could be deleted if you clear the browser cache!</p>
+
+    <p><a ui-sref="user.signup">Consider upgrading to the premium plan</a>.</p>
+  </div>
+
+  <div ng-if="userCtrl.email">
+    <p>Your subscription will expire on {{userCtrl.subscriptionExpiry | date}}.</p>
+  </div>
 
 </div>

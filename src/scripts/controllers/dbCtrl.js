@@ -1,61 +1,77 @@
-angular.module('financier').controller('dbCtrl', function(db, myBudget, $stateParams, $scope, $q, month) {
+angular.module('financier').controller('dbCtrl', function(db, budgetRecord, data, myBudget, $stateParams, $scope, $q, month) {
+  let {manager, categories} = data;
+
   const budgetId = $stateParams.budgetId;
 
-  const b = db.budget(budgetId);
   const Month = month(budgetId);
 
-  this.budget = myBudget;
+  this.categories = categories;
 
-  // Triggers 'last opened on' date change
-  this.budget.open();
+  this.budgetRecord = budgetRecord;
 
+  budgetRecord.open();
 
-  this.getNewBudgetView = function(date) {
-    date = new Date(date);
-    return $q.all([
-      b.budget.getFourMonthsFrom(date),
-      b.categories
-    ])
-    .then(([allMonths, categories]) => {
-      this.allMonths = allMonths;
-      this.categories = categories;
-
-      this.months = getView(date, allMonths);
-
-      b.budget.propagateRolling(
-        categories
-          .map((m => m.categories.map(c => c.id)))
-          .reduce((a, b) => a.concat(b)), 
-        allMonths[0]
-      );
-    });
-  };
-
-  let m = new Date();
-  if (myBudget.lastMonthOpenedId) {
-    m = moment(myBudget.lastMonthOpenedId);
-  }
-  this.currentMonth = m;
+  this.currentMonth = new Date();
+  this.months = getView(this.currentMonth);
 
   $scope.$watch(
     () => this.currentMonth,
     (currentMonth, oldCurrentMonth) => {
       if (angular.isDefined(currentMonth)) {
-        this.getNewBudgetView(currentMonth);
-      }
-
-      if (currentMonth && currentMonth !== m) {
-        myBudget.lastMonthOpenedId = Month.createID(new Date(currentMonth));
+        this.months = getView(currentMonth.toDate ? currentMonth.toDate() : currentMonth);
       }
     }
   );
 
-  function getView(date, allMonths) {
+  const refreshEverything = () => {
+      return $q.all([
+        myBudget.budget(),
+        myBudget.categories.all()
+      ])
+      .then(([_manager, _categories]) => {
+        if (_categories.length) {
+          _manager.propagateRolling(
+            _categories
+              .map((m => m._categories.map(c => c.id)))
+              .reduce((a, b) => a.concat(b))
+          );
+        }
+
+        this.categories = _categories;
+        manager = _manager;
+
+        this.months = getView(this.currentMonth.toDate ? this.currentMonth.toDate() : this.currentMonth);
+      })
+      .catch(e => {
+        throw e;
+      });
+  };
+
+  // const dbChanges = db._pouch.changes({
+  //   live: true,
+  //   since: 'now'
+  // })
+  // .on('change', change => {
+  //   if (change.id.indexOf('b_' + $stateParams.budgetId) === 0) {
+  //     refreshEverything();
+  //   }
+  // });
+
+  $scope.$on('$destroy', () => {
+    dbChanges.cancel();
+  });
+
+  function getView(date) {
+    // Make sure that we have the months
+    manager.getMonth(date);
+    const dateUntil = moment(date).add(5, 'months').toDate();
+    manager.getMonth(dateUntil);
+
     const dateId = Month.createID(date);
 
-    for (let i = allMonths.length - 1; i >= 0; i--) {
-      if (allMonths[i].date === dateId) {
-        return allMonths.slice(i, i + 5);
+    for (let i = manager.months.length - 1; i >= 0; i--) {
+      if (manager.months[i].date === dateId) {
+        return manager.months.slice(i, i + 5);
       }
     }
     throw new Error(`Couldn't find base month in database!`);

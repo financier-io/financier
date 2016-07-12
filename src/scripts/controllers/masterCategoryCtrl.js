@@ -6,11 +6,17 @@ angular.module('financier').controller('masterCategoryCtrl', function($scope) {
   $scope.$watchCollection(() => {
     let budget = 0;
     let balance = 0;
+
     for (let i = 0; i < $scope.masterCategory.categories.length; i++) {
       const cat = $scope.masterCategory.categories[i];
 
-      budget += $scope.month.categories[cat.id].budget || 0;
-      balance += $scope.month.categoryCache[cat.id].balance || 0;
+      if ($scope.month.categories[cat.id]) {
+        budget += $scope.month.categories[cat.id].budget || 0;
+      }
+
+      if ($scope.month.categoryCache[cat.id]) {
+        balance += $scope.month.categoryCache[cat.id].balance || 0;
+      }
     }
 
     return [budget, balance];

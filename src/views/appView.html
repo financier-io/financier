@@ -1,0 +1,90 @@
+<div class="app-view">
+  <div class="app-view__header">
+    <staging-warning></staging-warning>
+  </div>
+
+  <div class="app-view__main">
+    <div class="app-view__sidebar">
+
+      <h1 class="app-view__title">
+        <a ui-sref="user.budget">Financier</a>
+      </h1>
+
+      <div class="app-view__sidebar-main">
+        <ul class="app-view__links">
+          <li class="app-view__link" ui-sref-active="app-view__link--active">
+            <a ui-sref="user.app.manager.view.budget"><i class="fa fa-tags"></i> Budget</a>
+          </li>
+          <li class="app-view__link" ui-sref-active="app-view__link--active">
+            <a ui-sref="user.app.manager.view.account">
+              <i class="fa fa-credit-card"></i> Accounts
+              <aside>{{(accountCtrl.total || 0) | intCurrency | currency}}</aside>
+            </a>
+          </li>
+          <li class="app-view__link" ui-sref-active="app-view__link--active">
+            <a ui-sref="user.app.manager.view.reports"><i class="fa fa-pie-chart"></i> Reports</a>
+          </li>
+
+          <hr class="app-view__underline" />
+        </ul>
+
+        <div class="app-view__accounts">
+          <div class="app-view__accounts-title">My accounts</div>
+
+          <ul class="account__accounts-list">
+            <li class="account__account" ui-sref="user.app.manager.view.account({accountId: null})"
+                ui-sref-active="account__account--active">
+              All accounts
+              <span class="account__amount account__account--positive">{{(accountCtrl.total || 0) | intCurrency | currency}}</span>
+            </li>
+            <li class="account__account"
+                ng-repeat="account in accountCtrl.accounts | filter: accountCtrl.isOpen"
+                ui-sref="user.app.manager.view.account({accountId: account.id})"
+                ui-sref-active="account__account--active">
+              <span class="account__name">{{account.name}}</span> <i class="account__edit fa fa-cog" ng-click="accountCtrl.edit($event, account)"></i>
+              <span class="account__amount account__account--positive">{{(accountCtrl.accountTotals[account.id] || 0) | intCurrency | currency}}</span>
+            </li>
+            <li class="account__plus" ui-sref="user.app.manager.view.account.create">+</li>
+          </ul>
+        </div>
+      </div>
+
+      <footer ng-if="userCtrl.email"
+              class="app-view__sidebar-footer">
+        <sync-status></sync-status>
+
+        <div class="app-view__sidebar-footer--logged-in">
+          <div class="app-view__sidebar-details">
+            <ul class="user-options">
+              <li>Logout</li>
+              <li>Logout &amp; remove local budgets</li>
+            </ul>
+          </div>
+
+          <div class="app-view__sidebar-footer-button">
+            <span>{{userCtrl.email}}</span>
+
+            <img ng-if="userCtrl.email" ng-src="https://www.gravatar.com/avatar/{{userCtrl.email | gravatar}}" alt="{{email}} Gravatar">
+          </div>
+        </div>
+      </footer>
+
+
+      <footer ng-if="!userCtrl.email" class="app-view__sidebar-footer">
+        <a class="app-view__sync" ui-sref="user.signup">
+          Don't have an account? Upgrade to unlock syncing. Free for 30 days!
+        </a>
+
+        <div class="app-view__sidebar-footer--logged-in">
+          <div ng-click="userCtrl.signin()" class="app-view__sidebar-footer-button app-view__sidebar-footer-button--sign-in">
+            Sign into your account
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <div ui-view class="app-view__body"></div>
+    
+  </div>
+</div>
+

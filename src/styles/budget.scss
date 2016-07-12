@@ -1,4 +1,4 @@
-$budgetMonthCellPadding: 3px 5px 0;
+$budgetMonthCellPadding: 2px 5px 0;
 
 .budget {
   height: 100%;
@@ -85,6 +85,8 @@ $budgetMonthCellPadding: 3px 5px 0;
   padding: $budgetMonthCellPadding;
   transition: color 250ms linear;
 
+  box-sizing: content-box;
+
   &:hover {
     .budget__month-row-note {
       opacity: 1;
@@ -96,6 +98,13 @@ $budgetMonthCellPadding: 3px 5px 0;
   color: #aaa;
 }
 
+.budget__month-row--negative {
+  color: $white;
+  border-radius: 10px;
+  background-color: $danger;
+  padding: 0 5px;
+}
+
 .budget__month-cell--input {
   position: relative;
 
@@ -103,7 +112,7 @@ $budgetMonthCellPadding: 3px 5px 0;
   margin-bottom: -1px;
 
   .budget__month-row--last & {
-    margin-bottom: 0;
+    margin-bottom: 0px;
   }
 
   // we want the input to emulate the cell
@@ -117,18 +126,19 @@ $budgetMonthCellPadding: 3px 5px 0;
     // we can't set padding from the cell to zero
     // because it would wreck the layout
     margin-left: -5px;
-    margin-top: -3px;
+    margin-top: -2px;
     
     // "effective" 100%, after adding margin
     width: calc(100% + 10px);
   
     // now we add the padding back to the input
-    padding: $budgetMonthCellPadding;
+    padding-right: 5px;
   
     // this is weird. 2em "magic number" minus 1px
     // for border collapsing (see the cell
     // border-bottom: -1px)
-    height: calc(2em - 1px);
+    height: 24px;
+    line-height: 24px;
 
     appearance: none;
     background: none;
@@ -187,7 +197,7 @@ $budgetMonthCellPadding: 3px 5px 0;
 
 .budget__category-label {
   font-size: 0.8em;
-  width: 5em;
+  width: 50px; // px to prevent rounding issues
   text-align: right;
 
   white-space: nowrap;

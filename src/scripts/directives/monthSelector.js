@@ -42,13 +42,13 @@ angular.module('financier').directive('monthSelector', function() {
       scope.$on('resize', changeHeaderStyle);
 
       function changeHeaderStyle() {
-        if (document.body.clientWidth < 675) {
+        if (document.body.clientWidth < 990) {
           scope.limitTo = 1;
         } else {
           scope.limitTo = null;
         }
 
-        if (document.body.clientWidth < 1384) {
+        if (document.body.clientWidth < 1484) {
           scope.dateFormat = 'MMM';
         } else {
           scope.dateFormat = 'MMMM';

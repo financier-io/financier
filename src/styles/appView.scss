@@ -1,0 +1,251 @@
+.app-view {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-view__header {
+  width: 100%;
+}
+
+.app-view__main {
+  flex: 1000;
+  display: flex;
+}
+
+.app-view__sidebar {
+  width: 15em;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: $primary;
+  color: $white;
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.app-view__sidebar-main {
+  flex: 1;
+
+  overflow: auto;
+}
+
+.app-view__sidebar-footer {
+}
+
+.app-view__sidebar-footer--logged-in {
+  position: relative;
+  $height: 30px;
+
+  &:hover {
+    .app-view__sidebar-footer-button {
+      background-color: darken($primary, 10%);
+    }
+
+    .app-view__sidebar-details {
+      transform: translateY(-100%);
+    }
+  }
+
+  img {
+    flex: 1;
+    width: $height;
+    height: $height;
+    border-radius: 50%;
+  }
+
+  span,
+  img {
+    display: inline-block;
+    float: left;
+  }
+
+  span {
+    width: calc(100% - #{$height});
+    line-height: $height;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-wrap: nowrap;
+  }
+}
+
+.app-view__sidebar-footer-button {
+  background-color: darken($primary, 5%);
+
+  padding: 10px 15px;
+
+  cursor: pointer;
+
+  position: relative;
+  z-index: 5;
+  overflow: auto;
+}
+
+.app-view__sidebar-footer-button--sign-in {
+  text-align: center;
+}
+
+.app-view__sidebar-details {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  transition: transform 250ms ease;
+}
+
+.app-view__body {
+  flex: 1;
+  position: relative;
+}
+
+.app-view__sync {
+  margin: 1em;
+  font-size: 0.8em;
+  display: block;
+  text-align: center;
+}
+
+.app-view__title {
+  display: inline-block;
+  font-size: 1.4em;
+  font-weight: 300;
+  margin: 0;
+  padding: 0.25em 0;
+  text-align: center;
+
+  background-color: rgba(0, 0, 0, 0.1);
+
+  &,
+  a {
+    width: 100%;
+  }
+
+  a {
+    display: inline-block;
+
+    background: none;
+    transition: all 250ms ease;
+    position: relative;
+  }
+}
+
+.app-view__links {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.app-view__link {
+  display: block;
+  padding: 0 0.2em;
+  font-weight: 300;
+  line-height: 3rem;
+  opacity: 0.7;
+
+  transition: opacity 250ms ease;
+  
+  &:hover {
+    opacity: 1;
+  }
+
+  a {
+    display: block;
+    padding: 0 1em;
+    white-space: nowrap;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  aside {
+    display: inline-block;
+    font-size: 0.8em;
+    line-height: 3rem;
+    float: right;
+  }
+
+  &:nth-child(1) {
+    &.app-view__link--active {
+      background-color: rgba(255, 255, 255, 0.1);
+
+      ~ hr {
+        margin-top: 0;
+      }
+    }
+  }
+
+  &:nth-child(2) {
+    &.app-view__link--active {
+      background-color: rgba(255, 255, 255, 0.1);
+
+      ~ hr {
+        margin-top: 3rem;
+      }
+    }
+  }
+
+  &:nth-child(3) {
+    &.app-view__link--active {
+      background-color: rgba(255, 255, 255, 0.1);
+
+      ~ hr {
+        margin-top: 6rem;
+      }
+    }
+  }
+
+  &:nth-child(1) {
+    &:hover {
+      ~ hr {
+        margin-top: 0;
+      }
+    }
+  }
+
+  &:nth-child(2) {
+    &:hover {
+      ~ hr {
+        margin-top: 3rem;
+      }
+    }
+  }
+
+  &:nth-child(3) {
+    &:hover {
+      ~ hr {
+        margin-top: 6rem;
+      }
+    }
+  }
+}
+
+.app-view__underline {
+  width: 6px;
+  height: 33.33%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  background: white;
+  border: 0;
+  transition: 200ms ease;
+}
+
+.app-view__link--active {
+  opacity: 1;
+}
+
+.app-view__accounts {
+  margin: 0.5em;
+}
+
+.app-view__accounts-title {
+  font-size: 0.9em;
+}

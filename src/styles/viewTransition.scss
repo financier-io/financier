@@ -10,79 +10,79 @@
   transform: translate3d(0, 0, 0);
 }
 
-.ng-enter {
-  z-index: 8888;
-}
+// .ng-enter {
+//   z-index: $zPageEnter;
+// }
 
-.ng-leave {
-  z-index: 9999;
-}
+// .ng-leave {
+//   z-index: $zPageLeave;
+// }
 
-.state-app-db-budget.ng-enter {
+.state-user-app-manager-view-budget.ng-enter {
   animation: slideInLeft 0.5s both ease;
 }
 
-.state-app-db-budget.ng-leave {
+.state-user-app-manager-view-budget.ng-leave {
   animation: slideOutLeft 0.5s both ease;
 }
 
-.state-app-db-reports.ng-enter {
+.state-user-app-manager-view-reports.ng-enter {
   animation: slideInRight 0.5s both ease;
 }
 
-.state-app-db-reports.ng-leave {
+.state-user-app-manager-view-reports.ng-leave {
   animation: slideOutRight 0.5s both ease;
 }
 
-.state-app-db-budget + .state-app-db-account.ng-leave {
+.state-user-app-manager-view-budget + .state-user-app-manager-view-account.ng-leave {
   animation: slideOutRight 0.5s both ease;
 }
 
-.state-app-db-reports + .state-app-db-account.ng-leave {
+.state-user-app-manager-view-reports + .state-user-app-manager-view-account.ng-leave {
   animation: slideOutLeft 0.5s both ease;
 }
 
-.state-app-db-account.state-app-db-budget-leave.ng-enter {
+.state-user-app-manager-view-account.state-user-app-manager-view-budget-leave.ng-enter {
   animation: slideInRight 0.5s both ease;
 }
 
-.state-app-db-account.state-app-db-reports-leave.ng-enter {
+.state-user-app-manager-view-account.state-user-app-manager-view-reports-leave.ng-enter {
   animation: slideInLeft 0.5s both ease;
 }
 
 // slide in from the bottom
 @keyframes slideOutLeft {
   to {
-    transform: translateX(-100%);
+    transform: translateY(-100%);
   }
 }
 
 // slide in from the right
 @keyframes slideInRight {
   from {
-    transform: translateX(100%);
+    transform: translateY(100%);
   }
 
   to {
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 
 // slide in from the bottom
 @keyframes slideOutRight {
   to {
-    transform: translateX(100%);
+    transform: translateY(100%);
   }
 }
 
 // slide in from the right
 @keyframes slideInLeft {
   from {
-    transform: translateX(-100%);
+    transform: translateY(-100%);
   }
 
   to {
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 

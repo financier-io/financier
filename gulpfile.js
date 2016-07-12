@@ -15,7 +15,8 @@ gulp.task('styles', function() {
         'bower_components/lato/scss/',
         'node_modules/font-awesome/scss/',
         'bower_components/tether-drop/dist/css',
-        'bower_components/ng-dialog/css'
+        'bower_components/ng-dialog/css',
+        'bower_components/angular-ladda-lw/dist'
       ])
     }).on('error', plugins.sass.logError))
     .pipe(plugins.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
@@ -67,7 +68,10 @@ gulp.task('copy:vendor', function() {
     './bower_components/tether/dist/js/tether.js',
     './bower_components/tether-drop/dist/js/drop.js',
     './bower_components/ng-dialog/js/ngDialog.js',
-    './node_modules/lie/dist/lie.polyfill.js'
+    './node_modules/lie/dist/lie.polyfill.js',
+    './bower_components/angular-ladda-lw/dist/angular-ladda-lw.js',
+    './bower_components/node-uuid/uuid.js',
+    './bower_components/angular-md5/angular-md5.js'
   ])
     .pipe(gulp.dest('dist/vendor'));
 });
@@ -88,11 +92,11 @@ gulp.task('server', function(done) {
 });
 
 gulp.task('default', ['clean'], function() {
-    runSequence('build', 'server');
+  runSequence('build', 'server');
 });
 
 gulp.task('build', function(done) {
-    runSequence('styles', 'scripts', 'copy:assets', 'copy:vendor', 'html', 'generate-service-worker-dist', done);
+  runSequence('styles', 'scripts', 'copy:assets', 'copy:vendor', 'html', 'generate-service-worker-dist', done);
 });
 
 gulp.task('test', function (done) {
@@ -140,13 +144,11 @@ gulp.task('watch', ['default', 'tdd'], function() {
   });
 });
 
-var git = require('git-rev');
 var packageJson = require('./package.json');
 var path = require('path');
 var swPrecache = require('sw-precache');
 
-
-function writeServiceWorkerFile(sha, rootDir, handleFetch, callback) {
+function writeServiceWorkerFile(rootDir, handleFetch, callback) {
   var config = {
     cacheId: packageJson.name,
     handleFetch: handleFetch,
@@ -170,7 +172,5 @@ function writeServiceWorkerFile(sha, rootDir, handleFetch, callback) {
 var DIST_DIR = 'dist';
 
 gulp.task('generate-service-worker-dist', function(callback) {
-  git.long(function (sha) {
-    writeServiceWorkerFile(sha, DIST_DIR, true, callback);
-  });
+  writeServiceWorkerFile(DIST_DIR, true, callback);
 });

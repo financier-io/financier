@@ -12,6 +12,8 @@ $fa-font-path: '../vendor';
 @import 'ngDialog';
 @import 'ngDialog-theme-default';
 
+@import 'angular-ladda-lw';
+
 @import 'core/variables';
 @import 'core/zindex';
 @import 'core/fp';
@@ -31,7 +33,7 @@ body,
   height: 100%;
 }
 
-.overflow-hidden {
+.no-overflow {
   overflow: hidden;
 }
 
@@ -39,6 +41,14 @@ html {
   box-sizing: border-box;
   line-height: 1.5;
   // overflow: hidden; // stop body overscroll
+}
+
+* {
+  &,
+  &:before,
+  &:after {
+    box-sizing: inherit;
+  }
 }
 
 body {
@@ -63,13 +73,18 @@ a {
 
 
 @import 'stagingWarning';
+
+@import 'signup';
+
 @import 'viewTransition';
 @import 'budgets';
-@import 'header';
+@import 'appView';
 @import 'monthOverview';
 @import 'monthBody';
 @import 'budget';
 @import 'account';
 @import 'monthSelect';
 @import 'serviceWorkerStatus';
+@import 'syncStatus';
+@import 'userOptions';
 

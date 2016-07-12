@@ -2,7 +2,9 @@ angular.module('financier').factory('budgetDb', (
   month,
   account,
   category,
+  transaction,
   masterCategory,
+  monthManager,
   uuid,
   $q,
   MonthCategory,
@@ -12,14 +14,22 @@ angular.module('financier').factory('budgetDb', (
     const Month = month(budgetId);
     const Account = account(budgetId);
     const Category = category(budgetId);
+    const Transaction = transaction(budgetId);
     const MasterCategory = masterCategory(budgetId);
+    const MonthManager = monthManager(budgetId);
 
     const ret = {
       accounts: accounts(),
       categories: categories(),
+      transactions: transactions(),
       budget: budget(),
-      remove
+      remove,
+      initialize
     };
+
+    function initialize() {
+      return ret.categories.initialize();
+    }
 
     function remove() {
       ret.accounts.removeAll();
@@ -52,12 +62,19 @@ angular.module('financier').factory('budgetDb', (
           for (let i = 0; i < res.rows.length; i++) {
             const acc = new Account(res.rows[i].doc);
 
-            acc.subscribe(put);
+            // acc.subscribe(put);
 
             accounts.push(acc);
           }
 
           return accounts;
+        });
+      }
+
+      function get(accountId) {
+        return db.get(Account.prefix + accountId)
+        .then(acc => {
+          return new Account(acc);
         });
       }
 
@@ -78,6 +95,57 @@ angular.module('financier').factory('budgetDb', (
       return {
         all,
         put,
+        get,
+        removeAll
+      };
+    }
+
+    function transactions() {
+      function all() {
+        return db.allDocs({
+          include_docs: true,
+          startkey: Transaction.startKey,
+          endkey: Transaction.endKey
+        }).then(res => {
+          const transactions = [];
+
+          for (let i = 0; i < res.rows.length; i++) {
+            const trans = new Transaction(res.rows[i].doc);
+
+            // acc.subscribe(put);
+
+            transactions.push(trans);
+          }
+
+          return transactions;
+        });
+      }
+
+      function get(accountId) {
+        return db.get(Transaction.prefix + accountId)
+        .then(trans => {
+          return new Transaction(trans);
+        });
+      }
+
+      function put(transaction) {
+        return db.put(transaction.toJSON()).then(res => {
+          transaction.data._rev = res.rev;
+        });
+      }
+
+      function removeAll() {
+        return all().then(transactions => {
+          for (let i = 0; i < transactions.length; i++) {
+            transactions[i].remove();
+          }
+        });
+      }
+
+      return {
+        all,
+        put,
+        get,
         removeAll
       };
     }
@@ -134,103 +202,36 @@ angular.module('financier').factory('budgetDb', (
         });
       }
 
-      return db.allDocs({
-        startkey: `b_${budgetId}_masterCategory_`,
-        endkey: `b_${budgetId}_masterCategory_\uffff`
-      }).then(res => {
-        if (res.rows.length === 0) {
-          const promises = [];
+      function initialize() {
+        const promises = [];
 
-          for (let i = 0; i < defaultCategories.length; i++) {
-            promises.push(
-              $q.when(db.bulkDocs(defaultCategories[i].categories.map(function(cat) {
-                // add id namespace to category
-                cat._id = `b_${budgetId}_category_` + uuid();
-                return cat;
-              }))
-              .then(res => {
-                return $q.when(db.post({
-                  name: defaultCategories[i].name,
-                  categories: res.map(r => r.id),
-                  _id: `b_${budgetId}_masterCategory_` + uuid()
-                }));
-              }))
-            );
-          }
-
-          return $q.all(promises).then(r => {
-            return all();
-          });
-        } else {
-          return all();
+        for (let i = 0; i < defaultCategories.length; i++) {
+          promises.push(
+            $q.when(db.bulkDocs(defaultCategories[i].categories.map(function(cat) {
+              // add id namespace to category
+              cat._id = `b_${budgetId}_category_` + uuid();
+              return cat;
+            }))
+            .then(res => {
+              return $q.when(db.post({
+                name: defaultCategories[i].name,
+                categories: res.map(r => r.id),
+                _id: `b_${budgetId}_masterCategory_` + uuid()
+              }));
+            }))
+          );
         }
-      });
+
+        return $q.all(promises);
+      }
+
+      return {
+        all,
+        initialize
+      };
     }
 
     function budget() {
-      function getFourMonthsFrom(date) {
-        function nextDateID(date) {
-          const [year, month] = date.split('-');
-          return Month.createID(new Date(year, month, 1));
-        }
-        function previousDateID(date) {
-          const [year, month] = date.split('-');
-          return Month.createID(new Date(year, month - 2, 1));
-        }
-
-        const dateFrom = Month.createID(date);
-        const dateUntil = Month.createID(moment(date).add(5, 'months').toDate());
-
-        return db.allDocs({
-          startkey: Month.startKey,
-          endkey: Month.endKey
-        }).then(res => {
-          if (res.rows.length) {
-            // Read existing months, add those needed
-            const lastDate = res.rows[res.rows.length - 1].id.replace(`b_${budgetId}_month_`, '');
-            
-            const newMonths = [];
-            let currentDate = lastDate;
-
-            while(currentDate < dateUntil) {
-              currentDate = nextDateID(currentDate);
-
-              newMonths.push(new Month(currentDate).toJSON());
-            }
-
-            const firstDate = res.rows[0].id.replace(`b_${budgetId}_month_`, '');
-            currentDate = firstDate;
-
-            while(currentDate > dateFrom) {
-              currentDate = previousDateID(currentDate);
-
-              newMonths.push(new Month(currentDate).toJSON());
-            }
-
-            if(newMonths.length) {
-              return db.bulkDocs(newMonths).then(res => {
-                return all();
-              });
-            }
-            return all();
-
-          } else {
-            // initialize new Months
-            const newMonths = [];
-            let lastDate = dateFrom;
-            while(lastDate < dateUntil) {
-              newMonths.push(new Month(lastDate).toJSON());
-
-              lastDate = nextDateID(lastDate);
-            }
-
-            return db.bulkDocs(newMonths).then(res => {
-              return all();
-            });
-          }
-        });
-      }
-
       function removeAll() {
         return all().then(months => {
           for (let i = 0; i < months.length; i++) {
@@ -239,11 +240,11 @@ angular.module('financier').factory('budgetDb', (
         });
       }
 
-      function getAllCategories(monthDate) {
+      function getAllCategories() {
         return db.allDocs({
           include_docs: true,
-          startkey: MonthCategory.startKey(budgetId, monthDate),
-          endkey: MonthCategory.endKey(budgetId, monthDate)
+          startkey: MonthCategory.startKey(budgetId),
+          endkey: MonthCategory.endKey(budgetId)
         })
         .then(res => {
           return res.rows.map(row => {
@@ -252,12 +253,6 @@ angular.module('financier').factory('budgetDb', (
 
             return bValue;
           });
-        })
-        .then(res => {
-          if (res.length) {
-            return $q.all(res);
-          }
-          return [];
         });
       }
 
@@ -267,61 +262,41 @@ angular.module('financier').factory('budgetDb', (
           startkey: Month.startKey,
           endkey: Month.endKey
         }).then(res => {
-          return Promise.all(res.rows.map(row => {
-            const month = new Month(row.doc, put);
+          const months = res.rows.map(row => new Month(row.doc, put));
 
-            return getAllCategories(month.date)
-            .then(monthCatVals => {
-              for (let i = 0; i < monthCatVals.length; i++) {
-                month.setBudget(monthCatVals[i]);
-              }
+          const manager = new MonthManager(months, put);
 
-              return month;
-            });
-          }))
-          .then(months => {
-            setUpLinks(months);
-            return months;
+          return getAllCategories()
+          .then(monthCatVals => {
+            for (let i = 0; i < monthCatVals.length; i++) {
+              manager.addMonthCategory(monthCatVals[i]);
+            }
+
+            return manager;
           });
 
+        })
+        .then(manager => {
+          // setUpLinks(months);
+          return manager;
         });
       }
 
-      function put(month) {
-        return db.put(JSON.parse(JSON.stringify(month))).then(res => {
-          month.data._rev = res.rev;
+      function put(o) {
+        return db.put(o.toJSON()).then(res => {
+          o.data._rev = res.rev;
         });
       }
 
-      function setUpLinks(months) {
-        for (let i = 0; i < months.length - 1; i++) {
-          months[i].subscribeNextMonth((catId, balance) => {
-            months[i + 1].setRolling(catId, balance);
-          }, val => {
-            months[i + 1].changeAvailable(val);
-          });
-        }
 
-        for (let i = 0; i < months.length; i++) {
-          months[i].subscribeRecordChanges(() => {
-            return put(months[i]);
-          });
-        }
-      }
-
-      function propagateRolling(categoryIds, firstMonth) {
-        for (var i = 0; i < categoryIds.length; i++) {
-          firstMonth.startRolling(categoryIds[i]);
-        }
-      }
-
-      return {
-        all,
-        put,
-        removeAll,
-        getFourMonthsFrom,
-        propagateRolling
-      };
+      return all;
+      // {
+      //   all,
+      //   put,
+      //   removeAll,
+      //   getFourMonthsFrom,
+      //   propagateRolling
+      // };
     }
   };
 

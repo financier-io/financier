@@ -17,6 +17,9 @@ describe('account', function() {
       it('startKey', () => {
         expect(Account.endKey).toBe('b_111-111-111-111_account_\uffff');
       });
+      it('prefix', () => {
+        expect(Account.prefix).toBe('b_111-111-111-111_account_');
+      });
     });
 
     it('can take an existing database document', () => {
@@ -39,7 +42,7 @@ describe('account', function() {
 
       expect(acc.type).toBe('DEBIT');
       expect(acc.data._id).toBeDefined(); // randomly generated if not provided
-      expect(acc.name).toBe('New account');
+      expect(acc.name).toBe(null);
     });
 
     it('generates _id if none exists', () => {
@@ -60,6 +63,14 @@ describe('account', function() {
       let acc = new Account();
 
       expect(acc.data._id.indexOf('b_111-111-111-111_account_')).toEqual(0);
+    });
+
+    it('sets id properly', () => {
+      let acc = new Account({
+        _id: 'b_111-111-111-111_account_123-123-123-123'
+      });
+
+      expect(acc.id).toBe('123-123-123-123');
     });
   });
 

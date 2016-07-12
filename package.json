@@ -6,7 +6,8 @@
   "scripts": {
     "test": "gulp test",
     "start": "node ./api",
-    "compile": "gulp build"
+    "compile": "gulp build",
+    "docs": "node_modules/.bin/jsdoc --configure .jsdoc.json"
   },
   "repository": {
     "type": "git",
@@ -19,13 +20,14 @@
   },
   "homepage": "https://github.com/aeharding/Financier#readme",
   "devDependencies": {
+    "babel-plugin-istanbul": "^1.0.3",
     "connect-livereload": "^0.5.4",
-    "isparta": "^4.0.0",
+    "financier-docdash": "^0.6.0",
     "jasmine-core": "^2.4.1",
     "jasmine-promises": "^0.4.1",
-    "karma": "^0.13.19",
+    "karma": "^0.13.22",
     "karma-babel-preprocessor": "^6.0.1",
-    "karma-coverage": "^0.5.3",
+    "karma-coverage": "^0.5.5",
     "karma-coveralls": "^1.1.2",
     "karma-jasmine": "^0.3.6",
     "karma-phantomjs-launcher": "^0.2.3",
@@ -40,7 +42,6 @@
     "eslint-plugin-react": "^3.15.0",
     "express": "^4.13.4",
     "font-awesome": "^4.5.0",
-    "git-rev": "^0.2.1",
     "gulp": "^3.9.0",
     "gulp-angular-templatecache": "^1.8.0",
     "gulp-autoprefixer": "^3.1.0",
@@ -57,10 +58,16 @@
     "gulp-sass": "^2.1.1",
     "gulp-sass-lint": "^1.1.1",
     "gulp-uglify": "^1.5.1",
+    "jsdoc": "^3.4.0",
     "lie": "^3.0.2",
     "node-bourbon": "^4.2.3",
     "run-sequence": "^1.1.5",
     "st": "^1.1.0",
     "sw-precache": "^3.0.0"
+  },
+  "nyc": {
+    "exclude": [
+      "**/*.spec.js"
+    ]
   }
 }

@@ -1,7 +1,22 @@
-angular.module('financier').factory('month', (Transaction, Income, MonthCategory) => {
+angular.module('financier').factory('month', MonthCategory => {
   return budgetId => {
-    return class Month {
 
+    /**
+     * Represents a Month
+     */
+    class Month {
+
+      /**
+       * Create a Month
+       *
+       * @param {object|string} data - Either the record object from the database
+       * (with `_id` and `_rev`) or a string representing a month date from
+       * `Month.createID(date)`.
+       *
+       * @param {Function} saveFn - A function that takes a serializable (toJSON)
+       * Object to save to the database.
+       * Once complete, will set the _rev of the Object (`obj._rev = 'uid'`).
+       */
       constructor(data, saveFn) {
         const defaults = {
         };
@@ -29,60 +44,142 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
           totalTransactions: 0,
           totalBudget: 0,
           totalBalance: 0,
-          totalIncome: 0,
-          totalAvailable: 0
+          totalAvailable: 0,
+          totalOverspent: 0,
+          totalOverspentLastMonth: 0
         };
       }
 
+      /**
+       * Call with the overflowed (rolling) balance from last month's catId.
+       *
+       * @param {string} catId - The category UID.
+       * @param {currency} rolling - The absolute value to be used.
+      */
       setRolling(catId, rolling) {
         this.createCategoryIfEmpty(catId);
         this.createCategoryCacheIfEmpty(catId);
 
         const oldRolling = this.categoryCache[catId].rolling;
         this.categoryCache[catId].rolling = rolling;
-        
+
+        const oldBalance = this.categoryCache[catId].balance;
         this.categoryCache[catId].balance += rolling - oldRolling;
+        this._changeCurrentOverspent(0 - (Math.min(this.categoryCache[catId].balance, 0) - Math.min(oldBalance, 0)));
+
         this.cache.totalBalance += rolling - oldRolling;
-        this.nextRollingFn && this.nextRollingFn(catId, this.categoryCache[catId].balance);
+
+
+        if (this.categoryCache[catId].balance > 0) {
+          this.nextRollingFn && this.nextRollingFn(catId, this.categoryCache[catId].balance);
+        } else {
+          // Your category balance is overdrawn!
+          this.nextRollingFn && this.nextRollingFn(catId, 0);
+        }
       }
 
+      /**
+       * Should be called by the MonthManager on the very first month
+       * upon initialization to propagate the rolling balances.
+       *
+       * @param {string} catId - The category's ID.
+       */
       startRolling(catId) {
         this.createCategoryCacheIfEmpty(catId);
-
-        return this.setRolling(catId, this.categoryCache[catId].rolling);
+        this.setRolling(catId, this.categoryCache[catId].rolling);
       }
 
+      /**
+       * Set a budget amount for a category, whether it exists or not.
+       *
+       * @param {string} catId - The category's ID.
+       * @param {currency} amount - The absolute amount to set the category's
+       * budget to.
+       */
       setBudget(catId, amount) {
+        this.createCategoryCacheIfEmpty(catId);
+        this.createCategoryIfEmpty(catId);
 
-        if (catId.constructor && catId.constructor.name === 'MonthCategory') {
+        this.categories[catId].budget = amount;
+      }
+
+      /**
+       * Add an existing MonthCategory object to the month.
+       *
+       * @param {MonthCategory} monthCat - The month category integrate with the month.
+       */
+      addBudget(monthCat) {
           // assume is MonthCategory
-          this.categories[catId.categoryId] = catId;
-          this.createCategoryCacheIfEmpty(catId.categoryId);
+          this.categories[monthCat.categoryId] = monthCat;
+          this.createCategoryCacheIfEmpty(monthCat.categoryId);
 
-          catId.subscribe(record => {
+          monthCat.subscribe(record => {
             this.saveFn(record);
           });
 
-          catId.subscribeBudget((newBudget, oldBudget) => {
-            this.uponBudgetUpdate(catId.categoryId, newBudget, oldBudget);
+          monthCat.subscribeBudget(value => {
+            this.budgetChange(monthCat.categoryId, value);
           });
 
-          this.cache.totalBudget += catId.budget;
-          this.cache.totalAvailable -= catId.budget;
 
-          this.categoryCache[catId.categoryId].balance += catId.budget;
-          this.cache.totalBalance += catId.budget;
-        } else {
-          this.createCategoryCacheIfEmpty(catId);
-          // backward compatibility (for now)
+          this.cache.totalBudget += monthCat.budget;
+          this.cache.totalAvailable -= monthCat.budget;
 
-          this.createCategoryIfEmpty(catId);
-          this.categories[catId].budget = amount;
-        }
+          this.nextChangeAvailableFn && this.nextChangeAvailableFn(-monthCat.budget);
 
+          this.categoryCache[monthCat.categoryId].balance += monthCat.budget;
+          this._changeCurrentOverspent(-Math.min(0, monthCat.budget));
+
+          this.cache.totalBalance += monthCat.budget;
+
+          // Don't call nextRollingFn quite yet since we're adding the MonthCategory
+          // upon initialization, and we'll run startRolling on the whole collection
+          // of months later
       }
 
+      /**
+       * @todo Not currently used
+       */
+      addTransaction(trans) {
+        const categoryChangeFn = (newCatId, oldCatId) => {
+          if (this.categoryCache[oldCatId]) {
+            this.categoryCache[oldCatId].balance -= trans.value;
+          }
 
+          this.createCategoryCacheIfEmpty(newCatId);
+          this.categoryCache[newCatId].balance += trans.value;
+        };
+
+        const valueChangeFn = (newValue, oldValue) => {
+          this.createCategoryIfEmpty(trans.category);
+
+          this.categoryCache[trans.category].balance += newValue - oldValue;
+        };
+
+        trans.subscribeCategoryChange(categoryChangeFn);
+        trans.subscribeValueChange(valueChangeFn);
+
+        this.createCategoryCacheIfEmpty(trans.category);
+
+        this.categoryCache[trans.category].balance += trans.value;
+      }
+
+      /**
+       * @todo Not currently used
+       */
+      removeTransaction(trans) {
+        this.categoryCache[trans.category].balance -= trans.value;
+      }
+
+      /**
+       * Provide a way to set a note on a category.
+       *
+       * @param {string} catId - The category's ID.
+       * @returns {function} A getter/setter function for a note string.
+       * Call with the new note, or undefined to retrieve the note.
+       *
+       * Used by angular's ngModel getterSetter: true.
+       */
       note(catId) {
         this.createCategoryIfEmpty(catId);
 
@@ -97,13 +194,14 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
         };
       }
 
-      remove() {
-        this.data._deleted = true;
-        return this.recordChangesFn && this.recordChangesFn(this);
-      }
-
+      /**
+       * Used to create and set up a MonthCategory if one doesn't
+       * already exist from addBudget.
+       *
+       * @param {string} catId - The category's ID.
+       * @private
+       */
       createCategoryIfEmpty(catId) {
-
         if (!this.categories[catId]) {
           this.categories[catId] = new MonthCategory.from(budgetId, this.date, catId);
 
@@ -112,12 +210,19 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
           });
 
 
-          this.categories[catId].subscribeBudget((newBudget, oldBudget) => {
-            this.uponBudgetUpdate(catId, newBudget, oldBudget);
+          this.categories[catId].subscribeBudget(value => {
+            this.budgetChange(catId, value);
           });
         }
       }
 
+      /**
+       * Used to create a place to hold the rolling amount and current balance
+       * for the given category, if one doesn't already exist.
+       *
+       * @param {string} catId - The category's ID.
+       * @private
+       */
       createCategoryCacheIfEmpty(catId) {
         if (!this.categoryCache[catId]) {
           this.categoryCache[catId] = {
@@ -127,49 +232,151 @@ angular.module('financier').factory('month', (Transaction, Income, MonthCategory
         }
       }
 
-      uponBudgetUpdate(catId, newBudget, oldBudget) {
-        this.cache.totalBudget += newBudget - oldBudget;
-        this.cache.totalAvailable -= newBudget - oldBudget;
-        this.nextChangeAvailableFn && this.nextChangeAvailableFn(-(newBudget - oldBudget));
-        this.categoryCache[catId].balance += newBudget - oldBudget;
-        this.cache.totalBalance += newBudget - oldBudget;
+      /**
+       * Usually called by MonthCategories when they have a budget amount
+       * change.
+       *
+       * @param {string} catId - The category's ID.
+       * @param {currency} value - The amount to change by.
+       */
+      budgetChange(catId, value) {
+        this.cache.totalBudget += value;
+        this.cache.totalAvailable -= value;
+        this.nextChangeAvailableFn && this.nextChangeAvailableFn(-value);
 
-        this.nextRollingFn && this.nextRollingFn(catId, this.categoryCache[catId].balance);
+        const oldBalance = this.categoryCache[catId].balance;
+        this.categoryCache[catId].balance += value;
+
+        this._changeCurrentOverspent(0 - (Math.min(this.categoryCache[catId].balance, 0) - Math.min(oldBalance, 0)));
+
+        this.cache.totalBalance += value;
+
+
+        if (this.categoryCache[catId].balance > 0) {
+          this.nextRollingFn && this.nextRollingFn(catId, this.categoryCache[catId].balance);
+        } else {
+          // Your category balance is overdrawn!
+          this.nextRollingFn && this.nextRollingFn(catId, 0);
+        }
       }
 
-      subscribeNextMonth(nextRollingFn, nextChangeAvailableFn) {
-        this.nextRollingFn = nextRollingFn;
-        this.nextChangeAvailableFn = nextChangeAvailableFn;
+      /**
+       * Links this month to the next month. If this month is January, the next month
+       * should be February. Linkedlist style.
+       *
+       * @param {Month} month - The following month to link together.
+       */
+      subscribeNextMonth(nextMonth) {
+        this.nextRollingFn = (catId, balance) => {
+          nextMonth.setRolling(catId, balance);
+        };
+        this.nextChangeAvailableFn = val => {
+          nextMonth.changeAvailable(val);
+        };
+        this.nextChangeOverspentFn = val => {
+          nextMonth.changeOverspent(val);
+        };
 
         // initialize totalAvailable of next month
         this.nextChangeAvailableFn && this.nextChangeAvailableFn(this.cache.totalAvailable);
+
+        // initialize totalOverspent of next month
+        this.nextChangeOverspentFn && this.nextChangeOverspentFn(this.cache.totalOverspent);
       }
 
+      /**
+       * Change the current total available for this month, and
+       * propagate to following months.
+       *
+       * @param {currency} value - The amount to change by.
+       */
       changeAvailable(value) {
         this.cache.totalAvailable += value;
         this.nextChangeAvailableFn && this.nextChangeAvailableFn(value);
       }
 
-      subscribeRecordChanges(recordChangesFn) {
-        this.recordChangesFn = recordChangesFn;
+      /**
+       * Change the current total overspent for this month, and
+       * propagate to the following month.
+       *
+       * @param {currency} value - The amount to change by.
+       * @private
+       */
+      _changeCurrentOverspent(value) {
+        this.cache.totalOverspent += value;
+        this.nextChangeOverspentFn && this.nextChangeOverspentFn(value);
       }
 
+      /**
+       * Called by the proceeding month to tell us to capture the overspent amount
+       * last month and also inversely change our available money, since overspent
+       * money is taken care of in the following month.
+       *
+       * @param {currency} value - The amount to change by.
+       */
+      changeOverspent(value) {
+        this.cache.totalOverspentLastMonth += value;
+        this.changeAvailable(-value);
+      }
+
+      /**
+       * @todo Not currently used, will eventually to provided to
+       * transactions to notify MonthManager of a date change
+       */
+      subscribeTransactionDateChange(fn) {
+        this.subscribeTransactionDateChangeFn = fn;
+      }
+
+      /**
+       * Upon serializing, will return the record data.
+       *
+       * @returns {object} The month's record (with _id and _rev, if applicable)
+       */
       toJSON() {
         return this.data;
       }
 
+      /**
+       * Create a Month date ID (minus the ID prefix). Will always be the 1st of the month.
+       *
+       * @example Month.createID(new Date('2015-02-05')) === '2015-02-01' // February, 2015
+       *
+       * @param {date} date - The date object to convert to a string. The day of the month and time do not matter.
+       * @returns {string} Month date ID
+       */
       static createID(date) {
         const twoDigitMonth = ((date.getMonth() + 1) >= 10) ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1);  
         return date.getFullYear() + '-' + twoDigitMonth + '-01'; 
       }
 
+      /**
+       * The upper bound of alphabetically sorted months by ID. Used by PouchDB.
+       *
+       * @type {string}
+       */
       static get startKey() {
         return `b_${budgetId}_month_`;
       }
 
+      /**
+       * The lower bound of alphabetically sorted months by ID. Used by PouchDB.
+       *
+       * @type {string}
+       */
       static get endKey() {
-        return `b_${budgetId}_month_\uffff`;
+        return this.startKey + '\uffff';
+      }
+
+      /**
+       * The prefix for namespacing the month date ID
+       *
+       * @type {string}
+       */
+      static get prefix() {
+        return this.startKey;
       }
     };
+
+    return Month;
   };
 });

@@ -25,7 +25,7 @@ describe('MonthCategory', function() {
         '333-333-333-333'
       );
 
-      expect(sets._id).toBe('b_111-111-111-111_m_201501_month-category_333-333-333-333');
+      expect(sets._id).toBe('b_111-111-111-111_m_category_201501_333-333-333-333');
     });
   });
 
@@ -68,6 +68,7 @@ describe('MonthCategory', function() {
       sets.note = 'foobar';
 
       expect(sets.toJSON().note).toBe('foobar');
+      expect(sets.note).toBe('foobar');
     });
   });
 
@@ -96,7 +97,7 @@ describe('MonthCategory', function() {
       sets.budget = 222;
 
       expect(foo.sub).toHaveBeenCalledWith(sets);
-      expect(foo.bdgSub).toHaveBeenCalledWith(222, 12);
+      expect(foo.bdgSub).toHaveBeenCalledWith(210);
     });
 
     it('budget does not emit event if the same', () => {

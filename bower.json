@@ -32,7 +32,10 @@
     "mathjs": "^2.7.0",
     "tether-drop": "^1.4.2",
     "ng-dialog": "^0.5.8",
-    "angular-messages": "1.4.9"
+    "angular-messages": "1.4.9",
+    "angular-ladda-lw": "^0.4.0",
+    "node-uuid": "^1.4.7",
+    "angular-md5": "^0.1.10"
   },
   "resolutions": {
     "angular": "1.4.9"

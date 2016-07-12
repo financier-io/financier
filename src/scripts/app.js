@@ -4,7 +4,9 @@ let financier = angular.module('financier', [
   'ng-sortable',
   'ngAnimate',
   'ngDialog',
-  'ngMessages'
+  'ngMessages',
+  'angular-ladda-lw',
+  'angular-md5'
 ]).run((offline, $rootScope, $timeout) => {
   offline.register();
 
@@ -21,12 +23,27 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
   //
   // Now set up the states
   $stateProvider
-    .state('budget', {
+    .state('user', {
+      abstract: true,
+      template: '<div ui-view class="full-height view-transition__fade"></div>',
+      controller: 'userCtrl as userCtrl'
+    })
+    .state('user.signup', {
+      url: '/signup',
+      templateUrl: 'views/signup.html',
+      controller: 'signupCtrl as signupCtrl'
+    })
+    .state('user.budget', {
       url: '/',
       templateUrl: 'views/budgets.html',
-      controller: 'budgetsCtrl as budgetsCtrl'
+      controller: 'budgetsCtrl as budgetsCtrl',
+      resolve: {
+        myBudgets: function(db) {
+          return db.budgets.all();
+        }
+      }
     })
-    .state('budget.create', {
+    .state('user.budget.create', {
       url: 'create-budget',
       onEnter: function(ngDialog, $state) {
         ngDialog.open({
@@ -41,46 +58,114 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
         ngDialog.closeAll();
       }
     })
-    .state('app', {
+    .state('user.app', {
       url: '/:budgetId',
-      templateUrl: 'views/header.html',
-      controller: $scope => {
-        angular.element(document.body).addClass('overflow-hidden');
-
-        $scope.$on('$destroy', () => {
-          angular.element(document.body).removeClass('overflow-hidden');
-        });
-      }
-    })
-    .state('app.db', {
       abstract: true,
-      controller: 'dbCtrl as dbCtrl',
-      template: '<ui-view state-class class="view-transition"></ui-view>',
+      template: '<ui-view></ui-view>',
       resolve: {
         myBudget: function(db, $stateParams) {
+          return db.budget($stateParams.budgetId);
+        },
+        budgetRecord: function(db, $stateParams) {
           return db.budgets.get($stateParams.budgetId);
         }
       }
     })
-    .state('app.db.budget', {
+    .state('user.app.manager', {
+      abstract: true,
+      templateUrl: 'views/appView.html',
+      controller: 'dbCtrl as dbCtrl',
+      resolve: {
+        data: function(myBudget, $q) {
+          return $q.all([
+            myBudget.budget(),
+            myBudget.categories.all()
+          ])
+          .then(([manager, categories]) => {
+            if (categories.length) {
+              manager.propagateRolling(
+                categories
+                  .map((m => m.categories.map(c => c.id)))
+                  .reduce((a, b) => a.concat(b))
+              );
+            }
+
+            return {manager, categories};
+          })
+          .catch(e => {
+            throw e;
+          });
+        }
+      }
+    })
+    .state('user.app.manager.view', {
+      abstract: true,
+      template: '<ui-view state-class class="view-transition"></ui-view>',
+      onEnter: () => {
+        angular.element(document.body).addClass('no-overflow');
+      },
+      onExit: () => {
+        angular.element(document.body).removeClass('no-overflow');
+      }
+    })
+    .state('user.app.manager.view.budget', {
       url: '/budget',
       templateUrl: 'views/budget.html',
       controller: 'budgetCtrl as budgetCtrl'
     })
-    .state('app.db.account', {
-      url: '/account',
-      templateUrl: 'views/account.html',
-      controller: 'accountCtrl as accountCtrl',
-      resolve: {
-        accounts: ($stateParams, db) => {
-          return db.budget($stateParams.budgetId).accounts.all();
-        },
-        budget: ($stateParams, db) => {
-          return db.budget($stateParams.budgetId).budget.all();
-        }
+    .state('user.app.manager.view.account', {
+      url: '/account/:accountId',
+      templateUrl: 'views/account.html'
+    })
+    .state('user.app.manager.view.account.edit', {
+      url: '/edit',
+      onEnter: function(ngDialog, $state, $stateParams, myBudget) {
+        ngDialog.open({
+          template: 'views/modal/editAccount.html',
+          controller: 'editAccountCtrl',
+          controllerAs: 'editAccountCtrl',
+          resolve: {
+            myBudget: function(db) {
+              return myBudget;
+            },
+            myAccount: function(db) {
+              return db.budget($stateParams.budgetId).accounts.get($stateParams.accountId);
+            }
+          }
+        }).closePromise.finally(() => {
+          $state.go('^');
+        });
+      },
+      onExit: ngDialog => {
+        ngDialog.closeAll();
       }
     })
-    .state('app.db.reports', {
+    .state('user.app.manager.view.account.create', {
+      url: '/create',
+      onEnter: function(ngDialog, $state, $stateParams, myBudget) {
+        ngDialog.open({
+          template: 'views/modal/editAccount.html',
+          controller: 'editAccountCtrl',
+          controllerAs: 'editAccountCtrl',
+          resolve: {
+            myBudget: function(db) {
+              return myBudget;
+            },
+            myAccount: function($stateParams, account) {
+              const Account = account($stateParams.budgetId);
+
+              return new Account();
+            }
+          }
+        }).closePromise.finally(() => {
+          $state.go('^');
+        });
+      },
+      onExit: ngDialog => {
+        ngDialog.closeAll();
+      }
+    })
+    .state('user.app.manager.view.reports', {
       url: '/reports',
       templateUrl: 'views/reports.html',
       controller: 'reportCtrl as reportCtrl'

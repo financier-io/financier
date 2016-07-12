@@ -2,7 +2,7 @@ angular.module('financier').provider('db', function() {
   const that = this;
   that.adapter = 'idb';
 
-  this.$get = (Budget, budgetDb) => {
+  this.$get = (Budget, budgetDb, $http, $rootScope) => {
     const db = new PouchDB('financier', {
       adapter: that.adapter
     });
@@ -10,8 +10,53 @@ angular.module('financier').provider('db', function() {
     return {
       budget,
       budgets: budgets(),
-      _pouch: db
+      _pouch: db,
+      sync: {
+        start: startSync,
+        cancel: cancelSync
+      }
     };
+
+    let sync;
+
+    function cancelSync() {
+      if (sync) {
+        sync.cancel();
+      }
+    }
+
+    function startSync(dbName) {
+      cancelSync();
+
+      const host = window.location.host;
+
+      sync = db.sync(`https://${host}/db/${dbName}`, {
+        live: true,
+        retry: true
+      })
+      .on('change', function (info) {
+        $rootScope.$broadcast('syncStatus:update', 'syncing');
+      })
+      .on('paused', function () {
+        $rootScope.$broadcast('syncStatus:update', 'complete');
+      })
+      .on('active', function () {
+        $rootScope.$broadcast('syncStatus:update', 'syncing');
+        // replicate resumed (e.g. user went back online)
+      })
+      .on('denied', function (info) {
+        $rootScope.$broadcast('syncStatus:update', 'error');
+        // a document failed to replicate (e.g. due to permissions)
+      })
+      .on('complete', function (info) {
+        $rootScope.$broadcast('syncStatus:update', 'error');
+        // handle complete
+      })
+      .on('error', function (err) {
+        $rootScope.$broadcast('syncStatus:update', 'error');
+        // handle error
+      });
+    }
 
     function budget(budgetId) {
 
