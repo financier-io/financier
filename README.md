@@ -1,8 +1,15 @@
-# financier
 
- > A web-based, offline-first, YNAB4 alternative. Built with Angular 1 and PouchDB.
+<p align="center">
+  <h1>financier</h1>
+  <a href="https://github.com/aeharding/financier">⚙ Github</a> |
+  <a href="https://staging.financier.io">💰 Staging app</a> |
+  <a href="https://staging.financier.io/docs">📗 Docs</a> |
+  <a href="https://trello.com/b/bXcFuXrm">📢 Trello</a> |
+  <a href="https://financier.io">🕸 Website</a> |
+  <a href="https://hub.docker.com/r/aeharding/financier/">🐳 Docker</a>
+</p>
 
-[⚙ Github](https://github.com/aeharding/financier) 〜 [💰 Staging app](https://staging.financier.io) 〜 [📗 Docs](https://staging.financier.io/docs) 〜 [📢 Trello](https://trello.com/b/bXcFuXrm) 〜 [🕸 Website](https://financier.io) 〜 [🐳 Docker](https://hub.docker.com/r/aeharding/financier/)
+> A web-based, offline-first, YNAB4 alternative. Built with Angular 1 and PouchDB.
 
 [![Build Status](https://img.shields.io/travis/aeharding/financier/master.svg?style=flat-square)](https://travis-ci.org/aeharding/financier)
 [![Coverage Status](https://img.shields.io/coveralls/aeharding/financier/master.svg?style=flat-square)](https://coveralls.io/github/aeharding/financier?branch=master)
