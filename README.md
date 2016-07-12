@@ -1,16 +1,12 @@
 # financier
 
- > A web-based, offline-first, YNAB4 alternative.
+ > A web-based, offline-first, YNAB4 alternative. Built with Angular 1 and PouchDB.
+
+[Github](https://github.com/aeharding/financier) / [Staging app](https://staging.financier.io) / [📗 Docs](https://staging.financier.io/docs) / [Trello](https://trello.com/b/bXcFuXrm) / [Website](https://financier.io)
 
 [![Build Status](https://travis-ci.org/aeharding/financier.svg?branch=master)](https://travis-ci.org/aeharding/financier)
 [![Coverage Status](https://coveralls.io/repos/github/aeharding/financier/badge.svg?branch=master)](https://coveralls.io/github/aeharding/financier?branch=master)
 [![Docker automated build](https://img.shields.io/badge/docker-aeharding/financier-blue.svg)](https://hub.docker.com/r/aeharding/financier/)
-
-Officially hosted at [https://financier.io](https://financier.io)
-
-[Trello board](https://trello.com/b/bXcFuXrm)
- 
-Built with Angular 1 and PouchDB.
 
 ## Are you a user?
 
@@ -41,8 +37,6 @@ node ./api
 
 ### Docs
 
-[📗 Staging docs](https://staging.financier.io/docs)
-
-Local docs would be `http://localhost:8070/docs`.
+Local docs would be `http://localhost:8080/docs`.
 
 Generate with `npm run-script docs`.
