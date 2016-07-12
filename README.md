@@ -1,11 +1,11 @@
+<h1 align="center">financier</h1>
 
 <p align="center">
-  <h1>financier</h1>
-  <a href="https://github.com/aeharding/financier">⚙ Github</a> |
-  <a href="https://staging.financier.io">💰 Staging app</a> |
-  <a href="https://staging.financier.io/docs">📗 Docs</a> |
-  <a href="https://trello.com/b/bXcFuXrm">📢 Trello</a> |
-  <a href="https://financier.io">🕸 Website</a> |
+  <a href="https://github.com/aeharding/financier">⚙ Github</a> —
+  <a href="https://staging.financier.io">💰 Staging app</a> —
+  <a href="https://staging.financier.io/docs">📗 Docs</a> —
+  <a href="https://trello.com/b/bXcFuXrm">📢 Trello</a> —
+  <a href="https://financier.io">🕸 Website</a> —
   <a href="https://hub.docker.com/r/aeharding/financier/">🐳 Docker</a>
 </p>
 
