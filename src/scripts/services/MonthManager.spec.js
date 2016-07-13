@@ -1,3 +1,94 @@
+describe('category', function() {
+  let monthManager, MonthManager;
+
+  beforeEach(module('financier'));
+
+  beforeEach(inject(_monthManager_ => {
+    monthManager = _monthManager_;
+  }));
+
+  it('is a function', () => {
+    expect(typeof monthManager).toBe('function');
+  });
+
+  describe('Category class', () => {
+
+    beforeEach(() => {
+      MonthManager = monthManager('111-111-111-111');
+    });
+
+    describe('static properties', () => {
+      describe('_diff', () => {
+        it('0 for same date', () => {
+          const date = new Date('1/1/16');
+
+          expect(MonthManager._diff(date, date)).toBe(0);
+        });
+
+        it('1 for next month', () => {
+          const first = new Date('1/1/16');
+          const second = new Date('2/1/16');
+
+          expect(MonthManager._diff(first, second)).toBe(1);
+        });
+
+        it('-1 for previous month', () => {
+          const first = new Date('2/1/16');
+          const second = new Date('1/1/16');
+
+          expect(MonthManager._diff(first, second)).toBe(-1);
+        });
+
+        it('1 for 2/29 => 3/1', () => {
+          const first = new Date('2/29/16');
+          const second = new Date('3/1/16');
+
+          expect(MonthManager._diff(first, second)).toBe(1);
+        });
+
+        it('26 for multiple years', () => {
+          const first = new Date('1/1/16');
+          const second = new Date('3/1/18');
+
+          expect(MonthManager._diff(first, second)).toBe(26);
+        });
+      });
+
+      describe('_dateIDToDate', () => {
+        it('converts ID to date', () => {
+          const date = MonthManager._dateIDToDate('2016-06-07');
+
+          expect(date.getFullYear()).toBe(2016);
+          expect(date.getMonth()).toBe(5); // June
+          expect(date.getDate()).toBe(1);
+        });
+      });
+
+      describe('_nextDateID', () => {
+        it('Jul => Aug', () => {
+          expect(MonthManager._nextDateID('2016-06-01')).toBe('2016-07-01');
+        });
+
+        it('Dec => Jan', () => {
+          expect(MonthManager._nextDateID('2016-12-01')).toBe('2017-01-01');
+        });
+      });
+
+      describe('_previousDateID', () => {
+        it('Aug => Jul', () => {
+          expect(MonthManager._previousDateID('2016-07-01')).toBe('2016-06-01');
+        });
+
+        it('Jan => Feb', () => {
+          expect(MonthManager._previousDateID('2017-01-01')).toBe('2016-12-01');
+        });
+      });
+    });
+  });
+});
+
+
+
 // OLD TESTS FROM BUDGETDB BELOW FOR REFERENCE
 
 // it('should provide Months until specified date', () => {
