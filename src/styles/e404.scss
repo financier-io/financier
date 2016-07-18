@@ -1,3 +1,37 @@
 .e404 {
-  color: $danger;
+  background-color: $primary;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $white;
+  text-align: center;
+}
+
+.e404__text {
+  font-size: 2em;
+}
+
+.e404__subtext {
+  font-size: 1.25em;
+  margin-bottom: 1em;
+}
+
+.e404__text,
+.e404__subtext,
+.e404__button {
+  font-family: 'lato', sans-serif;
+  font-weight: 300;
+}
+
+$opaque: rgba(255, 255, 255, 0.2);
+
+.e404__button {
+  text-align: center;
+  padding: 0.5em 1em;
+  display: inline-block;
+  text-decoration: none;
+  font-size: 1.5em;
+  background-color: $opaque;
 }

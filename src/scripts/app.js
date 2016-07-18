@@ -17,7 +17,7 @@ let financier = angular.module('financier', [
   });
 });
 
-financier.config(function($stateProvider, $urlRouterProvider, $locationProvider, ngDialogProvider) {
+financier.config(function($stateProvider, $urlRouterProvider, $injector, $locationProvider, ngDialogProvider) {
   // For any unmatched url, redirect to /state1
   // $urlRouterProvider.otherwise('/state1');
   //
@@ -66,8 +66,15 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
         myBudget: function(db, $stateParams) {
           return db.budget($stateParams.budgetId);
         },
-        budgetRecord: function(db, $stateParams) {
-          return db.budgets.get($stateParams.budgetId);
+        budgetRecord: function(db, $stateParams, $state) {
+          return db.budgets.get($stateParams.budgetId)
+          .catch(e => {
+            if (e.status === 404) {
+              return $state.go('404');
+            }
+
+            throw e;
+          });
         }
       }
     })
@@ -169,9 +176,18 @@ financier.config(function($stateProvider, $urlRouterProvider, $locationProvider,
       url: '/reports',
       templateUrl: 'views/reports.html',
       controller: 'reportCtrl as reportCtrl'
+    })
+    .state('404', {
+      templateUrl: 'views/404.html'
     });
 
   $locationProvider.html5Mode(true);
+
+  $urlRouterProvider.otherwise(function($injector, $location){
+     const state = $injector.get('$state');
+     state.go('404');
+     return $location.path();
+  });
 
   ngDialogProvider.setDefaults({
     className: 'ngdialog-theme-default modal'
