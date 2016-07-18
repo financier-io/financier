@@ -157,7 +157,7 @@ function writeServiceWorkerFile(rootDir, handleFetch, callback) {
     ],
     stripPrefix: rootDir,
 
-    navigateFallback: '/dist/index.html',
+    navigateFallback: '/index.html',
 
     // Font-Awesome scss being a jerk
     ignoreUrlParametersMatching: [/^v/],
