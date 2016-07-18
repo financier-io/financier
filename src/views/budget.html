@@ -19,15 +19,16 @@
                        }">
           <div class="month-overview__month-text">{{month.date | date: 'MMMM yyyy'}}</div>
           <dl class="month-overview__month-list">
-            <dt>
-              <span ng-if="dbCtrl.months[$index - 1]">{{dbCtrl.months[$index - 1].cache.totalIncome - dbCtrl.months[$index - 1].cache.totalBudget | intCurrency | currency : ''}}</span>
-            </dt>
-            <dd>Not budgeted in {{dbCtrl.months[$index - 1].date | date: 'MMM'}}</dd>
+            <dt>{{month.cache.totalAvailableLastMonth | intCurrency | currency : ''}}</dt>
+            <dd><span ng-if="month.cache.totalAvailableLastMonth >= 0">Not budgeted</span><span ng-if="month.cache.totalAvailableLastMonth < 0">Overbudgeted</span> in {{month.date | lastMonth | date: 'MMM'}}</dd>
+
             <dt>-{{month.cache.totalOverspentLastMonth | intCurrency | currency : ''}}</dt>
-            <dd>Overspent in {{dbCtrl.months[$index - 1].date | date: 'MMM'}}</dd>
+            <dd>Overspent in {{month.date | lastMonth | date: 'MMM'}}</dd>
+
             <dt><span ng-if="month.cache.totalIncome >= 0">+</span>{{month.cache.totalIncome | intCurrency | currency : ''}}</dt>
             <dd>Income for {{month.date | date: 'MMM'}}</dd>
-            <dt><span ng-if="month.cache.totalBudget >= 0">-</span>{{month.cache.totalBudget | intCurrency | currency : ''}}</dt>
+
+            <dt>{{-month.cache.totalBudget | intCurrency | currency : ''}}</dt>
             <dd>Budgeted in {{month.date | date: 'MMM'}}</dd>
           </dl>
 

@@ -43,7 +43,8 @@
 
 .month-overview__month-list {
   font-size: 0.8em;
-  margin: 0;
+  max-width: 270px;
+  margin: 0 auto;
 
   dt {
     float: left;
@@ -53,6 +54,7 @@
   }
 
   dd {
+    color: $light-gray;
     text-align: left;
     margin-left: 8em;
   }

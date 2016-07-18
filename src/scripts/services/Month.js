@@ -45,8 +45,10 @@ angular.module('financier').factory('month', MonthCategory => {
           totalBudget: 0,
           totalBalance: 0,
           totalAvailable: 0,
+          totalAvailableLastMonth: 0,
           totalOverspent: 0,
-          totalOverspentLastMonth: 0
+          totalOverspentLastMonth: 0,
+          totalIncome: 0 // todo
         };
       }
 
@@ -121,11 +123,9 @@ angular.module('financier').factory('month', MonthCategory => {
             this.budgetChange(monthCat.categoryId, value);
           });
 
-
           this.cache.totalBudget += monthCat.budget;
-          this.cache.totalAvailable -= monthCat.budget;
 
-          this.nextChangeAvailableFn && this.nextChangeAvailableFn(-monthCat.budget);
+          this.changeAvailable(-monthCat.budget);
 
           this.categoryCache[monthCat.categoryId].balance += monthCat.budget;
           this._changeCurrentOverspent(-Math.min(0, monthCat.budget));
@@ -241,8 +241,8 @@ angular.module('financier').factory('month', MonthCategory => {
        */
       budgetChange(catId, value) {
         this.cache.totalBudget += value;
-        this.cache.totalAvailable -= value;
-        this.nextChangeAvailableFn && this.nextChangeAvailableFn(-value);
+
+        this.changeAvailable(-value);
 
         const oldBalance = this.categoryCache[catId].balance;
         this.categoryCache[catId].balance += value;
@@ -276,9 +276,15 @@ angular.module('financier').factory('month', MonthCategory => {
         this.nextChangeOverspentFn = val => {
           nextMonth.changeOverspent(val);
         };
+        this.nextChangeAvailableLastMonthFn = val => {
+          nextMonth.changeAvailableLastMonth(val);
+        };
 
         // initialize totalAvailable of next month
         this.nextChangeAvailableFn && this.nextChangeAvailableFn(this.cache.totalAvailable);
+
+        // initialize totalAvailableLastMonth of next month
+        this.nextChangeAvailableLastMonthFn && this.nextChangeAvailableLastMonthFn(this.cache.totalAvailable);
 
         // initialize totalOverspent of next month
         this.nextChangeOverspentFn && this.nextChangeOverspentFn(this.cache.totalOverspent);
@@ -292,7 +298,19 @@ angular.module('financier').factory('month', MonthCategory => {
        */
       changeAvailable(value) {
         this.cache.totalAvailable += value;
+        this.nextChangeAvailableLastMonthFn && this.nextChangeAvailableLastMonthFn(value);
         this.nextChangeAvailableFn && this.nextChangeAvailableFn(value);
+      }
+
+      /**
+       * Change the current total available for this month, and
+       * propagate to following months.
+       *
+       * @param {currency} value - The amount to change by.
+       */
+      changeAvailableLastMonth(value) {
+        this.cache.totalAvailableLastMonth += value;
+        this.nextChangeAvailableLastMonthFn && this.nextChangeAvailableLastMonthFn(value);
       }
 
       /**
