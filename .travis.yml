@@ -20,6 +20,7 @@ env:
 install:
   - npm install -g bower gulp
   - npm install
+  - npm install --only development
   - bower install
 
 script:
