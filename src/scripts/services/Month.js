@@ -310,7 +310,6 @@ angular.module('financier').factory('month', MonthCategory => {
        */
       changeAvailableLastMonth(value) {
         this.cache.totalAvailableLastMonth += value;
-        this.nextChangeAvailableLastMonthFn && this.nextChangeAvailableLastMonthFn(value);
       }
 
       /**

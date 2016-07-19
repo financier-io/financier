@@ -131,12 +131,19 @@
 }
 
 
-.account__plus {
-  @extend .account__account;
-
-  font-size: 3em;
-  line-height: 1em;
+.account__add {
+  background-color: darken($primary, 5%);
+  font-size: 0.85em;
   font-weight: 300;
+
+  line-height: 1;
+  padding: 0.5em 1em;
+  display: inline-block;
+  border-radius: 1em;
+
+  &:before {
+    content: '+ ';
+  }
 }
 
 .account__amount {

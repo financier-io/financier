@@ -32,11 +32,6 @@
           <div class="app-view__accounts-title">My accounts</div>
 
           <ul class="account__accounts-list">
-            <li class="account__account" ui-sref="user.app.manager.view.account({accountId: null})"
-                ui-sref-active="account__account--active">
-              All accounts
-              <span class="account__amount account__account--positive">{{(accountCtrl.total || 0) | intCurrency | currency}}</span>
-            </li>
             <li class="account__account"
                 ng-repeat="account in accountCtrl.accounts | filter: accountCtrl.isOpen"
                 ui-sref="user.app.manager.view.account({accountId: account.id})"
@@ -44,8 +39,9 @@
               <span class="account__name">{{account.name}}</span> <i class="account__edit fa fa-cog" ng-click="accountCtrl.edit($event, account)"></i>
               <span class="account__amount account__account--positive">{{(accountCtrl.accountTotals[account.id] || 0) | intCurrency | currency}}</span>
             </li>
-            <li class="account__plus" ui-sref="user.app.manager.view.account.create">+</li>
           </ul>
+
+          <a class="account__add" ui-sref="user.app.manager.view.account.create">Add an account</a>
         </div>
       </div>
 

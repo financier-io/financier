@@ -89,7 +89,7 @@ describe('category', function() {
 
 
 
-// OLD TESTS FROM BUDGETDB BELOW FOR REFERENCE
+// OLD TESTS FROM BUDGETMANAGER BELOW FOR REFERENCE
 
 // it('should provide Months until specified date', () => {
 //   return db._pouch.bulkDocs([{

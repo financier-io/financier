@@ -1,4 +1,4 @@
-angular.module('financier').factory('budgetDb', (
+angular.module('financier').factory('budgetManager', (
   month,
   account,
   category,
@@ -10,7 +10,7 @@ angular.module('financier').factory('budgetDb', (
   MonthCategory,
   defaultCategories) => {
 
-  return (db, budgetId) => {
+  return (pouch, budgetId) => {
     const Month = month(budgetId);
     const Account = account(budgetId);
     const Category = category(budgetId);
@@ -32,18 +32,19 @@ angular.module('financier').factory('budgetDb', (
     }
 
     function remove() {
-      ret.accounts.removeAll();
-      ret.budget.removeAll();
-
-      // TODO... refactor
-      ret.categories.then(categories => {
-        for (let i = 0; i < categories.length; i++) {
-
-          for (let j = 0; j < categories[i].categories.length; j++) {
-            categories[i].categories[j].remove();
-          }
-          // categories[i].remove(); // TODO
-        }
+      return pouch.allDocs({
+        startkey: `b_${budgetId}_`,
+        endkey: `b_${budgetId}_\uffff`,
+        include_docs: true
+      })
+      .then(res => {
+        return pouch.bulkDocs(res.rows.map(row => {
+          return {
+            _id: row.doc._id,
+            _rev: row.doc._rev,
+            _deleted: true
+          };
+        }));
       });
     }
 
@@ -52,7 +53,7 @@ angular.module('financier').factory('budgetDb', (
 
     function accounts() {
       function all() {
-        return db.allDocs({
+        return pouch.allDocs({
           include_docs: true,
           startkey: Account.startKey,
           endkey: Account.endKey
@@ -72,37 +73,28 @@ angular.module('financier').factory('budgetDb', (
       }
 
       function get(accountId) {
-        return db.get(Account.prefix + accountId)
+        return pouch.get(Account.prefix + accountId)
         .then(acc => {
           return new Account(acc);
         });
       }
 
       function put(account) {
-        return db.put(account.toJSON()).then(res => {
+        return pouch.put(account.toJSON()).then(res => {
           account.data._rev = res.rev;
-        });
-      }
-
-      function removeAll() {
-        return all().then(accounts => {
-          for (let i = 0; i < accounts.length; i++) {
-            accounts[i].remove();
-          }
         });
       }
 
       return {
         all,
         put,
-        get,
-        removeAll
+        get
       };
     }
 
     function transactions() {
       function all() {
-        return db.allDocs({
+        return pouch.allDocs({
           include_docs: true,
           startkey: Transaction.startKey,
           endkey: Transaction.endKey
@@ -122,37 +114,28 @@ angular.module('financier').factory('budgetDb', (
       }
 
       function get(accountId) {
-        return db.get(Transaction.prefix + accountId)
+        return pouch.get(Transaction.prefix + accountId)
         .then(trans => {
           return new Transaction(trans);
         });
       }
 
       function put(transaction) {
-        return db.put(transaction.toJSON()).then(res => {
+        return pouch.put(transaction.toJSON()).then(res => {
           transaction.data._rev = res.rev;
-        });
-      }
-
-      function removeAll() {
-        return all().then(transactions => {
-          for (let i = 0; i < transactions.length; i++) {
-            transactions[i].remove();
-          }
         });
       }
 
       return {
         all,
         put,
-        get,
-        removeAll
+        get
       };
     }
 
     function categories() {
       function all() {
-        return db.allDocs({
+        return pouch.allDocs({
           include_docs: true,
           startkey: `b_${budgetId}_masterCategory_`,
           endkey: `b_${budgetId}_masterCategory_\uffff`
@@ -169,7 +152,7 @@ angular.module('financier').factory('budgetDb', (
           for (var i = 0; i < ret.length; i++) {
             (function(i) {
               promises.push(
-                $q.when(db.allDocs({
+                $q.when(pouch.allDocs({
                   include_docs: true,
                   keys: ret[i].categories
                 })
@@ -197,7 +180,7 @@ angular.module('financier').factory('budgetDb', (
       }
 
       function putCategory(category) {
-        return db.put(category.toJSON()).then(res => {
+        return pouch.put(category.toJSON()).then(res => {
           category.data._rev = res.rev;
         });
       }
@@ -207,13 +190,13 @@ angular.module('financier').factory('budgetDb', (
 
         for (let i = 0; i < defaultCategories.length; i++) {
           promises.push(
-            $q.when(db.bulkDocs(defaultCategories[i].categories.map(function(cat) {
+            $q.when(pouch.bulkDocs(defaultCategories[i].categories.map(function(cat) {
               // add id namespace to category
               cat._id = `b_${budgetId}_category_` + uuid();
               return cat;
             }))
             .then(res => {
-              return $q.when(db.post({
+              return $q.when(pouch.post({
                 name: defaultCategories[i].name,
                 categories: res.map(r => r.id),
                 _id: `b_${budgetId}_masterCategory_` + uuid()
@@ -232,16 +215,8 @@ angular.module('financier').factory('budgetDb', (
     }
 
     function budget() {
-      function removeAll() {
-        return all().then(months => {
-          for (let i = 0; i < months.length; i++) {
-            months[i].remove();
-          }
-        });
-      }
-
       function getAllCategories() {
-        return db.allDocs({
+        return pouch.allDocs({
           include_docs: true,
           startkey: MonthCategory.startKey(budgetId),
           endkey: MonthCategory.endKey(budgetId)
@@ -257,7 +232,7 @@ angular.module('financier').factory('budgetDb', (
       }
 
       function all() {
-        return db.allDocs({
+        return pouch.allDocs({
           include_docs: true, /* eslint camelcase:0 */
           startkey: Month.startKey,
           endkey: Month.endKey
@@ -274,29 +249,16 @@ angular.module('financier').factory('budgetDb', (
 
             return manager;
           });
-
-        })
-        .then(manager => {
-          // setUpLinks(months);
-          return manager;
         });
       }
 
       function put(o) {
-        return db.put(o.toJSON()).then(res => {
+        return pouch.put(o.toJSON()).then(res => {
           o.data._rev = res.rev;
         });
       }
 
-
       return all;
-      // {
-      //   all,
-      //   put,
-      //   removeAll,
-      //   getFourMonthsFrom,
-      //   propagateRolling
-      // };
     }
   };
 

@@ -158,12 +158,12 @@ function writeServiceWorkerFile(rootDir, handleFetch, callback) {
     stripPrefix: rootDir,
 
     navigateFallback: '/index.html',
+    navigateFallbackWhitelist: [/^(?!\/docs).*$/], // whitelist everything except `/docs*`
 
     // Font-Awesome scss being a jerk
     ignoreUrlParametersMatching: [/^v/],
 
-    // verbose defaults to false, but for the purposes of this demo, log more.
-    verbose: false
+    handleFetch: process.env.NODE_ENV === 'production'
   };
 
   swPrecache.write(path.join(rootDir, 'service-worker.js'), config, callback);

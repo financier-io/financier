@@ -1,4 +1,4 @@
-angular.module('financier').controller('dbCtrl', function(db, budgetRecord, data, myBudget, $stateParams, $scope, $q, month) {
+angular.module('financier').controller('dbCtrl', function(db, budgetRecord, data, myBudget, myAccounts, $stateParams, $scope, $q, month) {
   let {manager, categories} = data;
 
   const budgetId = $stateParams.budgetId;
@@ -6,7 +6,7 @@ angular.module('financier').controller('dbCtrl', function(db, budgetRecord, data
   const Month = month(budgetId);
 
   this.categories = categories;
-
+  this.accounts = myAccounts;
   this.budgetRecord = budgetRecord;
 
   budgetRecord.open();
@@ -46,20 +46,6 @@ angular.module('financier').controller('dbCtrl', function(db, budgetRecord, data
         throw e;
       });
   };
-
-  // const dbChanges = db._pouch.changes({
-  //   live: true,
-  //   since: 'now'
-  // })
-  // .on('change', change => {
-  //   if (change.id.indexOf('b_' + $stateParams.budgetId) === 0) {
-  //     refreshEverything();
-  //   }
-  // });
-
-  $scope.$on('$destroy', () => {
-    dbChanges.cancel();
-  });
 
   function getView(date) {
     // Make sure that we have the months

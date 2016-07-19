@@ -29,6 +29,17 @@ angular.module('financier').factory('Budget', uuid => {
           that.emitChange();
         }
       };
+
+      /**
+       * Get the non-namespaced budget UID.
+       *
+       * @example
+       * const budget = new Budget();
+       * budget.id; // === 'ab735ea6-bd56-449c-8f03-6afcc91e2248'
+       *
+       * @type {string}
+      */
+      this.id = this.data._id.slice(this.data._id.lastIndexOf('_') + 1);
     }
 
     /**
@@ -85,12 +96,9 @@ angular.module('financier').factory('Budget', uuid => {
       return new Date(this.data.created);
     }
 
-    /**
-     * @todo Delete this functionality, will be handled elsewhere
-     */
     remove() {
       this.data._deleted = true;
-      this.emitChange();
+      return this.emitChange();
     }
 
     /**
@@ -156,19 +164,6 @@ angular.module('financier').factory('Budget', uuid => {
     }
 
     /**
-     * Get the non-namespaced budget UID.
-     *
-     * @example
-     * const budget = new Budget();
-     * budget.id; // === 'ab735ea6-bd56-449c-8f03-6afcc91e2248'
-     *
-     * @type {string}
-    */
-    get id() {
-      return this.data._id.slice(this.data._id.lastIndexOf('_') + 1);
-    }
-
-    /**
      * Set the revision number of the record, via PouchDB. No getter.
      *
      * @example
@@ -189,6 +184,33 @@ angular.module('financier').factory('Budget', uuid => {
     */
     toJSON() {
       return this.data;
+    }
+
+    /**
+     * The upper bound of alphabetically sorted Budgets by ID. Used by PouchDB.
+     *
+     * @type {string}
+     */
+    static get startKey() {
+      return `budget_`;
+    }
+
+    /**
+     * The lower bound of alphabetically sorted Budgets by ID. Used by PouchDB.
+     *
+     * @type {string}
+     */
+    static get endKey() {
+      return this.startKey + '\uffff';
+    }
+
+    /**
+     * The prefix for namespacing the Budget UID
+     *
+     * @type {string}
+     */
+    static get prefix() {
+      return this.startKey;
     }
   };
 

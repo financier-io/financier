@@ -102,6 +102,9 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
           .catch(e => {
             throw e;
           });
+        },
+        myAccounts: myBudget => {
+          return myBudget.accounts.all();
         }
       }
     })
@@ -134,9 +137,6 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
           resolve: {
             myBudget: function(db) {
               return myBudget;
-            },
-            myAccount: function(db) {
-              return db.budget($stateParams.budgetId).accounts.get($stateParams.accountId);
             }
           }
         }).closePromise.finally(() => {

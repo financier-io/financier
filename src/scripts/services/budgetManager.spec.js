@@ -1,5 +1,5 @@
-describe('budgetDb', function() {
-  let db, budgetDb, month, account, Month, Account;
+describe('budgetManager', function() {
+  let db, budgetManager, month, account, Month, Account;
 
   // a random budget uuid to test with
   const UUID = '555-555-555-555';
@@ -8,9 +8,9 @@ describe('budgetDb', function() {
     dbProvider.adapter = 'memory';
   }));
 
-  beforeEach(inject((_db_, _budgetDb_, _month_, _account_) => {
+  beforeEach(inject((_db_, _budgetManager_, _month_, _account_) => {
     db = _db_;
-    budgetDb = _budgetDb_;
+    budgetManager = _budgetManager_;
     month = _month_;
     account = _account_;
 
@@ -24,14 +24,14 @@ describe('budgetDb', function() {
 
 
   it('should return a function', () => {
-    expect(typeof budgetDb).toBe('function');
+    expect(typeof budgetManager).toBe('function');
   });
 
   describe('budget', () => {
     let budget;
 
     beforeEach(() => {
-      budget = budgetDb(db._pouch, UUID);
+      budget = budgetManager(db._pouch, UUID);
     });
 
     it('should return an object', () => {
@@ -82,7 +82,7 @@ describe('budgetDb', function() {
     let budget;
 
     beforeEach(() => {
-      budget = budgetDb(db._pouch, UUID);
+      budget = budgetManager(db._pouch, UUID);
     });
 
     it('should get all that exist', () => {
@@ -221,7 +221,7 @@ describe('budgetDb', function() {
 
   // it('propagateRolling should call startRolling on first Month', (done) => {
   //   budget.budget.getFourMonthsFrom(new Date('3/1/15')).then(months => {
-  //     budgetDb.categories.then(categories => {
+  //     budgetManager.categories.then(categories => {
   //       spyOn(months[0], 'startRolling').and.callThrough();
 
   //       bdg.propagateRolling(categories, months[0]);

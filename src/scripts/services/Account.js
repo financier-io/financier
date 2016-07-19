@@ -5,6 +5,7 @@ angular.module('financier').factory('account', uuid => {
      * Represents an account (credit card, checking, etc)
      */
     class Account {
+
       /**
        * Create an Account
        *
@@ -16,11 +17,21 @@ angular.module('financier').factory('account', uuid => {
         closed: false,
         name: null
       }) {
+
         // add _id if none exists
         if (!data._id) {
           data._id = Account.prefix + uuid();
         }
 
+        /**
+         * Get the non-namespaced account UID.
+         *
+         * @example
+         * const account = new Account();
+         * account.id; // === 'ab735ea6-bd56-449c-8f03-6afcc91e2248'
+         *
+         * @type {string}
+        */
         this.id = data._id.slice(data._id.lastIndexOf('_') + 1);
 
         this.data = data;
@@ -135,7 +146,7 @@ angular.module('financier').factory('account', uuid => {
       }
 
       /**
-       * The upper bound of alphabetically sorted months by ID. Used by PouchDB.
+       * The upper bound of alphabetically sorted Accounts by ID. Used by PouchDB.
        *
        * @type {string}
        */
@@ -144,7 +155,7 @@ angular.module('financier').factory('account', uuid => {
       }
 
       /**
-       * The lower bound of alphabetically sorted months by ID. Used by PouchDB.
+       * The lower bound of alphabetically sorted Accounts by ID. Used by PouchDB.
        *
        * @type {string}
        */

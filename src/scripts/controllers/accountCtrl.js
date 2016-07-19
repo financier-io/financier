@@ -2,7 +2,7 @@ angular.module('financier').controller('accountCtrl', function(myBudgeter, $root
   // this.accountId = $stateParams.accountId;
 
   // The first load, to prevent flickering
-  // this.accounts = myAccounts;
+  this.accounts = myAccounts;
 
   // const getAccounts = () => {
   //   return myBudget.accounts.all()

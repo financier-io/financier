@@ -2,7 +2,7 @@ angular.module('financier').provider('db', function() {
   const that = this;
   that.adapter = 'idb';
 
-  this.$get = (Budget, budgetDb, $http, $rootScope) => {
+  this.$get = (Budget, budgetManager, $http, $rootScope) => {
     const db = new PouchDB('financier', {
       adapter: that.adapter
     });
@@ -60,7 +60,7 @@ angular.module('financier').provider('db', function() {
 
     function budget(budgetId) {
 
-      return budgetDb(db, budgetId);
+      return budgetManager(db, budgetId);
 
     }
 
@@ -72,7 +72,7 @@ angular.module('financier').provider('db', function() {
       }
 
       function get(id) {
-        return db.get(`budget_${id}`).then(b => {
+        return db.get(`${Budget.prefix}${id}`).then(b => {
           const budget = new Budget(b);
           budget.subscribe(put);
 
@@ -83,8 +83,8 @@ angular.module('financier').provider('db', function() {
       function all() {
         return db.allDocs({
           include_docs: true, /* eslint camelcase:0 */
-          startkey: `budget_`,
-          endkey: `budget_\uffff`
+          startkey: Budget.startKey,
+          endkey: Budget.endKey
         }).then(res => {
           const budgets = [];
           for (let i = 0; i < res.rows.length; i++) {
