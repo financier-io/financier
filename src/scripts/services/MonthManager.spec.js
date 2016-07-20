@@ -1,20 +1,22 @@
 describe('category', function() {
-  let monthManager, MonthManager;
+  let monthManager, MonthManager, month, Month;
 
   beforeEach(module('financier'));
 
-  beforeEach(inject(_monthManager_ => {
+  beforeEach(inject((_monthManager_, _month_) => {
     monthManager = _monthManager_;
+    month = _month_;
   }));
 
   it('is a function', () => {
     expect(typeof monthManager).toBe('function');
   });
 
-  describe('Category class', () => {
+  describe('MonthManager class', () => {
 
     beforeEach(() => {
       MonthManager = monthManager('111-111-111-111');
+      Month = month('111-111-111-111');
     });
 
     describe('static properties', () => {
@@ -81,6 +83,103 @@ describe('category', function() {
 
         it('Jan => Feb', () => {
           expect(MonthManager._previousDateID('2017-01-01')).toBe('2016-12-01');
+        });
+      });
+    });
+
+    describe('constructor', () => {
+      it('adds one month if none provided', () => {
+        const someFunction = () => {},
+          mm = new MonthManager(undefined, someFunction);
+
+        expect(mm.months.length).toBe(1);
+        expect(mm.months[0].date).toBe(Month.createID(new Date()));
+        expect(mm.saveFn).toBe(someFunction);
+      });
+
+      it('fills month gaps as needed', () => {
+        spyOn(MonthManager.prototype, '_fillMonthGaps').and.callThrough();
+
+        const mm = new MonthManager();
+
+        expect(MonthManager.prototype._fillMonthGaps).toHaveBeenCalledWith(mm.months);
+      });
+    });
+
+    describe('_fillMonthGaps', () => {
+      it('Does not do anything with 0 items', () => {
+        const mm = new MonthManager();
+
+        expect(mm._fillMonthGaps([]).length).toBe(0);
+      });
+
+      it('Does not do anything with 1 item', () => {
+        const mm = new MonthManager(),
+          myMonth = new Month('2015-01-01');
+
+        expect(mm._fillMonthGaps([myMonth])[0]).toBe(myMonth);
+      });
+
+      it('Throws if months are out of order', () => {
+        const mm = new MonthManager(),
+          myMonth = new Month('2015-01-01');
+
+        expect(() => {
+          mm._fillMonthGaps([
+            new Month('2015-02-01'),
+            new Month('2015-01-01')
+          ]);
+        }).toThrow();
+      });
+
+      it('Throws if months are duplicated', () => {
+        const mm = new MonthManager(),
+          myMonth = new Month('2015-01-01');
+
+        expect(() => {
+          mm._fillMonthGaps([
+            new Month('2015-02-01'),
+            new Month('2015-02-01')
+          ]);
+        }).toThrow();
+      });
+
+      describe('filling month gaps', () => {
+        it('creates appropriate months', () => {
+          const mm = new MonthManager();
+
+          expect(mm._fillMonthGaps([
+            new Month('2016-05-01'),
+            new Month('2016-07-01'),
+            new Month('2016-08-01'),
+            new Month('2017-07-01')
+          ]).map(m => m.date)).toEqual([
+            '2016-05-01',
+            '2016-06-01',
+            '2016-07-01',
+            '2016-08-01',
+            '2016-09-01',
+            '2016-10-01',
+            '2016-11-01',
+            '2016-12-01',
+            '2017-01-01',
+            '2017-02-01',
+            '2017-03-01',
+            '2017-04-01',
+            '2017-05-01',
+            '2017-06-01',
+            '2017-07-01'
+          ]);
+        });
+
+        it('sets up saveFn', () => {
+          const myFn = () => {},
+            mm = new MonthManager(undefined, myFn);
+
+          expect(mm._fillMonthGaps([
+            new Month('2016-05-01'),
+            new Month('2016-07-01')
+          ])[1].saveFn).toBe(myFn);
         });
       });
     });

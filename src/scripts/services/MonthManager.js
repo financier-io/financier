@@ -100,6 +100,7 @@ angular.module('financier').factory('monthManager', month => {
        * @returns {Month[]} The Month objects with added Month objects between
        * to fill any gaps in months.
        *
+       * @throws {Error} If months are not ordered by date (oldest to newest)
        * @example
        * // [Feb, Apr, May, Aug] => [Feb, Mar, Apr, May, Jun, Jul, Aug]
        * @private
@@ -127,15 +128,17 @@ angular.module('financier').factory('monthManager', month => {
 
             for (let j = 0; j < monthsToAdd; j++) {
               const m = new Month(id, this.saveFn);
-              month.subscribeTransactionDateChange(this.subscribeTransactionDateChangeFn);
+              m.subscribeTransactionDateChange(this.subscribeTransactionDateChangeFn);
               newMonths.push(m);
 
               id = MonthManager._nextDateID(id);
             }
-            months.splice.apply(null, [i + 1, 0].concat(newMonths));
+            months.splice.apply(months, [i + 1, 0].concat(newMonths));
 
             i += monthsToAdd;
             endIndex += monthsToAdd;
+          } else if (diff < 1) {
+            throw new Error('Provided months are out of order or duplicates exist!');
           }
         }
 
