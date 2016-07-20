@@ -159,8 +159,7 @@ function writeServiceWorkerFile(rootDir, handleFetch, callback) {
 
     navigateFallback: '/index.html',
     navigateFallbackWhitelist: [
-      /^(?!\/docs).*$/, // whitelist `/docs*`
-      /^(?!\/db).*$/ // whitelist `/db*`
+      /^(?!\/docs|\/db).*$/, // whitelist `/docs*` and `/db*`
     ],
 
     // Font-Awesome scss being a jerk
