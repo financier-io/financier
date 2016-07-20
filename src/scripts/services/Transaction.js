@@ -35,7 +35,7 @@ angular.module('financier').factory('transaction', uuid => {
 
       /**
        * The currency value of the transaction.
-       * Will call subscriber when changes.
+       * Will call record and value subscribers upon change.
        *
        * @type {currency}
        */
@@ -44,9 +44,12 @@ angular.module('financier').factory('transaction', uuid => {
       }
 
       set value(x) {
+        const oldValue = this.data.value;
+
         this.data.value = x;
 
-        this.emitChange();
+        this._emitValueChange(x - oldValue);
+        this._emitChange();
       }
 
       /**
@@ -63,7 +66,7 @@ angular.module('financier').factory('transaction', uuid => {
         this.data.date = x.toISOString();
         this._date = x;
 
-        this.emitChange();
+        this._emitChange();
       }
 
       /**
@@ -79,7 +82,7 @@ angular.module('financier').factory('transaction', uuid => {
       set category(x) {
         this.data.category = x;
 
-        this.emitChange();
+        this._emitChange();
       }
 
       /**
@@ -95,7 +98,7 @@ angular.module('financier').factory('transaction', uuid => {
       set account(x) {
         this.data.account = x;
 
-        this.emitChange();
+        this._emitChange();
       }
 
       /**
@@ -111,7 +114,7 @@ angular.module('financier').factory('transaction', uuid => {
       set payee(x) {
         this.data.payee = x;
 
-        this.emitChange();
+        this._emitChange();
       }
 
       /**
@@ -127,7 +130,7 @@ angular.module('financier').factory('transaction', uuid => {
       set memo(x) {
         this.data.memo = x;
 
-        this.emitChange();
+        this._emitChange();
       }
 
       /**
@@ -143,7 +146,7 @@ angular.module('financier').factory('transaction', uuid => {
       set cleared(x) {
         this.data.cleared = x;
 
-        this.emitChange();
+        this._emitChange();
       }
 
       /**
@@ -159,7 +162,7 @@ angular.module('financier').factory('transaction', uuid => {
       set flag(x) {
         this.data.flag = x;
 
-        this.emitChange();
+        this._emitChange();
       }
 
       /**
@@ -182,11 +185,31 @@ angular.module('financier').factory('transaction', uuid => {
       }
 
       /**
+       * Used to set the function to invoke upon value changes.
+       *
+       * @param {function} fn - This function will be invoked upon value
+       * changes with the amount the value has changed as the first parameter.
+      */
+      subscribeValueChange(fn) {
+        this.subscribeValueChangeFn = fn;
+      }
+
+      /**
+       * Will call the subscribed value function, if it exists, with how much
+       * the value has changed by.
+       *
+       * @private
+      */
+      _emitValueChange(val) {
+        return this.subscribeValueChangeFn && this.subscribeValueChangeFn(val);
+      }
+
+      /**
        * Will call the subscribed function, if it exists, with self.
        *
        * @private
       */
-      emitChange() {
+      _emitChange() {
         return this.fn && this.fn(this);
       }
 
@@ -196,7 +219,7 @@ angular.module('financier').factory('transaction', uuid => {
       remove() {
         this.data._deleted = true;
 
-        return this.emitChange();
+        return this._emitChange();
       }
 
       /**

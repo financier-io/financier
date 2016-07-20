@@ -35,7 +35,56 @@ angular.module('financier').factory('account', uuid => {
         this.id = data._id.slice(data._id.lastIndexOf('_') + 1);
 
         this.data = data;
+        this.transactions = [];
 
+        this.cache = {
+          balance: 0
+        };
+      }
+
+      /**
+       * Add a transaction to an account
+       *
+       * @param {Transaction} trans The Transaction to add to the account balance, and
+       * to subscribe to for future changes.
+      */
+      addTransaction(trans) {
+        this._changeBalance(trans.value);
+
+        trans.subscribeValueChange(val => {
+          this._changeBalance(val);
+        });
+      }
+
+      /**
+       * Remove a transaction from an account
+       *
+       * @param {Transaction} trans The Transaction to remove from the account balance, and
+       * to unsubscribe from for future changes.
+      */
+      removeTransaction(trans) {
+        this._changeBalance(-trans.value);
+
+        trans.subscribeValueChange(null);
+      }
+
+      /**
+       * Change the current account balance by a certain amount.
+       *
+       * @param {currency} val The relative value to change the balance by.
+       * @private
+      */
+      _changeBalance(val) {
+        this.cache.balance += val;
+      }
+
+      /**
+       * The current balance of the account.
+       *
+       * @type {currency}
+      */
+      get balance() {
+        return this.cache.balance;
       }
 
       /**
@@ -54,27 +103,6 @@ angular.module('financier').factory('account', uuid => {
 
       set name(n) {
         this.data.name = n;
-        this.emitChange();
-      }
-
-      /**
-       * @todo Remove, should just be a normal Transaction
-      */
-      get startingBalance() {
-        return this.data.startingBalance;
-      }
-
-      set startingBalance(n) {
-        this.data.startingBalance = n;
-        this.emitChange();
-      }
-
-      get startingBalanceDate() {
-        return this.data.startingBalanceDate;
-      }
-
-      set startingBalanceDate(n) {
-        this.data.startingBalanceDate = n;
         this.emitChange();
       }
 

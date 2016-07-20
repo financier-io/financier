@@ -105,6 +105,60 @@ describe('transaction', function() {
       expect(tran.toJSON()._deleted).toBe(true);
   });
 
+  describe('_emitValueChange', () => {
+    let Transaction;
+
+    beforeEach(() => {
+      Transaction = transaction('111-111-111-111');
+    });
+
+    it('send a value to the value subscriber', () => {
+      const foo = {
+        change: () => {},
+      };
+
+      spyOn(foo, 'change');
+
+      let tran = new Transaction();
+      tran.subscribeValueChange(foo.change);
+
+      expect(foo.change).not.toHaveBeenCalled();
+
+      tran._emitValueChange(1313);
+
+      expect(foo.change).toHaveBeenCalledWith(1313);
+    });
+  });
+
+  describe('pub/sub value', () => {
+    let Transaction;
+
+    beforeEach(() => {
+      Transaction = transaction('111-111-111-111');
+    });
+
+    it('value', () => {
+      const foo = {
+        change: () => {},
+      };
+
+      spyOn(foo, 'change');
+
+      let tran = new Transaction();
+      tran.subscribeValueChange(foo.change);
+
+      expect(foo.change).not.toHaveBeenCalled();
+
+      tran.value = 1233;
+
+      expect(foo.change).toHaveBeenCalledWith(1233);
+
+      tran.value = 1000;
+
+      expect(foo.change).toHaveBeenCalledWith(-233);
+    });
+  });
+
   describe('pub/sub', () => {
     let Transaction;
 

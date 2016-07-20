@@ -1,12 +1,14 @@
 describe('account', function() {
-  let account, Account;
+  let account, Account, transaction, Transaction;
 
   beforeEach(module('financier'));
 
-  beforeEach(inject(_account_ => {
+  beforeEach(inject((_account_, _transaction_) => {
     account = _account_;
+    transaction = _transaction_;
 
     Account = account('111-111-111-111');
+    Transaction = transaction('111-111-111-111');
   }));
 
   describe('new Account()', () => {
@@ -71,6 +73,12 @@ describe('account', function() {
       });
 
       expect(acc.id).toBe('123-123-123-123');
+    });
+
+    it('has 0 balance by default', () => {
+      const acc = new Account();
+
+      expect(acc.balance).toBe(0);
     });
   });
 
@@ -160,6 +168,59 @@ describe('account', function() {
 
       expect(foo.change).toHaveBeenCalledWith(acc);
     });
+  });
 
+  describe('_changeBalance', () => {
+    it('changes the balance by a given amount', () => {
+      const acc = new Account();
+
+      acc._changeBalance(20);
+
+      expect(acc.balance).toBe(20);
+
+      acc._changeBalance(-35);
+
+      expect(acc.balance).toBe(-15);
+    });
+  });
+
+  describe('addTransaction', () => {
+    it('changes the balance correctly when added', () => {
+      const acc = new Account(),
+        trans = new Transaction({
+        value: 123
+      });
+      acc.addTransaction(trans);
+
+      expect(acc.balance).toBe(123);
+    });
+
+    it('changes the balance correctly upon future changes', () => {
+      const acc = new Account(),
+        trans = new Transaction({
+        value: 123
+      });
+      acc.addTransaction(trans);
+
+      expect(acc.balance).toBe(123);
+
+      trans.value = 400;
+
+      expect(acc.balance).toBe(400);
+    });
+  });
+
+  describe('removeTransaction', () => {
+    it('changes the balance correctly when removed', () => {
+      const acc = new Account(),
+        trans = new Transaction({
+        value: 123
+      });
+
+      acc.addTransaction(trans);
+      acc.removeTransaction(trans);
+
+      expect(acc.balance).toBe(0);
+    });
   });
 });
