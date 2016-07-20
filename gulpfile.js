@@ -158,7 +158,10 @@ function writeServiceWorkerFile(rootDir, handleFetch, callback) {
     stripPrefix: rootDir,
 
     navigateFallback: '/index.html',
-    navigateFallbackWhitelist: [/^(?!\/docs).*$/], // whitelist everything except `/docs*`
+    navigateFallbackWhitelist: [
+      /^(?!\/docs).*$/, // whitelist `/docs*`
+      /^(?!\/db).*$/ // whitelist `/db*`
+    ],
 
     // Font-Awesome scss being a jerk
     ignoreUrlParametersMatching: [/^v/],
