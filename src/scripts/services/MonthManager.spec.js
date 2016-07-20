@@ -104,6 +104,20 @@ describe('category', function() {
 
         expect(MonthManager.prototype._fillMonthGaps).toHaveBeenCalledWith(mm.months);
       });
+
+      it('links months properly', () => {
+        spyOn(MonthManager.prototype, '_linkMonths');
+
+        const mm = new MonthManager([
+          new Month('2016-05-01'),
+          new Month('2016-07-01')
+        ]);
+
+        expect(mm._linkMonths.calls.all().map(c => c.args)).toEqual([
+          [mm.months[0], mm.months[1]],
+          [mm.months[1], mm.months[2]]
+        ]);
+      });
     });
 
     describe('_fillMonthGaps', () => {
@@ -181,6 +195,151 @@ describe('category', function() {
             new Month('2016-07-01')
           ])[1].saveFn).toBe(myFn);
         });
+      });
+    });
+
+    describe('getMonth', () => {
+      it('gets an existing month', () => {
+        const mo = new Month('2016-07-01'),
+          mm = new MonthManager([
+            new Month('2016-05-01'),
+            new Month('2016-06-01'),
+            mo,
+            new Month('2017-08-01')
+          ]);
+
+
+        expect(mm.getMonth(new Date('2016-07-02'))).toBe(mo);
+        expect(mm.getMonth(new Date('2016-07-02')).date).toEqual('2016-07-01');
+      });
+
+      describe('gets a future month', () => {
+        it('adds months properly', () => {
+          const mm = new MonthManager([
+            new Month('2016-05-01')
+          ]);
+
+          mm.getMonth(new Date('2016-07-02'));
+
+          expect(mm.months.map(m => m.date)).toEqual([
+            '2016-05-01',
+            '2016-06-01',
+            '2016-07-01'
+          ]);
+        });
+
+        it('returns proper month', () => {
+          const mm = new MonthManager([
+            new Month('2016-05-01')
+          ]);
+
+          expect(mm.getMonth(new Date('2016-07-02')).date).toBe('2016-07-01');
+          expect(mm.getMonth(new Date('2016-07-02'))).toBe(mm.months[2]);
+        });
+
+        it('links months', () => {
+          const mm = new MonthManager([
+            new Month('2016-05-01'),
+            new Month('2016-06-01')
+          ]);
+
+          spyOn(mm, '_linkMonths');
+
+          mm.getMonth(new Date('2016-09-02'));
+
+          expect(mm._linkMonths.calls.all().map(c => c.args)).toEqual([
+            [mm.months[1], mm.months[2]],
+            [mm.months[2], mm.months[3]],
+            [mm.months[3], mm.months[4]]
+          ]);
+        });
+
+        it('propagates rolling to new months', () => {
+          const mo = new Month('2016-06-01'),
+            mm = new MonthManager([
+            new Month('2016-05-01'),
+            mo
+          ]);
+
+          spyOn(mm, '_propagateRollingFromMonth');
+
+          mm.getMonth(new Date('2016-09-02'));
+
+          expect(mm._propagateRollingFromMonth).toHaveBeenCalledWith(mo);
+        });
+      });
+
+      describe('gets a past month', () => {
+        it('adds months properly', () => {
+          const mm = new MonthManager([
+            new Month('2016-05-01')
+          ]);
+
+          mm.getMonth(new Date('2016-03-02'));
+
+          expect(mm.months.map(m => m.date)).toEqual([
+            '2016-03-01',
+            '2016-04-01',
+            '2016-05-01'
+          ]);
+        });
+
+        it('returns proper month', () => {
+          const mm = new MonthManager([
+            new Month('2016-05-01')
+          ]);
+
+          expect(mm.getMonth(new Date('2016-03-02')).date).toBe('2016-03-01');
+          expect(mm.getMonth(new Date('2016-03-02'))).toBe(mm.months[0]);
+        });
+
+        it('links months', () => {
+          const mm = new MonthManager([
+            new Month('2016-05-01'),
+            new Month('2016-06-01')
+          ]);
+
+          spyOn(mm, '_linkMonths');
+
+          mm.getMonth(new Date('2016-03-02'));
+
+          expect(mm._linkMonths.calls.all().map(c => c.args)).toEqual([
+            [mm.months[1], mm.months[2]], // 04 => 05
+            [mm.months[0], mm.months[1]]  // 03 => 04
+          ]);
+        });
+
+        it('propagates rolling to new months', () => {
+          const mo = new Month('2016-06-01'),
+            mm = new MonthManager([
+            new Month('2016-05-01'),
+            mo
+          ]);
+
+          spyOn(mm, '_propagateRollingFromMonth');
+
+          mm.getMonth(new Date('2016-09-02'));
+
+          expect(mm._propagateRollingFromMonth).toHaveBeenCalledWith(mo);
+        });
+      });
+
+      it('gets a past month', () => {
+        const mm = new MonthManager([
+            new Month('2016-05-01')
+          ]);
+
+        spyOn(mm, '_linkMonths');
+
+        expect(mm.getMonth(new Date('2016-02-02'))).toBe(mm.months[0]);
+        expect(mm.months.map(m => m.date)).toEqual([
+          '2016-02-01',
+          '2016-03-01',
+          '2016-04-01',
+          '2016-05-01'
+        ]);
+
+        expect(mm._linkMonths).toHaveBeenCalledWith(mm.months[0], mm.months[1]);
       });
     });
   });
