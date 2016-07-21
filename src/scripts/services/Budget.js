@@ -14,7 +14,7 @@ angular.module('financier').factory('Budget', uuid => {
         hints: {
           outflow: true
         },
-        _id: `budget_` + uuid(),
+        _id: 'budget_' + uuid(),
         created: new Date().toISOString()
       }, data);
 
@@ -192,7 +192,7 @@ angular.module('financier').factory('Budget', uuid => {
      * @type {string}
      */
     static get startKey() {
-      return `budget_`;
+      return 'budget_';
     }
 
     /**

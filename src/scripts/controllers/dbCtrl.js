@@ -60,6 +60,6 @@ angular.module('financier').controller('dbCtrl', function(db, budgetRecord, data
         return manager.months.slice(i, i + 5);
       }
     }
-    throw new Error(`Couldn't find base month in database!`);
+    throw new Error('Could not find base month in database!');
   }
 });

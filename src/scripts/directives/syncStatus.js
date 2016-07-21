@@ -2,7 +2,7 @@ angular.module('financier').directive('syncStatus', function() {
   return {
     restrict: 'E',
     scope: true,
-    template: `{{userCtrl.status}}`,
+    template: '{{userCtrl.status}}',
     controller: function($scope, $element) {
       $element.addClass('sync-status');
       
