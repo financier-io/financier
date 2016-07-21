@@ -147,21 +147,21 @@ angular.module('financier').factory('month', MonthCategory => {
           }
 
           this.createCategoryCacheIfEmpty(newCatId);
+
           this.categoryCache[newCatId].balance += trans.value;
         };
 
-        const valueChangeFn = (newValue, oldValue) => {
-          this.createCategoryIfEmpty(trans.category);
-
-          this.categoryCache[trans.category].balance += newValue - oldValue;
+        const valueChangeFn = changeVal => {
+          this.categoryCache[trans.category].balance += changeVal;
+          this.categoryCache[trans.category].outflow += changeVal;
         };
-
-        trans.subscribeCategoryChange(categoryChangeFn);
-        trans.subscribeValueChange(valueChangeFn);
 
         this.createCategoryCacheIfEmpty(trans.category);
 
-        this.categoryCache[trans.category].balance += trans.value;
+        valueChangeFn(trans.value);
+
+        trans.subscribeCategoryChange(categoryChangeFn);
+        trans.subscribeValueChange(valueChangeFn);
       }
 
       /**
@@ -227,6 +227,7 @@ angular.module('financier').factory('month', MonthCategory => {
         if (!this.categoryCache[catId]) {
           this.categoryCache[catId] = {
             rolling: 0,
+            outflow: 0,
             balance: 0
           };
         }

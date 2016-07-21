@@ -341,6 +341,9 @@ describe('category', function() {
 
         expect(mm._linkMonths).toHaveBeenCalledWith(mm.months[0], mm.months[1]);
       });
+
+      // describe('addMonthCategory', () => {
+      // });
     });
   });
 });

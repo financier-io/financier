@@ -132,6 +132,7 @@ describe('month', function() {
       expect(categoryCache).toEqual({
         123: {
           rolling: 0,
+          outflow: 0,
           balance: 1200
         }
       });
@@ -154,6 +155,7 @@ describe('month', function() {
       expect(categoryCache).toEqual({
         123: {
           rolling: 6900,
+          outflow: 0,
           balance: 6900
         }
       });
@@ -393,132 +395,62 @@ describe('month', function() {
           expect(mo.cache.totalBalance).toBe(6000);
         });
       });
+    });
 
-      describe('totalAvailable', () => {
-        // it('runs on existing data', () => {
-        //   const mo = new Month({
-        //     categories: {
-        //       123: {
-        //         budget: 1234,
-        //         transactions: [{
-        //           value: 222
-        //         }]
-        //       }
-        //     },
-        //     income: [{
-        //       value: 10000
-        //     }],
-        //     _id: Month.createID(new Date('1/1/15'))
-        //   });
+    describe('addTransaction', () => {
+      it('adjusts balance when added', () => {
+        const mo = new Month(defaultMonth(), () => {}),
+          trans = new Transaction({
+            value: -300,
+            category: '123-123-123-123'
+          });
 
-        //   // prevMo.totalAvailable - |prevMo.totalBalance| + totalIncome - totalBudgeted
-        //   expect(mo.cache.totalAvailable).toBe(10000 - 1234);
-        // });
+        mo.addTransaction(trans);
 
-        // it('propagates to following months', () => {
-        //   const foo = { bar: () => {}};
+        expect(mo.categoryCache['123-123-123-123'].balance).toBe(-300);
+      });
 
-        //   const mo = new Month({
-        //     categories: {
-        //       123: {
-        //         budget: 1234,
-        //         transactions: [{
-        //           value: 222
-        //         }]
-        //       }
-        //     },
-        //     income: [{
-        //       value: 10000
-        //     }],
-        //     _id: Month.createID(new Date('1/1/15'))
-        //   });
+      it('adjusts outflow when added', () => {
+        const mo = new Month(defaultMonth(), () => {}),
+          trans = new Transaction({
+            value: -300,
+            category: '123-123-123-123'
+          });
 
-        //   spyOn(foo, 'bar');
+        mo.addTransaction(trans);
 
-        //   mo.subscribeNextMonth(
-        //     () => {},
-        //     foo.bar
-        //   );
+        expect(mo.categoryCache['123-123-123-123'].outflow).toBe(-300);
+      });
 
+      it('adjusts balance when value change', () => {
+        const mo = new Month(defaultMonth(), () => {}),
+          trans = new Transaction({
+            value: -300,
+            category: '123-123-123-123'
+          });
 
-        //   expect(foo.bar).toHaveBeenCalledWith(10000 - 1234);
-        // });
+        mo.addTransaction(trans);
+
+        trans.value = -100;
+
+        expect(mo.categoryCache['123-123-123-123'].balance).toBe(-100);
+      });
+
+      it('adjusts outflow when value change', () => {
+        const mo = new Month(defaultMonth(), () => {}),
+          trans = new Transaction({
+            value: -300,
+            category: '123-123-123-123'
+          });
+
+        mo.addTransaction(trans);
+
+        trans.value = -100;
+
+        expect(mo.categoryCache['123-123-123-123'].outflow).toBe(-100);
       });
     });
-    // describe('totalRolling', () => {
-    
-    //   it('runs on existing data', () => {
-    //     const mo = new Month({
-    //       categories: {
-    //         123: {
-    //           budget: 333
-    //         }
-    //       },
-    //       _id: Month.createID(new Date('1/1/15'))
-    //     });
 
-    //     spyOn(mo, 'setRolling').and.callThrough();
-
-    //     mo.startRolling(123);
-
-    //     expect(mo.setRolling).toHaveBeenCalledWith(123, 0);
-    //     expect(mo.cache.totalBalance).toBe(333);
-    //   });
-
-    // })
-
-    // describe('importing data', () => {
-    //   it('transforms transactions', () => {
-    //     const mo = new Month({
-    //       categories: {
-    //         123: {
-    //           transactions: [{
-    //             value: 12
-    //           }],
-    //           budget: 12
-    //         }
-    //       },
-    //       _id: Month.createID(new Date('1/1/15'))
-    //     });
-        
-    //     expect(mo.data.categories[123].transactions[0].constructor.name).toBe('Transaction');
-    //   });
-
-    //   it('adds up category balance', () => {
-    //     const mo = new Month({
-    //       categories: {
-    //         123: {
-    //           transactions: [{
-    //             value: 12
-    //           }, {
-    //             value: 20
-    //           }]
-    //         }
-    //       },
-    //       _id: Month.createID(new Date('1/1/15'))
-    //     });
-
-    //     expect(mo.categoryCache[123].balance).toBe(-32);
-
-    //     expect(mo.cache.totalBalance).toBe(-32);
-    //   });
-
-    //   it('adds up category budgets', () => {
-    //     const mo = new Month({
-    //       categories: {
-    //         123: {
-    //           budget: 12
-    //         }
-    //       },
-    //       _id: Month.createID(new Date('1/1/15'))
-    //     });
-
-    //     expect(mo.categoryCache[123].balance).toBe(12);
-
-    //     expect(mo.cache.totalBalance).toBe(12);
-    //   });
-    // });
-    
     describe('startRolling', () => {
       it('runs on existing data', () => {
         const mo = new Month({

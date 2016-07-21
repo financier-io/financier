@@ -71,7 +71,7 @@ angular.module('financier').factory('transaction', uuid => {
 
       /**
        * The category the transaction is assigned to.
-       * Will call subscriber when changes.
+       * Will call record and category subscribers when changes.
        *
        * @type {string}
        */
@@ -80,8 +80,11 @@ angular.module('financier').factory('transaction', uuid => {
       }
 
       set category(x) {
+        const oldCategory = this.data.category;
+
         this.data.category = x;
 
+        this._emitCategoryChange(x, oldCategory);
         this._emitChange();
       }
 
@@ -195,6 +198,17 @@ angular.module('financier').factory('transaction', uuid => {
       }
 
       /**
+       * Used to set the function to invoke upon value changes.
+       *
+       * @param {function} fn - This function will be invoked upon value
+       * changes with the new category ID as the first parameter, and the
+       * old as the second.
+      */
+      subscribeCategoryChange(fn) {
+        this.subscribeCategoryChangeFn = fn;
+      }
+
+      /**
        * Will call the subscribed value function, if it exists, with how much
        * the value has changed by.
        *
@@ -202,6 +216,16 @@ angular.module('financier').factory('transaction', uuid => {
       */
       _emitValueChange(val) {
         return this.subscribeValueChangeFn && this.subscribeValueChangeFn(val);
+      }
+
+      /**
+       * Will call the subscribed category function, if it exists, with the
+       * new category ID as the first parameter, and the old as the second.
+       *
+       * @private
+      */
+      _emitCategoryChange(newCat, oldCat) {
+        return this.subscribeCategoryChangeFn && this.subscribeCategoryChangeFn(newCat, oldCat);
       }
 
       /**

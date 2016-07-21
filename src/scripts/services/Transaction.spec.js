@@ -130,6 +130,31 @@ describe('transaction', function() {
     });
   });
 
+  describe('_emitCategoryChange', () => {
+    let Transaction;
+
+    beforeEach(() => {
+      Transaction = transaction('111-111-111-111');
+    });
+
+    it('send new and old category IDs to the category subscriber', () => {
+      const foo = {
+        change: () => {},
+      };
+
+      spyOn(foo, 'change');
+
+      let tran = new Transaction();
+      tran.subscribeCategoryChange(foo.change);
+
+      expect(foo.change).not.toHaveBeenCalled();
+
+      tran._emitCategoryChange('some-new-id', 'some-old-id');
+
+      expect(foo.change).toHaveBeenCalledWith('some-new-id', 'some-old-id');
+    });
+  });
+
   describe('pub/sub value', () => {
     let Transaction;
 
@@ -156,6 +181,35 @@ describe('transaction', function() {
       tran.value = 1000;
 
       expect(foo.change).toHaveBeenCalledWith(-233);
+    });
+  });
+
+  describe('pub/sub category', () => {
+    let Transaction;
+
+    beforeEach(() => {
+      Transaction = transaction('111-111-111-111');
+    });
+
+    it('value', () => {
+      const foo = {
+        change: () => {},
+      };
+
+      spyOn(foo, 'change');
+
+      let tran = new Transaction();
+      tran.subscribeCategoryChange(foo.change);
+
+      expect(foo.change).not.toHaveBeenCalled();
+
+      tran.category = 'boom';
+
+      expect(foo.change).toHaveBeenCalledWith('boom', null);
+
+      tran.category = 'new-cat';
+
+      expect(foo.change).toHaveBeenCalledWith('new-cat', 'boom');
     });
   });
 

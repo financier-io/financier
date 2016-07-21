@@ -47,11 +47,7 @@ angular.module('financier').factory('monthManager', month => {
        * @param {Transaction} trans - The Transaction to be added.
        */
       addTransaction(trans) {
-        const month = this.getMonth(trans.date);
-
-        trans.subscribeRemove(() => {
-          month.removeTransaction(tran);
-        });
+        const month = this.getMonth(MonthManager._dateIDToDate(trans.date));
 
         month.addTransaction(trans);
       }
@@ -94,7 +90,9 @@ angular.module('financier').factory('monthManager', month => {
 
       /**
        * Add a transaction which will be added to the relevant Month.
+       *
        * *NOTE:* Month objects must be ordered oldest to newest!
+       * *NOTE:* Does not link months!
        *
        * @param {Month[]} months - The Month objects to look for gaps between.
        * @returns {Month[]} The Month objects with added Month objects between
