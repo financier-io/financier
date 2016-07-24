@@ -1,0 +1,11 @@
+// Custom angular-resizable css (make the slider invisible)
+
+.rg-right {
+  cursor: col-resize;
+  position: absolute;
+  right: -3px;
+  width: 6px;
+  top: 0;
+  bottom: 0;
+  z-index: 200;
+}

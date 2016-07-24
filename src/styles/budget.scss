@@ -93,8 +93,12 @@ $budgetMonthCellPadding: 2px 5px 0;
   }
 }
 
-.budget__month-row--inactive {
+.budget__month-row--zero {
   color: #aaa;
+}
+
+.budget__month-row--none {
+  color: $white;
 }
 
 .budget__month-row--negative {

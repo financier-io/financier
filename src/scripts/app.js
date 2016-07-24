@@ -6,7 +6,8 @@ let financier = angular.module('financier', [
   'ngDialog',
   'ngMessages',
   'angular-ladda-lw',
-  'angular-md5'
+  'angular-md5',
+  'angularResizable'
 ]).run((offline, $rootScope, $timeout) => {
   offline.register();
 
@@ -102,9 +103,6 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
           .catch(e => {
             throw e;
           });
-        },
-        myAccounts: myBudget => {
-          return myBudget.accounts.all();
         }
       }
     })
@@ -125,52 +123,8 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
     })
     .state('user.app.manager.view.account', {
       url: '/account/:accountId',
-      templateUrl: 'views/account.html'
-    })
-    .state('user.app.manager.view.account.edit', {
-      url: '/edit',
-      onEnter: function(ngDialog, $state, $stateParams, myBudget) {
-        ngDialog.open({
-          template: 'views/modal/editAccount.html',
-          controller: 'editAccountCtrl',
-          controllerAs: 'editAccountCtrl',
-          resolve: {
-            myBudget: function(db) {
-              return myBudget;
-            }
-          }
-        }).closePromise.finally(() => {
-          $state.go('^');
-        });
-      },
-      onExit: ngDialog => {
-        ngDialog.closeAll();
-      }
-    })
-    .state('user.app.manager.view.account.create', {
-      url: '/create',
-      onEnter: function(ngDialog, $state, $stateParams, myBudget) {
-        ngDialog.open({
-          template: 'views/modal/editAccount.html',
-          controller: 'editAccountCtrl',
-          controllerAs: 'editAccountCtrl',
-          resolve: {
-            myBudget: function(db) {
-              return myBudget;
-            },
-            myAccount: function($stateParams, account) {
-              const Account = account($stateParams.budgetId);
-
-              return new Account();
-            }
-          }
-        }).closePromise.finally(() => {
-          $state.go('^');
-        });
-      },
-      onExit: ngDialog => {
-        ngDialog.closeAll();
-      }
+      templateUrl: 'views/account.html',
+      controller: 'accountCtrl as accountCtrl',
     })
     .state('user.app.manager.view.reports', {
       url: '/reports',

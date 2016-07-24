@@ -71,7 +71,8 @@ gulp.task('copy:vendor', function() {
     './node_modules/lie/dist/lie.polyfill.js',
     './bower_components/angular-ladda-lw/dist/angular-ladda-lw.js',
     './bower_components/node-uuid/uuid.js',
-    './bower_components/angular-md5/angular-md5.js'
+    './bower_components/angular-md5/angular-md5.js',
+    './bower_components/angular-resizable/src/angular-resizable.js'
   ])
     .pipe(gulp.dest('dist/vendor'));
 });

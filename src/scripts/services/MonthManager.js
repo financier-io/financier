@@ -1,7 +1,8 @@
-angular.module('financier').factory('monthManager', month => {
+angular.module('financier').factory('monthManager', (month, account) => {
   return budgetId => {
 
     const Month = month(budgetId);
+    const Account = account(budgetId);
 
     /**
      * Represents a MonthManager, responsible for
@@ -38,6 +39,11 @@ angular.module('financier').factory('monthManager', month => {
         }
 
         this.months = months;
+        this.transactions = [];
+        this.accounts = [];
+        this.allAccounts = new Account({
+          name: 'All Accounts'
+        });
         this.saveFn = saveFn;
       }
 
@@ -47,9 +53,34 @@ angular.module('financier').factory('monthManager', month => {
        * @param {Transaction} trans - The Transaction to be added.
        */
       addTransaction(trans) {
-        const month = this.getMonth(MonthManager._dateIDToDate(trans.date));
+        const myMonth = this.getMonth(trans.date),
+          myAccount = this.getAccount(trans.account);
 
-        month.addTransaction(trans);
+        this.transactions.push(trans);
+
+        myMonth.addTransaction(trans);
+        myAccount.addTransaction(trans);
+        this.allAccounts.addTransaction(trans);
+      }
+
+      /**
+       * Add a Transaction which will be added to the relevant Month.
+       *
+       * @param {Transaction} trans - The Transaction to be added.
+       */
+      removeTransaction(trans) {
+        const myMonth = this.getMonth(trans.date),
+          myAccount = this.getAccount(trans.account);
+
+        const index = this.transactions.indexOf(trans);
+        if (index !== -1) {
+          this.transactions.splice(index, 1);
+
+        }
+
+        myMonth.removeTransaction(trans);
+        myAccount.removeTransaction(trans);
+        this.allAccounts.addTransaction(trans);
       }
 
       /**
@@ -197,6 +228,28 @@ angular.module('financier').factory('monthManager', month => {
 
         // we already have the month
         return this.months[diff];
+      }
+
+      getAccount(id) {
+        for (let i = 0; i < this.accounts.length; i++) {
+          if (this.accounts[i].id === id) {
+            return this.accounts[i];
+          }
+        }
+      }
+
+      addAccount(acc) {
+        this.accounts.push(acc);
+      }
+
+      removeAccount(acc) {
+        const index = this.accounts.indexOf(acc);
+
+        if (index !== -1) {
+          this.accounts.splice(index, 1);
+        } else {
+          throw new Error(`Account with id ${acc.id} not found!`);
+        }
       }
 
       /**

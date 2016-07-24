@@ -1,0 +1,14 @@
+<div class="flag__options">
+  <div class="flag__option" ng-repeat="flag in flagCtrl.flags" ng-click="submit(flag.color)" ng-style="{color: flag.color}">
+    <div class="flag__example">
+      <div class="account__flag"><div></div></div>
+    </div>
+    <div class="flag__label">{{flag.label}}</div>
+  </div>
+  <div class="flag__option" ng-click="submit(null)">
+    <div class="flag__example">
+      <div class="account__flag"><div></div></div>
+    </div>
+    <div class="flag__label">None</div>
+  </div>
+</div>

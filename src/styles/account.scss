@@ -1,168 +1,169 @@
-// .account {
-//   width: 100%;
-//   table-layout: fixed;
-//   border-collapse: collapse;
-//   display: table;
-
-//   font-size: 0.9em;
-// }
-
-// .account__thead {
-//   display: table-header-group;
-
-//   font-weight: bold;
-// }
-
-// .account__th {
-//   display: table-cell;
-// }
-
-// .account__tbody {
-//   display: table-row-group;
-// }
-
-// .account__tr {
-//   display: table-row;
-// }
-
-.account__tbody {
-  .account__tr {
-    &:nth-child(even) {
-      background-color: lighten($primary, 40%);
-    }
-  }
-}
-
 .account {
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-    height: 100%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  height: 100%;
 
-    font-size: 0.9em;
+  font-size: 0.9em;
 }
 
 .account * {
-    box-sizing: inherit;
-    -moz-box-sizing: inherit;
+  box-sizing: inherit;
+  -moz-box-sizing: inherit;
+}
+
+.account__flag {
+  @include ribbon(12px);
+  color: #ccc;
+
+  margin-top: 10px;
+}
+
+.account__header-flag {
+  @include ribbon(12px);
+  color: $white;
+
+  transform: scale(0.8);
+
+  margin-top: 4px;
 }
 
 .account__thead {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 
-    font-weight: bold;
-    border-bottom: 1px solid $primary;
+  text-transform: uppercase;
 }
 
 .account__tbody {
-    overflow-y: scroll;
-    display: inline-block;
+  overflow-y: scroll;
+  display: inline-block;
 }
 
 .account__thead > .account__tr,
 .account__tbody > .account__tr,
 .account__tfoot > .account__tr {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
 }
 
 .account__thead,
 .account__tfoot {
-    flex-shrink: 0;
+  flex-shrink: 0;
+}
+
+.account__th {
+  font-size: 0.75em;
+  line-height: 2em;
+
+  background-color: $primary;
+  color: $white;
+
+  &:not(:last-child) {
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+  }
 }
 
 .account__th,
-.account__tbody .account__td {
-    width: 20%; /* this can vary */
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-    display: inline-block;
+.account__td {
+  width: 20%; // this can vary
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  padding: 0 10px;
+  font-weight: 400;
 }
 
 .account__tfoot {
-    display: inline-block;
+  display: inline-block;
 }
 
 .account__tfoot .account__td {
-    width: 100%;
-    display: inline-block;
+  width: 100%;
+  display: inline-block;
+}
+
+.account__tbody .account__tr {
+  &:nth-child(even) {
+    background-color: lighten($primary, 42%);
+  }
+}
+
+.account__tr--overview {
+  background-color: $darkGray;
+
+  height: 3rem;
+  line-height: 3rem;
+}
+
+.account__name {
+  font-size: 1.4em;
+  padding: 0 1em;
+  font-weight: 300;
+  color: $white;
+}
+
+.account__balance {
+  line-height: 1;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 1em;
+}
+
+.account__balance-title {
+  color: $white;
+  font-size: 0.8em;
+  font-weight: 300;
+  margin-bottom: 3px;
+}
+
+.account__balance-value {
+  color: $primary;
+  font-size: 1.2em;
+}
+
+.account__operator {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 1.5em;
 }
 
 .account__td {
   display: table-cell;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 0.9em;
+  line-height: 2rem;
 }
 
 .account__cell-memo {
   width: 25%;
 }
 
-.account__accounts-list {
-  background-color: $primary;
-  margin: 0;
-  padding: 0;
-  color: white;
+.account__cell-cleared {
+  text-align: center;
+  width: 6.5rem;
 }
 
-.account__edit {
-  opacity: 0;
-  pointer-events: none;
+.account__cell-outflow,
+.account__cell-inflow {
+  width: 10rem;
 }
 
-.account__account {
-  display: inline-block;
-  list-style: none;
-  padding: 0 1rem;
-  margin: 0;
+.account__th--flag,
+.account__td--flag {
+  width: 55px;
+}
 
-  height: 3.2rem;
-  vertical-align: top;
-
+.account__flag {
   cursor: pointer;
-}
-
-.account__name {
-
-}
-
-
-.account__add {
-  background-color: darken($primary, 5%);
-  font-size: 0.85em;
-  font-weight: 300;
-
-  line-height: 1;
-  padding: 0.5em 1em;
-  display: inline-block;
-  border-radius: 1em;
-
-  &:before {
-    content: '+ ';
-  }
-}
-
-.account__amount {
-  display: block;
-  font-weight: 300;
-}
-
-.account__account--active {
-  background-color: lighten($primary, 10%);
-
-  .account__edit {
-    opacity: 0.8;
-    pointer-events: auto;
-
-    &:hover,
-    &:focus {
-      opacity: 1;
-    }
-  }
 }
 
 .account__add-button {
@@ -175,13 +176,4 @@
     text-decoration: underline;
     outline: 0;
   }
-}
-
-.account__sign-in {
-  background: none;
-  border: 1px solid $white;
-  margin: 0 auto;
-  display: block;
-  font-size: 0.9em;
-  padding: 0.5em 1em;
 }

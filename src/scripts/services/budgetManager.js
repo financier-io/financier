@@ -215,7 +215,7 @@ angular.module('financier').factory('budgetManager', (
     }
 
     function budget() {
-      function getAllCategories() {
+      function getAllMonthCategories() {
         return pouch.allDocs({
           include_docs: true,
           startkey: MonthCategory.startKey(budgetId),
@@ -231,6 +231,38 @@ angular.module('financier').factory('budgetManager', (
         });
       }
 
+      function getAllAccounts() {
+        return pouch.allDocs({
+          include_docs: true,
+          startkey: Account.startKey,
+          endkey: Account.endKey
+        })
+        .then(res => {
+          return res.rows.map(row => {
+            const acc = new Account(row.doc);
+            acc.subscribe(put);
+
+            return acc;
+          });
+        });
+      }
+
+      function getAllTransactions() {
+        return pouch.allDocs({
+          include_docs: true,
+          startkey: Transaction.startKey,
+          endkey: Transaction.endKey
+        })
+        .then(res => {
+          return res.rows.map(row => {
+            const trans = new Transaction(row.doc);
+            trans.subscribe(put);
+
+            return trans;
+          });
+        });
+      }
+
       function all() {
         return pouch.allDocs({
           include_docs: true, /* eslint camelcase:0 */
@@ -241,13 +273,28 @@ angular.module('financier').factory('budgetManager', (
 
           const manager = new MonthManager(months, put);
 
-          return getAllCategories()
+          return getAllMonthCategories()
           .then(monthCatVals => {
             for (let i = 0; i < monthCatVals.length; i++) {
               manager.addMonthCategory(monthCatVals[i]);
             }
 
-            return manager;
+            return getAllAccounts()
+            .then(accounts => {
+              for(let i = 0; i < accounts.length; i++) {
+                manager.addAccount(accounts[i]);
+              }
+
+              return getAllTransactions()
+              .then(transactions => {
+                for (let i = 0; i < transactions.length; i++) {
+                  manager.addTransaction(transactions[i]);
+                }
+
+                return manager;
+              });
+
+            });
           });
         });
       }

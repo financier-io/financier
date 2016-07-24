@@ -21,7 +21,7 @@ angular.module('financier').factory('transaction', uuid => {
           payee: null,
           memo: null,
           cleared: false,
-          flag: false
+          flag: null
         }, data);
 
         this.id = myData._id.slice(myData._id.lastIndexOf('_') + 1);
@@ -30,6 +30,9 @@ angular.module('financier').factory('transaction', uuid => {
           this._date = new Date(myData.date);
         }
 
+        this.subscribeClearedValueChangeFn = [];
+        this.subscribeUnclearedValueChangeFn = [];
+
         this.data = myData;
       }
 
@@ -37,9 +40,23 @@ angular.module('financier').factory('transaction', uuid => {
        * The currency value of the transaction.
        * Will call record and value subscribers upon change.
        *
+       * Negative value = outflow, positive = inflow.
+       *
        * @type {currency}
        */
       get value() {
+        return this.data.value;
+      }
+      get clearedValue() {
+        if (!this.cleared) {
+          return 0;
+        }
+        return this.data.value;
+      }
+      get unclearedValue() {
+        if (this.cleared) {
+          return 0;
+        }
         return this.data.value;
       }
 
@@ -48,8 +65,24 @@ angular.module('financier').factory('transaction', uuid => {
 
         this.data.value = x;
 
-        this._emitValueChange(x - oldValue);
+        if (this.cleared) {
+          this._emitClearedValueChange(x - oldValue);
+        } else {
+          this._emitUnclearedValueChange(x - oldValue);
+        }
         this._emitChange();
+      }
+
+      get outflow() {
+        if (this.value <= 0) {
+          return Math.abs(this.value);
+        }
+      }
+
+      get inflow() {
+        if (this.value >= 0) {
+          return this.value;
+        }
       }
 
       /**
@@ -147,16 +180,27 @@ angular.module('financier').factory('transaction', uuid => {
       }
 
       set cleared(x) {
+        if (x) {
+          this._emitUnclearedValueChange(-this.value);
+          this._emitClearedValueChange(this.value);
+        } else {
+          this._emitClearedValueChange(-this.value);
+          this._emitUnclearedValueChange(this.value);
+        }
+
         this.data.cleared = x;
 
         this._emitChange();
       }
 
       /**
-       * Whether the transaction is flagged.
-       * Will call subscriber when changes.
+       * The color of the transaction flag.
        *
-       * @type {boolean}
+       * @example
+       * const trans = new Transaction();
+       * trans.flag = 'ff0000'
+       *
+       * @type {color}
        */
       get flag() {
         return this.data.flag;
@@ -196,6 +240,12 @@ angular.module('financier').factory('transaction', uuid => {
       subscribeValueChange(fn) {
         this.subscribeValueChangeFn = fn;
       }
+      subscribeClearedValueChange(fn) {
+        this.subscribeClearedValueChangeFn.push(fn);
+      }
+      subscribeUnclearedValueChange(fn) {
+        this.subscribeUnclearedValueChangeFn.push(fn);
+      }
 
       /**
        * Used to set the function to invoke upon value changes.
@@ -216,6 +266,16 @@ angular.module('financier').factory('transaction', uuid => {
       */
       _emitValueChange(val) {
         return this.subscribeValueChangeFn && this.subscribeValueChangeFn(val);
+      }
+      _emitClearedValueChange(val) {
+        for (let i = 0; i < this.subscribeClearedValueChangeFn.length; i++) {
+          this.subscribeClearedValueChangeFn[i](val);
+        }
+      }
+      _emitUnclearedValueChange(val) {
+        for (let i = 0; i < this.subscribeUnclearedValueChangeFn.length; i++) {
+          this.subscribeUnclearedValueChangeFn[i](val);
+        }
       }
 
       /**
@@ -254,6 +314,33 @@ angular.module('financier').factory('transaction', uuid => {
       */
       toJSON() {
         return this.data;
+      }
+
+      /**
+       * The upper bound of alphabetically sorted Transactions by ID. Used by PouchDB.
+       *
+       * @type {string}
+       */
+      static get startKey() {
+        return `b_${budgetId}_transaction_`;
+      }
+
+      /**
+       * The lower bound of alphabetically sorted Transactions by ID. Used by PouchDB.
+       *
+       * @type {string}
+       */
+      static get endKey() {
+        return this.startKey + '\uffff';
+      }
+
+      /**
+       * The prefix for namespacing the Transaction UID
+       *
+       * @type {string}
+       */
+      static get prefix() {
+        return this.startKey;
       }
     };
 

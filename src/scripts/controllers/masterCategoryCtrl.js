@@ -5,6 +5,7 @@ angular.module('financier').controller('masterCategoryCtrl', function($scope) {
 
   $scope.$watchCollection(() => {
     let budget = 0;
+    let outflow = 0;
     let balance = 0;
 
     for (let i = 0; i < $scope.masterCategory.categories.length; i++) {
@@ -15,13 +16,15 @@ angular.module('financier').controller('masterCategoryCtrl', function($scope) {
       }
 
       if ($scope.month.categoryCache[cat.id]) {
+        outflow += $scope.month.categoryCache[cat.id].outflow || 0;
         balance += $scope.month.categoryCache[cat.id].balance || 0;
       }
     }
 
-    return [budget, balance];
-  }, ([budget, balance]) => {
+    return [budget, outflow, balance];
+  }, ([budget, outflow, balance]) => {
     this.budget = budget;
+    this.outflow = outflow;
     this.balance = balance;
   });
 });

@@ -4,7 +4,7 @@
   </div>
 
   <div class="app-view__main">
-    <div class="app-view__sidebar">
+    <div class="app-view__sidebar" resizable r-directions="['right']" r-flex="true" r-width="dbCtrl.sidebarInitialWidth">
 
       <h1 class="app-view__title">
         <a ui-sref="user.budget">Financier</a>
@@ -13,35 +13,35 @@
       <div class="app-view__sidebar-main">
         <ul class="app-view__links">
           <li class="app-view__link" ui-sref-active="app-view__link--active">
-            <a ui-sref="user.app.manager.view.budget"><i class="fa fa-tags"></i> Budget</a>
+            <a ui-sref="user.app.manager.view.budget"><div class="app-view__link-text"><i class="fa fa-tags"></i> Budget</div></a>
           </li>
           <li class="app-view__link" ui-sref-active="app-view__link--active">
-            <a ui-sref="user.app.manager.view.account">
-              <i class="fa fa-credit-card"></i> Accounts
-              <aside>{{(accountCtrl.total || 0) | intCurrency | currency}}</aside>
+            <a ui-sref="user.app.manager.view.account({accountId: null})">
+              <div class="app-view__link-text"><i class="fa fa-credit-card"></i> Accounts</div>
+              <aside>{{dbCtrl.manager.allAccounts.balance | intCurrency | currency}}</aside>
             </a>
           </li>
           <li class="app-view__link" ui-sref-active="app-view__link--active">
-            <a ui-sref="user.app.manager.view.reports"><i class="fa fa-pie-chart"></i> Reports</a>
+            <a ui-sref="user.app.manager.view.reports"><div class="app-view__link-text"><i class="fa fa-pie-chart"></i> Reports</div></a>
           </li>
 
-          <hr class="app-view__underline" />
+          <!-- <hr class="app-view__underline" /> -->
         </ul>
 
         <div class="app-view__accounts">
           <div class="app-view__accounts-title">My accounts</div>
 
-          <ul class="account__accounts-list">
-            <li class="account__account"
-                ng-repeat="account in accountCtrl.accounts | filter: accountCtrl.isOpen"
+          <ul class="app-view__accounts-list">
+            <li class="app-view__account"
+                ng-repeat="account in dbCtrl.accounts"
                 ui-sref="user.app.manager.view.account({accountId: account.id})"
-                ui-sref-active="account__account--active">
-              <span class="account__name">{{account.name}}</span> <i class="account__edit fa fa-cog" ng-click="accountCtrl.edit($event, account)"></i>
-              <span class="account__amount account__account--positive">{{(accountCtrl.accountTotals[account.id] || 0) | intCurrency | currency}}</span>
+                ui-sref-active="app-view__account--active">
+              <span class="app-view__name">{{account.name}}</span> <!-- <i class="app-view__edit fa fa-cog" ng-click="dbCtrl.edit($event, account)"></i> -->
+              <span>{{account.cache.balance | intCurrency | currency : ''}}</span>
             </li>
           </ul>
 
-          <a class="account__add" ui-sref="user.app.manager.view.account.create">Add an account</a>
+          <button class="app-view__add-account" ng-click="dbCtrl.editAccount()">Add an account</button>
         </div>
       </div>
 

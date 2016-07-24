@@ -16,5 +16,6 @@
   "bower_components/tether-drop/dist/js/drop.js",
   "node_modules/lie/dist/lie.polyfill.js",
   "bower_components/node-uuid/uuid.js",
-  "bower_components/angular-md5/angular-md5.js"
+  "bower_components/angular-md5/angular-md5.js",
+  "bower_components/angular-resizable/src/angular-resizable.js"
 ]

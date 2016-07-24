@@ -1,12 +1,13 @@
-angular.module('financier').controller('dbCtrl', function(db, budgetRecord, data, myBudget, myAccounts, $stateParams, $scope, $q, month) {
+angular.module('financier').controller('dbCtrl', function(account, transaction, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget) {
   let {manager, categories} = data;
-
   const budgetId = $stateParams.budgetId;
 
   const Month = month(budgetId);
+  const Account = account(budgetId);
 
+  this.manager = manager;
   this.categories = categories;
-  this.accounts = myAccounts;
+  this.accounts = manager.accounts;
   this.budgetRecord = budgetRecord;
 
   budgetRecord.open();
@@ -23,30 +24,6 @@ angular.module('financier').controller('dbCtrl', function(db, budgetRecord, data
     }
   );
 
-  const refreshEverything = () => {
-      return $q.all([
-        myBudget.budget(),
-        myBudget.categories.all()
-      ])
-      .then(([_manager, _categories]) => {
-        if (_categories.length) {
-          _manager.propagateRolling(
-            _categories
-              .map((m => m._categories.map(c => c.id)))
-              .reduce((a, b) => a.concat(b))
-          );
-        }
-
-        this.categories = _categories;
-        manager = _manager;
-
-        this.months = getView(this.currentMonth.toDate ? this.currentMonth.toDate() : this.currentMonth);
-      })
-      .catch(e => {
-        throw e;
-      });
-  };
-
   function getView(date) {
     // Make sure that we have the months
     manager.getMonth(date);
@@ -62,4 +39,27 @@ angular.module('financier').controller('dbCtrl', function(db, budgetRecord, data
     }
     throw new Error('Could not find base month in database!');
   }
+
+  this.editAccount = account => {
+    ngDialog.open({
+      template: 'views/modal/editAccount.html',
+      controller: 'editAccountCtrl',
+      controllerAs: 'editAccountCtrl',
+      resolve: {
+        manager: () => manager,
+        myBudg: () => myBudget,
+        myAccount: () => account || new Account(),
+        editing: () => !!account
+      }
+    });
+  };
+
+  const lastWidth = localStorage.getItem('sidebarWidth');
+  if (lastWidth) {
+    this.sidebarInitialWidth = +lastWidth;
+  }
+
+  $scope.$on('angular-resizable.resizeEnd', (e, { width }) => {
+    localStorage.setItem('sidebarWidth', width);
+  });
 });

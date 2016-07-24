@@ -11,6 +11,24 @@ describe('transaction', function() {
     expect(typeof transaction).toBe('function');
   });
 
+  describe('static methods', () => {
+    let Transaction;
+
+    beforeEach(() => {
+      Transaction = transaction('123-123-123-123');
+    });
+
+    it('startKey', () => {
+      expect(Transaction.startKey).toBe('b_123-123-123-123_transaction_');
+    });
+    it('startKey', () => {
+      expect(Transaction.endKey).toBe('b_123-123-123-123_transaction_\uffff');
+    });
+    it('prefix', () => {
+      expect(Transaction.prefix).toBe('b_123-123-123-123_transaction_');
+    });
+  });
+
   it('takes a budgetId and returns Transaction', () => {
     const Transaction = transaction('123-123-123-123');
     const tran = new Transaction({

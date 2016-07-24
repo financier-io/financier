@@ -38,7 +38,11 @@ angular.module('financier').factory('account', uuid => {
         this.transactions = [];
 
         this.cache = {
-          balance: 0
+          clearedBalance: 0,
+          unclearedBalance: 0,
+          get balance() {
+            return this.clearedBalance + this.unclearedBalance;
+          }
         };
       }
 
@@ -49,10 +53,15 @@ angular.module('financier').factory('account', uuid => {
        * to subscribe to for future changes.
       */
       addTransaction(trans) {
-        this._changeBalance(trans.value);
+        this._changeClearedBalance(trans.clearedValue);
+        this._changeUnclearedBalance(trans.unclearedValue);
 
-        trans.subscribeValueChange(val => {
-          this._changeBalance(val);
+        trans.subscribeClearedValueChange(val => {
+          this._changeClearedBalance(val);
+        });
+
+        trans.subscribeUnclearedValueChange(val => {
+          this._changeUnclearedBalance(val);
         });
       }
 
@@ -63,9 +72,11 @@ angular.module('financier').factory('account', uuid => {
        * to unsubscribe from for future changes.
       */
       removeTransaction(trans) {
-        this._changeBalance(-trans.value);
+        this._changeClearedBalance(trans.clearedValue);
+        this._changeUnclearedBalance(trans.unclearedValue);
 
-        trans.subscribeValueChange(null);
+        trans.subscribeClearedValueChange(null);
+        trans.subscribeUnclearedValueChange(null);
       }
 
       /**
@@ -74,8 +85,11 @@ angular.module('financier').factory('account', uuid => {
        * @param {currency} val The relative value to change the balance by.
        * @private
       */
-      _changeBalance(val) {
-        this.cache.balance += val;
+      _changeClearedBalance(val) {
+        this.cache.clearedBalance += val;
+      }
+      _changeUnclearedBalance(val) {
+        this.cache.unclearedBalance += val;
       }
 
       /**

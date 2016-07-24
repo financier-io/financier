@@ -1,66 +1,22 @@
-angular.module('financier').controller('accountCtrl', function(myBudgeter, $rootScope, $scope, $state, $stateParams, myBudget) {
-  // this.accountId = $stateParams.accountId;
+angular.module('financier').controller('accountCtrl', function($stateParams, data) {
+  const {manager, categories} = data;
 
-  // The first load, to prevent flickering
-  this.accounts = myAccounts;
+  this.accountId = $stateParams.accountId;
 
-  // const getAccounts = () => {
-  //   return myBudget.accounts.all()
-  //   .then(accounts => {
-  //     this.accounts = accounts;
-  //     $scope.$apply();
-  //   });
-  // };
+  if ($stateParams.accountId) {
+    this.account = manager.getAccount($stateParams.accountId);
+  } else {
+    this.account = manager.allAccounts;
+  }
 
-  // const getTransactions = () => {
-  //   return myBudget.transactions.all()
-  //   .then(transactions => {
-  //     this.calculateTransactionTotals(transactions);
-  //     $scope.$apply();
-  //   });
-  // };
+  this.transactions = manager.transactions;
 
-  // const calculateTransactionTotals = transactions => {
-  //   this.accountTotals = {};
-  //   this.total = 0;
+  this.isOpen = account => !account.closed;
 
-  //   for (let i = 0; i < transactions.length; i++) {
-  //     if (!this.accountTotals[transactions[i].account]) {
-  //       this.accountTotals[transactions[i].account] = 0;
-  //     }
+  this.totalDisplayed = 100;
 
-  //     this.accountTotals[transactions[i].account] += transactions[i].value;
-  //     this.total += transactions[i].value;
-  //   }
-  // };
-
-  // $rootScope.$on('accounts:update', () => {
-  //   getAccounts();
-  // });
-
-  // $rootScope.$on('transactions:update', () => {
-  //   getTransactions();
-  // });
-
-  // this.remove = account => {
-  //   account.remove();
-
-  //   $scope.$apply();
-  // };
-
-  // this.edit = (e, account) => {
-  //   e.stopPropagation();
-
-  //   $state.go('app.db.account.edit');
-  // };
-
-  // this.isOpen = account => !account.closed;
-
-  // this.transactions = [];
-  // this.totalDisplayed = 100;
-
-  // this.viewMore = function() {
-  //   this.totalDisplayed += 100;
-  // };
+  this.viewMore = function() {
+    this.totalDisplayed += 100;
+  };
 
 });

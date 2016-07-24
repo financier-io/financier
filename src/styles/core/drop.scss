@@ -1,3 +1,12 @@
 .drop__content {
-  font-size: 1rem;
+  font-size: 0.95rem;
+  padding: 0.5em 1em;
+}
+
+.drop__content--small {
+  font-size: 0.8rem;
+}
+
+.drop-element.drop-theme-arrows-bounce .drop-content {
+  padding: 0.5em 0;
 }

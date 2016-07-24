@@ -1,0 +1,21 @@
+.cleared {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  margin-top: 0.25rem;
+  text-align: center;
+  font-size: 1.3em;
+  border-radius: 6px;
+
+  background-color: $light-gray;
+  color: $white;
+
+  cursor: pointer;
+
+  transition: all 150ms ease;
+}
+
+.cleared--true {
+  background-color: $primary;
+}

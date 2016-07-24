@@ -1,0 +1,40 @@
+.flag__options {
+  min-width: 8em;
+}
+
+.flag__option {
+  display: flex;
+  padding: 0.1em 1em;
+
+  transition: all 50ms ease;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: currentColor;
+
+    .flag__label {
+      font-weight: 500;
+      color: $white;
+    }
+
+    .account__flag {
+      // required to over
+      color: rgba(0, 0, 0, 0.3) !important;
+    }
+  }
+}
+
+.flag__label {
+  font-size: 0.8em;
+  font-weight: 300;
+}
+
+.flag__example {
+  flex: 1;
+
+  .account__flag {
+    color: inherit;
+    margin-top: 7px;
+  }
+}

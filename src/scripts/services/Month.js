@@ -48,7 +48,8 @@ angular.module('financier').factory('month', MonthCategory => {
           totalAvailableLastMonth: 0,
           totalOverspent: 0,
           totalOverspentLastMonth: 0,
-          totalIncome: 0 // todo
+          totalIncome: 0, // todo
+          totalOutflow: 0
         };
       }
 
@@ -141,6 +142,25 @@ angular.module('financier').factory('month', MonthCategory => {
        * @todo Not currently used
        */
       addTransaction(trans) {
+        if (trans.category === 'income') {
+          this._addIncome(trans);
+        } else {
+          this._addOutflow(trans);
+        }
+      }
+
+      _addIncome(trans) {
+        const valueChangeFn = val => {
+          this.cache.totalIncome += val;
+          this.changeAvailable(val);
+        };
+
+        valueChangeFn(trans.value);
+
+        trans.subscribeValueChange(valueChangeFn);
+      }
+
+      _addOutflow(trans) {
         const categoryChangeFn = (newCatId, oldCatId) => {
           if (this.categoryCache[oldCatId]) {
             this.categoryCache[oldCatId].balance -= trans.value;
@@ -151,9 +171,10 @@ angular.module('financier').factory('month', MonthCategory => {
           this.categoryCache[newCatId].balance += trans.value;
         };
 
-        const valueChangeFn = changeVal => {
-          this.categoryCache[trans.category].balance += changeVal;
-          this.categoryCache[trans.category].outflow += changeVal;
+        const valueChangeFn = val => {
+          this.categoryCache[trans.category].balance += val;
+          this.categoryCache[trans.category].outflow += val;
+          this.cache.totalOutflow += val;
         };
 
         this.createCategoryCacheIfEmpty(trans.category);

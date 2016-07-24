@@ -1,15 +1,35 @@
-angular.module('financier').controller('editAccountCtrl', function(myAccount, $q, $rootScope, $scope, $stateParams, myBudget, account) {
+angular.module('financier').controller('editAccountCtrl', function(editing, myAccount, manager, myBudg, transaction, $q, $rootScope, $scope, $stateParams) {
+  const Transaction = transaction($stateParams.budgetId);
+
+  this.editing = editing;
+
   this.account = myAccount;
 
   this.submit = () => {
-    // TODO put the beginning transaction
+    const promises = [
+      myBudg.accounts.put(this.account)
+    ];
 
-    $q.all([
-      myBudget.accounts.put(this.account)
-      // todo the transaction here
-    ])
-    .then(() => {
-      $rootScope.$broadcast('accounts:update');
+    let transaction;
+
+    if (this.editing) {
+      transaction = new Transaction({
+        value: this.startingBalance * 100,
+        date: this.startingBalanceDate.toISOString(),
+        category: 'income',
+        account: myAccount.id
+      }, myBudg.transactions.put);
+
+      promises.push(myBudg.transactions.put(transaction));
+    }
+
+    $q.all(promises).then(() => {
+      manager.addAccount(this.account);
+
+      if (transaction) {
+        manager.addTransaction(transaction);
+      }
+
       $scope.closeThisDialog();
     });
 

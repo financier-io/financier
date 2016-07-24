@@ -1,5 +1,30 @@
 <div class="account">
   <div class="account__tbody">
+    <div class="account__tr account__tr--overview">
+      <div class="account__name" ng-click="dbCtrl.editAccount(accountCtrl.account)">{{accountCtrl.account.name}}</div>
+      <div class="account__balance">
+        <div>
+          <div class="account__balance-title">Cleared balance</div>
+          <div class="account__balance-value">{{accountCtrl.account.cache.clearedBalance | intCurrency | currency}}</div>
+        </div>
+      </div>
+      <div class="account__operator">+</div>
+      <div class="account__balance">
+        <div>
+          <div class="account__balance-title">Uncleared balance</div>
+          <div class="account__balance-value">{{accountCtrl.account.cache.unclearedBalance | intCurrency | currency}}</div>
+        </div>
+      </div>
+      <div class="account__operator">=</div>
+      <div class="account__balance">
+        <div>
+          <div class="account__balance-title">Working balance</div>
+          <div class="account__balance-value">{{accountCtrl.account.cache.balance | intCurrency | currency}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="account__tbody">
     <div class="account__tr">
       <button class="account__add-button" ng-click="accountCtrl.createTransaction()"><i class="fa fa-plus"></i> Add a new transaction</button>
       <button class="account__add-button"><i class="fa fa-exchange"></i> Make a transfer</button>
@@ -8,27 +33,29 @@
   <div class="account__thead">
     <div class="account__tr">
       <div class="account__th" ng-if="!accountCtrl.accountId">Account</div>
-      <div class="account__th">Flag</div>
+      <div class="account__th account__th--flag"><div class="account__header-flag"><div></div></div></div>
       <div class="account__th">Date</div>
       <div class="account__th">Payee</div>
       <div class="account__th">Category</div>
       <div class="account__th account__cell-memo">Memo</div>
-      <div class="account__th">Value</div>
-      <div class="account__th">Cleared</div>
+      <div class="account__th account__cell-inflow">Inflow</div>
+      <div class="account__th account__cell-outflow">Outflow</div>
+      <div class="account__th account__cell-cleared">Cleared</div>
     </div>
   </div>
   <div class="account__tbody" infinite-scroll="accountCtrl.viewMore()">
 
-    <div class="account__tr" ng-repeat="transaction in accountCtrl.transactions | limitTo : accountCtrl.totalDisplayed track by transaction.id">
-      <div class="account__td">{{transaction.transaction.account}}</div>
-      <div class="account__td">{{transaction.transaction.flag}}</div>
-      <div class="account__td">{{transaction.transaction.date | date}}</div>
-      <div class="account__td">{{transaction.transaction.payee}}</div>
-      <div class="account__td">{{transaction.categoryId}}</div>
-      <div class="account__td" class="account__cell-memo">{{:: transaction.transaction.memo}}</div>
-      <div class="account__td">{{transaction.transaction.value}}</div>
-      <div class="account__td">{{transaction.transaction.cleared}}</div>
+    <div class="account__tr" ng-repeat="transaction in accountCtrl.transactions | limitTo : accountCtrl.totalDisplayed | filter : { account: accountCtrl.accountId} | orderBy : 'date' : true track by transaction.id">
+      <div class="account__td" ng-if="!accountCtrl.accountId">{{transaction.account}}</div>
+      <div class="account__td account__td--flag"><div class="account__flag" ng-style="{'color': transaction.flag}" flag ng-model="transaction.flag"><div></div></div></div>
+      <div class="account__td">{{transaction.date | date}}</div>
+      <div class="account__td">{{transaction.payee}}</div>
+      <div class="account__td">{{transaction.category}}</div>
+      <div class="account__td account__cell-memo">{{:: transaction.memo}}</div>
+      <div class="account__td account__cell-inflow">{{transaction.inflow | intCurrency | currency}}</div>
+      <div class="account__td account__cell-outflow">{{transaction.outflow | intCurrency | currency}}</div>
+      <div class="account__td account__cell-cleared"><div class="cleared" ng-class="{'cleared--true': transaction.cleared}" ng-click="transaction.cleared = !transaction.cleared">C</div></div>
     </div>
-
   </div>
 </div>
+

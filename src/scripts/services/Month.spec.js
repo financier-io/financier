@@ -1,5 +1,5 @@
 describe('month', function() {
-  let month, Month, transaction, Transaction, Income, MonthCategory;
+  let month, Month, transaction, Transaction, MonthCategory;
 
   function defaultMonth() {
     return {
@@ -9,10 +9,9 @@ describe('month', function() {
 
   beforeEach(module('financier'));
 
-  beforeEach(inject((_month_, _transaction_, _Income_, _MonthCategory_) => {
+  beforeEach(inject((_month_, _transaction_, _MonthCategory_) => {
     month = _month_;
     transaction = _transaction_;
-    Income = _Income_;
     MonthCategory = _MonthCategory_;
   }));
 
@@ -66,26 +65,6 @@ describe('month', function() {
     it('should properly extract date', () => {
       expect(new Month(defaultMonth()).date).toBe('2015-01-01');
     });
-
-    // it('can be removed', () => {
-    //     const foo = {
-    //       change: () => {},
-    //     };
-
-    //     spyOn(foo, 'change');
-
-    //     const mo = new Month(defaultMonth());
-
-    //     mo.subscribeRecordChanges(foo.change);
-
-    //     expect(foo.change).not.toHaveBeenCalled();
-    //     expect(mo.toJSON()._deleted).not.toBeDefined();
-
-    //     mo.remove();
-
-    //     expect(foo.change).toHaveBeenCalledWith(mo);
-    //     expect(mo.toJSON()._deleted).toBe(true);
-    // });
 
     it('should notify budgetChange upon budget update', () => {
       const mo = new Month(defaultMonth(), () => {});
