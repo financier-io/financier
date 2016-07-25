@@ -7,7 +7,9 @@ let financier = angular.module('financier', [
   'ngMessages',
   'angular-ladda-lw',
   'angular-md5',
-  'angularResizable'
+  'angularResizable',
+  'smart-table',
+  'cfp.hotkeys'
 ]).run((offline, $rootScope, $timeout) => {
   offline.register();
 
@@ -124,7 +126,7 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
     .state('user.app.manager.view.account', {
       url: '/account/:accountId',
       templateUrl: 'views/account.html',
-      controller: 'accountCtrl as accountCtrl',
+      controller: 'accountCtrl as accountCtrl'
     })
     .state('user.app.manager.view.reports', {
       url: '/reports',

@@ -79,10 +79,18 @@ angular.module('financier').factory('transaction', uuid => {
         }
       }
 
+      set inflow(v) {
+        this.value = -v;
+      }
+
       get inflow() {
         if (this.value >= 0) {
           return this.value;
         }
+      }
+
+      set inflow(v) {
+        this.value = v;
       }
 
       /**
@@ -180,6 +188,11 @@ angular.module('financier').factory('transaction', uuid => {
       }
 
       set cleared(x) {
+        // Don't do anything if it's the same
+        if (x === this.data.cleared) {
+          return;
+        }
+
         if (x) {
           this._emitUnclearedValueChange(-this.value);
           this._emitClearedValueChange(this.value);

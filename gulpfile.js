@@ -72,7 +72,9 @@ gulp.task('copy:vendor', function() {
     './bower_components/angular-ladda-lw/dist/angular-ladda-lw.js',
     './bower_components/node-uuid/uuid.js',
     './bower_components/angular-md5/angular-md5.js',
-    './bower_components/angular-resizable/src/angular-resizable.js'
+    './bower_components/angular-resizable/src/angular-resizable.js',
+    './bower_components/angular-smart-table/dist/smart-table.js',
+    './bower_components/angular-hotkeys/build/hotkeys.js'
   ])
     .pipe(gulp.dest('dist/vendor'));
 });

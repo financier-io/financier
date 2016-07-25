@@ -10,3 +10,7 @@
 .drop-element.drop-theme-arrows-bounce .drop-content {
   padding: 0.5em 0;
 }
+
+.drop-element.drop-theme-arrows-bounce .drop-content {
+  transition-timing-function: ease-out;
+}

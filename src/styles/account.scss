@@ -64,6 +64,38 @@
   background-color: $primary;
   color: $white;
 
+  &[st-sort] {
+    cursor: pointer;
+    display: flex;
+  }
+
+  span {
+    flex: 1;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-wrap: nowrap;
+  }
+
+  &.st-sort-descent {
+    &:after {
+      content: '\f107';
+    }
+  }
+
+  &.st-sort-ascent {
+    &:after {
+      content: '\f106';
+      margin-top: -1px;
+    }
+  }
+
+  &:after {
+    font-family: 'FontAwesome';
+    font-size: 1.5em;
+    vertical-align: middle;
+  }
+
   &:not(:last-child) {
     border-right: 1px solid rgba(0, 0, 0, 0.2);
   }
@@ -89,8 +121,20 @@
 }
 
 .account__tbody .account__tr {
+  &.st-selected {
+    .account__td {
+      background-color: $blue-hover;
+      color: $white;
+    }
+  }
+
   &:nth-child(even) {
     background-color: lighten($primary, 42%);
+  }
+
+  &.account__tr--editing {
+    background-color: $blue-hover;
+    color: $white;
   }
 }
 
@@ -141,6 +185,9 @@
   text-overflow: ellipsis;
   font-size: 0.9em;
   line-height: 2rem;
+
+  // Prevent shift from selecting text
+  user-select: none;
 }
 
 .account__cell-memo {
@@ -162,6 +209,11 @@
   width: 55px;
 }
 
+.account__th--select,
+.account__td--select {
+  width: 35px;
+}
+
 .account__flag {
   cursor: pointer;
 }
@@ -175,5 +227,92 @@
   &:focus {
     text-decoration: underline;
     outline: 0;
+  }
+
+  .fa-sort-desc {
+    padding-top: 1px;
+    vertical-align: top;
+  }
+}
+
+.account__tr--editing {
+  position: relative;
+
+  input {
+    color: black;
+  }
+}
+
+.account__editing-buttons {
+  position: absolute;
+  bottom: calc(-2rem - 6px);
+  right: 4rem;
+  background-color: $blue-hover;
+  padding: 0 6px 6px;
+  margin: 0;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+
+  &:before {
+    content: '';
+    position: absolute;
+    border: 9px solid #008bb3;
+    border-radius: 22px;
+    background: none;
+    left: -26px;
+    border-left: none;
+    top: -6px;
+    width: 38px;
+    height: 36px;
+    border-top-width: 6px;
+    border-bottom: none;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 0;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    border: 9px solid #008bb3;
+    border-radius: 22px;
+    background: none;
+    right: -26px;
+    border-right: none;
+    top: -6px;
+    width: 38px;
+    height: 36px;
+    border-top-width: 6px;
+    border-bottom: none;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+}
+
+.account__editing-button {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  line-height: 2rem;
+  display: inline-block;
+  padding: 0 1em;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  font-weight: 300;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  &:not(:last-child) {
+    margin-right: 6px;
+  }
+}
+
+.account__editing-button--save {
+  background-color: $primary;
+
+  &:hover {
+    background-color: darken($primary, 10%);
   }
 }

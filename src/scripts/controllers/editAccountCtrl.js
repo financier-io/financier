@@ -12,7 +12,7 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
 
     let transaction;
 
-    if (this.editing) {
+    if (!this.editing) {
       transaction = new Transaction({
         value: this.startingBalance * 100,
         date: this.startingBalanceDate.toISOString(),

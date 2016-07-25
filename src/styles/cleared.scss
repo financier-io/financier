@@ -8,7 +8,7 @@
   font-size: 1.3em;
   border-radius: 6px;
 
-  background-color: $light-gray;
+  background-color: transparentize($light-gray, 0.3);
   color: $white;
 
   cursor: pointer;

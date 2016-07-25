@@ -1,11 +1,10 @@
-angular.module('financier').directive('flag', ($sce, $templateRequest, $templateCache, $compile, $timeout) => {
+angular.module('financier').directive('bulkEditTransactions', ($sce, $templateRequest, $templateCache, $compile, $timeout) => {
 
   function link(scope, element, attrs, ngModelCtrl) {
     element.on('click', event => {
-
       event.stopPropagation();
 
-      const templateUrl = $sce.getTrustedResourceUrl('/scripts/directives/account/flag.html');
+      const templateUrl = $sce.getTrustedResourceUrl('/scripts/directives/account/bulkEditTransactions.html');
 
       $templateRequest(templateUrl).then(template => {
         const wrap = angular.element('<div></div>').append(template);
@@ -22,6 +21,7 @@ angular.module('financier').directive('flag', ($sce, $templateRequest, $template
           content: content[0],
           classes: 'drop-theme-arrows-bounce',
           openOn: 'click',
+          position: 'bottom center',
           constrainToWindow: true,
           constrainToScrollParent: false,
           tetherOptions: {
@@ -32,24 +32,7 @@ angular.module('financier').directive('flag', ($sce, $templateRequest, $template
           }
         });
 
-        dropInstance.on('open', () => {
-          scope.flag = ngModelCtrl.$viewValue;
-        });
-
-        dropInstance.on('close', () => {
-          scope.flag = ngModelCtrl.$viewValue;
-
-          $timeout(() => {
-            dropInstance.destroy();
-          });
-        });
-
-        scope.submit = flag => {
-          ngModelCtrl.$setViewValue(flag);
-
-          dropInstance.close();
-        };
-
+        scope.close = () => dropInstance.destroy();
 
         dropInstance.open();
       });
@@ -59,8 +42,10 @@ angular.module('financier').directive('flag', ($sce, $templateRequest, $template
 
   return {
     restrict: 'A',
-    require: 'ngModel',
-    controller: 'flagCtrl as flagCtrl',
+    controller: 'bulkEditTransactionsCtrl as bulkEditTransactionsCtrl',
+    link: {
+      bulkEditTransactions: '='
+    },
     link
   };
 });

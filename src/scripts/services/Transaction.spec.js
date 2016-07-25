@@ -332,7 +332,11 @@ describe('transaction', function() {
 
       expect(tran.toJSON().cleared).toBe(false);
 
-      tran.cleared = true;
+      tran.cleared = false;
+
+      expect(foo.change).not.toHaveBeenCalled();
+
+      trans.cleared = true;
 
       expect(tran.toJSON().cleared).toBe(true);
       expect(foo.change).toHaveBeenCalledWith(tran);
