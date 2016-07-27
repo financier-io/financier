@@ -161,28 +161,11 @@ angular.module('financier').factory('month', MonthCategory => {
       }
 
       _addOutflow(trans) {
-        const categoryChangeFn = (newCatId, oldCatId) => {
-          if (this.categoryCache[oldCatId]) {
-            this.categoryCache[oldCatId].balance -= trans.value;
-          }
-
-          this.createCategoryCacheIfEmpty(newCatId);
-
-          this.categoryCache[newCatId].balance += trans.value;
-        };
-
-        const valueChangeFn = val => {
-          this.categoryCache[trans.category].balance += val;
-          this.categoryCache[trans.category].outflow += val;
-          this.cache.totalOutflow += val;
-        };
-
         this.createCategoryCacheIfEmpty(trans.category);
 
-        valueChangeFn(trans.value);
-
-        trans.subscribeCategoryChange(categoryChangeFn);
-        trans.subscribeValueChange(valueChangeFn);
+        this.categoryCache[trans.category].balance += trans.value;
+        this.categoryCache[trans.category].outflow += trans.value;
+        this.cache.totalOutflow += trans.value;
       }
 
       /**

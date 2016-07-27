@@ -400,34 +400,6 @@ describe('month', function() {
 
         expect(mo.categoryCache['123-123-123-123'].outflow).toBe(-300);
       });
-
-      it('adjusts balance when value change', () => {
-        const mo = new Month(defaultMonth(), () => {}),
-          trans = new Transaction({
-            value: -300,
-            category: '123-123-123-123'
-          });
-
-        mo.addTransaction(trans);
-
-        trans.value = -100;
-
-        expect(mo.categoryCache['123-123-123-123'].balance).toBe(-100);
-      });
-
-      it('adjusts outflow when value change', () => {
-        const mo = new Month(defaultMonth(), () => {}),
-          trans = new Transaction({
-            value: -300,
-            category: '123-123-123-123'
-          });
-
-        mo.addTransaction(trans);
-
-        trans.value = -100;
-
-        expect(mo.categoryCache['123-123-123-123'].outflow).toBe(-100);
-      });
     });
 
     describe('startRolling', () => {

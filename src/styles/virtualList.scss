@@ -1,0 +1,14 @@
+virtual-list {
+  overflow-y: auto;
+  display: block;
+  flex: 1;
+
+  .canvas {
+    position: relative;
+  }
+
+  .renderer {
+    position: absolute;
+    width: 100%;
+  }
+}

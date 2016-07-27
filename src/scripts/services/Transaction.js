@@ -38,25 +38,14 @@ angular.module('financier').factory('transaction', uuid => {
 
       /**
        * The currency value of the transaction.
-       * Will call record and value subscribers upon change.
+       * Will call record, value and cleared or uncleared (depending on state
+       * of `cleared`) subscribers upon change.
        *
        * Negative value = outflow, positive = inflow.
        *
        * @type {currency}
        */
       get value() {
-        return this.data.value;
-      }
-      get clearedValue() {
-        if (!this.cleared) {
-          return 0;
-        }
-        return this.data.value;
-      }
-      get unclearedValue() {
-        if (this.cleared) {
-          return 0;
-        }
         return this.data.value;
       }
 
@@ -70,6 +59,9 @@ angular.module('financier').factory('transaction', uuid => {
         } else {
           this._emitUnclearedValueChange(x - oldValue);
         }
+
+        this._emitValueChange(x - oldValue);
+
         this._emitChange();
       }
 
@@ -79,7 +71,7 @@ angular.module('financier').factory('transaction', uuid => {
         }
       }
 
-      set inflow(v) {
+      set outflow(v) {
         this.value = -v;
       }
 
@@ -121,11 +113,8 @@ angular.module('financier').factory('transaction', uuid => {
       }
 
       set category(x) {
-        const oldCategory = this.data.category;
-
         this.data.category = x;
 
-        this._emitCategoryChange(x, oldCategory);
         this._emitChange();
       }
 
@@ -179,7 +168,11 @@ angular.module('financier').factory('transaction', uuid => {
 
       /**
        * Whether the transaction is cleared.
-       * Will call subscriber when changes.
+       * Will call subscriber if changes.
+       *
+       * Will also call cleared and uncleared subscribers
+       * with the inverse of the current `value` (swapping the value
+       * from cleared to uncleared or vice versa).
        *
        * @type {boolean}
        */
@@ -211,7 +204,7 @@ angular.module('financier').factory('transaction', uuid => {
        *
        * @example
        * const trans = new Transaction();
-       * trans.flag = 'ff0000'
+       * trans.flag = '#ff0000'
        *
        * @type {color}
        */
@@ -245,7 +238,10 @@ angular.module('financier').factory('transaction', uuid => {
       }
 
       /**
-       * Used to set the function to invoke upon value changes.
+       * Used to set the function to invoke upon uncleared value changes.
+       *
+       * Can only accept one value change fn, and will overwrite the previous
+       * one.
        *
        * @param {function} fn - This function will be invoked upon value
        * changes with the amount the value has changed as the first parameter.
@@ -253,22 +249,59 @@ angular.module('financier').factory('transaction', uuid => {
       subscribeValueChange(fn) {
         this.subscribeValueChangeFn = fn;
       }
+
+      /**
+       * Used to set the function(s) to invoke upon cleared value changes.
+       *
+       * @param {function} fn - This function will be invoked upon value
+       * changes with the amount the value has changed as the first parameter,
+       * but only when/if the value is cleared.
+      */
       subscribeClearedValueChange(fn) {
         this.subscribeClearedValueChangeFn.push(fn);
       }
-      subscribeUnclearedValueChange(fn) {
-        this.subscribeUnclearedValueChangeFn.push(fn);
+
+      /**
+       * Used to unset the function to invoke upon cleared value changes.
+       *
+       * @param {function} fn - The function reference originally provided
+       * to subscribeClearedValueChange.
+      */
+      unsubscribeClearedValueChange(fn) {
+        const index = this.subscribeClearedValueChangeFn.indexOf(fn);
+
+        if (index > -1) {
+          this.subscribeClearedValueChangeFn.splice(index, 1);
+        } else {
+          throw new Error('Subscriber does not exist', fn);
+        }
       }
 
       /**
-       * Used to set the function to invoke upon value changes.
+       * Used to unset the function to invoke upon uncleared value changes.
+       *
+       * @param {function} fn - The function reference originally provided
+       * to subscribeUnclearedValueChange.
+      */
+      unsubscribeUnclearedValueChange(fn) {
+        const index = this.subscribeUnclearedValueChangeFn.indexOf(fn);
+
+        if (index > -1) {
+          this.subscribeUnclearedValueChangeFn.splice(index, 1);
+        } else {
+          throw new Error('Subscriber does not exist', fn);
+        }
+      }
+
+      /**
+       * Used to set the function(s) to invoke upon value changes.
        *
        * @param {function} fn - This function will be invoked upon value
-       * changes with the new category ID as the first parameter, and the
-       * old as the second.
+       * changes with the amount the value has changed as the first parameter,
+       * but only when/if the value is uncleared.
       */
-      subscribeCategoryChange(fn) {
-        this.subscribeCategoryChangeFn = fn;
+      subscribeUnclearedValueChange(fn) {
+        this.subscribeUnclearedValueChangeFn.push(fn);
       }
 
       /**
@@ -280,25 +313,29 @@ angular.module('financier').factory('transaction', uuid => {
       _emitValueChange(val) {
         return this.subscribeValueChangeFn && this.subscribeValueChangeFn(val);
       }
+
+      /**
+       * Will call the subscribed value function, if it exists, with how much
+       * the cleared value has changed by.
+       *
+       * @private
+      */
       _emitClearedValueChange(val) {
         for (let i = 0; i < this.subscribeClearedValueChangeFn.length; i++) {
           this.subscribeClearedValueChangeFn[i](val);
         }
       }
+
+      /**
+       * Will call the subscribed value function, if it exists, with how much
+       * the uncleared value has changed by.
+       *
+       * @private
+      */
       _emitUnclearedValueChange(val) {
         for (let i = 0; i < this.subscribeUnclearedValueChangeFn.length; i++) {
           this.subscribeUnclearedValueChangeFn[i](val);
         }
-      }
-
-      /**
-       * Will call the subscribed category function, if it exists, with the
-       * new category ID as the first parameter, and the old as the second.
-       *
-       * @private
-      */
-      _emitCategoryChange(newCat, oldCat) {
-        return this.subscribeCategoryChangeFn && this.subscribeCategoryChangeFn(newCat, oldCat);
       }
 
       /**

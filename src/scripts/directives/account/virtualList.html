@@ -1,0 +1,54 @@
+<div class="canvas" ng-style="canvasHeight">
+  <div class="renderer"
+       ng-repeat="virtual in visibleProvider track by displayedTransactions[virtual.i].id"
+       ng-style="virtual.styles"
+       ng-class="{'account__tr--odd': virtual.oddOffset}">
+    <div class="account__tr"
+         ng-if="accountCtrl.editingTransaction !== displayedTransactions[virtual.i]"
+         ng-click="accountCtrl.selectRow($event, virtual.i)"
+         ng-class="{'st-selected': accountCtrl.isTransactionSelected(displayedTransactions[virtual.i])}">
+      <div class="account__td account__td--select" ng-click="accountCtrl.toggle(virtual.i, $event)">
+        <input type="checkbox" ng-model="accountCtrl.selectGetterSetter(displayedTransactions[virtual.i])" ng-model-options="{ getterSetter: true }">
+      </div>
+      <div class="account__td" ng-if="!accountCtrl.accountId">{{displayedTransactions[virtual.i].account}}</div>
+      <div class="account__td account__td--flag"><div class="account__flag" ng-style="{'color': displayedTransactions[virtual.i].flag}" flag ng-model="displayedTransactions[virtual.i].flag"><div></div></div></div>
+      <div class="account__td">{{displayedTransactions[virtual.i].date | date}}</div>
+      <div class="account__td">{{displayedTransactions[virtual.i].payee}}</div>
+      <div class="account__td">{{displayedTransactions[virtual.i].category}}</div>
+      <div class="account__td account__cell-memo">{{displayedTransactions[virtual.i].memo}}</div>
+      <div class="account__td account__cell-inflow">{{displayedTransactions[virtual.i].inflow | intCurrency | currency}}</div>
+      <div class="account__td account__cell-outflow">{{displayedTransactions[virtual.i].outflow | intCurrency | currency}}</div>
+      <div class="account__td account__cell-cleared"><div class="cleared" ng-class="{'cleared--true': displayedTransactions[virtual.i].cleared}" ng-click="accountCtrl.setCleared($event, displayedTransactions[virtual.i])">C</div></div>
+    </div>
+    <div ng-if="accountCtrl.editingTransaction === displayedTransactions[virtual.i]"
+         class="account__tr account__tr--editing"
+         hotkey="{esc: accountCtrl.stopEditing}"
+         ng-click="$event.stopPropagation()">
+      <div class="account__td account__td--select" ng-click="accountCtrl.toggle(virtual.i, $event)">
+        <input type="checkbox" ng-model="accountCtrl.selectGetterSetter(displayedTransactions[virtual.i])" ng-model-options="{ getterSetter: true }">
+      </div>
+      <div class="account__td" ng-if="!accountCtrl.accountId">{{displayedTransactions[virtual.i].account}}</div>
+      <div class="account__td account__td--flag"><div class="account__flag" ng-style="{'color': displayedTransactions[virtual.i].flag}" flag ng-model="displayedTransactions[virtual.i].flag"><div></div></div></div>
+      <div class="account__td">{{displayedTransactions[virtual.i].date | date}}</div>
+      <div class="account__td">{{displayedTransactions[virtual.i].payee}}</div>
+      <div class="account__td">{{displayedTransactions[virtual.i].category}}</div>
+      <div class="account__td account__cell-memo">{{displayedTransactions[virtual.i].memo}}</div>
+      <div class="account__td account__cell-inflow">
+        <input type="text" ng-model="displayedTransactions[virtual.i].inflow">
+      </div>
+      <div class="account__td account__cell-outflow">
+        <input type="text" ng-model="displayedTransactions[virtual.i].outflow">
+      </div>
+      <div class="account__td account__cell-cleared"><div class="cleared" ng-class="{'cleared--true': displayedTransactions[virtual.i].cleared}" ng-click="accountCtrl.setCleared($event, displayedTransactions[virtual.i])">C</div></div>
+
+      <ul class="account__editing-buttons">
+        <li class="account__editing-button account__editing-button--save">Save</li><li class="account__editing-button" ng-click="accountCtrl.stopEditing()">Cancel</li>
+      </ul>
+
+    </div>
+    
+  </div>
+
+  <br><br><br>
+
+</div>

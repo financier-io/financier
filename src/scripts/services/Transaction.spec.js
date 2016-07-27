@@ -99,11 +99,97 @@ describe('transaction', function() {
     });
   });
 
+  describe('inflow', () => {
+    let Transaction;
+
+    beforeEach(() => {
+      Transaction = transaction('111-111-111-111');
+    });
+
+    it('sets value', () => {
+      const tran = new Transaction();
+
+      tran.inflow = 123;
+
+      expect(tran.inflow).toBe(123);
+      expect(tran.value).toBe(123);
+      expect(tran.data.value).toBe(123);
+    });
+
+    it('is undefined with negative value', () => {
+      const tran = new Transaction();
+
+      tran.value = -123;
+
+      expect(tran.inflow).toBeUndefined();
+      expect(tran.data.inflow).toBeUndefined();
+    });
+
+    it('calls subscriber', () => {
+      const foo = {
+        change: () => {}
+      };
+
+      spyOn(foo, 'change');
+
+      const tran = new Transaction();
+
+      tran.subscribeValueChange(foo.change);
+
+      tran.inflow = 123;
+
+      expect(foo.change).toHaveBeenCalledWith(123);
+    });
+  });
+
+  describe('outflow', () => {
+    let Transaction;
+
+    beforeEach(() => {
+      Transaction = transaction('111-111-111-111');
+    });
+
+    it('sets value', () => {
+      const tran = new Transaction();
+
+      tran.outflow = 123;
+
+      expect(tran.outflow).toBe(123);
+      expect(tran.value).toBe(-123);
+      expect(tran.data.value).toBe(-123);
+    });
+
+    it('is undefined with postive value', () => {
+      const tran = new Transaction();
+
+      tran.value = 123;
+
+      expect(tran.outflow).toBeUndefined();
+      expect(tran.data.outflow).toBeUndefined();
+    });
+
+    it('calls subscriber', () => {
+      const foo = {
+        change: () => {}
+      };
+
+      spyOn(foo, 'change');
+
+      const tran = new Transaction();
+
+      tran.subscribeValueChange(foo.change);
+
+      tran.outflow = 123;
+
+      expect(foo.change).toHaveBeenCalledWith(-123);
+    });
+  });
+
   it('can be removed', () => {
       const Transaction = transaction('111-111-111-111');
 
       const foo = {
-        change: () => {},
+        change: () => {}
       };
 
       spyOn(foo, 'change');
@@ -132,7 +218,7 @@ describe('transaction', function() {
 
     it('send a value to the value subscriber', () => {
       const foo = {
-        change: () => {},
+        change: () => {}
       };
 
       spyOn(foo, 'change');
@@ -148,31 +234,6 @@ describe('transaction', function() {
     });
   });
 
-  describe('_emitCategoryChange', () => {
-    let Transaction;
-
-    beforeEach(() => {
-      Transaction = transaction('111-111-111-111');
-    });
-
-    it('send new and old category IDs to the category subscriber', () => {
-      const foo = {
-        change: () => {},
-      };
-
-      spyOn(foo, 'change');
-
-      let tran = new Transaction();
-      tran.subscribeCategoryChange(foo.change);
-
-      expect(foo.change).not.toHaveBeenCalled();
-
-      tran._emitCategoryChange('some-new-id', 'some-old-id');
-
-      expect(foo.change).toHaveBeenCalledWith('some-new-id', 'some-old-id');
-    });
-  });
-
   describe('pub/sub value', () => {
     let Transaction;
 
@@ -182,7 +243,7 @@ describe('transaction', function() {
 
     it('value', () => {
       const foo = {
-        change: () => {},
+        change: () => {}
       };
 
       spyOn(foo, 'change');
@@ -202,32 +263,263 @@ describe('transaction', function() {
     });
   });
 
-  describe('pub/sub category', () => {
+  describe('subscribeClearedValueChange subscription', () => {
     let Transaction;
 
     beforeEach(() => {
       Transaction = transaction('111-111-111-111');
     });
 
-    it('value', () => {
+    it('emits when transaction is cleared and value changes', () => {
       const foo = {
-        change: () => {},
+        change: () => {}
       };
 
       spyOn(foo, 'change');
 
       let tran = new Transaction();
-      tran.subscribeCategoryChange(foo.change);
+      tran.cleared = true;
+
+      tran.subscribeClearedValueChange(foo.change);
 
       expect(foo.change).not.toHaveBeenCalled();
 
-      tran.category = 'boom';
+      tran.value = 123;
 
-      expect(foo.change).toHaveBeenCalledWith('boom', null);
+      expect(foo.change).toHaveBeenCalledWith(123);
+    });
 
-      tran.category = 'new-cat';
+    it('emits when transaction changes cleared to uncleared', () => {
+      const foo = {
+        change: () => {}
+      };
 
-      expect(foo.change).toHaveBeenCalledWith('new-cat', 'boom');
+      spyOn(foo, 'change');
+
+      let tran = new Transaction();
+      tran.cleared = true;
+      tran.value = 123;
+      tran.subscribeClearedValueChange(foo.change);
+
+      tran.cleared = false;
+
+      expect(foo.change).toHaveBeenCalledWith(-123);
+    });
+
+    it('emits when transaction changes uncleared to cleared', () => {
+      const foo = {
+        change: () => {}
+      };
+
+      spyOn(foo, 'change');
+
+      let tran = new Transaction();
+      tran.cleared = false;
+      tran.value = 123;
+      tran.subscribeClearedValueChange(foo.change);
+
+      tran.cleared = true;
+
+      expect(foo.change).toHaveBeenCalledWith(123);
+    });
+
+    it('does not emit when transaction is uncleared and value changes', () => {
+      const foo = {
+        change: () => {}
+      };
+
+      spyOn(foo, 'change');
+
+      let tran = new Transaction();
+      tran.cleared = false;
+
+      tran.subscribeClearedValueChange(foo.change);
+
+      expect(foo.change).not.toHaveBeenCalled();
+
+      tran.value = 123;
+
+      expect(foo.change).not.toHaveBeenCalled();
+    });
+
+    it('emits to multiple subscribers', () => {
+      const foo = {
+        change1: () => {},
+        change2: () => {}
+      };
+
+      spyOn(foo, 'change1');
+      spyOn(foo, 'change2');
+
+      let tran = new Transaction();
+      tran.cleared = true;
+
+      tran.subscribeClearedValueChange(foo.change1);
+      tran.subscribeClearedValueChange(foo.change2);
+
+      expect(foo.change1).not.toHaveBeenCalled();
+      expect(foo.change2).not.toHaveBeenCalled();
+
+      tran.value = 123;
+
+      expect(foo.change1).toHaveBeenCalledWith(123);
+      expect(foo.change2).toHaveBeenCalledWith(123);
+    });
+
+    it('can unsubscribe', () => {
+      const foo = {
+        change: () => {}
+      };
+
+      spyOn(foo, 'change');
+
+      let tran = new Transaction();
+      tran.cleared = true;
+
+      tran.subscribeClearedValueChange(foo.change);
+      tran.unsubscribeClearedValueChange(foo.change);
+
+      tran.value = 123;
+
+      expect(foo.change).not.toHaveBeenCalled();
+    });
+
+    it('throws if unsubscriber does not exist', () => {
+      let tran = new Transaction();
+
+      expect(() => {
+        tran.unsubscribeClearedValueChange(angular.noop);
+      }).toThrow();
+    });
+  });
+
+  describe('subscribeUnclearedValueChange subscription', () => {
+    let Transaction;
+
+    beforeEach(() => {
+      Transaction = transaction('111-111-111-111');
+    });
+
+    it('emits when transaction is uncleared and value changes', () => {
+      const foo = {
+        change: () => {}
+      };
+
+      spyOn(foo, 'change');
+
+      let tran = new Transaction();
+      tran.cleared = false;
+
+      tran.subscribeUnclearedValueChange(foo.change);
+
+      expect(foo.change).not.toHaveBeenCalled();
+
+      tran.value = 123;
+
+      expect(foo.change).toHaveBeenCalledWith(123);
+    });
+
+    it('emits when transaction changes cleared to uncleared', () => {
+      const foo = {
+        change: () => {}
+      };
+
+      spyOn(foo, 'change');
+
+      let tran = new Transaction();
+      tran.cleared = true;
+      tran.value = 123;
+      tran.subscribeUnclearedValueChange(foo.change);
+
+      tran.cleared = false;
+
+      expect(foo.change).toHaveBeenCalledWith(123);
+    });
+
+    it('emits when transaction changes uncleared to cleared', () => {
+      const foo = {
+        change: () => {}
+      };
+
+      spyOn(foo, 'change');
+
+      let tran = new Transaction();
+      tran.cleared = false;
+      tran.value = 123;
+      tran.subscribeUnclearedValueChange(foo.change);
+
+      tran.cleared = true;
+
+      expect(foo.change).toHaveBeenCalledWith(-123);
+    });
+
+    it('does not emit when transaction is cleared and value changes', () => {
+      const foo = {
+        change: () => {}
+      };
+
+      spyOn(foo, 'change');
+
+      let tran = new Transaction();
+      tran.cleared = true;
+
+      tran.subscribeUnclearedValueChange(foo.change);
+
+      expect(foo.change).not.toHaveBeenCalled();
+
+      tran.value = 123;
+
+      expect(foo.change).not.toHaveBeenCalled();
+    });
+
+    it('emits to multiple subscribers', () => {
+      const foo = {
+        change1: () => {},
+        change2: () => {}
+      };
+
+      spyOn(foo, 'change1');
+      spyOn(foo, 'change2');
+
+      let tran = new Transaction();
+      tran.cleared = false;
+
+      tran.subscribeUnclearedValueChange(foo.change1);
+      tran.subscribeUnclearedValueChange(foo.change2);
+
+      expect(foo.change1).not.toHaveBeenCalled();
+      expect(foo.change2).not.toHaveBeenCalled();
+
+      tran.value = 123;
+
+      expect(foo.change1).toHaveBeenCalledWith(123);
+      expect(foo.change2).toHaveBeenCalledWith(123);
+    });
+
+    it('can unsubscribe', () => {
+      const foo = {
+        change: () => {}
+      };
+
+      spyOn(foo, 'change');
+
+      let tran = new Transaction();
+      tran.cleared = false;
+
+      tran.subscribeUnclearedValueChange(foo.change);
+      tran.unsubscribeUnclearedValueChange(foo.change);
+
+      tran.value = 123;
+
+      expect(foo.change).not.toHaveBeenCalled();
+    });
+
+    it('throws if unsubscriber does not exist', () => {
+      let tran = new Transaction();
+
+      expect(() => {
+        tran.unsubscribeUnclearedValueChange(angular.noop);
+      }).toThrow();
     });
   });
 
@@ -240,7 +532,7 @@ describe('transaction', function() {
 
     it('value', () => {
       const foo = {
-        change: () => {},
+        change: () => {}
       };
 
       spyOn(foo, 'change');
@@ -260,7 +552,7 @@ describe('transaction', function() {
 
     it('account', () => {
       const foo = {
-        change: () => {},
+        change: () => {}
       };
 
       spyOn(foo, 'change');
@@ -280,7 +572,7 @@ describe('transaction', function() {
 
     it('payee', () => {
       const foo = {
-        change: () => {},
+        change: () => {}
       };
 
       spyOn(foo, 'change');
@@ -300,7 +592,7 @@ describe('transaction', function() {
 
     it('memo', () => {
       const foo = {
-        change: () => {},
+        change: () => {}
       };
 
       spyOn(foo, 'change');
@@ -320,7 +612,7 @@ describe('transaction', function() {
 
     it('cleared', () => {
       const foo = {
-        change: () => {},
+        change: () => {}
       };
 
       spyOn(foo, 'change');
@@ -336,7 +628,7 @@ describe('transaction', function() {
 
       expect(foo.change).not.toHaveBeenCalled();
 
-      trans.cleared = true;
+      tran.cleared = true;
 
       expect(tran.toJSON().cleared).toBe(true);
       expect(foo.change).toHaveBeenCalledWith(tran);
@@ -344,7 +636,7 @@ describe('transaction', function() {
 
     it('flag', () => {
       const foo = {
-        change: () => {},
+        change: () => {}
       };
 
       spyOn(foo, 'change');
@@ -354,14 +646,102 @@ describe('transaction', function() {
 
       expect(foo.change).not.toHaveBeenCalled();
 
-      expect(tran.toJSON().flag).toBe(false);
+      expect(tran.toJSON().flag).toBe(null);
 
-      tran.flag = true;
+      tran.flag = '#ff0000';
 
-      expect(tran.toJSON().flag).toBe(true);
+      expect(tran.toJSON().flag).toBe('#ff0000');
+      expect(tran.flag).toBe('#ff0000');
       expect(foo.change).toHaveBeenCalledWith(tran);
     });
 
+    it('category', () => {
+      const foo = {
+        change: () => {}
+      };
+
+      spyOn(foo, 'change');
+
+      let tran = new Transaction();
+      tran.subscribe(foo.change);
+
+      expect(foo.change).not.toHaveBeenCalled();
+
+      expect(tran.category).toBe(null);
+      expect(tran.toJSON().category).toBe(null);
+
+      tran.category = '123-123-123-123';
+
+      expect(tran.toJSON().category).toBe('123-123-123-123');
+      expect(tran.category).toBe('123-123-123-123');
+      expect(foo.change).toHaveBeenCalledWith(tran);
+    });
+
+    it('account', () => {
+      const foo = {
+        change: () => {}
+      };
+
+      spyOn(foo, 'change');
+
+      let tran = new Transaction();
+      tran.subscribe(foo.change);
+
+      expect(foo.change).not.toHaveBeenCalled();
+
+      expect(tran.account).toBe(null);
+      expect(tran.toJSON().account).toBe(null);
+
+      tran.account = '123-123-123-123';
+
+      expect(tran.toJSON().account).toBe('123-123-123-123');
+      expect(tran.account).toBe('123-123-123-123');
+      expect(foo.change).toHaveBeenCalledWith(tran);
+    });
+
+    it('payee', () => {
+      const foo = {
+        change: () => {}
+      };
+
+      spyOn(foo, 'change');
+
+      let tran = new Transaction();
+      tran.subscribe(foo.change);
+
+      expect(foo.change).not.toHaveBeenCalled();
+
+      expect(tran.payee).toBe(null);
+      expect(tran.toJSON().payee).toBe(null);
+
+      tran.payee = '123-123-123-123';
+
+      expect(tran.toJSON().payee).toBe('123-123-123-123');
+      expect(tran.payee).toBe('123-123-123-123');
+      expect(foo.change).toHaveBeenCalledWith(tran);
+    });
+
+    it('memo', () => {
+      const foo = {
+        change: () => {}
+      };
+
+      spyOn(foo, 'change');
+
+      let tran = new Transaction();
+      tran.subscribe(foo.change);
+
+      expect(foo.change).not.toHaveBeenCalled();
+
+      expect(tran.memo).toBe(null);
+      expect(tran.toJSON().memo).toBe(null);
+
+      tran.memo = '123-123-123-123';
+
+      expect(tran.toJSON().memo).toBe('123-123-123-123');
+      expect(tran.memo).toBe('123-123-123-123');
+      expect(foo.change).toHaveBeenCalledWith(tran);
+    });
 
     it('cannot set _id', () => {
       let tran = new Transaction({

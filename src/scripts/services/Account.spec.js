@@ -170,17 +170,31 @@ describe('account', function() {
     });
   });
 
-  describe('_changeBalance', () => {
-    it('changes the balance by a given amount', () => {
+  describe('_changeClearedBalance', () => {
+    it('changes the cleared balance by a given amount', () => {
       const acc = new Account();
 
-      acc._changeBalance(20);
+      acc._changeClearedBalance(20);
 
-      expect(acc.balance).toBe(20);
+      expect(acc.cache.clearedBalance).toBe(20);
 
-      acc._changeBalance(-35);
+      acc._changeClearedBalance(-35);
 
-      expect(acc.balance).toBe(-15);
+      expect(acc.cache.clearedBalance).toBe(-15);
+    });
+  });
+
+  describe('_changeUnclearedBalance', () => {
+    it('changes the uncleared balance by a given amount', () => {
+      const acc = new Account();
+
+      acc._changeUnclearedBalance(20);
+
+      expect(acc.cache.unclearedBalance).toBe(20);
+
+      acc._changeUnclearedBalance(-35);
+
+      expect(acc.cache.unclearedBalance).toBe(-15);
     });
   });
 

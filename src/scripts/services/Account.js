@@ -44,6 +44,14 @@ angular.module('financier').factory('account', uuid => {
             return this.clearedBalance + this.unclearedBalance;
           }
         };
+
+        this._clearedValueChangeFn = val => {
+          this._changeClearedBalance(val);
+        };
+
+        this._unclearedValueChangeFn = val => {
+          this._changeUnclearedBalance(val);
+        };
       }
 
       /**
@@ -53,16 +61,17 @@ angular.module('financier').factory('account', uuid => {
        * to subscribe to for future changes.
       */
       addTransaction(trans) {
-        this._changeClearedBalance(trans.clearedValue);
-        this._changeUnclearedBalance(trans.unclearedValue);
+        this.transactions.push(trans);
 
-        trans.subscribeClearedValueChange(val => {
-          this._changeClearedBalance(val);
-        });
+        if (trans.cleared) {
+          this._changeClearedBalance(trans.value);
+        } else {
+          this._changeUnclearedBalance(trans.value);
+        }
 
-        trans.subscribeUnclearedValueChange(val => {
-          this._changeUnclearedBalance(val);
-        });
+        trans.subscribeClearedValueChange(this._clearedValueChangeFn);
+
+        trans.subscribeUnclearedValueChange(this._unclearedValueChangeFn);
       }
 
       /**
@@ -72,22 +81,34 @@ angular.module('financier').factory('account', uuid => {
        * to unsubscribe from for future changes.
       */
       removeTransaction(trans) {
-        this._changeClearedBalance(trans.clearedValue);
-        this._changeUnclearedBalance(trans.unclearedValue);
+        if (this.cleared) {
+          this._changeClearedBalance(-trans.value);
+        } else {
+          this._changeUnclearedBalance(-trans.value);
+        }
 
-        trans.subscribeClearedValueChange(null);
-        trans.subscribeUnclearedValueChange(null);
+        trans.unsubscribeClearedValueChange(this._clearedValueChangeFn);
+        trans.unsubscribeUnclearedValueChange(this._unclearedValueChangeFn);
       }
 
       /**
-       * Change the current account balance by a certain amount.
+       * Change the current cleared account balance by a certain amount.
        *
-       * @param {currency} val The relative value to change the balance by.
+       * @param {currency} val The relative value to change the cleared
+       * balance by.
        * @private
       */
       _changeClearedBalance(val) {
         this.cache.clearedBalance += val;
       }
+
+      /**
+       * Change the current cleared account balance by a certain amount.
+       *
+       * @param {currency} val The relative value to change the uncleared
+       * balance by.
+       * @private
+      */
       _changeUnclearedBalance(val) {
         this.cache.unclearedBalance += val;
       }
@@ -137,6 +158,9 @@ angular.module('financier').factory('account', uuid => {
         this.emitChange();
       }
 
+      /**
+       * Sets _deleted on the record and calls record subscriber.
+      */
       remove() {
         this.data._deleted = true;
         return this.emitChange();

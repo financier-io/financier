@@ -56,6 +56,7 @@ angular.module('financier').factory('monthManager', (month, account) => {
         const myMonth = this.getMonth(trans.date),
           myAccount = this.getAccount(trans.account);
 
+        // TODO test and add remove
         this.transactions.push(trans);
 
         myMonth.addTransaction(trans);
