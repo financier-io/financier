@@ -41,6 +41,6 @@
     "angular-hotkeys": "chieffancypants/angular-hotkeys#^1.7.0"
   },
   "resolutions": {
-    "angular": "1.4.9"
+    "angular": "~1.4.9"
   }
 }
