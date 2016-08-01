@@ -1,5 +1,7 @@
-angular.module('financier').controller('accountCtrl', function($document, $element, $scope, $stateParams, data, hotkeys) {
+angular.module('financier').controller('accountCtrl', function($timeout, $document, $element, $scope, $stateParams, data, hotkeys, transaction, myBudget) {
   const that = this;
+
+  const Transaction = transaction($stateParams.budgetId);
 
   const {manager, categories} = data;
 
@@ -17,18 +19,39 @@ angular.module('financier').controller('accountCtrl', function($document, $eleme
   if (this.accountId) {
     $scope.transactions = manager.getAccount(this.accountId).transactions;
   } else {
-    $scope.transactions = manager.transactions;
+    $scope.transactions = manager.allAccounts.transactions;
   }
 
-
-  // Prevent flickering by sorting them now
-  $scope.transactions.sort((a, b) => a.date.getTime() < b.date.getTime());
+  this.customSorts = {
+    account(transaction) {
+      return manager.getAccount(transaction.account).name;
+    },
+    date(transaction) {
+      // Sort by date and then value
+      return transaction.date.getTime() + transaction.value;
+    }
+  };
 
   that.selectedTransactionIndexes = [];
   that.selectedTransactions = [];
 
+  this.createTransaction = () => {
+    this.newTransaction = new Transaction({
+      account: this.accountId || null
+    });
+  };
+
+  this.cancelCreateTransaction = () => {
+    this.newTransaction = null;
+  };
+
+  this.saveCreateTransaction = () => {
+    myBudget.transactions.put(this.newTransaction);
+    manager.addTransaction(this.newTransaction);
+  };
+
   this.setCleared = (event, trans) => {
-    event.stopPropagation();
+    $scope.dbCtrl.stopPropagation(event);
 
     let cleared = trans.cleared;
 
@@ -97,9 +120,14 @@ angular.module('financier').controller('accountCtrl', function($document, $eleme
   };
 
   this.selectRow = function(event, rowIndex) {
-    event.stopPropagation();
+    $scope.dbCtrl.stopPropagation(event);
 
     this.editingTransaction = null;
+
+    // Cannot select anything when adding a new transaction
+    if (that.newTransaction) {
+      return;
+    }
 
     that.selectedTransactionIndexes = that.selectedTransactions.map(trans => {
       for (let i = 0; i < $scope.displayedTransactions.length; i++) {
@@ -113,6 +141,12 @@ angular.module('financier').controller('accountCtrl', function($document, $eleme
        that.selectedTransactionIndexes[0] === rowIndex) {
       that.editingTransaction = $scope.displayedTransactions[rowIndex];
       that.selectedTransactionIndexes = [];
+
+      const clickFromField = event.target.getAttribute('transaction-field-focus-name');
+      
+      $timeout(() => {
+        $scope.$broadcast(`transaction:${clickFromField}:focus`);
+      });
     } else {
       if(event.ctrlKey || event.metaKey) { // mac is metaKey
           changeSelectionStatus(rowIndex);
@@ -123,8 +157,8 @@ angular.module('financier').controller('accountCtrl', function($document, $eleme
       }
     }
 
-
     that.selectedTransactions = that.selectedTransactionIndexes.map(i => $scope.displayedTransactions[i]);
+
   };
 
   this.isTransactionSelected = function(trans) {
@@ -187,7 +221,12 @@ angular.module('financier').controller('accountCtrl', function($document, $eleme
   }
 
   this.toggle = (index, event) => {
-    event.stopPropagation();
+    $scope.dbCtrl.stopPropagation(event);
+
+    // Cannot select anything when adding a new transaction
+    if (that.newTransaction) {
+      return;
+    }
 
     that.selectedTransactionIndexes = that.selectedTransactions.map(trans => {
       for (let i = 0; i < $scope.displayedTransactions.length; i++) {

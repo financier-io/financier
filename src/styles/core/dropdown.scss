@@ -1,20 +1,101 @@
+.dropdown__scroll-container {
+  overflow: scroll;
+  max-height: 200px;
+  width: 250px;
+}
+
 .dropdown {
   margin: 0;
   padding: 0;
+
+  li {
+    list-style: none;
+  }
+}
+
+.dropdown__empty {
+  text-align: center;
+  margin: 1em 0;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.dropdown--padding {
+  margin: 0 0.5rem;
+}
+
+.dropdown__header {
+  font-size: 1em;
+  margin: 0;
+  padding: 0 0.5em;
+
+  border-bottom: 1px solid #ccc;
 }
 
 .dropdown__item {
+  display: flex;
+  padding: 0 1rem;
+  line-height: 1.8;
+  font-size: 0.75em;
+  font-weight: 500;
+
   cursor: pointer;
 
-  line-height: 2rem;
-  padding: 0 2rem 0 1rem;
-  font-size: 0.8em;
-  font-weight: 300;
-
-  list-style: none;
-
   &:hover {
-    background-color: $primary;
-    color: $white;
+    background-color: $blue-hover;
   }
+
+  &:hover,
+  &.dropdown__item--selected {
+    &,
+    .dropdown__item-aside {
+      color: $white;
+      font-weight: 700;
+    }
+
+    .dropdown__item-aside--positive {
+      color: lighten($primary, 10%);
+    }
+
+    .dropdown__item-aside--negative {
+      color: $negativeNumber;
+    }
+  }
+}
+
+.dropdown__item-content {
+  flex: 1;
+
+  padding-right: 0.5em;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dropdown__item-aside {
+  color: #ccc;
+}
+
+.dropdown__item-aside--negative {
+  color: $negativeNumber;
+}
+
+.dropdown__item-aside--positive {
+  color: $primary;
+}
+
+.dropdown__item--indented {
+  padding-left: 1em;
+}
+
+.dropdown__item--selected {
+  background-color: $blue-hover;
+  color: $white;
+}
+
+.dropdown__header-item {
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1.5;
 }

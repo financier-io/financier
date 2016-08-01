@@ -108,6 +108,16 @@
   display: inline-block;
   padding: 0 10px;
   font-weight: 400;
+
+  input {
+    width: 100%;
+    outline: 0;
+    border: 1px solid transparent;
+
+    &:focus {
+      border-color: $primary-alt;
+    }
+  }
 }
 
 .account__tfoot {
@@ -218,6 +228,11 @@
 .account__th--flag,
 .account__td--flag {
   width: 55px;
+}
+
+.account__th--date,
+.account__td--date {
+  width: 120px;
 }
 
 .account__th--select,

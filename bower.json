@@ -30,7 +30,7 @@
     "moment": "^2.11.2",
     "Sortable": "^1.4.2",
     "mathjs": "^2.7.0",
-    "tether-drop": "^1.4.2",
+    "tether-drop": "0.5.8",
     "ng-dialog": "^0.5.8",
     "angular-messages": "1.4.9",
     "angular-ladda-lw": "^0.4.0",
@@ -38,7 +38,8 @@
     "angular-md5": "^0.1.10",
     "angular-resizable": "^1.2.0",
     "angular-smart-table": "^2.1.8",
-    "angular-hotkeys": "chieffancypants/angular-hotkeys#^1.7.0"
+    "angular-hotkeys": "chieffancypants/angular-hotkeys#^1.7.0",
+    "angular-dateParser": "^1.1.1"
   },
   "resolutions": {
     "angular": "~1.4.9"

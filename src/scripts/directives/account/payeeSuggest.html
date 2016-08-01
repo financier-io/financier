@@ -1,0 +1,36 @@
+<h3 class="dropdown__header">My Payees</h3>
+
+
+<div class="dropdown__scroll-container" scroll-container>
+  <div class="dropdown__empty" ng-if="!items.length">
+    Payee '{{userInput}}' will be created.
+  </div>
+
+  <ul class="dropdown dropdown--padding">
+    <li ng-if="true">
+      <div class="dropdown__header-item" ng-if="filteredCategories.length">Transfer to/from account</div>
+      <ul class="dropdown">
+        <li class="dropdown__item dropdown__item--indented"
+            ng-repeat="account in $parent.$parent._accounts | filter : filterCustomFilterer as filteredCategories"
+            ng-class="{'dropdown__item--selected': account === selected}"
+            ng-click="submit(account)"
+            scroll-into-view-if="account === selected">
+          <div class="dropdown__item-content">{{account.name}}</div>
+        </li>
+      </ul>
+    </li>
+
+    <li ng-if="true">
+      <div class="dropdown__header-item" ng-if="filteredCategories.length">Previous payees</div>
+      <ul class="dropdown">
+        <li class="dropdown__item dropdown__item--indented"
+            ng-repeat="payee in $parent.$parent._payees | filter : filterCustomFilterer as filteredCategories"
+            ng-class="{'dropdown__item--selected': payee === selected}"
+            ng-click="submit(payee)"
+            scroll-into-view-if="payee === selected">
+          <div class="dropdown__item-content">{{payee.name}}</div>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,27 @@
+<h3 class="dropdown__header">Budget Categories</h3>
+
+
+<div class="dropdown__scroll-container" scroll-container>
+  <div class="dropdown__empty" ng-if="!items.length">
+    No categories matching '{{userInput}}'.
+  </div>
+
+  <ul class="dropdown dropdown--padding" ng-repeat="masterCategory in $parent.categories">
+    <li>
+      <div class="dropdown__header-item" ng-if="filteredCategories.length">{{masterCategory.name}}</div>
+      <ul class="dropdown">
+        <li class="dropdown__item dropdown__item--indented"
+            ng-repeat="category in masterCategory.categories | filter : filterCustomFilterer as filteredCategories"
+            ng-class="{'dropdown__item--selected': category === selected}"
+            ng-click="submit(category)"
+            scroll-into-view-if="category === selected">
+          <div class="dropdown__item-content">{{category.name}}</div>
+          <div class="dropdown__item-aside"
+               ng-init="balance = $parent.$parent.$parent.getCurrentBalance(category.id)"
+               ng-class="{'dropdown__item-aside--negative': balance < 0,
+                          'dropdown__item-aside--positive': balance > 0}">{{balance | intCurrency | currency}}</div>
+        </li>
+      </ul>
+    </li>
+  </ul>  
+</div>

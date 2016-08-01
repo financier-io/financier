@@ -1,0 +1,18 @@
+<div class="calendar">
+  <div class="calendar__header">
+    <div class="calendar__control" ng-click="previousMonth()"><i class="fa fa-angle-left"></i></div>
+    <div class="calendar__title">{{thisMonth | date : 'MMMM yyyy'}}</div>
+    <div class="calendar__control" ng-click="nextMonth()"><i class="fa fa-angle-right"></i></div>
+  </div>
+  <div class="calendar__week calendar__week--header">
+    <div class="calendar__week-day" ng-repeat="day in month[0]">{{day.date | date : 'EEE'}}</div>
+  </div>
+  <div class="calendar__week" ng-repeat="week in month track by week[0].date">
+    <div class="calendar__day"
+         ng-repeat="day in week track by day.date"
+         ng-click="select(day.date)"
+         ng-class="{'calendar__day--not-in-month': !day.isInMonth,
+                    'calendar__day--today': day.today,
+                    'calendar__day--selected': day.isSelected}">{{day.date | date : 'd'}}</div>
+  </div>
+</div>

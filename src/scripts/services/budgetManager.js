@@ -93,6 +93,7 @@ angular.module('financier').factory('budgetManager', (
     }
 
     function transactions() {
+
       function all() {
         return pouch.allDocs({
           include_docs: true,
@@ -299,10 +300,18 @@ angular.module('financier').factory('budgetManager', (
         });
       }
 
+      const putCache = {};
+
       function put(o) {
-        return pouch.put(o.toJSON()).then(res => {
-          o.data._rev = res.rev;
-        });
+        if (putCache[o.id]) {
+          clearTimeout(putCache[o.id]);
+        }
+
+        putCache[o.id] = setTimeout(() => {
+          return pouch.put(o.toJSON()).then(res => {
+            o.data._rev = res.rev;
+          });
+        }, 100);
       }
 
       return all;

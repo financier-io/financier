@@ -14,7 +14,7 @@ gulp.task('styles', function() {
         'bower_components/normalize-css/',
         'bower_components/lato/scss/',
         'node_modules/font-awesome/scss/',
-        'bower_components/tether-drop/dist/css',
+        'bower_components/tether-drop/css',
         'bower_components/ng-dialog/css',
         'bower_components/angular-ladda-lw/dist'
       ])
@@ -65,8 +65,7 @@ gulp.task('copy:vendor', function() {
     './bower_components/mathjs/dist/math.js',
     './bower_components/lato/font/**',
     './node_modules/font-awesome/fonts/**',
-    './bower_components/tether/dist/js/tether.js',
-    './bower_components/tether-drop/dist/js/drop.js',
+    './bower_components/tether-drop/drop.js',
     './bower_components/ng-dialog/js/ngDialog.js',
     './node_modules/lie/dist/lie.polyfill.js',
     './bower_components/angular-ladda-lw/dist/angular-ladda-lw.js',
@@ -74,7 +73,8 @@ gulp.task('copy:vendor', function() {
     './bower_components/angular-md5/angular-md5.js',
     './bower_components/angular-resizable/src/angular-resizable.js',
     './bower_components/angular-smart-table/dist/smart-table.js',
-    './bower_components/angular-hotkeys/build/hotkeys.js'
+    './bower_components/angular-hotkeys/build/hotkeys.js',
+    './bower_components/angular-dateParser/dist/angular-dateparser.js'
   ])
     .pipe(gulp.dest('dist/vendor'));
 });

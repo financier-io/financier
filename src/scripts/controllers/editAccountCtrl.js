@@ -17,7 +17,11 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
         value: this.startingBalance * 100,
         date: this.startingBalanceDate.toISOString(),
         category: 'income',
-        account: myAccount.id
+        account: myAccount.id,
+        payee: {
+          type: 'INTERNAL',
+          name: 'Starting Balance'
+        }
       }, myBudg.transactions.put);
 
       promises.push(myBudg.transactions.put(transaction));

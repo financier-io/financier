@@ -15,6 +15,27 @@ angular.module('financier').controller('dbCtrl', function(account, transaction, 
   this.currentMonth = new Date();
   this.months = getView(this.currentMonth);
 
+  // TODO make a map of categories instead of doing this every $apply
+  // god knows how many times (lol)
+  this.getCategoryName = id => {
+    for (let i = 0; i < this.categories.length; i++) {
+      for (let j = 0; j < this.categories[i].categories.length; j++) {
+        if (this.categories[i].categories[j].id === id) {
+          return this.categories[i].categories[j].name;
+        }
+      }
+    }
+  };
+  // TODO make a map of accounts instead of doing this every $apply
+  // god knows how many times (lol)
+  this.getAccountName = id => {
+    for (let i = 0; i < this.accounts.length; i++) {
+      if (this.accounts[i].id === id) {
+        return this.accounts[i].name;
+      }
+    }
+  };
+
   $scope.$watch(
     () => this.currentMonth,
     (currentMonth, oldCurrentMonth) => {
@@ -52,6 +73,12 @@ angular.module('financier').controller('dbCtrl', function(account, transaction, 
         editing: () => !!account
       }
     });
+  };
+
+  this.stopPropagation = event => {
+    event.stopPropagation();
+
+    $scope.$broadcast('drop:close');
   };
 
   const lastWidth = localStorage.getItem('sidebarWidth');

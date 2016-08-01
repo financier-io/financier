@@ -163,9 +163,14 @@ angular.module('financier').factory('month', MonthCategory => {
       _addOutflow(trans) {
         this.createCategoryCacheIfEmpty(trans.category);
 
-        this.categoryCache[trans.category].balance += trans.value;
         this.categoryCache[trans.category].outflow += trans.value;
         this.cache.totalOutflow += trans.value;
+
+        const oldBalance = this.categoryCache[trans.category].balance;
+        this.categoryCache[trans.category].balance += trans.value;
+
+        this._changeCurrentOverspent(0 - (Math.min(this.categoryCache[trans.category].balance, 0) - Math.min(oldBalance, 0)));
+        this.cache.totalBalance += trans.value;
       }
 
       /**

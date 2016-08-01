@@ -9,7 +9,8 @@ let financier = angular.module('financier', [
   'angular-md5',
   'angularResizable',
   'smart-table',
-  'cfp.hotkeys'
+  'cfp.hotkeys',
+  'dateParser'
 ]).run((offline, $rootScope, $timeout) => {
   offline.register();
 

@@ -7,10 +7,17 @@
   font-size: 0.8rem;
 }
 
+.drop-element.drop--wide {
+  min-width: 200px;
+}
+
 .drop-element.drop-theme-arrows-bounce .drop-content {
   padding: 0.5em 0;
 }
 
 .drop-element.drop-theme-arrows-bounce .drop-content {
-  transition-timing-function: ease-out;
+  box-shadow: 0px 0px 38px rgba(0, 0, 0, 0.2);
+
+  -webkit-filter: none;
+  -moz-filter: none;
 }

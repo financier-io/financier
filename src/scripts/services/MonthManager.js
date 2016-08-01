@@ -45,6 +45,8 @@ angular.module('financier').factory('monthManager', (month, account) => {
           name: 'All Accounts'
         });
         this.saveFn = saveFn;
+
+        this.payees = [];
       }
 
       /**
@@ -54,14 +56,33 @@ angular.module('financier').factory('monthManager', (month, account) => {
        */
       addTransaction(trans) {
         const myMonth = this.getMonth(trans.date),
-          myAccount = this.getAccount(trans.account);
+          myAccount = this.getAccount(trans.account),
+          myTransferAccount = this.getAccount(trans.payee);
 
         // TODO test and add remove
         this.transactions.push(trans);
 
-        myMonth.addTransaction(trans);
         myAccount.addTransaction(trans);
+
+        if (trans.payee.type === 'INLINE') {
+          this.addPayee(trans.payee.name);
+        } else if (trans.payee.type === 'TRANSFER') {
+          this.getAccount(trans.payee.id).addTransaction(trans);
+        }
+
         this.allAccounts.addTransaction(trans);
+        if (trans.payee.id) {
+          this.allAccounts.addTransaction(trans.transfer);
+        } else {
+          // Transfers don't affect budget
+          myMonth.addTransaction(trans);
+        }
+      }
+
+      addPayee(payeeName) {
+        if (this.payees.indexOf(payeeName) === -1) {
+          this.payees.push(payeeName);
+        }
       }
 
       /**
@@ -71,17 +92,20 @@ angular.module('financier').factory('monthManager', (month, account) => {
        */
       removeTransaction(trans) {
         const myMonth = this.getMonth(trans.date),
-          myAccount = this.getAccount(trans.account);
+          myAccount = this.getAccount(trans.account),
+          myTransferAccount = this.getAccount(trans.payee);
 
         const index = this.transactions.indexOf(trans);
         if (index !== -1) {
           this.transactions.splice(index, 1);
-
         }
 
         myMonth.removeTransaction(trans);
         myAccount.removeTransaction(trans);
-        this.allAccounts.addTransaction(trans);
+        if (myTransferAccount) {
+          myTransferAccount.removeTransaction(trans);
+        }
+        this.allAccounts.removeTransaction(trans);
       }
 
       /**
@@ -91,33 +115,6 @@ angular.module('financier').factory('monthManager', (month, account) => {
        */
       addMonthCategory(monthCat) {
         this.getMonth(MonthManager._dateIDToDate(monthCat.monthId)).addBudget(monthCat);
-      }
-
-      /**
-       * To be called by transactions when their month changes,
-       * since the month the transaction is contained within may
-       * have also changed.
-       *
-       * @todo Implement
-       */
-      subscribeTransactionDateChangeFn(trans) {
-        // move the transaction to a new month, if needed
-
-        // if the transaction's new date is not in the current month
-        if (month.date.getMonth() !== trans.date.getMonth() ||
-            month.date.getFullYear() !== trans.date.getFullYear()) {
-          // remove the transaction from the month, and then
-          month.removeTransaction(trans);
-
-          // find the month that the transaction should belong to
-          const newMonth = this.getMonth(trans.date);
-
-          // and add it to that month
-          newMonth.addTransaction(trans);
-        }
-
-        // else, do nothing -- just a simple day of the month change
-
       }
 
       /**

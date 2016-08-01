@@ -1,0 +1,80 @@
+.calendar {
+
+}
+
+.calendar__header {
+  display: flex;
+  margin-bottom: 0.5em;
+}
+
+.calendar__title {
+  flex: 1;
+  text-align: center;
+}
+
+.calendar__control {
+  padding: 0 0.5em;
+  font-size: 1.5em;
+  color: #999;
+
+  cursor: pointer;
+}
+
+.calendar__week {
+  font-size: 0.8rem;
+  font-weight: 300;
+  text-align: center;
+}
+
+.calendar__week--header {
+  text-transform: uppercase;
+  font-size: 0.5em;
+}
+
+.calendar__week-day {
+  display: inline-block;
+  height: 20px;
+  width: 30px;
+  line-height: 20px;
+}
+
+.calendar__day--selected {
+  background-color: $primary-alt;
+  color: $white;
+}
+
+.calendar__day {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $blue-hover;
+    color: $white;
+  }
+}
+
+.calendar__day--not-in-month {
+  color: #ccc;
+}
+
+.calendar__day--today {
+  position: relative;
+
+  $size: 10px;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 $size $size 0;
+    border-color: transparent $danger transparent transparent;
+  }
+}

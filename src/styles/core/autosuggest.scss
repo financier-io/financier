@@ -1,0 +1,35 @@
+.autosuggest {
+  position: relative;
+  width: 100%;
+  display: block;
+  margin-top: 4px; // hack
+  background: $white;
+  height: 22px;
+}
+
+.autosuggest__input {
+  position: absolute;
+  width: 100%;
+  border: 0;
+  padding: 2px 4px;
+
+  min-width: auto;
+
+  background: none;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.autosuggest__text {
+  position: absolute;
+  top: 3px;
+  left: 5px;
+  right: 5px;
+  bottom: 3px;
+  overflow: hidden;
+  line-height: normal;
+
+  color: #ccc;
+}

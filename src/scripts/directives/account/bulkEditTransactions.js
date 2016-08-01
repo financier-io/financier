@@ -1,4 +1,4 @@
-angular.module('financier').directive('bulkEditTransactions', ($sce, $templateRequest, $templateCache, $compile, $timeout) => {
+angular.module('financier').directive('bulkEditTransactions', ($rootScope, $sce, $templateRequest, $templateCache, $compile, $timeout) => {
 
   function link(scope, element, attrs, ngModelCtrl) {
     element.on('click', event => {
@@ -16,7 +16,7 @@ angular.module('financier').directive('bulkEditTransactions', ($sce, $templateRe
           }
         });
 
-        const dropInstance = new Drop({
+        let dropInstance = new Drop({
           target: element[0],
           content: content[0],
           classes: 'drop-theme-arrows-bounce',
@@ -32,7 +32,20 @@ angular.module('financier').directive('bulkEditTransactions', ($sce, $templateRe
           }
         });
 
-        scope.close = () => dropInstance.destroy();
+        scope.close = () => {
+          dropInstance && dropInstance.destroy();
+          dropInstance = null;
+        };
+
+        $rootScope.$broadcast('drop:close');
+
+        scope.$on('drop:close', () => {
+          dropInstance.close();
+        });
+
+        scope.$on('$destroy', () => {
+          scope.close();
+        });
 
         dropInstance.open();
       });

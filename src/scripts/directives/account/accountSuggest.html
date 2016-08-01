@@ -1,0 +1,9 @@
+<h3 class="dropdown__header">My Accounts</h3>
+
+<ul class="dropdown dropdown--padding" ng-repeat="item in items">
+  <li class="dropdown__item"
+      ng-class="{'dropdown__item--selected': item === selected}"
+      ng-click="submit(item)">
+    {{item.name}}
+  </li>
+</ul>

@@ -1,4 +1,4 @@
-angular.module('financier').factory('transaction', uuid => {
+angular.module('financier').factory('transaction', (uuid, Transfer) => {
   return budgetId => {
     
     /**
@@ -12,16 +12,24 @@ angular.module('financier').factory('transaction', uuid => {
        * @param {object} [data] - The object record from the database.
        */
       constructor(data) {
-        const myData = angular.extend({
+        const myData = angular.merge({
           _id: `b_${budgetId}_transaction_${uuid()}`,
           value: null,
           date: null,
           category: null,
           account: null,
-          payee: null,
           memo: null,
           cleared: false,
-          flag: null
+          flag: null,
+          transfer: {
+            flag: null,
+            cleared: false
+          },
+          payee: {
+            type: null,
+            name: null,
+            id: null
+          }
         }, data);
 
         this.id = myData._id.slice(myData._id.lastIndexOf('_') + 1);
@@ -34,6 +42,8 @@ angular.module('financier').factory('transaction', uuid => {
         this.subscribeUnclearedValueChangeFn = [];
 
         this.data = myData;
+
+        this.transfer = new Transfer(this);
       }
 
       /**
@@ -60,13 +70,29 @@ angular.module('financier').factory('transaction', uuid => {
           this._emitUnclearedValueChange(x - oldValue);
         }
 
+        if (this.transfer.cleared) {
+          this.transfer._emitClearedValueChange(x - oldValue);
+        } else {
+          this.transfer._emitUnclearedValueChange(x - oldValue);
+        }
+
         this._emitValueChange(x - oldValue);
 
         this._emitChange();
       }
 
+      get payee() {
+        return this.data.payee;
+      }
+
+      set payee(p) {
+        this.data.payee = p;
+
+        return this._emitChange();
+      }
+
       get outflow() {
-        if (this.value <= 0) {
+        if (this.value < 0) {
           return Math.abs(this.value);
         }
       }
@@ -76,7 +102,7 @@ angular.module('financier').factory('transaction', uuid => {
       }
 
       get inflow() {
-        if (this.value >= 0) {
+        if (this.value > 0) {
           return this.value;
         }
       }
@@ -130,22 +156,6 @@ angular.module('financier').factory('transaction', uuid => {
 
       set account(x) {
         this.data.account = x;
-
-        this._emitChange();
-      }
-
-      /**
-       * The payee the transaction is assigned to.
-       * Will call subscriber when changes.
-       *
-       * @type {string}
-       */
-      get payee() {
-        return this.data.payee;
-      }
-
-      set payee(x) {
-        this.data.payee = x;
 
         this._emitChange();
       }
