@@ -135,7 +135,10 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
       controller: 'reportCtrl as reportCtrl'
     })
     .state('404', {
-      templateUrl: 'views/404.html'
+      templateUrl: 'views/404.html',
+      controller: $rootScope => {
+        $rootScope.loaded = true;
+      }
     });
 
   $locationProvider.html5Mode(true);

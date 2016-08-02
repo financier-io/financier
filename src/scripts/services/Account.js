@@ -75,6 +75,7 @@ angular.module('financier').factory('account', uuid => {
           // Transfer to this account
           _transfer = trans.transfer;
         }
+
         this.transactions.push(_transfer);
 
         if (_transfer.cleared) {
@@ -99,6 +100,11 @@ angular.module('financier').factory('account', uuid => {
         if (trans.payee.id === this.id) {
           // Transfer to this account
           _transfer = trans.transfer;
+        }
+
+        const index = this.transactions.indexOf(trans);
+        if (index !== -1) {
+          this.transactions.splice(index, 1);
         }
 
         if (_transfer.cleared) {

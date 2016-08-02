@@ -100,17 +100,27 @@ angular.module('financier').factory('budgetManager', (
           startkey: Transaction.startKey,
           endkey: Transaction.endKey
         }).then(res => {
-          const transactions = [];
+          const transactions = {};
 
           for (let i = 0; i < res.rows.length; i++) {
             const trans = new Transaction(res.rows[i].doc);
 
             // acc.subscribe(put);
 
-            transactions.push(trans);
+            transactions[trans.id] = trans;
           }
 
-          return transactions;
+
+
+          return Object.keys(transactions).map(key => {
+            const trans = transactions[key];
+
+            if (trans.data.transferId) {
+              trans.transfer = transactions[trans.data.transferId];
+            }
+
+            return transactions[key];
+          });
         });
       }
 
@@ -255,11 +265,22 @@ angular.module('financier').factory('budgetManager', (
           endkey: Transaction.endKey
         })
         .then(res => {
-          return res.rows.map(row => {
-            const trans = new Transaction(row.doc);
-            trans.subscribe(put);
+          const transactions = {};
 
-            return trans;
+          for (let i = 0; i < res.rows.length; i++) {
+            const trans = new Transaction(res.rows[i].doc);
+
+            transactions[trans.id] = trans;
+          }
+
+          return Object.keys(transactions).map(key => {
+            const trans = transactions[key];
+
+            if (trans.data.transferId) {
+              trans.transfer = transactions[trans.data.transferId];
+            }
+
+            return transactions[key];
           });
         });
       }
@@ -300,18 +321,18 @@ angular.module('financier').factory('budgetManager', (
         });
       }
 
-      const putCache = {};
+      // const putCache = {};
 
       function put(o) {
-        if (putCache[o.id]) {
-          clearTimeout(putCache[o.id]);
-        }
+        // if (putCache[o.id]) {
+        //   clearTimeout(putCache[o.id]);
+        // }
 
-        putCache[o.id] = setTimeout(() => {
+        // putCache[o.id] = setTimeout(() => {
           return pouch.put(o.toJSON()).then(res => {
             o.data._rev = res.rev;
           });
-        }, 100);
+        // }, 100);
       }
 
       return all;

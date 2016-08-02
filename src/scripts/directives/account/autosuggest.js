@@ -58,6 +58,12 @@ angular.module('financier').directive('autosuggest', ($timeout, $filter, inputDr
         }
       };
 
+      // If you change date ('Income for July' => 'Income to August')
+      scope.$on('autosuggest:updateText', () => {
+          scope.userInput = scope.selected.name;
+          scope.autosuggestText = scope.selected.name;
+      });
+
       scope.$watch('userInput', (userInput, oldUserInput) => {
         if (userInput !== oldUserInput) {
           pristineInputField = false;

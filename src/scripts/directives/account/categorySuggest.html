@@ -6,8 +6,19 @@
     No categories matching '{{userInput}}'.
   </div>
 
-  <ul class="dropdown dropdown--padding" ng-repeat="masterCategory in $parent.categories">
+  <ul class="dropdown dropdown--padding">
     <li>
+      <div class="dropdown__header-item" ng-if="filteredIncomes.length">Income</div>
+      <ul class="dropdown" ng-repeat="income in $parent.incomes | filter : filterCustomFilterer as filteredIncomes">
+        <li class="dropdown__item dropdown__item--indented"
+            ng-class="{'dropdown__item--selected': income === selected}"
+            ng-click="submit(income)"
+            scroll-into-view-if="income === selected">
+          <div class="dropdown__item-content">{{income.name}}</div>
+        </li>
+      </ul>
+    </li>
+    <li ng-repeat="masterCategory in $parent.categories">
       <div class="dropdown__header-item" ng-if="filteredCategories.length">{{masterCategory.name}}</div>
       <ul class="dropdown">
         <li class="dropdown__item dropdown__item--indented"

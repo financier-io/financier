@@ -2,8 +2,6 @@
 <html ng-app="financier">
   <head>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-
-    <link rel="stylesheet" href="/styles/app.css">
     
     <!-- https://realfavicongenerator.net -->
     <link rel="apple-touch-icon" sizes="180x180" href="/styles/assets/icons/apple-touch-icon.png">
@@ -14,6 +12,101 @@
     <link rel="shortcut icon" href="/styles/assets/icons/favicon.ico">
     <meta name="msapplication-config" content="/styles/assets/icons/browserconfig.xml">
     <meta name="theme-color" content="#76b852">
+
+    <base href="/">
+
+    <title>Financier</title>
+
+    <style>
+.loader {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #76b852;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.loader.ng-leave {
+  animation: none;
+  transition: 0.5s linear all;
+  opacity: 1;
+}
+.loader.ng-leave.ng-leave-active {
+  opacity: 0;
+}
+
+.loader__text {
+  font-family: Helvetica, sans-serif;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 1em;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 100;
+}
+
+.loader__spinner {
+  margin: 0 auto;
+  font-size: 10px;
+  position: relative;
+  text-indent: -9999em;
+  border-top: 4px solid rgba(255, 255, 255, 0.2);
+  border-right: 4px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 4px solid rgba(255, 255, 255, 0.2);
+  border-left: 4px solid #ffffff;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load8 0.5s infinite linear;
+  animation: load8 0.5s infinite linear;
+}
+
+.loader__spinner,
+.loader__spinner:after {
+  border-radius: 50%;
+  width: 5em;
+  height: 5em;
+}
+
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+    </style>
+  </head>
+
+  <body>
+    <div class="full-height" ui-view></div>
+
+    <div class="loader" ng-if="!loaded">
+      <div>
+        <div class="loader__spinner"></div>
+        <div class="loader__text">Loading Financier</div>
+      </div>
+    </div>
+
+    <link rel="stylesheet" href="/styles/app.css">
 
     <script src="/vendor/angular.js"></script>
     <script src="/vendor/angular-animate.js"></script>
@@ -41,12 +134,5 @@
 
     <script src="/scripts/app.js"></script>
 
-    <base href="/">
-
-    <title>Financier</title>
-  </head>
-
-  <body>
-    <div class="full-height" ui-view></div>
   </body>
 </html>

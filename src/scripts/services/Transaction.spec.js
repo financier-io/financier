@@ -570,26 +570,6 @@ describe('transaction', function() {
       expect(foo.change).toHaveBeenCalledWith(tran);
     });
 
-    it('payee', () => {
-      const foo = {
-        change: () => {}
-      };
-
-      spyOn(foo, 'change');
-
-      let tran = new Transaction();
-      tran.subscribe(foo.change);
-
-      expect(foo.change).not.toHaveBeenCalled();
-
-      expect(tran.toJSON().payee).toBe(null);
-
-      tran.payee = 'payee_id';
-
-      expect(tran.toJSON().payee).toBe('payee_id');
-      expect(foo.change).toHaveBeenCalledWith(tran);
-    });
-
     it('memo', () => {
       const foo = {
         change: () => {}
@@ -696,28 +676,6 @@ describe('transaction', function() {
 
       expect(tran.toJSON().account).toBe('123-123-123-123');
       expect(tran.account).toBe('123-123-123-123');
-      expect(foo.change).toHaveBeenCalledWith(tran);
-    });
-
-    it('payee', () => {
-      const foo = {
-        change: () => {}
-      };
-
-      spyOn(foo, 'change');
-
-      let tran = new Transaction();
-      tran.subscribe(foo.change);
-
-      expect(foo.change).not.toHaveBeenCalled();
-
-      expect(tran.payee).toBe(null);
-      expect(tran.toJSON().payee).toBe(null);
-
-      tran.payee = '123-123-123-123';
-
-      expect(tran.toJSON().payee).toBe('123-123-123-123');
-      expect(tran.payee).toBe('123-123-123-123');
       expect(foo.change).toHaveBeenCalledWith(tran);
     });
 

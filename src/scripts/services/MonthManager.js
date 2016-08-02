@@ -39,7 +39,6 @@ angular.module('financier').factory('monthManager', (month, account) => {
         }
 
         this.months = months;
-        this.transactions = [];
         this.accounts = [];
         this.allAccounts = new Account({
           name: 'All Accounts'
@@ -55,28 +54,41 @@ angular.module('financier').factory('monthManager', (month, account) => {
        * @param {Transaction} trans - The Transaction to be added.
        */
       addTransaction(trans) {
-        const myMonth = this.getMonth(trans.date),
-          myAccount = this.getAccount(trans.account),
-          myTransferAccount = this.getAccount(trans.payee);
+        const myMonth = this.getMonth(trans.month),
+          myAccount = this.getAccount(trans.account);
 
-        // TODO test and add remove
-        this.transactions.push(trans);
+        trans.subscribe(this.saveFn);
+
+        trans.subscribeAccountChange((newAccount, oldAccount) => {
+          this.getAccount(oldAccount).removeTransaction(trans);
+          this.getAccount(newAccount).addTransaction(trans);
+        });
+
+        trans.subscribeCategoryChange(() => {
+          // before change
+          const month = this.getMonth(trans.month);
+          month.removeTransaction(trans);
+          month.startRolling(trans.category);
+        }, () => {
+          // after change
+          const month = this.getMonth(trans.month);
+          month.addTransaction(trans);
+          month.startRolling(trans.category);
+        });
+
+        trans.subscribeDateChange((newDate, oldDate) => {
+          const newMonth = this.getMonth(newDate);
+
+          this.getMonth(oldDate).removeTransaction(trans);
+          newMonth.addTransaction(trans);
+
+          newMonth.startRolling(trans.category);
+        });
 
         myAccount.addTransaction(trans);
 
-        if (trans.payee.type === 'INLINE') {
-          this.addPayee(trans.payee.name);
-        } else if (trans.payee.type === 'TRANSFER') {
-          this.getAccount(trans.payee.id).addTransaction(trans);
-        }
-
         this.allAccounts.addTransaction(trans);
-        if (trans.payee.id) {
-          this.allAccounts.addTransaction(trans.transfer);
-        } else {
-          // Transfers don't affect budget
-          myMonth.addTransaction(trans);
-        }
+        myMonth.addTransaction(trans);
       }
 
       addPayee(payeeName) {
@@ -91,21 +103,18 @@ angular.module('financier').factory('monthManager', (month, account) => {
        * @param {Transaction} trans - The Transaction to be added.
        */
       removeTransaction(trans) {
-        const myMonth = this.getMonth(trans.date),
-          myAccount = this.getAccount(trans.account),
-          myTransferAccount = this.getAccount(trans.payee);
+        const myMonth = this.getMonth(trans.month),
+          myAccount = this.getAccount(trans.account);
 
-        const index = this.transactions.indexOf(trans);
-        if (index !== -1) {
-          this.transactions.splice(index, 1);
-        }
+        trans.subscribe(null);
+        trans.subscribeAccountChange(null);
+        trans.subscribeCategoryChange(null, null);
+        trans.subscribeDateChange(null);
 
-        myMonth.removeTransaction(trans);
         myAccount.removeTransaction(trans);
-        if (myTransferAccount) {
-          myTransferAccount.removeTransaction(trans);
-        }
         this.allAccounts.removeTransaction(trans);
+        myMonth.removeTransaction(trans);
+        myMonth.startRolling(trans.category);
       }
 
       /**

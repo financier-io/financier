@@ -3,17 +3,41 @@ angular.module('financier').directive('categorySuggest', $rootScope => {
     restrict: 'E',
     scope: {
       categories: '=',
-      ngModel: '='
+      ngModel: '=',
+      transactionDate: '='
     },
     template: '<autosuggest on-submit="onSubmit()" custom-filter="categoryFilter(item, searchValue, pristineInputField)" ng-model="item" items="items" template-url="templateUrl"></autosuggest>',
     compile: () => {
       return {
         pre: (scope, element, attrs) => {
+          scope.incomes = [{
+            name: '',
+            id: 'income'
+          }, {
+            name: '',
+            id: 'incomeNextMonth'
+          }];
+
+          scope.$watch('transactionDate', (newDate, oldDate) => {
+            scope.incomes[0].name = `Income for ${moment(scope.transactionDate).format('MMMM')}`;
+            scope.incomes[1].name = `Income for ${moment(scope.transactionDate).add(1, 'month').format('MMMM')}`;
+
+            // Don't needlessly trigger upon init
+            if (oldDate !== newDate) {
+              // Only trigger if income is selected
+              if (scope.incomes.indexOf(scope.item) !== -1) {
+                scope.$broadcast('autosuggest:updateText');
+              }
+            }
+          });
+
           // flatten categories
           scope.items = [].concat.apply(
             [],
             scope.categories.map(masterCategory => masterCategory.categories)
           );
+
+          scope.items = scope.incomes.concat(scope.items);
 
           for (let i = 0; i < scope.items.length; i++) {
             if (scope.items[i].id === scope.ngModel) {

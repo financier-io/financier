@@ -17,7 +17,13 @@ angular.module('financier').controller('dbCtrl', function(account, transaction, 
 
   // TODO make a map of categories instead of doing this every $apply
   // god knows how many times (lol)
-  this.getCategoryName = id => {
+  this.getCategoryName = (id, transactionDate) => {
+    if (id === 'income') {
+      return `Income for ${moment(transactionDate).format('MMMM')}`;
+    } else if (id === 'incomeNextMonth') {
+      return `Income for ${moment(transactionDate).add(1, 'month').format('MMMM')}`;
+    }
+
     for (let i = 0; i < this.categories.length; i++) {
       for (let j = 0; j < this.categories[i].categories.length; j++) {
         if (this.categories[i].categories[j].id === id) {

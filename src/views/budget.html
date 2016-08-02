@@ -11,7 +11,7 @@
         <div class="budget__th budget__category-label"></div>
         <div class="budget__th month-overview__month-overview"
              colspan="3"
-             ng-repeat="month in dbCtrl.months | limitTo : budgetCtrl.showMonths"
+             ng-repeat="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index"
              ng-class="{
                          'budget__month-end': !$last,
                          'month-overview__month-overview--old': month.date < budgetCtrl.currentMonth,
@@ -45,7 +45,7 @@
       <div class="budget__tr month-overview__row" disable-ng-animate>
         <div class="budget__th budget__month-row budget__category-label"></div>
         <div class="budget__th budget__month-row month-overview__cell-head"
-             ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths">Budgeted<div>{{month.cache.totalBudget | intCurrency | currency}}</div></div>
+             ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index">Budgeted<div>{{month.cache.totalBudget | intCurrency | currency}}</div></div>
         <div class="budget__th budget__month-row month-overview__cell-head">Outflows<div>{{month.cache.totalOutflow | intCurrency | currency}}</div></div>
         <div class="budget__th budget__month-row month-overview__cell-head"
             ng-class="{'budget__month-end': !$last}"
@@ -59,7 +59,7 @@
             <span rename ng-model="masterCategory.name">{{masterCategory.name}}</span>
           </div>
             <div class="budget__td budget__month-row month-body__cell-head"
-                ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths"
+                ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index"
                 ng-controller="masterCategoryCtrl as masterCategoryCtrl"
                 >{{masterCategoryCtrl.budget | intCurrency | currency : ''}}</div>
             <div class="budget__td budget__month-row month-body__cell-head">{{(masterCategoryCtrl.outflows || 0) | intCurrency | currency: ''}}</div>
@@ -81,7 +81,7 @@
               <span rename ng-model="row.name">{{row.name}}</span>
             </div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--input"
-                ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by month.date"
+                ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index"
                 >
 
               <input type="text"

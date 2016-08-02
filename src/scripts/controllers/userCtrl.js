@@ -1,4 +1,6 @@
 angular.module('financier').controller('userCtrl', function($rootScope, User, db, ngDialog) {
+  $rootScope.loaded = true;
+  
   const getSession = () => {
     return User.session()
     .then(s => {

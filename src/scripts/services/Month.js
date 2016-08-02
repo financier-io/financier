@@ -142,7 +142,7 @@ angular.module('financier').factory('month', MonthCategory => {
        * @todo Not currently used
        */
       addTransaction(trans) {
-        if (trans.category === 'income') {
+        if (trans.category === 'income' || trans.category === 'incomeNextMonth') {
           this._addIncome(trans);
         } else {
           this._addOutflow(trans);
@@ -177,7 +177,29 @@ angular.module('financier').factory('month', MonthCategory => {
        * @todo Not currently used
        */
       removeTransaction(trans) {
+        if (trans.category === 'income' || trans.category === 'incomeNextMonth') {
+          this._removeIncome(trans);
+        } else {
+          this._removeOutflow(trans);
+        }
+      }
+
+      _removeIncome(trans) {
+        this.cache.totalIncome -= trans.value;
+        this.changeAvailable(-trans.value);
+
+        trans.subscribeValueChange(null);
+      }
+
+      _removeOutflow(trans) {
+        this.categoryCache[trans.category].outflow -= trans.value;
+        this.cache.totalOutflow -= trans.value;
+
+        const oldBalance = this.categoryCache[trans.category].balance;
         this.categoryCache[trans.category].balance -= trans.value;
+
+        this._changeCurrentOverspent(0 - (Math.min(this.categoryCache[trans.category].balance, 0) - Math.min(oldBalance, 0)));
+        this.cache.totalBalance -= trans.value;
       }
 
       /**
