@@ -23,7 +23,7 @@
   min-width: 200px;
   max-width: 350px;
 
-  background-color: $primary;
+  background: linear-gradient($primary, $dark-primary);
   color: $white;
 
   a {
@@ -153,17 +153,20 @@
   padding: 0 0.2em;
   font-weight: 300;
   line-height: 3rem;
-  opacity: 0.7;
+  font-size: 1.05em;
 
-  transition: opacity 250ms ease;
+  opacity: 0.8;
+
+  transition: opacity 50ms ease;
 
   &:hover {
     opacity: 1;
+    // background-color: rgba(0, 0, 0, 0.1);
   }
 
   a {
     display: flex;
-    padding: 0 1em;
+    padding: 0 0.5em;
     white-space: nowrap;
 
     .app-view__link-text {
@@ -190,58 +193,8 @@
     font-weight: 500;
   }
 
-  &:nth-child(1) {
-    &.app-view__link--active {
-      background-color: rgba(255, 255, 255, 0.1);
-
-      ~ hr {
-        margin-top: 0;
-      }
-    }
-  }
-
-  &:nth-child(2) {
-    &.app-view__link--active {
-      background-color: rgba(255, 255, 255, 0.1);
-
-      ~ hr {
-        margin-top: 3rem;
-      }
-    }
-  }
-
-  &:nth-child(3) {
-    &.app-view__link--active {
-      background-color: rgba(255, 255, 255, 0.1);
-
-      ~ hr {
-        margin-top: 6rem;
-      }
-    }
-  }
-
-  &:nth-child(1) {
-    &:hover {
-      ~ hr {
-        margin-top: 0;
-      }
-    }
-  }
-
-  &:nth-child(2) {
-    &:hover {
-      ~ hr {
-        margin-top: 3rem;
-      }
-    }
-  }
-
-  &:nth-child(3) {
-    &:hover {
-      ~ hr {
-        margin-top: 6rem;
-      }
-    }
+  &.app-view__link--active {
+    background-color: rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -252,7 +205,7 @@
   top: 0;
   left: 0;
   margin: 0;
-  background: white;
+  background: $white;
   border: 0;
   transition: 200ms ease;
 }
@@ -262,18 +215,20 @@
 }
 
 .app-view__accounts {
-  margin: 1em 0 0;
+  margin: 0;
   flex: 1;
 }
 
 .app-view__accounts-title {
-  font-size: 0.9em;
+  font-size: 0.8em;
   padding: 0 0.5rem;
+  letter-spacing: 1px;
 }
 
 .app-view__add-account {
+  margin: 0 0.5em;
   border: 0;
-  background-color: darken($primary, 5%);
+  background-color: rgba(0, 0, 0, 0.1);
   font-size: 0.85em;
   font-weight: 300;
 
@@ -289,7 +244,15 @@
 
 .app-view__accounts-list {
   padding: 0;
-  margin: 0 0 0.5em;
+  margin: 0;
+}
+
+.app-view__accounts-list-border {
+  padding: 0.5em 0;
+  margin: 0.5em 0;
+
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .app-view__account {
@@ -299,10 +262,10 @@
   line-height: 2rem;
   opacity: 0.7;
   cursor: pointer;
-  opacity: 0.7;
+  opacity: 0.8;
   padding: 0 0.5rem;
 
-  transition: opacity 250ms ease;
+  transition: opacity 50ms ease;
 
   &:hover {
     opacity: 1;
@@ -310,7 +273,7 @@
 }
 
 .app-view__account--active {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(0, 0, 0, 0.3);
   opacity: 1;
 }
 

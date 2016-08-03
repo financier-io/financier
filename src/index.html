@@ -24,20 +24,26 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: #76b852;
+  background: -webkit-linear-gradient(#87d25d, #5b903f);
+  background: linear-gradient(#87d25d, #5b903f);
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+  z-index: 1000000;
+  transition: opacity 500ms ease-in-out;
 }
 
-.loader.ng-leave {
-  animation: none;
-  transition: 0.5s linear all;
+.loader--loaded.loader--loaded-add {
   opacity: 1;
+  display: flex;
 }
-.loader.ng-leave.ng-leave-active {
+.loader--loaded-add.loader--loaded-add-active {
   opacity: 0;
+}
+
+.loader--loaded {
+  display: none;
 }
 
 .loader__text {
@@ -45,7 +51,6 @@
   color: rgba(255, 255, 255, 0.8);
   margin-top: 1em;
   letter-spacing: 2px;
-  text-transform: uppercase;
   font-weight: 100;
 }
 
@@ -61,15 +66,15 @@
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
   transform: translateZ(0);
-  -webkit-animation: load8 0.5s infinite linear;
-  animation: load8 0.5s infinite linear;
+  -webkit-animation: load8 1s infinite linear;
+  animation: load8 1s infinite linear;
 }
 
 .loader__spinner,
 .loader__spinner:after {
   border-radius: 50%;
-  width: 5em;
-  height: 5em;
+  width: 4em;
+  height: 4em;
 }
 
 @-webkit-keyframes load8 {
@@ -99,7 +104,7 @@
   <body>
     <div class="full-height" ui-view></div>
 
-    <div class="loader" ng-if="!loaded">
+    <div class="loader" ng-class="{'loader--loaded': loaded}">
       <div>
         <div class="loader__spinner"></div>
         <div class="loader__text">Loading Financier</div>
@@ -121,7 +126,6 @@
     <script src="/vendor/pouchdb.memory.js"></script>
     <script src="/vendor/moment-with-locales.js"></script>
     <script src="/vendor/drop.js"></script>
-    <script src="/vendor/math.js"></script>
     <script src="/vendor/lie.polyfill.js"></script>
     <script src="/vendor/uuid.js"></script>
     <script src="/vendor/angular-md5.js"></script>
@@ -130,9 +134,11 @@
     <script src="/vendor/hotkeys.js"></script>
     <script src="/vendor/angular-dateparser.js"></script>
 
-    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
     <script src="/scripts/app.js"></script>
+
+    <script src="/vendor/math.js"></script>
+    <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 
   </body>
 </html>
