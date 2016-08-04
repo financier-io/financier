@@ -1,0 +1,14 @@
+.report {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.report__chart-container {
+  flex: 1;
+  margin: 2em;
+
+  canvas {
+    position: absolute;
+  }
+}

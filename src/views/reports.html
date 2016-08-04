@@ -1,3 +1,13 @@
 <!-- <h1>Reports</h1> -->
 
-<net-worth-chart transactions="dbCtrl.manager.allAccounts.transactions"></net-worth-chart>
+<div class="report">
+  <ul class="report-select">
+    <li class="report-select__item report-select__item--selected"><div>Net worth</div></li>
+    <!-- <li class="report-select__item"><div>Spending by Category</div></li> -->
+    <!-- <li class="report-select__item"><div>Spending by Payee</div></li> -->
+  </ul>
+
+  <div class="report__chart-container">
+    <net-worth-chart transactions="dbCtrl.manager.allAccounts.transactions"></net-worth-chart>
+  </div>  
+</div>

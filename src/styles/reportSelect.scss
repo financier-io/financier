@@ -1,0 +1,54 @@
+.report-select {
+  display: flex;
+  background-color: $darkGray;
+  margin: 0;
+  padding: 0;
+  font-weight: 300;
+  justify-content: center;
+}
+
+$triangleSize: 5px;
+
+.report-select__item {
+  flex: 1;
+  max-width: 14em;
+  margin-right: 1em;
+  padding: ($triangleSize * 2) 1em;
+  min-height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.2;
+  font-size: 0.8em;
+  color: $white;
+  position: relative;
+  cursor: pointer;
+
+  opacity: 0.8;
+
+  transition: opacity 250ms ease;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.report-select__item--selected {
+  opacity: 1;
+
+  &:after {
+    content: '';
+    background-color: $white;
+    transform: rotate(45deg);
+    left: calc(50% - #{$triangleSize});
+    bottom: -$triangleSize;
+    width: $triangleSize * 2;
+    height: $triangleSize * 2;
+    position: absolute;
+  }
+}
