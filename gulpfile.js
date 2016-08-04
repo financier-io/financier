@@ -74,7 +74,8 @@ gulp.task('copy:vendor', function() {
     './bower_components/angular-resizable/src/angular-resizable.js',
     './bower_components/angular-smart-table/dist/smart-table.js',
     './bower_components/angular-hotkeys/build/hotkeys.js',
-    './bower_components/angular-dateParser/dist/angular-dateparser.js'
+    './bower_components/angular-dateParser/dist/angular-dateparser.js',
+    './node_modules/chart.js/dist/Chart.js'
   ])
     .pipe(gulp.dest('dist/vendor'));
 });

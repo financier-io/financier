@@ -35,7 +35,9 @@
         <account-suggest ng-model="displayedTransactions[virtual.i].account" transaction-payee-id="displayedTransactions[virtual.i].payee.id" accounts="accountCtrl.manager.accounts"></account-suggest>
       </div>
       <div class="account__td account__td--flag"><div class="account__flag" ng-style="{'color': displayedTransactions[virtual.i].flag}" flag ng-model="displayedTransactions[virtual.i].flag"><div></div></div></div>
-      <div class="account__td account__td--date"><calendar-input ng-model="displayedTransactions[virtual.i].date"></calendar-input></div>
+      <div class="account__td account__td--date">
+        <calendar-input ng-model="displayedTransactions[virtual.i].date"></calendar-input>
+      </div>
       <div class="account__td">
         <payee-suggest ng-model="displayedTransactions[virtual.i].payee" transaction-account-id="displayedTransactions[virtual.i].account" accounts="dbCtrl.accounts" payees="accountCtrl.manager.payees"></payee-suggest>
       </div>

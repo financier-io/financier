@@ -68,10 +68,16 @@ angular.module('financier').directive('categorySuggest', $rootScope => {
             return item.name.toLowerCase().indexOf(searchInputLower) !== -1;
           };
 
-          scope.getCurrentBalance = categoryId => {
-            const month = scope.$parent.accountCtrl.manager.getMonth(new Date());
+          scope.getCategoryBalance = (categoryId, date) => {
+            const month = scope.$parent.accountCtrl.manager.getMonth(date);
 
-            return month.categoryCache[categoryId].balance;
+            const categoryCache = month.categoryCache[categoryId];
+
+            if (categoryCache) {
+              return month.categoryCache[categoryId].balance;
+            }
+
+            return 0;
           };
 
           scope.onSubmit = () => {

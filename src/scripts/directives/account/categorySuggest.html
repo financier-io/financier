@@ -28,9 +28,8 @@
             scroll-into-view-if="category === selected">
           <div class="dropdown__item-content">{{category.name}}</div>
           <div class="dropdown__item-aside"
-               ng-init="balance = $parent.$parent.$parent.getCurrentBalance(category.id)"
-               ng-class="{'dropdown__item-aside--negative': balance < 0,
-                          'dropdown__item-aside--positive': balance > 0}">{{balance | intCurrency | currency}}</div>
+               ng-class="{'dropdown__item-aside--negative': $parent.$parent.$parent.getCategoryBalance(category.id, $parent.$parent.$parent.transactionDate) < 0,
+                          'dropdown__item-aside--positive': $parent.$parent.$parent.getCategoryBalance(category.id, $parent.$parent.$parent.transactionDate) > 0}">{{$parent.$parent.$parent.getCategoryBalance(category.id, $parent.$parent.$parent.transactionDate) | intCurrency | currency}}</div>
         </li>
       </ul>
     </li>

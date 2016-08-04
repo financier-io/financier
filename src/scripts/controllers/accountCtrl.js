@@ -39,6 +39,15 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
     this.newTransaction = new Transaction({
       account: this.accountId || null
     });
+    this.newTransaction.date = new Date();
+
+    $timeout(() => {
+      if (this.accountId) {
+        $scope.$broadcast('transaction:date:focus');
+      } else {
+        $scope.$broadcast('transaction:account:focus');
+      }
+    });
   };
 
   this.cancelCreateTransaction = () => {
@@ -48,6 +57,8 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
   this.saveCreateTransaction = () => {
     myBudget.transactions.put(this.newTransaction);
     manager.addTransaction(this.newTransaction);
+
+    this.newTransaction = null;
   };
 
   this.setCleared = (event, trans) => {

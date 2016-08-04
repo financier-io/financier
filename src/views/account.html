@@ -52,22 +52,34 @@
   <div class="account__tbody">
     <div ng-if="accountCtrl.newTransaction"
          class="account__tr account__tr--editing"
-         hotkey="{esc: accountCtrl.stopNew}"
+         hotkey="{esc: accountCtrl.cancelCreateTransaction, enter: accountCtrl.createTransaction}"
          ng-click="dbCtrl.stopPropagation($event)">
       <div class="account__td account__td--select"></div>
-      <div class="account__td" ng-if="!accountCtrl.accountId">{{accountCtrl.newTransaction.account}}</div>
+      <div class="account__td" ng-if="!accountCtrl.accountId">
+        <account-suggest ng-model="accountCtrl.newTransaction.account" transaction-payee-id="accountCtrl.newTransaction.payee.id" accounts="accountCtrl.manager.accounts"></account-suggest>
+      </div>
       <div class="account__td account__td--flag"><div class="account__flag" ng-style="{'color': accountCtrl.newTransaction.flag}" flag ng-model="accountCtrl.newTransaction.flag"><div></div></div></div>
-      <div class="account__td account__td--date">{{accountCtrl.newTransaction.date | date}}</div>
-      <div class="account__td">{{accountCtrl.newTransaction.payee}}</div>
-      <div class="account__td">{{accountCtrl.newTransaction.category}}</div>
-      <div class="account__td account__cell-memo">{{accountCtrl.newTransaction.memo}}</div>
+      <div class="account__td account__td--date">
+        <calendar-input ng-model="accountCtrl.newTransaction.date"></calendar-input>
+      </div>
+      <div class="account__td">
+        <payee-suggest ng-model="accountCtrl.newTransaction.payee" transaction-account-id="accountCtrl.newTransaction.account" accounts="dbCtrl.accounts" payees="accountCtrl.manager.payees"></payee-suggest>
+      </div>
+      <div class="account__td">
+        <category-suggest ng-model="accountCtrl.newTransaction.category" categories="dbCtrl.categories" transaction-date="accountCtrl.newTransaction.date"></category-suggest>
+      </div>
+      <div class="account__td account__cell-memo">
+        <memo-input ng-model="accountCtrl.newTransaction.memo"></memo-input>
+      </div>
       <div class="account__td account__cell-inflow">
-        <input type="text" ng-model="accountCtrl.newTransaction.inflow">
+        <input type="text" transaction-value ng-model="accountCtrl.newTransaction.inflow">
       </div>
       <div class="account__td account__cell-outflow">
-        <input type="text" ng-model="accountCtrl.newTransaction.outflow">
+        <input type="text" transaction-value ng-model="accountCtrl.newTransaction.outflow">
       </div>
-      <div class="account__td account__cell-cleared"><div class="cleared" ng-class="{'cleared--true': accountCtrl.newTransaction.cleared}" ng-click="accountCtrl.setCleared($event, accountCtrl.newTransaction)">C</div></div>
+      <div class="account__td account__cell-cleared">
+        <div class="cleared" ng-class="{'cleared--true': accountCtrl.newTransaction.cleared}" ng-click="accountCtrl.setCleared($event, accountCtrl.newTransaction)">C</div>
+      </div>
 
       <ul class="account__editing-buttons">
         <li class="account__editing-button" ng-click="accountCtrl.saveCreateTransaction()">Save</li><li class="account__editing-button account__editing-button--save" ng-click="accountCtrl.saveCreateTransaction(); accountCtrl.createTransaction()">Save &amp; add another</li><li class="account__editing-button" ng-click="accountCtrl.cancelCreateTransaction()">Cancel</li>
