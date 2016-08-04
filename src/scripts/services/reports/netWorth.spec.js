@@ -47,7 +47,7 @@ describe('netWorth', function() {
       ]);
 
       expect(report.assets).toEqual([ 12, 112, 112, 112, 262 ]);
-      expect(report.debt).toEqual([ 0, -500, -500, -500, -500 ]);
+      expect(report.debt).toEqual([ 0, 500, 500, 500, 500 ]);
       expect(report.netWorth).toEqual([ 12, -388, -388, -388, -238 ]);
       expect(report.months.length).toEqual(5);
     });
