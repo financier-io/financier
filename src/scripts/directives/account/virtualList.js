@@ -54,8 +54,7 @@ angular.module('financier')
               i,
               styles: {
                 top: (i * rowHeight) + 'px'
-              },
-              oddOffset: firstCell % 2 === 1
+              }
             });
           }
         };

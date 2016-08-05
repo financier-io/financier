@@ -1,8 +1,7 @@
 <div class="canvas" ng-style="canvasHeight">
   <div class="renderer"
        ng-repeat="virtual in visibleProvider track by displayedTransactions[virtual.i].id"
-       ng-style="virtual.styles"
-       ng-class="{'account__tr--odd': virtual.oddOffset}">
+       ng-style="virtual.styles">
     <div class="account__tr"
          ng-if="accountCtrl.editingTransaction !== displayedTransactions[virtual.i]"
          ng-click="accountCtrl.selectRow($event, virtual.i)"

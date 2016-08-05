@@ -70,6 +70,17 @@ describe('MonthCategory', function() {
       expect(sets.toJSON().note).toBe('foobar');
       expect(sets.note).toBe('foobar');
     });
+
+    it('overspending', () => {
+      let sets = new MonthCategory({
+        _id: 'b_111-111_m_201501_month-category_222-222'
+      });
+
+      sets.overspending = true;
+
+      expect(sets.toJSON().overspending).toBe(true);
+      expect(sets.overspending).toBe(true);
+    });
   });
 
   describe('pub/sub', () => {
@@ -148,6 +159,33 @@ describe('MonthCategory', function() {
       expect(foo.bdgSub).not.toHaveBeenCalled();
 
       sets.note = 'barfoo';
+
+      expect(foo.sub).toHaveBeenCalledWith(sets);
+      expect(foo.bdgSub).not.toHaveBeenCalled();
+    });
+
+    it('overspending', () => {
+      const foo = {
+        sub: () => {},
+        bdgSub: () => {}
+      };
+
+      spyOn(foo, 'sub');
+      spyOn(foo, 'bdgSub');
+
+
+      let sets = new MonthCategory({
+        _id: 'b_111-111_m_201501_month-category_222-222',
+        overspending: true
+      });
+
+      sets.subscribe(foo.sub);
+      sets.subscribeBudget(foo.bdgSub);
+
+      expect(foo.sub).not.toHaveBeenCalled();
+      expect(foo.bdgSub).not.toHaveBeenCalled();
+
+      sets.overspending = false;
 
       expect(foo.sub).toHaveBeenCalledWith(sets);
       expect(foo.bdgSub).not.toHaveBeenCalled();

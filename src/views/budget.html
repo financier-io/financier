@@ -81,8 +81,7 @@
               <span rename ng-model="row.name">{{row.name}}</span>
             </div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--input"
-                ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index"
-                >
+                ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index">
 
               <input type="text"
                      class="budget__cell-input"
@@ -104,11 +103,18 @@
                  outflow-category="row.name"
                  outflow-setting="dbCtrl.budgetRecord.hints.outflow"><span ng-if="month.categoryCache[row.id].outflow !== 0">{{month.categoryCache[row.id].outflow | intCurrency | currency : ''}}</span></div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--display"
-                ng-class="{'budget__month-end': !$last,
-                           'budget__month-row--zero': !month.categoryCache[row.id].balance,
-                           'budget__month-row--none': !month.categoryCache[row.id].balance && !month.categoryCache[row.id].outflow && !month.categories[row.id].budget}"
-                ng-repeat-end>
-              <span ng-class="{'budget__month-row--negative': month.categoryCache[row.id].balance < 0}">{{(month.categoryCache[row.id].balance || 0) | intCurrency | currency : ''}}</span>
+                 ng-class="{'budget__month-end': !$last,
+                            'budget__month-row--zero': !month.categoryCache[row.id].balance,
+                            'budget__month-row--none': !month.categoryCache[row.id].balance && !month.categoryCache[row.id].outflow && !month.categories[row.id].budget}"
+                 overspending-select
+                 overspending-disabled="!(month.categoryCache[row.id] && month.categoryCache[row.id].balance < 0)"
+                 ng-model="month.categories[row.id].overspending"
+                 propagated-model="month.categoryCache[row.id].overspending"
+                 ng-repeat-end>
+              <span ng-class="{'budget__month-row--negative': month.categoryCache[row.id].balance < 0}">
+                {{(month.categoryCache[row.id].balance || 0) | intCurrency | currency : ''}}
+                <span ng-if="month.categoryCache[row.id].balance < 0 && month.categoryCache[row.id].overspending">➡</span>
+              </span>
             </div>
           </div>
         </div>

@@ -21,7 +21,8 @@ angular.module('financier').factory('MonthCategory', uuid => {
         `);
       }
       const myData = angular.extend({
-        budget: 0
+        budget: 0,
+        overspending: null
       }, data);
 
       this.data = myData;
@@ -106,6 +107,26 @@ angular.module('financier').factory('MonthCategory', uuid => {
     }
 
     /**
+     * Whether to allow overspending to propagate to future months
+     * function. Null is unset (inherit from past months),
+     * true/false are explicit and propagate to following until
+     * another boolean setting.
+     *
+     * @type {?boolean}
+     */
+    get overspending() {
+      return this.data.overspending;
+    }
+
+    set overspending(o) {
+      const oldO = this.data.overspending;
+      this.data.overspending = o;
+
+      this._emitOverspendingChange(o, oldO);
+      this._emitChange();
+    }
+
+    /**
      * The `_id` for the record in the database.
      *
      * @type {string}
@@ -166,6 +187,37 @@ angular.module('financier').factory('MonthCategory', uuid => {
      */
     _emitChange() {
       return this.fn && this.fn(this);
+    }
+
+    /**
+     * Set a subscriber for overspending changes. Will be called with
+     * the new and old overspending value.
+     *
+     * @example
+     * const monthCat = new MonthCategory.from(
+     *   '111-111-111-111',
+     *   '201501',
+     *   '333-333-333-333'
+     * );
+     * monthCat.subscribeOverspending((newVal, oldVal) => {
+     *   console.log(newVal, oldVal);
+     * });
+     * monthCat.overspending = true; // Will console.log(true, null)
+     * monthCat.budget = false; // Will console.log(false, true)
+     *
+     * @param {function}
+     */
+    subscribeOverspending(fn) {
+      this.overspendingFn = fn;
+    }
+
+    /**
+     * Will call subscribed function with self, if set.
+     *
+     * @private
+     */
+    _emitOverspendingChange(newOverspending, oldOverspending) {
+      return this.overspendingFn && this.overspendingFn(newOverspending, oldOverspending);
     }
 
     /**

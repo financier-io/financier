@@ -43,6 +43,16 @@
   display: inline-block;
 }
 
+.account__tbody--striped .canvas {
+  background: repeating-linear-gradient(
+    to bottom,
+    $white,
+    $white 30px,
+    lighten($primary, 43%) 30px,
+    lighten($primary, 43%) 60px
+  );
+}
+
 .account__thead .account__tr,
 .account__tbody .account__tr,
 .account__tfoot .account__tr {
@@ -136,23 +146,6 @@
       color: $white;
     }
   }
-
-
-  // Because we use virtual rows, we need to check if the initial offset
-  // of the virtual rows to see if it's negative (otherwise the highlighting
-  // of even rows will alternate as we scroll)
-  &.account__tr--odd {
-    &:nth-child(odd) {
-      background-color: lighten($primary, 42%);
-    }
-  }
-
-  &:not(.account__tr--odd) {
-    &:nth-child(even) {
-      background-color: lighten($primary, 42%);
-    }
-  }
-
 
   &.account__tr--editing {
     background-color: $blue-hover;

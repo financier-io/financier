@@ -87,13 +87,13 @@ describe('month', function() {
       mo.nextRollingFn = () => {};
       spyOn(mo, 'nextRollingFn');
 
-      mo.setRolling(123, 1200);
+      mo.setRolling(123, 1200, true);
 
-      expect(mo.nextRollingFn).toHaveBeenCalledWith(123, 1200);
+      expect(mo.nextRollingFn).toHaveBeenCalledWith(123, 1200, true);
 
-      mo.setRolling(123, 1000);
+      mo.setRolling(123, 1000, true);
 
-      expect(mo.nextRollingFn).toHaveBeenCalledWith(123, 1000);
+      expect(mo.nextRollingFn).toHaveBeenCalledWith(123, 1000, true);
     });
 
     it('should allow setting budget', () => {
@@ -112,7 +112,8 @@ describe('month', function() {
         123: {
           rolling: 0,
           outflow: 0,
-          balance: 1200
+          balance: 1200,
+          overspending: null
         }
       });
 
@@ -122,7 +123,7 @@ describe('month', function() {
     it('can set a rolling (incoming) value', () => {
       const mo = new Month(defaultMonth());
 
-      mo.setRolling(123, 6900);
+      mo.setRolling(123, 6900, null);
 
       var data = JSON.parse(JSON.stringify(mo));
       var categoryCache = JSON.parse(JSON.stringify(mo.categoryCache));
@@ -135,7 +136,8 @@ describe('month', function() {
         123: {
           rolling: 6900,
           outflow: 0,
-          balance: 6900
+          balance: 6900,
+          overspending: null
         }
       });
     });
@@ -414,7 +416,7 @@ describe('month', function() {
 
         mo.startRolling(123);
 
-        expect(mo.setRolling).toHaveBeenCalledWith(123, 0);
+        expect(mo.setRolling).toHaveBeenCalledWith(123, 0, null);
         expect(mo.cache.totalBalance).toBe(333);
       });
     });
@@ -569,6 +571,357 @@ describe('month', function() {
 
         expect(mo.changeAvailable).toHaveBeenCalledWith(-500);
       });
+    });
+
+
+    describe('overspending', () => {
+      it('is null by default', () => {
+        const mo = new Month({
+          _id: Month.createID(new Date('1/1/15'))
+        }, () => {});
+
+        mo.startRolling(123);
+
+        expect(mo.categoryCache[123].overspending).toBe(null);
+      });
+
+      it('overrides default when adding month category', () => {
+        const mo1 = new Month({
+          _id: Month.createID(new Date('1/1/15'))
+        }, () => {});
+
+        const moCat = new MonthCategory.from(
+          '111-111-111-111',
+          '201501',
+          '123'
+        );
+        moCat.overspending = true;
+
+        mo1.addBudget(moCat);
+
+        expect(mo1.categoryCache['123'].overspending).toBe(true);
+      });
+
+      it('overrides next months default when adding month category', () => {
+        const mo1 = new Month({
+          _id: Month.createID(new Date('1/1/15'))
+        }, () => {});
+        const mo2 = new Month({
+          _id: Month.createID(new Date('2/1/15'))
+        }, () => {});
+
+        mo1.subscribeNextMonth(mo2);
+
+        const moCat = new MonthCategory.from(
+          '111-111-111-111',
+          '201501',
+          '123'
+        );
+
+        moCat.overspending = true;
+
+        mo1.addBudget(moCat);
+
+        mo1.startRolling('123');
+
+        expect(mo1.categoryCache['123'].overspending).toBe(true);
+        expect(mo2.categoryCache['123'].overspending).toBe(true);
+      });
+
+      it('=true propagates negative balances to next months', () => {
+        const mo1 = new Month({
+          _id: Month.createID(new Date('1/1/15'))
+        }, () => {});
+        const mo2 = new Month({
+          _id: Month.createID(new Date('2/1/15'))
+        }, () => {});
+
+        mo1.subscribeNextMonth(mo2);
+
+        const moCat = new MonthCategory.from(
+          '111-111-111-111',
+          '201501',
+          '123'
+        );
+
+        moCat.overspending = true;
+        moCat.budget = -123;
+
+        mo1.addBudget(moCat);
+
+        mo1.startRolling('123');
+
+        expect(mo1.categoryCache['123'].balance).toBe(-123);
+        expect(mo2.categoryCache['123'].balance).toBe(-123);
+      });
+
+      it('=true does not set overspent when adding month category', () => {
+        const mo = new Month({
+          _id: Month.createID(new Date('1/1/15'))
+        }, () => {});
+
+        const moCat = new MonthCategory.from(
+          '111-111-111-111',
+          '201501',
+          '123'
+        );
+
+        moCat.overspending = true;
+        moCat.budget = -123;
+
+        mo.addBudget(moCat);
+
+        expect(mo.cache.totalOverspent).toBe(0);
+      });
+
+      it('=true does not set overspent', () => {
+        const mo1 = new Month({
+          _id: Month.createID(new Date('1/1/15'))
+        }, () => {});
+        const mo2 = new Month({
+          _id: Month.createID(new Date('2/1/15'))
+        }, () => {});
+
+        mo1.subscribeNextMonth(mo2);
+
+        const moCat = new MonthCategory.from(
+          '111-111-111-111',
+          '201501',
+          '123'
+        );
+
+        moCat.overspending = true;
+        moCat.budget = -123;
+
+        mo1.addBudget(moCat);
+
+        mo1.startRolling('123');
+
+        expect(mo1.cache.totalOverspent).toBe(0);
+        expect(mo2.cache.totalOverspent).toBe(0);
+      });
+
+      it('=true should propagate totalBalance', () => {
+        const mo1 = new Month({
+          _id: Month.createID(new Date('1/1/15'))
+        }, () => {});
+        const mo2 = new Month({
+          _id: Month.createID(new Date('2/1/15'))
+        }, () => {});
+
+        mo1.subscribeNextMonth(mo2);
+
+        const moCat = new MonthCategory.from(
+          '111-111-111-111',
+          '201501',
+          '123'
+        );
+
+        moCat.overspending = true;
+        moCat.budget = -123;
+
+        mo1.addBudget(moCat);
+
+        mo1.startRolling('123');
+
+        expect(mo1.cache.totalBalance).toBe(-123);
+        expect(mo2.cache.totalBalance).toBe(-123);
+      });
+
+      it('=false->true reacts with totalOverspent', () => {
+        const mo1 = new Month({
+          _id: Month.createID(new Date('1/1/15'))
+        }, () => {});
+        const mo2 = new Month({
+          _id: Month.createID(new Date('2/1/15'))
+        }, () => {});
+
+        mo1.subscribeNextMonth(mo2);
+
+        const moCat = new MonthCategory.from(
+          '111-111-111-111',
+          '201501',
+          '123'
+        );
+
+        moCat.overspending = false;
+        moCat.budget = -123;
+
+        mo1.addBudget(moCat);
+
+        mo1.startRolling('123');
+
+        expect(mo1.cache.totalOverspent).toBe(123);
+        expect(mo2.cache.totalOverspentLastMonth).toBe(123);
+
+        moCat.overspending = true;
+
+        expect(mo1.cache.totalOverspent).toBe(0);
+        expect(mo2.cache.totalOverspentLastMonth).toBe(0);
+      });
+
+      it('=true->false reacts with totalOverspent', () => {
+        const mo1 = new Month({
+          _id: Month.createID(new Date('1/1/15'))
+        }, () => {});
+        const mo2 = new Month({
+          _id: Month.createID(new Date('2/1/15'))
+        }, () => {});
+
+        mo1.subscribeNextMonth(mo2);
+
+        const moCat = new MonthCategory.from(
+          '111-111-111-111',
+          '201501',
+          '123'
+        );
+
+        moCat.overspending = true;
+        moCat.budget = -123;
+
+        mo1.addBudget(moCat);
+
+        mo1.startRolling('123');
+
+        expect(mo1.cache.totalOverspent).toBe(0);
+        expect(mo2.cache.totalOverspentLastMonth).toBe(0);
+
+        moCat.overspending = false;
+
+        expect(mo1.cache.totalOverspent).toBe(123);
+        expect(mo2.cache.totalOverspentLastMonth).toBe(123);
+      });
+
+      it('=false->true propagates negative balances to next months', () => {
+        const mo1 = new Month({
+          _id: Month.createID(new Date('1/1/15'))
+        }, () => {});
+        const mo2 = new Month({
+          _id: Month.createID(new Date('2/1/15'))
+        }, () => {});
+
+        mo1.subscribeNextMonth(mo2);
+
+        const moCat = new MonthCategory.from(
+          '111-111-111-111',
+          '201501',
+          '123'
+        );
+
+        moCat.overspending = false;
+        moCat.budget = -123;
+
+        mo1.addBudget(moCat);
+
+        mo1.startRolling('123');
+
+        moCat.overspending = true;
+
+        expect(mo1.categoryCache['123'].balance).toBe(-123);
+        expect(mo2.categoryCache['123'].balance).toBe(-123);
+      });
+
+      it('=false->true should propagate totalBalance', () => {
+        const mo1 = new Month({
+          _id: Month.createID(new Date('1/1/15'))
+        }, () => {});
+        const mo2 = new Month({
+          _id: Month.createID(new Date('2/1/15'))
+        }, () => {});
+
+        mo1.subscribeNextMonth(mo2);
+
+        const moCat = new MonthCategory.from(
+          '111-111-111-111',
+          '201501',
+          '123'
+        );
+
+        moCat.overspending = false;
+        moCat.budget = -123;
+
+        mo1.addBudget(moCat);
+
+        mo1.startRolling('123');
+
+        moCat.overspending = true;
+
+        expect(mo1.cache.totalBalance).toBe(-123);
+        expect(mo2.cache.totalBalance).toBe(-123);
+      });
+
+      it('=true->false should not propagate totalBalance', () => {
+        const mo1 = new Month({
+          _id: Month.createID(new Date('1/1/15'))
+        }, () => {});
+        const mo2 = new Month({
+          _id: Month.createID(new Date('2/1/15'))
+        }, () => {});
+
+        mo1.subscribeNextMonth(mo2);
+
+        const moCat = new MonthCategory.from(
+          '111-111-111-111',
+          '201501',
+          '123'
+        );
+
+        moCat.overspending = true;
+        moCat.budget = -123;
+
+        mo1.addBudget(moCat);
+
+        mo1.startRolling('123');
+
+        moCat.overspending = false;
+
+        expect(mo1.cache.totalBalance).toBe(-123);
+        expect(mo2.cache.totalBalance).toBe(0);
+      });
+
+      it('multiple months', () => {
+        const mo1 = new Month({
+          _id: Month.createID(new Date('1/1/15'))
+        }, () => {});
+        const mo2 = new Month({
+          _id: Month.createID(new Date('2/1/15'))
+        }, () => {});
+        const mo3 = new Month({
+          _id: Month.createID(new Date('3/1/15'))
+        }, () => {});
+
+        mo1.subscribeNextMonth(mo2);
+        mo2.subscribeNextMonth(mo3);
+
+        const moCat2 = new MonthCategory.from(
+          '111-111-111-111',
+          '201502',
+          '123'
+        );
+        moCat2.overspending = false;
+        // moCat.budget = -123;
+
+        const moCat1 = new MonthCategory.from(
+          '111-111-111-111',
+          '201502',
+          '123'
+        );
+        moCat1.overspending = true;
+        moCat1.budget = -123;
+
+        mo1.addBudget(moCat1);
+        mo2.addBudget(moCat2);
+
+        mo1.startRolling('123');
+
+        // moCat.overspending = false;
+
+        expect(mo1.cache.totalBalance).toBe(-123);
+        expect(mo2.cache.totalBalance).toBe(-123);
+        expect(mo3.cache.totalBalance).toBe(0);
+      });
+
+      // todo test overspending works for outflows
     });
   });
 });
