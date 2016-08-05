@@ -11,8 +11,7 @@
 
 > A web-based, offline-first, YNAB4 alternative. Built with Angular 1 and PouchDB.
 
-[![Build Status](https://img.shields.io/travis/aeharding/financier/master.svg?style=flat-square)](https://travis-ci.org/aeharding/financier)
-[![Coverage Status](https://img.shields.io/coveralls/aeharding/financier/master.svg?style=flat-square)](https://coveralls.io/github/aeharding/financier?branch=master)
+[![build status](https://gitlab.com/financier/financier/badges/master/build.svg)](https://gitlab.com/financier/financier/commits/master)
 
 ## Are you a user?
 
