@@ -1,18 +1,75 @@
-image: node:latest
+image: node:argon
 
-# This folder is cached between builds
-# http://docs.gitlab.com/ce/ci/yaml/README.html#cache
-cache:
-  paths:
-  - node_modules/
+stages:
+  - install
+  - test
+  - build
+  - deploy
+  - clean_up
 
-before_script:
-  - npm install -g bower gulp
-  - npm install
-  - npm install --only development
-  - bower install
+install:
+  stage: install
+  script:
+    - apt-get -qq update
+    - apt-get -qq install -y python2.7 python2.7-dev build-essential make gcc g++ libicu-dev
+    - npm -g install npm --silent
+    - npm install -g bower gulp
+    - npm set progress=false
 
+    - npm install
+    - npm install --only=development
+    - bower install --allow-root
+  cache:
+    key: ${CI_BUILD_REF_NAME}
+    paths:
+      - node_modules
+      - bower_components
+  artifacts:
+    paths:
+     - node_modules/
+     - bower_components/
 
-test_async:
+test:
+  stage: test
   script:
     - npm test
+
+build:
+  stage: build
+  script:
+    - npm run-script compile
+    - npm run-script docs
+  artifacts:
+    paths:
+     - dist/
+     - docs/
+
+deploy:
+  stage: deploy
+  image: docker:git
+  services:
+    - docker:dind
+  script:
+    - COMMIT=${CI_BUILD_REF::8}
+
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+
+    - export TAG=`if [ "$CI_BUILD_REF_NAME" == "master" ]; then echo "latest"; else echo $CI_BUILD_REF_NAME ; fi`
+
+    - docker build -f Dockerfile -t $CI_REGISTRY_IMAGE:$COMMIT .
+
+    - docker tag $CI_REGISTRY_IMAGE:$COMMIT $CI_REGISTRY_IMAGE:$TAG
+
+    - docker tag $CI_REGISTRY_IMAGE:$COMMIT $CI_REGISTRY_IMAGE:gitlab-$CI_BUILD_ID
+    - docker push $CI_REGISTRY_IMAGE
+
+    - curl -I -s -L -X POST $REDEPLOY_WEBHOOK_URL
+  when: on_success
+
+clean_up_job:
+  stage: clean_up
+  script:
+    - rm -rf node_modules
+    - rm -rf bower_components
+    - rm -rf ~/.node-gyp
+  when: on_failure
