@@ -7,9 +7,9 @@ angular.module('financier').directive('calendarInput', inputDropSetup => {
     template: '<input type="text" ng-model="ngModel" date-parser="MM/dd/yy">',
     link: (scope, element, attrs) => {
       const input = element.find('input'),
-        templateUrl = '/scripts/directives/account/calendarInput.html';
+        template = require('./calendarInput.html');
 
-      const dropSetup = inputDropSetup(scope, input, templateUrl);
+      const dropSetup = inputDropSetup(scope, input, template);
 
       scope.ngModel = new Date(scope.ngModel);
       scope.thisMonth = new Date(scope.ngModel);

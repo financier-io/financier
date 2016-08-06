@@ -13,7 +13,7 @@ angular.module('financier').directive('stagingWarning', () => {
 
   return {
     restrict: 'E',
-    templateUrl: 'scripts/directives/stagingWarning.html',
+    template: require('./stagingWarning.html'),
     controller,
     replace: true,
     controllerAs: 'stagingWarningCtrl'

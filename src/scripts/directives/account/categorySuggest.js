@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 angular.module('financier').directive('categorySuggest', $rootScope => {
   return {
     restrict: 'E',
@@ -6,7 +8,7 @@ angular.module('financier').directive('categorySuggest', $rootScope => {
       ngModel: '=',
       transactionDate: '='
     },
-    template: '<autosuggest on-submit="onSubmit()" custom-filter="categoryFilter(item, searchValue, pristineInputField)" ng-model="item" items="items" template-url="templateUrl"></autosuggest>',
+    template: '<autosuggest on-submit="onSubmit()" custom-filter="categoryFilter(item, searchValue, pristineInputField)" ng-model="item" items="items" template="template"></autosuggest>',
     compile: () => {
       return {
         pre: (scope, element, attrs) => {
@@ -96,7 +98,7 @@ angular.module('financier').directive('categorySuggest', $rootScope => {
             };
           };
 
-          scope.templateUrl = '/scripts/directives/account/categorySuggest.html';
+          scope.template = require('./categorySuggest.html');
         }
       };
     }

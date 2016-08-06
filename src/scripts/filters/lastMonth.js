@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 // We store currency as int -- $1.50 = 150
 // Divide by 100
 

@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 angular.module('financier').factory('transaction', uuid => {
   return budgetId => {
     

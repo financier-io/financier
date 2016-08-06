@@ -1,3 +1,6 @@
+import moment from 'moment';
+import Chart from 'chart.js';
+
 angular.module('financier').directive('netWorthChart', ($filter, netWorth) => {
   return {
     restrict: 'E',

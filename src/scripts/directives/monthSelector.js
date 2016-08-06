@@ -1,7 +1,9 @@
+import moment from 'moment';
+
 angular.module('financier').directive('monthSelector', function() {
   return {
     restrict: 'E',
-    templateUrl: 'scripts/directives/monthSelector.html',
+    template: require('./monthSelector.html'),
     require: 'ngModel',
     scope: {
       ngModel: '=',

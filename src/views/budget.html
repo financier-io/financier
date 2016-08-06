@@ -113,7 +113,7 @@
                  ng-repeat-end>
               <span ng-class="{'budget__month-row--negative': month.categoryCache[row.id].balance < 0}">
                 {{(month.categoryCache[row.id].balance || 0) | intCurrency | currency : ''}}
-                <span ng-if="month.categoryCache[row.id].balance < 0 && month.categoryCache[row.id].overspending">➡</span>
+                <i class="fa fa-arrow-right" ng-if="month.categoryCache[row.id].balance < 0 && month.categoryCache[row.id].overspending"></i>
               </span>
             </div>
           </div>

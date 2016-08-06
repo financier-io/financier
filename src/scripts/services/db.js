@@ -1,3 +1,5 @@
+import PouchDB from 'pouchdb';
+
 angular.module('financier').provider('db', function() {
   const that = this;
   that.adapter = 'idb';

@@ -4,7 +4,7 @@ describe('budgetManager', function() {
   // a random budget uuid to test with
   const UUID = '555-555-555-555';
 
-  beforeEach(module('financier', dbProvider => {
+  beforeEach(angular.mock.module('financier', dbProvider => {
     dbProvider.adapter = 'memory';
   }));
 

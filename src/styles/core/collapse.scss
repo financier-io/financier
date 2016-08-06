@@ -7,9 +7,9 @@
 }
 
 .collapsing {
-    @include animation-timing-function(linear);
-    @include transition-duration(250ms);
-    @include transition-property(height, visibility);
+    animation-timing-function: linear;
+    transition-duration: 250ms;
+    transition-property: height, visibility;
 
     position: relative;
     height: 0;

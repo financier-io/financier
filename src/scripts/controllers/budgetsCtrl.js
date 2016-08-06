@@ -13,10 +13,18 @@ angular.module('financier').controller('budgetsCtrl', function(myBudgets, $scope
     getBudgets();
   });
 
-  this.remove = (budget, e) => {
+  let removingBudget;
+
+  this.isRemoving = budget => budget === removingBudget;
+
+  this.removing = (budget, e) => {
     e.preventDefault();
     e.stopPropagation();
 
+    removingBudget = budget;
+  }
+
+  this.remove = budget => {
     db.budget(budget.id).remove()
     .then(() => {
       return budget.remove();

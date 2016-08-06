@@ -1,9 +1,9 @@
-angular.module('financier').factory('inputDropSetup', ($rootScope, $document, $sce, $templateRequest, $compile) => {
-  return (scope, input, templateUrl) => {
+import Drop from 'tether-drop';
+
+angular.module('financier').factory('inputDropSetup', ($rootScope, $document, $sce, $compile) => {
+  return (scope, input, template) => {
     let dropInstance,
       accountSuggestClicked = false;
-
-    const sceTemplateUrl = $sce.getTrustedResourceUrl(templateUrl);
 
     let showDrop;
 
@@ -15,61 +15,60 @@ angular.module('financier').factory('inputDropSetup', ($rootScope, $document, $s
       accountSuggestClicked = false;
     };
 
-    const templateRequest = $templateRequest(sceTemplateUrl).then(template => {
-      const wrap = angular.element('<div></div>').append(template);
-      const content = $compile(wrap)(scope);
+
+    const wrap = angular.element('<div></div>').append(template);
+    const content = $compile(wrap)(scope);
 
 
-      input.on('focus', () => {
-        $rootScope.$broadcast('drop:close');
+    input.on('focus', () => {
+      $rootScope.$broadcast('drop:close');
 
-        showDrop();
-      });
+      showDrop();
+    });
 
-      showDrop = function() {
-        accountSuggestClicked = false;
+    showDrop = function() {
+      accountSuggestClicked = false;
 
-        if (!dropInstance) {
-          dropInstance = new Drop({
-            target: input[0],
-            content: content[0],
-            classes: 'drop-theme-arrows-bounce drop--wide',
-            openOn: null,
-            position: 'bottom center',
-            constrainToWindow: true,
-            constrainToScrollParent: false,
-              tetherOptions: {
-                constraints: [{
-                  to: 'scrollParent'
-                }, {
-                  to: 'window',
-                  attachment: 'together',
-                  pin: true
-                }]
-              }
-          });
-        }
+      if (!dropInstance) {
+        dropInstance = new Drop({
+          target: input[0],
+          content: content[0],
+          classes: 'drop-theme-arrows-bounce drop--wide',
+          openOn: null,
+          position: 'bottom center',
+          constrainToWindow: true,
+          constrainToScrollParent: false,
+            tetherOptions: {
+              constraints: [{
+                to: 'scrollParent'
+              }, {
+                to: 'window',
+                attachment: 'together',
+                pin: true
+              }]
+            }
+        });
+      }
 
-        input[0].select();
+      input[0].select();
 
-        // Remove previous event handler, if exists, to prevent binding multiple
-        $document.off('mousedown', handleDocumentClick);
-        $document.on('mousedown', handleDocumentClick);
-        dropInstance.open();
-      };
+      // Remove previous event handler, if exists, to prevent binding multiple
+      $document.off('mousedown', handleDocumentClick);
+      $document.on('mousedown', handleDocumentClick);
+      dropInstance.open();
+    };
 
-      // Close on window mousedown except when the popup is clicked
-      content.on('mousedown', e => {
-        accountSuggestClicked = true;
-      });
+    // Close on window mousedown except when the popup is clicked
+    content.on('mousedown', e => {
+      accountSuggestClicked = true;
+    });
 
-      content.on('click', e => {
-        e.stopPropagation();
-      });
+    content.on('click', e => {
+      e.stopPropagation();
+    });
 
-      input.on('mousedown', e => {
-        accountSuggestClicked = true;
-      });
+    input.on('mousedown', e => {
+      accountSuggestClicked = true;
     });
 
     return {
@@ -78,10 +77,8 @@ angular.module('financier').factory('inputDropSetup', ($rootScope, $document, $s
         dropInstance && dropInstance.destroy();
       },
       focus() {
-        templateRequest.then(() => {
-          input[0].focus();
-          showDrop();
-        });
+        input[0].focus();
+        showDrop();
       },
       close() {
         $document.off('mousedown', handleDocumentClick);
@@ -89,8 +86,7 @@ angular.module('financier').factory('inputDropSetup', ($rootScope, $document, $s
       },
       position() {
         dropInstance && dropInstance.position();
-      },
-      templateRequest
+      }
     };
     
   };

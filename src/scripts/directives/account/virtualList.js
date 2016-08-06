@@ -2,7 +2,7 @@ angular.module('financier')
   .directive('virtualList', function() {
     return {
       restrict: 'E',
-      templateUrl: '/scripts/directives/account/virtualList.html',
+      template: require('./virtualList.html'),
       scope: false,
       link: function(scope, elem, attrs) {
         var rowHeight = 30;

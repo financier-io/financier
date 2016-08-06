@@ -1,7 +1,7 @@
 describe('intCurrency filter', function() {
   let intCurrencyFilter;
 
-  beforeEach(module('financier'));
+  beforeEach(angular.mock.module('financier'));
 
   beforeEach(inject(_intCurrencyFilter_ => {
     intCurrencyFilter = _intCurrencyFilter_;

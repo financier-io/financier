@@ -1,0 +1,25 @@
+  ___ _                 _
+ |  _|_|___ ___ ___ ___|_|___ ___
+ |  _| |   | .'|   |  _| | -_|  _|
+ |_| |_|_|_|__,|_|_|___|_|___|_|
+
+_____________
+ WHO IS THIS
+‾‾‾‾‾‾‾‾‾‾‾‾‾
+One man show, Alexander Harding (https://harding.ae).
+
+________________
+ APP TECH STACK
+‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+Angular 1, PouchDB, CouchDB, Webpack, es6+, Node, Stripe,
+Docker, Service Worker/AppCache, Sass, jasmine, and npm.
+(And a whole bunch of other smaller libraries.)
+
+Hosted on Digital Ocean.
+
+___________
+ THANKS TO
+‾‾‾‾‾‾‾‾‾‾‾
+ * Code, continuous integration, container image hosting and
+   static webpage hosting for free by Gitlab.
+ * Container management for free by Docker Cloud.

@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 angular.module('financier').controller('dbCtrl', function(account, transaction, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget) {
   let {manager, categories} = data;
   const budgetId = $stateParams.budgetId;
@@ -69,7 +71,7 @@ angular.module('financier').controller('dbCtrl', function(account, transaction, 
 
   this.editAccount = account => {
     ngDialog.open({
-      template: 'views/modal/editAccount.html',
+      template: require('../../views/modal/editAccount.html'),
       controller: 'editAccountCtrl',
       controllerAs: 'editAccountCtrl',
       resolve: {

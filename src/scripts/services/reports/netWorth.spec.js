@@ -1,7 +1,7 @@
 describe('netWorth', function() {
   let netWorth, transaction, Transaction;
 
-  beforeEach(module('financier'));
+  beforeEach(angular.mock.module('financier'));
 
   beforeEach(inject((_netWorth_, _transaction_) => {
     netWorth = _netWorth_;

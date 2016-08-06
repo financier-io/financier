@@ -1,7 +1,7 @@
 describe('category', function() {
   let category, masterCategory;
 
-  beforeEach(module('financier'));
+  beforeEach(angular.mock.module('financier'));
 
   beforeEach(inject((_category_, _masterCategory_) => {
     category = _category_;

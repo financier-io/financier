@@ -5,7 +5,7 @@ angular.module('financier').directive('autosuggest', ($timeout, $filter, inputDr
     scope: {
       items: '=',
       focus: '@',
-      templateUrl: '=',
+      template: '=',
       onSubmit: '&',
       customFilter: '&?'
     },
@@ -22,7 +22,7 @@ angular.module('financier').directive('autosuggest', ($timeout, $filter, inputDr
 
       let items = scope.items;
 
-      const dropSetup = inputDropSetup(scope, input, scope.templateUrl);
+      const dropSetup = inputDropSetup(scope, input, scope.template);
 
       scope.$on('focus', () => {
         dropSetup.focus();

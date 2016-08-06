@@ -1,3 +1,5 @@
+import math from 'mathjs';
+
 angular.module('financier').directive('onUpdate', ($filter, $timeout) => {
   function link(scope, element, attrs) {
     let oldValue;

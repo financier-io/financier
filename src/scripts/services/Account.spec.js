@@ -1,7 +1,7 @@
 describe('account', function() {
   let account, Account, transaction, Transaction;
 
-  beforeEach(module('financier'));
+  beforeEach(angular.mock.module('financier'));
 
   beforeEach(inject((_account_, _transaction_) => {
     account = _account_;

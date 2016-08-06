@@ -1,7 +1,7 @@
 describe('Settings', function() {
   let Settings;
 
-  beforeEach(module('financier'));
+  beforeEach(angular.mock.module('financier'));
 
   beforeEach(inject(_Settings_ => {
     Settings = _Settings_;

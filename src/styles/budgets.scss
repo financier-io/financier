@@ -18,50 +18,101 @@
 }
 
 .budgets__budget {
-  position: relative;
-  width: 10em;
-  height: 10em;
-  margin: 1em;
-
-  list-style: none;
+  transition: transform 250ms ease;
   border: 1px solid $primary;
 
-  transition: transform 250ms ease;
+  cursor: pointer;
   
   &:hover,
   &:focus {
     transform: scale(1.1);
 
     .budget__budget-close {
-      transform: scale(1);
+      transform: scale(1) rotate(45deg);
     }
   }
 
-  a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
+    // .budget__budget-new-icon {
+    //   transform: scale(1.5);
+    // }
 
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+  text-align: center;
+  text-decoration: none;
 
-    text-align: center;
-    text-decoration: none;
+  transition: all 250ms ease;
+}
 
-    transition: all 250ms ease;
+.budgets__flipper {
+  list-style: none;
 
-    &:hover {
-      outline: 0;
+  position: relative;
 
-      .budget__budget-new-icon {
-        transform: scale(1.5);
-      }
+  perspective: 1000px;
+  transition-duration: 500ms;
+  width: 10em;
+  height: 10em;
+  margin: 1em;
+}
+
+.budgets__flipper--open {
+  .budgets__budget {
+    transform: rotateX(180deg);
+  }
+  .budgets__budget-remove {
+    transform: rotateX(0);
+  }
+
+  .budget__budget-close {
+    display: none; // prevent flicker
+  }
+}
+
+.budgets__budget-remove {
+  transform: rotateX(-180deg);
+  transition: transform 500ms ease;
+
+  background-color: $danger;
+  color: $white;
+
+  header {
+    font-size: 0.8em;
+    margin: 0 1em;
+  }
+
+  button {
+    font-size: 0.8em;
+
+    background-color: $white;
+    color: black;
+    border: 0;
+
+    padding: 0.25em 0.5em;
+
+    &.danger {
+      background-color: $danger;
+      color: $white;
+      border: 1px solid $white;
     }
-  } 
+
+    &:not(:last-child) {
+      margin-right: 0.5em;
+    }
+  }
+}
+
+.budgets__budget-remove,
+.budgets__budget {
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10em;
+  height: 10em;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .budget__budget-opened {
@@ -74,14 +125,16 @@
 
 .budget__budget-close {
   position: absolute;
-  line-height: 1;
-  font-size: 1.5em;
+  line-height: 0.8em;
+  width: 0.8em;
+  height: 0.8em;
+  font-size: 2em;
   bottom: 5px;
   right: 5px;
 
   color: black;
 
-  transform: scale(0);
+  transform: scale(0) rotate(45deg);
 
   &:hover,
   &:focus {

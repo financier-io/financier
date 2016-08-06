@@ -7,7 +7,7 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
       transactionAccountId: '=',
       ngModel: '='
     },
-    template: '<autosuggest on-submit="onSubmit()" custom-filter="itemFilter(item, searchValue, pristineInputField)" ng-model="item" items="items" template-url="templateUrl"></autosuggest>',
+    template: '<autosuggest on-submit="onSubmit()" custom-filter="itemFilter(item, searchValue, pristineInputField)" ng-model="item" items="items" template="template"></autosuggest>',
     compile: () => {
       return {
         pre: (scope, element, attrs) => {
@@ -74,7 +74,7 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
             scope.$broadcast('focus');
           });
 
-          scope.templateUrl = '/scripts/directives/account/payeeSuggest.html';
+          scope.template = require('./payeeSuggest.html');
         }
       };
     }

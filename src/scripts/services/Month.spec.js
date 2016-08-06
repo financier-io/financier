@@ -7,7 +7,7 @@ describe('month', function() {
     };
   }
 
-  beforeEach(module('financier'));
+  beforeEach(angular.mock.module('financier'));
 
   beforeEach(inject((_month_, _transaction_, _MonthCategory_) => {
     month = _month_;

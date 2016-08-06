@@ -1,7 +1,7 @@
 describe('Budget', function() {
   let Budget;
 
-  beforeEach(module('financier'));
+  beforeEach(angular.mock.module('financier'));
 
   beforeEach(inject(_Budget_ => {
     Budget = _Budget_;

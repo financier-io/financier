@@ -7,25 +7,33 @@
   <div class="budgets__title">Your budgets</div>
   
   <ul class="budgets__budgets" disable-ng-animate>
-    <li ng-repeat="budget in budgetsCtrl.budgets | orderBy: '-opened'"
-        class="budgets__budget">
-      <a ui-sref="user.app.manager.view.budget({budgetId: budget.id})">
+    <li class="budgets__flipper"
+        ng-class="{'budgets__flipper--open': budgetsCtrl.isRemoving(budget)}"
+        ng-repeat="budget in budgetsCtrl.budgets | orderBy: '-opened'">
+      <div class="budgets__budget-remove">
+        <header>Are you sure you want to permanently delete "{{budget.name}}"?</header>
+
+        <div>
+          <button class="danger" ng-click="budgetsCtrl.remove(budget)">Remove</button> <button ng-click="budgetsCtrl.removing(null, $event)">Cancel</button>
+        </div>
+      </div>
+      <div class="budgets__budget" ui-sref="user.app.manager.view.budget({budgetId: budget.id})">
         <div class="budget__budget-name">{{budget.name}}</div>
         <div class="budget__budget-opened"
              ng-if="budget.opened"
              title="{{budget.opened | date: 'medium'}}"><sub>Last opened</sub><br>{{budget.opened | timeAgo}}</div>
 
-        <div class="budget__budget-close" ng-click="budgetsCtrl.remove(budget, $event)" tabindex="0">✕</div>
-      </a>
+        <div class="budget__budget-close" ng-click="budgetsCtrl.removing(budget, $event)" tabindex="0">+</div>
+      </div>
     </li>
-
+<!-- 
     <li class="budgets__budget">
       <a ui-sref="user.budget.create">
         <div>
           <div class="budget__budget-new-icon">+</div>
         </div>
       </a>
-    </li>
+    </li> -->
   </ul>
 
   <div class="budgets__title">Your subscription</div>

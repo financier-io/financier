@@ -1,19 +1,9 @@
-@import 'bourbon';
-@import 'normalize';
+@import '~normalize.css/normalize';
 
-$lato-font-path: '../vendor';
-@import 'lato';
+@import '~tether-drop/dist/css/drop-theme-arrows-bounce';
 
-$fa-font-path: '../vendor';
-@import 'font-awesome';
-
-@import 'drop-theme-arrows-bounce';
-
-@import 'ngDialog';
-@import 'ngDialog-theme-default';
-
-@import 'angular-ladda-lw';
-
+@import '~ng-dialog/css/ngDialog';
+@import '~ng-dialog/css/ngDialog-theme-default';
 
 @import 'core/variables';
 @import 'core/zindex';

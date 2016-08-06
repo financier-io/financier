@@ -38,7 +38,7 @@ angular.module('financier').controller('userCtrl', function($rootScope, User, db
 
   this.signin = () => {
     ngDialog.open({
-      template: 'views/modal/signin.html',
+      template: require('../../views/modal/signin.html'),
       controller: 'signinCtrl as signinCtrl'
     });
   };

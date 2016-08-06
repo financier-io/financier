@@ -123,6 +123,7 @@
     width: 100%;
     outline: 0;
     border: 1px solid transparent;
+    line-height: 1;
 
     &:focus {
       border-color: $primary-alt;
