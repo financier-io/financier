@@ -2,7 +2,8 @@ import PouchDB from 'pouchdb';
 
 angular.module('financier').provider('db', function() {
   const that = this;
-  that.adapter = 'idb';
+
+  that.adapter = null;
 
   this.$get = (Budget, budgetManager, $http, $rootScope) => {
     const db = new PouchDB('financier', {

@@ -9,27 +9,28 @@
   <a href="https://hub.docker.com/r/aeharding/financier/">🐳 Docker</a>
 </p>
 
-> A web-based, offline-first, YNAB4 alternative. Built with Angular 1 and PouchDB.
+> A web-based, offline-first app. Built with Angular 1 and PouchDB.
 
 [![build status](https://gitlab.com/financier/financier/badges/master/build.svg)](https://gitlab.com/financier/financier/commits/master)
-
-## Are you a user?
-
-This page is for developers. If you need help with financier, check out [the wiki](https://github.com/aeharding/financier/wiki) or [the website](https://financier.io).
-
-## Install
-
-```sh
-# clone it
-npm install -g gulp bower
-npm install
-bower install
-```
 
 ### Develop
 
 ```sh
-gulp watch
+npm start
+npm install
+```
+
+### Test
+
+```sh
+npm test
+# or continuous: `npm run test-watch`
+```
+
+### Build (for production)
+
+```sh
+npm run build
 ```
 
 ### Run locally
@@ -44,4 +45,4 @@ node ./api
 
 Local docs would be `http://localhost:8080/docs`.
 
-Generate with `npm run-script docs`.
+Generate with `npm run docs`.

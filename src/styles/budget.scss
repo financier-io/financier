@@ -14,8 +14,6 @@ $budgetMonthCellPadding: 2px 5px 0;
 .budget__tbody,
 .budget__thead,
 .budget__tfoot {
-  display: flex;
-  flex-direction: column;
   flex-grow: 0;
   flex-shrink: 0;
   overflow-y: scroll;

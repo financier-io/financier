@@ -26,14 +26,12 @@
         <div class="budget__budget-close" ng-click="budgetsCtrl.removing(budget, $event)" tabindex="0">+</div>
       </div>
     </li>
-<!-- 
-    <li class="budgets__budget">
-      <a ui-sref="user.budget.create">
-        <div>
-          <div class="budget__budget-new-icon">+</div>
-        </div>
-      </a>
-    </li> -->
+
+    <li class="budgets__flipper">
+      <div class="budgets__budget" ui-sref="user.budget.create">
+        <div class="budget__budget-new-icon">+</div>
+      </div>
+    </li>
   </ul>
 
   <div class="budgets__title">Your subscription</div>
