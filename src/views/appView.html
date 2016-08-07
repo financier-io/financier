@@ -7,7 +7,8 @@
     <div class="app-view__sidebar" resizable r-directions="['right']" r-flex="true" r-width="dbCtrl.sidebarInitialWidth">
 
       <h1 class="app-view__title">
-        <a ui-sref="user.budget">Financier</a>
+        <span>F</span>
+        <a ui-sref="user.budget">{{dbCtrl.budgetRecord.name}}</a>
       </h1>
 
       <div class="app-view__sidebar-main">

@@ -117,8 +117,8 @@
 }
 
 .app-view__title {
-  display: inline-block;
-  font-size: 1.4em;
+  display: flex;
+  font-size: 1.2em;
   font-weight: 300;
   margin: 0;
   text-align: center;
@@ -126,19 +126,30 @@
   height: 3rem;
   line-height: 3rem;
 
-  background-color: rgba(0, 0, 0, 0.1);
+  // background-color: rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 
-  &,
-  a {
-    width: 100%;
+  margin-bottom: 0.5rem;
+
+  span {
+    width: 3rem;
+    font-size: 1.5em;
+    display: inline-block;
+    background-color: rgba(0, 0, 0, 0.15);
   }
 
   a {
-    display: inline-block;
+    flex: 1;
+
+    padding: 0 0.5em;
 
     background: none;
     transition: all 250ms ease;
     position: relative;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 }
 

@@ -1,0 +1,101 @@
+.credit-card {
+  max-width: 400px;
+  margin: 0 auto;
+  border: 1px solid $primary;
+  padding: 1em;
+}
+
+.credit-card__title {
+  font-size: 2em;
+  text-align: center;
+}
+
+.credit-card__cards {
+  display: flex;
+  margin: 0.5em 0;
+
+  i {
+    flex: 1;
+    text-align: center;
+    color: #bbb;
+    font-size: 2em;
+  }
+}
+
+.credit-card__label-name {
+  // color: $primary;
+  font-size: 0.9em;
+  padding-left: 5px;
+}
+
+.credit-card__label {
+  display: block;
+  margin-bottom: 1em;
+}
+
+.credit-card__block {
+  display: flex;
+  margin-bottom: 1em;
+
+  > * {
+    flex: 1;
+
+    margin: 0 0.5em;
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.credit-card__number-wrapper {
+  display: inline-block;
+  position: relative;
+  color: #aaa;
+
+  width: 100%;
+
+  .credit-card__number {
+    padding-right: 20px;
+  }
+
+
+  &:after {
+    content: '\f09d';
+    font-family: 'FontAwesome';
+    position: absolute;
+    right: 10px;
+    top: 0;
+    line-height: 2rem;
+  }
+}
+
+.credit-card__number {
+  padding: 0 10px;
+  line-height: 2rem;
+
+  width: 100%;
+
+  outline: 0;
+  border: 1px solid #ccc;
+
+  &:focus {
+    border-color: $primary;
+  }
+}
+
+.credit-card__submit-help {
+  font-size: 0.8em;
+  color: #999;
+}
+
+.credit-card__submit {
+  font-size: 1.3em;
+  text-align: center;
+  width: 100%;
+  padding: 0.5em;
+}

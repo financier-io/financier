@@ -189,6 +189,10 @@
   font-size: 1.2em;
 }
 
+.account__balance-value--negative {
+  color: $danger;
+}
+
 .account__operator {
   color: rgba(255, 255, 255, 0.3);
   font-size: 1.5em;
