@@ -121,7 +121,7 @@ module.exports = function makeWebpackConfig () {
       loader: 'raw'
     }, {
       test: /\.scss$/,
-      loaders: ['style', 'css', 'sass']
+      loaders: ['style', 'css', 'postcss-loader', 'sass']
     }, {
       test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
       loader: "url?limit=10000&mimetype=application/font-woff"
