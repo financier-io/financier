@@ -91,6 +91,10 @@ module.exports = function makeWebpackConfig () {
       loaders: ['ng-annotate', 'babel'],
       exclude: /node_modules/
     }, {
+      // JSON LOADER
+      test: /\.json$/,
+      loaders: ['json']
+    }, {
       // CSS LOADER
       // Reference: https://github.com/webpack/css-loader
       // Allow loading css through js

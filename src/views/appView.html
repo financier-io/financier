@@ -14,14 +14,14 @@
       <div class="app-view__sidebar-main">
         <ul class="app-view__links">
           <li class="app-view__link" ui-sref-active="app-view__link--active">
-            <a ui-sref="user.app.manager.view.budget"><div class="app-view__link-text"><i class="fa fa-tags"></i> Budget</div></a>
+            <a ui-sref="user.app.manager.view.budget"><div class="app-view__link-text"><i class="fa fa-tags"></i> {{'BUDGET' | translate}}</div></a>
           </li>
           <li class="app-view__link" ui-sref-active="app-view__link--active">
-            <a ui-sref="user.app.manager.view.reports"><div class="app-view__link-text"><i class="fa fa-pie-chart"></i> Reports</div></a>
+            <a ui-sref="user.app.manager.view.reports"><div class="app-view__link-text"><i class="fa fa-pie-chart"></i> {{'REPORTS' | translate}}</div></a>
           </li>
           <li class="app-view__link" ui-sref-active="app-view__link--active">
             <a ui-sref="user.app.manager.view.account({accountId: null})">
-              <div class="app-view__link-text"><i class="fa fa-credit-card"></i> Accounts</div>
+              <div class="app-view__link-text"><i class="fa fa-credit-card"></i> {{'ACCOUNTS' | translate}}</div>
               <aside>{{dbCtrl.manager.allAccounts.balance | intCurrency | currency}}</aside>
             </a>
           </li>
@@ -32,7 +32,7 @@
         <div class="app-view__accounts">
 
           <div class="app-view__accounts-list-border">
-            <div class="app-view__accounts-title">My accounts</div>
+            <div class="app-view__accounts-title">{{'MY_ACCOUNTS' | translate}}</div>
 
             <ul class="app-view__accounts-list">
               <li class="app-view__account"
@@ -45,7 +45,7 @@
             </ul>
           </div>
 
-          <button class="app-view__add-account" ng-click="dbCtrl.editAccount()">Add an account</button>
+          <button class="app-view__add-account" ng-click="dbCtrl.editAccount()">{{'ADD_AN_ACCOUNT' | translate}}</button>
         </div>
       </div>
 

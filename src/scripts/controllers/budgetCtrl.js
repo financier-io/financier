@@ -1,4 +1,4 @@
-angular.module('financier').controller('budgetCtrl', function($stateParams, $rootScope, $timeout, $scope, month) {
+angular.module('financier').controller('budgetCtrl', function($filter, $stateParams, $rootScope, $timeout, $scope, month) {
   const Month = month($stateParams.budgetId);
 
   this.showMonths = 0;
@@ -29,4 +29,20 @@ angular.module('financier').controller('budgetCtrl', function($stateParams, $roo
   };
 
   this.currentMonth = Month.createID(new Date());
+
+  const lastMonthFilter = $filter('lastMonth'),
+    dateFilter = $filter('date');
+
+  this.translationPayloads = {
+    currentMonth(date) {
+      return {
+        month: dateFilter(date, 'MMM')
+      };
+    },
+    lastMonth(date) {
+      return {
+        month: dateFilter(lastMonthFilter(date), 'MMM')
+      };
+    }
+  }
 });

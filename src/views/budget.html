@@ -20,16 +20,29 @@
           <div class="month-overview__month-text">{{month.date | date: 'MMMM yyyy'}}</div>
           <dl class="month-overview__month-list">
             <dt>{{month.cache.totalAvailableLastMonth | intCurrency | currency : ''}}</dt>
-            <dd><span ng-if="month.cache.totalAvailableLastMonth >= 0">Not budgeted</span><span ng-if="month.cache.totalAvailableLastMonth < 0">Overbudgeted</span> in {{month.date | lastMonth | date: 'MMM'}}</dd>
+            <dd>
+              <span ng-if="month.cache.totalAvailableLastMonth >= 0">
+                {{'NOT_BUDGETED_IN' | translate : budgetCtrl.translationPayloads.lastMonth(month.date)}}
+              </span>
+              <span ng-if="month.cache.totalAvailableLastMonth < 0">
+                {{'OVERBUDGETED_IN' | translate : budgetCtrl.translationPayloads.lastMonth(month.date)}}
+              </span>
+            </dd>
 
             <dt>-{{month.cache.totalOverspentLastMonth | intCurrency | currency : ''}}</dt>
-            <dd>Overspent in {{month.date | lastMonth | date: 'MMM'}}</dd>
+            <dd>
+              {{'OVERSPENT_IN' | translate : budgetCtrl.translationPayloads.lastMonth(month.date)}}
+            </dd>
 
             <dt><span ng-if="month.cache.totalIncome >= 0">+</span>{{month.cache.totalIncome | intCurrency | currency : ''}}</dt>
-            <dd>Income for {{month.date | date: 'MMM'}}</dd>
+            <dd>
+              {{'INCOME_FOR' | translate : budgetCtrl.translationPayloads.currentMonth(month.date)}}
+            </dd>
 
             <dt>{{-month.cache.totalBudget | intCurrency | currency : ''}}</dt>
-            <dd>Budgeted in {{month.date | date: 'MMM'}}</dd>
+            <dd>
+              {{'BUDGETED_IN' | translate : budgetCtrl.translationPayloads.currentMonth(month.date)}}
+            </dd>
           </dl>
 
           <div class="month-overview__month-total" ng-class="
@@ -37,19 +50,19 @@
               'month-overview__month-total--negative': month.cache.totalAvailable < 0
             }">= {{month.cache.totalAvailable | intCurrency | currency}}</div>
           <div class="month-overview__month-total-subtext">
-            <span ng-if="month.cache.totalAvailable >= 0">Available to budget</span>
-            <span ng-if="month.cache.totalAvailable < 0">Overbudgeted</span>
+            <span ng-if="month.cache.totalAvailable >= 0">{{'AVAILABLE_TO_BUDGET' | translate}}</span>
+            <span ng-if="month.cache.totalAvailable < 0">{{'OVERBUDGETED' | translate}}</span>
           </div>
         </div>
       </div>
       <div class="budget__tr month-overview__row" disable-ng-animate>
         <div class="budget__th budget__month-row budget__category-label"></div>
         <div class="budget__th budget__month-row month-overview__cell-head"
-             ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index">Budgeted<div>{{month.cache.totalBudget | intCurrency | currency}}</div></div>
-        <div class="budget__th budget__month-row month-overview__cell-head">Outflows<div>{{month.cache.totalOutflow | intCurrency | currency}}</div></div>
+             ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index">{{'BUDGETED' | translate}}<div>{{month.cache.totalBudget | intCurrency | currency}}</div></div>
+        <div class="budget__th budget__month-row month-overview__cell-head">{{'OUTFLOWS' | translate}}<div>{{month.cache.totalOutflow | intCurrency | currency}}</div></div>
         <div class="budget__th budget__month-row month-overview__cell-head"
             ng-class="{'budget__month-end': !$last}"
-            ng-repeat-end>Balance<div>{{month.cache.totalBalance | intCurrency | currency}}</div></div>
+            ng-repeat-end>{{'BALANCE' | translate}}<div>{{month.cache.totalBalance | intCurrency | currency}}</div></div>
       </div>
     </div>
     <div class="budget__tbody overflowable" ng-sortable="masterCategorySortable" disable-ng-animate>

@@ -4,7 +4,7 @@
 <div class="budgets">
   <sync-status></sync-status>
 
-  <div class="budgets__title">Your budgets</div>
+  <div class="budgets__title">{{'YOUR_BUDGETS' | translate}}</div>
   
   <ul class="budgets__budgets" disable-ng-animate>
     <li class="budgets__flipper"
@@ -34,7 +34,7 @@
     </li>
   </ul>
 
-  <div class="budgets__title">Your subscription</div>
+  <div class="budgets__title">{{'YOUR_SUBSCRIPTION' | translate}}</div>
   
   <div ng-if="!userCtrl.email">
     <p>You're currently using the free version. Your budgets are stored in the browser, and could be deleted if you clear the browser cache!</p>

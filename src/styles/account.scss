@@ -83,7 +83,7 @@
 
     text-overflow: ellipsis;
     overflow: hidden;
-    word-wrap: nowrap;
+    white-space: nowrap;
   }
 
   &.st-sort-descent {

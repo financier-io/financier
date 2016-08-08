@@ -46,8 +46,8 @@
 }
 
 .month-overview__month-list {
+  display: inline-block;
   font-size: 0.8em;
-  max-width: 215px;
   margin: 0 auto;
 
   dt {
