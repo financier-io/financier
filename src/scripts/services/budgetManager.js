@@ -221,7 +221,8 @@ angular.module('financier').factory('budgetManager', (
 
       return {
         all,
-        initialize
+        initialize,
+        put: putCategory
       };
     }
 

@@ -56,7 +56,11 @@
         </div>
       </div>
       <div class="budget__tr month-overview__row" disable-ng-animate>
-        <div class="budget__th budget__month-row budget__category-label"></div>
+        <div class="budget__th budget__month-row budget__category-label">
+          <div class="budget__categories-label">
+            Categories <div class="budget__add-master-category" add-master-category="dbCtrl.addMasterCategory"></div>
+          </div>
+        </div>
         <div class="budget__th budget__month-row month-overview__cell-head"
              ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index">{{'BUDGETED' | translate}}<div>{{month.cache.totalBudget | intCurrency | currency}}</div></div>
         <div class="budget__th budget__month-row month-overview__cell-head">{{'OUTFLOWS' | translate}}<div>{{month.cache.totalOutflow | intCurrency | currency}}</div></div>

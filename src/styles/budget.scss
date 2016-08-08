@@ -61,7 +61,7 @@ $budgetMonthCellPadding: 2px 5px 0;
 
 .budget__month-row-note {
   opacity: 0;
-  // transition: opacity 250ms linear;
+  padding: 0 1px; // prevent cutoff
 
   cursor: pointer;
 
@@ -209,4 +209,36 @@ $budgetMonthCellPadding: 2px 5px 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  position: relative;
+}
+
+.budget__categories-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  color: #999;
+}
+
+.budget__add-master-category {
+  display: inline-block;
+
+  width: 1em;
+  height: 1em;
+  margin: 0.25em;
+
+  line-height: 1;
+
+  vertical-align: top;
+
+  text-align: center;
+
+  background-color: #999;
+  color: $white;
+
+  &:after {
+    content: '+';
+  }
 }

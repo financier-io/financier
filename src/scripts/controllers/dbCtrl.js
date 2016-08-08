@@ -1,11 +1,12 @@
 import moment from 'moment';
 
-angular.module('financier').controller('dbCtrl', function(account, transaction, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget) {
+angular.module('financier').controller('dbCtrl', function(account, transaction, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget) {
   let {manager, categories} = data;
   const budgetId = $stateParams.budgetId;
 
   const Month = month(budgetId);
   const Account = account(budgetId);
+  const MasterCategory = masterCategory(budgetId);
 
   this.manager = manager;
   this.categories = categories;
@@ -97,4 +98,19 @@ angular.module('financier').controller('dbCtrl', function(account, transaction, 
   $scope.$on('angular-resizable.resizeEnd', (e, { width }) => {
     localStorage.setItem('sidebarWidth', width);
   });
+
+  this.addMasterCategory = name => {
+    const cat = new MasterCategory({
+      name
+    });
+
+    this.categories.unshift(cat);
+
+    for (let i = 0; i < this.categories.length; i++) {
+      this.categories[i].sort = i;
+    }
+
+    myBudget.categories.put(cat);
+    cat.subscribe(myBudget.categories.put);
+  }
 });
