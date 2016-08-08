@@ -41,6 +41,7 @@ angular.module('financier').provider('db', function() {
         $rootScope.$broadcast('syncStatus:update', 'syncing');
       })
       .on('paused', function () {
+        // user went offline
         $rootScope.$broadcast('syncStatus:update', 'complete');
       })
       .on('active', function () {
