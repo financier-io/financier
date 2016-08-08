@@ -43,6 +43,37 @@ describe('month', function() {
       it('prefix', () => {
         expect(Month.prefix).toBe('b_111-111-111-111_month_');
       });
+
+      describe('contains', () => {
+        it('is true if _id is of budget and is Month', () => {
+          const mo = new Month('2015-01-01');
+
+          expect(Month.contains(mo.data._id)).toBe(true);
+        });
+
+        it('is false if _id is of other budget and is Month', () => {
+          const OtherBudgetMonth = month('222-222-222-222'),
+            mo = new OtherBudgetMonth('2015-01-01');
+
+          expect(Month.contains(mo.data._id)).toBe(false);
+        });
+
+        it('is false if _id is of budget and is Month', () => {
+          const trans = new Transaction();
+
+          expect(Month.contains(trans.data._id)).toBe(false);
+        });
+
+        // Explicit coverage test
+        it('is false if _id is greater than', () => {
+          expect(Month.contains('aaa')).toBe(false);
+        });
+
+        // Explicit coverage test
+        it('is false if _id is less than', () => {
+          expect(Month.contains('zzz')).toBe(false);
+        });
+      });
     });
 
     it('can take string', () => {

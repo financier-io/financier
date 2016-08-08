@@ -16,7 +16,7 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
        */
       constructor(data = {}) {
         if (!data._id) {
-          data._id = `b_${budgetId}_masterCategory_${uuid()}`;
+          data._id = MasterCategory.prefix + uuid();
         }
 
         super(data);
@@ -109,6 +109,45 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
           this.data.sort = i;
           super.emitChange();
         }
+      }
+
+      /**
+       * The upper bound of alphabetically sorted MasterCategories by ID. Used by PouchDB.
+       *
+       * @type {string}
+       */
+      static get startKey() {
+        return `b_${budgetId}_masterCategory_`;
+      }
+
+      /**
+       * The lower bound of alphabetically sorted MasterCategories by ID. Used by PouchDB.
+       *
+       * @type {string}
+       */
+      static get endKey() {
+        return this.startKey + '\uffff';
+      }
+
+      /**
+       * The prefix for namespacing the MasterCategory's UID
+       *
+       * @type {string}
+       */
+      static get prefix() {
+        return this.startKey;
+      }
+
+      /**
+       * Used for detecting if a document's _id is a MasterCategory
+       * in this budget.
+       *
+       * @param {string} _id - The document's _id
+       * @returns {boolean} True if document _id is in the budget
+       * as a MasterCategory.
+       */
+      static contains(_id) {
+        return _id > this.startKey && _id < this.endKey;
       }
     };
 

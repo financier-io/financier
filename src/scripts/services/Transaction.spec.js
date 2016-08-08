@@ -1,10 +1,11 @@
 describe('transaction', function() {
-  let transaction;
+  let transaction, account;
 
   beforeEach(angular.mock.module('financier'));
 
-  beforeEach(inject(_transaction_ => {
+  beforeEach(inject((_transaction_, _account_) => {
     transaction = _transaction_;
+    account = _account_;
   }));
 
   it('is a function', () => {
@@ -21,11 +22,45 @@ describe('transaction', function() {
     it('startKey', () => {
       expect(Transaction.startKey).toBe('b_123-123-123-123_transaction_');
     });
+
     it('startKey', () => {
       expect(Transaction.endKey).toBe('b_123-123-123-123_transaction_\uffff');
     });
+
     it('prefix', () => {
       expect(Transaction.prefix).toBe('b_123-123-123-123_transaction_');
+    });
+
+    describe('contains', () => {
+      it('is true if _id is of budget and is Transaction', () => {
+        const trans = new Transaction();
+
+        expect(Transaction.contains(trans.data._id)).toBe(true);
+      });
+
+      it('is false if _id is of other budget and is Transaction', () => {
+        const OtherBudgetTransaction = transaction('222-222-222-222'),
+          trans = new OtherBudgetTransaction();
+
+        expect(Transaction.contains(trans.data._id)).toBe(false);
+      });
+
+      it('is false if _id is of budget and is Transaction', () => {
+        const Account = account('123-123-123-123'),
+          acc = new Account();
+
+        expect(Transaction.contains(acc.data._id)).toBe(false);
+      });
+
+      // Explicit coverage test
+      it('is false if _id is greater than', () => {
+        expect(Transaction.contains('aaa')).toBe(false);
+      });
+
+      // Explicit coverage test
+      it('is false if _id is less than', () => {
+        expect(Transaction.contains('zzz')).toBe(false);
+      });
     });
   });
 

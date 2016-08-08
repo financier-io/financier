@@ -30,6 +30,52 @@ describe('category', function() {
       MasterCategory = masterCategory('111-111-111-111');
     });
 
+    describe('static property', () => {
+      it('startKey', () => {
+        expect(MasterCategory.startKey).toBe('b_111-111-111-111_masterCategory_');
+      });
+
+      it('startKey', () => {
+        expect(MasterCategory.endKey).toBe('b_111-111-111-111_masterCategory_\uffff');
+      });
+
+      it('prefix', () => {
+        expect(MasterCategory.prefix).toBe('b_111-111-111-111_masterCategory_');
+      });
+
+      describe('contains', () => {
+        it('is true if _id is of budget and is MasterCategory', () => {
+          const cat = new MasterCategory();
+
+          expect(MasterCategory.contains(cat.data._id)).toBe(true);
+        });
+
+        it('is false if _id is of other budget and is MasterCategory', () => {
+          const OtherBudgetCategory = masterCategory('222-222-222-222'),
+            cat = new OtherBudgetCategory();
+
+          expect(MasterCategory.contains(cat.data._id)).toBe(false);
+        });
+
+        it('is false if _id is of budget and is MasterCategory', () => {
+          const Category = category('111-111-111-111'),
+            cat = new Category();
+
+          expect(MasterCategory.contains(cat.data._id)).toBe(false);
+        });
+
+        // Explicit coverage test
+        it('is false if _id is greater than', () => {
+          expect(MasterCategory.contains('aaa')).toBe(false);
+        });
+
+        // Explicit coverage test
+        it('is false if _id is less than', () => {
+          expect(MasterCategory.contains('zzz')).toBe(false);
+        });
+      });
+    });
+
     it('can take an existing database document', () => {
       let cat = new MasterCategory({
         name: 'My cat',

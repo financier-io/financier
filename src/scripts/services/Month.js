@@ -482,6 +482,18 @@ angular.module('financier').factory('month', MonthCategory => {
       static get prefix() {
         return this.startKey;
       }
+
+      /**
+       * Used for detecting if a document's _id is a Month
+       * in this budget.
+       *
+       * @param {string} _id - The document's _id
+       * @returns {boolean} True if document _id is in the budget
+       * as a Month.
+       */
+      static contains(_id) {
+        return _id > this.startKey && _id < this.endKey;
+      }
     };
 
     return Month;

@@ -263,6 +263,18 @@ angular.module('financier').factory('account', uuid => {
       static get prefix() {
         return this.startKey;
       }
+
+      /**
+       * Used for detecting if a document's _id is an Account
+       * in this budget.
+       *
+       * @param {string} _id - The document's _id
+       * @returns {boolean} True if document _id is in the budget
+       * as an account.
+       */
+      static contains(_id) {
+        return _id > this.startKey && _id < this.endKey;
+      }
     };
 
     return Account;
