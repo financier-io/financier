@@ -159,7 +159,7 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
   $translateProvider.translations('en', require('../public/assets/translations/en.json'));
   $translateProvider.translations('es', require('../public/assets/translations/es.json'));
   $translateProvider.determinePreferredLanguage();
-  $translateProvider.useSanitizeValueStrategy('sanitize');
+  $translateProvider.useSanitizeValueStrategy(null); // angular-translate's sanitization is broke as fuck
 
   $locationProvider.html5Mode(true);
 
