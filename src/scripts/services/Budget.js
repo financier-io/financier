@@ -10,7 +10,7 @@ angular.module('financier').factory('Budget', uuid => {
      * @param {object} [data] - The record object from the database
      */
     constructor(data) {
-      this.data = angular.merge({
+      this._data = angular.merge({
         hints: {
           outflow: true
         },
@@ -39,7 +39,7 @@ angular.module('financier').factory('Budget', uuid => {
        *
        * @type {string}
       */
-      this.id = this.data._id.slice(this.data._id.lastIndexOf('_') + 1);
+      this.id = this._data._id.slice(this._data._id.lastIndexOf('_') + 1);
     }
 
     /**
@@ -73,11 +73,11 @@ angular.module('financier').factory('Budget', uuid => {
      * @type {string}
      */
     get name() {
-      return this.data.name;
+      return this._data.name;
     }
 
     set name(n) {
-      this.data.name = n;
+      this._data.name = n;
       this.emitChange();
     }
 
@@ -93,11 +93,11 @@ angular.module('financier').factory('Budget', uuid => {
      * @type {date}
      */
     get created() {
-      return new Date(this.data.created);
+      return new Date(this._data.created);
     }
 
     remove() {
-      this.data._deleted = true;
+      this._data._deleted = true;
       return this.emitChange();
     }
 
@@ -112,7 +112,7 @@ angular.module('financier').factory('Budget', uuid => {
      * budget.opened; // new Date([just now])
      */
     open() {
-      this.data.opened = new Date().toISOString();
+      this._data.opened = new Date().toISOString();
       this.emitChange();
     }
 
@@ -123,13 +123,27 @@ angular.module('financier').factory('Budget', uuid => {
      * @type {date}
      */
     get opened() {
-      if (!this._opened && this.data.opened) {
-        this._opened = new Date(this.data.opened);
+      if (!this._opened && this._data.opened) {
+        this._opened = new Date(this._data.opened);
       }
 
       return this._opened;
     }
 
+    /**
+     * When a new change comes in from the _changes Pouch/Couch feed,
+     * update the raw record data through this getter/setter so that we
+     * have a chance to intercept it
+     *
+     * @type {object}
+     */
+    get data() {
+      return this._data;
+    }
+
+    set data(data) {
+      this._data = data;
+    }
 
     /**
      * Used to set the function to invoke upon record changes.
@@ -160,7 +174,7 @@ angular.module('financier').factory('Budget', uuid => {
      * @type {string}
     */
     get _id() {
-      return this.data._id;
+      return this._data._id;
     }
 
     /**
@@ -173,7 +187,7 @@ angular.module('financier').factory('Budget', uuid => {
      * @type {string}
     */
     set _rev(r) {
-      this.data._rev = r;
+      this._data._rev = r;
     }
 
     /**
@@ -183,7 +197,7 @@ angular.module('financier').factory('Budget', uuid => {
      * @returns {object}
     */
     toJSON() {
-      return this.data;
+      return this._data;
     }
 
     /**

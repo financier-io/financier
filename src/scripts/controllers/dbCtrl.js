@@ -1,12 +1,15 @@
 import moment from 'moment';
 
-angular.module('financier').controller('dbCtrl', function(account, transaction, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget) {
+angular.module('financier').controller('dbCtrl', function(monthManager, MonthCategory, category, account, transaction, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget) {
   let {manager, categories} = data;
   const budgetId = $stateParams.budgetId;
 
   const Month = month(budgetId);
   const Account = account(budgetId);
   const MasterCategory = masterCategory(budgetId);
+  const Category = category(budgetId);
+  const MonthManager = monthManager(budgetId);
+  const Transaction = transaction(budgetId);
 
   this.manager = manager;
   this.categories = categories;
@@ -17,6 +20,8 @@ angular.module('financier').controller('dbCtrl', function(account, transaction, 
 
   this.currentMonth = new Date();
   this.months = getView(this.currentMonth);
+
+
 
   // TODO make a map of categories instead of doing this every $apply
   // god knows how many times (lol)
@@ -113,4 +118,142 @@ angular.module('financier').controller('dbCtrl', function(account, transaction, 
     myBudget.categories.put(cat);
     cat.subscribe(myBudget.categories.put);
   }
+
+
+  const doChange = {
+    masterCategory(change) {
+      console.log('doing masterCategory')
+      // look through our categories to see if it exists
+      for (let i = 0; i < this.categories.length; i++) {
+        if (this.categories[i]._id === change.id) {
+
+          if (change.deleted) {
+            this.categories.splice(i, 1);
+          } else {
+            this.categories[i].data = change.doc;
+          }
+
+          return;
+        }
+      }
+
+      // Couldn't find it
+      const b = new MasterCategory(change.doc);
+      b.subscribe(myBudget.categories.put);
+
+      this.categories.push(b);
+    },
+    category(change) {
+      console.log('doing category')
+      for (let i = 0; i < this.categories.length; i++) {
+        for (let j = 0; j < this.categories[i].categories[j].length; j++) {
+          const cat = this.categories[i].categories[j];
+
+          if (cat._id === change.id) {
+            if (change.deleted) {
+              this.categories[i].categories.splice(j, 1);
+            } else {
+              cat.data = change.doc;
+            }
+
+            return;
+          }
+        }
+      }
+
+      // Couldn't find it
+      // const cat = new Category(change.doc);
+      // cat.subscribe(myBudget.transactions.put);
+
+      // todo gotta refactor this so we have a place to store the temporary ref
+      // until the master category gets the id...
+    },
+    month(change) {
+      console.log('doing month')
+      // TODO
+    },
+    monthCategory(change) {
+      console.log('doing monthCategory')
+      if (change.deleted) {
+        // todo
+        // mo.removeBudget()
+      } else {
+        const moCat = new MonthCategory(change.doc);
+        const mo = manager.getMonth(MonthManager._dateIDToDate(moCat.monthId));
+
+        if (mo.categories[moCat.categoryId]) {
+          const oldBudget = mo.categories[moCat.categoryId].budget;
+          mo.categories[moCat.categoryId].data = change.doc;
+
+          mo.categories[moCat.categoryId]._emitBudgetChange(mo.categories[moCat.categoryId].budget - oldBudget);
+        } else {
+          console.log('adding!')
+          moCat.subscribe(myBudget.transactions.put);
+          mo.addBudget(moCat);
+          mo.startRolling(moCat.categoryId);
+        }
+
+
+      }
+    },
+    account(change) {
+      console.log('doing account')
+      for (let i = 0; i < manager.accounts.length; i++) {
+        if (manager.accounts[i]._id === change.id) {
+          if (change.deleted) {
+            manager.removeAccount(manager.accounts[i]);
+          } else {
+            manager.accounts[i].data = change.doc;
+          }
+
+          return;
+        }
+      }
+
+      // Couldn't find it
+      const acc = new Account(change.doc);
+      acc.subscribe(myBudget.accounts.put);
+
+      manager.addAccount(acc);
+    },
+    transaction(change) {
+      console.log('doing transaction')
+      for (let i = 0; i < manager.allAccounts.transactions.length; i++) {
+        const trans = manager.allAccounts.transactions[i];
+
+        if (trans._id === change.id) {
+          if (change.deleted) {
+            manager.removeTransaction(trans);
+          } else {
+            trans.data = change.doc;
+          }
+
+          return;
+        }
+      }
+
+      // Couldn't find it
+      const trans = new Transaction(change.doc);
+      trans.subscribe(myBudget.transactions.put);
+
+      manager.addTransaction(trans);
+    }
+  };
+
+  $scope.$on('pouchdb:change', (e, change) => {
+    console.log('boom', change)
+    if (MasterCategory.contains(change.id)) {
+      doChange.masterCategory(change);
+    } else if (Category.contains(change.id)) {
+      doChange.category(change);
+    } else if (Month.contains(change.id)) {
+      doChange.month(change);
+    } else if (MonthCategory.contains(budgetId, change.id)) {
+      doChange.monthCategory(change);
+    } else if (Account.contains(change.id)) {
+      doChange.account(change);
+    } else if (Transaction.contains(change.id)) {
+      doChange.transaction(change);
+    }
+  });
 });

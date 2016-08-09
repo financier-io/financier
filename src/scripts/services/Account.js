@@ -208,6 +208,10 @@ angular.module('financier').factory('account', uuid => {
         this.emitChange();
       }
 
+      get _id() {
+        return this.data._id;
+      }
+
       /**
        * Used to set the function to invoke upon record changes.
        *

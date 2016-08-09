@@ -60,6 +60,18 @@ angular.module('financier').provider('db', function() {
         $rootScope.$broadcast('syncStatus:update', 'error');
         // handle error
       });
+
+      db.changes({
+        since: 'now',
+        live: true,
+        include_docs: true
+      }).on('change', change => {
+        // received a change
+        $rootScope.$broadcast('pouchdb:change', change);
+      }).on('error', err => {
+        // handle errors
+        console.log('error subscribing to changes feed', err);
+      });
     }
 
     function budget(budgetId) {
