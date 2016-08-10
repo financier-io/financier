@@ -5,6 +5,7 @@ angular.module('financier').directive('categorySuggest', $rootScope => {
     restrict: 'E',
     scope: {
       categories: '=',
+      masterCategories: '=',
       ngModel: '=',
       transactionDate: '='
     },
@@ -36,7 +37,9 @@ angular.module('financier').directive('categorySuggest', $rootScope => {
           // flatten categories
           scope.items = [].concat.apply(
             [],
-            scope.categories.map(masterCategory => masterCategory.categories)
+            Object.keys(scope.masterCategories)
+              .sort((a, b) => scope.masterCategories[a].sort - scope.masterCategories[b].sort)
+              .map(id => scope.masterCategories[id].categories.map(c => scope.categories[c]))
           );
 
           scope.items = scope.incomes.concat(scope.items);
@@ -59,15 +62,21 @@ angular.module('financier').directive('categorySuggest', $rootScope => {
             }
 
             const searchInputLower = searchInput.toLowerCase();
-            for (let i = 0; i < scope.categories.length; i++) {
-              if (scope.categories[i].categories.indexOf(item) !== -1) {
-                if (scope.categories[i].name.toLowerCase().indexOf(searchInputLower) !== -1) {
+
+            for (let id in scope.masterCategories) {
+              if (scope.masterCategories.hasOwnProperty(id) && scope.masterCategories[id].categories.indexOf(name.id || name) !== -1) {
+                if (scope.masterCategories[id].name && scope.masterCategories[id].name.toLowerCase().indexOf(searchInputLower) !== -1) {
                   return true;
                 }
               }
             }
 
-            return item.name.toLowerCase().indexOf(searchInputLower) !== -1;
+            if (angular.isString(item)) {
+              return scope.categories[item] && scope.categories[item].name.toLowerCase().indexOf(searchInputLower) !== -1;
+            }
+
+            return item.name && item.name.toLowerCase().indexOf(searchInputLower) !== -1;
+
           };
 
           scope.getCategoryBalance = (categoryId, date) => {
@@ -89,14 +98,6 @@ angular.module('financier').directive('categorySuggest', $rootScope => {
           scope.$on('transaction:category:focus', () => {
             scope.$broadcast('focus');
           });
-
-          scope.filterCategoryPredicate = (masterCategory, userInput) => {
-            const lowerUserInput = userInput.toLowerCase(),
-                matchesMasterCategory = masterCategory.name.toLowerCase().indexOf(lowerUserInput) !== -1;
-            return category => {
-              return matchesMasterCategory || category.name.toLowerCase().indexOf(lowerUserInput) !== -1;
-            };
-          };
 
           scope.template = require('./categorySuggest.html');
         }

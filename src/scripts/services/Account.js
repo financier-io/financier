@@ -184,6 +184,10 @@ angular.module('financier').factory('account', uuid => {
         this.emitChange();
       }
 
+      isCredit() {
+        return this.data.type === 'CREDIT';
+      }
+
       /**
        * Sets _deleted on the record and calls record subscriber.
       */

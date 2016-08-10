@@ -18,18 +18,18 @@
         </li>
       </ul>
     </li>
-    <li ng-repeat="masterCategory in $parent.categories">
+    <li ng-repeat="masterCategory in $parent.masterCategories">
       <div class="dropdown__header-item" ng-if="filteredCategories.length">{{masterCategory.name}}</div>
       <ul class="dropdown">
         <li class="dropdown__item dropdown__item--indented"
-            ng-repeat="category in masterCategory.categories | filter : filterCustomFilterer as filteredCategories"
-            ng-class="{'dropdown__item--selected': category === selected}"
-            ng-click="submit(category)"
-            scroll-into-view-if="category === selected">
-          <div class="dropdown__item-content">{{category.name}}</div>
+            ng-repeat="catId in masterCategory.categories | filter : filterCustomFilterer as filteredCategories"
+            ng-class="{'dropdown__item--selected': $parent.$parent.$parent.categories[catId] === selected}"
+            ng-click="submit($parent.$parent.$parent.categories[catId])"
+            scroll-into-view-if="$parent.$parent.$parent.categories[catId] === selected">
+          <div class="dropdown__item-content">{{$parent.$parent.$parent.categories[catId].name}}</div>
           <div class="dropdown__item-aside"
-               ng-class="{'dropdown__item-aside--negative': $parent.$parent.$parent.getCategoryBalance(category.id, $parent.$parent.$parent.transactionDate) < 0,
-                          'dropdown__item-aside--positive': $parent.$parent.$parent.getCategoryBalance(category.id, $parent.$parent.$parent.transactionDate) > 0}">{{$parent.$parent.$parent.getCategoryBalance(category.id, $parent.$parent.$parent.transactionDate) | intCurrency | currency}}</div>
+               ng-class="{'dropdown__item-aside--negative': $parent.$parent.$parent.getCategoryBalance(catId, $parent.$parent.$parent.transactionDate) < 0,
+                          'dropdown__item-aside--positive': $parent.$parent.$parent.getCategoryBalance(catId, $parent.$parent.$parent.transactionDate) > 0}">{{$parent.$parent.$parent.getCategoryBalance(catId, $parent.$parent.$parent.transactionDate) | intCurrency | currency}}</div>
         </li>
       </ul>
     </li>

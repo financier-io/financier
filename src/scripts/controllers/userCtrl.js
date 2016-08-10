@@ -66,6 +66,5 @@ angular.module('financier').controller('userCtrl', function($rootScope, User, db
 
   $rootScope.$on('login', (e, status) => {
     this.status = status;
-    $rootScope.$apply();
   });
 });

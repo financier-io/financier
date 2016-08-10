@@ -15,7 +15,7 @@ angular.module('financier').factory('transaction', uuid => {
        */
       constructor(data) {
         const myData = angular.merge({
-          _id: `b_${budgetId}_transaction_${uuid()}`,
+          _id: Transaction.prefix + uuid(),
           value: null,
           date: null,
           category: null,
@@ -43,7 +43,7 @@ angular.module('financier').factory('transaction', uuid => {
         this.subscribeClearedValueChangeFn = [];
         this.subscribeUnclearedValueChangeFn = [];
 
-        this.data = myData;
+        this._data = myData;
 
         this.setMonth();
 
@@ -60,33 +60,37 @@ angular.module('financier').factory('transaction', uuid => {
        * @type {currency}
        */
       get value() {
-        return this.data.value;
+        return this._data.value;
       }
 
       set value(x) {
-        const oldValue = this.data.value;
+        const oldValue = this._data.value;
+        this._data.value = x;
 
-        this.data.value = x;
-
-        const changesTo = [this];
-
-        if (this.transfer) {
-          this.transfer.data.value = -x;
-
-          changesTo.push(this.transfer);
+        if (this.cleared) {
+          this._emitClearedValueChange(x - oldValue);
+        } else {
+          this._emitUnclearedValueChange(x - oldValue);
         }
 
-        changesTo.forEach(transaction => {
-          if (transaction.cleared) {
-            transaction._emitClearedValueChange(x - oldValue);
+        this._emitValueChange(x - oldValue);
+
+        this._emitChange();
+
+        if (this.transfer) {
+          const transOldValue = this.transfer._data.value;
+          this.transfer._data.value = -x;
+
+          if (this.transfer.cleared) {
+            this.transfer._emitClearedValueChange(-x - transOldValue);
           } else {
-            transaction._emitUnclearedValueChange(x - oldValue);
+            this.transfer._emitUnclearedValueChange(-x - transOldValue);
           }
 
-          transaction._emitValueChange(x - oldValue);
+          this.transfer._emitValueChange(-x - transOldValue);
 
-          transaction._emitChange();
-        });
+          this.transfer._emitChange();
+        }
       }
 
       get payee() {
@@ -94,7 +98,9 @@ angular.module('financier').factory('transaction', uuid => {
 
         if (!this._payee) {
           this._payee = {
-            type: that.transfer ? 'TRANSFER' : that.data.payee.type,
+            get type() {
+              return that.transfer ? 'TRANSFER' : that.data.payee.type
+            },
             get id() {
               return that.transfer && that.transfer.account;
             },
@@ -121,26 +127,26 @@ angular.module('financier').factory('transaction', uuid => {
           this.transfer.remove();
 
           this.transfer = null;
-          this.data.transferId = null;
+          this._data.transferId = null;
 
-          this.data.payee = p;
+          this._data.payee = p;
         } else if (p.id) {
           this.transfer = new Transaction({
-            value: -this.data.value,
-            date: this.data.date,
+            value: -this._data.value,
+            date: this._data.date,
             account: p.id,
             transferId: this.id,
-            category: this.data.category
+            category: this._data.category
           });
 
           this.transfer.transfer = this;
 
-          this.data.transferId = this.transfer.id;
+          this._data.transferId = this.transfer.id;
 
           this.transfer.subscribe(this.fn);
-          this.fn(this.transfer);
+          this.fn && this.fn(this.transfer);
         } else {
-          this.data.payee = p;
+          this._data.payee = p;
         }
 
         this._emitChange();
@@ -177,14 +183,14 @@ angular.module('financier').factory('transaction', uuid => {
       }
 
       set date(x) {
-        this.data.date = x.toISOString();
+        this._data.date = x.toISOString();
         const oldDate = this._date;
         this._date = x;
 
         this.setMonth();
 
         if (this.transfer) {
-          this.transfer.data.date = this.data.date;
+          this.transfer.data.date = this._data.date;
           this.transfer._date = this._date;
           this.transfer.setMonth();
 
@@ -217,7 +223,7 @@ angular.module('financier').factory('transaction', uuid => {
        * @type {string}
        */
       get category() {
-        return this.data.category;
+        return this._data.category;
       }
 
       set category(x) {
@@ -232,7 +238,7 @@ angular.module('financier').factory('transaction', uuid => {
         }
 
         this._emitCategoryChange(() => {
-          this.data.category = x;
+          this._data.category = x;
 
           this.setMonth();
         });
@@ -247,12 +253,12 @@ angular.module('financier').factory('transaction', uuid => {
        * @type {string}
        */
       get account() {
-        return this.data.account;
+        return this._data.account;
       }
 
       set account(x) {
-        const oldAccount = this.data.account;
-        this.data.account = x;
+        const oldAccount = this._data.account;
+        this._data.account = x;
 
         this._emitAccountChange(x, oldAccount);
         this._emitChange();
@@ -265,11 +271,11 @@ angular.module('financier').factory('transaction', uuid => {
        * @type {string}
        */
       get memo() {
-        return this.data.memo;
+        return this._data.memo;
       }
 
       set memo(x) {
-        this.data.memo = x;
+        this._data.memo = x;
 
         if (this.transfer) {
           this.transfer.data.memo = x;
@@ -291,12 +297,12 @@ angular.module('financier').factory('transaction', uuid => {
        * @type {boolean}
        */
       get cleared() {
-        return this.data.cleared;
+        return this._data.cleared;
       }
 
       set cleared(x) {
         // Don't do anything if it's the same
-        if (x === this.data.cleared) {
+        if (x === this._data.cleared) {
           return;
         }
 
@@ -308,7 +314,7 @@ angular.module('financier').factory('transaction', uuid => {
           this._emitUnclearedValueChange(this.value);
         }
 
-        this.data.cleared = x;
+        this._data.cleared = x;
 
         this._emitChange();
       }
@@ -323,13 +329,60 @@ angular.module('financier').factory('transaction', uuid => {
        * @type {color}
        */
       get flag() {
-        return this.data.flag;
+        return this._data.flag;
       }
 
       set flag(x) {
-        this.data.flag = x;
+        this._data.flag = x;
 
         this._emitChange();
+      }
+
+      get data() {
+        return this._data;
+      }
+
+      set data(data) {
+
+        // SET VALUE
+        if (data.cleared) {
+          this._emitClearedValueChange(data.value - this._data.value);
+        } else {
+          this._emitUnclearedValueChange(data.value - this._data.value);
+        }
+
+        this._emitValueChange(data.value - this._data.value);
+
+        // SET CLEARED
+        if (data.cleared !== this._data.cleared) {
+          if (data.cleared) {
+            this._emitUnclearedValueChange(-data.value);
+            this._emitClearedValueChange(data.value);
+          } else {
+            this._emitClearedValueChange(-data.value);
+            this._emitUnclearedValueChange(data.value);
+          }
+        }
+
+        // SET ACCOUNT
+        this._emitAccountChange(data.account, this._data.account);
+
+
+        // SET DATE
+        const oldDate = this._date;
+        this._date = new Date(data.date);
+        this._emitDateChange(this._date, oldDate);
+
+        // TODO payee
+
+        // SET CATEGORY
+        this._emitCategoryChange(() => {
+          this._data.category = data.category;
+
+          this.setMonth();
+        });
+
+        this._data = data;
       }
 
       /**
@@ -338,7 +391,11 @@ angular.module('financier').factory('transaction', uuid => {
        * @type {string}
        */
       get _id() {
-        return this.data._id;
+        return this._data._id;
+      }
+
+      set _rev(r) {
+        this.data._rev = r;
       }
 
       /**
@@ -452,6 +509,7 @@ angular.module('financier').factory('transaction', uuid => {
        * @private
       */
       _emitValueChange(val) {
+        throw 'boom';
         return this.subscribeValueChangeFn && this.subscribeValueChangeFn(val);
       }
 
@@ -489,18 +547,22 @@ angular.module('financier').factory('transaction', uuid => {
       }
 
       /**
-       * @todo Remove
+       * Gracefully remove from db by marking `_deleted`.
+       *
+       * Mark any linked transfer as deleted, too.
       */
       remove() {
-        this.data._deleted = true;
-
-        if (this.transfer) {
-          this.transfer.data._deleted = true;
+        if (this.transfer && !this.transfer._data._deleted) {
+          this.transfer._data._deleted = true;
 
           this.transfer._emitChange();
         }
 
-        return this._emitChange();
+        if (!this._data._deleted) {
+          this._data._deleted = true;
+
+          this._emitChange();
+        }
       }
 
       /**
@@ -510,7 +572,7 @@ angular.module('financier').factory('transaction', uuid => {
        * @returns {object}
       */
       toJSON() {
-        return this.data;
+        return this._data;
       }
 
       /**

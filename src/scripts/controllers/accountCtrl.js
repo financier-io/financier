@@ -55,8 +55,15 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
   };
 
   this.saveCreateTransaction = () => {
-    myBudget.transactions.put(this.newTransaction);
     manager.addTransaction(this.newTransaction);
+    if (this.newTransaction.transfer) {
+      manager.addTransaction(this.newTransaction.transfer);
+    }
+
+    myBudget.transactions.put(this.newTransaction);
+    if (this.newTransaction.transfer) {
+      myBudget.transactions.put(this.newTransaction.transfer);
+    }
 
     this.newTransaction = null;
   };
