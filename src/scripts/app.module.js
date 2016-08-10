@@ -105,18 +105,13 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
       data: function(myBudget, $q) {
         return $q.all([
           myBudget.budget(),
-          myBudget.categories.all()
+          myBudget.categories.all(),
+          myBudget.masterCategories.all()
         ])
-        .then(([manager, categories]) => {
-          if (categories.length) {
-            manager.propagateRolling(
-              categories
-                .map((m => m.categories.map(c => c.id)))
-                .reduce((a, b) => a.concat(b))
-            );
-          }
+        .then(([manager, categories, masterCategories]) => {
+          manager.propagateRolling(Object.keys(categories));
 
-          return {manager, categories};
+          return {manager, categories, masterCategories};
         })
         .catch(e => {
           throw e;

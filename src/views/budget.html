@@ -58,7 +58,7 @@
       <div class="budget__tr month-overview__row" disable-ng-animate>
         <div class="budget__th budget__month-row budget__category-label">
           <div class="budget__categories-label">
-            Categories <div class="budget__add-master-category" add-master-category="dbCtrl.addMasterCategory"></div>
+            Categories <div class="budget__add-master-category" add-master-category="budgetCtrl.addMasterCategory"></div>
           </div>
         </div>
         <div class="budget__th budget__month-row month-overview__cell-head"
@@ -70,7 +70,7 @@
       </div>
     </div>
     <div class="budget__tbody overflowable" ng-sortable="masterCategorySortable" disable-ng-animate>
-      <div ng-repeat="masterCategory in dbCtrl.categories track by masterCategory.data._id">
+      <div ng-repeat="masterCategory in budgetCtrl.masterCategoriesArray track by masterCategory.id">
         <div class="budget__tr month-body__row month-body__row--master">
           <div class="budget__td budget__month-row budget__category-label">
             <span rename ng-model="masterCategory.name">{{masterCategory.name}}</span>
@@ -88,49 +88,49 @@
         
         <div class="budget__category-sortable" ng-sortable="categorySortable" ng-mouseenter="masterCategorySortable.disabled = true" ng-mouseleave="masterCategorySortable.disabled = false">
           <div class="budget__tr month-body__row"
-              ng-repeat="row in masterCategory.categories track by row._id"
+              ng-repeat="catId in masterCategory.categories track by catId"
               ng-class="{'budget__month-row--last': $last}">
             <div class="budget__td budget__month-row budget__category-label">
               <i class="budget__month-row-note fa fa-sticky-note-o"
-                 ng-class="{'budget__month-row-note--showing': row.note.length}"
+                 ng-class="{'budget__month-row-note--showing': dbCtrl.categories[catId].note.length}"
                  note
-                 ng-model="row.note"></i>
-              <span rename ng-model="row.name">{{row.name}}</span>
+                 ng-model="dbCtrl.categories[catId].note"></i>
+              <span rename ng-model="dbCtrl.categories[catId].name">{{dbCtrl.categories[catId].name}}</span>
             </div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--input"
                 ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index">
 
               <input type="text"
                      class="budget__cell-input"
-                     on-update="month.setBudget(row.id, model)"
-                     view-model="month.categories[row.id].budget"
+                     on-update="month.setBudget(catId, model)"
+                     view-model="month.categories[catId].budget"
                      ng-attr-tabindex="{{$index + 2}}"
                      on-enter-go-next>
 
               <i class="budget__month-row-note fa fa-sticky-note-o"
-                 ng-class="{'budget__month-row-note--showing': month.categories[row.id].note.length}"
+                 ng-class="{'budget__month-row-note--showing': month.categories[catId].note.length}"
                  note
-                 ng-model="month.note(row.id)"
+                 ng-model="month.note(catId)"
                  ng-model-options="{ getterSetter: true }"></i>
 
             </div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--display"
                  outflow-helper
                  outflow-date="month.date"
-                 outflow-category="row.name"
-                 outflow-setting="dbCtrl.budgetRecord.hints.outflow"><span ng-if="month.categoryCache[row.id].outflow !== 0">{{month.categoryCache[row.id].outflow | intCurrency | currency : ''}}</span></div>
+                 outflow-category="dbCtrl.categories[catId].name"
+                 outflow-setting="dbCtrl.budgetRecord.hints.outflow"><span ng-if="month.categoryCache[catId].outflow !== 0">{{month.categoryCache[catId].outflow | intCurrency | currency : ''}}</span></div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--display"
                  ng-class="{'budget__month-end': !$last,
-                            'budget__month-row--zero': !month.categoryCache[row.id].balance,
-                            'budget__month-row--none': !month.categoryCache[row.id].balance && !month.categoryCache[row.id].outflow && !month.categories[row.id].budget}"
+                            'budget__month-row--zero': !month.categoryCache[catId].balance,
+                            'budget__month-row--none': !month.categoryCache[catId].balance && !month.categoryCache[catId].outflow && !month.categories[catId].budget}"
                  overspending-select
-                 overspending-disabled="!(month.categoryCache[row.id] && month.categoryCache[row.id].balance < 0)"
-                 ng-model="month.categories[row.id].overspending"
-                 propagated-model="month.categoryCache[row.id].overspending"
+                 overspending-disabled="!(month.categoryCache[catId] && month.categoryCache[catId].balance < 0)"
+                 ng-model="month.categories[catId].overspending"
+                 propagated-model="month.categoryCache[catId].overspending"
                  ng-repeat-end>
-              <span ng-class="{'budget__month-row--negative': month.categoryCache[row.id].balance < 0}">
-                {{(month.categoryCache[row.id].balance || 0) | intCurrency | currency : ''}}
-                <i class="fa fa-arrow-right" ng-if="month.categoryCache[row.id].balance < 0 && month.categoryCache[row.id].overspending"></i>
+              <span ng-class="{'budget__month-row--negative': month.categoryCache[catId].balance < 0}">
+                {{(month.categoryCache[catId].balance || 0) | intCurrency | currency : ''}}
+                <i class="fa fa-arrow-right" ng-if="month.categoryCache[catId].balance < 0 && month.categoryCache[catId].overspending"></i>
               </span>
             </div>
           </div>

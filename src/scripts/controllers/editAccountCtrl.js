@@ -24,16 +24,17 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
         }
       }, myBudg.transactions.put);
 
-      promises.push(myBudg.transactions.put(transaction));
-    }
-
-    $q.all(promises).then(() => {
       manager.addAccount(this.account);
 
       if (transaction) {
         manager.addTransaction(transaction);
       }
 
+      promises.push(myBudg.transactions.put(transaction));
+    }
+
+
+    $q.all(promises).then(() => {
       $scope.closeThisDialog();
     });
 

@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 angular.module('financier').controller('dbCtrl', function(monthManager, MonthCategory, category, account, transaction, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget) {
-  let {manager, categories} = data;
+  let {manager, categories, masterCategories} = data;
   const budgetId = $stateParams.budgetId;
 
   const Month = month(budgetId);
@@ -13,6 +13,7 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
 
   this.manager = manager;
   this.categories = categories;
+  this.masterCategories = masterCategories;
   this.accounts = manager.accounts;
   this.budgetRecord = budgetRecord;
 
@@ -20,7 +21,6 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
 
   this.currentMonth = new Date();
   this.months = getView(this.currentMonth);
-
 
 
   // TODO make a map of categories instead of doing this every $apply
@@ -32,13 +32,7 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
       return `Income for ${moment(transactionDate).add(1, 'month').format('MMMM')}`;
     }
 
-    for (let i = 0; i < this.categories.length; i++) {
-      for (let j = 0; j < this.categories[i].categories.length; j++) {
-        if (this.categories[i].categories[j].id === id) {
-          return this.categories[i].categories[j].name;
-        }
-      }
-    }
+    return this.categories[id].name;
   };
   // TODO make a map of accounts instead of doing this every $apply
   // god knows how many times (lol)
@@ -104,76 +98,63 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
     localStorage.setItem('sidebarWidth', width);
   });
 
-  this.addMasterCategory = name => {
-    const cat = new MasterCategory({
-      name
-    });
 
-    this.categories.unshift(cat);
-
-    for (let i = 0; i < this.categories.length; i++) {
-      this.categories[i].sort = i;
-    }
-
-    myBudget.categories.put(cat);
-    cat.subscribe(myBudget.categories.put);
+  function getId(_id) {
+    return _id.slice(_id.lastIndexOf('_') + 1);
   }
 
 
   const doChange = {
     masterCategory(change) {
-      console.log('doing masterCategory')
       // look through our categories to see if it exists
-      for (let i = 0; i < this.categories.length; i++) {
-        if (this.categories[i]._id === change.id) {
 
-          if (change.deleted) {
-            this.categories.splice(i, 1);
-          } else {
-            this.categories[i].data = change.doc;
-          }
+      const cat = this.masterCategories[getId(change.id)];
 
-          return;
+      if (change.deleted) {
+        if (cat) {
+          delete this.masterCategories[getId(change.id)];
+
+          $scope.$broadcast('masterCategories:change', this.masterCategories);
+        }
+      } else {
+        if (cat) {
+          cat.data = change.doc;
+        } else {
+          // Couldn't find it
+          const b = new MasterCategory(change.doc);
+          b.subscribe(myBudget.masterCategories.put);
+
+          this.masterCategories[b.id] = b;
+
+          $scope.$broadcast('masterCategories:change', this.masterCategories);
         }
       }
-
-      // Couldn't find it
-      const b = new MasterCategory(change.doc);
-      b.subscribe(myBudget.categories.put);
-
-      this.categories.push(b);
     },
     category(change) {
-      console.log('doing category')
-      for (let i = 0; i < this.categories.length; i++) {
-        for (let j = 0; j < this.categories[i].categories[j].length; j++) {
-          const cat = this.categories[i].categories[j];
+      // look through our categories to see if it exists
 
-          if (cat._id === change.id) {
-            if (change.deleted) {
-              this.categories[i].categories.splice(j, 1);
-            } else {
-              cat.data = change.doc;
-            }
+      const cat = this.categories[getId(change.id)];
 
-            return;
-          }
+      if (change.deleted) {
+        if (cat) {
+          delete this.categories[getId(change.id)];
+        }
+      } else {
+        if (cat) {
+          cat.data = change.doc;
+        } else {
+          // Couldn't find it
+          const b = new Category(change.doc);
+          b.subscribe(myBudget.categories.put);
+
+          this.categories[b.id] = b;
         }
       }
-
-      // Couldn't find it
-      // const cat = new Category(change.doc);
-      // cat.subscribe(myBudget.transactions.put);
-
-      // todo gotta refactor this so we have a place to store the temporary ref
-      // until the master category gets the id...
     },
     month(change) {
-      console.log('doing month')
       // TODO
     },
     monthCategory(change) {
-      console.log('doing monthCategory')
       if (change.deleted) {
         // todo
         // mo.removeBudget()
@@ -187,18 +168,16 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
 
           mo.categories[moCat.categoryId]._emitBudgetChange(mo.categories[moCat.categoryId].budget - oldBudget);
         } else {
-          console.log('adding!')
           moCat.subscribe(myBudget.transactions.put);
           mo.addBudget(moCat);
           mo.startRolling(moCat.categoryId);
         }
 
-
       }
     },
     account(change) {
-      console.log('doing account')
       for (let i = 0; i < manager.accounts.length; i++) {
+        console.log(manager.accounts[i]._id)
         if (manager.accounts[i]._id === change.id) {
           if (change.deleted) {
             manager.removeAccount(manager.accounts[i]);
@@ -217,7 +196,6 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
       manager.addAccount(acc);
     },
     transaction(change) {
-      console.log('doing transaction')
       for (let i = 0; i < manager.allAccounts.transactions.length; i++) {
         const trans = manager.allAccounts.transactions[i];
 
@@ -241,7 +219,6 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
   };
 
   $scope.$on('pouchdb:change', (e, change) => {
-    console.log('boom', change)
     if (MasterCategory.contains(change.id)) {
       doChange.masterCategory(change);
     } else if (Category.contains(change.id)) {

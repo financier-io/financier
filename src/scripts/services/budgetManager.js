@@ -21,15 +21,12 @@ angular.module('financier').factory('budgetManager', (
     const ret = {
       accounts: accounts(),
       categories: categories(),
+      masterCategories: masterCategories(),
       transactions: transactions(),
       budget: budget(),
       remove,
-      initialize
+      initialize: initializeAllCategories
     };
-
-    function initialize() {
-      return ret.categories.initialize();
-    }
 
     function remove() {
       return pouch.allDocs({
@@ -144,49 +141,22 @@ angular.module('financier').factory('budgetManager', (
       };
     }
 
-    function categories() {
+    function masterCategories() {
       function all() {
         return pouch.allDocs({
           include_docs: true,
-          startkey: `b_${budgetId}_masterCategory_`,
-          endkey: `b_${budgetId}_masterCategory_\uffff`
+          startkey: MasterCategory.startKey,
+          endkey: MasterCategory.endKey
         }).then(res => {
-          const ret = res.rows.map(cat => cat.doc);
+          const ret = {};
 
-          // Sort master categories
-          ret.sort((a, b) => {
-            return a.sort - b.sort;
-          });
-
-          const promises = [];
-
-          for (var i = 0; i < ret.length; i++) {
-            (function(i) {
-              promises.push(
-                $q.when(pouch.allDocs({
-                  include_docs: true,
-                  keys: ret[i].categories
-                })
-                .then(c => {
-                  const masterCat = new MasterCategory(ret[i]);
-                  masterCat.subscribe(putCategory);
-                  const cats = [];
-
-                  for (let j = 0; j < c.rows.length; j++) {
-                    const cat = new Category(c.rows[j].doc);
-                    cats.push(cat);
-                    cat.subscribe(putCategory);
-                  }
-
-                  masterCat.categories = cats;
-
-                  return masterCat;
-                }))
-              );
-              
-            }(i));
+          for (let i = 0; i < res.rows.length; i++) {
+            const cat = new MasterCategory(res.rows[i].doc);
+            cat.subscribe(putCategory);
+            ret[cat.id] = cat;
           }
-          return $q.all(promises);
+
+          return ret;
         });
       }
 
@@ -196,34 +166,64 @@ angular.module('financier').factory('budgetManager', (
         });
       }
 
-      function initialize() {
-        const promises = [];
+      return {
+        all,
+        put: putCategory
+      };
+    }
 
-        for (let i = 0; i < defaultCategories.length; i++) {
-          promises.push(
-            $q.when(pouch.bulkDocs(defaultCategories[i].categories.map(function(cat) {
-              // add id namespace to category
-              cat._id = `b_${budgetId}_category_` + uuid();
-              return cat;
-            }))
-            .then(res => {
-              return $q.when(pouch.post({
-                name: defaultCategories[i].name,
-                categories: res.map(r => r.id),
-                _id: `b_${budgetId}_masterCategory_` + uuid()
-              }));
-            }))
-          );
-        }
+    function categories() {
+      function all() {
+        return pouch.allDocs({
+          include_docs: true,
+          startkey: Category.startKey,
+          endkey: Category.endKey
+        }).then(res => {
+          const ret = {};
 
-        return $q.all(promises);
+          for (let i = 0; i < res.rows.length; i++) {
+            const cat = new Category(res.rows[i].doc);
+            cat.subscribe(putCategory);
+            ret[cat.id] = cat;
+          }
+
+          return ret;
+        });
+      }
+
+      function putCategory(category) {
+        return pouch.put(category.toJSON()).then(res => {
+          category.data._rev = res.rev;
+        });
       }
 
       return {
         all,
-        initialize,
         put: putCategory
       };
+    }
+
+    function initializeAllCategories() {
+      const promises = [];
+
+      for (let i = 0; i < defaultCategories.length; i++) {
+        promises.push(
+          $q.when(pouch.bulkDocs(defaultCategories[i].categories.map(function(cat) {
+            // add id namespace to category
+            cat._id = Category.prefix + uuid();
+            return cat;
+          }))
+          .then(res => {
+            return $q.when(pouch.post({
+              name: defaultCategories[i].name,
+              categories: res.map(r => r.id.slice(r.id.lastIndexOf('_') + 1)),
+              _id: MasterCategory.prefix + uuid()
+            }));
+          }))
+        );
+      }
+
+      return $q.all(promises);
     }
 
     function budget() {

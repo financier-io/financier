@@ -7,21 +7,48 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
      *
      * @extends Category
      */
-    class MasterCategory extends Category {
+    class MasterCategory {
 
       /**
        * Create a MasterCategory
        *
        * @param {object} [data] - The record object from the database
        */
-      constructor(data = {}) {
-        if (!data._id) {
-          data._id = MasterCategory.prefix + uuid();
-        }
+      constructor(data) {
+        const myData = angular.extend({
+          name: 'New master category',
+          _id: MasterCategory.prefix + uuid(),
+          categories: [],
+          sort: 0
+        }, data);
 
-        super(data);
+        this.id = myData._id.slice(myData._id.lastIndexOf('_') + 1);
 
-        this._categories = [];
+        // Hack below
+        myData.categories.update = () => {
+          this.emitChange();
+        };
+
+        this.data = myData;
+      }
+
+      /**
+       * The category name. Will trigger subscriber upon set.
+       *
+       * @example
+       * const cat = new Category();
+       * cat.name = '⛽ Fuel/Gas';
+       * cat.name; // === '⛽ Fuel/Gas'
+       *
+       * @type {string}
+       */
+      get name() {
+        return this.data.name;
+      }
+
+      set name(n) {
+        this.data.name = n;
+        this.emitChange();
       }
 
       /**
@@ -34,25 +61,7 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
        * @returns {object}
        */
       toJSON() {
-        const ret = super.toJSON();
-
-        ret.categories = [];
-          
-        for (let i = 0; i < this._categories.length; i++) {
-          ret.categories.push(this._categories[i]._id);
-        }
-
-        return ret;
-        
-      }
-
-      /**
-       * Will call subscriber function.
-       *
-       * @private
-       */
-      _updateCategories() {
-        super.emitChange();
+        return this.data;        
       }
 
       /**
@@ -73,16 +82,16 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
        * @type {Category[]}
        */
       get categories() {
-        return this._categories;
+        return this.data.categories;
       }
 
       set categories(arr) {
-        this._categories = arr;
-
         // Hack below
-        this._categories.update = () => {
-          this._updateCategories();
+        arr.update = () => {
+          this.emitChange();
         };
+
+        return this.data.categories;
       }
 
       /**
@@ -107,8 +116,35 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
 
         if (this.data.sort !== i) {
           this.data.sort = i;
-          super.emitChange();
+          this.emitChange();
         }
+      }
+
+      /**
+       * @todo Remove, moving functionality elsewhere
+       */
+      remove() {
+        this.data._deleted = true;
+        this.emitChange();
+      }
+
+      /**
+       * Used to set the function to invoke upon record changes.
+       *
+       * @param {function} fn - This function will be invoked upon record
+       * changes with the Category object as the first parameter.
+      */
+      subscribe(fn) {
+        this.fn = fn;
+      }
+
+      /**
+       * Will call the subscribed function, if it exists, with self.
+       *
+       * @private
+      */
+      emitChange() {
+        this.fn && this.fn(this);
       }
 
       /**
