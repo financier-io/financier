@@ -1,6 +1,7 @@
-angular.module('financier').controller('budgetCtrl', function($filter, $stateParams, $rootScope, $timeout, $scope, month, masterCategory, myBudget) {
+angular.module('financier').controller('budgetCtrl', function($filter, $stateParams, $rootScope, $timeout, $scope, month, masterCategory, category, myBudget) {
   const Month = month($stateParams.budgetId);
   const MasterCategory = masterCategory($stateParams.budgetId);
+  const Category = category($stateParams.budgetId);
 
   this.showMonths = 0;
   $rootScope.$on('budget:columns', (event, months) => {
@@ -78,5 +79,19 @@ angular.module('financier').controller('budgetCtrl', function($filter, $statePar
 
     myBudget.masterCategories.put(cat);
     cat.subscribe(myBudget.masterCategories.put);
+  }
+
+  this.addCategory = (name, masterCategory) => {
+    const cat = new Category({
+      name
+    });
+
+    masterCategory.categories.unshift(cat.id);
+
+    $scope.dbCtrl.categories[cat.id] = cat;
+
+    myBudget.masterCategories.put(masterCategory);
+    myBudget.categories.put(cat);
+    cat.subscribe(myBudget.categories.put);
   }
 });

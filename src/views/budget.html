@@ -58,7 +58,7 @@
       <div class="budget__tr month-overview__row" disable-ng-animate>
         <div class="budget__th budget__month-row budget__category-label">
           <div class="budget__categories-label">
-            Categories <div class="budget__add-master-category" add-master-category="budgetCtrl.addMasterCategory"></div>
+            Categories <div class="budget__add-master-category" add-category="budgetCtrl.addMasterCategory(name)" add-label="Add master category"></div>
           </div>
         </div>
         <div class="budget__th budget__month-row month-overview__cell-head"
@@ -73,6 +73,7 @@
       <div ng-repeat="masterCategory in budgetCtrl.masterCategoriesArray track by masterCategory.id">
         <div class="budget__tr month-body__row month-body__row--master">
           <div class="budget__td budget__month-row budget__category-label">
+            <div class="budget__add-category" add-category="budgetCtrl.addCategory(name, masterCategory)" add-label="Add category"></div>
             <span rename ng-model="masterCategory.name">{{masterCategory.name}}</span>
           </div>
             <div class="budget__td budget__month-row month-body__cell-head"

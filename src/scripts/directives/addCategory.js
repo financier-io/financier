@@ -1,14 +1,15 @@
 import Drop from 'tether-drop';
 
-angular.module('financier').directive('addMasterCategory', ($compile, $timeout) => {
+angular.module('financier').directive('addCategory', ($compile, $timeout) => {
   return {
     restrict: 'A',
     scope: {
-      addMasterCategory: '='
+      addCategory: '&',
+      addLabel: '@'
     },
     link(scope, element, attrs) {
       element.on('click', () => {
-        const template = require('./addMasterCategory.html');
+        const template = require('./addCategory.html');
 
         const wrap = angular.element('<div></div>').append(template);
         const content = $compile(wrap)(scope);
@@ -45,7 +46,7 @@ angular.module('financier').directive('addMasterCategory', ($compile, $timeout) 
         });
 
         scope.submit = name => {
-          scope.addMasterCategory(name);
+          scope.addCategory({ name });
 
           dropInstance.close();
         };

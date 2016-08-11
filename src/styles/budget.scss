@@ -242,3 +242,25 @@ $budgetMonthCellPadding: 2px 5px 0;
     content: '+';
   }
 }
+
+.budget__add-category {
+  display: inline-block;
+
+  width: 1em;
+  height: 1em;
+  margin: 0.25em;
+
+  line-height: 1;
+
+  vertical-align: top;
+
+  text-align: center;
+
+  background-color: #999;
+  color: $white;
+  font-weight: 500;
+
+  &:after {
+    content: '+';
+  }
+}
