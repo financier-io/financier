@@ -33,8 +33,6 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
       })
     }
 
-    this.getSource();
-
     this.startSubscription = User.startSubscription;
     this.stopSubscription = User.stopSubscription;
 
@@ -43,10 +41,12 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
     this.getSubscription = () => {
       return User.getSubscription().then(subscription => {
         this.subscription = subscription;
-        this.loadingSubscription = false;
       })
       .catch(e => {
         this.subscription = null;
+      })
+      .finally(() => {
+        this.loadingSubscription = false;
       });
     }
 
@@ -57,12 +57,16 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
     this.getSource = () => {
       return User.getSource().then(source => {
         this.source = source;
-        this.loadingSource = false;
       })
       .catch(e => {
         this.source = null;
+      })
+      .finally(() => {
+        this.loadingSource = false;
       });
     }
+
+    this.getSource();
   }
 
 
@@ -86,6 +90,9 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
         this.email = null;
         this.isFree = true;
       }
+    })
+    .catch(() => {
+      this.loadingFailed = true;
     });
   };
 

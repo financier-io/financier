@@ -51,7 +51,7 @@
   </div>
   
   <div ng-if="userCtrl.isFree === false">
-    <p ng-if="(userCtrl.loadingSubscription || userCtrl.loadingSource)">
+    <p ng-if="(userCtrl.loadingSubscription || userCtrl.loadingSource) && !userCtrl.loadingFailed">
       Loading subscription...
     </p>
 
@@ -59,7 +59,7 @@
       Loading subscription information failed. It looks like you might not have an internet connection. No worries -- refresh the page later when you do.
     </p>
 
-    <div ng-if="!userCtrl.loadingSubscription && !userCtrl.loadingSource">
+    <div ng-if="!userCtrl.loadingSubscription && !userCtrl.loadingSource && !userCtrl.loadingFailed">
       <h2>{{'YOUR_SUBSCRIPTION' | translate}}</h2>
 
       <div ng-if="userCtrl.subscription">
