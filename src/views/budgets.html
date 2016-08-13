@@ -77,13 +77,11 @@
 
             <button class="button button--danger" ng-click="userCtrl.stopSubscription()">Cancel subscription</button>
 
-            <p><small>(Don't worry by canceling you will continue to have premium service until {{userCtrl.subscription.current_period_end * 1000 | date}}.</small></p>
+            <p><small>(Don't worry, by canceling you will continue to have premium service until {{userCtrl.subscription.current_period_end * 1000 | date}}.)</small></p>
           </div>
 
           <div ng-if="!userCtrl.source">
             <p>It looks like you don't currently have a card on your account! Your subscription will end on {{userCtrl.subscription.current_period_end * 1000 | date}} unless you add a card.</p>
-
-            <button class="button button--primary" ng-if="!userCtrl.source" ng-click="userCtrl.addCard()">+ Add a card</button>
           </div>
         </div>
       </div>
