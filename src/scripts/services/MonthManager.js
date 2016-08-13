@@ -43,6 +43,7 @@ angular.module('financier').factory('monthManager', (month, account) => {
         this.allAccounts = new Account({
           name: 'All Accounts'
         });
+        this.transactions = {};
         this.saveFn = saveFn;
 
         this.payees = [];
@@ -73,7 +74,6 @@ angular.module('financier').factory('monthManager', (month, account) => {
           // after change
           const month = this.getMonth(trans.month);
           month.addTransaction(trans);
-          month.startRolling(trans.category);
         });
 
         trans.subscribeDateChange((newDate, oldDate) => {
@@ -84,6 +84,8 @@ angular.module('financier').factory('monthManager', (month, account) => {
 
           newMonth.startRolling(trans.category);
         });
+
+        this.transactions[trans.id] = trans;
 
         myAccount.addTransaction(trans);
 
@@ -98,23 +100,35 @@ angular.module('financier').factory('monthManager', (month, account) => {
       }
 
       /**
-       * Add a Transaction which will be added to the relevant Month.
+       * Add a Transaction which will be removed
        *
-       * @param {Transaction} trans - The Transaction to be added.
+       * @param {Transaction} trans - The Transaction to be removed.
        */
       removeTransaction(trans) {
-        const myMonth = this.getMonth(trans.month),
-          myAccount = this.getAccount(trans.account);
+        const transactions = [trans];
 
-        trans.subscribe(null);
-        trans.subscribeAccountChange(null);
-        trans.subscribeCategoryChange(null, null);
-        trans.subscribeDateChange(null);
+        if (trans.transfer) {
+          transactions.push(trans.transfer);
+        }
 
-        myAccount.removeTransaction(trans);
-        this.allAccounts.removeTransaction(trans);
-        myMonth.removeTransaction(trans);
-        myMonth.startRolling(trans.category);
+        transactions.forEach(transaction => {
+          if (this.transactions[transaction.id]) {
+            delete this.transactions[transaction.id];
+
+            const myMonth = this.getMonth(transaction.month),
+              myAccount = this.getAccount(transaction.account);
+
+            myAccount.removeTransaction(transaction);
+
+            this.allAccounts.removeTransaction(transaction);
+            myMonth.removeTransaction(transaction);
+            myMonth.startRolling(transaction.category);
+
+            transaction.subscribeAccountChange(null);
+            transaction.subscribeCategoryChange(null, null);
+            transaction.subscribeDateChange(null);
+          }
+        });
       }
 
       /**

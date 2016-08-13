@@ -1,4 +1,4 @@
-describe('category', function() {
+describe('masterCategory', function() {
   let category, masterCategory;
 
   beforeEach(angular.mock.module('financier'));
@@ -7,13 +7,6 @@ describe('category', function() {
     category = _category_;
     masterCategory = _masterCategory_;
   }));
-
-  it('extends Category', () => {
-    const Category = category('123-123-123-123'),
-        MasterCategory = masterCategory('123-123-123-123');
-
-    expect(Object.getPrototypeOf(MasterCategory).name).toBe(Category.name);
-  });
 
   it('takes a budgetId and returns MasterCategory', () => {
     const MasterCategory = masterCategory('123-123-123-123');
@@ -28,6 +21,52 @@ describe('category', function() {
 
     beforeEach(() => {
       MasterCategory = masterCategory('111-111-111-111');
+    });
+
+    describe('static property', () => {
+      it('startKey', () => {
+        expect(MasterCategory.startKey).toBe('b_111-111-111-111_masterCategory_');
+      });
+
+      it('startKey', () => {
+        expect(MasterCategory.endKey).toBe('b_111-111-111-111_masterCategory_\uffff');
+      });
+
+      it('prefix', () => {
+        expect(MasterCategory.prefix).toBe('b_111-111-111-111_masterCategory_');
+      });
+
+      describe('contains', () => {
+        it('is true if _id is of budget and is MasterCategory', () => {
+          const cat = new MasterCategory();
+
+          expect(MasterCategory.contains(cat.data._id)).toBe(true);
+        });
+
+        it('is false if _id is of other budget and is MasterCategory', () => {
+          const OtherBudgetCategory = masterCategory('222-222-222-222'),
+            cat = new OtherBudgetCategory();
+
+          expect(MasterCategory.contains(cat.data._id)).toBe(false);
+        });
+
+        it('is false if _id is of budget and is MasterCategory', () => {
+          const Category = category('111-111-111-111'),
+            cat = new Category();
+
+          expect(MasterCategory.contains(cat.data._id)).toBe(false);
+        });
+
+        // Explicit coverage test
+        it('is false if _id is greater than', () => {
+          expect(MasterCategory.contains('aaa')).toBe(false);
+        });
+
+        // Explicit coverage test
+        it('is false if _id is less than', () => {
+          expect(MasterCategory.contains('zzz')).toBe(false);
+        });
+      });
     });
 
     it('can take an existing database document', () => {
@@ -52,7 +91,7 @@ describe('category', function() {
 
       expect(cat.note).not.toBeDefined();
       expect(cat.data._id).toBeDefined();
-      expect(cat.name).toBe('New category');
+      expect(cat.name).toBe('New master category');
     });
 
     it('uses existing _id if exists', () => {
@@ -72,21 +111,6 @@ describe('category', function() {
     });
 
     describe('categories', () => {
-      it('toJSON maps categories to their IDs', () => {
-        let cat = new MasterCategory({
-          name: 'My cat',
-          _id: 'foobar'
-        });
-
-        cat.categories = [{
-          _id: 'subcategory1Id'
-        }, {
-          _id: 'subcategory2Id'
-        }];
-
-        expect(cat.toJSON().categories).toEqual(['subcategory1Id', 'subcategory2Id']);
-      });
-
       it('adds update() to self', () => {
         const foo = {
           change: () => {},

@@ -87,6 +87,7 @@
     "node-bourbon": "^4.2.8",
     "node-uuid": "^1.4.7",
     "normalize.css": "^4.2.0",
+    "papaparse": "^4.1.2",
     "pouchdb": "^5.4.5",
     "sortablejs": "^1.4.2",
     "tether-drop": "^1.4.2"

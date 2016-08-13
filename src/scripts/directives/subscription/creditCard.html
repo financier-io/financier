@@ -1,6 +1,6 @@
-<div class="credit-card">
+<form class="credit-card" ng-submit="vm.submit()">
   <div class="credit-card__title">
-    Billing setup
+    Add payment method
   </div>
 
   <div class="credit-card__cards">
@@ -14,14 +14,14 @@
   <label class="credit-card__label">
     <div class="credit-card__label-name">Name on card</div>
 
-    <input type="text" class="credit-card__number" placeholder="John Doe">
+    <input type="text" class="credit-card__number" placeholder="John Doe" ng-model="vm.card.name">
   </label>
 
   <label class="credit-card__label">
     <div class="credit-card__label-name">Card number</div>
 
     <div class="credit-card__number-wrapper">
-      <input type="text" class="credit-card__number" placeholder="•••• •••• •••• ••••">
+      <input type="text" class="credit-card__number" placeholder="•••• •••• •••• ••••" ng-model="vm.card.number">
     </div>
   </label>
   
@@ -29,13 +29,13 @@
     <label class="credit-card__label">
       <div class="credit-card__label-name">Expiry date</div>
 
-      <input type="text" class="credit-card__number" placeholder="MM / YY">
+      <input type="text" class="credit-card__number" placeholder="MM / YY" ng-model="vm.card.exp">
     </label>
 
     <label class="credit-card__label">
       <div class="credit-card__label-name">Security code</div>
 
-      <input type="text" class="credit-card__number">
+      <input type="text" class="credit-card__number" ng-model="vm.card.cvc">
     </label>
   </div>
 
@@ -43,11 +43,11 @@
   <label class="credit-card__label">
     <div class="credit-card__label-name">ZIP/Postal code</div>
 
-    <input type="text" class="credit-card__number">
+    <input type="text" class="credit-card__number" ng-model="vm.card.address_zip">
   </label>
 
   <button type="submit" class="credit-card__submit button button--primary">Submit</button>
 
   <div class="credit-card__submit-help">You won't be charged until your subscription is up.</div>
-</div>
+</form>
 

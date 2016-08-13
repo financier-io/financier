@@ -42,7 +42,7 @@ angular.module('financier').factory('MonthCategory', uuid => {
      * @private
      */
     static _fromId(budgetId, monthId, categoryId) {
-      return `b_${budgetId}_m_category_${monthId}_${categoryId}`;
+      return `${MonthCategory.prefix(budgetId)}${monthId}_${categoryId}`;
     }
 
     /**
@@ -244,7 +244,8 @@ angular.module('financier').factory('MonthCategory', uuid => {
      * The upper bound of alphabetically sorted `MonthCategory`s
      * for a whole budget project by ID. Used by PouchDB.
      *
-     * @type {string}
+     * @param {string} budgetId - The budget's ID
+     * @returns {string} The start key
      */
     static startKey(budgetId) {
       return `b_${budgetId}_m_category_`;
@@ -254,10 +255,34 @@ angular.module('financier').factory('MonthCategory', uuid => {
      * The lower bound of alphabetically sorted `MonthCategory`s
      * for a whole budget project by ID. Used by PouchDB.
      *
-     * @type {string}
+     * @param {string} budgetId - The budget's ID
+     * @returns {string} The end key
      */
     static endKey(budgetId) {
-      return `b_${budgetId}_m_category_\uffff`;
+      return this.startKey(budgetId) + '\uffff';
+    }
+
+    /**
+     * The prefix for namespacing the monthCategory ID
+     *
+     * @param {string} budgetId - The budget's ID
+     * @returns {string} The prefix
+     */
+    static prefix(budgetId) {
+      return this.startKey(budgetId);
+    }
+
+    /**
+     * Used for detecting if a document's _id is a MonthCategory
+     * in this budget.
+     *
+     * @param {string} budgetId - The budget's ID
+     * @param {string} _id - The document's _id
+     * @returns {boolean} True if document _id is in the budget
+     * as a MonthCategory.
+     */
+    static contains(budgetId, _id) {
+      return _id > this.startKey(budgetId) && _id < this.endKey(budgetId);
     }
   };
 

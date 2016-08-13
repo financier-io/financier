@@ -12,15 +12,49 @@ describe('account', function() {
   }));
 
   describe('new Account()', () => {
-    describe('static methods', () => {
+
+    describe('static property', () => {
       it('startKey', () => {
         expect(Account.startKey).toBe('b_111-111-111-111_account_');
       });
+
       it('startKey', () => {
         expect(Account.endKey).toBe('b_111-111-111-111_account_\uffff');
       });
+
       it('prefix', () => {
         expect(Account.prefix).toBe('b_111-111-111-111_account_');
+      });
+
+      describe('contains', () => {
+        it('is true if _id is of budget and is account', () => {
+          const acc = new Account();
+
+          expect(Account.contains(acc.data._id)).toBe(true);
+        });
+
+        it('is false if _id is of other budget and is account', () => {
+          const OtherBudgetAccount = account('222-222-222-222'),
+            acc = new OtherBudgetAccount();
+
+          expect(Account.contains(acc.data._id)).toBe(false);
+        });
+
+        it('is false if _id is of budget and is account', () => {
+          const trans = new Transaction();
+
+          expect(Account.contains(trans.data._id)).toBe(false);
+        });
+
+        // Explicit coverage test
+        it('is false if _id is greater than', () => {
+          expect(Account.contains('aaa')).toBe(false);
+        });
+
+        // Explicit coverage test
+        it('is false if _id is less than', () => {
+          expect(Account.contains('zzz')).toBe(false);
+        });
       });
     });
 

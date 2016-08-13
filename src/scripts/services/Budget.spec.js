@@ -1,13 +1,53 @@
 describe('Budget', function() {
-  let Budget;
+  let Budget, account;
 
   beforeEach(angular.mock.module('financier'));
 
-  beforeEach(inject(_Budget_ => {
+  beforeEach(inject((_Budget_, _account_) => {
     Budget = _Budget_;
+    account = _account_;
   }));
 
   describe('new Budget()', () => {
+    describe('static property', () => {
+      it('startKey', () => {
+        expect(Budget.startKey).toBe('budget_');
+      });
+
+      it('startKey', () => {
+        expect(Budget.endKey).toBe('budget_\uffff');
+      });
+
+      it('prefix', () => {
+        expect(Budget.prefix).toBe('budget_');
+      });
+
+      describe('contains', () => {
+        it('is true if _id is of budget', () => {
+          const bdg = new Budget();
+
+          expect(Budget.contains(bdg.data._id)).toBe(true);
+        });
+
+        it('is false if _id is not of budget', () => {
+          const Account = account('222-222-222-222'),
+            acc = new Account();
+
+          expect(Budget.contains(acc.data._id)).toBe(false);
+        });
+
+        // Explicit coverage test
+        it('is false if _id is greater than', () => {
+          expect(Budget.contains('aaa')).toBe(false);
+        });
+
+        // Explicit coverage test
+        it('is false if _id is less than', () => {
+          expect(Budget.contains('zzz')).toBe(false);
+        });
+      });
+    });
+
     it('is a Budget', () => {
       let sets = new Budget();
 

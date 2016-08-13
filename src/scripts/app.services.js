@@ -14,6 +14,7 @@ import './services/Settings';
 import './services/Transaction';
 import './services/User';
 import './services/uuid';
+import './services/importBudget';
 
 import './services/reports/netWorth';
 

@@ -12,6 +12,10 @@
   &:hover {
     background-color: lighten($primary, 10%);
   }
+
+  &:disabled {
+    background-color: desaturate($primary, 70%);
+  }
 }
 
 .button--link-danger {
@@ -21,5 +25,9 @@
 
   &:hover {
     text-decoration: underline;
+  }
+
+  &:disabled {
+    background-color: desaturate($danger, 70%);
   }
 }

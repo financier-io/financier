@@ -77,6 +77,21 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
       ngDialog.closeAll();
     }
   })
+  .state('user.budget.import', {
+    url: 'import-budget',
+    onEnter: function(ngDialog, $state) {
+      ngDialog.open({
+        template: require('../views/modal/importBudget.html'),
+        controller: 'importBudgetCtrl',
+        controllerAs: 'importBudgetCtrl'
+      }).closePromise.finally(() => {
+        $state.go('^');
+      });
+    },
+    onExit: ngDialog => {
+      ngDialog.closeAll();
+    }
+  })
   .state('user.app', {
     url: '/:budgetId',
     abstract: true,
@@ -105,18 +120,13 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
       data: function(myBudget, $q) {
         return $q.all([
           myBudget.budget(),
-          myBudget.categories.all()
+          myBudget.categories.all(),
+          myBudget.masterCategories.all()
         ])
-        .then(([manager, categories]) => {
-          if (categories.length) {
-            manager.propagateRolling(
-              categories
-                .map((m => m.categories.map(c => c.id)))
-                .reduce((a, b) => a.concat(b))
-            );
-          }
+        .then(([manager, categories, masterCategories]) => {
+          manager.propagateRolling(Object.keys(categories));
 
-          return {manager, categories};
+          return {manager, categories, masterCategories};
         })
         .catch(e => {
           throw e;

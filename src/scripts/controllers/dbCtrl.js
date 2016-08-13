@@ -1,15 +1,19 @@
 import moment from 'moment';
 
-angular.module('financier').controller('dbCtrl', function(account, transaction, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget) {
-  let {manager, categories} = data;
+angular.module('financier').controller('dbCtrl', function(monthManager, MonthCategory, category, account, transaction, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget) {
+  let {manager, categories, masterCategories} = data;
   const budgetId = $stateParams.budgetId;
 
   const Month = month(budgetId);
   const Account = account(budgetId);
   const MasterCategory = masterCategory(budgetId);
+  const Category = category(budgetId);
+  const MonthManager = monthManager(budgetId);
+  const Transaction = transaction(budgetId);
 
   this.manager = manager;
   this.categories = categories;
+  this.masterCategories = masterCategories;
   this.accounts = manager.accounts;
   this.budgetRecord = budgetRecord;
 
@@ -18,8 +22,10 @@ angular.module('financier').controller('dbCtrl', function(account, transaction, 
   this.currentMonth = new Date();
   this.months = getView(this.currentMonth);
 
-  // TODO make a map of categories instead of doing this every $apply
-  // god knows how many times (lol)
+  this.openAccountsPredicate = acc => !acc.closed;
+  this.closedAccountsPredicate = acc => acc.closed;
+
+
   this.getCategoryName = (id, transactionDate) => {
     if (id === 'income') {
       return `Income for ${moment(transactionDate).format('MMMM')}`;
@@ -27,16 +33,9 @@ angular.module('financier').controller('dbCtrl', function(account, transaction, 
       return `Income for ${moment(transactionDate).add(1, 'month').format('MMMM')}`;
     }
 
-    for (let i = 0; i < this.categories.length; i++) {
-      for (let j = 0; j < this.categories[i].categories.length; j++) {
-        if (this.categories[i].categories[j].id === id) {
-          return this.categories[i].categories[j].name;
-        }
-      }
-    }
+    return this.categories[id] && this.categories[id].name;
   };
-  // TODO make a map of accounts instead of doing this every $apply
-  // god knows how many times (lol)
+
   this.getAccountName = id => {
     for (let i = 0; i < this.accounts.length; i++) {
       if (this.accounts[i].id === id) {
@@ -79,7 +78,9 @@ angular.module('financier').controller('dbCtrl', function(account, transaction, 
         manager: () => manager,
         myBudg: () => myBudget,
         myAccount: () => account || new Account(),
-        editing: () => !!account
+        editing: () => !!account,
+        categories: () => categories,
+        masterCategories: () => masterCategories
       }
     });
   };
@@ -99,18 +100,148 @@ angular.module('financier').controller('dbCtrl', function(account, transaction, 
     localStorage.setItem('sidebarWidth', width);
   });
 
-  this.addMasterCategory = name => {
-    const cat = new MasterCategory({
-      name
-    });
 
-    this.categories.unshift(cat);
-
-    for (let i = 0; i < this.categories.length; i++) {
-      this.categories[i].sort = i;
-    }
-
-    myBudget.categories.put(cat);
-    cat.subscribe(myBudget.categories.put);
+  function getId(_id) {
+    return _id.slice(_id.lastIndexOf('_') + 1);
   }
+
+
+  const doChange = {
+    masterCategory(change) {
+      // look through our categories to see if it exists
+
+      const cat = masterCategories[getId(change.id)];
+
+      if (change.deleted) {
+        if (cat) {
+          delete masterCategories[getId(change.id)];
+
+          $scope.$broadcast('masterCategories:change');
+        }
+      } else {
+        if (cat) {
+          cat.data = change.doc;
+        } else {
+          // Couldn't find it
+          const b = new MasterCategory(change.doc);
+          b.subscribe(myBudget.masterCategories.put);
+
+          masterCategories[b.id] = b;
+
+          $scope.$broadcast('masterCategories:change');
+        }
+      }
+    },
+    category(change) {
+      // look through our categories to see if it exists
+
+      const cat = categories[getId(change.id)];
+
+      if (change.deleted) {
+        if (cat) {
+          delete categories[getId(change.id)];
+        }
+      } else {
+        if (cat) {
+          cat.data = change.doc;
+        } else {
+          // Couldn't find it
+          const b = new Category(change.doc);
+          b.subscribe(myBudget.categories.put);
+
+          categories[b.id] = b;
+        }
+      }
+    },
+    month(change) {
+      // TODO
+    },
+    monthCategory(change) {
+      if (change.deleted) {
+        // todo
+        // mo.removeBudget()
+      } else {
+        const moCat = new MonthCategory(change.doc);
+        const mo = manager.getMonth(MonthManager._dateIDToDate(moCat.monthId));
+
+        if (mo.categories[moCat.categoryId]) {
+          const oldBudget = mo.categories[moCat.categoryId].budget;
+          mo.categories[moCat.categoryId].data = change.doc;
+
+          mo.categories[moCat.categoryId]._emitBudgetChange(mo.categories[moCat.categoryId].budget - oldBudget);
+        } else {
+          moCat.subscribe(myBudget.transactions.put);
+          mo.addBudget(moCat);
+          mo.startRolling(moCat.categoryId);
+        }
+
+      }
+    },
+    account(change) {
+      for (let i = 0; i < manager.accounts.length; i++) {
+        console.log(manager.accounts[i]._id)
+        if (manager.accounts[i]._id === change.id) {
+          if (change.deleted) {
+            manager.removeAccount(manager.accounts[i]);
+          } else {
+            manager.accounts[i].data = change.doc;
+          }
+
+          return;
+        }
+      }
+
+      // Couldn't find it
+      const acc = new Account(change.doc);
+      acc.subscribe(myBudget.accounts.put);
+
+      manager.addAccount(acc);
+    },
+    transaction(change) {
+      let trans = manager.transactions[getId(change.id)];
+
+      if (trans) {
+        if (change.deleted) {
+          manager.removeTransaction(trans);
+        } else {
+          if (trans.data.transferId) {
+            trans.transfer = manager.transactions[trans.data.transferId];
+
+            if (trans.transfer) {
+              trans.transfer.transfer = trans;
+            }
+          }
+
+          trans.data = change.doc;
+        }
+
+        return;
+      }
+
+      if (!change.deleted) {
+        // Couldn't find it
+        trans = new Transaction(change.doc);
+        trans.subscribe(myBudget.transactions.put);
+
+        manager.addTransaction(trans);
+      }
+
+    }
+  };
+
+  $scope.$on('pouchdb:change', (e, change) => {
+    if (MasterCategory.contains(change.id)) {
+      doChange.masterCategory(change);
+    } else if (Category.contains(change.id)) {
+      doChange.category(change);
+    } else if (Month.contains(change.id)) {
+      doChange.month(change);
+    } else if (MonthCategory.contains(budgetId, change.id)) {
+      doChange.monthCategory(change);
+    } else if (Account.contains(change.id)) {
+      doChange.account(change);
+    } else if (Transaction.contains(change.id)) {
+      doChange.transaction(change);
+    }
+  });
 });

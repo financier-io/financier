@@ -21,6 +21,30 @@ angular.module('financier').factory('User', $http => {
     session: () => {
       return $http.get('/db/_session')
       .then(d => d.data);
+    },
+    addSource: token => {
+      return $http.post('/manage/billing/source', { token })
+      .then(d => d.data);
+    },
+    getSource: () => {
+      return $http.get('/manage/billing/source')
+      .then(d => d.data);
+    },
+    deleteSource: () => {
+      return $http.delete('/manage/billing/source')
+      .then(d => d.data);
+    },
+    startSubscription: () => {
+      return $http.post('/manage/billing/subscription')
+      .then(d => d.data);
+    },
+    stopSubscription: () => {
+      return $http.delete('/manage/billing/subscription')
+      .then(d => d.data);
+    },
+    getSubscription: () => {
+      return $http.get('/manage/billing/subscription')
+      .then(d => d.data);
     }
   };
 });

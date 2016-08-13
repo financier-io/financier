@@ -1,11 +1,64 @@
 describe('category', function() {
-  let category;
+  let category, transaction;
 
   beforeEach(angular.mock.module('financier'));
 
-  beforeEach(inject(_category_ => {
+  beforeEach(inject((_category_, _transaction_) => {
     category = _category_;
+    transaction = _transaction_;
   }));
+
+  describe('static property', () => {
+    let Category;
+
+    beforeEach(() => {
+      Category = category('111-111-111-111');
+    });
+
+    it('startKey', () => {
+      expect(Category.startKey).toBe('b_111-111-111-111_category_');
+    });
+
+    it('startKey', () => {
+      expect(Category.endKey).toBe('b_111-111-111-111_category_\uffff');
+    });
+
+    it('prefix', () => {
+      expect(Category.prefix).toBe('b_111-111-111-111_category_');
+    });
+
+    describe('contains', () => {
+      it('is true if _id is of budget and is Category', () => {
+        const cat = new Category();
+
+        expect(Category.contains(cat.data._id)).toBe(true);
+      });
+
+      it('is false if _id is of other budget and is Category', () => {
+        const OtherBudgetCategory = category('222-222-222-222'),
+          cat = new OtherBudgetCategory();
+
+        expect(Category.contains(cat.data._id)).toBe(false);
+      });
+
+      it('is false if _id is of budget and is Category', () => {
+        const Transaction = transaction('111-111-111-111'),
+          trans = new Transaction();
+
+        expect(Category.contains(trans.data._id)).toBe(false);
+      });
+
+      // Explicit coverage test
+      it('is false if _id is greater than', () => {
+        expect(Category.contains('aaa')).toBe(false);
+      });
+
+      // Explicit coverage test
+      it('is false if _id is less than', () => {
+        expect(Category.contains('zzz')).toBe(false);
+      });
+    });
+  });
 
   it('is a function', () => {
     expect(typeof category).toBe('function');

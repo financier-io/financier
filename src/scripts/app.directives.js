@@ -28,6 +28,7 @@ import './directives/stagingWarning';
 import './directives/syncStatus';
 import './directives/transaction-select';
 import './directives/viewAnimation';
-import './directives/addMasterCategory';
+import './directives/addCategory';
+import './directives/fileRead';
 
 import './directives/subscription/creditCard';

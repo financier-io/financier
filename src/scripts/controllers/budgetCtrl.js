@@ -1,10 +1,28 @@
-angular.module('financier').controller('budgetCtrl', function($filter, $stateParams, $rootScope, $timeout, $scope, month) {
+angular.module('financier').controller('budgetCtrl', function($filter, $stateParams, $rootScope, $timeout, $scope, month, masterCategory, category, myBudget) {
   const Month = month($stateParams.budgetId);
+  const MasterCategory = masterCategory($stateParams.budgetId);
+  const Category = category($stateParams.budgetId);
 
   this.showMonths = 0;
   $rootScope.$on('budget:columns', (event, months) => {
     this.showMonths = (months >= 5 ? 5 : months) || 1;
   });
+
+  const updateCategories = () => {
+    this.masterCategoriesArray = [];
+
+    for (let id in $scope.dbCtrl.masterCategories) {
+      if ($scope.dbCtrl.masterCategories.hasOwnProperty(id)) {
+        this.masterCategoriesArray.push($scope.dbCtrl.masterCategories[id]);
+      }
+    }
+
+    this.masterCategoriesArray.sort((a, b) => a.sort - b.sort);
+  }
+
+  $scope.$on('masterCategories:change', updateCategories);
+  updateCategories(); // run to start
+
 
   $scope.categorySortable = {
     animation: 200,
@@ -44,5 +62,36 @@ angular.module('financier').controller('budgetCtrl', function($filter, $statePar
         month: dateFilter(lastMonthFilter(date), 'MMM')
       };
     }
+  };
+
+  this.addMasterCategory = name => {
+    const cat = new MasterCategory({
+      name
+    });
+
+    this.masterCategoriesArray.unshift(cat);
+
+    for (let i = 0; i < this.masterCategoriesArray.length; i++) {
+      this.masterCategoriesArray[i].sort = i;
+    }
+
+    $scope.dbCtrl.masterCategories[cat.id] = cat;
+
+    myBudget.masterCategories.put(cat);
+    cat.subscribe(myBudget.masterCategories.put);
+  }
+
+  this.addCategory = (name, masterCategory) => {
+    const cat = new Category({
+      name
+    });
+
+    masterCategory.categories.unshift(cat.id);
+
+    $scope.dbCtrl.categories[cat.id] = cat;
+
+    myBudget.masterCategories.put(masterCategory);
+    myBudget.categories.put(cat);
+    cat.subscribe(myBudget.categories.put);
   }
 });

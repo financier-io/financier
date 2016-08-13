@@ -41,6 +41,7 @@ angular.module('financier').provider('db', function() {
         $rootScope.$broadcast('syncStatus:update', 'syncing');
       })
       .on('paused', function () {
+        // user went offline
         $rootScope.$broadcast('syncStatus:update', 'complete');
       })
       .on('active', function () {
@@ -58,6 +59,18 @@ angular.module('financier').provider('db', function() {
       .on('error', function (err) {
         $rootScope.$broadcast('syncStatus:update', 'error');
         // handle error
+      });
+
+      db.changes({
+        since: 'now',
+        live: true,
+        include_docs: true
+      }).on('change', change => {
+        // received a change
+        $rootScope.$broadcast('pouchdb:change', change);
+      }).on('error', err => {
+        // handle errors
+        console.log('error subscribing to changes feed', err);
       });
     }
 

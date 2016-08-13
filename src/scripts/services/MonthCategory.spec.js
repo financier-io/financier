@@ -1,13 +1,66 @@
 describe('MonthCategory', function() {
-  let MonthCategory;
+  let MonthCategory, transaction;
 
   beforeEach(angular.mock.module('financier'));
 
-  beforeEach(inject(_MonthCategory_ => {
+  beforeEach(inject((_MonthCategory_, _transaction_) => {
     MonthCategory = _MonthCategory_;
+    transaction = _transaction_;
   }));
 
   describe('new Budget.from()', () => {
+    describe('static property', () => {
+      it('startKey', () => {
+        expect(MonthCategory.startKey('111-111-111-111')).toBe('b_111-111-111-111_m_category_');
+      });
+
+      it('startKey', () => {
+        expect(MonthCategory.endKey('111-111-111-111')).toBe('b_111-111-111-111_m_category_\uffff');
+      });
+
+      it('prefix', () => {
+        expect(MonthCategory.prefix('111-111-111-111')).toBe('b_111-111-111-111_m_category_');
+      });
+
+      describe('contains', () => {
+        it('is true if _id is of budget and is MonthCategory', () => {
+          let moCat = new MonthCategory.from(
+            '111-111-111-111',
+            '201501',
+            '333-333-333-333'
+          );
+
+          expect(MonthCategory.contains('111-111-111-111', moCat.data._id)).toBe(true);
+        });
+
+        it('is false if _id is of other budget and is MonthCategory', () => {
+          let moCat = new MonthCategory.from(
+            '111-111-111-111',
+            '201501',
+            '333-333-333-333'
+          );
+
+          expect(MonthCategory.contains('222-222-222-222', moCat.data._id)).toBe(false);
+        });
+
+        it('is false if _id is of budget and is MonthCategory', () => {
+          const Transaction = transaction('111-111-111-111'),
+            trans = new Transaction();
+
+          expect(MonthCategory.contains('111-111-111-111', trans.data._id)).toBe(false);
+        });
+
+        // Explicit coverage test
+        it('is false if _id is greater than', () => {
+          expect(MonthCategory.contains('111-111-111-111', 'aaa')).toBe(false);
+        });
+
+        // Explicit coverage test
+        it('is false if _id is less than', () => {
+          expect(MonthCategory.contains('111-111-111-111', 'zzz')).toBe(false);
+        });
+      });
+    });
     it('is a Budget', () => {
       let sets = new MonthCategory.from(
         '111-111-111-111',

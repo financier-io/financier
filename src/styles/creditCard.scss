@@ -1,8 +1,7 @@
 .credit-card {
   max-width: 400px;
   margin: 0 auto;
-  border: 1px solid $primary;
-  padding: 1em;
+  padding: 0.5em;
 }
 
 .credit-card__title {
@@ -12,7 +11,7 @@
 
 .credit-card__cards {
   display: flex;
-  margin: 0.5em 0;
+  margin: 1em 0 0.5em 0;
 
   i {
     flex: 1;
