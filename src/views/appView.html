@@ -31,12 +31,26 @@
 
         <div class="app-view__accounts">
 
-          <div class="app-view__accounts-list-border">
+          <div class="app-view__accounts-list-border" ng-show="openAccounts.length">
             <div class="app-view__accounts-title">{{'MY_ACCOUNTS' | translate}}</div>
 
             <ul class="app-view__accounts-list">
               <li class="app-view__account"
-                  ng-repeat="account in dbCtrl.accounts"
+                  ng-repeat="account in dbCtrl.accounts | filter: dbCtrl.openAccountsPredicate as openAccounts"
+                  ui-sref="user.app.manager.view.account({accountId: account.id})"
+                  ui-sref-active="app-view__account--active">
+                <span class="app-view__name">{{account.name}}</span> <!-- <i class="app-view__edit fa fa-cog" ng-click="dbCtrl.edit($event, account)"></i> -->
+                <span>{{account.cache.balance | intCurrency | currency : ''}}</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="app-view__accounts-list-border app-view__accounts-list-border--no-top" ng-show="closedAccounts.length">
+            <div class="app-view__accounts-title">My closed accounts</div>
+
+            <ul class="app-view__accounts-list">
+              <li class="app-view__account"
+                  ng-repeat="account in dbCtrl.accounts | filter: dbCtrl.closedAccountsPredicate as closedAccounts"
                   ui-sref="user.app.manager.view.account({accountId: account.id})"
                   ui-sref-active="app-view__account--active">
                 <span class="app-view__name">{{account.name}}</span> <!-- <i class="app-view__edit fa fa-cog" ng-click="dbCtrl.edit($event, account)"></i> -->
@@ -72,7 +86,7 @@
 
       <footer ng-if="!userCtrl.email" class="app-view__sidebar-footer">
         <a class="app-view__sync" ui-sref="user.signup">
-          Don't have an account? Upgrade to unlock syncing. Free for 30 days!
+          Don't have an account? Upgrade to unlock syncing. Free for 7 days!
         </a>
 
         <div class="app-view__sidebar-footer--logged-in">

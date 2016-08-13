@@ -1,4 +1,4 @@
-describe('category', function() {
+describe('masterCategory', function() {
   let category, masterCategory;
 
   beforeEach(angular.mock.module('financier'));
@@ -7,13 +7,6 @@ describe('category', function() {
     category = _category_;
     masterCategory = _masterCategory_;
   }));
-
-  it('extends Category', () => {
-    const Category = category('123-123-123-123'),
-        MasterCategory = masterCategory('123-123-123-123');
-
-    expect(Object.getPrototypeOf(MasterCategory).name).toBe(Category.name);
-  });
 
   it('takes a budgetId and returns MasterCategory', () => {
     const MasterCategory = masterCategory('123-123-123-123');
@@ -98,7 +91,7 @@ describe('category', function() {
 
       expect(cat.note).not.toBeDefined();
       expect(cat.data._id).toBeDefined();
-      expect(cat.name).toBe('New category');
+      expect(cat.name).toBe('New master category');
     });
 
     it('uses existing _id if exists', () => {
@@ -118,21 +111,6 @@ describe('category', function() {
     });
 
     describe('categories', () => {
-      it('toJSON maps categories to their IDs', () => {
-        let cat = new MasterCategory({
-          name: 'My cat',
-          _id: 'foobar'
-        });
-
-        cat.categories = [{
-          _id: 'subcategory1Id'
-        }, {
-          _id: 'subcategory2Id'
-        }];
-
-        expect(cat.toJSON().categories).toEqual(['subcategory1Id', 'subcategory2Id']);
-      });
-
       it('adds update() to self', () => {
         const foo = {
           change: () => {},

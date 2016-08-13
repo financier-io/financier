@@ -1,0 +1,48 @@
+<h2>Import budget</h2>
+
+<p>Warning: This feature is experimental! It may break and/or not work at all depending on your version of YNAB and locale settings. It is mainly for testing. You are recommended to start with a new budget to begin.</p>
+
+<p>In addition, some data is not available and/or used in the CSV exports such as the "right arrow" on a category, account and category hidden/visible status, and other small things.</p>
+
+<form name="importBudgetForm" ng-submit="importBudgetCtrl.submit(name, budgetFile, transactionsFile)">
+  <label>
+  Budget name
+    <input type="text"
+           name="name"
+           ng-model="name"
+           placeholder="My budget name"
+           required>
+    <div ng-messages="importBudgetForm.name.$error"
+         ng-if="importBudgetForm.name.$dirty">
+      <div ng-message="required" class="message">This is required!</div>
+    </div>
+  </label>
+  <label>
+    Budget CSV file
+    <input type="file"
+           name="budgetFile"
+           file-read="budgetFile"
+           required>
+    <div ng-messages="importBudgetForm.budgetFile.$error"
+         ng-if="importBudgetForm.budgetFile.$dirty">
+      <div ng-message="required" class="message">This is required!</div>
+    </div>
+  </label>
+  <label>
+    Transactions (register) CSV file
+    <input type="file"
+           name="transactionsFile"
+           file-read="transactionsFile"
+           required>
+    <div ng-messages="importBudgetForm.transactionsFile.$error"
+         ng-if="importBudgetForm.transactionsFile.$dirty">
+      <div ng-message="required" class="message">This is required!</div>
+    </div>
+  </label>
+  
+  <footer>
+    <button class="primary"
+            ng-disabed="importBudgetForm.$invalid">Create budget</button>
+    <button ng-click="closeThisDialog()">Cancel</button>
+  </footer>
+</form>

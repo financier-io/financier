@@ -128,6 +128,10 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
         this.emitChange();
       }
 
+      get _id() {
+        return this.data._id;
+      }
+
       /**
        * Used to set the function to invoke upon record changes.
        *

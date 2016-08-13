@@ -509,7 +509,6 @@ angular.module('financier').factory('transaction', uuid => {
        * @private
       */
       _emitValueChange(val) {
-        throw 'boom';
         return this.subscribeValueChangeFn && this.subscribeValueChangeFn(val);
       }
 

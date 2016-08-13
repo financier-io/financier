@@ -22,6 +22,9 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
   this.currentMonth = new Date();
   this.months = getView(this.currentMonth);
 
+  this.openAccountsPredicate = acc => !acc.closed;
+  this.closedAccountsPredicate = acc => acc.closed;
+
 
   this.getCategoryName = (id, transactionDate) => {
     if (id === 'income') {

@@ -3,6 +3,7 @@ import './controllers/budgetCtrl';
 import './controllers/budgetsCtrl';
 import './controllers/bulkEditTransactionsCtrl';
 import './controllers/createBudgetCtrl';
+import './controllers/importBudgetCtrl';
 import './controllers/dbCtrl';
 import './controllers/editAccountCtrl';
 import './controllers/flagCtrl';

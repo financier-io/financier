@@ -1,5 +1,71 @@
-angular.module('financier').controller('userCtrl', function($rootScope, User, db, ngDialog) {
+angular.module('financier').controller('userCtrl', function($rootScope, $scope, User, db, ngDialog) {
   $rootScope.loaded = true;
+
+  const getSubscriptionInfo = () => {
+    this.addCard = () => {
+      const s = $scope.$new({});
+      s.addToken = this.addSource;
+
+      ngDialog.open({
+        template: '<credit-card add-token="addToken(token)"></credit-card>',
+        scope: s
+      });
+    };
+
+    this.addSource = token => {
+      return User.addSource(token)
+      .then(() => {
+        this.getSource();
+      });
+    }
+
+    this.removeSource = () => {
+      return User.removeSource()
+      .then(() => {
+        this.getSource();
+      });
+    }
+
+    this.getSource = () => {
+      return User.getSource()
+      .then(source => {
+        this.source = source;
+      })
+    }
+
+    this.getSource();
+
+    this.startSubscription = User.startSubscription;
+    this.stopSubscription = User.stopSubscription;
+
+    this.loadingSubscription = true;
+
+    this.getSubscription = () => {
+      return User.getSubscription().then(subscription => {
+        this.subscription = subscription;
+        this.loadingSubscription = false;
+      })
+      .catch(e => {
+        this.subscription = null;
+      });
+    }
+
+    this.getSubscription();
+
+    this.loadingSource = true;
+
+    this.getSource = () => {
+      return User.getSource().then(source => {
+        this.source = source;
+        this.loadingSource = false;
+      })
+      .catch(e => {
+        this.source = null;
+      });
+    }
+  }
+
+
 
   const getSession = () => {
     return User.session()
@@ -11,15 +77,14 @@ angular.module('financier').controller('userCtrl', function($rootScope, User, db
           if (s.userCtx.roles[i].indexOf('userdb-') === 0) {
             db.sync.start(s.userCtx.roles[i]);
           }
-
-          if (s.userCtx.roles[i].indexOf('exp-') === 0) {
-            const d = new Date(0);
-            d.setUTCSeconds(+s.userCtx.roles[i].slice(4));
-            this.subscriptionExpiry = d;
-          }
         }
+
+        this.isFree = false;
+
+        getSubscriptionInfo()
       } else {
         this.email = null;
+        this.isFree = true;
       }
     });
   };

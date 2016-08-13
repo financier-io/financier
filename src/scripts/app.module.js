@@ -77,6 +77,21 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
       ngDialog.closeAll();
     }
   })
+  .state('user.budget.import', {
+    url: 'import-budget',
+    onEnter: function(ngDialog, $state) {
+      ngDialog.open({
+        template: require('../views/modal/importBudget.html'),
+        controller: 'importBudgetCtrl',
+        controllerAs: 'importBudgetCtrl'
+      }).closePromise.finally(() => {
+        $state.go('^');
+      });
+    },
+    onExit: ngDialog => {
+      ngDialog.closeAll();
+    }
+  })
   .state('user.app', {
     url: '/:budgetId',
     abstract: true,
