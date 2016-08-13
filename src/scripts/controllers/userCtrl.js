@@ -33,8 +33,17 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
       })
     }
 
-    this.startSubscription = User.startSubscription;
-    this.stopSubscription = User.stopSubscription;
+    this.startSubscription = () => {
+      User.startSubscription().then(() => {
+        this.getSubscription();
+      })
+    };
+
+    this.stopSubscription = () => {
+      User.stopSubscription().then(() => {
+        this.getSubscription();
+      })
+    };
 
     this.loadingSubscription = true;
 

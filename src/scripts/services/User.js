@@ -30,7 +30,7 @@ angular.module('financier').factory('User', $http => {
       return $http.get('/manage/billing/source')
       .then(d => d.data);
     },
-    deleteSource: () => {
+    removeSource: () => {
       return $http.delete('/manage/billing/source')
       .then(d => d.data);
     },

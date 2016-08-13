@@ -1,12 +1,13 @@
-<p>
-  <button ui-sref="user.signup" class="button button--primary">Upgrade</button>
-  <button ng-click="userCtrl.signin()" class="button button--primary">Sign in</button>
-</p>
 
 <staging-warning></staging-warning>
 <!-- <service-worker-status></service-worker-status> -->
 
 <div class="budgets">
+  <p>
+    <button ui-sref="user.signup" class="button button--primary">Upgrade</button>
+    <button ng-click="userCtrl.signin()" class="button button--primary">Sign in</button>
+  </p>
+
   <sync-status></sync-status>
 
   <div class="budgets__title">{{'YOUR_BUDGETS' | translate}}</div>
@@ -64,7 +65,7 @@
 
       <div ng-if="userCtrl.subscription">
         <div ng-if="userCtrl.subscription.cancel_at_period_end">
-          <p>It looks like your {{userCtrl.subscription.status === 'trialing' ? 'trial' : 'subscription'}} was canceled. Your last date of premium service will be userCtrl.subscription.current_period_end}}.</p>
+          <p>It looks like your {{userCtrl.subscription.status === 'trialing' ? 'trial' : 'subscription'}} was canceled. Your last date of premium service will be {{userCtrl.subscription.current_period_end * 1000 | date}}.</p>
 
           <button class="button button--primary" ng-click="userCtrl.startSubscription()">Resume my subscription</button>
           
@@ -72,15 +73,15 @@
 
         <div ng-if="!userCtrl.subscription.cancel_at_period_end">
           <div ng-if="userCtrl.source">
-            <p>Your subscription will be renewed on {{userCtrl.subscription.current_period_end | date}} for $5.00 on your card ending in {{userCtrl.source.last4}}.</p>
+            <p>Your subscription will be renewed on {{userCtrl.subscription.current_period_end * 1000 | date}} for $5.00 on your card ending in {{userCtrl.source.last4}}.</p>
 
             <button class="button button--danger" ng-click="userCtrl.stopSubscription()">Cancel subscription</button>
 
-            <small>(Don't worry by canceling you will continue to have premium service until {{userCtrl.subscription.current_period_end | date}}.</small>
+            <p><small>(Don't worry by canceling you will continue to have premium service until {{userCtrl.subscription.current_period_end * 1000 | date}}.</small></p>
           </div>
 
           <div ng-if="!userCtrl.source">
-            <p>It looks like you don't currently have a card on your account! Your subscription will end on {{userCtrl.subscription.current_period_end | date}} unless you add a card.</p>
+            <p>It looks like you don't currently have a card on your account! Your subscription will end on {{userCtrl.subscription.current_period_end * 1000 | date}} unless you add a card.</p>
 
             <button class="button button--primary" ng-if="!userCtrl.source" ng-click="userCtrl.addCard()">+ Add a card</button>
           </div>
@@ -103,7 +104,7 @@
       </p>
 
 
-      <div ng-if="usertCtrl.source">
+      <div ng-if="userCtrl.source">
         <p>Your card {{userCtrl.source.brand}} ending in {{userCtrl.source.last4}} is on your account.</p>
 
         <button class="button button--danger" ng-click="userCtrl.removeSource()">Remove card</button>
