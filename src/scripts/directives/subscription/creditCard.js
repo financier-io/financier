@@ -16,11 +16,14 @@ angular.module('financier').component('creditCard', {
       window.Stripe.card.createToken(this.card, (status, response) => {
         if (response.error) {
           console.log(status, response);
+          this.loadingAddSource = false;
         } else {
           this.addToken({ token: response.id})
-          .finally(() => {
+          .then(() => {
             $scope.closeThisDialog();
-            // this.loadingAddSource = false;
+          })
+          .catch(() => {
+            this.loadingAddSource = false;
           });
         }
       });

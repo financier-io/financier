@@ -1,53 +1,55 @@
 <form class="credit-card" ng-submit="vm.submit()">
-  <div class="credit-card__title">
-    Add payment method
-  </div>
-
-  <div class="credit-card__cards">
-    <i class="fa fa-cc-visa"></i>
-    <i class="fa fa-cc-mastercard"></i>
-    <i class="fa fa-cc-amex"></i>
-    <i class="fa fa-cc-discover"></i>  
-  </div>
-
-
-  <label class="credit-card__label">
-    <div class="credit-card__label-name">Name on card</div>
-
-    <input type="text" class="credit-card__number" placeholder="John Doe" ng-model="vm.card.name">
-  </label>
-
-  <label class="credit-card__label">
-    <div class="credit-card__label-name">Card number</div>
-
-    <div class="credit-card__number-wrapper">
-      <input type="text" class="credit-card__number" placeholder="•••• •••• •••• ••••" ng-model="vm.card.number">
+  <fieldset ng-disabled="vm.loadingAddSource">
+    <div class="credit-card__title">
+      Add payment method
     </div>
-  </label>
-  
-  <div class="credit-card__block">
-    <label class="credit-card__label">
-      <div class="credit-card__label-name">Expiry date</div>
 
-      <input type="text" class="credit-card__number" placeholder="MM / YY" ng-model="vm.card.exp">
+    <div class="credit-card__cards">
+      <i class="fa fa-cc-visa"></i>
+      <i class="fa fa-cc-mastercard"></i>
+      <i class="fa fa-cc-amex"></i>
+      <i class="fa fa-cc-discover"></i>
+    </div>
+
+
+    <label class="credit-card__label">
+      <div class="credit-card__label-name">Name on card</div>
+
+      <input type="text" class="credit-card__number" placeholder="John Doe" ng-model="vm.card.name">
     </label>
 
     <label class="credit-card__label">
-      <div class="credit-card__label-name">Security code</div>
+      <div class="credit-card__label-name">Card number</div>
 
-      <input type="text" class="credit-card__number" ng-model="vm.card.cvc">
+      <div class="credit-card__number-wrapper">
+        <input type="text" class="credit-card__number" placeholder="•••• •••• •••• ••••" ng-model="vm.card.number">
+      </div>
     </label>
-  </div>
+
+    <div class="credit-card__block">
+      <label class="credit-card__label">
+        <div class="credit-card__label-name">Expiry date</div>
+
+        <input type="text" class="credit-card__number" placeholder="MM / YY" ng-model="vm.card.exp">
+      </label>
+
+      <label class="credit-card__label">
+        <div class="credit-card__label-name">Security code</div>
+
+        <input type="text" class="credit-card__number" ng-model="vm.card.cvc">
+      </label>
+    </div>
 
 
-  <label class="credit-card__label">
-    <div class="credit-card__label-name">ZIP/Postal code</div>
+    <label class="credit-card__label">
+      <div class="credit-card__label-name">ZIP/Postal code</div>
 
-    <input type="text" class="credit-card__number" ng-model="vm.card.address_zip">
-  </label>
+      <input type="text" class="credit-card__number" ng-model="vm.card.address_zip">
+    </label>
 
-  <button type="submit" ladda="vm.loadingAddSource" class="credit-card__submit button button--primary">Submit</button>
+    <button type="submit" ladda="vm.loadingAddSource" class="credit-card__submit button button--primary">Submit</button>
 
-  <div class="credit-card__submit-help">You won't be charged until your subscription is up.</div>
+    <div class="credit-card__submit-help">You won't be charged until your subscription is up.</div>
+  </fieldset>
 </form>
 

@@ -121,13 +121,22 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
 
   getSession();
 
+  $scope.$on('login', () => {
+    getSession();
+  });
+
 
   this.logout = () => {
     db.sync.cancel();
 
+    this.logoutLoading = true;
+
     return User.logout()
     .then(() => {
       this.email = null;
+    })
+    .finally(() => {
+      this.logoutLoading = false;
     });
   };
 

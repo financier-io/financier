@@ -4,11 +4,12 @@
 
 <div class="budgets">
   <p>
-    <button ui-sref="user.signup" class="button button--primary">Upgrade</button>
-    <button ng-click="userCtrl.signin()" class="button button--primary">Sign in</button>
+    <button ng-if="!userCtrl.email" ui-sref="user.signup" class="button button--primary">Upgrade/Sign up</button>
+    <button ng-if="!userCtrl.email" ng-click="userCtrl.signin()" class="button button--primary">Login</button>
+    <button ng-if="userCtrl.email" ng-click="userCtrl.logout()" ladda="userCtrl.logoutLoading" class="button button--primary">Logout</button>
   </p>
 
-  <sync-status></sync-status>
+  <sync-status ng-if="userCtrl.email"></sync-status>
 
   <div class="budgets__title">{{'YOUR_BUDGETS' | translate}}</div>
   
