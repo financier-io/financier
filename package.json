@@ -70,6 +70,7 @@
     "angular-animate": "^1.5.8",
     "angular-dateParser": "^1.1.0",
     "angular-hotkeys": "^1.7.0",
+    "angular-ladda-lw": "^0.4.0",
     "angular-md5": "^0.1.10",
     "angular-messages": "^1.5.8",
     "angular-resizable": "^1.2.0",

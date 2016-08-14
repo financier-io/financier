@@ -50,15 +50,16 @@
   <div ng-if="userCtrl.isFree === true">
     <p>You're currently using the free version. Your budgets are stored in the browser, and could be deleted if you clear the browser cache!</p>
   </div>
+
+  <p ng-if="userCtrl.loadingFailed">
+    Loading subscription information failed. It looks like you might not have an internet connection. No worries -- refresh the page later when you do.
+  </p>
   
   <div ng-if="userCtrl.isFree === false">
     <p ng-if="(userCtrl.loadingSubscription || userCtrl.loadingSource) && !userCtrl.loadingFailed">
       Loading subscription...
     </p>
 
-    <p ng-if="userCtrl.loadingFailed">
-      Loading subscription information failed. It looks like you might not have an internet connection. No worries -- refresh the page later when you do.
-    </p>
 
     <div ng-if="!userCtrl.loadingSubscription && !userCtrl.loadingSource && !userCtrl.loadingFailed">
       <h2>{{'YOUR_SUBSCRIPTION' | translate}}</h2>
@@ -67,7 +68,7 @@
         <div ng-if="userCtrl.subscription.cancel_at_period_end">
           <p>It looks like your {{userCtrl.subscription.status === 'trialing' ? 'trial' : 'subscription'}} was canceled. Your last date of premium service will be {{userCtrl.subscription.current_period_end * 1000 | date}}.</p>
 
-          <button class="button button--primary" ng-click="userCtrl.startSubscription()">Resume my subscription</button>
+          <button class="button button--primary" ladda="userCtrl.loadingStartSubscription" ng-click="userCtrl.startSubscription()">Resume my subscription</button>
           
         </div>
 
@@ -75,7 +76,7 @@
           <div ng-if="userCtrl.source">
             <p>Your subscription will be renewed on {{userCtrl.subscription.current_period_end * 1000 | date}} for $5.00 on your card ending in {{userCtrl.source.last4}}.</p>
 
-            <button class="button button--danger" ng-click="userCtrl.stopSubscription()">Cancel subscription</button>
+            <button class="button button--danger" ladda="userCtrl.loadingStopSubscription" ng-click="userCtrl.stopSubscription()">Cancel subscription</button>
 
             <p><small>(Don't worry, by canceling you will continue to have premium service until {{userCtrl.subscription.current_period_end * 1000 | date}}.)</small></p>
           </div>
@@ -105,7 +106,7 @@
       <div ng-if="userCtrl.source">
         <p>Your card {{userCtrl.source.brand}} ending in {{userCtrl.source.last4}} is on your account.</p>
 
-        <button class="button button--danger" ng-click="userCtrl.removeSource()">Remove card</button>
+        <button class="button button--danger" ladda="userCtrl.loadingRemoveSource" ng-click="userCtrl.removeSource()">Remove card</button>
       </div>
     </div>
   </div>

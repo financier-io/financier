@@ -11,13 +11,17 @@ angular.module('financier').component('creditCard', {
     window.Stripe.setPublishableKey('pk_test_XPdvlr2ysiBiX1OzWdc4v9ey');
 
     this.submit = () => {
-      console.log(this.card)
+      this.loadingAddSource = true;
 
       window.Stripe.card.createToken(this.card, (status, response) => {
         if (response.error) {
           console.log(status, response);
         } else {
-          this.addToken({ token: response.id});
+          this.addToken({ token: response.id})
+          .finally(() => {
+            $scope.closeThisDialog();
+            // this.loadingAddSource = false;
+          });
         }
       });
     }

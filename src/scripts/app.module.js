@@ -11,6 +11,7 @@ import 'angular-resizable';
 import 'ng-resize';
 import 'angular-hotkeys';
 import 'sortablejs/ng-sortable';
+import 'angular-ladda-lw/dist/angular-ladda-lw';
 
 let financier = angular.module('financier', [
   uiRouter,
@@ -25,7 +26,8 @@ let financier = angular.module('financier', [
   'angularResizable',
   'ngResize',
   'cfp.hotkeys',
-  'ng-sortable'
+  'ng-sortable',
+  'angular-ladda-lw'
 ]).run((offline, $rootScope, $timeout) => {
   offline.register();
 

@@ -1,4 +1,4 @@
-angular.module('financier').controller('userCtrl', function($rootScope, $scope, User, db, ngDialog) {
+angular.module('financier').controller('userCtrl', function($rootScope, $scope, User, db, ngDialog, $timeout) {
   $rootScope.loaded = true;
 
   const getSubscriptionInfo = () => {
@@ -15,14 +15,19 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
     this.addSource = token => {
       return User.addSource(token)
       .then(() => {
-        this.getSource();
+        return this.getSource();
       });
     }
 
     this.removeSource = () => {
+      this.loadingRemoveSource = true;
+
       return User.removeSource()
       .then(() => {
-        this.getSource();
+        return this.getSource();
+      })
+      .finally(() => {
+        this.loadingRemoveSource = false;
       });
     }
 
@@ -34,14 +39,23 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
     }
 
     this.startSubscription = () => {
+      this.loadingStartSubscription = true;
+
       User.startSubscription().then(() => {
-        this.getSubscription();
+        return this.getSubscription();
+      })
+      .finally(() => {
+        this.loadingStartSubscription = false;
       })
     };
 
     this.stopSubscription = () => {
+      this.loadingStopSubscription = true;
       User.stopSubscription().then(() => {
-        this.getSubscription();
+        return this.getSubscription();
+      })
+      .finally(() => {
+        this.loadingStopSubscription = false;
       })
     };
 
