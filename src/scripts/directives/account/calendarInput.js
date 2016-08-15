@@ -11,7 +11,6 @@ angular.module('financier').directive('calendarInput', inputDropSetup => {
 
       const dropSetup = inputDropSetup(scope, input, template);
 
-      scope.ngModel = new Date(scope.ngModel);
       scope.thisMonth = new Date(scope.ngModel);
 
       scope.datesAreEqualToMonth = (d1, d2) => {
