@@ -14,8 +14,8 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
 
     this.addSource = token => {
       return User.addSource(token)
-      .then(() => {
-        return this.getSource();
+      .then(source => {
+        this.source = source;
       });
     }
 
@@ -23,8 +23,8 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
       this.loadingRemoveSource = true;
 
       return User.removeSource()
-      .then(() => {
-        return this.getSource();
+      .then(source => {
+        this.source = source;
       })
       .finally(() => {
         this.loadingRemoveSource = false;
@@ -41,8 +41,8 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
     this.startSubscription = () => {
       this.loadingStartSubscription = true;
 
-      User.startSubscription().then(() => {
-        return this.getSubscription();
+      User.startSubscription().then(subscription => {
+        this.subscription = subscription;
       })
       .finally(() => {
         this.loadingStartSubscription = false;
@@ -51,8 +51,8 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
 
     this.stopSubscription = () => {
       this.loadingStopSubscription = true;
-      User.stopSubscription().then(() => {
-        return this.getSubscription();
+      User.stopSubscription().then(subscription => {
+        this.subscription = subscription;
       })
       .finally(() => {
         this.loadingStopSubscription = false;
