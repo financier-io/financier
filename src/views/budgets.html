@@ -27,13 +27,16 @@
       <div class="budgets__budget"
            ng-class="{'budgets__budget--loading': budget.loading}"
            ui-sref="user.app.manager.view.budget({budgetId: budget.id})"
-           ng-click="budget.loading = true">
+           ng-click="budget.loading = true"
+           ng-right-click="budgetsCtrl.removing(budget, $event)">
         <div class="budget__budget-name">{{budget.name}}</div>
         <div class="budget__budget-opened"
              ng-if="budget.opened"
              title="{{budget.opened | date: 'medium'}}"><sub>Last opened</sub><br>{{budget.opened | timeAgo}}</div>
 
-        <div class="budget__budget-close" ng-click="budgetsCtrl.removing(budget, $event)" tabindex="0">+</div>
+        <div class="budget__budget-close"
+             ng-click="budgetsCtrl.removing(budget, $event)"
+             tabindex="0">+</div>
 
         <div class="budgets__budget-loader"></div>
       </div>

@@ -30,5 +30,6 @@ import './directives/transaction-select';
 import './directives/viewAnimation';
 import './directives/addCategory';
 import './directives/fileRead';
+import './directives/ngRightClick';
 
 import './directives/subscription/creditCard';

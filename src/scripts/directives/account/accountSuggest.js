@@ -42,7 +42,7 @@ angular.module('financier').directive('accountSuggest', $rootScope => {
           });
 
           scope.onSubmit = () => {
-            $rootScope.$broadcast('transaction:account:submit');
+            $rootScope.$broadcast('transaction:date:focus');
           };
 
           scope.$on('transaction:account:focus', () => {

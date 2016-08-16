@@ -67,10 +67,11 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
           });
 
           scope.onSubmit = () => {
-            $rootScope.$broadcast('transaction:category:submit');
+            $rootScope.$broadcast('transaction:category:focus');
           };
 
           scope.$on('transaction:payee:focus', () => {
+            element.find('input')[0].focus();
             scope.$broadcast('focus');
           });
 

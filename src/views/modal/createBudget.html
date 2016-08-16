@@ -6,6 +6,7 @@
            name="name"
            ng-model="name"
            placeholder="My budget name"
+           ng-disabled="createBudgetCtrl.loading"
            required>
     <div ng-messages="createBudgetForm.name.$error"
          ng-if="createBudgetForm.name.$dirty">
@@ -15,6 +16,7 @@
   
   <footer>
     <button class="primary"
+            ladda="createBudgetCtrl.loading"
             ng-disabed="createBudgetForm.$invalid">Create budget</button>
     <button ng-click="closeThisDialog()">Cancel</button>
   </footer>

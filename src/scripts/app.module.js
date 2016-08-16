@@ -71,8 +71,10 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
         template: require('../views/modal/createBudget.html'),
         controller: 'createBudgetCtrl',
         controllerAs: 'createBudgetCtrl'
-      }).closePromise.finally(() => {
-        $state.go('^');
+      }).closePromise.finally(res => {
+        if (!res) {
+          $state.go('^');
+        }
       });
     },
     onExit: ngDialog => {

@@ -35,10 +35,6 @@ angular.module('financier').controller('budgetsCtrl', function(Budget, myBudgets
     }
   });
 
-  $scope.$on('budgets:update', () => {
-    getBudgets();
-  });
-
   let removingBudget;
 
   this.isRemoving = budget => budget === removingBudget;

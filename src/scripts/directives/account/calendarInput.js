@@ -1,4 +1,4 @@
-angular.module('financier').directive('calendarInput', inputDropSetup => {
+angular.module('financier').directive('calendarInput', ($rootScope, inputDropSetup) => {
   return {
     restrict: 'E',
     scope: {
@@ -36,6 +36,7 @@ angular.module('financier').directive('calendarInput', inputDropSetup => {
 
         } else if (event.which === 13) { // enter
           dropSetup.close();
+          $rootScope.$broadcast('transaction:payee:focus');
         } else {
           return;
         }
@@ -118,14 +119,14 @@ angular.module('financier').directive('calendarInput', inputDropSetup => {
 
       scope.select = date => {
         scope.ngModel = date;
+
         update();
+
+        dropSetup.close();
+        $rootScope.$broadcast('transaction:payee:focus');
       };
 
       scope.$on('transaction:date:focus', () => {
-        dropSetup.focus();
-      });
-
-      scope.$on('transaction:account:submit', () => {
         dropSetup.focus();
       });
 
