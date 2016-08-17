@@ -1,4 +1,4 @@
-<form class="credit-card" ng-submit="vm.submit()">
+<form class="credit-card" name="card" ng-submit="vm.submit()">
   <fieldset ng-disabled="vm.loadingAddSource">
     <div class="credit-card__title">
       Add payment method
@@ -15,14 +15,14 @@
     <label class="credit-card__label">
       <div class="credit-card__label-name">Name on card</div>
 
-      <input type="text" class="credit-card__number" placeholder="John Doe" ng-model="vm.card.name">
+      <input type="text" name="name" class="credit-card__number" placeholder="John Doe" ng-model="vm.card.name" required>
     </label>
 
     <label class="credit-card__label">
       <div class="credit-card__label-name">Card number</div>
 
       <div class="credit-card__number-wrapper">
-        <input type="text" class="credit-card__number" placeholder="•••• •••• •••• ••••" ng-model="vm.card.number">
+        <input type="text" name="number" class="credit-card__number" placeholder="•••• •••• •••• ••••" credit-card-spaces="vm.card.number" required>
       </div>
     </label>
 
@@ -30,13 +30,13 @@
       <label class="credit-card__label">
         <div class="credit-card__label-name">Expiry date</div>
 
-        <input type="text" class="credit-card__number" placeholder="MM / YY" ng-model="vm.card.exp">
+        <input type="text" name="expiration" class="credit-card__number" placeholder="MM / YY" credit-card-expiration-spaces="vm.card.exp" required>
       </label>
 
       <label class="credit-card__label">
         <div class="credit-card__label-name">Security code</div>
 
-        <input type="text" class="credit-card__number" ng-model="vm.card.cvc">
+        <input type="text" name="security" class="credit-card__number" ng-model="vm.card.cvc" required>
       </label>
     </div>
 
@@ -44,10 +44,10 @@
     <label class="credit-card__label">
       <div class="credit-card__label-name">ZIP/Postal code</div>
 
-      <input type="text" class="credit-card__number" ng-model="vm.card.address_zip">
+      <input type="text" name="postalCode" class="credit-card__number" ng-model="vm.card.address_zip" required>
     </label>
 
-    <button type="submit" ladda="vm.loadingAddSource" class="credit-card__submit button button--primary">Submit</button>
+    <button type="submit" ladda="vm.loadingAddSource" class="credit-card__submit button button--primary" ng-disabled="card.$invalid">Submit</button>
 
     <div class="credit-card__submit-help">You won't be charged until your subscription is up.</div>
   </fieldset>

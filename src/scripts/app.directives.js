@@ -33,3 +33,5 @@ import './directives/fileRead';
 import './directives/ngRightClick';
 
 import './directives/subscription/creditCard';
+import './directives/subscription/creditCardSpaces';
+import './directives/subscription/creditCardExpirationSpaces';
