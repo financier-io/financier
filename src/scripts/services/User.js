@@ -45,6 +45,10 @@ angular.module('financier').factory('User', $http => {
     getSubscription: () => {
       return $http.get('/manage/billing/subscription')
       .then(d => d.data);
+    },
+    getStripePublishableKey: () => {
+      return $http.get('/manage/billing/stripeKey')
+      .then(d => d.data);
     }
   };
 });

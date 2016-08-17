@@ -1,4 +1,4 @@
-angular.module('financier').directive('creditCard', () => {
+angular.module('financier').directive('creditCard', User => {
   return {
     restrict: 'E',
     template: require('./creditCard.html'),
@@ -9,23 +9,32 @@ angular.module('financier').directive('creditCard', () => {
     controller: function($scope) {
       this.card = {};
 
-      window.Stripe.setPublishableKey('pk_test_XPdvlr2ysiBiX1OzWdc4v9ey');
-
       this.submit = () => {
         this.loadingAddSource = true;
 
-        window.Stripe.card.createToken(angular.copy(this.card), (status, response) => {
-          if (response.error) {
-            this.loadingAddSource = false;
-          } else {
-            this.addToken({ token: response.id})
-            .then(() => {
-              $scope.closeThisDialog();
-            })
-            .catch(() => {
-              this.loadingAddSource = false;
+        User.getStripePublishableKey()
+        .then(key => {
+          window.Stripe.setPublishableKey(key);
+        })
+        .then(() => {
+          return new Promise((resolve, reject) => {
+            window.Stripe.card.createToken(angular.copy(this.card), (status, response) => {
+              if (response.error) {
+                reject(error);
+              } else {
+                resolve(response.id);
+              }
             });
-          }
+          })
+        })
+        .then(token => {
+          return this.addToken({ token });
+        })
+        .then(() => {
+          $scope.closeThisDialog();
+        })
+        .catch(() => {
+          this.loadingAddSource = false;
         });
       }
     }

@@ -2,12 +2,6 @@ var path = require('path');
 var express = require('express');
 var app = express();
 
-if (process.env.NODE_ENV === 'development') {
-  app.use(require('connect-livereload')({
-    port: 35729
-  }));  
-}
-
 app.use('/docs', express.static(path.join(__dirname, '../docs')));
 
 app.use(express.static(path.join(__dirname, '../dist')));
