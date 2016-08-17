@@ -2,10 +2,12 @@ angular.module('financier').directive('creditCardSpaces', () => {
   return {
     restrict: 'A',
     scope: {
-      creditCardSpaces: '='
+      creditCardSpaces: '=',
+      cardChanged: '='
     },
     link: (scope, element, attrs, ngModelCtrl) => {
       element.on('input', function() {
+        scope.cardChanged = true;
 
         var newValue = this.value.split(' ').join('');
 
@@ -16,7 +18,11 @@ angular.module('financier').directive('creditCardSpaces', () => {
         this.value = newValue;
 
         scope.creditCardSpaces = this.value;
-      })
+      });
+
+      element.on('blur', () => {
+        scope.cardChanged = true;
+      });
     }
   };
 });

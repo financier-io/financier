@@ -1,4 +1,4 @@
-<form class="credit-card" name="card" ng-submit="vm.submit()">
+<form class="credit-card" name="vm.cardForm" ng-submit="vm.submit()">
   <fieldset ng-disabled="vm.loadingAddSource">
     <div class="credit-card__title">
       Add payment method
@@ -16,27 +16,46 @@
       <div class="credit-card__label-name">Name on card</div>
 
       <input type="text" name="name" class="credit-card__number" placeholder="John Doe" ng-model="vm.card.name" required>
+
+      <div ng-messages="vm.cardForm.name.$error" ng-if="vm.cardForm.name.$touched">
+        <div ng-message="required" class="message">This field is required.</div>
+      </div>
     </label>
 
     <label class="credit-card__label">
       <div class="credit-card__label-name">Card number</div>
 
       <div class="credit-card__number-wrapper">
-        <input type="text" name="number" class="credit-card__number" placeholder="•••• •••• •••• ••••" credit-card-spaces="vm.card.number" required>
+        <input type="text"
+               name="number"
+               class="credit-card__number"
+               placeholder="•••• •••• •••• ••••"
+               credit-card-spaces="vm.card.number"
+               card-changed="cardNumberChanged"
+               required
+               ng-class="{'ng-invalid ng-touched': cardNumberChanged && !vm.card.number}">
       </div>
+
+      <div ng-if="cardNumberChanged && !vm.card.number" class="message">This field is required.</div>
     </label>
 
     <div class="credit-card__block">
       <label class="credit-card__label">
         <div class="credit-card__label-name">Expiry date</div>
 
-        <input type="text" name="expiration" class="credit-card__number" placeholder="MM / YY" credit-card-expiration-spaces="vm.card.exp" required>
+        <input type="text" name="expiration" class="credit-card__number" placeholder="MM / YY" credit-card-expiration-spaces="vm.card.exp" expiration-invalid="expirationInvalid" required>
+
+        <div ng-if="expirationInvalid" class="message">Invalid expiration date.</div>
       </label>
 
       <label class="credit-card__label">
         <div class="credit-card__label-name">Security code</div>
 
-        <input type="text" name="security" class="credit-card__number" ng-model="vm.card.cvc" required>
+        <input type="text" name="cvc" class="credit-card__number" ng-model="vm.card.cvc" required>
+
+        <div ng-messages="vm.cardForm.cvc.$error" ng-if="vm.cardForm.cvc.$touched">
+          <div ng-message="required" class="message">This field is required.</div>
+        </div>
       </label>
     </div>
 
@@ -44,10 +63,19 @@
     <label class="credit-card__label">
       <div class="credit-card__label-name">ZIP/Postal code</div>
 
-      <input type="text" name="postalCode" class="credit-card__number" ng-model="vm.card.address_zip" required>
+      <input type="text" name="address_zip" class="credit-card__number" ng-model="vm.card.address_zip" required>
+
+      <div ng-messages="vm.cardForm.address_zip.$error" ng-if="vm.cardForm.address_zip.$touched">
+        <div ng-message="required" class="message">This field is required.</div>
+      </div>
     </label>
 
-    <button type="submit" ladda="vm.loadingAddSource" class="credit-card__submit button button--primary" ng-disabled="card.$invalid">Submit</button>
+    <button type="submit" ladda="vm.loadingAddSource" class="credit-card__submit button button--primary" ng-disabled="vm.cardForm.$invalid">Submit</button>
+
+    <div ng-messages="vm.cardForm.$error">
+      <div ng-message="stripeError" class="message">{{vm.stripeError.message}}</div>
+      <div ng-message="internalError" class="message">There was an internal error. Please try again.</div>
+    </div>
 
     <div class="credit-card__submit-help">You won't be charged until your subscription is up.</div>
   </fieldset>

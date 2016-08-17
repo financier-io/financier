@@ -2,11 +2,20 @@ angular.module('financier').directive('creditCardExpirationSpaces', () => {
   return {
     restrict: 'A',
     scope: {
-      creditCardExpirationSpaces: '='
+      creditCardExpirationSpaces: '=',
+      expirationInvalid: '='
     },
     link: (scope, element, attrs, ngModelCtrl) => {
-      element.on('input', function() {
+      element.on('keydown', e => {
+        if (e.keyCode === 191) { // '/' character
+          e.preventDefault();
 
+          if (element.val().length === 2) {
+            element.val(element.val() + ' / ');
+          }
+        }
+      })
+      element.on('input', function(e) {
         var newValue = this.value.split(' / ').join('');
 
         if (newValue.length > 0 && newValue.length <= 4) {
@@ -15,18 +24,28 @@ angular.module('financier').directive('creditCardExpirationSpaces', () => {
           this.value = newValue;
         }
 
-        validate(this.value);
+        if (element.hasClass('ng-touched')) {
+          validate(element.val());
+        }
 
         scope.creditCardSpaces = this.value;
+      });
+
+      element.on('blur', () => {
+        element.addClass('ng-touched');
+
+        validate(element.val() || 'invalid');
       });
 
       function validate(value) {
         if (!value.length || Stripe.card.validateExpiry(value)) {
           element.addClass('credit-card__expiry--valid');
-          element.removeClass('credit-card__expiry--invalid');
+          element.removeClass('ng-invalid credit-card__expiry--invalid');
+          scope.expirationInvalid = false;
         } else {
-          element.addClass('credit-card__expiry--invalid');
+          element.addClass('ng-invalid credit-card__expiry--invalid');
           element.removeClass('credit-card__expiry--valid');
+          scope.expirationInvalid = true;
         }
       }
     }

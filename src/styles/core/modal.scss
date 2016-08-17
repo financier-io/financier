@@ -56,7 +56,7 @@
       }
 
       &:invalid,
-      .ng-invalid {
+      &.ng-invalid {
         &.ng-touched {
           border-color: $danger;
         }
