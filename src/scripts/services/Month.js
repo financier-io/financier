@@ -234,6 +234,8 @@ angular.module('financier').factory('month', MonthCategory => {
       }
 
       _removeOutflow(trans) {
+        this.createCategoryCacheIfEmpty(trans.category);
+
         this.categoryCache[trans.category].outflow -= trans.value;
         this.cache.totalOutflow -= trans.value;
 
@@ -245,6 +247,10 @@ angular.module('financier').factory('month', MonthCategory => {
         }
 
         this.cache.totalBalance -= trans.value;
+
+        this.startRolling(trans.category); // todo optimize
+
+        trans.subscribeValueChange(null);
       }
 
       /**

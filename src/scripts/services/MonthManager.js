@@ -81,8 +81,6 @@ angular.module('financier').factory('monthManager', (month, account) => {
 
           this.getMonth(oldDate).removeTransaction(trans);
           newMonth.addTransaction(trans);
-
-          newMonth.startRolling(trans.category);
         });
 
         this.transactions[trans.id] = trans;
