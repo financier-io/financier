@@ -42,6 +42,10 @@ angular.module('financier').directive('categorySuggest', $rootScope => {
               .map(id => scope.masterCategories[id].categories.map(c => scope.categories[c]))
           );
 
+          scope.masterCategoriesArr = Object.keys(scope.masterCategories)
+            .map(id => scope.masterCategories[id])
+            .sort((a, b) => a.sort - b.sort);
+
           scope.items = scope.incomes.concat(scope.items);
 
           for (let i = 0; i < scope.items.length; i++) {

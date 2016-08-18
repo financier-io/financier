@@ -18,7 +18,7 @@
         </li>
       </ul>
     </li>
-    <li ng-repeat="masterCategory in $parent.masterCategories">
+    <li ng-repeat="masterCategory in $parent.masterCategoriesArr">
       <div class="dropdown__header-item" ng-if="filteredCategories.length">{{masterCategory.name}}</div>
       <ul class="dropdown">
         <li class="dropdown__item dropdown__item--indented"
