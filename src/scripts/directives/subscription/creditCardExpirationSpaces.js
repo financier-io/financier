@@ -28,7 +28,7 @@ angular.module('financier').directive('creditCardExpirationSpaces', () => {
           validate(element.val());
         }
 
-        scope.creditCardSpaces = this.value;
+        scope.creditCardExpirationSpaces = this.value;
       });
 
       element.on('blur', () => {
@@ -38,7 +38,8 @@ angular.module('financier').directive('creditCardExpirationSpaces', () => {
       });
 
       function validate(value) {
-        if (!value.length || Stripe.card.validateExpiry(value)) {
+        // If we don't have Stripe global, just don't use the stripe validator
+        if (!value.length || (Stripe && Stripe.card.validateExpiry(value))) {
           element.addClass('credit-card__expiry--valid');
           element.removeClass('ng-invalid credit-card__expiry--invalid');
           scope.expirationInvalid = false;
