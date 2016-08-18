@@ -1,4 +1,4 @@
-angular.module('financier').directive('creditCard', User => {
+angular.module('financier').directive('creditCard', ($q, User, stripeLazyLoader) => {
   return {
     restrict: 'E',
     template: require('./creditCard.html'),
@@ -17,8 +17,11 @@ angular.module('financier').directive('creditCard', User => {
       this.submit = () => {
         this.loadingAddSource = true;
 
-        User.getStripePublishableKey()
-        .then(key => {
+        $q.all([
+          User.getStripePublishableKey(),
+          stripeLazyLoader // we must require stripe by this point
+        ])
+        .then(([key]) => {
           window.Stripe.setPublishableKey(key);
         })
         .then(() => {
