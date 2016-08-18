@@ -42,7 +42,9 @@
 
     <label>
       Date of current balance
-      <input type="date"
+      <input type="text"
+             calendar-input
+             date-parser="MM/dd/yy"
              name="startingBalanceDate"
              ng-model="editAccountCtrl.startingBalanceDate">
       <div ng-messages="createAccountForm.startingBalanceDate.$error"

@@ -8,6 +8,8 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
 
   this.account = myAccount;
 
+  this.startingBalanceDate = new Date();
+
   this.submit = () => {
     const promises = [
       myBudg.accounts.put(myAccount)

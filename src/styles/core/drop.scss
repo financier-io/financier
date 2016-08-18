@@ -11,6 +11,10 @@
   min-width: 200px;
 }
 
+.drop-element {
+  z-index: $zDrop;
+}
+
 .drop-element.drop-theme-arrows-bounce .drop-content {
   padding: 0.5em 0;
 }
@@ -20,4 +24,8 @@
 
   -webkit-filter: none;
   -moz-filter: none;
+}
+
+.drop-element.drop-theme-arrows-bounce.drop-element-attached-top.drop-element-attached-center .drop-content:before {
+  pointer-events: none;
 }

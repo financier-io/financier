@@ -239,7 +239,8 @@
 .app-view__add-account {
   margin: 0 0.5em;
   border: 0;
-  background-color: rgba(0, 0, 0, 0.1);
+  background: none;
+  border: 1px solid white;
   font-size: 0.85em;
   font-weight: 300;
 
@@ -250,8 +251,22 @@
   display: inline-block;
   border-radius: 1em;
 
+  opacity: 0.8;
+
   &:before {
     content: '+ ';
+  }
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:active {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  &:focus {
+    outline: 0;
   }
 }
 

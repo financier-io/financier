@@ -1,33 +1,40 @@
 angular.module('financier').directive('calendarInput', ($rootScope, inputDropSetup) => {
   return {
-    restrict: 'E',
-    scope: {
+    restrict: 'A',
+    bindToController: {
       ngModel: '='
     },
-    template: '<input type="text" ng-model="ngModel" date-parser="MM/dd/yy">',
-    link: (scope, element, attrs) => {
-      const input = element.find('input'),
+    controllerAs: 'calendarCtrl',
+    controller: function($scope, $element) {
+      const input = $element,
         template = require('./calendarInput.html');
 
-      const dropSetup = inputDropSetup(scope, input, template);
+      const dropSetup = inputDropSetup($scope, input, template);
 
-      scope.thisMonth = new Date(scope.ngModel);
+      $scope.thisMonth = new Date();
 
-      scope.datesAreEqualToMonth = (d1, d2) => {
+      $scope.$watch((() => this.ngModel), m => {
+        if (m) {
+          $scope.thisMonth = m;
+          $scope.month = $scope.generateMonth(m, m);
+        }
+      });
+
+      $scope.datesAreEqualToMonth = (d1, d2) => {
         return d1 && d2 && (d1.getYear() === d2.getYear()) && (d1.getMonth() === d2.getMonth());
       };
 
-      scope.datesAreEqualToDay = (d1, d2) => {
+      $scope.datesAreEqualToDay = (d1, d2) => {
         return d1 && d2 && (d1.getYear() === d2.getYear()) && (d1.getMonth() === d2.getMonth()) && (d1.getDate() === d2.getDate());
       };
 
       input.on('keydown', event => {
         if (event.which === 40) { // down
-          scope.nextDay();
+          $scope.nextDay();
 
           event.preventDefault();
         } else if (event.which === 38) { // up
-          scope.previousDay();
+          $scope.previousDay();
 
           event.preventDefault();
         } else if (event.which === 9) { // tab
@@ -41,10 +48,10 @@ angular.module('financier').directive('calendarInput', ($rootScope, inputDropSet
           return;
         }
 
-        scope.$apply();
+        $scope.$apply();
       });
 
-      scope.generateMonth = function(date, selectedDate) {
+      $scope.generateMonth = function(date, selectedDate) {
         var d, dateIterator, i, j, month, startingDay, today, week;
         startingDay = (function() {
           var firstDayOfMonth, month, offset, ret, year;
@@ -68,9 +75,9 @@ angular.module('financier').directive('calendarInput', ($rootScope, inputDropSet
             d = new Date(dateIterator);
             week.push({
               date: d,
-              isSelected: scope.datesAreEqualToDay(d, selectedDate),
-              isInMonth: scope.datesAreEqualToMonth(d, date),
-              today: scope.datesAreEqualToDay(d, today)
+              isSelected: $scope.datesAreEqualToDay(d, selectedDate),
+              isInMonth: $scope.datesAreEqualToMonth(d, date),
+              today: $scope.datesAreEqualToDay(d, today)
             });
             dateIterator.setDate(dateIterator.getDate() + 1);
           }
@@ -79,54 +86,57 @@ angular.module('financier').directive('calendarInput', ($rootScope, inputDropSet
         return month;
       };
 
-      function update() {
-        scope.month = scope.generateMonth(scope.thisMonth, scope.ngModel);
+      const update = () => {
+        $scope.month = $scope.generateMonth($scope.thisMonth, this.ngModel);
       }
 
-      scope.month = scope.generateMonth(scope.thisMonth, scope.ngModel);
+      // $scope.month = $scope.generateMonth($scope.thisMonth, this.ngModel);
       
-      scope.nextMonth = () => {
-        scope.thisMonth = nextMonth(scope.thisMonth);
+      $scope.nextMonth = () => {
+        $scope.thisMonth = nextMonth($scope.thisMonth);
         update();
       };
 
-      scope.previousMonth = () => {
-        scope.thisMonth = previousMonth(scope.thisMonth);
+      $scope.previousMonth = () => {
+        $scope.thisMonth = previousMonth($scope.thisMonth);
         update();
       };
 
-      scope.nextYear = () => {
-        scope.thisMonth = nextYear(scope.thisMonth);
+      $scope.nextYear = () => {
+        $scope.thisMonth = nextYear($scope.thisMonth);
         update();
       };
 
-      scope.previousYear = () => {
-        scope.thisMonth = previousYear(scope.thisMonth);
+      $scope.previousYear = () => {
+        $scope.thisMonth = previousYear($scope.thisMonth);
         update();
       };
 
-      scope.nextDay = () => {
-        scope.ngModel = nextDay(scope.ngModel);
-        scope.thisMonth = scope.ngModel;
+      $scope.nextDay = () => {
+        const val = nextDay(this.ngModel);
+
+        $scope.thisMonth = val;
+        this.ngModel = val;
         update();
       };
 
-      scope.previousDay = () => {
-        scope.ngModel = previousDay(scope.ngModel);
-        scope.thisMonth = scope.ngModel;
+      $scope.previousDay = () => {
+        const val = previousDay(this.ngModel);
+
+        $scope.thisMonth = val;
+        this.ngModel = val;
         update();
       };
 
-      scope.select = date => {
-        scope.ngModel = date;
-
+      $scope.select = date => {
+        this.ngModel = date;
         update();
 
         dropSetup.close();
         $rootScope.$broadcast('transaction:payee:focus');
       };
 
-      scope.$on('transaction:date:focus', () => {
+      $scope.$on('transaction:date:focus', () => {
         dropSetup.focus();
       });
 
