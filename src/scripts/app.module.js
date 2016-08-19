@@ -49,6 +49,11 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
     template: '<div ui-view class="full-height view-transition__fade"></div>',
     controller: 'userCtrl as userCtrl'
   })
+  .state('user.verifyEmail', {
+    url: '/user/verify?token',
+    template: require('../views/verifyEmail.html'),
+    controller: 'verifyEmailCtrl as verifyEmailCtrl'
+  })
   .state('user.signup', {
     url: '/signup',
     template: require('../views/signup.html'),

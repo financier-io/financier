@@ -12,3 +12,4 @@ import './controllers/reportCtrl';
 import './controllers/signinCtrl';
 import './controllers/signupCtrl';
 import './controllers/userCtrl';
+import './controllers/verifyEmailCtrl';
