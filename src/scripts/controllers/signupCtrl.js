@@ -11,7 +11,7 @@ angular.module('financier').controller('signupCtrl', function($scope, User) {
       if (e.data.errorMessage === 'existingEmail') {
         this.form.email.$setValidity('duplicate', false);
       } else {
-        this.form.$setValidity('internalError', true);
+        this.form.$setValidity('internalError', false);
       }
     })
     .finally(() => {
@@ -21,5 +21,9 @@ angular.module('financier').controller('signupCtrl', function($scope, User) {
 
   $scope.$watch(() => this.email, () => {
     this.form.email.$setValidity('duplicate', true);
+  });
+
+  $scope.$watch(() => `${this.email}${this.password}`, () => {
+    this.form.$setValidity('internalError', true);
   });
 });
