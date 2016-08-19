@@ -119,6 +119,8 @@ angular.module('financier').factory('transaction', uuid => {
           const oldAccount = this.transfer.data.account;
           this.transfer.data.account = p.id;
 
+          this.data.category = null;
+
           this.transfer._emitAccountChange(p.id, oldAccount);
           this.transfer._emitChange();
 
@@ -136,12 +138,16 @@ angular.module('financier').factory('transaction', uuid => {
             date: this._data.date,
             account: p.id,
             transferId: this.id,
-            category: this._data.category
+            category: null
           });
+
+          this.data.category = null;
 
           this.transfer.transfer = this;
 
           this._data.transferId = this.transfer.id;
+
+          this._emitAddTransaction(this.transfer);
 
           this.transfer.subscribe(this.fn);
           this.fn && this.fn(this.transfer);
@@ -228,13 +234,7 @@ angular.module('financier').factory('transaction', uuid => {
 
       set category(x) {
         if (this.transfer) {
-          this.transfer._emitCategoryChange(() => {
-            this.transfer.data.category = x;
-
-            this.transfer.setMonth();
-          });
-
-          this.transfer._emitChange();
+          throw 'Cannot change category of a transfer';
         }
 
         this._emitCategoryChange(() => {
@@ -460,6 +460,15 @@ angular.module('financier').factory('transaction', uuid => {
       }
 
       /**
+       * Used to set the function to invoke upon a new transaction creation (for transfers).
+       *
+       * @param {function} fn - This function will be invoked with the new transaction
+      */
+      subscribeAddTransaction(fn) {
+        this.subscribeAddTransactionFn = fn;
+      }
+
+      /**
        * Used to unset the function to invoke upon cleared value changes.
        *
        * @param {function} fn - The function reference originally provided
@@ -510,6 +519,16 @@ angular.module('financier').factory('transaction', uuid => {
       */
       _emitValueChange(val) {
         return this.subscribeValueChangeFn && this.subscribeValueChangeFn(val);
+      }
+
+      /**
+       * Will call the subscribed value function, if it exists, with how much
+       * the value has changed by.
+       *
+       * @private
+      */
+      _emitAddTransaction(trans) {
+        return this.subscribeAddTransactionFn && this.subscribeAddTransactionFn(trans);
       }
 
       /**

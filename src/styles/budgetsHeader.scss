@@ -1,0 +1,52 @@
+.budgets-header {
+  background-color: $primary;
+  color: $white;
+  font-weight: 300;
+}
+
+.budgets-header__container {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+}
+
+.budgets-header__title {
+  margin: 0 1em;
+  font-size: 1.5em;
+  letter-spacing: 2px;
+  line-height: 3.5rem;
+
+  flex: 1;
+}
+
+.budgets-header__actions {
+  margin: 0;
+  padding: 0;
+
+  .sync-status {
+    display: inline-block;
+    line-height: 3.5rem;
+    padding: 0 1em;
+  }
+}
+
+.budgets-header__action {
+  list-style: none;
+  display: inline-block;
+  line-height: 3.5rem;
+  padding: 0 1em;
+  vertical-align: top;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  i {
+    font-size: 1.5em;
+    line-height: 3.5rem;
+    vertical-align: top;
+    padding-right: 0.5em;
+  }
+}

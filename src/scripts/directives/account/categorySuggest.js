@@ -7,9 +7,10 @@ angular.module('financier').directive('categorySuggest', $rootScope => {
       categories: '=',
       masterCategories: '=',
       ngModel: '=',
-      transactionDate: '='
+      transactionDate: '=',
+      ngDisabled: '='
     },
-    template: '<autosuggest on-submit="onSubmit()" custom-filter="categoryFilter(item, searchValue, pristineInputField)" ng-model="item" items="items" template="template"></autosuggest>',
+    template: '<autosuggest ng-disabled="ngDisabled" on-submit="onSubmit()" custom-filter="categoryFilter(item, searchValue, pristineInputField)" ng-model="item" items="items" template="template"></autosuggest>',
     compile: () => {
       return {
         pre: (scope, element, attrs) => {
@@ -100,7 +101,12 @@ angular.module('financier').directive('categorySuggest', $rootScope => {
           };
 
           scope.$on('transaction:category:focus', () => {
-            scope.$broadcast('focus');
+            if (scope.ngDisabled) {
+              scope.onSubmit();
+            } else {
+              scope.$broadcast('focus');
+            }
+
           });
 
           scope.template = require('./categorySuggest.html');

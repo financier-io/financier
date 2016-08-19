@@ -179,7 +179,6 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
     },
     account(change) {
       for (let i = 0; i < manager.accounts.length; i++) {
-        console.log(manager.accounts[i]._id)
         if (manager.accounts[i]._id === change.id) {
           if (change.deleted) {
             manager.removeAccount(manager.accounts[i]);

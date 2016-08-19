@@ -67,7 +67,11 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
           });
 
           scope.onSubmit = () => {
-            $rootScope.$broadcast('transaction:category:focus');
+            if (scope.item.type === 'TRANSFER') {
+              $rootScope.$broadcast('transaction:memo:focus');
+            } else {
+              $rootScope.$broadcast('transaction:category:focus');
+            }
           };
 
           scope.$on('transaction:payee:focus', () => {

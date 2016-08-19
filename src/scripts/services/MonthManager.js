@@ -83,6 +83,10 @@ angular.module('financier').factory('monthManager', (month, account) => {
           newMonth.addTransaction(trans);
         });
 
+        trans.subscribeAddTransaction(newTrans => {
+          this.addTransaction(newTrans);
+        });
+
         this.transactions[trans.id] = trans;
 
         myAccount.addTransaction(trans);

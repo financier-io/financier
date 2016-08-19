@@ -7,11 +7,12 @@ angular.module('financier').directive('autosuggest', ($timeout, $filter, inputDr
       focus: '@',
       template: '=',
       onSubmit: '&',
-      customFilter: '&?'
+      customFilter: '&?',
+      ngDisabled: '='
     },
     template: `<div class="autosuggest">
                  <div class="autosuggest__text">{{autosuggestText}}</div>
-                 <input type="text" ng-model="userInput" class="autosuggest__input">
+                 <input type="text" ng-model="userInput" ng-disabled="ngDisabled" class="autosuggest__input">
                </div>`,
     link: (scope, element, attrs, ngModelCtrl) => {
       const ngFilter = $filter('filter');

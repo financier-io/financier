@@ -1,15 +1,22 @@
-
 <staging-warning></staging-warning>
+
+<div class="budgets-header">
+  <div class="budgets-header__container">
+    <div class="budgets-header__title">Financier</div>
+
+    <ul class="budgets-header__actions">
+      <li class="budgets-header__action" ng-if="!userCtrl.email" ui-sref="user.signup">Upgrade/Sign up</li>
+      <li class="budgets-header__action" ng-if="!userCtrl.email" ng-click="userCtrl.signin()">Login</li>
+
+      <sync-status ng-if="userCtrl.email"></sync-status>
+      <li class="budgets-header__action" ng-if="userCtrl.email" ng-click="userCtrl.logout()" ladda="userCtrl.logoutLoading">Logout</li>
+    </ul>
+  </div>
+</div>
+
 <!-- <service-worker-status></service-worker-status> -->
 
 <div class="budgets">
-  <p>
-    <button ng-if="!userCtrl.email" ui-sref="user.signup" class="button button--primary">Upgrade/Sign up</button>
-    <button ng-if="!userCtrl.email" ng-click="userCtrl.signin()" class="button button--primary">Login</button>
-    <button ng-if="userCtrl.email" ng-click="userCtrl.logout()" ladda="userCtrl.logoutLoading" class="button button--primary">Logout</button>
-  </p>
-
-  <sync-status ng-if="userCtrl.email"></sync-status>
 
   <div class="budgets__title">{{'YOUR_BUDGETS' | translate}}</div>
   
