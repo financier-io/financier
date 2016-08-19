@@ -1,4 +1,4 @@
-angular.module('financier').controller('verifyEmailCtrl', function(User, $stateParams) {
+angular.module('financier').controller('verifyEmailCtrl', function(User, $state, $stateParams, $rootScope) {
   this.loading = true;
 
   User.verifyEmail($stateParams.token)
@@ -10,5 +10,12 @@ angular.module('financier').controller('verifyEmailCtrl', function(User, $stateP
   })
   .finally(() => {
     this.loading = false;
-  })
+  });
+
+  this.login = () => {
+    $state.go('user.budget')
+    .then(() => {
+      $rootScope.$broadcast('signin')
+    });
+  }
 });

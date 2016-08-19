@@ -4,7 +4,7 @@
 
     <div class="verify-email__text" ng-if="verifyEmailCtrl.verified">Verified!</div>
     <div class="verify-email__subtext" ng-if="verifyEmailCtrl.verified">You're all set! Login and your budgets will start syncing.</div>
-    <a ui-sref="user.budget" ng-if="verifyEmailCtrl.verified" ng-click="verifyEmailCtrl.login()" class="verify-email__button">Login to your account</a>
+    <button ng-if="verifyEmailCtrl.verified" ng-click="verifyEmailCtrl.login()" class="verify-email__button">Login to your account</button>
 
     <div class="verify-email__text" ng-if="verifyEmailCtrl.error">There was a problem verifying your account</div>
     <div class="verify-email__subtext" ng-if="verifyEmailCtrl.error">Are you offline?<br>Has it been more than 15 minutes since you signed up?<br>Have you already verified your account?</div>

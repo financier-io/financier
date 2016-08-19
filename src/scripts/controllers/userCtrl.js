@@ -147,6 +147,10 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
     });
   };
 
+  $scope.$on('signin', () => {
+    this.signin();
+  });
+
   // Default is no syncing
   this.status = 'offline';
 
