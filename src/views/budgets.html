@@ -8,7 +8,7 @@
       <li class="budgets-header__action" ng-if="!userCtrl.email" ui-sref="user.signup">Upgrade/Sign up</li>
       <li class="budgets-header__action" ng-if="!userCtrl.email" ng-click="userCtrl.signin()">Login</li>
 
-      <sync-status ng-if="userCtrl.email"></sync-status>
+      <sync-status status="userCtrl.status" ng-if="userCtrl.email"></sync-status>
       <li class="budgets-header__action" ng-if="userCtrl.email" ng-click="userCtrl.logout()" ladda="userCtrl.logoutLoading">Logout</li>
     </ul>
   </div>
