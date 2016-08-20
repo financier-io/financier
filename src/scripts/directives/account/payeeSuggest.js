@@ -7,7 +7,7 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
       transactionAccountId: '=',
       ngModel: '='
     },
-    template: '<autosuggest on-submit="onSubmit()" custom-filter="itemFilter(item, searchValue, pristineInputField)" ng-model="item" items="items" template="template"></autosuggest>',
+    template: '<autosuggest can-submit-new="true" on-submit="onSubmit()" custom-filter="itemFilter(item, searchValue, pristineInputField)" ng-model="item" items="items" template="template"></autosuggest>',
     compile: () => {
       return {
         pre: (scope, element, attrs) => {
@@ -19,7 +19,7 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
             };
           });
 
-          scope._payees = scope.payees.map(payeeName => {
+          scope._payees = scope.payees.toArray().map(payeeName => {
             return {
               name: payeeName,
               type: 'INLINE'
@@ -33,7 +33,11 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
           });
 
           for (let i = 0; i < scope.items.length; i++) {
-            if (scope.items[i].id === scope.ngModel.id) {
+            if (scope.ngModel.type === 'TRANSFER' &&
+                scope.ngModel.id === scope.items[i].id) {
+              scope.item = scope.items[i];
+            } else if (scope.ngModel.type !== 'TRANSFER' &&
+                       scope.items[i].name === scope.ngModel.name) {
               scope.item = scope.items[i];
             }
           }
@@ -55,13 +59,19 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
 
           scope.$watch('item', (newItem, oldItem) => {
             if (newItem !== oldItem) {
-              if (newItem.constructor.name === 'Account') {
-                scope.ngModel = {
-                  type: 'TRANSFER',
-                  id: newItem.id
-                };
+              if (angular.isString(newItem)) {
+                if (scope.ngModel.name !== newItem) {
+                  scope.ngModel = {
+                    type: 'INLINE',
+                    name: newItem
+                  };
+                }
               } else {
-                scope.ngModel = newItem;
+                if (newItem.id && scope.ngModel.id !== newItem.id) {
+                  scope.ngModel = newItem;
+                } else if (scope.ngModel.name !== newItem.name) {
+                  scope.ngModel = newItem;
+                }
               }
             }
           });

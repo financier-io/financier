@@ -8,7 +8,8 @@ angular.module('financier').directive('autosuggest', ($timeout, $filter, inputDr
       template: '=',
       onSubmit: '&',
       customFilter: '&?',
-      ngDisabled: '='
+      ngDisabled: '=',
+      canSubmitNew: '@'
     },
     template: `<div class="autosuggest">
                  <div class="autosuggest__text">{{autosuggestText}}</div>
@@ -83,11 +84,15 @@ angular.module('financier').directive('autosuggest', ($timeout, $filter, inputDr
           }
         }
 
+        if (scope.canSubmitNew && userInput !== oldUserInput) {
+          ngModelCtrl.$setViewValue(userInput);
+        }
+
         if (scope.selected) {
           scope.autosuggestText = userInput + scope.selected.name.slice(userInput.length);
         } else {
-          scope.autosuggestText = '';
           scope.selected = scope.items[0];
+          scope.autosuggestText = '';
         }
       });
 

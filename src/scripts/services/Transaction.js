@@ -25,7 +25,7 @@ angular.module('financier').factory('transaction', uuid => {
           flag: null,
           payee: {
             type: null, // 'INTERNAL' | 'INLINE'
-            name: null
+            name: ''
           },
           transfer: null
         }, data);
@@ -110,8 +110,7 @@ angular.module('financier').factory('transaction', uuid => {
       }
 
       set payee(p) {
-
-        if (this.transfer && p.id) {
+        if (this.transfer && p.type === 'TRANSFER') {
           const oldAccount = this.transfer.data.account;
           this.transfer.data.account = p.id;
 
@@ -121,14 +120,19 @@ angular.module('financier').factory('transaction', uuid => {
           this.transfer._emitChange();
 
           return; // no record change
-        } else if (this.transfer) {
+        } else if (this.transfer && p.type !== 'TRANSFER') {
+          this.transfer.transfer = null;
           this.transfer.remove();
+          this._emitRemoveTransaction(this.transfer);
 
           this.transfer = null;
           this._data.transfer = null;
 
+          const oldPayee = this._data.payee;
           this._data.payee = p;
-        } else if (p.id) {
+
+          this._emitPayeeChange(p, oldPayee);
+        } else if (p.type === 'TRANSFER') {
           this.transfer = new Transaction({
             value: -this._data.value,
             date: this._data.date,
@@ -147,8 +151,11 @@ angular.module('financier').factory('transaction', uuid => {
 
           this.transfer.subscribe(this.fn);
           this.fn && this.fn(this.transfer);
-        } else {
+        } else if (p.type !== 'TRANSFER') {
+          const oldPayee = this._data.payee;
           this._data.payee = p;
+
+          this._emitPayeeChange(p, oldPayee);
         }
 
         this._emitChange();
@@ -465,6 +472,15 @@ angular.module('financier').factory('transaction', uuid => {
       }
 
       /**
+       * Used to set the function to invoke upon a transaction removal (for transfers).
+       *
+       * @param {function} fn - This function will be invoked with the removed transaction
+      */
+      subscribeRemoveTransaction(fn) {
+        this.subscribeRemoveTransactionFn = fn;
+      }
+
+      /**
        * Used to unset the function to invoke upon cleared value changes.
        *
        * @param {function} fn - The function reference originally provided
@@ -508,6 +524,27 @@ angular.module('financier').factory('transaction', uuid => {
       }
 
       /**
+       * Used to set the function(s) to invoke upon value changes.
+       *
+       * @param {function} fn - This function will be invoked upon value
+       * changes with the amount the value has changed as the first parameter,
+       * but only when/if the value is uncleared.
+      */
+      subscribePayeeChange(fn) {
+        this.subscribePayeeChangeFn = fn;
+      }
+
+      /**
+       * Will call the subscribed value function, if it exists, with how much
+       * the value has changed by.
+       *
+       * @private
+      */
+      _emitPayeeChange(newPayee, oldPayee) {
+        return this.subscribePayeeChangeFn && this.subscribePayeeChangeFn(newPayee, oldPayee);
+      }
+
+      /**
        * Will call the subscribed value function, if it exists, with how much
        * the value has changed by.
        *
@@ -525,6 +562,16 @@ angular.module('financier').factory('transaction', uuid => {
       */
       _emitAddTransaction(trans) {
         return this.subscribeAddTransactionFn && this.subscribeAddTransactionFn(trans);
+      }
+
+      /**
+       * Will call the subscribed value function, if it exists, with how much
+       * the value has changed by.
+       *
+       * @private
+      */
+      _emitRemoveTransaction(trans) {
+        return this.subscribeRemoveTransactionFn && this.subscribeRemoveTransactionFn(trans);
       }
 
       /**
