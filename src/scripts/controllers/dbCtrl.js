@@ -203,8 +203,8 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
         if (change.deleted) {
           manager.removeTransaction(trans);
         } else {
-          if (trans.data.transferId) {
-            trans.transfer = manager.transactions[trans.data.transferId];
+          if (trans.data.transfer) {
+            trans.transfer = manager.transactions[trans.data.transfer];
 
             if (trans.transfer) {
               trans.transfer.transfer = trans;

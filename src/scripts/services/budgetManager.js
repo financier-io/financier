@@ -112,8 +112,8 @@ angular.module('financier').factory('budgetManager', (
           return Object.keys(transactions).map(key => {
             const trans = transactions[key];
 
-            if (trans.data.transferId) {
-              trans.transfer = transactions[trans.data.transferId];
+            if (trans.data.transfer) {
+              trans.transfer = transactions[trans.data.transfer];
             }
 
             return transactions[key];
@@ -277,8 +277,8 @@ angular.module('financier').factory('budgetManager', (
           return Object.keys(transactions).map(key => {
             const trans = transactions[key];
 
-            if (trans.data.transferId) {
-              trans.transfer = transactions[trans.data.transferId];
+            if (trans.data.transfer) {
+              trans.transfer = transactions[trans.data.transfer];
             }
 
             return transactions[key];

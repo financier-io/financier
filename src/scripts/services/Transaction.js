@@ -27,7 +27,7 @@ angular.module('financier').factory('transaction', uuid => {
             type: null, // 'INTERNAL' | 'INLINE'
             name: null
           },
-          transferId: null
+          transfer: null
         }, data);
 
         this.id = myData._id.slice(myData._id.lastIndexOf('_') + 1);
@@ -125,7 +125,7 @@ angular.module('financier').factory('transaction', uuid => {
           this.transfer.remove();
 
           this.transfer = null;
-          this._data.transferId = null;
+          this._data.transfer = null;
 
           this._data.payee = p;
         } else if (p.id) {
@@ -133,7 +133,7 @@ angular.module('financier').factory('transaction', uuid => {
             value: -this._data.value,
             date: this._data.date,
             account: p.id,
-            transferId: this.id,
+            transfer: this.id,
             category: null
           });
 
@@ -141,7 +141,7 @@ angular.module('financier').factory('transaction', uuid => {
 
           this.transfer.transfer = this;
 
-          this._data.transferId = this.transfer.id;
+          this._data.transfer = this.transfer.id;
 
           this._emitAddTransaction(this.transfer);
 
