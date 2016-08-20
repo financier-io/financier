@@ -23,12 +23,8 @@ angular.module('financier').factory('transaction', uuid => {
           memo: null,
           cleared: false,
           flag: null,
-          transfer: {
-            flag: null,
-            cleared: false
-          },
           payee: {
-            // type: null,
+            type: null, // 'INTERNAL' | 'INLINE'
             name: null
           },
           transferId: null
