@@ -92,11 +92,11 @@ angular.module('financier').factory('monthManager', (month, account, PayeeManage
         });
 
         trans.subscribePayeeChange((newPayee, oldPayee) => {
-          this.payees.add(newPayee.name);
-          this.payees.remove(oldPayee.name);
+          newPayee.type === 'INLINE' && this.payees.add(newPayee.name);
+          oldPayee.type === 'INLINE' && this.payees.remove(oldPayee.name);
         });
 
-        this.payees.add(trans.payee.name);
+        trans.payee.type === 'INLINE' && this.payees.add(trans.payee.name);
 
         this.transactions[trans.id] = trans;
 
@@ -131,7 +131,7 @@ angular.module('financier').factory('monthManager', (month, account, PayeeManage
             myMonth.removeTransaction(transaction);
             myMonth.startRolling(transaction.category);
 
-            this.payees.remove(trans.payee.name);
+            trans.payee.type === 'INLINE' && this.payees.remove(trans.payee.name);
 
             transaction.subscribeAccountChange(null);
             transaction.subscribeCategoryChange(null, null);

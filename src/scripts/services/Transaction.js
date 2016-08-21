@@ -114,7 +114,17 @@ angular.module('financier').factory('transaction', uuid => {
           const oldAccount = this.transfer.data.account;
           this.transfer.data.account = p.id;
 
-          this.data.category = null;
+          const oldPayee = this._data.payee;
+          this._data.payee = {
+            type: null,
+            name: ''
+          };
+          this._emitCategoryChange(() => {
+            this._data.category = null;
+
+            this.setMonth();
+          });
+          this._emitPayeeChange(this._data.payee, oldPayee);
 
           this.transfer._emitAccountChange(p.id, oldAccount);
           this.transfer._emitChange();
@@ -141,7 +151,17 @@ angular.module('financier').factory('transaction', uuid => {
             category: null
           });
 
-          this.data.category = null;
+          const oldPayee = this._data.payee;
+          this._data.payee = {
+            type: null,
+            name: ''
+          };
+          this._emitCategoryChange(() => {
+            this._data.category = null;
+
+            this.setMonth();
+          });
+          this._emitPayeeChange(this._data.payee, oldPayee);
 
           this.transfer.transfer = this;
 

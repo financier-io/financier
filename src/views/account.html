@@ -37,14 +37,14 @@
       <div class="account__th account__th--select">
         <input type="checkbox" ng-model="accountCtrl.isAllSelected" ng-model-options="{ getterSetter: true }">
       </div>
-      <div class="account__th" ng-if="!accountCtrl.accountId" st-sort="accountCtrl.customSorts.account"><span>{{'ACCOUNT' | translate}}</span></div>
+      <div class="account__th account__td--large" ng-if="!accountCtrl.accountId" st-sort="accountCtrl.customSorts.account"><span>{{'ACCOUNT' | translate}}</span></div>
       <div class="account__th account__th--flag" st-sort="flag"><div class="account__header-flag"><div></div></div></div>
       <div class="account__th account__th--date" st-sort="accountCtrl.customSorts.date" st-sort-default="reverse"><span>{{'DATE' | translate}}</span></div>
-      <div class="account__th" st-sort="payee"><span>{{'PAYEE' | translate}}</span></div>
-      <div class="account__th" st-sort="category"><span>{{'CATEGORY' | translate}}</span></div>
+      <div class="account__th account__td--large" st-sort="payee"><span>{{'PAYEE' | translate}}</span></div>
+      <div class="account__th account__td--large" st-sort="category"><span>{{'CATEGORY' | translate}}</span></div>
       <div class="account__th account__cell-memo"><span>{{'MEMO' | translate}}</span></div>
-      <div class="account__th account__cell-inflow" st-sort="inflow"><span>{{'INFLOW' | translate}}</span></div>
-      <div class="account__th account__cell-outflow" st-sort="outflow"><span>{{'OUTFLOW' | translate}}</span></div>
+      <div class="account__th account__td--small account__cell-inflow" st-sort="inflow"><span>{{'INFLOW' | translate}}</span></div>
+      <div class="account__th account__td--small account__cell-outflow" st-sort="outflow"><span>{{'OUTFLOW' | translate}}</span></div>
       <div class="account__th account__cell-cleared" st-sort="cleared"><span>{{'CLEARED' | translate}}</span></div>
     </div>
   </div>
@@ -55,7 +55,7 @@
          hotkey="{esc: accountCtrl.cancelCreateTransaction, enter: accountCtrl.createTransaction}"
          ng-click="dbCtrl.stopPropagation($event)">
       <div class="account__td account__td--select"></div>
-      <div class="account__td" ng-if="!accountCtrl.accountId">
+      <div class="account__td account__td--large" ng-if="!accountCtrl.accountId">
         <account-suggest ng-model="accountCtrl.newTransaction.account" transaction-payee-id="accountCtrl.newTransaction.payee.id" accounts="accountCtrl.manager.accounts"></account-suggest>
       </div>
       <div class="account__td account__td--flag"><div class="account__flag" ng-style="{'color': accountCtrl.newTransaction.flag}" flag ng-model="accountCtrl.newTransaction.flag"><div></div></div></div>
@@ -65,19 +65,19 @@
                date-parser="MM/dd/yy"
                ng-model="accountCtrl.newTransaction.date">
       </div>
-      <div class="account__td">
+      <div class="account__td account__td--large">
         <payee-suggest ng-model="accountCtrl.newTransaction.payee" transaction-account-id="accountCtrl.newTransaction.account" accounts="dbCtrl.accounts" payees="accountCtrl.manager.payees"></payee-suggest>
       </div>
-      <div class="account__td">
+      <div class="account__td account__td--large">
         <category-suggest ng-model="accountCtrl.newTransaction.category" categories="dbCtrl.categories" master-categories="dbCtrl.masterCategories" transaction-date="accountCtrl.newTransaction.date"></category-suggest>
       </div>
       <div class="account__td account__cell-memo">
         <memo-input ng-model="accountCtrl.newTransaction.memo"></memo-input>
       </div>
-      <div class="account__td account__cell-inflow">
+      <div class="account__td account__td--small account__cell-inflow">
         <input type="text" transaction-value ng-model="accountCtrl.newTransaction.inflow">
       </div>
-      <div class="account__td account__cell-outflow">
+      <div class="account__td account__td--small account__cell-outflow">
         <input type="text" transaction-value ng-model="accountCtrl.newTransaction.outflow">
       </div>
       <div class="account__td account__cell-cleared">
