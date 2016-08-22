@@ -22,13 +22,12 @@
     <div ng-messages="signinCtrl.form.password.$error"
          ng-if="signinCtrl.form.password.$dirty">
       <div ng-message="required" class="message">This is required!</div>
-      <div ng-message="incorrect" class="message">Incorrect email or password</div>
     </div>
   </label>
 
   <small>Don't have an account? <a ui-sref="user.signup" ng-click="closeThisDialog()">Click here to sign up.</a></small>
   
-  <div class="message message--main" ng-if="signinCtrl.serverError">Looks like there was a server issue.</div>
+  <div class="message message--main" ng-if="signinCtrl.error">{{signinCtrl.error.reason || 'Looks like there was a server issue.'}}</div>
 
   <footer>
     <button class="primary"

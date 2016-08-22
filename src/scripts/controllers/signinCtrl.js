@@ -1,6 +1,8 @@
 angular.module('financier').controller('signinCtrl', function(User, $scope, $rootScope) {
   this.login = (username, password, closeThisDialog) => {
     this.loading = true;
+    this.error = null;
+
     return User.login(username, password)
     .then(() => {
       $rootScope.$broadcast('login');
@@ -11,13 +13,7 @@ angular.module('financier').controller('signinCtrl', function(User, $scope, $roo
       this.loading = false;
     })
     .catch(e => {
-      if (e.status === 401) {
-        this.form.password.$setValidity('incorrect', false);
-
-        this.serverError = false;
-      } else {
-        this.serverError = true;
-      }
+      this.error = e.data;
     });
   };
 
