@@ -14,6 +14,7 @@ angular.module('financier').factory('Budget', uuid => {
         hints: {
           outflow: true
         },
+        initialBalancePayee: null,
         _id: 'budget_' + uuid(),
         created: new Date().toISOString()
       }, data);
@@ -143,6 +144,15 @@ angular.module('financier').factory('Budget', uuid => {
 
     set data(data) {
       this._data = data;
+    }
+
+    get initialBalancePayee() {
+      return this._data.initialBalancePayee;
+    }
+
+    set initialBalancePayee(payee) {
+      this._data.initialBalancePayee = payee;
+      this.emitChange();
     }
 
     /**

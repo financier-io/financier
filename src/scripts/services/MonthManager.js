@@ -1,4 +1,4 @@
-angular.module('financier').factory('monthManager', (month, account, PayeeManager) => {
+angular.module('financier').factory('monthManager', (month, account) => {
   return budgetId => {
 
     const Month = month(budgetId);
@@ -45,8 +45,6 @@ angular.module('financier').factory('monthManager', (month, account, PayeeManage
         });
         this.transactions = {};
         this.saveFn = saveFn;
-
-        this.payees = new PayeeManager();
       }
 
       /**
@@ -91,13 +89,6 @@ angular.module('financier').factory('monthManager', (month, account, PayeeManage
           this.removeTransaction(newTrans);
         });
 
-        trans.subscribePayeeChange((newPayee, oldPayee) => {
-          newPayee.type === 'INLINE' && this.payees.add(newPayee.name);
-          oldPayee.type === 'INLINE' && this.payees.remove(oldPayee.name);
-        });
-
-        trans.payee.type === 'INLINE' && this.payees.add(trans.payee.name);
-
         this.transactions[trans.id] = trans;
 
         myAccount.addTransaction(trans);
@@ -131,14 +122,11 @@ angular.module('financier').factory('monthManager', (month, account, PayeeManage
             myMonth.removeTransaction(transaction);
             myMonth.startRolling(transaction.category);
 
-            trans.payee.type === 'INLINE' && this.payees.remove(trans.payee.name);
-
             transaction.subscribeAccountChange(null);
             transaction.subscribeCategoryChange(null, null);
             transaction.subscribeDateChange(null);
             transaction.subscribeAddTransaction(null);
             transaction.subscribeRemoveTransaction(null);
-            transaction.subscribePayeeChange(null);
           }
         });
       }

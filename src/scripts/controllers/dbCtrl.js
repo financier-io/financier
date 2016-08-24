@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 angular.module('financier').controller('dbCtrl', function(monthManager, MonthCategory, category, account, transaction, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget) {
-  let {manager, categories, masterCategories} = data;
+  let {manager, categories, masterCategories, payees} = data;
   const budgetId = $stateParams.budgetId;
 
   const Month = month(budgetId);
@@ -16,6 +16,7 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
   this.masterCategories = masterCategories;
   this.accounts = manager.accounts;
   this.budgetRecord = budgetRecord;
+  this.payees = payees;
 
   budgetRecord.open();
 
@@ -42,6 +43,12 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
         return this.accounts[i].name;
       }
     }
+
+    return id;
+  };
+
+  this.getPayeeName = id => {
+    return payees[id].name || id;
   };
 
   $scope.$watch(
@@ -80,7 +87,8 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
         myAccount: () => account || new Account(),
         editing: () => !!account,
         categories: () => categories,
-        masterCategories: () => masterCategories
+        masterCategories: () => masterCategories,
+        myBudgetRecord: () => budgetRecord
       }
     });
   };
@@ -124,7 +132,7 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
         } else {
           // Couldn't find it
           const b = new MasterCategory(change.doc);
-          b.subscribe(myBudget.masterCategories.put);
+          b.subscribe(myBudget.put);
 
           masterCategories[b.id] = b;
 
@@ -147,7 +155,7 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
         } else {
           // Couldn't find it
           const b = new Category(change.doc);
-          b.subscribe(myBudget.categories.put);
+          b.subscribe(myBudget.put);
 
           categories[b.id] = b;
         }
@@ -170,7 +178,7 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
 
           mo.categories[moCat.categoryId]._emitBudgetChange(mo.categories[moCat.categoryId].budget - oldBudget);
         } else {
-          moCat.subscribe(myBudget.transactions.put);
+          moCat.subscribe(myBudget.put);
           mo.addBudget(moCat);
           mo.startRolling(moCat.categoryId);
         }
@@ -192,7 +200,7 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
 
       // Couldn't find it
       const acc = new Account(change.doc);
-      acc.subscribe(myBudget.accounts.put);
+      acc.subscribe(myBudget.put);
 
       manager.addAccount(acc);
     },
@@ -220,7 +228,7 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
       if (!change.deleted) {
         // Couldn't find it
         trans = new Transaction(change.doc);
-        trans.subscribe(myBudget.transactions.put);
+        trans.subscribe(myBudget.put);
 
         manager.addTransaction(trans);
       }

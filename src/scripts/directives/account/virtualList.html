@@ -12,7 +12,7 @@
       <div class="account__td account__td--large" ng-if="!accountCtrl.accountId" transaction-field-focus-name="account">{{accountCtrl.manager.getAccount(displayedTransactions[virtual.i].account).name}}</div>
       <div class="account__td account__td--flag"><div class="account__flag" ng-style="{'color': displayedTransactions[virtual.i].flag}" flag ng-model="displayedTransactions[virtual.i].flag"><div></div></div></div>
       <div class="account__td account__td--date" transaction-field-focus-name="date">{{displayedTransactions[virtual.i].date | date : 'MM/dd/yy'}}</div>
-      <div class="account__td account__td--large" transaction-field-focus-name="payee">{{dbCtrl.getAccountName(displayedTransactions[virtual.i].payee.id) || displayedTransactions[virtual.i].payee.name}}</div>
+      <div class="account__td account__td--large" transaction-field-focus-name="payee">{{dbCtrl.getAccountName(displayedTransactions[virtual.i].transfer.account) || dbCtrl.getPayeeName(displayedTransactions[virtual.i].payee)}}</div>
       <div class="account__td account__td--large" transaction-field-focus-name="category">{{dbCtrl.getCategoryName(displayedTransactions[virtual.i].category, displayedTransactions[virtual.i].date)}}</div>
       <div class="account__td account__cell-memo" transaction-field-focus-name="memo">{{displayedTransactions[virtual.i].memo}}</div>
       <div class="account__td account__td--small account__cell-inflow" transaction-field-focus-name="inflow">{{displayedTransactions[virtual.i].inflow | intCurrency | currency}}</div>
@@ -41,7 +41,7 @@
                ng-model="displayedTransactions[virtual.i].date">
       </div>
       <div class="account__td account__td--large">
-        <payee-suggest ng-model="displayedTransactions[virtual.i].payee" transaction-account-id="displayedTransactions[virtual.i].account" accounts="dbCtrl.accounts" payees="accountCtrl.manager.payees"></payee-suggest>
+        <payee-suggest ng-model="displayedTransactions[virtual.i].payee" transaction-account-id="displayedTransactions[virtual.i].account" accounts="dbCtrl.accounts" payees="dbCtrl.payees"></payee-suggest>
       </div>
       <div class="account__td account__td--large">
         <category-suggest ng-model="displayedTransactions[virtual.i].category"

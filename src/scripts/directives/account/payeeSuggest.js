@@ -11,36 +11,14 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
     compile: () => {
       return {
         pre: (scope, element, attrs) => {
-          scope._accounts = scope.accounts.map(account => {
-            return {
-              id: account.id,
-              type: 'TRANSFER',
-              name: account.name
-            };
-          });
-
-          scope._payees = scope.payees.toArray().map(payeeName => {
-            return {
-              name: payeeName,
-              type: 'INLINE'
-            };
-          });
+          scope._accounts = scope.accounts;
+          scope._payees = scope.payees;
 
           scope.items = scope._accounts.concat(scope._payees);
 
           scope.$watch('transactionAccountId', () => {
             scope.$broadcast('autosuggest:filter');
           });
-
-          for (let i = 0; i < scope.items.length; i++) {
-            if (scope.ngModel.type === 'TRANSFER' &&
-                scope.ngModel.id === scope.items[i].id) {
-              scope.item = scope.items[i];
-            } else if (scope.ngModel.type !== 'TRANSFER' &&
-                       scope.items[i].name === scope.ngModel.name) {
-              scope.item = scope.items[i];
-            }
-          }
 
           scope.itemFilter = (item, searchInput, pristineInputField) => {
             if (item.id === scope.transactionAccountId) {
@@ -57,27 +35,12 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
           };
 
 
-          scope.$watch('item', (newItem, oldItem) => {
-            if (newItem !== oldItem) {
-              if (angular.isString(newItem)) {
-                if (scope.ngModel.name !== newItem) {
-                  scope.ngModel = {
-                    type: 'INLINE',
-                    name: newItem
-                  };
-                }
-              } else {
-                if (newItem.id && scope.ngModel.id !== newItem.id) {
-                  scope.ngModel = newItem;
-                } else if (scope.ngModel.name !== newItem.name) {
-                  scope.ngModel = newItem;
-                }
-              }
-            }
+          scope.$watch('item', item => {
+            scope.ngModel = item;
           });
 
           scope.onSubmit = () => {
-            if (scope.item.type === 'TRANSFER') {
+            if (scope.item.constructor.name === 'Account') {
               $rootScope.$broadcast('transaction:memo:focus');
             } else {
               $rootScope.$broadcast('transaction:category:focus');

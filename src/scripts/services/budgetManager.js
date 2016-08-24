@@ -5,6 +5,7 @@ angular.module('financier').factory('budgetManager', (
   transaction,
   masterCategory,
   monthManager,
+  payee,
   uuid,
   $q,
   MonthCategory,
@@ -17,15 +18,17 @@ angular.module('financier').factory('budgetManager', (
     const Transaction = transaction(budgetId);
     const MasterCategory = masterCategory(budgetId);
     const MonthManager = monthManager(budgetId);
+    const Payee = payee(budgetId);
 
     const ret = {
       accounts: accounts(),
       categories: categories(),
       masterCategories: masterCategories(),
-      transactions: transactions(),
+      payees: payees(),
       budget: budget(),
       remove,
-      initialize: initializeAllCategories
+      initialize: initializeAllCategories,
+      put
     };
 
     function remove() {
@@ -45,6 +48,12 @@ angular.module('financier').factory('budgetManager', (
       });
     }
 
+    function put(o) {
+      return pouch.put(o.toJSON()).then(res => {
+        o.data._rev = res.rev;
+      });
+    }
+
     return ret;
 
 
@@ -60,8 +69,6 @@ angular.module('financier').factory('budgetManager', (
           for (let i = 0; i < res.rows.length; i++) {
             const acc = new Account(res.rows[i].doc);
 
-            // acc.subscribe(put);
-
             accounts.push(acc);
           }
 
@@ -76,67 +83,8 @@ angular.module('financier').factory('budgetManager', (
         });
       }
 
-      function put(account) {
-        return pouch.put(account.toJSON()).then(res => {
-          account.data._rev = res.rev;
-        });
-      }
-
       return {
         all,
-        put,
-        get
-      };
-    }
-
-    function transactions() {
-
-      function all() {
-        return pouch.allDocs({
-          include_docs: true,
-          startkey: Transaction.startKey,
-          endkey: Transaction.endKey
-        }).then(res => {
-          const transactions = {};
-
-          for (let i = 0; i < res.rows.length; i++) {
-            const trans = new Transaction(res.rows[i].doc);
-
-            // acc.subscribe(put);
-
-            transactions[trans.id] = trans;
-          }
-
-
-
-          return Object.keys(transactions).map(key => {
-            const trans = transactions[key];
-
-            if (trans.data.transfer) {
-              trans.transfer = transactions[trans.data.transfer];
-            }
-
-            return transactions[key];
-          });
-        });
-      }
-
-      function get(accountId) {
-        return pouch.get(Transaction.prefix + accountId)
-        .then(trans => {
-          return new Transaction(trans);
-        });
-      }
-
-      function put(transaction) {
-        return pouch.put(transaction.toJSON()).then(res => {
-          transaction.data._rev = res.rev;
-        });
-      }
-
-      return {
-        all,
-        put,
         get
       };
     }
@@ -152,7 +100,7 @@ angular.module('financier').factory('budgetManager', (
 
           for (let i = 0; i < res.rows.length; i++) {
             const cat = new MasterCategory(res.rows[i].doc);
-            cat.subscribe(putCategory);
+            cat.subscribe(put);
             ret[cat.id] = cat;
           }
 
@@ -160,15 +108,9 @@ angular.module('financier').factory('budgetManager', (
         });
       }
 
-      function putCategory(category) {
-        return pouch.put(category.toJSON()).then(res => {
-          category.data._rev = res.rev;
-        });
-      }
-
       return {
         all,
-        put: putCategory
+        put
       };
     }
 
@@ -183,7 +125,7 @@ angular.module('financier').factory('budgetManager', (
 
           for (let i = 0; i < res.rows.length; i++) {
             const cat = new Category(res.rows[i].doc);
-            cat.subscribe(putCategory);
+            cat.subscribe(put);
             ret[cat.id] = cat;
           }
 
@@ -191,15 +133,33 @@ angular.module('financier').factory('budgetManager', (
         });
       }
 
-      function putCategory(category) {
-        return pouch.put(category.toJSON()).then(res => {
-          category.data._rev = res.rev;
+      return {
+        all,
+        put
+      };
+    }
+
+    function payees() {
+      function all() {
+        return pouch.allDocs({
+          include_docs: true,
+          startkey: Payee.startKey,
+          endkey: Payee.endKey
+        }).then(res => {
+          const ret = {};
+
+          for (let i = 0; i < res.rows.length; i++) {
+            const myPayee = new Payee(res.rows[i].doc);
+            myPayee.subscribe(put);
+            ret[myPayee.id] = myPayee;
+          }
+
+          return ret;
         });
       }
 
       return {
-        all,
-        put: putCategory
+        all
       };
     }
 
@@ -320,20 +280,6 @@ angular.module('financier').factory('budgetManager', (
             });
           });
         });
-      }
-
-      // const putCache = {};
-
-      function put(o) {
-        // if (putCache[o.id]) {
-        //   clearTimeout(putCache[o.id]);
-        // }
-
-        // putCache[o.id] = setTimeout(() => {
-          return pouch.put(o.toJSON()).then(res => {
-            o.data._rev = res.rev;
-          });
-        // }, 100);
       }
 
       return all;

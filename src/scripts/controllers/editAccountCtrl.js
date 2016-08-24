@@ -1,4 +1,4 @@
-angular.module('financier').controller('editAccountCtrl', function(editing, myAccount, manager, myBudg, transaction, $q, $rootScope, $scope, $stateParams, category, masterCategory, categories, masterCategories, MonthCategory, month) {
+angular.module('financier').controller('editAccountCtrl', function(editing, myAccount, manager, myBudg, transaction, $q, $rootScope, $scope, $stateParams, category, masterCategory, categories, masterCategories, MonthCategory, month, myBudgetRecord) {
   const Transaction = transaction($stateParams.budgetId);
   const Category = category($stateParams.budgetId);
   const MasterCategory = masterCategory($stateParams.budgetId);
@@ -12,13 +12,12 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
 
   this.submit = () => {
     const promises = [
-      myBudg.accounts.put(myAccount)
+      myBudg.put(myAccount)
     ];
 
     let transaction;
 
     if (!this.editing) {
-
       const cat = new Category({
         name: myAccount.name
       });
@@ -32,7 +31,7 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
         }
       }
 
-      if (!masterCat) { 
+      if (!masterCat) {
         masterCat = new MasterCategory({
           name: 'Pre-financier debt',
           categories: [cat.id],
@@ -42,13 +41,13 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
         if (myAccount.isCredit()) {
           masterCategories[masterCat.id] = masterCat;
 
-          myBudg.masterCategories.put(masterCat);
+          myBudg.put(masterCat);
         }
       } else {
         if (myAccount.isCredit()) {
           masterCat.categories.push(cat.id);
           
-          myBudg.masterCategories.put(masterCat);
+          myBudg.put(masterCat);
         }
       }
 
@@ -59,10 +58,10 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
       if (myAccount.isCredit()) {
         categories[cat.id] = cat;
 
-        myBudg.categories.put(cat);
+        myBudg.put(cat);
 
         manager.addMonthCategory(monthCat);
-        myBudg.categories.put(monthCat);
+        myBudg.put(monthCat);
 
         $rootScope.$broadcast('masterCategories:change');
       }
@@ -72,11 +71,8 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
         date: this.startingBalanceDate.toISOString(),
         category: myAccount.isCredit() ? cat.id : 'income',
         account: myAccount.id,
-        payee: {
-          type: 'INTERNAL',
-          name: 'Starting Balance'
-        }
-      }, myBudg.transactions.put);
+        payee: myBudgetRecord.initialBalancePayee
+      }, myBudg.put);
 
       manager.addAccount(myAccount);
 
@@ -84,7 +80,7 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
         manager.addTransaction(transaction);
       }
 
-      promises.push(myBudg.transactions.put(transaction));
+      promises.push(myBudg.put(transaction));
     }
 
 

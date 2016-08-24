@@ -23,10 +23,7 @@ angular.module('financier').factory('transaction', uuid => {
           memo: null,
           cleared: false,
           flag: null,
-          payee: {
-            type: null, // 'INTERNAL' | 'INLINE'
-            name: ''
-          },
+          payee: null,
           transfer: null
         }, data);
 
@@ -89,96 +86,103 @@ angular.module('financier').factory('transaction', uuid => {
         }
       }
 
-      get payee() {
-        const that = this;
-
-        if (!this._payee) {
-          this._payee = {
-            get type() {
-              return that.transfer ? 'TRANSFER' : that.data.payee.type
-            },
-            get id() {
-              return that.transfer && that.transfer.account;
-            },
-            get name() {
-              return that.data.payee.name;
-            }
-          };
-        }
-
-        return this._payee;
+      get transfer() {
+        return this._transfer;
       }
 
-      set payee(p) {
-        if (this.transfer && p.type === 'TRANSFER') {
-          const oldAccount = this.transfer.data.account;
-          this.transfer.data.account = p.id;
+      set transfer(transfer) {
+        this._transfer = transfer;
 
-          const oldPayee = this._data.payee;
-          this._data.payee = {
-            type: null,
-            name: ''
-          };
-          this._emitCategoryChange(() => {
-            this._data.category = null;
+        const transferId = transfer ? transfer.id : null;
 
-            this.setMonth();
-          });
-          this._emitPayeeChange(this._data.payee, oldPayee);
+        if (transferId !== this._data.transfer) {
+          this._data.transfer = transferId;
 
-          this.transfer._emitAccountChange(p.id, oldAccount);
-          this.transfer._emitChange();
+          this._emitChange();
+        }
+      }
 
-          return; // no record change
-        } else if (this.transfer && p.type !== 'TRANSFER') {
-          this.transfer.transfer = null;
-          this.transfer.remove();
-          this._emitRemoveTransaction(this.transfer);
+      get payee() {
+        return this._data.payee;
+      }
 
-          this.transfer = null;
-          this._data.transfer = null;
-
-          const oldPayee = this._data.payee;
-          this._data.payee = p;
-
-          this._emitPayeeChange(p, oldPayee);
-        } else if (p.type === 'TRANSFER') {
-          this.transfer = new Transaction({
-            value: -this._data.value,
-            date: this._data.date,
-            account: p.id,
-            transfer: this.id,
-            category: null
-          });
-
-          const oldPayee = this._data.payee;
-          this._data.payee = {
-            type: null,
-            name: ''
-          };
-          this._emitCategoryChange(() => {
-            this._data.category = null;
-
-            this.setMonth();
-          });
-          this._emitPayeeChange(this._data.payee, oldPayee);
-
-          this.transfer.transfer = this;
-
-          this._data.transfer = this.transfer.id;
-
-          this._emitAddTransaction(this.transfer);
-
-          this.transfer.subscribe(this.fn);
-          this.fn && this.fn(this.transfer);
-        } else if (p.type !== 'TRANSFER') {
-          const oldPayee = this._data.payee;
-          this._data.payee = p;
-
-          this._emitPayeeChange(p, oldPayee);
+      set payee(payee) {
+        if (payee.id !== this._data.payee) {
+          this._data.payee = payee.id;
+          
+          this._emitChange();
         }
 
-        this._emitChange();
+
+        // if (this.transfer && p.type === 'TRANSFER') {
+        //   const oldAccount = this.transfer.data.account;
+        //   this.transfer.data.account = p.id;
+
+        //   const oldPayee = this._data.payee;
+        //   this._data.payee = {
+        //     type: null,
+        //     name: ''
+        //   };
+        //   this._emitCategoryChange(() => {
+        //     this._data.category = null;
+
+        //     this.setMonth();
+        //   });
+        //   this._emitPayeeChange(this._data.payee, oldPayee);
+
+        //   this.transfer._emitAccountChange(p.id, oldAccount);
+        //   this.transfer._emitChange();
+
+        //   return; // no record change
+        // } else if (this.transfer && p.type !== 'TRANSFER') {
+        //   this.transfer.transfer = null;
+        //   this.transfer.remove();
+        //   this._emitRemoveTransaction(this.transfer);
+
+        //   this.transfer = null;
+        //   this._data.transfer = null;
+
+        //   const oldPayee = this._data.payee;
+        //   this._data.payee = p;
+
+        //   this._emitPayeeChange(p, oldPayee);
+        // } else if (p.type === 'TRANSFER') {
+        //   this.transfer = new Transaction({
+        //     value: -this._data.value,
+        //     date: this._data.date,
+        //     account: p.id,
+        //     transfer: this.id,
+        //     category: null
+        //   });
+
+        //   const oldPayee = this._data.payee;
+        //   this._data.payee = {
+        //     type: null,
+        //     name: ''
+        //   };
+        //   this._emitCategoryChange(() => {
+        //     this._data.category = null;
+
+        //     this.setMonth();
+        //   });
+        //   this._emitPayeeChange(this._data.payee, oldPayee);
+
+        //   this.transfer.transfer = this;
+
+        //   this._data.transfer = this.transfer.id;
+
+        //   this._emitAddTransaction(this.transfer);
+
+        //   this.transfer.subscribe(this.fn);
+        //   this.fn && this.fn(this.transfer);
+        // } else if (p.type !== 'TRANSFER') {
+        //   const oldPayee = this._data.payee;
+        //   this._data.payee = p;
+
+        //   this._emitPayeeChange(p, oldPayee);
+        // }
+
+        // this._emitChange();
       }
 
       get outflow() {

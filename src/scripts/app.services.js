@@ -16,7 +16,7 @@ import './services/User';
 import './services/uuid';
 import './services/importBudget';
 import './services/stripeLazyLoader';
-import './services/PayeeManager';
+import './services/payee';
 
 import './services/reports/netWorth';
 
