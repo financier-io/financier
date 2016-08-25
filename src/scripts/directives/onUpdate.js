@@ -15,7 +15,7 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout) => {
       }
     });
 
-    element.bind('blur', () => {
+    element.on('blur', () => {
       try {
         const val = math.eval(element.val());
         oldValue = val.toFixed(2);
@@ -36,15 +36,17 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout) => {
       scope.$apply();
     });
 
-    element.bind('focus', () => {
+    element.on('focus', () => {
       if (+oldValue === 0) {
         element.val('');
       } else {
         element.val(oldValue);
       }
 
-      $timeout(() => {
+      element.one('mouseup', () => {
         element[0].select();
+
+        return false;
       });
     });
   }

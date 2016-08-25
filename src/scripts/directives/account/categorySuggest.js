@@ -97,7 +97,7 @@ angular.module('financier').directive('categorySuggest', $rootScope => {
           };
 
           scope.onSubmit = () => {
-            $rootScope.$broadcast('transaction:memo:submit');
+            $rootScope.$broadcast('transaction:memo:focus');
           };
 
           scope.$on('transaction:category:focus', () => {

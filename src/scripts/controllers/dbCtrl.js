@@ -48,7 +48,7 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
   };
 
   this.getPayeeName = id => {
-    return payees[id].name || id;
+    return (payees[id] && payees[id].name) || id;
   };
 
   $scope.$watch(

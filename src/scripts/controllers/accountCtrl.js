@@ -15,6 +15,7 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
 
   // Filter transactions by account
   this.manager = manager;
+  this.myBudget = myBudget;
 
   if (this.accountId) {
     $scope.transactions = manager.getAccount(this.accountId).transactions;
@@ -36,6 +37,9 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
   that.selectedTransactions = [];
 
   this.createTransaction = () => {
+    this.editingTransaction = null;
+    this.selectedTransactions = [];
+
     this.newTransaction = new Transaction({
       account: this.accountId || null
     });
@@ -50,23 +54,9 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
     });
   };
 
-  this.cancelCreateTransaction = () => {
-    this.newTransaction = null;
-  };
-
-  this.saveCreateTransaction = () => {
-    manager.addTransaction(this.newTransaction);
-    if (this.newTransaction.transfer) {
-      manager.addTransaction(this.newTransaction.transfer);
-    }
-
-    myBudget.transactions.put(this.newTransaction);
-    if (this.newTransaction.transfer) {
-      myBudget.transactions.put(this.newTransaction.transfer);
-    }
-
-    this.newTransaction = null;
-  };
+  $scope.$on('transaction:create', () => {
+    this.createTransaction();
+  });
 
   this.setCleared = (event, trans) => {
     $scope.dbCtrl.stopPropagation(event);
@@ -103,6 +93,7 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
     that.selectedTransactions = [];
     that.selectedTransactionIndexes = [];
     this.editingTransaction = null;
+    this.newTransaction = null;
 
     $scope.$digest();
   };
@@ -141,6 +132,7 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
     $scope.dbCtrl.stopPropagation(event);
 
     this.editingTransaction = null;
+    that.newTransaction = null;
 
     // Cannot select anything when adding a new transaction
     if (that.newTransaction) {

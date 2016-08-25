@@ -69,23 +69,16 @@ angular.module('financier').factory('account', uuid => {
        * to subscribe to for future changes.
       */
       addTransaction(trans) {
-        let _transfer = trans;
+        this.transactions.push(trans);
 
-        if (trans.payee.id === this.id) {
-          // Transfer to this account
-          _transfer = trans.transfer;
-        }
-
-        this.transactions.push(_transfer);
-
-        if (_transfer.cleared) {
-          this._changeClearedBalance(_transfer.value);
+        if (trans.cleared) {
+          this._changeClearedBalance(trans.value);
         } else {
-          this._changeUnclearedBalance(_transfer.value);
+          this._changeUnclearedBalance(trans.value);
         }
 
-        _transfer.subscribeClearedValueChange(this._clearedValueChangeFn);
-        _transfer.subscribeUnclearedValueChange(this._unclearedValueChangeFn);
+        trans.subscribeClearedValueChange(this._clearedValueChangeFn);
+        trans.subscribeUnclearedValueChange(this._unclearedValueChangeFn);
       }
 
       /**
@@ -95,26 +88,19 @@ angular.module('financier').factory('account', uuid => {
        * to unsubscribe from for future changes.
       */
       removeTransaction(trans) {
-        let _transfer = trans;
-
-        if (trans.payee.id === this.id) {
-          // Transfer to this account
-          _transfer = trans.transfer;
-        }
-
         const index = this.transactions.indexOf(trans);
         if (index !== -1) {
           this.transactions.splice(index, 1);
         }
 
-        if (_transfer.cleared) {
-          this._changeClearedBalance(-_transfer.value);
+        if (trans.cleared) {
+          this._changeClearedBalance(-trans.value);
         } else {
-          this._changeUnclearedBalance(-_transfer.value);
+          this._changeUnclearedBalance(-trans.value);
         }
 
-        _transfer.unsubscribeClearedValueChange(this._clearedValueChangeFn);
-        _transfer.unsubscribeUnclearedValueChange(this._unclearedValueChangeFn);
+        trans.unsubscribeClearedValueChange(this._clearedValueChangeFn);
+        trans.unsubscribeUnclearedValueChange(this._unclearedValueChangeFn);
       }
 
       /**

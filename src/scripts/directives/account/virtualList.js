@@ -31,6 +31,10 @@ angular.module('financier')
         };
  
         scope.updateDisplayList = function() {
+          scope.canvasHeight = {
+            // 40px extra for save/cancel buttons
+            height: scope.transactions.length * rowHeight + 'px'
+          };
 
           var firstCell = Math.min(
             Math.max(

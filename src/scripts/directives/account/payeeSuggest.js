@@ -12,7 +12,9 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
       return {
         pre: (scope, element, attrs) => {
           scope._accounts = scope.accounts;
-          scope._payees = scope.payees;
+          scope._payees = Object.keys(scope.payees).map(key => {
+            return scope.payees[key];
+          });
 
           scope.items = scope._accounts.concat(scope._payees);
 

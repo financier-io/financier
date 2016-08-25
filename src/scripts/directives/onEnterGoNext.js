@@ -9,6 +9,7 @@ angular.module('financier').directive('onEnterGoNext', () => {
         for (var i = 0; i < els.length; i++) {
           if (els[i] === element[0]) {
             els[i + 1] && els[i + 1].focus();
+            els[i + 1] && els[i + 1].select();
           }
         }
       }
