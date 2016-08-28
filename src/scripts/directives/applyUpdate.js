@@ -1,5 +1,5 @@
 angular.module('financier').directive('applyUpdate', offline => {
-  let show = true;
+  let show = false;
 
   function controller($scope) {
     this.show = show;
