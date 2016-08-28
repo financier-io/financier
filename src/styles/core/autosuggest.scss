@@ -24,12 +24,13 @@
 
 .autosuggest__text {
   position: absolute;
-  top: 3px;
+  top: 5px;
   left: 5px;
   right: 5px;
   bottom: 3px;
   overflow: hidden;
-  line-height: normal;
+  line-height: 1;
 
-  color: #ccc;
+  opacity: 0.3;
+  color: black;
 }

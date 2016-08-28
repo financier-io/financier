@@ -18,7 +18,7 @@ angular.module('financier').factory('category', uuid => {
 
         this.id = myData._id.slice(myData._id.lastIndexOf('_') + 1);
 
-        this.data = myData;
+        this._data = myData;
 
       }
 
@@ -33,11 +33,11 @@ angular.module('financier').factory('category', uuid => {
        * @type {string}
        */
       get name() {
-        return this.data.name;
+        return this._data.name;
       }
 
       set name(n) {
-        this.data.name = n;
+        this._data.name = n;
         this.emitChange();
       }
 
@@ -53,11 +53,11 @@ angular.module('financier').factory('category', uuid => {
        * @type {string}
        */
       get note() {
-        return this.data.note;
+        return this._data.note;
       }
 
       set note(n) {
-        this.data.note = n;
+        this._data.note = n;
         this.emitChange();
       }
 
@@ -71,14 +71,14 @@ angular.module('financier').factory('category', uuid => {
        * @type {string}
        */
       get _id() {
-        return this.data._id;
+        return this._data._id;
       }
 
       /**
        * @todo Remove, moving functionality elsewhere
        */
       remove() {
-        this.data._deleted = true;
+        this._data._deleted = true;
         this.emitChange();
       }
 
@@ -108,7 +108,17 @@ angular.module('financier').factory('category', uuid => {
        * @returns {object}
       */
       toJSON() {
-        return this.data;
+        return this._data;
+      }
+
+      get data() {
+        return this._data;
+      }
+
+      set data(d) {
+        this._data.name = d.name;
+
+        this._data.note = d.note;
       }
 
       /**

@@ -29,7 +29,7 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
           this.emitChange();
         };
 
-        this.data = myData;
+        this._data = myData;
       }
 
       /**
@@ -43,11 +43,11 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
        * @type {string}
        */
       get name() {
-        return this.data.name;
+        return this._data.name;
       }
 
       set name(n) {
-        this.data.name = n;
+        this._data.name = n;
         this.emitChange();
       }
 
@@ -61,7 +61,7 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
        * @returns {object}
        */
       toJSON() {
-        return this.data;        
+        return this._data;        
       }
 
       /**
@@ -82,7 +82,7 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
        * @type {Category[]}
        */
       get categories() {
-        return this.data.categories;
+        return this._data.categories;
       }
 
       set categories(arr) {
@@ -91,7 +91,7 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
           this.emitChange();
         };
 
-        return this.data.categories;
+        this._data.categories = arr;
       }
 
       /**
@@ -107,15 +107,15 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
        * @type {number}
        */
       get sort() {
-        return this.data.sort;
+        return this._data.sort;
       }
 
       set sort(i) {
         // only put() new record if
         // there has been a change
 
-        if (this.data.sort !== i) {
-          this.data.sort = i;
+        if (this._data.sort !== i) {
+          this._data.sort = i;
           this.emitChange();
         }
       }
@@ -124,12 +124,25 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
        * @todo Remove, moving functionality elsewhere
        */
       remove() {
-        this.data._deleted = true;
+        this._data._deleted = true;
         this.emitChange();
       }
 
       get _id() {
-        return this.data._id;
+        return this._data._id;
+      }
+
+      get data() {
+        return this._data;
+      }
+
+      set data(d) {
+        this._data.sort = d.sort;
+
+        // Use public function to augment with #update() function
+        this.categories = d.categories;
+
+        this._data.name = d.name;
       }
 
       /**

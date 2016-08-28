@@ -22,6 +22,7 @@
 @import 'core/dropdown';
 @import 'core/autosuggest';
 @import 'core/calendar';
+@import 'core/alert';
 
 
 
@@ -79,8 +80,6 @@ button {
   display: none;
 }
 
-
-@import 'stagingWarning';
 
 @import 'e404';
 @import 'signup';

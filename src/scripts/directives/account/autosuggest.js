@@ -85,7 +85,11 @@ angular.module('financier').directive('autosuggest', ($timeout, $filter, inputDr
         }
 
         if (scope.canSubmitNew && userInput !== oldUserInput) {
-          ngModelCtrl.$setViewValue(userInput);
+          if (scope.selected && scope.selected.name === userInput) {
+            ngModelCtrl.$setViewValue(scope.selected);
+          } else {
+            ngModelCtrl.$setViewValue(userInput);
+          }
         }
 
         if (scope.selected) {
@@ -94,6 +98,8 @@ angular.module('financier').directive('autosuggest', ($timeout, $filter, inputDr
           scope.selected = scope.items[0];
           scope.autosuggestText = '';
         }
+
+        $timeout(dropSetup.position);
       });
 
       input.on('keydown', e => {

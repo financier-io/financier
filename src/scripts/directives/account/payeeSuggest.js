@@ -7,7 +7,7 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
       transactionAccountId: '=',
       ngModel: '='
     },
-    template: '<autosuggest can-submit-new="true" on-submit="onSubmit()" custom-filter="itemFilter(item, searchValue, pristineInputField)" ng-model="item" items="items" template="template"></autosuggest>',
+    template: '<autosuggest can-submit-new="true" on-submit="onSubmit()" custom-filter="itemFilter(item, searchValue, pristineInputField)" ng-model="ngModel" items="items" template="template"></autosuggest>',
     compile: () => {
       return {
         pre: (scope, element, attrs) => {
@@ -36,13 +36,8 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
             return item.name.toLowerCase().indexOf(searchInputLower) !== -1;
           };
 
-
-          scope.$watch('item', item => {
-            scope.ngModel = item;
-          });
-
           scope.onSubmit = () => {
-            if (scope.item.constructor.name === 'Account') {
+            if (scope.ngModel.constructor.name === 'Account') {
               $rootScope.$broadcast('transaction:memo:focus');
             } else {
               $rootScope.$broadcast('transaction:category:focus');

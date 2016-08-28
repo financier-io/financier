@@ -29,7 +29,7 @@ let financier = angular.module('financier', [
   'ng-sortable',
   'angular-ladda-lw'
 ]).run((offline, $rootScope, $timeout) => {
-  offline.register();
+  offline.install();
 
   $rootScope.$on('offlineStatus', (e, status) => {
     $timeout(() => {

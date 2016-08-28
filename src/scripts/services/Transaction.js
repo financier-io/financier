@@ -92,14 +92,6 @@ angular.module('financier').factory('transaction', uuid => {
 
       set transfer(transfer) {
         this._transfer = transfer;
-
-        const transferId = transfer ? transfer.id : null;
-
-        if (transferId !== this._data.transfer) {
-          this._data.transfer = transferId;
-
-          this._emitChange();
-        }
       }
 
       get payee() {
@@ -107,8 +99,8 @@ angular.module('financier').factory('transaction', uuid => {
       }
 
       set payee(payee) {
-        if (payee.id !== this._data.payee) {
-          this._data.payee = payee.id;
+        if (payee !== this._data.payee) {
+          this._data.payee = payee;
           
           this._emitChange();
         }
@@ -260,7 +252,7 @@ angular.module('financier').factory('transaction', uuid => {
       }
 
       set category(x) {
-        if (this.transfer) {
+        if (this.transfer && x) {
           throw 'Cannot change category of a transfer';
         }
 

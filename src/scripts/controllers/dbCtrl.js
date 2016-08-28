@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-angular.module('financier').controller('dbCtrl', function(monthManager, MonthCategory, category, account, transaction, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget) {
+angular.module('financier').controller('dbCtrl', function(monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget) {
   let {manager, categories, masterCategories, payees} = data;
   const budgetId = $stateParams.budgetId;
 
@@ -10,6 +10,7 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
   const Category = category(budgetId);
   const MonthManager = monthManager(budgetId);
   const Transaction = transaction(budgetId);
+  const Payee = payee(budgetId);
 
   this.manager = manager;
   this.categories = categories;
@@ -135,9 +136,9 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
           b.subscribe(myBudget.put);
 
           masterCategories[b.id] = b;
-
-          $scope.$broadcast('masterCategories:change');
         }
+
+        $scope.$broadcast('masterCategories:change');
       }
     },
     category(change) {
@@ -158,6 +159,27 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
           b.subscribe(myBudget.put);
 
           categories[b.id] = b;
+        }
+      }
+    },
+    payee(change) {
+      // look through our categories to see if it exists
+
+      const myPayee = payees[getId(change.id)];
+
+      if (change.deleted) {
+        if (myPayee) {
+          delete payees[getId(change.id)];
+        }
+      } else {
+        if (myPayee) {
+          myPayee.data = change.doc;
+        } else {
+          // Couldn't find it
+          const p = new Payee(change.doc);
+          p.subscribe(myBudget.put);
+
+          payees[p.id] = p;
         }
       }
     },
@@ -249,6 +271,8 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
       doChange.account(change);
     } else if (Transaction.contains(change.id)) {
       doChange.transaction(change);
+    } else if (Payee.contains(change.id)) {
+      doChange.payee(change);
     }
   });
 });

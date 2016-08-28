@@ -75,6 +75,20 @@ describe('budgetManager', function() {
           });
         });
       });
+
+      it('put', () => {
+        return budget.put(new Account({
+          name: 'myNewAccount',
+          type: 'CREDIT'
+        })).then(() => {
+          return budget.accounts.all().then(accounts => {
+            expect(accounts[0].name).toBe('myNewAccount');
+            expect(accounts[0].type).toBe('CREDIT');
+            expect(accounts[0].data._id).toBeDefined();
+            expect(accounts[0].data._id.indexOf('b_555-555-555-555_account_')).toBe(0);
+          });
+        });
+      });
     });
   });
 
@@ -117,20 +131,6 @@ describe('budgetManager', function() {
             expect(r.name).toBe('mynewname');
           });
 
-        });
-      });
-    });
-
-    it('put', () => {
-      return budget.accounts.put(new Account({
-        name: 'myNewAccount',
-        type: 'CREDIT'
-      })).then(() => {
-        return budget.accounts.all().then(accounts => {
-          expect(accounts[0].name).toBe('myNewAccount');
-          expect(accounts[0].type).toBe('CREDIT');
-          expect(accounts[0].data._id).toBeDefined();
-          expect(accounts[0].data._id.indexOf('b_555-555-555-555_account_')).toBe(0);
         });
       });
     });

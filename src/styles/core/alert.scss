@@ -1,10 +1,9 @@
-.staging-warning {
+.alert {
   // TODO remove these 2 rules that make this
   // go on top of box-shadow of welcome page
   position: relative;
   z-index: 2;
-  
-  background-color: $danger;
+
   text-align: center;
   color: $white;
   line-height: 2;
@@ -19,4 +18,12 @@
     padding: 0 0.5em;
     color: $white;
   }
+}
+
+.alert--danger {
+  background-color: $danger;
+}
+
+.alert--info {
+  background-color: $primary-alt;
 }
