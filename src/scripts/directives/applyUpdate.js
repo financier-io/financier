@@ -19,6 +19,8 @@ angular.module('financier').directive('applyUpdate', offline => {
 
       this.show = false;
       show = false;
+
+      window.location.reload();
     }
   }
 
