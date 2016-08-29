@@ -5,6 +5,8 @@ angular.module('financier').directive('applyUpdate', offline => {
     this.show = show;
 
     $scope.$on('serviceWorker:updateReady', () => {
+      console.log('New update ready!');
+
       show = true;
       this.show = true;
     });
