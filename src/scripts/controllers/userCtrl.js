@@ -136,6 +136,7 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
       this.email = null;
       this.subscription = null;
       this.source = null;
+      this.isFree = true;
     })
     .finally(() => {
       this.logoutLoading = false;
