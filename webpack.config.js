@@ -217,12 +217,14 @@ module.exports = function makeWebpackConfig () {
 
       new OfflinePlugin({
         ServiceWorker: {
-          navigateFallbackURL: '/'
+          navigateFallbackURL: '/',
+          events: true
         },
         AppCache: {
           FALLBACK: {
             '/': 'index.html'
-          }
+          },
+          events: true
         }
       })
     );
