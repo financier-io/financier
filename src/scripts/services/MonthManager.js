@@ -81,14 +81,6 @@ angular.module('financier').factory('monthManager', (month, account) => {
           newMonth.addTransaction(trans);
         });
 
-        trans.subscribeAddTransaction(newTrans => {
-          this.addTransaction(newTrans);
-        });
-
-        trans.subscribeRemoveTransaction(newTrans => {
-          this.removeTransaction(newTrans);
-        });
-
         this.transactions[trans.id] = trans;
 
         myAccount.addTransaction(trans);
@@ -125,8 +117,6 @@ angular.module('financier').factory('monthManager', (month, account) => {
             transaction.subscribeAccountChange(null);
             transaction.subscribeCategoryChange(null, null);
             transaction.subscribeDateChange(null);
-            transaction.subscribeAddTransaction(null);
-            transaction.subscribeRemoveTransaction(null);
           }
         });
       }

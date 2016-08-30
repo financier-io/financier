@@ -479,24 +479,6 @@ angular.module('financier').factory('transaction', uuid => {
       }
 
       /**
-       * Used to set the function to invoke upon a new transaction creation (for transfers).
-       *
-       * @param {function} fn - This function will be invoked with the new transaction
-      */
-      subscribeAddTransaction(fn) {
-        this.subscribeAddTransactionFn = fn;
-      }
-
-      /**
-       * Used to set the function to invoke upon a transaction removal (for transfers).
-       *
-       * @param {function} fn - This function will be invoked with the removed transaction
-      */
-      subscribeRemoveTransaction(fn) {
-        this.subscribeRemoveTransactionFn = fn;
-      }
-
-      /**
        * Used to unset the function to invoke upon cleared value changes.
        *
        * @param {function} fn - The function reference originally provided
@@ -568,26 +550,6 @@ angular.module('financier').factory('transaction', uuid => {
       */
       _emitValueChange(val) {
         return this.subscribeValueChangeFn && this.subscribeValueChangeFn(val);
-      }
-
-      /**
-       * Will call the subscribed value function, if it exists, with how much
-       * the value has changed by.
-       *
-       * @private
-      */
-      _emitAddTransaction(trans) {
-        return this.subscribeAddTransactionFn && this.subscribeAddTransactionFn(trans);
-      }
-
-      /**
-       * Will call the subscribed value function, if it exists, with how much
-       * the value has changed by.
-       *
-       * @private
-      */
-      _emitRemoveTransaction(trans) {
-        return this.subscribeRemoveTransactionFn && this.subscribeRemoveTransactionFn(trans);
       }
 
       /**

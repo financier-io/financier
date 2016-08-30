@@ -88,6 +88,7 @@ angular.module('financier').directive('transactionCreator', (payee, transaction,
 
           $scope.dbCtrl.payees[newPayee.id] = newPayee;
           $scope.accountCtrl.myBudget.put(newPayee);
+          newPayee.subscribe($scope.accountCtrl.myBudget.put);
         }
 
         $scope.accountCtrl.manager.addTransaction(this.transaction);

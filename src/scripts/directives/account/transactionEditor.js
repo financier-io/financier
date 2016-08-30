@@ -100,6 +100,7 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
 
           $scope.dbCtrl.payees[newPayee.id] = newPayee;
           $scope.accountCtrl.myBudget.put(newPayee);
+          newPayee.subscribe($scope.accountCtrl.myBudget.put);
         }
 
 

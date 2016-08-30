@@ -29,7 +29,7 @@
       <button class="account__add-button" ng-click="dbCtrl.stopPropagation($event); accountCtrl.createTransaction()"><i class="fa fa-plus"></i> {{'ADD_A_NEW_TRANSACTION' | translate}}</button>
       <button class="account__add-button"><i class="fa fa-exchange"></i> Make a transfer</button>
 
-      <button class="account__add-button" ng-if="accountCtrl.selectedTransactions.length" bulk-edit-transactions="accountCtrl.selectedTransactions" manager="dbCtrl.manager"><i class="fa fa-edit"></i> Edit ({{accountCtrl.selectedTransactions.length}}) <i class="fa fa-sort-desc"></i></button>
+      <button class="account__add-button" ng-if="accountCtrl.selectedTransactions.length" bulk-edit-transactions="accountCtrl.selectedTransactions" manager="dbCtrl.manager" payees="dbCtrl.payees"><i class="fa fa-edit"></i> Edit ({{accountCtrl.selectedTransactions.length}}) <i class="fa fa-sort-desc"></i></button>
     </div>
   </div>
   <div class="account__thead" ng-click="dbCtrl.stopPropagation($event)">

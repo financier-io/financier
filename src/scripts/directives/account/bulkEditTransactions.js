@@ -58,7 +58,8 @@ angular.module('financier').directive('bulkEditTransactions', ($rootScope, $sce,
     controller: 'bulkEditTransactionsCtrl as bulkEditTransactionsCtrl',
     scope: {
       bulkEditTransactions: '=',
-      manager: '='
+      manager: '=',
+      payees: '='
     },
     link
   };
