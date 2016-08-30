@@ -440,14 +440,6 @@ angular.module('financier').factory('month', MonthCategory => {
       }
 
       /**
-       * @todo Not currently used, will eventually to provided to
-       * transactions to notify MonthManager of a date change
-       */
-      subscribeTransactionDateChange(fn) {
-        this.subscribeTransactionDateChangeFn = fn;
-      }
-
-      /**
        * Upon serializing, will return the record data.
        *
        * @returns {object} The month's record (with _id and _rev, if applicable)

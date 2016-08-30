@@ -31,8 +31,6 @@ angular.module('financier').factory('monthManager', (month, account) => {
         for (let i = 0; i < months.length; i++) {
           const month = months[i];
 
-          month.subscribeTransactionDateChange(this.subscribeTransactionDateChangeFn);
-
           if (months[i + 1]) {
             this._linkMonths(months[i], months[i + 1]);
           }
@@ -168,7 +166,6 @@ angular.module('financier').factory('monthManager', (month, account) => {
 
             for (let j = 0; j < monthsToAdd; j++) {
               const m = new Month(id, this.saveFn);
-              m.subscribeTransactionDateChange(this.subscribeTransactionDateChangeFn);
               newMonths.push(m);
 
               id = MonthManager._nextDateID(id);
@@ -206,7 +203,6 @@ angular.module('financier').factory('monthManager', (month, account) => {
             d = MonthManager._nextDateID(d);
 
             const m = new Month(d, this.saveFn);
-            m.subscribeTransactionDateChange(this.subscribeTransactionDateChangeFn);
             this.months.push(m);
             this._linkMonths(this.months[this.months.length - 2], this.months[this.months.length - 1]);
           }
@@ -229,7 +225,6 @@ angular.module('financier').factory('monthManager', (month, account) => {
             d = MonthManager._previousDateID(d);
 
             const m = new Month(d, this.saveFn);
-            m.subscribeTransactionDateChange(this.subscribeTransactionDateChangeFn);
             this.months.unshift(m);
             this._linkMonths(this.months[0], this.months[1]);
           }
