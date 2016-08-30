@@ -67,7 +67,9 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
           addPayee(this.transaction, this.payee);
 
         } else if (this.payee.constructor.name === 'Account') {
-          this.transaction.payee = null;
+          if (this.transaction.payee) {
+            removePayee(this.transaction);
+          }
 
           if (this.transaction.transfer) {
             this.transaction.transfer.account = this.payee.id;
@@ -87,7 +89,6 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
             this.transaction.transfer.transfer = this.transaction;
 
             $scope.accountCtrl.manager.addTransaction(this.transaction.transfer);
-            $scope.accountCtrl.myBudget.put(this.transaction.transfer);
           }
         } else if (angular.isString(this.payee)) {
 
@@ -114,15 +115,39 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
       function addPayee(transaction, payee) {
         removeTransfer(transaction);
 
+        if (transaction.payee) {
+          removePayee(transaction);
+        }
+
         transaction.payee = payee.id;
+      }
+
+      function removePayee(transaction) {
+        const transactions = $scope.accountCtrl.manager.allAccounts.transactions;
+
+        for (let i = 0; i < transactions.length; i++) {
+          if (transactions[i].payee === transaction.payee &&
+              transactions[i] !== transaction) {
+            transaction.payee = null;
+
+            return;
+          }
+        }
+
+        $scope.dbCtrl.payees[transaction.payee].remove();
+        delete $scope.dbCtrl.payees[transaction.payee];
+
+        transaction.payee = null;
       }
 
       function removeTransfer(transaction) {
         if (transaction.transfer) {
           transaction.transfer.transfer = null;
 
-          transaction.transfer.remove();
           $scope.accountCtrl.manager.removeTransaction(transaction.transfer);
+          transaction.transfer.remove();
+
+          $scope.accountCtrl.myBudget.put(transaction.transfer);
 
           transaction.transfer = null;
         }
