@@ -62,11 +62,11 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
 
         this.transaction.value = this.value.value;
 
-        if (this.payee.constructor.name === 'Payee') {
+        if (this.payee.constructorName === 'Payee') {
 
           addPayee(this.transaction, this.payee);
 
-        } else if (this.payee.constructor.name === 'Account') {
+        } else if (this.payee.constructorName === 'Account') {
           if (this.transaction.payee) {
             removePayee(this.transaction);
           }

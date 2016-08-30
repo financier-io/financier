@@ -62,6 +62,10 @@ angular.module('financier').factory('account', uuid => {
         };
       }
 
+      get constructorName() {
+        return 'Account';
+      }
+
       /**
        * Add a transaction to an account
        *

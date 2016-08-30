@@ -51,11 +51,11 @@ angular.module('financier').directive('transactionCreator', (payee, transaction,
         this.transaction.value = this.value.value;
 
 
-        if (this.payee.constructor.name === 'Payee') {
+        if (this.payee.constructorName === 'Payee') {
 
           addPayee(this.transaction, this.payee);
 
-        } else if (this.payee.constructor.name === 'Account') {
+        } else if (this.payee.constructorName === 'Account') {
           this.transaction.payee = null;
 
           if (this.transaction.transfer) {

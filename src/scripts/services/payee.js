@@ -37,6 +37,10 @@ angular.module('financier').factory('payee', uuid => {
         this.data = data;
       }
 
+      get constructorName() {
+        return 'Payee';
+      }
+
       /**
        * The name of the payee. When set, will immediately call subscribed function.
        *

@@ -37,7 +37,7 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
           };
 
           scope.onSubmit = () => {
-            if (scope.ngModel.constructor.name === 'Account') {
+            if (scope.ngModel.constructorName === 'Account') {
               $rootScope.$broadcast('transaction:memo:focus');
             } else {
               $rootScope.$broadcast('transaction:category:focus');
