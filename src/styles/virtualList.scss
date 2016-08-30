@@ -3,6 +3,10 @@ virtual-list {
   display: block;
   flex: 1;
 
+  // For tether.js
+  // https://github.com/HubSpot/tether/issues/135#issuecomment-167601049
+  position: relative;
+
   .canvas {
     position: relative;
     min-height: 100%;

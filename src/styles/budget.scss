@@ -25,6 +25,10 @@ $budgetMonthCellPadding: 2px 5px 0;
   &.overflowable {
     flex-grow: 1;
     flex-shrink: 1;
+
+    // For tether.js
+    // https://github.com/HubSpot/tether/issues/135#issuecomment-167601049
+    position: relative;
   }
 }
 
