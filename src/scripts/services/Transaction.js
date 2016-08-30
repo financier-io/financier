@@ -209,7 +209,7 @@ angular.module('financier').factory('transaction', uuid => {
 
       set date(x) {
         this._data.date = x.toISOString();
-        const oldDate = this._date;
+        const oldDate = this.month;
         this._date = x;
 
         this.setMonth();
@@ -219,11 +219,11 @@ angular.module('financier').factory('transaction', uuid => {
           this.transfer._date = this._date;
           this.transfer.setMonth();
 
-          this.transfer._emitDateChange(this._date, oldDate);
+          this.transfer._emitMonthChange(this.month, oldDate);
           this.transfer._emitChange();
         }
 
-        this._emitDateChange(this._date, oldDate);
+        this._emitMonthChange(this.month, oldDate);
         this._emitChange();
       }
 
@@ -388,9 +388,10 @@ angular.module('financier').factory('transaction', uuid => {
 
 
         // SET DATE
-        const oldDate = this._date;
+        const oldDate = this.month;
         this._date = new Date(data.date);
-        this._emitDateChange(this._date, oldDate);
+        this.setMonth();
+        this._emitMonthChange(this.month, oldDate);
 
         // TODO payee
 
@@ -448,12 +449,12 @@ angular.module('financier').factory('transaction', uuid => {
         this.subscribeAccountChangeFn && this.subscribeAccountChangeFn(newAccount, oldAccount);
       }
 
-      subscribeDateChange(fn) {
-        this.subscribeDateChangeFn = fn;
+      subscribeMonthChange(fn) {
+        this.subscribeMonthChangeFn = fn;
       }
 
-      _emitDateChange(newDate, oldDate) {
-        this.subscribeDateChangeFn && this.subscribeDateChangeFn(newDate, oldDate);
+      _emitMonthChange(newMonth, oldMonth) {
+        this.subscribeMonthChangeFn && this.subscribeMonthChangeFn(newMonth, oldMonth);
       }
 
       subscribeCategoryChange(beforeFn, afterFn) {

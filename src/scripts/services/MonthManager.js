@@ -74,11 +74,11 @@ angular.module('financier').factory('monthManager', (month, account) => {
           month.addTransaction(trans);
         });
 
-        trans.subscribeDateChange((newDate, oldDate) => {
-          const newMonth = this.getMonth(newDate);
+        trans.subscribeMonthChange((newMonth, oldMonth) => {
+          const m = this.getMonth(newMonth);
 
-          this.getMonth(oldDate).removeTransaction(trans);
-          newMonth.addTransaction(trans);
+          this.getMonth(oldMonth).removeTransaction(trans);
+          m.addTransaction(trans);
         });
 
         this.transactions[trans.id] = trans;
@@ -116,7 +116,7 @@ angular.module('financier').factory('monthManager', (month, account) => {
 
             transaction.subscribeAccountChange(null);
             transaction.subscribeCategoryChange(null, null);
-            transaction.subscribeDateChange(null);
+            transaction.subscribeMonthChange(null);
           }
         });
       }
