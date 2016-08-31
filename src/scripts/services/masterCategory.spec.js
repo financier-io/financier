@@ -25,15 +25,15 @@ describe('masterCategory', function() {
 
     describe('static property', () => {
       it('startKey', () => {
-        expect(MasterCategory.startKey).toBe('b_111-111-111-111_masterCategory_');
+        expect(MasterCategory.startKey).toBe('b_111-111-111-111_master-category_');
       });
 
       it('startKey', () => {
-        expect(MasterCategory.endKey).toBe('b_111-111-111-111_masterCategory_\uffff');
+        expect(MasterCategory.endKey).toBe('b_111-111-111-111_master-category_\uffff');
       });
 
       it('prefix', () => {
-        expect(MasterCategory.prefix).toBe('b_111-111-111-111_masterCategory_');
+        expect(MasterCategory.prefix).toBe('b_111-111-111-111_master-category_');
       });
 
       describe('contains', () => {
@@ -72,7 +72,7 @@ describe('masterCategory', function() {
     it('can take an existing database document', () => {
       let cat = new MasterCategory({
         name: 'My cat',
-        _id: 'b_123-123-123-123_masterCategory_321-321-321-321'
+        _id: 'b_123-123-123-123_master-category_321-321-321-321'
       });
 
       expect(cat.constructor.name).toBe('MasterCategory');
@@ -81,7 +81,7 @@ describe('masterCategory', function() {
     it('can create default id', () => {
       let cat = new MasterCategory();
 
-      expect(cat._id.indexOf('b_111-111-111-111_masterCategory_')).toBe(0);
+      expect(cat._id.indexOf('b_111-111-111-111_master-category_')).toBe(0);
     });
 
     it('exposes default name and no default note', () => {
@@ -96,10 +96,10 @@ describe('masterCategory', function() {
 
     it('uses existing _id if exists', () => {
       let cat = new MasterCategory({
-        _id: 'b_123-123-123-123_masterCategory_321-321-321-321'
+        _id: 'b_123-123-123-123_master-category_321-321-321-321'
       });
 
-      expect(cat._id).toBe('b_123-123-123-123_masterCategory_321-321-321-321');
+      expect(cat._id).toBe('b_123-123-123-123_master-category_321-321-321-321');
     });
   });
 

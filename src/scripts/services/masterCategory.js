@@ -170,7 +170,7 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
        * @type {string}
        */
       static get startKey() {
-        return `b_${budgetId}_masterCategory_`;
+        return `b_${budgetId}_master-category_`;
       }
 
       /**

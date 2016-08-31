@@ -1,5 +1,7 @@
 import PouchDB from 'pouchdb';
 
+window.PouchDB = PouchDB;
+
 angular.module('financier').provider('db', function() {
   const that = this;
 

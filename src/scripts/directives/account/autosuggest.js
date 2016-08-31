@@ -53,9 +53,9 @@ angular.module('financier').directive('autosuggest', ($timeout, $filter, inputDr
       scope.$on('autosuggest:filter', runFilter);
 
       ngModelCtrl.$render = () => {
-        for (let i = 0; i < scope.items.length; i++) {
-          if (scope.items[i] === ngModelCtrl.$modelValue) {
-            scope.userInput = scope.items[i].name;
+        for (let i = 0; i < items.length; i++) {
+          if (items[i] === ngModelCtrl.$modelValue) {
+            scope.userInput = items[i].name;
           }
         }
       };
