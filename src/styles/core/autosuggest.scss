@@ -3,19 +3,14 @@
   width: 100%;
   display: block;
   margin-top: 4px; // hack
-  background: $white;
-  height: 22px;
 }
 
 .autosuggest__input {
   position: absolute;
   width: 100%;
   border: 0;
-  padding: 2px 4px;
 
   min-width: auto;
-
-  background: none;
 
   &:focus {
     outline: 0;

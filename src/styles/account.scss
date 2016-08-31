@@ -124,6 +124,8 @@
     outline: 0;
     border: 1px solid transparent;
     line-height: 1;
+    height: 22px;
+    padding: 0 3px;
 
     &:focus {
       border-color: $primary-alt;
