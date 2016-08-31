@@ -23,7 +23,9 @@ angular.module('financier').controller('bulkEditTransactionsCtrl', function($sco
       }
     }
 
-    $scope.payees[transaction.payee].remove();
-    delete $scope.payees[transaction.payee];
+    if (!$scope.payees[transaction.payee].internal) {
+      $scope.payees[transaction.payee].remove();
+      delete $scope.payees[transaction.payee];
+    }
   }
 });

@@ -137,10 +137,12 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
           }
         }
 
-        $scope.dbCtrl.payees[transaction.payee].remove();
-        delete $scope.dbCtrl.payees[transaction.payee];
+        if (!$scope.dbCtrl.payees[transaction.payee].internal) {
+          $scope.dbCtrl.payees[transaction.payee].remove();
+          delete $scope.dbCtrl.payees[transaction.payee];
 
-        transaction.payee = null;
+          transaction.payee = null;
+        }
       }
 
       function removeTransfer(transaction) {

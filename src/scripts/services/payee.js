@@ -92,6 +92,10 @@ angular.module('financier').factory('payee', uuid => {
        * Sets _deleted on the record and calls record subscriber.
       */
       remove() {
+        if (this.internal) {
+          throw new Error('Cannot remove internal payee!');
+        }
+
         this.data._deleted = true;
         return this.emitChange();
       }

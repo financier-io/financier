@@ -88,8 +88,7 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
         myAccount: () => account || new Account(),
         editing: () => !!account,
         categories: () => categories,
-        masterCategories: () => masterCategories,
-        myBudgetRecord: () => budgetRecord
+        masterCategories: () => masterCategories
       }
     });
   };

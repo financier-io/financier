@@ -6,10 +6,9 @@ angular.module('financier').controller('createBudgetCtrl', function($q, $state, 
       initialBalancePayee = new Payee({
         name: 'Initial balance',
         autosuggest: false,
-        internal: true
+        internal: true,
+        _id: `${Payee.prefix}initial-balance`
       });
-
-    budget.initialBalancePayee = initialBalancePayee.id;
 
     this.loading = true;
 

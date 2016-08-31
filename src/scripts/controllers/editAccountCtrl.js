@@ -1,4 +1,4 @@
-angular.module('financier').controller('editAccountCtrl', function(editing, myAccount, manager, myBudg, transaction, $q, $rootScope, $scope, $stateParams, category, masterCategory, categories, masterCategories, MonthCategory, month, myBudgetRecord) {
+angular.module('financier').controller('editAccountCtrl', function(editing, myAccount, manager, myBudg, transaction, $q, $rootScope, $scope, $stateParams, category, masterCategory, categories, masterCategories, MonthCategory, month) {
   const Transaction = transaction($stateParams.budgetId);
   const Category = category($stateParams.budgetId);
   const MasterCategory = masterCategory($stateParams.budgetId);
@@ -71,7 +71,7 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
         date: this.startingBalanceDate.toISOString(),
         category: myAccount.isCredit() ? cat.id : 'income',
         account: myAccount.id,
-        payee: myBudgetRecord.initialBalancePayee
+        payee: 'initial-balance'
       }, myBudg.put);
 
       manager.addAccount(myAccount);

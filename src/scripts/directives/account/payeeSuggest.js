@@ -23,6 +23,10 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
           });
 
           scope.itemFilter = (item, searchInput, pristineInputField) => {
+            if (item.autosuggest === false) {
+              return false;
+            }
+
             if (item.id === scope.transactionAccountId) {
               return false;
             }
