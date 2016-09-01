@@ -1,5 +1,6 @@
 import './services/Account';
 import './services/Budget';
+import './services/BudgetOpened';
 import './services/budgetManager';
 import './services/Category';
 import './services/db';

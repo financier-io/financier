@@ -149,12 +149,12 @@ angular.module('financier').factory('category', uuid => {
       }
 
       /**
-       * Used for detecting if a document's _id is an Account
+       * Used for detecting if a document's _id is a Category
        * in this budget.
        *
        * @param {string} _id - The document's _id
        * @returns {boolean} True if document _id is in the budget
-       * as an account.
+       * as an category.
        */
       static contains(_id) {
         return _id > this.startKey && _id < this.endKey;

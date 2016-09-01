@@ -36,6 +36,11 @@ let financier = angular.module('financier', [
       $rootScope._offlineStatus = status;
     });
   });
+
+  $rootScope.$on('$stateChangeError',function(event, toState, toParams, fromState, fromParams){
+    console.log('$stateChangeError - fired when an error occurs during transition.');
+    console.log(arguments);
+  });
 });
 
 financier.config(function($stateProvider, $urlRouterProvider, $injector, $locationProvider, ngDialogProvider, $translateProvider) {
@@ -66,6 +71,9 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
     resolve: {
       myBudgets: function(db) {
         return db.budgets.all();
+      },
+      myBudgetsOpened: function(db) {
+        return db.budgetsOpened.all();
       }
     }
   })
@@ -111,6 +119,16 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
       },
       budgetRecord: function(db, $stateParams, $state) {
         return db.budgets.get($stateParams.budgetId)
+        .catch(e => {
+          if (e.status === 404) {
+            return $state.go('404');
+          }
+
+          throw e;
+        });
+      },
+      budgetOpenedRecord: function(db, $stateParams, $state) {
+        return db.budgetsOpened.get($stateParams.budgetId)
         .catch(e => {
           if (e.status === 404) {
             return $state.go('404');

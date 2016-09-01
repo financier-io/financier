@@ -1,13 +1,11 @@
 import PouchDB from 'pouchdb';
 
-window.PouchDB = PouchDB;
-
 angular.module('financier').provider('db', function() {
   const that = this;
 
   that.adapter = null;
 
-  this.$get = (Budget, budgetManager, $http, $rootScope) => {
+  this.$get = (Budget, BudgetOpened, budgetManager, $http, $rootScope) => {
     const db = new PouchDB('financier', {
       adapter: that.adapter
     });
@@ -15,6 +13,7 @@ angular.module('financier').provider('db', function() {
     return {
       budget,
       budgets: budgets(),
+      budgetsOpened: budgetsOpened(),
       _pouch: db,
       sync: {
         start: startSync,
@@ -113,6 +112,49 @@ angular.module('financier').provider('db', function() {
           }
 
           return budgets;
+        });
+      }
+
+      return {
+        all,
+        put,
+        get
+      };
+    }
+
+    function budgetsOpened() {
+      function put(budgetOpened) {
+        return db.put(budgetOpened.toJSON()).then(res => {
+          budgetOpened._rev = res.rev;
+        });
+      }
+
+      function get(id) {
+        return db.get(`${BudgetOpened.prefix}${id}`).then(b => {
+          const budgetOpened = new BudgetOpened(b);
+          budgetOpened.subscribe(put);
+
+          return budgetOpened;
+        });
+      }
+
+      function all() {
+        return db.allDocs({
+          include_docs: true, /* eslint camelcase:0 */
+          startkey: BudgetOpened.startKey,
+          endkey: BudgetOpened.endKey
+        }).then(res => {
+          const budgetsOpened = {};
+
+          for (let i = 0; i < res.rows.length; i++) {
+            const budgetOpened = new BudgetOpened(res.rows[i].doc);
+            budgetOpened.subscribe(put);
+
+            budgetsOpened[budgetOpened.id] = budgetOpened;
+          }
+
+
+          return budgetsOpened;
         });
       }
 

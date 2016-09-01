@@ -1,13 +1,22 @@
-angular.module('financier').controller('budgetsCtrl', function(Budget, myBudgets, $scope, $http, db, ngDialog) {
+angular.module('financier').controller('budgetsCtrl', function($q, Budget, BudgetOpened, myBudgets, myBudgetsOpened, $scope, $http, db, ngDialog) {
   this.budgets = myBudgets;
+  this.budgetsOpened = myBudgetsOpened;
 
   const getBudgets = () => {
-    db.budgets.all().then(res => {
-      this.budgets = res;
-
-      $scope.$apply();
+    $q.all([
+      db.budgets.all(),
+      db.budgetsOpened.all()
+    ]).then(([budgets, budgetsOpened]) => {
+      this.budgets = budgets;
+      this.budgetsOpened = budgetsOpened;
     });
   };
+
+  this.budgetOrder = budget => this.budgetsOpened[budget.id] ? this.budgetsOpened[budget.id].opened : 0;
+
+  function getId(_id) {
+    return _id.slice(_id.lastIndexOf('_') + 1);
+  }
 
   $scope.$on('pouchdb:change', (e, change) => {
     // if it's a Budget
@@ -32,6 +41,26 @@ angular.module('financier').controller('budgetsCtrl', function(Budget, myBudgets
       b.subscribe(db.budgets.put);
 
       this.budgets.push(b);
+    } else if (BudgetOpened.contains(change.id)) {
+      const id = getId(change.id);
+
+      // look through our budgets to see if it exists
+      if (this.budgetsOpened[id]) {
+
+        if (change.deleted) {
+          delete this.budgetsOpened[id];
+        } else {
+          this.budgetsOpened[id].data = change.doc;
+        }
+
+        return;
+      }
+
+      // Couldn't find it
+      const b = new BudgetOpened(change.doc);
+      b.subscribe(db.budgetsOpened.put);
+
+      this.budgetsOpened[b.id] = b;
     }
   });
 
@@ -47,7 +76,10 @@ angular.module('financier').controller('budgetsCtrl', function(Budget, myBudgets
   }
 
   this.remove = budget => {
-    db.budget(budget.id).remove()
+    $q.all([
+      db.budget(budget.id).remove(),
+      this.budgetsOpened[budget.id].remove()
+    ])
     .then(() => {
       return budget.remove();
     })

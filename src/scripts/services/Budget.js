@@ -102,35 +102,6 @@ angular.module('financier').factory('Budget', uuid => {
     }
 
     /**
-     * When the budget was last opened to sort budgets
-     * by most recently used.
-     *
-     * @example
-     * const budget = new Budget();
-     * budget.opened // undefined
-     * budget.open();
-     * budget.opened; // new Date([just now])
-     */
-    open() {
-      this._data.opened = new Date().toISOString();
-      this.emitChange();
-    }
-
-    /**
-     * When the budget was last opened to sort budgets
-     * by most recently used. See `budget.open()` for usage.
-     *
-     * @type {date}
-     */
-    get opened() {
-      if (!this._opened && this._data.opened) {
-        this._opened = new Date(this._data.opened);
-      }
-
-      return this._opened;
-    }
-
-    /**
      * When a new change comes in from the _changes Pouch/Couch feed,
      * update the raw record data through this getter/setter so that we
      * have a chance to intercept it

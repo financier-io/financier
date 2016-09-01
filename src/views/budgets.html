@@ -24,7 +24,7 @@
   <ul class="budgets__budgets" disable-ng-animate>
     <li class="budgets__flipper"
         ng-class="{'budgets__flipper--open': budgetsCtrl.isRemoving(budget)}"
-        ng-repeat="budget in budgetsCtrl.budgets | orderBy: '-opened'">
+        ng-repeat="budget in budgetsCtrl.budgets | orderBy: budgetsCtrl.budgetOrder : true">
       <div class="budgets__budget-remove">
         <header>Are you sure you want to permanently delete "{{budget.name}}"?</header>
 
@@ -39,8 +39,8 @@
            ng-right-click="budgetsCtrl.removing(budget, $event)">
         <div class="budget__budget-name">{{budget.name}}</div>
         <div class="budget__budget-opened"
-             ng-if="budget.opened"
-             title="{{budget.opened | date: 'medium'}}"><sub>Last opened</sub><br>{{budget.opened | timeAgo}}</div>
+             ng-if="budgetsCtrl.budgetsOpened[budget.id].opened"
+             title="{{budgetsCtrl.budgetsOpened[budget.id].opened | date: 'medium'}}"><sub>Last opened</sub><br>{{budgetsCtrl.budgetsOpened[budget.id].opened | timeAgo}}</div>
 
         <div class="budget__budget-close"
              ng-click="budgetsCtrl.removing(budget, $event)"

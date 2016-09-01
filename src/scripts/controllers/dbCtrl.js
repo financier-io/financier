@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-angular.module('financier').controller('dbCtrl', function(monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget) {
+angular.module('financier').controller('dbCtrl', function(monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget, budgetOpenedRecord) {
   let {manager, categories, masterCategories, payees} = data;
   const budgetId = $stateParams.budgetId;
 
@@ -19,7 +19,7 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
   this.budgetRecord = budgetRecord;
   this.payees = payees;
 
-  budgetRecord.open();
+  budgetOpenedRecord.open();
 
   this.currentMonth = new Date();
   this.months = getView(this.currentMonth);

@@ -1,6 +1,9 @@
-angular.module('financier').controller('createBudgetCtrl', function($q, $state, $scope, $rootScope, db, Budget, payee) {
+angular.module('financier').controller('createBudgetCtrl', function($q, $state, $scope, $rootScope, db, Budget, BudgetOpened, payee) {
   this.submit = function(name) {
     const budget = new Budget({ name });
+    const budgetOpened = new BudgetOpened({
+      _id: BudgetOpened.prefix + budget.id
+    });
 
     const Payee = payee(budget.id),
       initialBalancePayee = new Payee({
@@ -14,6 +17,7 @@ angular.module('financier').controller('createBudgetCtrl', function($q, $state, 
 
     $q.all([
       db.budgets.put(budget),
+      db.budgetsOpened.put(budgetOpened),
       db.budgets.put(initialBalancePayee),
       db.budget(budget.id).initialize()
     ])
