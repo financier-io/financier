@@ -252,6 +252,14 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
         trans.subscribe(myBudget.put);
 
         manager.addTransaction(trans);
+
+        if (trans.data.transfer) {
+          trans.transfer = manager.transactions[trans.data.transfer];
+
+          if (trans.transfer) {
+            trans.transfer.transfer = trans;
+          }
+        }
       }
 
     }
