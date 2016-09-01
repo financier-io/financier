@@ -114,27 +114,6 @@ describe('Budget', function() {
       expect(sets.toJSON()._deleted).toBe(true);
   });
 
-  it('can be opened', () => {
-      const foo = {
-        change: () => {},
-      };
-
-      spyOn(foo, 'change');
-
-      let sets = new Budget();
-
-      sets.subscribe(foo.change);
-
-      expect(foo.change).not.toHaveBeenCalled();
-      expect(sets.toJSON().opened).not.toBeDefined();
-
-      sets.open();
-
-      expect(foo.change).toHaveBeenCalledWith(sets);
-      expect(sets.opened instanceof Date).toBe(true);
-      expect(new Date(sets.toJSON().opened).toUTCString()).toBe(new Date().toUTCString());
-  });
-
   describe('set', () => {
     it('hints.outflow', () => {
       let sets = new Budget();
