@@ -1,12 +1,13 @@
 <h1 align="center">financier</h1>
 
 <p align="center">
-  <a href="https://github.com/aeharding/financier">⚙ Github</a> —
-  <a href="https://staging.financier.io">💰 Staging app</a> —
-  <a href="https://staging.financier.io/docs">📗 Docs</a> —
+  <a href="https://gitlab.com/financier/financier">⚙ Gitlab</a> —
+  <a href="https://app.financier.io">💰 Production app</a> —
+  <a href="https://staging.financier.io">Staging app</a> —
+  <a href="https://staging.financier.io/docs">📗 Staging Docs</a> —
   <a href="https://trello.com/b/bXcFuXrm">📢 Trello</a> —
   <a href="https://financier.io">🕸 Website</a> —
-  <a href="https://hub.docker.com/r/aeharding/financier/">🐳 Docker</a>
+  <a href="https://gitlab.com/financier/financier/container_registry">🐳 Docker</a>
 </p>
 
 > A web-based, offline-first app. Built with Angular 1 and PouchDB.
