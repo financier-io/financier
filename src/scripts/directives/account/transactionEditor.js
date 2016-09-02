@@ -93,6 +93,9 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
             $scope.accountCtrl.manager.addTransaction(this.transaction.transfer);
           }
         } else if (angular.isString(this.payee)) {
+          if (!this.payee) {
+            throw new Error('Payee must have a name');
+          }
 
           const newPayee = new Payee({
             name: this.payee
