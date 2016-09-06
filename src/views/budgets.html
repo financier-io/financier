@@ -86,7 +86,7 @@
 
         <div ng-if="!userCtrl.subscription.cancel_at_period_end">
           <div ng-if="userCtrl.source">
-            <p>Your subscription will be renewed on {{userCtrl.subscription.current_period_end * 1000 | date}} for $5.00 on your card ending in {{userCtrl.source.last4}}.</p>
+            <p>Your subscription will be renewed on {{userCtrl.subscription.current_period_end * 1000 | date}} for $12.00 on your card ending in {{userCtrl.source.last4}}.</p>
 
             <button class="button button--danger" ladda="userCtrl.loadingStopSubscription" ng-click="userCtrl.stopSubscription()">Cancel subscription</button>
 
@@ -104,7 +104,7 @@
         <p>You don't currently have an active subscription. <span ng-if="!userCtrl.source">You must add a payment method below before starting your subscription.</span></p>
 
         <div ng-if="userCtrl.source">
-          <button class="button button--primary" ng-click="userCtrl.startSubscription()">Start subscription ($5 per month)</button>
+          <button class="button button--primary" ng-click="userCtrl.startSubscription()">Start subscription ($12 per year)</button>
         </div>
       </div>
 
