@@ -21,11 +21,15 @@ angular.module('financier').provider('db', function() {
       }
     };
 
-    let sync;
+    let sync, changes;
 
     function cancelSync() {
       if (sync) {
         sync.cancel();
+      }
+
+      if (changes) {
+        changes.cancel();
       }
     }
 
@@ -62,7 +66,7 @@ angular.module('financier').provider('db', function() {
         // handle error
       });
 
-      db.changes({
+      changes = db.changes({
         since: 'now',
         live: true,
         include_docs: true
