@@ -41,6 +41,7 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
         if (myAccount.isCredit()) {
           masterCategories[masterCat.id] = masterCat;
 
+          masterCat.subscribe(myBudg.put);
           myBudg.put(masterCat);
         }
       } else {
@@ -58,6 +59,7 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
       if (myAccount.isCredit()) {
         categories[cat.id] = cat;
 
+        cat.subscribe(myBudg.put);
         myBudg.put(cat);
 
         manager.addMonthCategory(monthCat);
