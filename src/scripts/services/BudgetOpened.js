@@ -70,7 +70,7 @@ angular.module('financier').factory('BudgetOpened', () => {
      */
     remove() {
       this._data._deleted = true;
-      this.emitChange();
+      return this.emitChange();
     }
 
     /**
@@ -89,7 +89,7 @@ angular.module('financier').factory('BudgetOpened', () => {
      * @private
     */
     emitChange() {
-      this.fn && this.fn(this);
+      return this.fn && this.fn(this);
     }
 
     /**

@@ -36,11 +36,13 @@ angular.module('financier').controller('budgetsCtrl', function($q, Budget, Budge
         }
       }
 
-      // Couldn't find it
-      const b = new Budget(change.doc);
-      b.subscribe(db.budgets.put);
+      if (!change.deleted) {
+        // Couldn't find it
+        const b = new Budget(change.doc);
+        b.subscribe(db.budgets.put);
 
-      this.budgets.push(b);
+        this.budgets.push(b);
+      }
     } else if (BudgetOpened.contains(change.id)) {
       const id = getId(change.id);
 
@@ -56,11 +58,13 @@ angular.module('financier').controller('budgetsCtrl', function($q, Budget, Budge
         return;
       }
 
-      // Couldn't find it
-      const b = new BudgetOpened(change.doc);
-      b.subscribe(db.budgetsOpened.put);
+      if (!change.deleted) {
+        // Couldn't find it
+        const b = new BudgetOpened(change.doc);
+        b.subscribe(db.budgetsOpened.put);
 
-      this.budgetsOpened[b.id] = b;
+        this.budgetsOpened[b.id] = b;
+      }
     }
   });
 
