@@ -86,7 +86,7 @@
 
         <div ng-if="!userCtrl.subscription.cancel_at_period_end">
           <div ng-if="userCtrl.source">
-            <p>Your subscription will be renewed on {{userCtrl.subscription.current_period_end * 1000 | date}} for $12.00 on your card ending in {{userCtrl.source.last4}}.</p>
+            <p>Your subscription will be renewed on {{userCtrl.subscription.current_period_end * 1000 | date}} for {{userCtrl.subscription.plan.amount | intCurrency | currency}} on your card ending in {{userCtrl.source.last4}}. Your subscription is billed every {{userCtrl.subscription.plan.interval}}.</p>
 
             <button class="button button--danger" ladda="userCtrl.loadingStopSubscription" ng-click="userCtrl.stopSubscription()">Cancel subscription</button>
 
