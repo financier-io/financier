@@ -9,7 +9,7 @@ angular.module('financier').factory('User', $http => {
     },
     login: (email, password) => {
       return $http.post('/db/_session', {
-        name: email,
+        name: email.toLowerCase(),
         password
       })
       .then(d => d.data);
