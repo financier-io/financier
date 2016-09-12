@@ -1,4 +1,4 @@
-angular.module('financier').directive('transactionCreator', (payee, transaction, $stateParams) => {
+angular.module('financier').directive('transactionCreator', (payee, transaction, $stateParams, $timeout, $rootScope) => {
   return {
     template: require('./transactionCreator.html'),
     bindToController: {
@@ -100,6 +100,8 @@ angular.module('financier').directive('transactionCreator', (payee, transaction,
         // if (this.newTransaction.transfer) {
         //   manager.addTransaction(this.newTransaction.transfer);
         // }
+
+        $scope.accountCtrl.newTransaction = null;
       }
 
       function addPayee(transaction, payee) {
@@ -126,9 +128,9 @@ angular.module('financier').directive('transactionCreator', (payee, transaction,
       this.submitAndAddAnother = () => {
         this.submit();
 
-        this.transaction = null;
-
-        $scope.$emit('transaction:create');
+        $timeout(() => {
+          $rootScope.$broadcast('transaction:create');
+        });
       }
 
       this.cancel = () => {
