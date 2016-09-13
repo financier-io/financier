@@ -15,6 +15,7 @@ angular.module('financier').directive('transactionCreator', (payee, transaction,
       this.payee = this.transaction.payee;
       this.category = this.transaction.category;
       this.memo = this.transaction.memo;
+      this.cleared = this.transaction.cleared;
 
       this.value = {
         value: this.transaction.value,
@@ -47,6 +48,7 @@ angular.module('financier').directive('transactionCreator', (payee, transaction,
         this.transaction.date = this.date;
         this.transaction.category = this.category;
         this.transaction.memo = this.memo;
+        this.transaction.cleared = this.cleared;
 
         this.transaction.value = this.value.value;
 
