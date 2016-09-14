@@ -257,6 +257,15 @@
   max-width: 100px;
 }
 
+.account__td--payee {
+  i {
+    opacity: 0.5;
+    float: right;
+    font-size: 1.2em;
+    line-height: 30px;
+  }
+}
+
 .account__add-button {
   border: 0;
   background: none;
@@ -326,8 +335,13 @@
 }
 
 .account__category-label--empty {
-  background-color: $danger;
-  color: white;
+  opacity: 0.5;
 
-  padding: 2px 5px;
+  &:not(.account__category-label--transfer) {
+    background-color: $danger;
+    color: white;
+
+    padding: 2px 5px;
+    opacity: 1;
+  }
 }
