@@ -8,10 +8,9 @@
   <button class="button button--primary"
           ng-click="submit(myNote)"
           ng-disabled="!myNote"><i class="fa fa-check"></i> Save</button>
-<!--   <button class="tooltip__delete button button--link-danger"
-          ng-click="submit('')"
-          ng-class="{'tooltip__delete--show': canDelete}">
+  <button class="tooltip__delete button button--link-danger tooltip__delete--show"
+          ng-click="remove()">
     <i class="fa fa-minus-circle"></i>Delete category
-  </button> -->
+  </button>
 </div>
 

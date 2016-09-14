@@ -324,3 +324,10 @@
     background-color: darken($primary, 10%);
   }
 }
+
+.account__category-label--empty {
+  background-color: $danger;
+  color: white;
+
+  padding: 2px 5px;
+}

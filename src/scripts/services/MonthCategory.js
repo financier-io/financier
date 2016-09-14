@@ -136,6 +136,14 @@ angular.module('financier').factory('MonthCategory', uuid => {
     }
 
     /**
+     *
+     */
+    remove() {
+      this.data._deleted = true;
+      return this._emitChange();
+    }
+
+    /**
      * Set a subscriber for record changes.
      * Will be called with the MonthCategory object.
      *

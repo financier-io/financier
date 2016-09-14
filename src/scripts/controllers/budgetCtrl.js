@@ -94,4 +94,57 @@ angular.module('financier').controller('budgetCtrl', function($filter, $statePar
     myBudget.categories.put(cat);
     cat.subscribe(myBudget.categories.put);
   }
+
+  this.removeCategory = (id, masterCategory) => {
+    const index = masterCategory.categories.indexOf(id);
+
+    if (index === -1) {
+      throw new Error('Could not find category in masterCategory');
+    }
+
+    masterCategory.categories.splice(index, 1);
+
+    const cat = $scope.dbCtrl.categories[id];
+
+    delete $scope.dbCtrl.categories[id];
+
+    $scope.dbCtrl.manager.months.forEach(month => {
+      const monthCat = month.categories[id];
+
+      if (monthCat) {
+        month.removeBudget(monthCat);
+        monthCat.remove();
+      }
+    });
+
+    $scope.dbCtrl.manager.months[0].startRolling(id);
+
+    return cat.remove().then(() => {
+      return myBudget.masterCategories.put(masterCategory);
+    });
+  }
+
+  this.removeMasterCategory = masterCategory => {
+    masterCategory.categories.forEach(catId => {
+      const cat = $scope.dbCtrl.categories[catId];
+      delete $scope.dbCtrl.categories[catId];
+
+      $scope.dbCtrl.manager.months.forEach(month => {
+        const monthCat = month.categories[catId];
+
+        if (monthCat) {
+          month.removeBudget(monthCat);
+          monthCat.remove();
+        }
+      });
+
+      $scope.dbCtrl.manager.months[0].startRolling(catId);
+
+      cat.remove();
+    });
+
+    delete $scope.dbCtrl.masterCategories[masterCategory.id];
+    updateCategories();
+    masterCategory.remove();
+  }
 });

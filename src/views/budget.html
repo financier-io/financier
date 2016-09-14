@@ -74,7 +74,7 @@
         <div class="budget__tr month-body__row month-body__row--master">
           <div class="budget__td budget__month-row budget__category-label">
             <div class="budget__add-category" add-category="budgetCtrl.addCategory(name, masterCategory)" add-label="Add category"></div>
-            <span rename ng-model="masterCategory.name">{{masterCategory.name}}</span>
+            <span rename ng-model="masterCategory.name" on-remove="budgetCtrl.removeMasterCategory(masterCategory)">{{masterCategory.name}}</span>
           </div>
             <div class="budget__td budget__month-row month-body__cell-head"
                 ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index"
@@ -96,7 +96,7 @@
                  ng-class="{'budget__month-row-note--showing': dbCtrl.categories[catId].note.length}"
                  note
                  ng-model="dbCtrl.categories[catId].note"></i>
-              <span rename ng-model="dbCtrl.categories[catId].name">{{dbCtrl.categories[catId].name}}</span>
+              <span rename ng-model="dbCtrl.categories[catId].name" on-remove="budgetCtrl.removeCategory(catId, masterCategory)">{{dbCtrl.categories[catId].name}}</span>
             </div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--input"
                 ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index">

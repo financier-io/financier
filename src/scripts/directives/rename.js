@@ -31,8 +31,6 @@ angular.module('financier').directive('rename', ($compile, $timeout) => {
 
       dropInstance.on('open', () => {
         scope.myNote = ngModelCtrl.$viewValue;
-        scope.canDelete = ngModelCtrl.$viewValue &&
-                          ngModelCtrl.$viewValue.length;
 
         content.find('input')[0].focus();
       });
@@ -44,6 +42,11 @@ angular.module('financier').directive('rename', ($compile, $timeout) => {
           dropInstance.destroy();
         });
       });
+
+      scope.remove = () => {
+        dropInstance.close();
+        scope.onRemove();
+      }
 
       scope.submit = rename => {
         ngModelCtrl.$setViewValue(rename);
@@ -60,6 +63,9 @@ angular.module('financier').directive('rename', ($compile, $timeout) => {
   return {
     restrict: 'A',
     require: 'ngModel',
-    link
+    link,
+    scope: {
+      onRemove: '&'
+    }
   };
 });

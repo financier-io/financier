@@ -171,6 +171,38 @@ angular.module('financier').factory('month', MonthCategory => {
       }
 
       /**
+       * Add an existing MonthCategory object to the month.
+       *
+       * @param {MonthCategory} monthCat - The month category integrate with the month.
+       */
+      removeBudget(monthCat) {
+          // assume is MonthCategory
+
+          monthCat.subscribeBudget(null);
+
+          this.cache.totalBudget -= monthCat.budget;
+
+          this.changeAvailable(monthCat.budget);
+
+          if (this.categoryCache[monthCat.categoryId]) {
+            this.categoryCache[monthCat.categoryId].balance -= monthCat.budget;
+          }
+
+          if (!this.categoryCache[monthCat.categoryId].overspending) {
+            this._changeCurrentOverspent(Math.min(0, monthCat.budget));
+          }
+
+          this.cache.totalBalance -= monthCat.budget;
+
+          this.categories[monthCat.categoryId] = null;
+
+          // Don't call nextRollingFn quite yet since we're removing the MonthCategory
+          // upon initialization, and we'll run startRolling on the whole collection
+          // of months later
+
+      }
+
+      /**
        * @todo Not currently used
        */
       addTransaction(trans) {

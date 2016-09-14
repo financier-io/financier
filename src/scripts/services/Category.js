@@ -75,11 +75,11 @@ angular.module('financier').factory('category', uuid => {
       }
 
       /**
-       * @todo Remove, moving functionality elsewhere
+       * 
        */
       remove() {
         this._data._deleted = true;
-        this.emitChange();
+        return this.emitChange();
       }
 
       /**
@@ -98,7 +98,7 @@ angular.module('financier').factory('category', uuid => {
        * @private
       */
       emitChange() {
-        this.fn && this.fn(this);
+        return this.fn && this.fn(this);
       }
 
       /**
