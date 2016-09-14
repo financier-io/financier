@@ -183,6 +183,8 @@ angular.module('financier').factory('account', uuid => {
       */
       remove() {
         this.data._deleted = true;
+        this.data.deletedByUser = true;
+
         return this.emitChange();
       }
 

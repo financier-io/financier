@@ -125,6 +125,8 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
        */
       remove() {
         this._data._deleted = true;
+        this._data.deletedByUser = true;
+
         this.emitChange();
       }
 

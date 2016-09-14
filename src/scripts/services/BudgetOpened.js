@@ -70,6 +70,8 @@ angular.module('financier').factory('BudgetOpened', () => {
      */
     remove() {
       this._data._deleted = true;
+      this._data.deletedByUser = true;
+
       return this.emitChange();
     }
 

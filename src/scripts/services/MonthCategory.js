@@ -140,6 +140,8 @@ angular.module('financier').factory('MonthCategory', uuid => {
      */
     remove() {
       this.data._deleted = true;
+      this.data.deletedByUser = true;
+
       return this._emitChange();
     }
 

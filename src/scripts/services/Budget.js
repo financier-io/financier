@@ -98,6 +98,8 @@ angular.module('financier').factory('Budget', uuid => {
 
     remove() {
       this._data._deleted = true;
+      this._data.deletedByUser = true;
+
       return this.emitChange();
     }
 

@@ -42,7 +42,8 @@ angular.module('financier').factory('budgetManager', (
           return {
             _id: row.doc._id,
             _rev: row.doc._rev,
-            _deleted: true
+            _deleted: true,
+            deletedByUser: true
           };
         }));
       });

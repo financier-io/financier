@@ -69,10 +69,49 @@ angular.module('financier').provider('db', function() {
       changes = db.changes({
         since: 'now',
         live: true,
-        include_docs: true
+        include_docs: true,
+        conflicts: true
       }).on('change', change => {
-        // received a change
-        $rootScope.$broadcast('pouchdb:change', change);
+        console.log(change)
+        if (change._deleted_conflicts) {
+          db.bulkGet({
+            docs: change.doc._deleted_conflicts.map(rev => {
+              return {
+                rev,
+                id: change.id
+              };
+            })
+          }).then(result => {
+            for (let i = 0; i < result.results.length; i++) {
+              const doc = result.results[i].docs[0].ok;
+
+              if (!doc.conflictMerge) {
+                change.doc._deleted = true;
+
+                return db.put(change.doc).then(() => {
+                  return removeDocs(result);
+                });
+              }
+            }
+
+            // The document is OK, let us broadcast a change
+            $rootScope.$broadcast('pouchdb:change', change);
+          })
+        } else {
+          // received a change
+          $rootScope.$broadcast('pouchdb:change', change);
+        }
+
+        function removeDocs(result) {
+          return Promise.all(result.results.map(res => {
+            return db.put({
+              _id: res.docs[0].ok._id,
+              _rev: res.docs[0].ok._rev,
+              _deleted: true,
+              conflictMerge: true
+            })
+          }));
+        }
       }).on('error', err => {
         // handle errors
         console.log('error subscribing to changes feed', err);

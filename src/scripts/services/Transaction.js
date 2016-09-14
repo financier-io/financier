@@ -594,12 +594,14 @@ angular.module('financier').factory('transaction', uuid => {
       remove() {
         if (this.transfer && !this.transfer._data._deleted) {
           this.transfer._data._deleted = true;
+          this.transfer._data.deletedByUser = true;
 
           this.transfer._emitChange();
         }
 
         if (!this._data._deleted) {
           this._data._deleted = true;
+          this._data.deletedByUser = true;
 
           this._emitChange();
         }

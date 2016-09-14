@@ -97,6 +97,8 @@ angular.module('financier').factory('payee', uuid => {
         }
 
         this.data._deleted = true;
+        this.data.deletedByUser = true;
+
         return this.emitChange();
       }
 

@@ -79,6 +79,8 @@ angular.module('financier').factory('category', uuid => {
        */
       remove() {
         this._data._deleted = true;
+        this._data.deletedByUser = true;
+
         return this.emitChange();
       }
 
