@@ -187,8 +187,13 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
     },
     monthCategory(change) {
       if (change.deleted) {
-        // todo
-        // mo.removeBudget()
+        const moCat = new MonthCategory(change.doc);
+        const mo = manager.getMonth(MonthManager._dateIDToDate(moCat.monthId));
+
+        if (mo.categories[moCat.categoryId]) {
+          mo.removeBudget(mo.categories[moCat.categoryId]);
+          mo.startRolling(moCat.categoryId);
+        }
       } else {
         const moCat = new MonthCategory(change.doc);
         const mo = manager.getMonth(MonthManager._dateIDToDate(moCat.monthId));
