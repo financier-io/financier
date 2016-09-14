@@ -4,6 +4,12 @@
   border: 5px solid $primary;
 }
 
+.ngdialog.ngdialog-theme-default--danger .ngdialog-content {
+  border: 5px solid $danger;
+}
+
+
+
 
 .modal {
   line-height: 1.5;

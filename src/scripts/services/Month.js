@@ -186,15 +186,15 @@ angular.module('financier').factory('month', MonthCategory => {
 
           if (this.categoryCache[monthCat.categoryId]) {
             this.categoryCache[monthCat.categoryId].balance -= monthCat.budget;
-          }
 
-          if (!this.categoryCache[monthCat.categoryId].overspending) {
-            this._changeCurrentOverspent(Math.min(0, monthCat.budget));
+            if (!this.categoryCache[monthCat.categoryId].overspending) {
+              this._changeCurrentOverspent(Math.min(0, monthCat.budget));
+            }
           }
 
           this.cache.totalBalance -= monthCat.budget;
 
-          this.categories[monthCat.categoryId] = null;
+          delete this.categories[monthCat.categoryId];
 
           // Don't call nextRollingFn quite yet since we're removing the MonthCategory
           // upon initialization, and we'll run startRolling on the whole collection

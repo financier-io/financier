@@ -1,16 +1,18 @@
 <div class="drop__content">
-  <input type="text"
-         class="form__textarea form__textarea--monospace"
-         ng-model="myNote"
-         placeholder="Category name"
-         required>
-  <br>
-  <button class="button button--primary"
-          ng-click="submit(myNote)"
-          ng-disabled="!myNote"><i class="fa fa-check"></i> Save</button>
-  <button class="tooltip__delete button button--link-danger tooltip__delete--show"
-          ng-click="remove()">
-    <i class="fa fa-minus-circle"></i>Delete category
-  </button>
+  <form ng-submit="submit(myNote)">
+    <input type="text"
+           class="form__textarea form__textarea--monospace"
+           ng-model="myNote"
+           placeholder="Category name"
+           required>
+    <br>
+    <button class="button button--primary"
+            ng-disabled="!myNote"><i class="fa fa-check"></i> Save</button>
+    <button class="tooltip__delete button button--link-danger tooltip__delete--show"
+            type="button"
+            ng-click="remove()">
+      <i class="fa fa-minus-circle"></i>Delete category
+    </button>
+  </form>
 </div>
 

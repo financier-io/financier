@@ -1,4 +1,4 @@
-angular.module('financier').controller('budgetCtrl', function($filter, $stateParams, $rootScope, $timeout, $scope, month, masterCategory, category, myBudget) {
+angular.module('financier').controller('budgetCtrl', function($filter, $stateParams, $rootScope, $timeout, $scope, month, masterCategory, category, myBudget, ngDialog) {
   const Month = month($stateParams.budgetId);
   const MasterCategory = masterCategory($stateParams.budgetId);
   const Category = category($stateParams.budgetId);
@@ -96,41 +96,26 @@ angular.module('financier').controller('budgetCtrl', function($filter, $statePar
   }
 
   this.removeCategory = (id, masterCategory) => {
-    const index = masterCategory.categories.indexOf(id);
+    removeConfirm($scope.dbCtrl.categories[id].name)
+    .then(() => {
+      return remove();
+    });
 
-    if (index === -1) {
-      throw new Error('Could not find category in masterCategory');
-    }
+    function remove() {
+      const index = masterCategory.categories.indexOf(id);
 
-    masterCategory.categories.splice(index, 1);
-
-    const cat = $scope.dbCtrl.categories[id];
-
-    delete $scope.dbCtrl.categories[id];
-
-    $scope.dbCtrl.manager.months.forEach(month => {
-      const monthCat = month.categories[id];
-
-      if (monthCat) {
-        month.removeBudget(monthCat);
-        monthCat.remove();
+      if (index === -1) {
+        throw new Error('Could not find category in masterCategory');
       }
-    });
 
-    $scope.dbCtrl.manager.months[0].startRolling(id);
+      masterCategory.categories.splice(index, 1);
 
-    return cat.remove().then(() => {
-      return myBudget.masterCategories.put(masterCategory);
-    });
-  }
+      const cat = $scope.dbCtrl.categories[id];
 
-  this.removeMasterCategory = masterCategory => {
-    masterCategory.categories.forEach(catId => {
-      const cat = $scope.dbCtrl.categories[catId];
-      delete $scope.dbCtrl.categories[catId];
+      delete $scope.dbCtrl.categories[id];
 
       $scope.dbCtrl.manager.months.forEach(month => {
-        const monthCat = month.categories[catId];
+        const monthCat = month.categories[id];
 
         if (monthCat) {
           month.removeBudget(monthCat);
@@ -138,13 +123,59 @@ angular.module('financier').controller('budgetCtrl', function($filter, $statePar
         }
       });
 
-      $scope.dbCtrl.manager.months[0].startRolling(catId);
+      $scope.dbCtrl.manager.months[0].startRolling(id);
 
-      cat.remove();
+      return cat.remove().then(() => {
+        return myBudget.masterCategories.put(masterCategory);
+      });
+    }
+  }
+
+  this.removeMasterCategory = masterCategory => {
+    removeConfirm(masterCategory.name)
+    .then(() => {
+      return remove();
     });
 
-    delete $scope.dbCtrl.masterCategories[masterCategory.id];
-    updateCategories();
-    masterCategory.remove();
+    function remove() {
+      masterCategory.categories.forEach(catId => {
+        const cat = $scope.dbCtrl.categories[catId];
+        delete $scope.dbCtrl.categories[catId];
+
+        $scope.dbCtrl.manager.months.forEach(month => {
+          const monthCat = month.categories[catId];
+
+          if (monthCat) {
+            month.removeBudget(monthCat);
+
+            if (monthCat.data._rev) { // if exists
+              monthCat.remove();
+            }
+          }
+        });
+
+        $scope.dbCtrl.manager.months[0].startRolling(catId);
+
+        if (cat) {
+          cat.remove();
+        }
+      });
+
+      delete $scope.dbCtrl.masterCategories[masterCategory.id];
+      updateCategories();
+      masterCategory.remove();
+    }
+  }
+
+  function removeConfirm(name) {
+    const scope = $scope.$new({});
+
+    scope.category = name;
+
+    return ngDialog.openConfirm({
+      template: require('../../views/modal/removeCategory.html'),
+      scope,
+      className: 'ngdialog-theme-default ngdialog-theme-default--danger modal'
+    });
   }
 });

@@ -1,10 +1,12 @@
 <div class="drop__content">
-  <input type="text"
-         class="form__textarea form__textarea--monospace"
-         ng-model="name"
-         placeholder="{{addLabel}}"
-         required>
-  <br>
-  <button class="button button--primary" ng-click="submit(name)"><i class="fa fa-check"></i> Create</button>
+  <form ng-submit="submit(name)">
+    <input type="text"
+           class="form__textarea form__textarea--monospace"
+           ng-model="name"
+           placeholder="{{addLabel}}"
+           required>
+    <br>
+    <button class="button button--primary"><i class="fa fa-check"></i> Create</button>
+  </form>
 </div>
 
