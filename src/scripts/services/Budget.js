@@ -14,6 +14,8 @@ angular.module('financier').factory('Budget', uuid => {
         hints: {
           outflow: true
         },
+        name: null,
+        currency: 'USD',
         _id: 'budget_' + uuid(),
         created: new Date().toISOString()
       }, data);
@@ -78,6 +80,25 @@ angular.module('financier').factory('Budget', uuid => {
 
     set name(n) {
       this._data.name = n;
+      this.emitChange();
+    }
+
+    /**
+     * The currency code. Will trigger subscriber upon set.
+     *
+     * @example
+     * const budget = new Budget();
+     * budget.currency = 'CAD';
+     * budget.currency; // === 'CAD'
+     *
+     * @type {string}
+     */
+    get currency() {
+      return this._data.currency;
+    }
+
+    set currency(c) {
+      this._data.currency = c;
       this.emitChange();
     }
 

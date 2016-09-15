@@ -105,7 +105,7 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth) => {
               },
               ticks: {
                 beginAtZero: true,
-                callback: amount => currency(amount)
+                callback: amount => currency(amount, scope.$parent.dbCtrl.currencySymbol, scope.$parent.dbCtrl.currencyDigits)
               }
             }]
           }

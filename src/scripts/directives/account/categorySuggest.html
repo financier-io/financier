@@ -29,7 +29,7 @@
           <div class="dropdown__item-content">{{$parent.$parent.$parent.categories[catId].name}}</div>
           <div class="dropdown__item-aside"
                ng-class="{'dropdown__item-aside--negative': $parent.$parent.$parent.getCategoryBalance(catId, $parent.$parent.$parent.transactionDate) < 0,
-                          'dropdown__item-aside--positive': $parent.$parent.$parent.getCategoryBalance(catId, $parent.$parent.$parent.transactionDate) > 0}">{{$parent.$parent.$parent.getCategoryBalance(catId, $parent.$parent.$parent.transactionDate) | intCurrency | currency}}</div>
+                          'dropdown__item-aside--positive': $parent.$parent.$parent.getCategoryBalance(catId, $parent.$parent.$parent.transactionDate) > 0}">{{$parent.$parent.$parent.getCategoryBalance(catId, $parent.$parent.$parent.transactionDate) | intCurrency : true : $parent.$parent.$parent.$parent.dbCtrl.currencyDigits | currency : $parent.$parent.$parent.$parent.dbCtrl.currencySymbol : $parent.$parent.$parent.$parent.dbCtrl.currencyDigits}}</div>
         </li>
       </ul>
     </li>

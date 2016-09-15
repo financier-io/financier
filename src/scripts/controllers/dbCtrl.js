@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-angular.module('financier').controller('dbCtrl', function(monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget, budgetOpenedRecord) {
+angular.module('financier').controller('dbCtrl', function(monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget, budgetOpenedRecord, currencies) {
   let {manager, categories, masterCategories, payees} = data;
   const budgetId = $stateParams.budgetId;
 
@@ -27,6 +27,8 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
   this.openAccountsPredicate = acc => !acc.closed;
   this.closedAccountsPredicate = acc => acc.closed;
 
+  this.currencySymbol = currencies[budgetRecord.currency].symbol_native;
+  this.currencyDigits = currencies[budgetRecord.currency].decimal_digits;
 
   this.getCategoryName = (id, transactionDate) => {
     if (id === 'income') {
@@ -88,7 +90,8 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
         myAccount: () => account || new Account(),
         editing: () => !!account,
         categories: () => categories,
-        masterCategories: () => masterCategories
+        masterCategories: () => masterCategories,
+        currencyDigits: () => this.currencyDigits
       }
     });
   };

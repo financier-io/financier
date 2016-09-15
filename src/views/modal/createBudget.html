@@ -1,6 +1,6 @@
 <h2>New budget</h2>
 
-<form name="createBudgetForm" ng-submit="createBudgetCtrl.submit(name)">
+<form name="createBudgetForm" ng-submit="createBudgetCtrl.submit(name, createBudgetCtrl.currency)">
   <label>
     <input type="text"
            name="name"
@@ -12,6 +12,12 @@
          ng-if="createBudgetForm.name.$dirty">
       <div ng-message="required" class="message">This is required!</div>
     </div>
+  </label>
+
+  <label>
+    <select name="currency" ng-model="createBudgetCtrl.currency">
+      <option ng-repeat="option in createBudgetCtrl.currencies" value="{{option.code}}">{{option.name_plural}} - {{option.symbol_native}}</option>
+    </select>
   </label>
   
   <footer>

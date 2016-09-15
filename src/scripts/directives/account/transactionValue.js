@@ -1,4 +1,4 @@
-angular.module('financier').directive('transactionValue', $filter => {
+angular.module('financier').directive('transactionValue', ($filter, currencies) => {
   return {
     restrict: 'A',
     require: 'ngModel',
@@ -11,7 +11,7 @@ angular.module('financier').directive('transactionValue', $filter => {
           return null;
         }
 
-        return currencyFilter(value / 100, '');
+        return currencyFilter(value / (10 ** scope.$parent.dbCtrl.currencyDigits), '', scope.$parent.dbCtrl.currencyDigits);
       });
 
       //format text from the user (view to model)
@@ -23,7 +23,7 @@ angular.module('financier').directive('transactionValue', $filter => {
           return 0;
         }
 
-        return num * 100;
+        return num * (10 ** scope.$parent.dbCtrl.currencyDigits);
       });
     }
   };

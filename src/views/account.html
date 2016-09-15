@@ -5,21 +5,21 @@
       <div class="account__balance">
         <div>
           <div class="account__balance-title">{{'CLEARED_BALANCE' | translate}}</div>
-          <div class="account__balance-value" ng-class="{'account__balance-value--negative': accountCtrl.account.cache.clearedBalance < 0}">{{accountCtrl.account.cache.clearedBalance | intCurrency | currency}}</div>
+          <div class="account__balance-value" ng-class="{'account__balance-value--negative': accountCtrl.account.cache.clearedBalance < 0}">{{accountCtrl.account.cache.clearedBalance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>
         </div>
       </div>
       <div class="account__operator">+</div>
       <div class="account__balance">
         <div>
           <div class="account__balance-title">{{'UNCLEARED_BALANCE' | translate}}</div>
-          <div class="account__balance-value" ng-class="{'account__balance-value--negative': accountCtrl.account.cache.unclearedBalance < 0}">{{accountCtrl.account.cache.unclearedBalance | intCurrency | currency}}</div>
+          <div class="account__balance-value" ng-class="{'account__balance-value--negative': accountCtrl.account.cache.unclearedBalance < 0}">{{accountCtrl.account.cache.unclearedBalance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>
         </div>
       </div>
       <div class="account__operator">=</div>
       <div class="account__balance">
         <div>
           <div class="account__balance-title">{{'WORKING_BALANCE' | translate}}</div>
-          <div class="account__balance-value" ng-class="{'account__balance-value--negative': accountCtrl.account.cache.balance < 0}">{{accountCtrl.account.cache.balance | intCurrency | currency}}</div>
+          <div class="account__balance-value" ng-class="{'account__balance-value--negative': accountCtrl.account.cache.balance < 0}">{{accountCtrl.account.cache.balance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>
         </div>
       </div>
     </div>

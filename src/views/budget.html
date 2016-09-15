@@ -19,7 +19,7 @@
                        }">
           <div class="month-overview__month-text">{{month.date | date: 'MMMM yyyy'}}</div>
           <dl class="month-overview__month-list">
-            <dt>{{month.cache.totalAvailableLastMonth | intCurrency | currency : ''}}</dt>
+            <dt>{{month.cache.totalAvailableLastMonth | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</dt>
             <dd>
               <span ng-if="month.cache.totalAvailableLastMonth >= 0">
                 {{'NOT_BUDGETED_IN' | translate : budgetCtrl.translationPayloads.lastMonth(month.date)}}
@@ -29,17 +29,17 @@
               </span>
             </dd>
 
-            <dt>-{{month.cache.totalOverspentLastMonth | intCurrency | currency : ''}}</dt>
+            <dt>-{{month.cache.totalOverspentLastMonth | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</dt>
             <dd>
               {{'OVERSPENT_IN' | translate : budgetCtrl.translationPayloads.lastMonth(month.date)}}
             </dd>
 
-            <dt><span ng-if="month.cache.totalIncome >= 0">+</span>{{month.cache.totalIncome | intCurrency | currency : ''}}</dt>
+            <dt><span ng-if="month.cache.totalIncome >= 0">+</span>{{month.cache.totalIncome | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</dt>
             <dd>
               {{'INCOME_FOR' | translate : budgetCtrl.translationPayloads.currentMonth(month.date)}}
             </dd>
 
-            <dt>{{-month.cache.totalBudget | intCurrency | currency : ''}}</dt>
+            <dt>{{-month.cache.totalBudget | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</dt>
             <dd>
               {{'BUDGETED_IN' | translate : budgetCtrl.translationPayloads.currentMonth(month.date)}}
             </dd>
@@ -48,7 +48,7 @@
           <div class="month-overview__month-total" ng-class="
             {
               'month-overview__month-total--negative': month.cache.totalAvailable < 0
-            }">= {{month.cache.totalAvailable | intCurrency | currency}}</div>
+            }">= {{month.cache.totalAvailable | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>
           <div class="month-overview__month-total-subtext">
             <span ng-if="month.cache.totalAvailable >= 0">{{'AVAILABLE_TO_BUDGET' | translate}}</span>
             <span ng-if="month.cache.totalAvailable < 0">{{'OVERBUDGETED' | translate}}</span>
@@ -62,11 +62,11 @@
           </div>
         </div>
         <div class="budget__th budget__month-row month-overview__cell-head"
-             ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index">{{'BUDGETED' | translate}}<div>{{month.cache.totalBudget | intCurrency | currency}}</div></div>
-        <div class="budget__th budget__month-row month-overview__cell-head">{{'OUTFLOWS' | translate}}<div>{{month.cache.totalOutflow | intCurrency | currency}}</div></div>
+             ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index">{{'BUDGETED' | translate}}<div>{{month.cache.totalBudget | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div></div>
+        <div class="budget__th budget__month-row month-overview__cell-head">{{'OUTFLOWS' | translate}}<div>{{month.cache.totalOutflow | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div></div>
         <div class="budget__th budget__month-row month-overview__cell-head"
             ng-class="{'budget__month-end': !$last}"
-            ng-repeat-end>{{'BALANCE' | translate}}<div>{{month.cache.totalBalance | intCurrency | currency}}</div></div>
+            ng-repeat-end>{{'BALANCE' | translate}}<div>{{month.cache.totalBalance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div></div>
       </div>
     </div>
     <div class="budget__tbody overflowable" ng-sortable="masterCategorySortable" disable-ng-animate>
@@ -79,12 +79,12 @@
             <div class="budget__td budget__month-row month-body__cell-head"
                 ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index"
                 ng-controller="masterCategoryCtrl as masterCategoryCtrl"
-                >{{masterCategoryCtrl.budget | intCurrency | currency : ''}}</div>
-            <div class="budget__td budget__month-row month-body__cell-head">{{(masterCategoryCtrl.outflows || 0) | intCurrency | currency: ''}}</div>
+                >{{masterCategoryCtrl.budget | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</div>
+            <div class="budget__td budget__month-row month-body__cell-head">{{(masterCategoryCtrl.outflows || 0) | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</div>
             <div class="budget__td budget__month-row month-body__cell-head"
                 ng-class="{'budget__month-end': !$last}"
                 ng-controller="masterCategoryCtrl as masterCategoryCtrl"
-                ng-repeat-end>{{masterCategoryCtrl.balance | intCurrency | currency : ''}}</div>
+                ng-repeat-end>{{masterCategoryCtrl.balance | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</div>
         </div>
         
         <div class="budget__category-sortable" ng-sortable="categorySortable" ng-mouseenter="masterCategorySortable.disabled = true" ng-mouseleave="masterCategorySortable.disabled = false">
@@ -119,7 +119,7 @@
                  outflow-helper
                  outflow-date="month.date"
                  outflow-category="dbCtrl.categories[catId].name"
-                 outflow-setting="dbCtrl.budgetRecord.hints.outflow"><span ng-if="month.categoryCache[catId].outflow !== 0">{{month.categoryCache[catId].outflow | intCurrency | currency : ''}}</span></div>
+                 outflow-setting="dbCtrl.budgetRecord.hints.outflow"><span ng-if="month.categoryCache[catId].outflow !== 0">{{month.categoryCache[catId].outflow | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</span></div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--display"
                  ng-class="{'budget__month-end': !$last,
                             'budget__month-row--zero': !month.categoryCache[catId].balance,
@@ -130,7 +130,7 @@
                  propagated-model="month.categoryCache[catId].overspending"
                  ng-repeat-end>
               <span ng-class="{'budget__month-row--negative': month.categoryCache[catId].balance < 0}">
-                {{(month.categoryCache[catId].balance || 0) | intCurrency | currency : ''}}
+                {{(month.categoryCache[catId].balance || 0) | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}
                 <i class="fa fa-arrow-right" ng-if="month.categoryCache[catId].balance < 0 && month.categoryCache[catId].overspending"></i>
               </span>
             </div>

@@ -1,6 +1,10 @@
-angular.module('financier').controller('createBudgetCtrl', function($q, $state, $scope, $rootScope, db, Budget, BudgetOpened, payee) {
-  this.submit = function(name) {
-    const budget = new Budget({ name });
+angular.module('financier').controller('createBudgetCtrl', function($q, $state, $scope, $rootScope, db, Budget, BudgetOpened, payee, currencies) {
+  this.currencies = currencies;
+
+  this.currency = 'USD';
+
+  this.submit = function(name, currency) {
+    const budget = new Budget({ name, currency });
     const budgetOpened = new BudgetOpened({
       _id: BudgetOpened.prefix + budget.id
     });

@@ -23,7 +23,7 @@
           <li class="app-view__link" ui-sref-active="app-view__link--active">
             <a ui-sref="user.app.manager.view.account({accountId: null})">
               <div class="app-view__link-text"><i class="fa fa-credit-card"></i> {{'ACCOUNTS' | translate}}</div>
-              <aside>{{dbCtrl.manager.allAccounts.balance | intCurrency | currency}}</aside>
+              <aside>{{dbCtrl.manager.allAccounts.balance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</aside>
             </a>
           </li>
 
@@ -41,7 +41,7 @@
                   ui-sref="user.app.manager.view.account({accountId: account.id})"
                   ui-sref-active="app-view__account--active">
                 <span class="app-view__name">{{account.name}}</span> <!-- <i class="app-view__edit fa fa-cog" ng-click="dbCtrl.edit($event, account)"></i> -->
-                <span>{{account.cache.balance | intCurrency | currency : ''}}</span>
+                <span>{{account.cache.balance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
               </li>
             </ul>
           </div>
@@ -55,7 +55,7 @@
                   ui-sref="user.app.manager.view.account({accountId: account.id})"
                   ui-sref-active="app-view__account--active">
                 <span class="app-view__name">{{account.name}}</span> <!-- <i class="app-view__edit fa fa-cog" ng-click="dbCtrl.edit($event, account)"></i> -->
-                <span>{{account.cache.balance | intCurrency | currency : ''}}</span>
+                <span>{{account.cache.balance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
               </li>
             </ul>
           </div>

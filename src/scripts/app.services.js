@@ -18,6 +18,7 @@ import './services/uuid';
 import './services/importBudget';
 import './services/stripeLazyLoader';
 import './services/payee';
+import './services/currencies';
 
 import './services/reports/netWorth';
 

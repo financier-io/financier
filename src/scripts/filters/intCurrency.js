@@ -2,12 +2,12 @@
 // Divide by 100
 
 angular.module('financier').filter('intCurrency', ($filter) => {
-  return (val, zero = true) => {
+  return (val, zero = true, decimal_digits = 2) => {
     if (angular.isNumber(val) && !isNaN(val)) {
       if (!zero && val === 0) {
         return null;
       }
-      return (val / 100).toFixed(2);
+      return (val / (10 ** decimal_digits)).toFixed(decimal_digits);
     } else {
       return val;
     }
