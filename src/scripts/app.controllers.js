@@ -13,3 +13,4 @@ import './controllers/signinCtrl';
 import './controllers/signupCtrl';
 import './controllers/userCtrl';
 import './controllers/verifyEmailCtrl';
+import './controllers/editBudgetCtrl';

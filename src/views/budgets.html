@@ -37,14 +37,18 @@
            ui-sref="user.app.manager.view.budget({budgetId: budget.id})"
            ng-click="budget.loading = true"
            ng-right-click="budgetsCtrl.removing(budget, $event)">
-        <div class="budget__budget-name">{{budget.name}}</div>
-        <div class="budget__budget-opened"
+        <div class="budgets__budget-name">{{budget.name}}</div>
+        <div class="budgets__budget-opened"
              ng-if="budgetsCtrl.budgetsOpened[budget.id].opened"
              title="{{budgetsCtrl.budgetsOpened[budget.id].opened | date: 'medium'}}"><sub>Last opened</sub><br>{{budgetsCtrl.budgetsOpened[budget.id].opened | timeAgo}}</div>
 
-        <div class="budget__budget-close"
+        <div class="budgets__budget-close"
              ng-click="budgetsCtrl.removing(budget, $event)"
              tabindex="0">+</div>
+
+        <div class="budgets__budget-edit"
+             ng-click="budgetsCtrl.edit(budget, $event)"
+             tabindex="0"><i class="fa fa-cog"></i></div>
 
         <div class="budgets__budget-loader"></div>
       </div>
@@ -52,7 +56,7 @@
 
     <li class="budgets__flipper">
       <div class="budgets__budget" ui-sref="user.budget.create">
-        <div class="budget__budget-new-icon">+</div>
+        <div class="budgets__budget-new-icon">+</div>
       </div>
     </li>
   </ul>

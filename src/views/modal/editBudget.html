@@ -1,0 +1,29 @@
+<h2>New budget</h2>
+
+<form name="createBudgetForm" ng-submit="editBudgetCtrl.submit(editBudgetCtrl.name, editBudgetCtrl.currency)">
+  <label>
+    <input type="text"
+           name="name"
+           ng-model="editBudgetCtrl.name"
+           placeholder="My budget name"
+           ng-disabled="editBudgetCtrl.loading"
+           required>
+    <div ng-messages="createBudgetForm.name.$error"
+         ng-if="createBudgetForm.name.$dirty">
+      <div ng-message="required" class="message">This is required!</div>
+    </div>
+  </label>
+
+  <label>
+    <select name="currency" ng-model="editBudgetCtrl.currency">
+      <option ng-repeat="option in editBudgetCtrl.currencies" value="{{option.code}}">{{option.name_plural}} - {{option.symbol_native}}</option>
+    </select>
+  </label>
+  
+  <footer>
+    <button class="primary"
+            ladda="editBudgetCtrl.loading"
+            ng-disabed="createBudgetForm.$invalid">Create budget</button>
+    <button ng-click="closeThisDialog()">Cancel</button>
+  </footer>
+</form>

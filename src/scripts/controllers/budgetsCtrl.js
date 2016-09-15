@@ -93,4 +93,17 @@ angular.module('financier').controller('budgetsCtrl', function($q, Budget, Budge
     });
   };
 
+  this.edit = (budget, e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    ngDialog.open({
+      template: require('../../views/modal/editBudget.html'),
+      controller: 'editBudgetCtrl as editBudgetCtrl',
+      resolve: {
+        budgetRecord: () => budget
+      }
+    });
+  };
+
 });
