@@ -14,7 +14,8 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
           scope._accounts = scope.accounts;
           scope._payees = Object.keys(scope.payees).map(key => {
             return scope.payees[key];
-          });
+          })
+          .sort((a, b) => a.name > b.name);
 
           scope.items = scope._accounts.concat(scope._payees);
 
