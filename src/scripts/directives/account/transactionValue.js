@@ -11,7 +11,7 @@ angular.module('financier').directive('transactionValue', ($filter, currencies) 
           return null;
         }
 
-        return currencyFilter(value / (10 ** scope.$parent.dbCtrl.currencyDigits), '', scope.$parent.dbCtrl.currencyDigits);
+        return currencyFilter(value / Math.pow(10, scope.$parent.dbCtrl.currencyDigits), '', scope.$parent.dbCtrl.currencyDigits);
       });
 
       //format text from the user (view to model)
@@ -23,7 +23,7 @@ angular.module('financier').directive('transactionValue', ($filter, currencies) 
           return 0;
         }
 
-        return num * (10 ** scope.$parent.dbCtrl.currencyDigits);
+        return num * Math.pow(10, scope.$parent.dbCtrl.currencyDigits);
       });
     }
   };

@@ -7,7 +7,7 @@ angular.module('financier').filter('intCurrency', ($filter) => {
       if (!zero && val === 0) {
         return null;
       }
-      return (val / (10 ** decimal_digits)).toFixed(decimal_digits);
+      return (val / Math.pow(10, decimal_digits)).toFixed(decimal_digits);
     } else {
       return val;
     }

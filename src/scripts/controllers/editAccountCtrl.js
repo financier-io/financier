@@ -69,7 +69,7 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
       }
 
       transaction = new Transaction({
-        value: (this.startingBalance || 0) * (10 ** currencyDigits) * (myAccount.isCredit() ? -1 : 1),
+        value: (this.startingBalance || 0) * Math.pow(10, currencyDigits) * (myAccount.isCredit() ? -1 : 1),
         date: this.startingBalanceDate.toISOString(),
         category: myAccount.isCredit() ? cat.id : 'income',
         account: myAccount.id,
