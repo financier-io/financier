@@ -119,7 +119,10 @@ angular.module('financier').controller('budgetCtrl', function($filter, $statePar
 
         if (monthCat) {
           month.removeBudget(monthCat);
-          monthCat.remove();
+
+          if (monthCat.data._rev) { // if exists
+            monthCat.remove();
+          }
         }
       });
 

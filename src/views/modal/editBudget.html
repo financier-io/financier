@@ -1,6 +1,6 @@
-<h2>New budget</h2>
+<h2>Edit budget</h2>
 
-<form name="createBudgetForm" ng-submit="editBudgetCtrl.submit(editBudgetCtrl.name, editBudgetCtrl.currency)">
+<form name="editBudgetForm" ng-submit="editBudgetCtrl.submit(editBudgetCtrl.name, editBudgetCtrl.currency)">
   <label>
     <input type="text"
            name="name"
@@ -8,8 +8,8 @@
            placeholder="My budget name"
            ng-disabled="editBudgetCtrl.loading"
            required>
-    <div ng-messages="createBudgetForm.name.$error"
-         ng-if="createBudgetForm.name.$dirty">
+    <div ng-messages="editBudgetForm.name.$error"
+         ng-if="editBudgetForm.name.$dirty">
       <div ng-message="required" class="message">This is required!</div>
     </div>
   </label>
@@ -23,7 +23,7 @@
   <footer>
     <button class="primary"
             ladda="editBudgetCtrl.loading"
-            ng-disabed="createBudgetForm.$invalid">Create budget</button>
+            ng-disabed="editBudgetForm.$invalid">Save</button>
     <button ng-click="closeThisDialog()">Cancel</button>
   </footer>
 </form>
