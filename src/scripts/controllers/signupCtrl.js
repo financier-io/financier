@@ -1,4 +1,4 @@
-angular.module('financier').controller('signupCtrl', function($scope, User) {
+angular.module('financier').controller('signupCtrl', function($scope, User, ngDialog) {
   this.submit = (email, password) => {
     this.loading = true;
 

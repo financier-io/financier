@@ -53,6 +53,14 @@ angular.module('financier').factory('User', $http => {
     verifyEmail: token => {
       return $http.post('/manage/users/verify', { token })
       .then(d => d.data);
+    },
+    requestResetPassword: email => {
+      return $http.post('/manage/users/forgot', { email })
+      .then(d => d.data);
+    },
+    resetPassword: (token, password) => {
+      return $http.post('/manage/users/forgot/reset', { token, password })
+      .then(d => d.data);
     }
   };
 });

@@ -25,7 +25,8 @@
     </div>
   </label>
 
-  <small>Don't have an account? <a ui-sref="user.signup" ng-click="closeThisDialog()">Click here to sign up.</a></small>
+  <small>Don't have an account? <a ui-sref="user.signup" ng-click="closeThisDialog()">Click here to sign up.</a></small><br>
+  <small><a href="#" ng-click="signinCtrl.requestResetPassword()">Forgot your password?</a></small>
   
   <div class="message message--main" ng-if="signinCtrl.error">{{signinCtrl.error.reason || 'Looks like there was a server issue.'}}</div>
 

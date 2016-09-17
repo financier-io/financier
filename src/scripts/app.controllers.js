@@ -14,3 +14,5 @@ import './controllers/signupCtrl';
 import './controllers/userCtrl';
 import './controllers/verifyEmailCtrl';
 import './controllers/editBudgetCtrl';
+import './controllers/resetPasswordCtrl';
+import './controllers/requestResetPasswordCtrl';

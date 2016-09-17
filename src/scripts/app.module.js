@@ -59,6 +59,11 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
     template: require('../views/verifyEmail.html'),
     controller: 'verifyEmailCtrl as verifyEmailCtrl'
   })
+  .state('user.resetPassword', {
+    url: '/user/forgot?token&email',
+    template: require('../views/resetPassword.html'),
+    controller: 'resetPasswordCtrl as resetPasswordCtrl'
+  })
   .state('user.signup', {
     url: '/signup',
     template: require('../views/signup.html'),

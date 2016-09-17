@@ -1,4 +1,4 @@
-angular.module('financier').controller('signinCtrl', function(User, $scope, $rootScope) {
+angular.module('financier').controller('signinCtrl', function(User, $scope, $rootScope, ngDialog) {
   this.login = (username, password, closeThisDialog) => {
     this.loading = true;
     this.error = null;
@@ -14,6 +14,18 @@ angular.module('financier').controller('signinCtrl', function(User, $scope, $roo
     })
     .catch(e => {
       this.error = e.data;
+    });
+  };
+
+  this.requestResetPassword = () => {
+    $scope.closeThisDialog();
+
+    ngDialog.open({
+      template: require('../../views/modal/requestResetPassword.html'),
+      controller: 'requestResetPasswordCtrl as requestResetPasswordCtrl',
+      resolve: {
+        userEmail: () => this.email
+      }
     });
   };
 
