@@ -21,7 +21,7 @@ angular.module('financier').controller('requestResetPasswordCtrl', function($sco
   $scope.$watch(() => this.email, email => {
     this.formDisabled = false;
 
-    if (angular.isDefined(email)) {
+    if (this.form) {
       this.form.$setValidity('internalError', true);
     }
   });
