@@ -16,7 +16,7 @@ angular.module('financier').factory('transaction', uuid => {
       constructor(data) {
         const myData = angular.merge({
           _id: Transaction.prefix + uuid(),
-          value: null,
+          value: 0,
           date: null,
           category: null,
           account: null,

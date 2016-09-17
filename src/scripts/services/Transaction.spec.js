@@ -577,7 +577,7 @@ describe('transaction', function() {
 
       expect(foo.change).not.toHaveBeenCalled();
 
-      expect(tran.toJSON().value).toBe(null);
+      expect(tran.toJSON().value).toBe(0);
 
       tran.value = 1233;
 
