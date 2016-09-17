@@ -23,7 +23,7 @@ angular.module('financier').directive('transactionValue', ($filter, currencies) 
           return 0;
         }
 
-        return num * Math.pow(10, scope.$parent.dbCtrl.currencyDigits);
+        return Math.round(num * Math.pow(10, scope.$parent.dbCtrl.currencyDigits));
       });
     }
   };

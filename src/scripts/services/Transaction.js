@@ -27,6 +27,9 @@ angular.module('financier').factory('transaction', uuid => {
           transfer: null
         }, data);
 
+        // Ensure whole number
+        myData.value = Math.round(myData.value);
+
         this.id = myData._id.slice(myData._id.lastIndexOf('_') + 1);
 
         if (myData.date) {
