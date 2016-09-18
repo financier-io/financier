@@ -23,6 +23,10 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout) => {
         oldValue = 0;
       }
 
+      if (!isFinite(oldValue) || isNaN(oldValue)) {
+        oldValue = 0;
+      }
+
       scope.onUpdate({
         model: Math.round(oldValue * Math.pow(10, scope.$parent.dbCtrl.currencyDigits)) // float $2.50123 ==> int 250
       });
