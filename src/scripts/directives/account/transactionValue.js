@@ -16,8 +16,15 @@ angular.module('financier').directive('transactionValue', ($filter, currencies) 
 
       //format text from the user (view to model)
       ngModelCtrl.$parsers.push(function(value) {
+        if (value === '.') {
+          return;
+        }
 
         const num = +value.replace(/,/g,'');
+
+        if (num === 0) {
+          return;
+        }
 
         if (isNaN(num)) {
           return 0;
