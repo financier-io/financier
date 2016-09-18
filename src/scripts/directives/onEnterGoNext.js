@@ -8,12 +8,20 @@ angular.module('financier').directive('onEnterGoNext', () => {
 
         for (var i = 0; i < els.length; i++) {
           if (els[i] === element[0]) {
-            els[i + 1] && els[i + 1].focus();
-            els[i + 1] && els[i + 1].select();
+            if (els.length - 1 === i) {
+              choose(els[0]);
+            } else {
+              choose(els[i + 1]);
+            }
           }
         }
       }
     });
+
+    function choose(el) {
+      el.focus();
+      el.select();
+    }
   }
 
   return {
