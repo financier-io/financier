@@ -174,12 +174,16 @@
   color: $white;
 }
 
-.account__balance {
+.account__balance,
+.account__reconcile {
   line-height: 1;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.account__balance {
   margin: 0 1em;
 }
 
@@ -202,6 +206,32 @@
 .account__operator {
   color: rgba(255, 255, 255, 0.3);
   font-size: 1.5em;
+}
+
+.account__reconcile {
+  margin-left: auto;
+  margin-right: 2em;
+
+
+  button {
+    border: 1px solid white;
+    color: white;
+    background: none;
+    padding: 3px 7px;
+    line-height: 15px;
+
+    opacity: 0.5;
+
+    transition: 100ms ease opacity;
+
+    &:hover,
+    &:focus,
+    &.drop-enabled {
+      opacity: 1;
+    }
+
+
+  }
 }
 
 .account__td {

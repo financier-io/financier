@@ -18,11 +18,7 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
     let transaction;
 
     if (!this.editing) {
-      const cat = new Category({
-        name: myAccount.name
-      });
-
-      let masterCat;
+      let masterCat, cat;
       for (let id in masterCategories) {
         if (masterCategories.hasOwnProperty(id)) {
           if (masterCategories[id].name === 'Pre-financier debt') {
@@ -34,8 +30,12 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
       if (!masterCat) {
         masterCat = new MasterCategory({
           name: 'Pre-financier debt',
-          categories: [cat.id],
           sort: -1
+        });
+
+        cat = new Category({
+          name: myAccount.name,
+          masterCategory: masterCat.id
         });
 
         if (myAccount.isCredit()) {

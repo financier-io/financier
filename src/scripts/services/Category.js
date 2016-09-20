@@ -13,6 +13,8 @@ angular.module('financier').factory('category', uuid => {
       constructor(data) {
         const myData = angular.extend({
           name: 'New category',
+          masterCategory: null,
+          sort: 0,
           _id: Category.prefix + uuid()
         }, data);
 
@@ -39,6 +41,68 @@ angular.module('financier').factory('category', uuid => {
       set name(n) {
         this._data.name = n;
         this.emitChange();
+      }
+
+      /**
+       * The parent category id. Will trigger subscriber upon set.
+       *
+       * @example
+       * const cat = new Category();
+       * cat.masterCategory = 'b_8435609a-161c-4eb6-9ed8-a86414a696cf_master-category_ab735ea6-bd56-449c-8f03-6afcc91e2248';
+       * cat.masterCategory; // === 'b_8435609a-161c-4eb6-9ed8-a86414a696cf_master-category_ab735ea6-bd56-449c-8f03-6afcc91e2248'
+       *
+       * @type {string}
+       */
+      get masterCategory() {
+        return this._data.masterCategory;
+      }
+
+      set masterCategory(n) {
+        if (this._data.masterCategory !== n) {
+          this._data.masterCategory = n;
+          this.emitChange();
+        }
+      }
+
+      setMasterAndSort(masterCategory, i) {
+        const saveFn = this.fn;
+        this.fn = null;
+
+        const oldSort = this.sort,
+          master = this.masterCategory;
+
+        this.masterCategory = masterCategory;
+        this.sort = i;
+
+        this.fn = saveFn;
+
+        if (i !== oldSort || masterCategory !== master) {
+          this.emitChange();
+        }
+      }
+
+      /**
+       * The category sort order. Will trigger subscriber upon set.
+       *
+       * @example
+       * const cat = new Category();
+       * cat.sort = 1;
+       * cat.sort; // === 1
+       *
+       * @type {number}
+       */
+      get sort() {
+        return this._data.sort;
+      }
+
+      set sort(i) {
+        // only put() new record if
+        // there has been a change
+
+        if (this._data.sort !== i) {
+          this._data.sort = i;
+          this.emitChange();
+        }
       }
 
       /**
@@ -102,6 +166,44 @@ angular.module('financier').factory('category', uuid => {
       }
 
       /**
+       * Used to set the function to invoke upon record changes
+       *
+       * @param {function} fn - This function will be invoked upon record
+       * changes with the Category object as the first parameter.
+      */
+      subscribeSortChange(fn) {
+        this.sortFn = fn;
+      }
+
+      /**
+       * Used to set the function to invoke upon master category changes
+       *
+       * @param {function} fn - This function will be invoked upon record
+       * changes with the Category object as the first parameter.
+      */
+      subscribeMasterCategoryChange(fn) {
+        this.masterCategoryFn = fn;
+      }
+
+      /**
+       * Will call the subscribed function, if it exists, with self.
+       *
+       * @private
+      */
+      emitSortChange() {
+        return this.sortFn && this.sortFn(this);
+      }
+
+      /**
+       * Will call the subscribed function, if it exists, with self.
+       *
+       * @private
+      */
+      emitMasterCategoryChange(newCat, oldCat) {
+        return this.masterCategoryFn && this.masterCategoryFn(newCat, oldCat);
+      }
+
+      /**
        * Will serialize the Category object to
        * a JSON object for sending to the database.
        *
@@ -119,6 +221,18 @@ angular.module('financier').factory('category', uuid => {
         this._data.name = d.name;
 
         this._data.note = d.note;
+
+        const oldSort = this._data.sort;
+        this._data.sort = d.sort;
+        if (oldSort !== d.sort) {
+          this.emitSortChange();
+        }
+
+        const oldMasterCategory = this._data.masterCategory;
+        this._data.masterCategory = d.masterCategory;
+        if (oldMasterCategory !== d.masterCategory) {
+          this.emitMasterCategoryChange(d.masterCategory, oldMasterCategory);
+        }
       }
 
       /**

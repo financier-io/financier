@@ -36,6 +36,7 @@ import './directives/addCategory';
 import './directives/fileRead';
 import './directives/ngRightClick';
 import './directives/applyUpdate';
+import './directives/reconcileAccount';
 
 import './directives/subscription/creditCard';
 import './directives/subscription/creditCardSpaces';

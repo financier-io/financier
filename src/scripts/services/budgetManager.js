@@ -167,20 +167,22 @@ angular.module('financier').factory('budgetManager', (
       const promises = [];
 
       for (let i = 0; i < defaultCategories.length; i++) {
-        promises.push(
-          $q.when(pouch.bulkDocs(defaultCategories[i].categories.map(function(cat) {
-            // add id namespace to category
-            cat._id = Category.prefix + uuid();
-            return cat;
-          }))
-          .then(res => {
-            return $q.when(pouch.post({
-              name: defaultCategories[i].name,
-              categories: res.map(r => r.id.slice(r.id.lastIndexOf('_') + 1)),
-              _id: MasterCategory.prefix + uuid()
-            }));
-          }))
-        );
+        const masterCat = new MasterCategory({
+          name: defaultCategories[i].name,
+          sort: i
+        });
+
+        promises.push(pouch.put(masterCat.toJSON()));
+
+        for (let j = 0; j < defaultCategories[i].categories.length; j++) {
+          const cat = new Category({
+            name: defaultCategories[i].categories[j].name,
+            sort: j,
+            masterCategory: masterCat.id
+          });
+
+          promises.push(pouch.put(cat.toJSON()));
+        }
       }
 
       return $q.all(promises);

@@ -22,6 +22,16 @@
           <div class="account__balance-value" ng-class="{'account__balance-value--negative': accountCtrl.account.cache.balance < 0}">{{accountCtrl.account.cache.balance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>
         </div>
       </div>
+      <div class="account__reconcile">
+        <button ng-if="accountCtrl.accountId"
+                reconcile-account="accountCtrl.account"
+                reconcile-amount="accountCtrl.reconcileAmount">Reconcile Account</button>
+      </div>
+    </div>
+  </div>
+  <div class="account__tbody" ng-if="accountCtrl.reconcileAmount != null">
+    <div class="account__tr account__tr--overview">
+      Reconciling amount: {{accountCtrl.reconcileAmount - accountCtrl.account.cache.clearedBalance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}
     </div>
   </div>
   <div class="account__tbody">

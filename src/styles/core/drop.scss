@@ -29,3 +29,35 @@
 .drop-element.drop-theme-arrows-bounce.drop-element-attached-top.drop-element-attached-center .drop-content:before {
   pointer-events: none;
 }
+
+.drop-theme--success {
+  &.drop-element.drop-theme-arrows-bounce.drop-element-attached-top.drop-element-attached-right.drop-target-attached-bottom .drop-content {
+    animation: fade-to-primary 250ms ease;
+    animation-fill-mode: forwards;
+  }
+
+  &.drop-element.drop-theme-arrows-bounce.drop-element-attached-top.drop-element-attached-right.drop-target-attached-bottom .drop-content:before {
+    animation: fade-to-primary-caret 250ms ease;
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes fade-to-primary {
+  from {
+    background: white;
+  }
+
+  to {
+    background: $primary;
+  }
+}
+
+@keyframes fade-to-primary-caret {
+  from {
+    border-bottom-color: white;
+  }
+
+  to {
+    border-bottom-color: $primary;
+  }
+}
