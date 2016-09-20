@@ -1,4 +1,4 @@
-angular.module('financier').controller('editAccountCtrl', function(editing, myAccount, manager, myBudg, transaction, $q, $rootScope, $scope, $stateParams, category, masterCategory, categories, masterCategories, MonthCategory, month, currencyDigits) {
+angular.module('financier').controller('editAccountCtrl', function(editing, myAccount, manager, myBudg, transaction, $q, $rootScope, $scope, $stateParams, category, masterCategory, addCategory, masterCategories, MonthCategory, month, currencyDigits) {
   const Transaction = transaction($stateParams.budgetId);
   const Category = category($stateParams.budgetId);
   const MasterCategory = masterCategory($stateParams.budgetId);
@@ -33,31 +33,24 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
           sort: -1
         });
 
-        cat = new Category({
-          name: myAccount.name,
-          masterCategory: masterCat.id
-        });
-
         if (myAccount.isCredit()) {
           masterCategories[masterCat.id] = masterCat;
 
           masterCat.subscribe(myBudg.put);
           myBudg.put(masterCat);
         }
-      } else {
-        if (myAccount.isCredit()) {
-          masterCat.categories.push(cat.id);
-          
-          myBudg.put(masterCat);
-        }
       }
 
+      cat = new Category({
+        name: myAccount.name,
+        masterCategory: masterCat.id
+      });
 
       const monthCat = new MonthCategory.from($stateParams.budgetId, Month.createID(this.startingBalanceDate), cat.id);
       monthCat.overspending = true;
 
       if (myAccount.isCredit()) {
-        categories[cat.id] = cat;
+        addCategory(cat);
 
         cat.subscribe(myBudg.put);
         myBudg.put(cat);

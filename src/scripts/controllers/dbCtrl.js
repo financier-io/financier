@@ -64,13 +64,20 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
     }
   );
 
+  this.removeCategory = cat => {
+    delete this.categories[cat.id];
+
+    this.masterCategories[cat.masterCategory].removeCategory(cat);
+  }
+
   this.addCategory = cat => {
     this.categories[cat.id] = cat;
 
-    cat.subscribeMasterCategoryChange((newMasterCat, oldMasterCat) => {
-      this.removeCategory(oldMasterCat);
-      this.addCategory(newMasterCat);
-    })
+    cat.subscribeMasterCategoryChange(cat => {
+      this.removeCategory(cat);
+    }, cat => {
+      this.addCategory(cat);
+    });
 
     let masterCat;
 
@@ -106,12 +113,6 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
     masterCat.addCategory(cat);
   }
 
-  this.removeCategory = cat => {
-    delete this.categories[cat.id];
-
-    this.masterCategories[cat.masterCategory].removeCategory(cat);
-  }
-
   for (let id in categories) {
     if (categories.hasOwnProperty(id)) {
       this.addCategory(categories[id]);
@@ -144,7 +145,7 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
         myBudg: () => myBudget,
         myAccount: () => account || new Account(),
         editing: () => !!account,
-        categories: () => categories,
+        addCategory: () => this.addCategory,
         masterCategories: () => masterCategories,
         currencyDigits: () => this.currencyDigits
       }

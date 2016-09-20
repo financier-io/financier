@@ -181,8 +181,9 @@ angular.module('financier').factory('category', uuid => {
        * @param {function} fn - This function will be invoked upon record
        * changes with the Category object as the first parameter.
       */
-      subscribeMasterCategoryChange(fn) {
-        this.masterCategoryFn = fn;
+      subscribeMasterCategoryChange(before, after) {
+        this.masterCategoryBeforeFn = before;
+        this.masterCategoryAfterFn = after;
       }
 
       /**
@@ -199,8 +200,12 @@ angular.module('financier').factory('category', uuid => {
        *
        * @private
       */
-      emitMasterCategoryChange(newCat, oldCat) {
-        return this.masterCategoryFn && this.masterCategoryFn(newCat, oldCat);
+      emitMasterCategoryChange(fn) {
+        this.masterCategoryBeforeFn(this);
+
+        fn();
+
+        this.masterCategoryAfterFn(this);
       }
 
       /**
@@ -224,14 +229,17 @@ angular.module('financier').factory('category', uuid => {
 
         const oldSort = this._data.sort;
         this._data.sort = d.sort;
-        if (oldSort !== d.sort) {
-          this.emitSortChange();
-        }
 
         const oldMasterCategory = this._data.masterCategory;
-        this._data.masterCategory = d.masterCategory;
+
         if (oldMasterCategory !== d.masterCategory) {
-          this.emitMasterCategoryChange(d.masterCategory, oldMasterCategory);
+          this.emitMasterCategoryChange(() => {
+            this._data.masterCategory = d.masterCategory;
+          });
+        }
+
+        if (oldSort !== d.sort) {
+          this.emitSortChange();
         }
       }
 

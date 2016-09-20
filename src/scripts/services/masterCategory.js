@@ -150,9 +150,6 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
       set data(d) {
         this._data.sort = d.sort;
 
-        // Use public function to augment with #update() function
-        this.categories = d.categories;
-
         this._data.name = d.name;
       }
 
