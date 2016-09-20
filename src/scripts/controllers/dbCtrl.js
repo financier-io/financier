@@ -212,7 +212,7 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
     category(change) {
       // look through our categories to see if it exists
 
-      const cat = categories[getId(change.id)];
+      const cat = that.categories[getId(change.id)];
 
       if (change.deleted) {
         if (cat) {
