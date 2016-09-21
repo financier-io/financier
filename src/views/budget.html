@@ -80,7 +80,8 @@
                 ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index"
                 ng-controller="masterCategoryCtrl as masterCategoryCtrl"
                 >{{masterCategoryCtrl.budget | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</div>
-            <div class="budget__td budget__month-row month-body__cell-head">{{(masterCategoryCtrl.outflows || 0) | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</div>
+            <div class="budget__td budget__month-row month-body__cell-head"
+                ng-controller="masterCategoryCtrl as masterCategoryCtrl">{{(masterCategoryCtrl.outflow || 0) | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</div>
             <div class="budget__td budget__month-row month-body__cell-head"
                 ng-class="{'budget__month-end': !$last}"
                 ng-controller="masterCategoryCtrl as masterCategoryCtrl"
@@ -89,49 +90,49 @@
         
         <div class="budget__category-sortable" ng-sortable="categorySortable" ng-mouseenter="masterCategorySortable.disabled = true" ng-mouseleave="masterCategorySortable.disabled = false">
           <div class="budget__tr month-body__row"
-              ng-repeat="catId in masterCategory.categories track by catId"
+              ng-repeat="category in masterCategory.categories track by category.id"
               ng-class="{'budget__month-row--last': $last}">
             <div class="budget__td budget__month-row budget__category-label">
               <i class="budget__month-row-note fa fa-sticky-note-o"
-                 ng-class="{'budget__month-row-note--showing': dbCtrl.categories[catId].note.length}"
+                 ng-class="{'budget__month-row-note--showing': category.note.length}"
                  note
-                 ng-model="dbCtrl.categories[catId].note"></i>
-              <span rename ng-model="dbCtrl.categories[catId].name" on-remove="budgetCtrl.removeCategory(catId, masterCategory)">{{dbCtrl.categories[catId].name}}</span>
+                 ng-model="category.note"></i>
+              <span rename ng-model="category.name" on-remove="budgetCtrl.removeCategory(category.id, masterCategory)">{{category.name}}</span>
             </div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--input"
                 ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index">
 
               <input type="text"
                      class="budget__cell-input"
-                     on-update="month.setBudget(catId, model)"
-                     view-model="month.categories[catId].budget"
+                     on-update="month.setBudget(category.id, model)"
+                     view-model="month.categories[category.id].budget"
                      ng-attr-tabindex="{{$index + 2}}"
                      on-enter-go-next>
 
               <i class="budget__month-row-note fa fa-sticky-note-o"
-                 ng-class="{'budget__month-row-note--showing': month.categories[catId].note.length}"
+                 ng-class="{'budget__month-row-note--showing': month.categories[category.id].note.length}"
                  note
-                 ng-model="month.note(catId)"
+                 ng-model="month.note(category.id)"
                  ng-model-options="{ getterSetter: true }"></i>
 
             </div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--display"
                  outflow-helper
                  outflow-date="month.date"
-                 outflow-category="dbCtrl.categories[catId].name"
-                 outflow-setting="dbCtrl.budgetRecord.hints.outflow"><span ng-if="month.categoryCache[catId].outflow !== 0">{{month.categoryCache[catId].outflow | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</span></div>
+                 outflow-category="category.name"
+                 outflow-setting="dbCtrl.budgetRecord.hints.outflow"><span ng-if="month.categoryCache[category.id].outflow !== 0">{{month.categoryCache[category.id].outflow | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</span></div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--display"
                  ng-class="{'budget__month-end': !$last,
-                            'budget__month-row--zero': !month.categoryCache[catId].balance,
-                            'budget__month-row--none': !month.categoryCache[catId].balance && !month.categoryCache[catId].outflow && !month.categories[catId].budget}"
+                            'budget__month-row--zero': !month.categoryCache[category.id].balance,
+                            'budget__month-row--none': !month.categoryCache[category.id].balance && !month.categoryCache[category.id].outflow && !month.categories[category.id].budget}"
                  overspending-select
-                 overspending-disabled="!(month.categoryCache[catId] && month.categoryCache[catId].balance < 0)"
-                 ng-model="month.categories[catId].overspending"
-                 propagated-model="month.categoryCache[catId].overspending"
+                 overspending-disabled="!(month.categoryCache[category.id] && month.categoryCache[category.id].balance < 0)"
+                 ng-model="month.categories[category.id].overspending"
+                 propagated-model="month.categoryCache[category.id].overspending"
                  ng-repeat-end>
-              <span ng-class="{'budget__month-row--negative': month.categoryCache[catId].balance < 0}">
-                {{(month.categoryCache[catId].balance || 0) | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}
-                <i class="fa fa-arrow-right" ng-if="month.categoryCache[catId].balance < 0 && month.categoryCache[catId].overspending"></i>
+              <span ng-class="{'budget__month-row--negative': month.categoryCache[category.id].balance < 0}">
+                {{(month.categoryCache[category.id].balance || 0) | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}
+                <i class="fa fa-arrow-right" ng-if="month.categoryCache[category.id].balance < 0 && month.categoryCache[category.id].overspending"></i>
               </span>
             </div>
           </div>

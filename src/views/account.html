@@ -22,6 +22,26 @@
           <div class="account__balance-value" ng-class="{'account__balance-value--negative': accountCtrl.account.cache.balance < 0}">{{accountCtrl.account.cache.balance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>
         </div>
       </div>
+      <div class="account__reconcile">
+        <button ng-if="accountCtrl.accountId"
+                reconcile-account="accountCtrl.account"
+                reconcile-collapsed="accountCtrl.reconcileCollapsed"
+                reconcile-amount="accountCtrl.reconcileAmount"
+                account-balance="accountCtrl.account.cache.clearedBalance">Reconcile Account</button>
+      </div>
+    </div>
+  </div>
+  <div class="account__tbody account__tbody--reconcile" collapse="accountCtrl.reconcileCollapsed">
+    <div class="account__tr account__tr--reconcile" ng-if="accountCtrl.account.cache.clearedBalance - accountCtrl.reconcileAmount !== 0">
+      <i class="fa fa-close account__reconcile-close" ng-click="accountCtrl.reconcileCollapsed = true"></i> You need to clear {{accountCtrl.account.cache.clearedBalance - accountCtrl.reconcileAmount | absolute | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}} of {{accountCtrl.account.cache.clearedBalance - accountCtrl.reconcileAmount > 0 ? 'spending' : 'income'}} to reconcile this account.
+
+      <button class="account__reconcile-button" ng-click="accountCtrl.reconcile()">Make adjustment and finish</button>
+    </div>
+
+    <div class="account__tr account__tr--reconcile" ng-if="accountCtrl.account.cache.clearedBalance - accountCtrl.reconcileAmount === 0">
+      <i class="fa fa-close account__reconcile-close" ng-click="accountCtrl.reconcileCollapsed = true"></i> Your cleared balance matches your actual account balance.
+
+      <button class="account__reconcile-button" ng-click="accountCtrl.finishReconciliation()">Finish reconciliation</button>
     </div>
   </div>
   <div class="account__tbody">
@@ -29,7 +49,7 @@
       <button class="account__add-button" ng-click="dbCtrl.stopPropagation($event); accountCtrl.createTransaction()"><i class="fa fa-plus"></i> {{'ADD_A_NEW_TRANSACTION' | translate}}</button>
       <button class="account__add-button"><i class="fa fa-exchange"></i> Make a transfer</button>
 
-      <button class="account__add-button" ng-if="accountCtrl.selectedTransactions.length" bulk-edit-transactions="accountCtrl.selectedTransactions" manager="dbCtrl.manager" payees="dbCtrl.payees"><i class="fa fa-edit"></i> Edit ({{accountCtrl.selectedTransactions.length}}) <i class="fa fa-sort-desc"></i></button>
+      <button class="account__add-button" ng-if="accountCtrl.selectedTransactions.length" bulk-edit-transactions="accountCtrl.selectedTransactions" manager="dbCtrl.manager" stop-propagation="dbCtrl.stopPropagation" payees="dbCtrl.payees"><i class="fa fa-edit"></i> Edit ({{accountCtrl.selectedTransactions.length}}) <i class="fa fa-sort-desc"></i></button>
     </div>
   </div>
   <div class="account__thead" ng-click="dbCtrl.stopPropagation($event)">
@@ -43,8 +63,8 @@
       <div class="account__th account__td--large" st-sort="payee"><span>{{'PAYEE' | translate}}</span></div>
       <div class="account__th account__td--large" st-sort="category"><span>{{'CATEGORY' | translate}}</span></div>
       <div class="account__th account__cell-memo"><span>{{'MEMO' | translate}}</span></div>
-      <div class="account__th account__td--small account__cell-inflow" st-sort="inflow"><span>{{'INFLOW' | translate}}</span></div>
       <div class="account__th account__td--small account__cell-outflow" st-sort="outflow"><span>{{'OUTFLOW' | translate}}</span></div>
+      <div class="account__th account__td--small account__cell-inflow" st-sort="inflow"><span>{{'INFLOW' | translate}}</span></div>
       <div class="account__th account__cell-cleared" st-sort="cleared"><span>{{'CLEARED' | translate}}</span></div>
     </div>
   </div>

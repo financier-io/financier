@@ -110,35 +110,6 @@ describe('masterCategory', function() {
       MasterCategory = masterCategory('111-111-111-111');
     });
 
-    describe('categories', () => {
-      it('adds update() to self', () => {
-        const foo = {
-          change: () => {},
-        };
-
-        spyOn(foo, 'change');
-
-        let cat = new MasterCategory({
-          name: 'My cat',
-          _id: 'foobar'
-        });
-
-        cat.subscribe(foo.change);
-
-        cat.categories = [{
-          _id: 'subcategory1Id'
-        }, {
-          _id: 'subcategory2Id'
-        }];
-
-        expect(typeof cat.categories.update).toBe('function');
-
-        expect(foo.change).not.toHaveBeenCalled();
-        cat.categories.update();
-        expect(foo.change).toHaveBeenCalled();
-      });
-    });
-
     describe('sort', () => {
       it('has getter/setter, saves to record', () => {
         let cat = new MasterCategory();

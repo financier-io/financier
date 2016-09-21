@@ -13,7 +13,8 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
   const Payee = payee(budgetId);
 
   this.manager = manager;
-  this.categories = categories;
+  this.categories = [];
+
   this.masterCategories = masterCategories;
   this.accounts = manager.accounts;
   this.budgetRecord = budgetRecord;
@@ -63,6 +64,61 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
     }
   );
 
+  this.removeCategory = cat => {
+    delete this.categories[cat.id];
+
+    this.masterCategories[cat.masterCategory].removeCategory(cat);
+  }
+
+  this.addCategory = cat => {
+    this.categories[cat.id] = cat;
+
+    cat.subscribeMasterCategoryChange(cat => {
+      this.removeCategory(cat);
+    }, cat => {
+      this.addCategory(cat);
+    });
+
+    let masterCat;
+
+    // THIS BLOCK IS FOR BACKWARDS COMPATIBILITY 09/20/2016
+    if (!cat.masterCategory) {
+      Object.keys(this.masterCategories).forEach(catId => {
+        if (this.masterCategories[catId]._data.categories &&
+            this.masterCategories[catId]._data.categories.indexOf(cat.id) !== -1) {
+          masterCat = this.masterCategories[catId];
+        }
+      });
+    }
+
+    if (!masterCat) {
+      masterCat = this.masterCategories[cat.masterCategory];
+    }
+
+    // if (!masterCat) {
+    //   let tmpMasterCat, currentSort = 99999;
+
+    //   Object.keys(this.masterCategories).forEach(catId => {
+    //     if (this.masterCategories[catId].sort < currentSort) {
+    //       tmpMasterCat = this.masterCategories[catId];
+    //       currentSort = this.masterCategories[catId].sort;
+    //     }
+    //   });
+
+    //   masterCat = tmpMasterCat;
+    // }
+
+    cat.masterCategory = masterCat.id;
+
+    masterCat.addCategory(cat);
+  }
+
+  for (let id in categories) {
+    if (categories.hasOwnProperty(id)) {
+      this.addCategory(categories[id]);
+    }
+  }
+
   function getView(date) {
     // Make sure that we have the months
     manager.getMonth(date);
@@ -89,7 +145,7 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
         myBudg: () => myBudget,
         myAccount: () => account || new Account(),
         editing: () => !!account,
-        categories: () => categories,
+        addCategory: () => this.addCategory,
         masterCategories: () => masterCategories,
         currencyDigits: () => this.currencyDigits
       }
@@ -116,6 +172,7 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
     return _id.slice(_id.lastIndexOf('_') + 1);
   }
 
+  const that = this;
 
   const doChange = {
     masterCategory(change) {
@@ -138,6 +195,15 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
           b.subscribe(myBudget.put);
 
           masterCategories[b.id] = b;
+
+          // Add back any categories
+          for (let id in categories) {
+            if (categories.hasOwnProperty(id)) {
+              if (categories[id].masterCategory === b.id) {
+                b.categories.push(categories[id]);
+              }
+            }
+          }
         }
 
         $scope.$broadcast('masterCategories:change');
@@ -146,11 +212,11 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
     category(change) {
       // look through our categories to see if it exists
 
-      const cat = categories[getId(change.id)];
+      const cat = that.categories[getId(change.id)];
 
       if (change.deleted) {
         if (cat) {
-          delete categories[getId(change.id)];
+          that.removeCategory(cat);
         }
       } else {
         if (cat) {
@@ -160,7 +226,8 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
           const b = new Category(change.doc);
           b.subscribe(myBudget.put);
 
-          categories[b.id] = b;
+          that.addCategory(b);
+          // categories[b.id] = b;
         }
       }
     },

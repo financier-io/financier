@@ -31,7 +31,9 @@ angular.module('financier').controller('budgetCtrl', function($filter, $statePar
     onSort: e => {
       // wait for the array to update
       $timeout(() => {
-        e.models.update();
+        for (let i = 0; i < e.models.length; i++) {
+          e.models[i].setMasterAndSort(e.models.masterCategory.id, i);
+        }
       });
     }
   };
@@ -82,15 +84,19 @@ angular.module('financier').controller('budgetCtrl', function($filter, $statePar
   }
 
   this.addCategory = (name, masterCategory) => {
+    let sort = masterCategory.categories[masterCategory.categories.length - 1] ?
+               masterCategory.categories[masterCategory.categories.length - 1].sort + 1 :
+               0;
+
     const cat = new Category({
-      name
+      name,
+      masterCategory: masterCategory.id,
+      sort
     });
 
-    masterCategory.categories.unshift(cat.id);
+    // $scope.dbCtrl.categories[cat.id] = cat;
+    $scope.dbCtrl.addCategory(cat);
 
-    $scope.dbCtrl.categories[cat.id] = cat;
-
-    myBudget.masterCategories.put(masterCategory);
     myBudget.categories.put(cat);
     cat.subscribe(myBudget.categories.put);
   }
@@ -102,17 +108,9 @@ angular.module('financier').controller('budgetCtrl', function($filter, $statePar
     });
 
     function remove() {
-      const index = masterCategory.categories.indexOf(id);
-
-      if (index === -1) {
-        throw new Error('Could not find category in masterCategory');
-      }
-
-      masterCategory.categories.splice(index, 1);
-
       const cat = $scope.dbCtrl.categories[id];
 
-      delete $scope.dbCtrl.categories[id];
+      $scope.dbCtrl.removeCategory(cat);
 
       $scope.dbCtrl.manager.months.forEach(month => {
         const monthCat = month.categories[id];
@@ -128,9 +126,7 @@ angular.module('financier').controller('budgetCtrl', function($filter, $statePar
 
       $scope.dbCtrl.manager.months[0].startRolling(id);
 
-      return cat.remove().then(() => {
-        return myBudget.masterCategories.put(masterCategory);
-      });
+      return cat.remove();
     }
   }
 
@@ -143,7 +139,7 @@ angular.module('financier').controller('budgetCtrl', function($filter, $statePar
     function remove() {
       masterCategory.categories.forEach(catId => {
         const cat = $scope.dbCtrl.categories[catId];
-        delete $scope.dbCtrl.categories[catId];
+        $scope.dbCtrl.removeCategory(cat);
 
         $scope.dbCtrl.manager.months.forEach(month => {
           const monthCat = month.categories[catId];

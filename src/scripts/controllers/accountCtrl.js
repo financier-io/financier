@@ -1,7 +1,8 @@
-angular.module('financier').controller('accountCtrl', function($timeout, $document, $element, $scope, $stateParams, data, hotkeys, transaction, myBudget) {
+angular.module('financier').controller('accountCtrl', function($timeout, $document, $element, $scope, $stateParams, data, hotkeys, transaction, payee, myBudget) {
   const that = this;
 
   const Transaction = transaction($stateParams.budgetId);
+  const Payee = payee($stateParams.budgetId);
 
   const {manager, categories} = data;
 
@@ -16,6 +17,8 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
   // Filter transactions by account
   this.manager = manager;
   this.myBudget = myBudget;
+
+  this.reconcileCollapsed = true;
 
   if (this.accountId) {
     $scope.transactions = manager.getAccount(this.accountId).transactions;
@@ -32,6 +35,50 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
       return transaction.date.getTime() + transaction.value;
     }
   };
+
+  this.finishReconciliation = () => {
+    for (let i = 0; i < this.account.transactions.length; i++) {
+      const transaction = this.account.transactions[i];
+
+      if (transaction.cleared) {
+        transaction.reconciled = true;
+      }
+    }
+
+    this.reconcileCollapsed = true;
+  }
+
+  this.reconcile = () => {
+    let payee = $scope.dbCtrl.payees['reconciled'];
+
+    if (!payee) {
+      payee = new Payee({
+        name: 'Reconciled Balance Adjustment',
+        autosuggest: false,
+        internal: true,
+        _id: `${Payee.prefix}reconciled`
+      });
+
+      $scope.dbCtrl.payees[payee.id] = payee;
+
+      myBudget.put(payee);
+    }
+
+    const trans = new Transaction({
+      value: this.reconcileAmount - this.account.cache.clearedBalance,
+      cleared: true,
+      reconciled: true,
+      date: new Date().toISOString(),
+      account: this.accountId,
+      payee: payee.id,
+      category: 'income'
+    });
+
+    this.manager.addTransaction(trans);
+    myBudget.put(trans);
+
+    this.finishReconciliation();
+  }
 
   that.selectedTransactionIndexes = [];
   that.selectedTransactions = [];

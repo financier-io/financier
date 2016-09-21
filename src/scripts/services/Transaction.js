@@ -22,6 +22,7 @@ angular.module('financier').factory('transaction', uuid => {
           account: null,
           memo: null,
           cleared: false,
+          reconciled: false,
           flag: null,
           payee: null,
           transfer: null
@@ -339,6 +340,29 @@ angular.module('financier').factory('transaction', uuid => {
         this._data.cleared = x;
 
         this._emitChange();
+      }
+
+      /**
+       * Whether the transaction has been reconciled or not
+       *
+       * A transaction should always be cleared if it has been reconciled
+       *
+       * @example
+       * const trans = new Transaction();
+       * trans.reconciled = true
+       *
+       * @type {boolean}
+       */
+      get reconciled() {
+        return this._data.reconciled;
+      }
+
+      set reconciled(x) {
+        if (x !== this._data.reconciled) {
+          this._data.reconciled = x;
+
+          this._emitChange();
+        }
       }
 
       /**

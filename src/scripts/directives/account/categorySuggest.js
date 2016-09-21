@@ -40,7 +40,7 @@ angular.module('financier').directive('categorySuggest', $rootScope => {
             [],
             Object.keys(scope.masterCategories)
               .sort((a, b) => scope.masterCategories[a].sort - scope.masterCategories[b].sort)
-              .map(id => scope.masterCategories[id].categories.map(c => scope.categories[c]))
+              .map(id => scope.masterCategories[id].categories)
           );
 
           scope.masterCategoriesArr = Object.keys(scope.masterCategories)

@@ -43,6 +43,10 @@
   display: inline-block;
 }
 
+.account__tbody--reconcile {
+  overflow: hidden;
+}
+
 .account__tbody--striped .canvas {
   background: repeating-linear-gradient(
     to bottom,
@@ -167,6 +171,40 @@
   line-height: 3rem;
 }
 
+.account__tr--reconcile {
+  background-color: $blue-hover;
+  background: linear-gradient(135deg, $blue-hover, lighten($blue-hover, 10%));
+  color: white;
+
+  padding: 0.5em 1em;
+
+  display: flex;
+}
+
+i.account__reconcile-close {
+  line-height: 1.3em;
+  font-size: 1.1em;
+  margin-right: 1em;
+  cursor: pointer;
+}
+
+.account__reconcile-button {
+  margin-left: auto;
+
+  background: none;
+  border: 1px solid white;
+  color: white;
+  font-size: 0.8em;
+  opacity: 0.8;
+
+  transition: 100ms ease opacity;
+
+  &:hover,
+  &:focus {
+    opacity: 1;
+  }
+}
+
 .account__name {
   font-size: 1.4em;
   padding: 0 1em;
@@ -174,12 +212,16 @@
   color: $white;
 }
 
-.account__balance {
+.account__balance,
+.account__reconcile {
   line-height: 1;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.account__balance {
   margin: 0 1em;
 }
 
@@ -202,6 +244,32 @@
 .account__operator {
   color: rgba(255, 255, 255, 0.3);
   font-size: 1.5em;
+}
+
+.account__reconcile {
+  margin-left: auto;
+  margin-right: 2em;
+
+
+  button {
+    border: 1px solid white;
+    color: white;
+    background: none;
+    padding: 3px 7px;
+    line-height: 15px;
+
+    opacity: 0.5;
+
+    transition: 100ms ease opacity;
+
+    &:hover,
+    &:focus,
+    &.drop-enabled {
+      opacity: 1;
+    }
+
+
+  }
 }
 
 .account__td {

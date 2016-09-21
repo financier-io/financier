@@ -1,4 +1,4 @@
-angular.module('financier').controller('editAccountCtrl', function(editing, myAccount, manager, myBudg, transaction, $q, $rootScope, $scope, $stateParams, category, masterCategory, categories, masterCategories, MonthCategory, month, currencyDigits) {
+angular.module('financier').controller('editAccountCtrl', function(editing, myAccount, manager, myBudg, transaction, $q, $rootScope, $scope, $stateParams, category, masterCategory, addCategory, masterCategories, MonthCategory, month, currencyDigits) {
   const Transaction = transaction($stateParams.budgetId);
   const Category = category($stateParams.budgetId);
   const MasterCategory = masterCategory($stateParams.budgetId);
@@ -18,11 +18,7 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
     let transaction;
 
     if (!this.editing) {
-      const cat = new Category({
-        name: myAccount.name
-      });
-
-      let masterCat;
+      let masterCat, cat;
       for (let id in masterCategories) {
         if (masterCategories.hasOwnProperty(id)) {
           if (masterCategories[id].name === 'Pre-financier debt') {
@@ -34,7 +30,6 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
       if (!masterCat) {
         masterCat = new MasterCategory({
           name: 'Pre-financier debt',
-          categories: [cat.id],
           sort: -1
         });
 
@@ -44,20 +39,18 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
           masterCat.subscribe(myBudg.put);
           myBudg.put(masterCat);
         }
-      } else {
-        if (myAccount.isCredit()) {
-          masterCat.categories.push(cat.id);
-          
-          myBudg.put(masterCat);
-        }
       }
 
+      cat = new Category({
+        name: myAccount.name,
+        masterCategory: masterCat.id
+      });
 
       const monthCat = new MonthCategory.from($stateParams.budgetId, Month.createID(this.startingBalanceDate), cat.id);
       monthCat.overspending = true;
 
       if (myAccount.isCredit()) {
-        categories[cat.id] = cat;
+        addCategory(cat);
 
         cat.subscribe(myBudg.put);
         myBudg.put(cat);

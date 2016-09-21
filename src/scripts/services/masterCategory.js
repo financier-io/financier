@@ -18,18 +18,15 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
         const myData = angular.extend({
           name: 'New master category',
           _id: MasterCategory.prefix + uuid(),
-          categories: [],
           sort: 0
         }, data);
 
         this.id = myData._id.slice(myData._id.lastIndexOf('_') + 1);
 
-        // Hack below
-        myData.categories.update = () => {
-          this.emitChange();
-        };
-
         this._data = myData;
+
+        this._categories = [];
+        this._categories.masterCategory = this;
       }
 
       /**
@@ -82,16 +79,33 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
        * @type {Category[]}
        */
       get categories() {
-        return this._data.categories;
+        return this._categories;
       }
 
       set categories(arr) {
-        // Hack below
-        arr.update = () => {
-          this.emitChange();
+        arr.masterCategory = this;
+
+        this._categories = arr;
+      }
+
+      addCategory(cat) {
+        this._categories.push(cat);
+
+        const sort = () => {
+          this._categories.sort((a, b) => a.sort - b.sort);
         };
 
-        this._data.categories = arr;
+        sort();
+
+        cat.subscribeSortChange(sort);
+      }
+
+      removeCategory(cat) {
+        const index = this._categories.indexOf(cat);
+
+        if (index !== -1) {
+          this._categories.splice(index, 1);
+        }
       }
 
       /**
@@ -120,9 +134,6 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
         }
       }
 
-      /**
-       * @todo Remove, moving functionality elsewhere
-       */
       remove() {
         this._data._deleted = true;
         this.emitChange();
@@ -138,9 +149,6 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
 
       set data(d) {
         this._data.sort = d.sort;
-
-        // Use public function to augment with #update() function
-        this.categories = d.categories;
 
         this._data.name = d.name;
       }
