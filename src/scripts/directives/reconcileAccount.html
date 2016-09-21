@@ -2,7 +2,7 @@
   <div class="reconcile-account__center" ng-switch="screen">
     <div ng-switch-when="IS_YOUR_BALANCE">
       <h3>Is your actual account balance</h3>
-      <h2>{{reconcileAccount.cache.clearedBalance || 0 | intCurrency : true : $parent.$parent.dbCtrl.currencyDigits | currency : $parent.$parent.dbCtrl.currencySymbol : $parent.$parent.dbCtrl.currencyDigits}}?</h2>
+      <h2 class="account__balance-value reconcile-account__balance-value" ng-class="{'account__balance-value--negative': reconcileAccount.cache.clearedBalance < 0}">{{reconcileAccount.cache.clearedBalance || 0 | intCurrency : true : $parent.$parent.dbCtrl.currencyDigits | currency : $parent.$parent.dbCtrl.currencySymbol : $parent.$parent.dbCtrl.currencyDigits}}?</h2>
       <div class="reconcile-account__buttons">
         <button type="button" class="button button--primary" ng-click="go.reconciled($event)"><i class="fa fa-check"></i> Yes</button>
         <button type="button" class="button button--primary" ng-click="go.amount($event)"><i class="fa fa-close"></i> No</button>
