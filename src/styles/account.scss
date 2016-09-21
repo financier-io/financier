@@ -167,6 +167,40 @@
   line-height: 3rem;
 }
 
+.account__tr--reconcile {
+  background-color: $blue-hover;
+  background: linear-gradient(135deg, $blue-hover, lighten($blue-hover, 10%));
+  color: white;
+
+  padding: 0.5em 1em;
+
+  display: flex;
+}
+
+i.account__reconcile-close {
+  line-height: 1.3em;
+  font-size: 1.1em;
+  margin-right: 1em;
+  cursor: pointer;
+}
+
+.account__reconcile-button {
+  margin-left: auto;
+
+  background: none;
+  border: 1px solid white;
+  color: white;
+  font-size: 0.8em;
+  opacity: 0.8;
+
+  transition: 100ms ease opacity;
+
+  &:hover,
+  &:focus {
+    opacity: 1;
+  }
+}
+
 .account__name {
   font-size: 1.4em;
   padding: 0 1em;

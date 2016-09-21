@@ -33,13 +33,13 @@ angular.module('financier').directive('reconcileAccount', ($compile, $timeout) =
         scope.screen = 'IS_YOUR_BALANCE';
 
         scope.reconcileAmount = null;
-      });
 
-      dropInstance.on('close', () => {
         scope.val = {
           amount: 0
         };
+      });
 
+      dropInstance.on('close', () => {
         $timeout(() => {
           dropInstance.destroy();
         });
@@ -76,7 +76,7 @@ angular.module('financier').directive('reconcileAccount', ($compile, $timeout) =
         start(event) {
           event.stopPropagation();
 
-          scope.reconcileAmount = scope.val.amount;
+          scope.reconcileAmount = scope.val.amount * Math.pow(10, scope.$parent.dbCtrl.currencyDigits);
 
           dropInstance.close();
         }
