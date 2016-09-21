@@ -43,6 +43,10 @@
   display: inline-block;
 }
 
+.account__tbody--reconcile {
+  overflow: hidden;
+}
+
 .account__tbody--striped .canvas {
   background: repeating-linear-gradient(
     to bottom,

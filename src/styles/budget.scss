@@ -241,6 +241,8 @@ $budgetMonthCellPadding: 2px 5px 0;
   background-color: #999;
   color: $white;
 
+  cursor: pointer;
+
   &:after {
     content: '+';
   }
@@ -262,6 +264,8 @@ $budgetMonthCellPadding: 2px 5px 0;
   background-color: #999;
   color: $white;
   font-weight: 500;
+
+  cursor: pointer;
 
   &:after {
     content: '+';

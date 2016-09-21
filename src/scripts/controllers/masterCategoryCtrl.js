@@ -9,15 +9,15 @@ angular.module('financier').controller('masterCategoryCtrl', function($scope) {
     let balance = 0;
 
     for (let i = 0; i < $scope.masterCategory.categories.length; i++) {
-      const catId = $scope.masterCategory.categories[i];
+      const cat = $scope.masterCategory.categories[i];
 
-      if ($scope.month.categories[catId]) {
-        budget += $scope.month.categories[catId].budget || 0;
+      if ($scope.month.categories[cat.id]) {
+        budget += $scope.month.categories[cat.id].budget || 0;
       }
 
-      if ($scope.month.categoryCache[catId]) {
-        outflow += $scope.month.categoryCache[catId].outflow || 0;
-        balance += $scope.month.categoryCache[catId].balance || 0;
+      if ($scope.month.categoryCache[cat.id]) {
+        outflow += $scope.month.categoryCache[cat.id].outflow || 0;
+        balance += $scope.month.categoryCache[cat.id].balance || 0;
       }
     }
 

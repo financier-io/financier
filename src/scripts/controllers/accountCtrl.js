@@ -18,6 +18,8 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
   this.manager = manager;
   this.myBudget = myBudget;
 
+  this.reconcileCollapsed = true;
+
   if (this.accountId) {
     $scope.transactions = manager.getAccount(this.accountId).transactions;
   } else {
@@ -43,7 +45,7 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
       }
     }
 
-    this.reconcileAmount = null;
+    this.reconcileCollapsed = true;
   }
 
   this.reconcile = () => {
@@ -75,7 +77,7 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
     this.manager.addTransaction(trans);
     myBudget.put(trans);
 
-    this.reconcileAmount = null;
+    this.finishReconciliation();
   }
 
   that.selectedTransactionIndexes = [];

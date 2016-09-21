@@ -13,6 +13,12 @@
   justify-content: center;
 }
 
+.reconcile-account__buttons {
+  button:not(:first-child) {
+    margin-left: 0.5em;
+  }
+}
+
 .reconcile-account__all-done {
   font-size: 2em;
   margin: 0;

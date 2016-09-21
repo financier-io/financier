@@ -3,6 +3,8 @@ import Drop from 'tether-drop';
 angular.module('financier').directive('reconcileAccount', ($compile, $timeout) => {
 
   function link(scope, element, attrs, ngModelCtrl) {
+    scope.dbCtrl = scope.$parent.dbCtrl;
+
     element.on('click', () => {
       const template = require('./reconcileAccount.html');
 
@@ -33,10 +35,15 @@ angular.module('financier').directive('reconcileAccount', ($compile, $timeout) =
         scope.screen = 'IS_YOUR_BALANCE';
 
         scope.reconcileAmount = null;
+        scope.reconcileCollapsed = true;
 
         scope.val = {
-          amount: 0
+          amount: null
         };
+
+        $timeout(() => {
+          content.find('button')[0].focus();
+        });
       });
 
       dropInstance.on('close', () => {
@@ -72,11 +79,16 @@ angular.module('financier').directive('reconcileAccount', ($compile, $timeout) =
 
           scope.screen = 'AMOUNT';
 
+          $timeout(() => {
+            content.find('input')[0].focus();
+          });
+
         },
         start(event) {
           event.stopPropagation();
 
-          scope.reconcileAmount = scope.val.amount * Math.pow(10, scope.$parent.dbCtrl.currencyDigits);
+          scope.reconcileAmount = scope.accountBalance >= 0 ? scope.val.amount : -Math.abs(scope.val.amount);
+          scope.reconcileCollapsed = false;
 
           dropInstance.close();
         }
@@ -92,7 +104,9 @@ angular.module('financier').directive('reconcileAccount', ($compile, $timeout) =
     link,
     scope: {
       reconcileAccount: '=',
-      reconcileAmount: '='
+      reconcileAmount: '=',
+      reconcileCollapsed: '=',
+      accountBalance: '='
     }
   };
 });

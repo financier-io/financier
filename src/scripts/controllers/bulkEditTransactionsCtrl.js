@@ -1,16 +1,40 @@
-angular.module('financier').controller('bulkEditTransactionsCtrl', function($scope) {
-  this.removeAll = transactions => {
-    transactions.forEach(transaction => {
-      $scope.manager.removeTransaction(transaction);
-      
-      if (transaction.payee) {
-        removePayee(transaction);
-      }
+angular.module('financier').controller('bulkEditTransactionsCtrl', function($rootScope, $scope, ngDialog) {
+  this.removeAll = (transactions, event) => {
+    $scope.stopPropagation(event);
 
-      transaction.remove();
-    });
+    const reconciled = transactions.reduce((prev, curr) => {
+      return prev + (curr.reconciled ? 1 : 0);
+    }, 0);
 
-    $scope.close();
+    if (reconciled) {
+      const scope = $rootScope.$new({});
+      scope.reconciled = reconciled;
+      scope.length = transactions.length;
+      scope.stopPropagation = $scope.stopPropagation;
+
+      ngDialog.openConfirm({
+        template: require('../../views/modal/removeTransactionsConfirm.html'),
+        scope,
+        className: 'ngdialog-theme-default ngdialog-theme-default--danger modal'
+      })
+      .then(remove);
+    } else {
+      remove();
+    }
+
+    function remove() {
+      transactions.forEach(transaction => {
+        $scope.manager.removeTransaction(transaction);
+        
+        if (transaction.payee) {
+          removePayee(transaction);
+        }
+
+        transaction.remove();
+      });
+
+      $scope.close();
+    }
   };
 
   function removePayee(transaction) {

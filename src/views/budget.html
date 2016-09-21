@@ -80,7 +80,8 @@
                 ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index"
                 ng-controller="masterCategoryCtrl as masterCategoryCtrl"
                 >{{masterCategoryCtrl.budget | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</div>
-            <div class="budget__td budget__month-row month-body__cell-head">{{(masterCategoryCtrl.outflows || 0) | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</div>
+            <div class="budget__td budget__month-row month-body__cell-head"
+                ng-controller="masterCategoryCtrl as masterCategoryCtrl">{{(masterCategoryCtrl.outflow || 0) | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</div>
             <div class="budget__td budget__month-row month-body__cell-head"
                 ng-class="{'budget__month-end': !$last}"
                 ng-controller="masterCategoryCtrl as masterCategoryCtrl"
