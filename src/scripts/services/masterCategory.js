@@ -18,7 +18,8 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
         const myData = angular.extend({
           name: 'New master category',
           _id: MasterCategory.prefix + uuid(),
-          sort: 0
+          sort: 0,
+          collapsed: false
         }, data);
 
         this.id = myData._id.slice(myData._id.lastIndexOf('_') + 1);
@@ -45,6 +46,25 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
 
       set name(n) {
         this._data.name = n;
+        this.emitChange();
+      }
+
+      /**
+       * If the category is collapsed. Will trigger subscriber upon set.
+       *
+       * @example
+       * const cat = new Category();
+       * cat.collapsed = true;
+       * cat.collapsed; // === true
+       *
+       * @type {boolean}
+       */
+      get collapsed() {
+        return this._data.collapsed;
+      }
+
+      set collapsed(n) {
+        this._data.collapsed = n;
         this.emitChange();
       }
 

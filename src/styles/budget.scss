@@ -63,18 +63,25 @@ $budgetMonthCellPadding: 2px 5px 0;
   margin-right: 5px;
 }
 
-.budget__month-row-note {
-  opacity: 0;
-  padding: 0 1px; // prevent cutoff
+i.budget__month-row-note {
+  width: 0;
+  overflow: hidden;
 
   cursor: pointer;
 
   &.drop-enabled {
-    opacity: 1;
+    width: auto;
+    padding: 0 1px; // prevent cutoff
   }
 }
 
-.budget__month-row-note--showing {
+.budget__month-row-note--category-label {
+  margin-left: 2px;
+}
+
+i.budget__month-row-note--showing {
+  width: auto;
+  padding: 0 1px; // prevent cutoff
   opacity: 0.5;
 }
 
@@ -90,7 +97,8 @@ $budgetMonthCellPadding: 2px 5px 0;
 
   &:hover {
     .budget__month-row-note {
-      opacity: 1;
+      width: auto;
+      padding: 0 1px; // prevent cutoff
     }
   }
 }
@@ -207,22 +215,51 @@ $budgetMonthCellPadding: 2px 5px 0;
 .budget__category-label {
   font-size: 0.8em;
   width: 50px; // px to prevent rounding issues
-  text-align: right;
+  // text-align: left;
 
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 
   position: relative;
+
+  span {
+    padding-left: 15px;
+  }
+
+  &:hover {
+    .budget__add-category {
+      width: 1em;
+    }
+  }
+}
+
+.budget__master-category-label {
+  span {
+    padding-left: 5px;
+  }
 }
 
 .budget__categories-label {
   position: absolute;
   bottom: 0;
-  left: 0;
+  left: 20px;
   right: 0;
 
   color: #999;
+}
+
+.budget__category-label-container {
+  display: flex;
+}
+
+.budget__category-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.budget__category-name--fill {
+  flex: 1;
 }
 
 .budget__add-master-category {
@@ -249,11 +286,12 @@ $budgetMonthCellPadding: 2px 5px 0;
 }
 
 .budget__add-category {
-  display: inline-block;
+  width: 0;
 
-  width: 1em;
+  overflow: hidden;
+
   height: 1em;
-  margin: 0.25em;
+  margin: 0.25em 0;
 
   line-height: 1;
 
@@ -270,4 +308,25 @@ $budgetMonthCellPadding: 2px 5px 0;
   &:after {
     content: '+';
   }
+
+  &.drop-enabled {
+    width: 1em;
+  }
+}
+
+i.budget__category-collapse {
+  width: 10px;
+  height: 10px;
+  line-height: 10px;
+
+  font-size: 1.2em;
+  text-align: center;
+
+  cursor: pointer;
+
+  transition: 250ms ease transform;
+}
+
+.budget__category-collapse--closed {
+  transform: rotate(-90deg);
 }

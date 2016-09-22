@@ -1,8 +1,11 @@
 .month-select {
   display: flex;
-  width: 100%;
 
   font-weight: 300;
+
+  // Flexbox subpixel rendering hack
+  margin-left: -1px;
+  width: calc(100% + 1px);
 }
 
 .month-select__month {

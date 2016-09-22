@@ -72,9 +72,15 @@
     <div class="budget__tbody overflowable" ng-sortable="masterCategorySortable" disable-ng-animate>
       <div ng-repeat="masterCategory in budgetCtrl.masterCategoriesArray track by masterCategory.id">
         <div class="budget__tr month-body__row month-body__row--master">
-          <div class="budget__td budget__month-row budget__category-label">
-            <div class="budget__add-category" add-category="budgetCtrl.addCategory(name, masterCategory)" add-label="Add category"></div>
-            <span rename ng-model="masterCategory.name" on-remove="budgetCtrl.removeMasterCategory(masterCategory)">{{masterCategory.name}}</span>
+          <div class="budget__td budget__month-row budget__category-label budget__master-category-label">
+            <div class="budget__category-label-container">
+              <div>
+                <i class="budget__category-collapse fa fa-angle-down" ng-class="{'budget__category-collapse--closed': masterCategory.collapsed}" ng-click="masterCategory.collapsed = !masterCategory.collapsed"></i>
+              </div>
+              <div class="budget__category-name budget__category-name--fill">
+                <span rename ng-model="masterCategory.name" on-remove="budgetCtrl.removeMasterCategory(masterCategory)">{{masterCategory.name}}</span></div>
+              <div class="budget__add-category" add-category="budgetCtrl.addCategory(name, masterCategory)" add-label="Add category"></div>
+            </div>
           </div>
             <div class="budget__td budget__month-row month-body__cell-head"
                 ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index"
@@ -87,17 +93,24 @@
                 ng-controller="masterCategoryCtrl as masterCategoryCtrl"
                 ng-repeat-end>{{masterCategoryCtrl.balance | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</div>
         </div>
-        
-        <div class="budget__category-sortable" ng-sortable="categorySortable" ng-mouseenter="masterCategorySortable.disabled = true" ng-mouseleave="masterCategorySortable.disabled = false">
+
+        <div class="budget__category-sortable" collapse="masterCategory.collapsed" ng-sortable="categorySortable" ng-mouseenter="masterCategorySortable.disabled = true" ng-mouseleave="masterCategorySortable.disabled = false">
           <div class="budget__tr month-body__row"
               ng-repeat="category in masterCategory.categories track by category.id"
               ng-class="{'budget__month-row--last': $last}">
             <div class="budget__td budget__month-row budget__category-label">
-              <i class="budget__month-row-note fa fa-sticky-note-o"
-                 ng-class="{'budget__month-row-note--showing': category.note.length}"
-                 note
-                 ng-model="category.note"></i>
-              <span rename ng-model="category.name" on-remove="budgetCtrl.removeCategory(category.id, masterCategory)">{{category.name}}</span>
+              <div class="budget__category-label-container">
+                <div class="budget__category-name">
+                  <span rename ng-model="category.name" on-remove="budgetCtrl.removeCategory(category.id, masterCategory)">{{category.name}}</span>
+                </div>
+                <div>
+                  
+                <i class="budget__month-row-note budget__month-row-note--category-label fa fa-sticky-note-o"
+                   ng-class="{'budget__month-row-note--showing': category.note.length}"
+                   note
+                   ng-model="category.note"></i>
+                </div>
+              </div>
             </div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--input"
                 ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index">
