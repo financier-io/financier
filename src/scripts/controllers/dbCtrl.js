@@ -79,14 +79,16 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
       this.addCategory(cat);
     });
 
-    let masterCat;
+    let masterCat, sort;
 
     // THIS BLOCK IS FOR BACKWARDS COMPATIBILITY 09/20/2016
     if (!cat.masterCategory) {
       Object.keys(this.masterCategories).forEach(catId => {
+        const index = this.masterCategories[catId]._data.categories.indexOf(cat.id);
         if (this.masterCategories[catId]._data.categories &&
-            this.masterCategories[catId]._data.categories.indexOf(cat.id) !== -1) {
+            index !== -1) {
           masterCat = this.masterCategories[catId];
+          sort = index;
         }
       });
     }
@@ -108,7 +110,11 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
     //   masterCat = tmpMasterCat;
     // }
 
-    cat.masterCategory = masterCat.id;
+    if (angular.isDefined(sort)) {
+      cat.setMasterAndSort(masterCat.id, sort);
+    } else {
+      cat.masterCategory = masterCat.id;
+    }
 
     masterCat.addCategory(cat);
   }
