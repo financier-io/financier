@@ -234,11 +234,11 @@ i.account__reconcile-close {
 
 .account__balance-value {
   color: $primary;
-  font-size: 1.2em;
+  font-size: 1.3em;
 }
 
 .account__balance-value--negative {
-  color: $danger;
+  color: $negativeNumber;
 }
 
 .account__operator {
