@@ -137,12 +137,13 @@ angular.module('financier').controller('budgetCtrl', function($filter, $statePar
     });
 
     function remove() {
-      masterCategory.categories.forEach(catId => {
-        const cat = $scope.dbCtrl.categories[catId];
+      const cats = masterCategory.categories.slice(0);
+
+      cats.forEach(cat => {
         $scope.dbCtrl.removeCategory(cat);
 
         $scope.dbCtrl.manager.months.forEach(month => {
-          const monthCat = month.categories[catId];
+          const monthCat = month.categories[cat.id];
 
           if (monthCat) {
             month.removeBudget(monthCat);
@@ -153,7 +154,7 @@ angular.module('financier').controller('budgetCtrl', function($filter, $statePar
           }
         });
 
-        $scope.dbCtrl.manager.months[0].startRolling(catId);
+        $scope.dbCtrl.manager.months[0].startRolling(cat.id);
 
         if (cat) {
           cat.remove();

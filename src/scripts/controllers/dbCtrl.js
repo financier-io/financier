@@ -113,10 +113,19 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
     if (angular.isDefined(sort)) {
       cat.setMasterAndSort(masterCat.id, sort);
     } else {
-      cat.masterCategory = masterCat.id;
+      if (masterCat) {
+        cat.masterCategory = masterCat.id;
+      } else {
+        console.log(`Couldn't find master category with ID ${cat.masterCategory}!`);
+      }
     }
 
-    masterCat.addCategory(cat);
+    if (masterCat) {
+      masterCat.addCategory(cat);
+    } else {
+      console.log(`Couldn't find master category with ID ${cat.masterCategory}!`);
+    }
+
   }
 
   for (let id in categories) {
