@@ -227,6 +227,8 @@ angular.module('financier').factory('category', uuid => {
 
         this._data.note = d.note;
 
+        this._data.collapsed = d.collapsed;
+
         const oldSort = this._data.sort;
         this._data.sort = d.sort;
 
