@@ -21,7 +21,7 @@ angular.module('financier').directive('rename', ($compile, $timeout) => {
         classes: 'drop-theme-arrows-bounce',
         openOn: 'click',
         tetherOptions: {
-          targetOffset: '0 -25px',
+          targetOffset: '0 -20px',
           targetAttachment: 'bottom center',
           optimizations: {
             moveElement: true

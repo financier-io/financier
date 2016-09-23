@@ -72,6 +72,7 @@ i.budget__month-row-note {
   &.drop-enabled {
     width: auto;
     padding: 0 1px; // prevent cutoff
+    opacity: 1;
   }
 }
 
@@ -100,6 +101,7 @@ i.budget__month-row-note--showing {
     .budget__month-row-note {
       width: auto;
       padding: 0 1px; // prevent cutoff
+      opacity: 1;
     }
   }
 }
