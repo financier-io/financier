@@ -241,6 +241,8 @@ angular.module('financier').factory('category', uuid => {
         if (oldSort !== d.sort) {
           this.emitSortChange();
         }
+
+        this._data._rev = d._rev;
       }
 
       /**

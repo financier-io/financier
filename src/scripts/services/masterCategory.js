@@ -173,6 +173,8 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
         this._data.name = d.name;
 
         this._data.collapsed = d.collapsed;
+
+        this._data._rev = d._rev;
       }
 
       /**
