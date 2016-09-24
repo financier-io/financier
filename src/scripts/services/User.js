@@ -2,7 +2,7 @@ angular.module('financier').factory('User', $http => {
   return {
     create: (email, password) => {
       return $http.post('/manage/users', {
-        email,
+        email: email.toLowerCase(),
         password
       })
       .then(d => d.data);
@@ -55,7 +55,9 @@ angular.module('financier').factory('User', $http => {
       .then(d => d.data);
     },
     requestResetPassword: email => {
-      return $http.post('/manage/users/forgot', { email })
+      return $http.post('/manage/users/forgot', {
+        email: email.toLowerCase()
+      })
       .then(d => d.data);
     },
     resetPassword: (token, password) => {
