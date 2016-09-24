@@ -99,7 +99,7 @@
               ng-repeat="category in masterCategory.categories track by category.id"
               ng-class="{'budget__month-row--last': $last}">
             <div class="budget__td budget__month-row budget__category-label">
-              <div class="budget__category-label-container">
+              <div class="budget__category-label-container" title="{{category.note}}">
                 <div class="budget__category-name">
                   <span rename ng-model="category.name" on-remove="budgetCtrl.removeCategory(category.id, masterCategory)">{{category.name}}</span>
                 </div>
@@ -126,7 +126,8 @@
                  ng-class="{'budget__month-row-note--showing': month.categories[category.id].note.length}"
                  note
                  ng-model="month.note(category.id)"
-                 ng-model-options="{ getterSetter: true }"></i>
+                 ng-model-options="{ getterSetter: true }"
+                 title="{{month.categories[category.id].note}}"></i>
 
             </div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--display"

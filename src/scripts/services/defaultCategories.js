@@ -1,12 +1,5 @@
 angular.module('financier').constant('defaultCategories', [
   {
-    name: 'Giving',
-    categories: [{
-      name: 'Tithing'
-    }, {
-      name: 'Charitable'
-    }]
-  }, {
     name: 'Monthly Bills',
     categories: [{
       name: 'Rent/Mortgage'
@@ -68,6 +61,13 @@ angular.module('financier').constant('defaultCategories', [
       name: 'Car Payment'
     }, {
       name: 'Student Loan Payment'
+    }]
+  }, {
+    name: 'Giving',
+    categories: [{
+      name: 'Tithing'
+    }, {
+      name: 'Charitable'
     }]
   }
 ]);

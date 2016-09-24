@@ -146,17 +146,17 @@ i.budget__month-row-note--showing {
     margin-top: -2px;
     
     // "effective" 100%, after adding margin
-    width: calc(100% + 3px);
+    width: calc(100% + 4px);
 
     font-size: 12px;
   
     // now we add the padding back to the input
-    padding-right: 5px;
+    padding: 0 5px 0 0; // explicit for vendor inconsistencies
   
     // this is weird. 2em "magic number" minus 1px
     // for border collapsing (see the cell
     // border-bottom: -1px)
-    height: 20px;
+    height: 22px;
 
     appearance: none;
     background: none;

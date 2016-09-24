@@ -78,6 +78,11 @@ button {
   }
 }
 
+// For mobile safari
+input {
+  border-radius: 0;
+}
+
 ::-ms-clear {
   display: none;
 }
