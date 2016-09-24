@@ -129,8 +129,7 @@ i.budget__month-row-note--showing {
 .budget__month-cell--input {
   position: relative;
 
-  margin-right: -1px;
-  margin-bottom: -1px;
+  height: 18px;
 
   .budget__month-row--last & {
     margin-bottom: 0px;
@@ -140,9 +139,6 @@ i.budget__month-row-note--showing {
   // ...
   // prepare yoself before u wrek yoself
   input {
-    // behave like a normal element
-    box-sizing: border-box;
-  
     // cancel out padding from the cell
     // we can't set padding from the cell to zero
     // because it would wreck the layout
@@ -150,7 +146,9 @@ i.budget__month-row-note--showing {
     margin-top: -2px;
     
     // "effective" 100%, after adding margin
-    width: calc(100% + 10px);
+    width: calc(100% + 3px);
+
+    font-size: 12px;
   
     // now we add the padding back to the input
     padding-right: 5px;
@@ -158,7 +156,7 @@ i.budget__month-row-note--showing {
     // this is weird. 2em "magic number" minus 1px
     // for border collapsing (see the cell
     // border-bottom: -1px)
-    height: 24px;
+    height: 20px;
 
     appearance: none;
     background: none;
@@ -197,6 +195,8 @@ i.budget__month-row-note--showing {
   border-top: 1px dotted #ddd;
   border-left: 1px dotted #ddd;
 
+  height: 20px;
+
   &.budget__month-end {
     border-right: 1px dotted #ddd;
   }
@@ -218,6 +218,8 @@ i.budget__month-row-note--showing {
 .budget__category-label {
   font-size: 0.8em;
   width: 50px; // px to prevent rounding issues
+  height: 20px;
+
   // text-align: left;
 
   white-space: nowrap;
@@ -332,4 +334,8 @@ i.budget__category-collapse {
 
 .budget__category-collapse--closed {
   transform: rotate(-90deg);
+}
+
+.budget__category-label--expanded {
+  height: auto;
 }

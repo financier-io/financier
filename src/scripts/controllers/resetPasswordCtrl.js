@@ -3,9 +3,9 @@ angular.module('financier').controller('resetPasswordCtrl', function(User, $stat
   this.submit = () => {
     this.loading = true;
 
-    User.resetPassword($stateParams.token, this.password)
+    User.resetPassword($stateParams.token.toLowerCase(), this.password)
     .then(() => {
-      return User.login($stateParams.email, this.password)
+      return User.login($stateParams.email.toLowerCase(), this.password)
       .then(() => {
         $state.go('user.budget')
         .then(() => {

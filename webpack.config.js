@@ -107,7 +107,7 @@ module.exports = function makeWebpackConfig () {
       //
       // Reference: https://github.com/webpack/style-loader
       // Use style-loader in development.
-      loader: isTest ? 'null' : ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap!postcss-loader')
+      loader: isTest ? 'null' : ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader')
     }, {
       // ASSET LOADER
       // Reference: https://github.com/webpack/file-loader
@@ -115,7 +115,7 @@ module.exports = function makeWebpackConfig () {
       // Rename the file using the asset hash
       // Pass along the updated reference to your code
       // You can add here any file extension you want to get copied to your output
-      test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
+      test: /\.(png|jpg|jpeg|gif)$/,
       loader: 'file'
     }, {
       // HTML LOADER
@@ -127,20 +127,8 @@ module.exports = function makeWebpackConfig () {
       test: /\.scss$/,
       loaders: ['style', 'css', 'postcss-loader', 'sass']
     }, {
-      test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-      loader: "url?limit=10000&mimetype=application/font-woff"
-    }, {
-      test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-      loader: "url?limit=10000&mimetype=application/font-woff"
-    }, {
-      test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-      loader: "url?limit=10000&mimetype=application/octet-stream"
-    }, {
-      test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-      loader: "file"
-    }, {
-      test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-      loader: "url?limit=10000&mimetype=image/svg+xml"
+      test: /.(png|woff(2)?|eot|ttf|svg)(\?[a-z0-9=\.]+)?$/,
+      loader: 'url-loader?limit=100000'
     }]
   };
 
