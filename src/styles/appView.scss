@@ -305,6 +305,10 @@
   }
 }
 
+.app-view__account--ghost {
+  visibility: hidden;
+}
+
 .app-view__account--active {
   background-color: rgba(0, 0, 0, 0.3);
   opacity: 1;

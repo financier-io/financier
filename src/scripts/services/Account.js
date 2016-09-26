@@ -12,15 +12,17 @@ angular.module('financier').factory('account', uuid => {
        * @param {object} [data] - The record object from the database
        * (with `_id` and `_rev`).
        */
-      constructor(data = {
-        type: 'DEBIT',
-        closed: false,
-        name: null
-      }) {
+      constructor(data) {
+        const myData = angular.extend({
+          type: null,
+          closed: false,
+          name: null,
+          onBudget: true
+        }, data);
 
         // add _id if none exists
-        if (!data._id) {
-          data._id = Account.prefix + uuid();
+        if (!myData._id) {
+          myData._id = Account.prefix + uuid();
         }
 
         /**
@@ -32,9 +34,9 @@ angular.module('financier').factory('account', uuid => {
          *
          * @type {string}
         */
-        this.id = data._id.slice(data._id.lastIndexOf('_') + 1);
+        this.id = myData._id.slice(myData._id.lastIndexOf('_') + 1);
 
-        this.data = data;
+        this.data = myData;
         this.transactions = [];
 
         this.cache = {
@@ -158,8 +160,34 @@ angular.module('financier').factory('account', uuid => {
       }
 
       /**
-       * The type of account, either `'DEBIT'` for checking
-       * & savings accounts, or `'CREDIT'` for credit cards.
+       * Whether the account is on budget
+       *
+       * @example
+       * const checking = new Account();
+       * checking.onBudget = false;
+       * console.log(checking.onBudget); // false
+       *
+       * @type {boolean}
+      */
+      get onBudget() {
+        return this.data.onBudget;
+      }
+
+      set onBudget(n) {
+        this.data.onBudget = n;
+        this.emitChange();
+      }
+
+      /**
+       * The type of account, one of:
+       *   * DEBIT
+       *   * SAVINGS
+       *   * CREDIT (credit type)
+       *   * CASH
+       *   * MERCHANT
+       *   * MORTGAGE (credit type)
+       *   * INVESTMENT
+       *   * LOAN (credit type)
        *
        * When set, will immediately call subscribed function.
        *
@@ -174,8 +202,27 @@ angular.module('financier').factory('account', uuid => {
         this.emitChange();
       }
 
+      /**
+       * The sort order in the account list.
+       * When set, will immediately call subscribed function.
+       *
+       * @type {number}
+      */
+      get sort() {
+        return this.data.sort;
+      }
+
+      set sort(s) {
+        if (this.data.sort !== s) {
+          this.data.sort = s;
+          this.emitChange();
+        }
+      }
+
       isCredit() {
-        return this.data.type === 'CREDIT';
+        return this.data.type === 'CREDIT' ||
+               this.data.type === 'MORTGAGE' ||
+               this.data.type === 'LOAN';
       }
 
       /**

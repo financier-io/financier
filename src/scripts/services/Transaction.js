@@ -256,10 +256,6 @@ angular.module('financier').factory('transaction', uuid => {
       }
 
       set category(x) {
-        if (this.transfer && x) {
-          throw 'Cannot change category of a transfer';
-        }
-
         this._emitCategoryChange(() => {
           this._data.category = x;
 

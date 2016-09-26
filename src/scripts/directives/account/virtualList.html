@@ -13,9 +13,13 @@
       <div class="account__td account__td--flag"><div class="account__flag" ng-style="{'color': displayedTransactions[virtual.i].flag}" flag ng-model="displayedTransactions[virtual.i].flag"><div></div></div></div>
       <div class="account__td account__td--date" transaction-field-focus-name="date">{{displayedTransactions[virtual.i].date | date : 'MM/dd/yy'}}</div>
       <div class="account__td account__td--large account__td--payee" transaction-field-focus-name="payee">{{dbCtrl.getAccountName(displayedTransactions[virtual.i].transfer.account) || dbCtrl.getPayeeName(displayedTransactions[virtual.i].payee)}} <i class="fa fa-exchange" ng-show="displayedTransactions[virtual.i].transfer"></i></div>
-      <div class="account__td account__td--large" transaction-field-focus-name="category">
-        <span class="account__category-label" ng-class="{'account__category-label--empty': !dbCtrl.getCategoryName(displayedTransactions[virtual.i].category, displayedTransactions[virtual.i].date), 'account__category-label--transfer': !!displayedTransactions[virtual.i].transfer}" transaction-field-focus-name="category">
-          {{dbCtrl.getCategoryName(displayedTransactions[virtual.i].category, displayedTransactions[virtual.i].date) || (!displayedTransactions[virtual.i].transfer ? 'No category' : '')}}
+      <div class="account__td account__td--large" ng-if="accountCtrl.account.onBudget" transaction-field-focus-name="category">
+        <span class="account__category-label" ng-class="{
+          'account__category-label--empty': !dbCtrl.getCategoryName(displayedTransactions[virtual.i].category, displayedTransactions[virtual.i].date), 
+          'account__category-label--transfer': accountCtrl.manager.getAccount(displayedTransactions[virtual.i].transfer.account).onBudget
+        }" transaction-field-focus-name="category">
+
+          {{dbCtrl.getCategoryName(displayedTransactions[virtual.i].category, displayedTransactions[virtual.i].date) || ((!displayedTransactions[virtual.i].transfer || !accountCtrl.manager.getAccount(displayedTransactions[virtual.i].transfer.account).onBudget) ? 'No category' : '')}}
         </span>
       </div>
       <div class="account__td account__cell-memo" transaction-field-focus-name="memo">{{displayedTransactions[virtual.i].memo}}</div>

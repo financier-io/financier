@@ -16,12 +16,16 @@
   </label>
 
   <label>
-    Account type
+    <span class="help" title="On budget accounts affect your budget.
+
+Off budget accounts are used for tracking purposes (do not affect your budget).">
+      Account type <i class="fa fa-question-circle"></i>
+    </span>
     <select name="type"
-            ng-model="editAccountCtrl.account.type"
+            ng-model="editAccountCtrl.type"
+            ng-options="type.name group by editAccountCtrl.getGroupName(type.onBudget) for type in editAccountCtrl.accountTypes"
             required>
-      <option value="CREDIT">Credit</option>
-      <option value="DEBIT">Debit</option>
+      <option value="">Select account type...</option>
     </select>
   </label>
   

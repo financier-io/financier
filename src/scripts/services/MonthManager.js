@@ -61,30 +61,33 @@ angular.module('financier').factory('monthManager', (month, account) => {
           this.getAccount(newAccount).addTransaction(trans);
         });
 
-        trans.subscribeCategoryChange(() => {
-          // before change
-          const month = this.getMonth(trans.month);
-          month.removeTransaction(trans);
-          month.startRolling(trans.category);
-        }, () => {
-          // after change
-          const month = this.getMonth(trans.month);
-          month.addTransaction(trans);
-        });
-
-        trans.subscribeMonthChange((newMonth, oldMonth) => {
-          const m = this.getMonth(newMonth);
-
-          this.getMonth(oldMonth).removeTransaction(trans);
-          m.addTransaction(trans);
-        });
-
         this.transactions[trans.id] = trans;
+
+        if (myAccount.onBudget) {
+          trans.subscribeCategoryChange(() => {
+            // before change
+            const month = this.getMonth(trans.month);
+            month.removeTransaction(trans);
+            month.startRolling(trans.category);
+          }, () => {
+            // after change
+            const month = this.getMonth(trans.month);
+            month.addTransaction(trans);
+          });
+
+          trans.subscribeMonthChange((newMonth, oldMonth) => {
+            const m = this.getMonth(newMonth);
+
+            this.getMonth(oldMonth).removeTransaction(trans);
+            m.addTransaction(trans);
+          });
+
+          myMonth.addTransaction(trans);
+        }
 
         myAccount.addTransaction(trans);
 
         this.allAccounts.addTransaction(trans);
-        myMonth.addTransaction(trans);
       }
 
       /**
@@ -109,8 +112,11 @@ angular.module('financier').factory('monthManager', (month, account) => {
             myAccount.removeTransaction(transaction);
 
             this.allAccounts.removeTransaction(transaction);
-            myMonth.removeTransaction(transaction);
-            myMonth.startRolling(transaction.category);
+
+            if (myAccount.onBudget) {
+              myMonth.removeTransaction(transaction);
+              myMonth.startRolling(transaction.category);
+            }
 
             transaction.subscribeAccountChange(null);
             transaction.subscribeCategoryChange(null, null);

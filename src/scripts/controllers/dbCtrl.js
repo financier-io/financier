@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-angular.module('financier').controller('dbCtrl', function(monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget, budgetOpenedRecord, currencies) {
+angular.module('financier').controller('dbCtrl', function(monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget, budgetOpenedRecord, currencies, $timeout) {
   let {manager, categories, masterCategories, payees} = data;
   const budgetId = $stateParams.budgetId;
 
@@ -17,6 +17,18 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
 
   this.masterCategories = masterCategories;
   this.accounts = manager.accounts;
+
+  this.filterAccounts = () => {
+    const bySort = (a, b) => a.sort - b.sort;
+
+    this.onBudgetAccounts = this.accounts.filter(acc => acc.onBudget && !acc.closed).sort(bySort);
+    this.offBudgetAccounts = this.accounts.filter(acc => !acc.onBudget && !acc.closed).sort(bySort);
+    this.closedAccounts = this.accounts.filter(acc => acc.closed).sort(bySort);
+    console.log(this.accounts.length, this.onBudgetAccounts)
+  }
+
+  this.filterAccounts();
+
   this.budgetRecord = budgetRecord;
   this.payees = payees;
 
@@ -25,11 +37,21 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
   this.currentMonth = new Date();
   this.months = getView(this.currentMonth);
 
-  this.openAccountsPredicate = acc => !acc.closed;
-  this.closedAccountsPredicate = acc => acc.closed;
-
   this.currencySymbol = currencies[budgetRecord.currency].symbol_native;
   this.currencyDigits = currencies[budgetRecord.currency].decimal_digits;
+
+  this.accountSortable = {
+    animation: 200,
+    ghostClass: 'app-view__account--ghost',
+    onSort: e => {
+      // wait for the array to update
+      $timeout(() => {
+        for (let i = 0; i < e.models.length; i++) {
+          e.models[i].sort = i;
+        }
+      });
+    }
+  };
 
   this.getCategoryName = (id, transactionDate) => {
     if (id === 'income') {
@@ -162,7 +184,8 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
         editing: () => !!account,
         addCategory: () => this.addCategory,
         masterCategories: () => masterCategories,
-        currencyDigits: () => this.currencyDigits
+        currencyDigits: () => this.currencyDigits,
+        filterAccounts: () => this.filterAccounts
       }
     });
   };
@@ -314,6 +337,8 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
       acc.subscribe(myBudget.put);
 
       manager.addAccount(acc);
+
+      this.filterAccounts();
     },
     transaction(change) {
       let trans = manager.transactions[getId(change.id)];

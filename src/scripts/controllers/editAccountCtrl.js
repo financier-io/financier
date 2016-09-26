@@ -1,4 +1,4 @@
-angular.module('financier').controller('editAccountCtrl', function(editing, myAccount, manager, myBudg, transaction, $q, $rootScope, $scope, $stateParams, category, masterCategory, addCategory, masterCategories, MonthCategory, month, currencyDigits) {
+angular.module('financier').controller('editAccountCtrl', function(editing, myAccount, manager, myBudg, transaction, $q, $rootScope, $scope, $stateParams, category, masterCategory, addCategory, masterCategories, MonthCategory, month, currencyDigits, filterAccounts) {
   const Transaction = transaction($stateParams.budgetId);
   const Category = category($stateParams.budgetId);
   const MasterCategory = masterCategory($stateParams.budgetId);
@@ -10,7 +10,53 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
 
   this.startingBalanceDate = new Date();
 
+  this.getGroupName = onBudget => onBudget ? 'On Budget' : 'Off Budget';
+
+  this.accountTypes = [{
+    name: 'Checking',
+    key: 'DEBIT',
+    onBudget: true
+  },
+  {
+    name: 'Savings',
+    key: 'SAVINGS',
+    onBudget: true
+  },
+  {
+    name: 'Credit Card',
+    key: 'CREDIT',
+    onBudget: true
+  },
+  {
+    name: 'Cash',
+    key: 'CASH',
+    onBudget: true
+  },
+  {
+    name: 'Merchant Account',
+    key: 'MERCHANT',
+    onBudget: false
+  },
+  {
+    name: 'Mortgage',
+    key: 'MORTGAGE',
+    onBudget: false
+  },
+  {
+    name: 'Investment Account',
+    key: 'INVESTMENT',
+    onBudget: false
+  },
+  {
+    name: 'Other Loan (Car, Boat, etc)',
+    key: 'LOAN',
+    onBudget: false
+  }];
+
   this.submit = () => {
+    myAccount.type = this.type.key;
+    myAccount.onBudget = this.type.onBudget;
+
     const promises = [
       myBudg.put(myAccount)
     ];
@@ -70,6 +116,8 @@ angular.module('financier').controller('editAccountCtrl', function(editing, myAc
       }, myBudg.put);
 
       manager.addAccount(myAccount);
+
+      filterAccounts();
 
       if (transaction) {
         manager.addTransaction(transaction);
