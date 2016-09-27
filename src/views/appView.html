@@ -35,7 +35,7 @@
           <div class="app-view__accounts-list-border" ng-show="dbCtrl.onBudgetAccounts.length">
             <div class="app-view__accounts-title" ng-click="dbCtrl.collapsed.onBudgetAccounts = !dbCtrl.collapsed.onBudgetAccounts">
               <span class="app-view__accounts-name">
-                <i class="fa fa-angle-down app-view__accounts-angle" ng-class="{'app-view__accounts-angle--collapsed': dbCtrl.collapsed.onBudgetAccounts}"></i> {{'MY_ACCOUNTS' | translate}}
+                <i class="fa fa-angle-down app-view__accounts-angle" ng-class="{'app-view__accounts-angle--collapsed': dbCtrl.collapsed.onBudgetAccounts}"></i> On Budget
               </span>
               <span class="app-view__accounts-value">{{dbCtrl.totalAccountsBalance(dbCtrl.onBudgetAccounts) | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
             </div>
@@ -57,7 +57,7 @@
           <div class="app-view__accounts-list-border app-view__accounts-list-border--no-top" ng-show="dbCtrl.offBudgetAccounts.length">
             <div class="app-view__accounts-title" ng-click="dbCtrl.collapsed.offBudgetAccounts = !dbCtrl.collapsed.offBudgetAccounts">
               <span class="app-view__accounts-name">
-                <i class="fa fa-angle-down app-view__accounts-angle" ng-class="{'app-view__accounts-angle--collapsed': dbCtrl.collapsed.offBudgetAccounts}"></i> Off budget accounts
+                <i class="fa fa-angle-down app-view__accounts-angle" ng-class="{'app-view__accounts-angle--collapsed': dbCtrl.collapsed.offBudgetAccounts}"></i> Off Budget
               </span>
               <span class="app-view__accounts-value">{{dbCtrl.totalAccountsBalance(dbCtrl.offBudgetAccounts) | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
             </div>
@@ -79,7 +79,7 @@
           <div class="app-view__accounts-list-border app-view__accounts-list-border--no-top" ng-show="dbCtrl.closedAccounts.length">
             <div class="app-view__accounts-title" ng-click="dbCtrl.collapsed.closedAccounts = !dbCtrl.collapsed.closedAccounts">
               <span class="app-view__accounts-name">
-                <i class="fa fa-angle-down app-view__accounts-angle" ng-class="{'app-view__accounts-angle--collapsed': dbCtrl.collapsed.closedAccounts}"></i> My closed accounts
+                <i class="fa fa-angle-down app-view__accounts-angle" ng-class="{'app-view__accounts-angle--collapsed': dbCtrl.collapsed.closedAccounts}"></i> Closed
               </span>
             </div>
 

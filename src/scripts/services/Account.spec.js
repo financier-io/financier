@@ -76,7 +76,7 @@ describe('account', function() {
     it('exposes default name and type', () => {
       let acc = new Account();
 
-      expect(acc.type).toBe('DEBIT');
+      expect(acc.type).toBe(null);
       expect(acc.data._id).toBeDefined(); // randomly generated if not provided
       expect(acc.name).toBe(null);
     });
