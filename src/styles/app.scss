@@ -60,6 +60,8 @@ body {
   // }
 
   font-family: 'Lato', sans-serif;
+
+  -webkit-font-smoothing: subpixel-antialiased;
 }
 
 h1,
@@ -114,4 +116,5 @@ input {
 @import 'verifyEmail';
 @import 'resetPassword';
 @import 'reconcileAccount';
+@import 'editAccount';
 

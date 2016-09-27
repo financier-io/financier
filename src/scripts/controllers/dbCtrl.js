@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-angular.module('financier').controller('dbCtrl', function(monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget, budgetOpenedRecord, currencies, $timeout) {
+angular.module('financier').controller('dbCtrl', function(monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget, budgetOpenedRecord, currencies, $timeout, $state) {
   let {manager, categories, masterCategories, payees} = data;
   const budgetId = $stateParams.budgetId;
 
@@ -24,8 +24,66 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
     this.onBudgetAccounts = this.accounts.filter(acc => acc.onBudget && !acc.closed).sort(bySort);
     this.offBudgetAccounts = this.accounts.filter(acc => !acc.onBudget && !acc.closed).sort(bySort);
     this.closedAccounts = this.accounts.filter(acc => acc.closed).sort(bySort);
-    console.log(this.accounts.length, this.onBudgetAccounts)
   }
+
+  this.totalAccountsBalance = accounts => {
+    let total = 0;
+
+    for (let i = 0; i < accounts.length; i++) {
+      total += accounts[i].balance;
+    }
+
+    return total;
+  }
+
+  this.removeAccount = account => {
+    const remove = () => {
+      manager.removeAccount(account);
+      this.filterAccounts();
+
+      account.remove();
+
+      account.subscribe(null);
+    }
+
+    if ($state.includes('user.app.manager.view.account', {
+      accountId: account.id
+    })) {
+      $state.go('user.app.manager.view.account', {
+        accountId: null
+      })
+      .then(remove);
+    } else {
+      remove();
+    }
+  }
+
+  this.collapsed = {
+    get onBudgetAccounts() {
+      return this._onBudgetAccountsCollapsed;
+    },
+    set onBudgetAccounts(s) {
+      this._onBudgetAccountsCollapsed = s;
+    },
+    get offBudgetAccounts() {
+      return this._offBudgetAccountsCollapsed === 'true';
+    },
+    set offBudgetAccounts(s) {
+      localStorage.setItem('offBudgetAccountsCollapsed', s);
+      this._offBudgetAccountsCollapsed = localStorage.getItem('offBudgetAccountsCollapsed');
+    },
+    get closedAccounts() {
+      return this._closedAccountsCollapsed === 'true';
+    },
+    set closedAccounts(s) {
+      localStorage.setItem('closedAccountsCollapsed', s);
+      this._closedAccountsCollapsed = localStorage.getItem('closedAccountsCollapsed');
+    },
+  };
+
+  this.collapsed._onBudgetAccountsCollapsed = false;
+  this.collapsed._offBudgetAccountsCollapsed = localStorage.getItem('offBudgetAccountsCollapsed');
+  this.collapsed._closedAccountsCollapsed = localStorage.getItem('closedAccountsCollapsed');
 
   this.filterAccounts();
 
@@ -172,16 +230,15 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
     throw new Error('Could not find base month in database!');
   }
 
-  this.editAccount = account => {
+  this.createAccount = account => {
     ngDialog.open({
-      template: require('../../views/modal/editAccount.html'),
-      controller: 'editAccountCtrl',
-      controllerAs: 'editAccountCtrl',
+      template: require('../../views/modal/createAccount.html'),
+      controller: 'createAccountCtrl',
+      controllerAs: 'createAccountCtrl',
       resolve: {
         manager: () => manager,
         myBudg: () => myBudget,
         myAccount: () => account || new Account(),
-        editing: () => !!account,
         addCategory: () => this.addCategory,
         masterCategories: () => masterCategories,
         currencyDigits: () => this.currencyDigits,
@@ -324,6 +381,8 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
         if (manager.accounts[i]._id === change.id) {
           if (change.deleted) {
             manager.removeAccount(manager.accounts[i]);
+
+            this.filterAccounts();
           } else {
             manager.accounts[i].data = change.doc;
           }

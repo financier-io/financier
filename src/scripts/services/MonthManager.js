@@ -56,36 +56,63 @@ angular.module('financier').factory('monthManager', (month, account) => {
 
         trans.subscribe(this.saveFn);
 
-        trans.subscribeAccountChange((newAccount, oldAccount) => {
-          this.getAccount(oldAccount).removeTransaction(trans);
-          this.getAccount(newAccount).addTransaction(trans);
+        trans.subscribeAccountChange((newAccountId, oldAccountId) => {
+          const oldAccount = this.getAccount(oldAccountId),
+            currentMonth = this.getMonth(trans.month);
+
+          if (oldAccount) {
+            oldAccount.removeTransaction(trans)
+          }
+
+          const newAccount = this.getAccount(newAccountId);
+          if (newAccount) {
+            newAccount.addTransaction(trans);
+          }
+
+          if ((!oldAccount || !oldAccount.onBudget) && newAccount && newAccount.onBudget) {
+            currentMonth.addTransaction(trans);
+          } else if ((oldAccount && oldAccount.onBudget) && (!newAccount || !newAccount.onBudget)) {
+            currentMonth.removeTransaction(trans);
+          }
         });
 
         this.transactions[trans.id] = trans;
 
-        if (myAccount.onBudget) {
-          trans.subscribeCategoryChange(() => {
-            // before change
-            const month = this.getMonth(trans.month);
+        trans.subscribeCategoryChange(() => {
+          // before change
+          const month = this.getMonth(trans.month);
+          const account = this.getAccount(trans.account);
+          if (account.onBudget) {
             month.removeTransaction(trans);
             month.startRolling(trans.category);
-          }, () => {
-            // after change
-            const month = this.getMonth(trans.month);
+          }
+        }, () => {
+          // after change
+          const month = this.getMonth(trans.month);
+          const account = this.getAccount(trans.account);
+          if (account.onBudget) {
             month.addTransaction(trans);
-          });
+          }
+        });
 
-          trans.subscribeMonthChange((newMonth, oldMonth) => {
-            const m = this.getMonth(newMonth);
+        trans.subscribeMonthChange((newMonth, oldMonth) => {
+          const m = this.getMonth(newMonth);
+          const account = this.getAccount(trans.account);
 
+          if (account && account.onBudget) {
             this.getMonth(oldMonth).removeTransaction(trans);
             m.addTransaction(trans);
-          });
+          }
 
+        });
+
+        if (myAccount && myAccount.onBudget) {
           myMonth.addTransaction(trans);
         }
 
-        myAccount.addTransaction(trans);
+        if (myAccount) {
+          myAccount.addTransaction(trans);
+        }
 
         this.allAccounts.addTransaction(trans);
       }
@@ -109,11 +136,13 @@ angular.module('financier').factory('monthManager', (month, account) => {
             const myMonth = this.getMonth(transaction.month),
               myAccount = this.getAccount(transaction.account);
 
-            myAccount.removeTransaction(transaction);
+            if (myAccount) {
+              myAccount.removeTransaction(transaction);
+            }
 
             this.allAccounts.removeTransaction(transaction);
 
-            if (myAccount.onBudget) {
+            if (myAccount && myAccount.onBudget) {
               myMonth.removeTransaction(transaction);
               myMonth.startRolling(transaction.category);
             }
@@ -251,11 +280,23 @@ angular.module('financier').factory('monthManager', (month, account) => {
       }
 
       addAccount(acc) {
+        acc.subscribe(this.saveFn);
+
         this.accounts.push(acc);
       }
 
       removeAccount(acc) {
         const index = this.accounts.indexOf(acc);
+
+        for (let i = 0; i < acc.transactions.length; i++) {
+          if (acc.onBudget) {
+            const month = this.getMonth(acc.transactions[i].month);
+
+            month.removeTransaction(acc.transactions[i]);
+          }
+
+          acc.removeTransaction(acc.transactions[i]);
+        }
 
         if (index !== -1) {
           this.accounts.splice(index, 1);

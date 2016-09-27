@@ -2,23 +2,50 @@ angular.module('financier').factory('Settings', () => {
   return class Settings {
     constructor(data) {
       this.data = angular.merge({
-        hints: {
-          outflow: true
-        },
+        closedAccountsCollapsed: false,
+        offBudgetAccountsCollapsed: false,
         _id: 'settings'
       }, data);
 
       const that = this;
+    }
 
-      this._hints = {
-        get outflow() {
-          return that.data.hints.outflow;
-        },
-        set outflow(o) {
-          that.data.hints.outflow = o;
-          that.emitChange();
-        }
-      };
+    /**
+     * The closedAccountsCollapsed of the account. When set, will immediately call subscribed function.
+     *
+     * @example
+     * const checking = new Account();
+     * checking.closedAccountsCollapsed = 'USAA Checking 1234';
+     * console.log(checking.closedAccountsCollapsed); // 'USAA Checking 1234'
+     *
+     * @type {string}
+    */
+    get closedAccountsCollapsed() {
+      return this.data.closedAccountsCollapsed;
+    }
+
+    set closedAccountsCollapsed(n) {
+      this.data.closedAccountsCollapsed = n;
+      this.emitChange();
+    }
+
+    /**
+     * The offBudgetAccountsCollapsed of the account. When set, will immediately call subscribed function.
+     *
+     * @example
+     * const checking = new Account();
+     * checking.offBudgetAccountsCollapsed = 'USAA Checking 1234';
+     * console.log(checking.offBudgetAccountsCollapsed); // 'USAA Checking 1234'
+     *
+     * @type {string}
+    */
+    get offBudgetAccountsCollapsed() {
+      return this.data.offBudgetAccountsCollapsed;
+    }
+
+    set offBudgetAccountsCollapsed(n) {
+      this.data.offBudgetAccountsCollapsed = n;
+      this.emitChange();
     }
 
     get hints() {

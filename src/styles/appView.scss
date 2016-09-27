@@ -231,9 +231,24 @@
 }
 
 .app-view__accounts-title {
+  display: flex;
   font-size: 0.8em;
   padding: 0 0.5rem;
   letter-spacing: 1px;
+
+  cursor: pointer;
+}
+
+.app-view__accounts-name {
+  flex: 1;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.app-view__accounts-value {
+  font-size: 0.9em;
 }
 
 .app-view__add-account {
@@ -270,6 +285,17 @@
   }
 }
 
+.app-view__accounts-angle {
+  vertical-align: top;
+  line-height: 1.4em;
+
+  transition: transform 250ms ease;
+}
+
+.app-view__accounts-angle--collapsed {
+  transform: rotate(-90deg);  
+}
+
 .app-view__accounts-list {
   padding: 0;
   margin: 0;
@@ -284,7 +310,7 @@
 }
 
 .app-view__accounts-list-border--no-top {
-  margin-top: 0;
+  padding-top: 0;
   border-top-width: 0;
 }
 

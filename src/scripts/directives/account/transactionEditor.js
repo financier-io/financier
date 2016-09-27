@@ -42,10 +42,6 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
       };
 
       this.submit = () => {
-        if (this.account === null) {
-          throw new Error('Transaction must belong to an account');
-        }
-
         const saveFn = this.transaction.fn;
         this.transaction.fn = null;
 

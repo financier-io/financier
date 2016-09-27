@@ -1,0 +1,12 @@
+.edit-account__positioner {
+  &.drop-element-attached-top {
+    .drop-content {
+      top: -6px;
+    }
+  }
+  &.drop-element-attached-bottom {
+    .drop-content {
+      top: 6px;
+    }
+  }
+}

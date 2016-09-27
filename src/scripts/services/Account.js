@@ -17,6 +17,7 @@ angular.module('financier').factory('account', uuid => {
           type: null,
           closed: false,
           name: null,
+          note: null,
           onBudget: true
         }, data);
 
@@ -156,6 +157,25 @@ angular.module('financier').factory('account', uuid => {
 
       set name(n) {
         this.data.name = n;
+        this.emitChange();
+      }
+
+      /**
+       * A note on the account. When set, will immediately call subscribed function.
+       *
+       * @example
+       * const checking = new Account();
+       * checking.note = 'Something important';
+       * console.log(checking.note); // 'Something important'
+       *
+       * @type {string}
+      */
+      get note() {
+        return this.data.note;
+      }
+
+      set note(n) {
+        this.data.note = n;
         this.emitChange();
       }
 

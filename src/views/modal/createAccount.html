@@ -1,12 +1,11 @@
-<h2 ng-if="!editAccountCtrl.editing">New account</h2>
-<h2 ng-if="editAccountCtrl.editing">Edit account</h2>
+<h2>New account</h2>
 
-<form name="createAccountForm" ng-submit="editAccountCtrl.submit()" novalidate>
+<form name="createAccountForm" ng-submit="createAccountCtrl.submit()" novalidate>
   <label>
     Account name
     <input type="text"
            name="name"
-           ng-model="editAccountCtrl.account.name"
+           ng-model="createAccountCtrl.account.name"
            placeholder="My account name"
            required>
     <div ng-messages="createAccountForm.name.$error"
@@ -22,21 +21,21 @@ Off budget accounts are used for tracking purposes (do not affect your budget)."
       Account type <i class="fa fa-question-circle"></i>
     </span>
     <select name="type"
-            ng-model="editAccountCtrl.type"
-            ng-options="type.name group by editAccountCtrl.getGroupName(type.onBudget) for type in editAccountCtrl.accountTypes"
+            ng-model="createAccountCtrl.type"
+            ng-options="type.name group by createAccountCtrl.getGroupName(type.onBudget) for type in createAccountCtrl.accountTypes"
             required>
       <option value="">Select account type...</option>
     </select>
   </label>
   
-  <div class="split" ng-if="!editAccountCtrl.editing">
+  <div class="split">
     <label>
       Current balance
       <input type="number"
              min="0"
              step="0.01"
              name="startingBalance"
-             ng-model="editAccountCtrl.startingBalance"
+             ng-model="createAccountCtrl.startingBalance"
              placeholder="0.00">
       <div ng-messages="createAccountForm.startingBalance.$error"
            ng-if="createAccountForm.startingBalance.$touched">
@@ -50,24 +49,12 @@ Off budget accounts are used for tracking purposes (do not affect your budget)."
              calendar-input
              date-parser="MM/dd/yy"
              name="startingBalanceDate"
-             ng-model="editAccountCtrl.startingBalanceDate">
+             ng-model="createAccountCtrl.startingBalanceDate">
       <div ng-messages="createAccountForm.startingBalanceDate.$error"
            ng-if="createAccountForm.startingBalanceDate.$touched">
       </div>
     </label>
-
   </div>
-
-  <label>
-    Account closed
-    <input type="checkbox"
-           name="closed"
-           ng-model="editAccountCtrl.account.closed">
-    <div ng-messages="createAccountForm.startingBalanceDate.$error"
-         ng-if="createAccountForm.startingBalanceDate.$touched">
-    </div>
-  </label>
-
   
   <footer>
     <button class="primary"

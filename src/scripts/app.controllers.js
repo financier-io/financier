@@ -5,7 +5,7 @@ import './controllers/bulkEditTransactionsCtrl';
 import './controllers/createBudgetCtrl';
 import './controllers/importBudgetCtrl';
 import './controllers/dbCtrl';
-import './controllers/editAccountCtrl';
+import './controllers/createAccountCtrl';
 import './controllers/flagCtrl';
 import './controllers/masterCategoryCtrl';
 import './controllers/reportCtrl';

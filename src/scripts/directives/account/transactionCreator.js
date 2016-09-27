@@ -39,10 +39,6 @@ angular.module('financier').directive('transactionCreator', (payee, transaction,
 
 
       this.submit = () => {
-        if (this.account === null) {
-          throw new Error('Transaction must belong to an account');
-        }
-
         this.transaction.account = this.account;
         this.transaction.flag = this.flag;
         this.transaction.date = this.date;

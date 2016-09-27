@@ -1,7 +1,6 @@
 .form__textarea {
   line-height: 1;
   padding: 5px;
-  font-size: 1.1em;
 
   border: 1px solid $formBorderInactive;
 
@@ -12,8 +11,13 @@
   }
 }
 
+.form__textarea {
+  width: 100%;
+}
+
 .form__textarea--monospace {
   font-family: monospace;
+  font-size: 1.2em;
 }
 
 fieldset {

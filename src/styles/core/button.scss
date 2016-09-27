@@ -33,3 +33,17 @@
     background-color: desaturate($danger, 70%);
   }
 }
+
+.button--link-primary {
+  background: none;
+
+  color: $blue-hover;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:disabled {
+    background-color: desaturate($blue-hover, 70%);
+  }
+}

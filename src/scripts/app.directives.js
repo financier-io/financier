@@ -38,6 +38,7 @@ import './directives/ngRightClick';
 import './directives/applyUpdate';
 import './directives/reconcileAccount';
 import './directives/collapse';
+import './directives/editAccount';
 
 import './directives/subscription/creditCard';
 import './directives/subscription/creditCardSpaces';
