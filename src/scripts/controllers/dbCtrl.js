@@ -382,7 +382,7 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
           if (change.deleted) {
             manager.removeAccount(manager.accounts[i]);
 
-            this.filterAccounts();
+            that.filterAccounts();
           } else {
             manager.accounts[i].data = change.doc;
           }
@@ -397,7 +397,7 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
 
       manager.addAccount(acc);
 
-      this.filterAccounts();
+      that.filterAccounts();
     },
     transaction(change) {
       let trans = manager.transactions[getId(change.id)];
