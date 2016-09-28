@@ -223,7 +223,7 @@ angular.module('financier').factory('transaction', uuid => {
           this.transfer._date = this._date;
           this.transfer.setMonth();
 
-          this.transfer._emitMonthChange(this.month, oldDate);
+          this.transfer._emitMonthChange(this.transfer.month, oldDate);
           this.transfer._emitChange();
         }
 

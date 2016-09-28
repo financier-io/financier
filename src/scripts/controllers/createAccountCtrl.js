@@ -46,7 +46,12 @@ angular.module('financier').controller('createAccountCtrl', function(myAccount, 
     onBudget: false
   },
   {
-    name: 'Other Loan (Car, Boat, etc)',
+    name: 'Other Asset',
+    key: 'ASSET',
+    onBudget: false
+  },
+  {
+    name: 'Other Liability',
     key: 'LOAN',
     onBudget: false
   }];

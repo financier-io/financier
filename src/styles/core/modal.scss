@@ -9,7 +9,17 @@
 }
 
 
+.modal__info {
+  font-size: 0.7em;
+  line-height: 1.4;
+  padding: 0.5em;
+  margin-top: 1em;
+}
 
+.modal__info--danger {
+  background-color: $danger;
+  color: white;
+}
 
 .modal {
   line-height: 1.5;

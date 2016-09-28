@@ -27,6 +27,11 @@ Off budget accounts are used for tracking purposes (do not affect your budget)."
       <option value="">Select account type...</option>
     </select>
   </label>
+
+  <div class="modal__info modal__info--danger" ng-if="createAccountCtrl.type.onBudget === false">
+    <i class="fa fa-exclamation-triangle"></i> <strong>Off budget accounts not required</strong><br>
+    Off budget accounts do not affect your budget and are not required to use Financier. Only use off budget accounts if you want them reflected in reports and if you can take the time to keep them up to date.
+    </div>
   
   <div class="split">
     <label>
