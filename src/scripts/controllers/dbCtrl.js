@@ -381,11 +381,11 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
         if (manager.accounts[i]._id === change.id) {
           if (change.deleted) {
             manager.removeAccount(manager.accounts[i]);
-
-            that.filterAccounts();
           } else {
             manager.accounts[i].data = change.doc;
           }
+
+          that.filterAccounts();
 
           return;
         }
