@@ -121,6 +121,9 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
           e.models[i].sort = i;
         }
       });
+    },
+    onStart: () => {
+      $scope.$broadcast('drop:close');
     }
   };
 
