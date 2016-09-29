@@ -134,7 +134,7 @@
                  outflow-helper
                  outflow-date="month.date"
                  outflow-category="category.name"
-                 outflow-setting="dbCtrl.budgetRecord.hints.outflow && month.categoryCache[category.id].outflow"><span ng-if="month.categoryCache[category.id].outflow !== 0">{{month.categoryCache[category.id].outflow | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</span></div>
+                 outflow-setting="dbCtrl.budgetRecord.hints.outflow && !month.categoryCache[category.id].outflow"><span ng-if="month.categoryCache[category.id].outflow !== 0">{{month.categoryCache[category.id].outflow | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</span></div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--display"
                  ng-class="{'budget__month-end': !$last,
                             'budget__month-row--zero': !month.categoryCache[category.id].balance,
