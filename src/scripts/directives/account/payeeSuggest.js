@@ -11,13 +11,21 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
     compile: () => {
       return {
         pre: (scope, element, attrs) => {
+          const byName = (a, b) => {
+            var nameA = a.name.toUpperCase();
+            var nameB = b.name.toUpperCase();
+
+            return nameA > nameB;
+          };
+
+
           scope._accounts = scope.accounts;
           scope._payees = Object.keys(scope.payees).map(key => {
             return scope.payees[key];
           })
-          .sort((a, b) => a.name > b.name);
+          .sort(byName);
 
-          scope.items = scope._accounts.concat(scope._payees);
+          scope.items = scope._accounts.sort(byName).concat(scope._payees);
 
           scope.$watch('transactionAccountId', () => {
             scope.$broadcast('autosuggest:filter');
@@ -42,7 +50,12 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
           };
 
           scope.onSubmit = () => {
-            if (scope.ngModel.constructorName === 'Account') {
+            const account = scope.$parent.accountCtrl.manager.getAccount(scope.transactionAccountId);
+
+            if (scope.ngModel.constructorName === 'Account' && (
+                (scope.ngModel.onBudget && account.onBudget) ||
+                (!scope.ngModel.onBudget && !account.onBudget)
+              )) {
               $rootScope.$broadcast('transaction:memo:focus');
             } else {
               $rootScope.$broadcast('transaction:category:focus');

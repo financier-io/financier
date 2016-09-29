@@ -40,13 +40,18 @@ angular.module('financier').directive('transactionCreator', (payee, transaction,
 
       this.submit = () => {
         const account = $scope.accountCtrl.manager.getAccount(this.account);
+        const transferAccount = $scope.accountCtrl.manager.getAccount(this.payee.id);
 
         this.transaction.account = this.account;
         this.transaction.flag = this.flag;
         this.transaction.date = this.date;
 
         if (!account || account.onBudget) {
-          this.transaction.category = this.category;
+          if (transferAccount && transferAccount.onBudget) {
+            this.transaction.category = null;
+          } else {
+            this.transaction.category = this.category;
+          }
         } else {
           this.transaction.category = null;
         }
@@ -77,7 +82,16 @@ angular.module('financier').directive('transactionCreator', (payee, transaction,
               category: null
             });
 
-            this.transaction.category = null;
+            if (!transferAccount || transferAccount.onBudget) {
+              if (account && account.onBudget) {
+                this.transaction.transfer.category = null;
+              } else {
+                this.transaction.transfer.category = this.category;
+              }
+            } else {
+              this.transaction.transfer.category = null;
+            }
+
             this.transaction._data.transfer = this.transaction.transfer.id;
 
             this.transaction.transfer.transfer = this.transaction;
