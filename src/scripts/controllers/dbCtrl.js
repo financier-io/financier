@@ -37,6 +37,19 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
   }
 
   this.removeAccount = account => {
+    // require all transactions in account to first be removed
+    if (account.transactions.length) {
+      const s = $scope.$new({});
+      s.totalTransactions = account.transactions.length;
+
+      ngDialog.open({
+        template: require('../../views/modal/accountRemoveHasTransactions.html'),
+        scope: s
+      });
+
+      return;
+    }
+
     const remove = () => {
       manager.removeAccount(account);
       this.filterAccounts();

@@ -81,6 +81,7 @@
               <span class="app-view__accounts-name">
                 <i class="fa fa-angle-down app-view__accounts-angle" ng-class="{'app-view__accounts-angle--collapsed': dbCtrl.collapsed.closedAccounts}"></i> Closed
               </span>
+              <span class="app-view__accounts-value">{{dbCtrl.totalAccountsBalance(dbCtrl.closedAccounts) | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
             </div>
 
             <ul class="app-view__accounts-list" ng-sortable="dbCtrl.accountSortable" collapse="dbCtrl.collapsed.closedAccounts">

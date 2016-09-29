@@ -26,6 +26,27 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
     $scope.transactions = manager.allAccounts.transactions;
   }
 
+  this.transactionNeedsCategory = trans => {
+    if (trans) {
+      const tranAcc = manager.getAccount(trans.account);
+
+      if (tranAcc && !tranAcc.onBudget) {
+        return false;
+      }
+
+      if (trans.transfer) {
+        const transferTranAcc = manager.getAccount(trans.transfer.account);
+
+        if (tranAcc && tranAcc.onBudget && transferTranAcc && transferTranAcc.onBudget) {
+          return false;
+        }
+      }
+
+
+      return true;
+    }
+  }
+
   this.customSorts = {
     account(transaction) {
       return manager.getAccount(transaction.account).name;

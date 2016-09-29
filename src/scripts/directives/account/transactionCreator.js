@@ -39,10 +39,18 @@ angular.module('financier').directive('transactionCreator', (payee, transaction,
 
 
       this.submit = () => {
+        const account = $scope.accountCtrl.manager.getAccount(this.account);
+
         this.transaction.account = this.account;
         this.transaction.flag = this.flag;
         this.transaction.date = this.date;
-        this.transaction.category = this.category;
+
+        if (!account || account.onBudget) {
+          this.transaction.category = this.category;
+        } else {
+          this.transaction.category = null;
+        }
+
         this.transaction.memo = this.memo;
         this.transaction.cleared = this.cleared;
 

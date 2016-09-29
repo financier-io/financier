@@ -403,13 +403,9 @@ i.account__reconcile-close {
 }
 
 .account__category-label--empty {
-  opacity: 0.5;
+  background-color: $danger;
+  color: white;
 
-  &:not(.account__category-label--transfer) {
-    background-color: $danger;
-    color: white;
-
-    padding: 2px 5px;
-    opacity: 1;
-  }
+  padding: 2px 5px;
+  opacity: 1;
 }
