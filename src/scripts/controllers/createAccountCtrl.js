@@ -31,9 +31,14 @@ angular.module('financier').controller('createAccountCtrl', function(myAccount, 
     onBudget: true
   },
   {
+    name: 'Line of Credit',
+    key: 'OTHERCREDIT',
+    onBudget: true
+  },
+  {
     name: 'Merchant Account',
     key: 'MERCHANT',
-    onBudget: false
+    onBudget: true
   },
   {
     name: 'Mortgage',

@@ -241,6 +241,7 @@ angular.module('financier').factory('account', uuid => {
 
       isCredit() {
         return this.data.type === 'CREDIT' ||
+               this.data.type === 'OTHERCREDIT' ||
                this.data.type === 'MORTGAGE' ||
                this.data.type === 'LOAN';
       }

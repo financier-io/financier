@@ -16,29 +16,32 @@
                 rows="3"></textarea>
     </label>
     <br>
-    <button class="button button--primary"
-            ng-disabled="editAccountForm.$invalid"><i class="fa fa-check"></i> Save</button>
 
-    <button class="tooltip__delete button button--link-danger tooltip__delete--show"
-            type="button"
-            ng-if="!editAccountCtrl.editAccount.closed"
-            ng-click="editAccountCtrl.close()">
-      <i class="fa fa-minus-circle"></i>Close account
-    </button>
+    <div>
+      <button class="button button--primary"
+              ng-disabled="editAccountForm.$invalid"><i class="fa fa-check"></i> Save</button>
 
-    <button class="tooltip__delete button button--link-primary tooltip__delete--show"
-            type="button"
-            ng-if="editAccountCtrl.editAccount.closed"
-            ng-click="editAccountCtrl.open()">
-      <i class="fa fa-plus-circle"></i>Reopen
-    </button>
+      <button class="tooltip__delete button button--link-danger tooltip__delete--show"
+              type="button"
+              ng-if="!editAccountCtrl.editAccount.closed"
+              ng-click="editAccountCtrl.close()">
+        <i class="fa fa-minus-circle"></i>Close account
+      </button>
 
-    <button class="tooltip__delete button button--link-danger tooltip__delete--show"
-            type="button"
-            ng-if="editAccountCtrl.editAccount.closed"
-            ng-click="editAccountCtrl.remove()">
-      <i class="fa fa-minus-circle"></i>Delete
-    </button>
+      <button class="tooltip__delete button button--link-primary tooltip__delete--show"
+              type="button"
+              ng-if="editAccountCtrl.editAccount.closed"
+              ng-click="editAccountCtrl.open()">
+        <i class="fa fa-plus-circle"></i>Reopen
+      </button>
+
+      <button class="tooltip__delete button button--link-danger tooltip__delete--show"
+              type="button"
+              ng-if="editAccountCtrl.editAccount.closed"
+              ng-click="editAccountCtrl.remove()">
+        <i class="fa fa-minus-circle"></i>Delete
+      </button>
+    </div>
   </form>
 </div>
 
