@@ -85,6 +85,7 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
               date: this.date,
               account: this.payee.id,
               transfer: this.transaction.id,
+              memo: this.memo,
               category: null
             });
 
