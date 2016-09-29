@@ -1,9 +1,44 @@
 <h3 class="dropdown__header">My Accounts</h3>
 
-<ul class="dropdown dropdown--padding" ng-repeat="item in items">
-  <li class="dropdown__item"
-      ng-class="{'dropdown__item--selected': item === selected}"
-      ng-click="submit(item)">
-    {{item.name}}
-  </li>
-</ul>
+
+<div class="dropdown__scroll-container" scroll-container>
+  <div class="dropdown__empty" ng-if="!items.length">
+    You need to create an account before creating a transaction!
+  </div>
+
+  <ul class="dropdown dropdown--padding">
+    <li>
+      <div class="dropdown__header-item" ng-if="filteredOnBudgetAccounts.length && (filteredClosedAccounts.length || filteredOffBudgetAccounts.length)">On Budget</div>
+      <ul class="dropdown" ng-repeat="account in $parent.onBudgetAccounts | filter : filterCustomFilterer as filteredOnBudgetAccounts">
+        <li class="dropdown__item dropdown__item--indented"
+            ng-class="{'dropdown__item--selected': account === selected}"
+            ng-click="submit(account)"
+            scroll-into-view-if="account === selected">
+          <div class="dropdown__item-content">{{account.name}}</div>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <div class="dropdown__header-item" ng-if="filteredOffBudgetAccounts.length">Off Budget</div>
+      <ul class="dropdown" ng-repeat="account in $parent.offBudgetAccounts | filter : filterCustomFilterer as filteredOffBudgetAccounts">
+        <li class="dropdown__item dropdown__item--indented"
+            ng-class="{'dropdown__item--selected': account === selected}"
+            ng-click="submit(account)"
+            scroll-into-view-if="account === selected">
+          <div class="dropdown__item-content">{{account.name}}</div>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <div class="dropdown__header-item" ng-if="filteredClosedAccounts.length">Closed Accounts</div>
+      <ul class="dropdown" ng-repeat="account in $parent.closedAccounts | filter : filterCustomFilterer as filteredClosedAccounts">
+        <li class="dropdown__item dropdown__item--indented"
+            ng-class="{'dropdown__item--selected': account === selected}"
+            ng-click="submit(account)"
+            scroll-into-view-if="account === selected">
+          <div class="dropdown__item-content">{{account.name}}</div>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

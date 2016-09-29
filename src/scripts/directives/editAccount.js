@@ -12,6 +12,8 @@ angular.module('financier').directive('editAccount', ($compile, $timeout, $rootS
     controller: function($scope, $element) {
       $element.on('contextmenu', e => {
         e.preventDefault();
+
+        $rootScope.$broadcast('account:deselectTransactions');
         $rootScope.$broadcast('drop:close');
 
         const template = require('./editAccount.html');

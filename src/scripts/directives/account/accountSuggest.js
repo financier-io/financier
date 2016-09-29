@@ -2,18 +2,24 @@ angular.module('financier').directive('accountSuggest', $rootScope => {
   return {
     restrict: 'E',
     scope: {
-      accounts: '=',
+      onBudgetAccounts: '=',
+      offBudgetAccounts: '=',
+      closedAccounts: '=',
       ngModel: '=',
       transactionPayeeId: '='
     },
-    template: '<autosuggest custom-filter="itemFilter(item)" on-submit="onSubmit()" ng-model="item" items="items" template="template"></autosuggest>',
+    template: '<autosuggest custom-filter="itemFilter(item, searchValue)" on-submit="onSubmit()" ng-model="item" items="items" template="template"></autosuggest>',
     compile: () => {
       return {
         pre: (scope, element, attrs) => {
           scope.items = [];
 
-          scope.itemFilter = item => {
-            if (item.account.id === scope.transactionPayeeId) {
+          scope.itemFilter = (item, searchValue) => {
+            if (item.id === scope.transactionPayeeId) {
+              return false;
+            }
+
+            if ((!scope.item || !scope.item.closed) && item.closed) {
               return false;
             }
 
@@ -24,20 +30,26 @@ angular.module('financier').directive('accountSuggest', $rootScope => {
             scope.$broadcast('autosuggest:filter');
           });
 
-          for (let i = 0; i < scope.accounts.length; i++) {
-            scope.items.push({
-              name: scope.accounts[i].name,
-              account: scope.accounts[i]
-            });
+          const accountItemMapper = account => {
+            return {
+              name: account.name,
+              account
+            };
+          };
 
-            if (scope.accounts[i].id === scope.ngModel) {
-              scope.item = scope.items[scope.items.length - 1];
+          scope.items = scope.onBudgetAccounts
+              .concat(scope.offBudgetAccounts)
+              .concat(scope.closedAccounts);
+
+          for (let i = 0; i < scope.items.length; i++) {
+            if (scope.items[i].id === scope.ngModel) {
+              scope.item = scope.items[i];
             }
           }
 
           scope.$watch('item', (newItem, oldItem) => {
             if (newItem !== oldItem) {
-              scope.ngModel = newItem.account.id;
+              scope.ngModel = newItem.id;
             }
           });
 

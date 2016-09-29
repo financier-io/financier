@@ -166,6 +166,8 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
     $scope.$digest();
   };
 
+  $scope.$on('account:deselectTransactions', documentClickHandler);
+
 
   const selectAllKeyCombos = ['mod+a', 'ctrl+a'];
   $document.bind('click', documentClickHandler);
