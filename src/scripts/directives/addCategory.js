@@ -45,6 +45,10 @@ angular.module('financier').directive('addCategory', ($compile, $timeout) => {
           });
         });
 
+        scope.$on('drop:close', () => {
+          dropInstance.close();
+        });
+
         scope.submit = name => {
           scope.addCategory({ name });
 
