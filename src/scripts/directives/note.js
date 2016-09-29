@@ -44,6 +44,10 @@ angular.module('financier').directive('note', ($compile, $timeout) => {
         });
       });
 
+      scope.$on('drop:close', () => {
+        dropInstance.close();
+      });
+
       scope.submit = note => {
         ngModelCtrl.$setViewValue(note);
 

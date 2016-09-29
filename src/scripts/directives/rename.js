@@ -43,6 +43,10 @@ angular.module('financier').directive('rename', ($compile, $timeout) => {
         });
       });
 
+      scope.$on('drop:close', () => {
+        dropInstance.close();
+      });
+
       scope.remove = () => {
         dropInstance.close();
         scope.onRemove();

@@ -35,6 +35,9 @@ angular.module('financier').controller('budgetCtrl', function($filter, $statePar
           e.models[i].setMasterAndSort(e.models.masterCategory.id, i);
         }
       });
+    },
+    onStart: () => {
+      $scope.$broadcast('drop:close');
     }
   };
 
@@ -45,6 +48,9 @@ angular.module('financier').controller('budgetCtrl', function($filter, $statePar
       for (let i = 0; i < e.models.length; i++) {
         e.models[i].sort = i;
       }
+    },
+    onStart: () => {
+      $scope.$broadcast('drop:close');
     }
   };
 
