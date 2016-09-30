@@ -407,13 +407,16 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
         }
       }
 
-      // Couldn't find it
-      const acc = new Account(change.doc);
-      acc.subscribe(myBudget.put);
+      if (!change.deleted) {
+        // Couldn't find it
+        const acc = new Account(change.doc);
+        acc.subscribe(myBudget.put);
 
-      manager.addAccount(acc);
+        manager.addAccount(acc);
 
-      that.filterAccounts();
+        that.filterAccounts();
+      }
+
     },
     transaction(change) {
       let trans = manager.transactions[getId(change.id)];
