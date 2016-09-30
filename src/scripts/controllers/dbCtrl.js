@@ -258,7 +258,9 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
         addCategory: () => this.addCategory,
         masterCategories: () => masterCategories,
         currencyDigits: () => this.currencyDigits,
-        filterAccounts: () => this.filterAccounts
+        filterAccounts: () => this.filterAccounts,
+        onBudgetAccounts: () => this.onBudgetAccounts,
+        offBudgetAccounts: () => this.offBudgetAccounts
       }
     });
   };

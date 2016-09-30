@@ -18,6 +18,7 @@ angular.module('financier').factory('account', uuid => {
           closed: false,
           name: null,
           note: null,
+          sort: 0,
           onBudget: true
         }, data);
 

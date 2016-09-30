@@ -1,4 +1,4 @@
-angular.module('financier').controller('createAccountCtrl', function(myAccount, manager, myBudg, transaction, $q, $rootScope, $scope, $stateParams, category, masterCategory, addCategory, masterCategories, MonthCategory, month, currencyDigits, filterAccounts) {
+angular.module('financier').controller('createAccountCtrl', function(myAccount, manager, myBudg, transaction, $q, $rootScope, $scope, $stateParams, category, masterCategory, addCategory, masterCategories, MonthCategory, month, currencyDigits, filterAccounts, onBudgetAccounts, offBudgetAccounts) {
   const Transaction = transaction($stateParams.budgetId);
   const Category = category($stateParams.budgetId);
   const MasterCategory = masterCategory($stateParams.budgetId);
@@ -64,6 +64,8 @@ angular.module('financier').controller('createAccountCtrl', function(myAccount, 
   this.submit = () => {
     myAccount.type = this.type.key;
     myAccount.onBudget = this.type.onBudget;
+
+    myAccount.sort = (myAccount.onBudget ? onBudgetAccounts : offBudgetAccounts).length;
 
     const promises = [
       myBudg.put(myAccount)
