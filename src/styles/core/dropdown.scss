@@ -35,11 +35,19 @@
 .dropdown__item {
   display: flex;
   padding: 0 1rem;
-  line-height: 1.8;
   font-size: 0.75em;
   font-weight: 500;
 
   cursor: pointer;
+
+  &,
+  i {
+    line-height: 1.8;
+  }
+
+  i {
+    padding-right: 0.5em;
+  }
 
   &:hover {
     background-color: $blue-hover;

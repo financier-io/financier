@@ -1,8 +1,10 @@
-angular.module('financier').controller('createAccountCtrl', function(myAccount, manager, myBudg, transaction, $q, $rootScope, $scope, $stateParams, category, masterCategory, addCategory, masterCategories, MonthCategory, month, currencyDigits, filterAccounts, onBudgetAccounts, offBudgetAccounts) {
+angular.module('financier').controller('createAccountCtrl', function($locale, myAccount, manager, myBudg, transaction, $q, $rootScope, $scope, $stateParams, category, masterCategory, addCategory, masterCategories, MonthCategory, month, currencyDigits, filterAccounts, onBudgetAccounts, offBudgetAccounts) {
   const Transaction = transaction($stateParams.budgetId);
   const Category = category($stateParams.budgetId);
   const MasterCategory = masterCategory($stateParams.budgetId);
   const Month = month($stateParams.budgetId);
+
+  this.DECIMAL_SEP = $locale.NUMBER_FORMATS.DECIMAL_SEP;
 
   this.account = myAccount;
 
@@ -118,7 +120,7 @@ angular.module('financier').controller('createAccountCtrl', function(myAccount, 
     }
 
     transaction = new Transaction({
-      value: (this.startingBalance || 0) * Math.pow(10, currencyDigits) * (myAccount.isCredit() ? -1 : 1),
+      value: (this.startingBalance || 0) * (myAccount.isCredit() ? -1 : 1),
       date: this.startingBalanceDate.toISOString(),
       category: (myAccount.isCredit() && myAccount.onBudget) ? cat.id : 'income',
       account: myAccount.id,

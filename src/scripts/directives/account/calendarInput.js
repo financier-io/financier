@@ -1,4 +1,6 @@
-angular.module('financier').directive('calendarInput', ($rootScope, inputDropSetup) => {
+angular.module('financier').directive('calendarInput', ($rootScope, $locale, inputDropSetup) => {
+  const FIRSTDAYOFWEEK = $locale.DATETIME_FORMATS.FIRSTDAYOFWEEK;
+
   return {
     restrict: 'A',
     bindToController: {
@@ -55,14 +57,22 @@ angular.module('financier').directive('calendarInput', ($rootScope, inputDropSet
         var d, dateIterator, i, j, month, startingDay, today, week;
         startingDay = (function() {
           var firstDayOfMonth, month, offset, ret, year;
+
           year = date.getFullYear();
           month = date.getMonth();
+
           firstDayOfMonth = new Date(year, month, 1);
           ret = new Date(firstDayOfMonth);
-          offset = firstDayOfMonth.getDay();
+
+          // minus one since FIRSTDAYOFWEEK starts monday, and getDay() starts Sunday
+          offset = firstDayOfMonth.getDay() - 1 - (FIRSTDAYOFWEEK - 7);
+
+          offset = offset % 7;
+
           if (offset === 0) {
             offset = 7;
           }
+
           ret.setDate(ret.getDate() - offset);
           return ret;
         })();

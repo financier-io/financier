@@ -1,6 +1,8 @@
 import moment from 'moment';
 
-angular.module('financier').directive('categorySuggest', $rootScope => {
+angular.module('financier').directive('categorySuggest', ($rootScope, $filter) => {
+  const dateFilter = $filter('date');
+
   return {
     restrict: 'E',
     scope: {
@@ -23,8 +25,8 @@ angular.module('financier').directive('categorySuggest', $rootScope => {
           }];
 
           scope.$watch('transactionDate', (newDate, oldDate) => {
-            scope.incomes[0].name = `Income for ${moment(scope.transactionDate).format('MMMM')}`;
-            scope.incomes[1].name = `Income for ${moment(scope.transactionDate).add(1, 'month').format('MMMM')}`;
+            scope.incomes[0].name = `Income for ${dateFilter(scope.transactionDate, 'LLLL')}`;
+            scope.incomes[1].name = `Income for ${dateFilter(moment(scope.transactionDate).add(1, 'month').toDate(), 'LLLL')}`;
 
             // Don't needlessly trigger upon init
             if (oldDate !== newDate) {

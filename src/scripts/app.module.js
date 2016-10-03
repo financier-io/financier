@@ -6,6 +6,7 @@ import ngDialog from 'ng-dialog';
 import ngMd5 from 'angular-md5';
 import smartTable from 'angular-smart-table';
 import ngTranslate from 'angular-translate';
+import dynamicLocale from 'angular-dynamic-locale';
 import 'angular-dateParser/dist/angular-dateparser';
 import 'angular-resizable';
 import 'ng-resize';
@@ -22,6 +23,8 @@ let financier = angular.module('financier', [
   ngMd5,
   smartTable,
   ngTranslate,
+  dynamicLocale,
+  'ngLocale',
   'dateParser',
   'angularResizable',
   'ngResize',
@@ -219,4 +222,37 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
     className: 'ngdialog-theme-default modal',
     plain: true
   });
+});
+
+financier.run(function($translate, tmhDynamicLocale, tmhDynamicLocaleCache) {
+  function getInjectedLocale() {
+    var localInjector = angular.injector(['ngLocale']);
+    return localInjector.get('$locale');
+  }
+
+  // put de-de language into cache
+  let language = $translate.use().replace('_', '-').toLowerCase();
+
+  if (language === 'es-xl') {
+    $translate.use('es');
+
+    language = 'es-419';
+  }
+
+  try {
+    require(`bundle!angular-i18n/angular-locale_${language}.js`)(function() {
+      tmhDynamicLocaleCache.put(language, getInjectedLocale());
+
+      tmhDynamicLocale.set(language);
+
+    });
+  } catch (e) {
+    console.log(`Couldn't find locale "${language}", falling back to en-us`);
+
+    require(`bundle!angular-i18n/angular-locale_en-us.js`)(function() {
+      tmhDynamicLocaleCache.put('en-us', getInjectedLocale());
+
+      tmhDynamicLocale.set('en-us');
+    });
+  }
 });

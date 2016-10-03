@@ -261,7 +261,8 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
         filterAccounts: () => this.filterAccounts,
         onBudgetAccounts: () => this.onBudgetAccounts,
         offBudgetAccounts: () => this.offBudgetAccounts
-      }
+      },
+      scope: $scope
     });
   };
 

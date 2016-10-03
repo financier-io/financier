@@ -36,11 +36,10 @@ Off budget accounts are used for tracking purposes (do not affect your budget)."
   <div class="split">
     <label>
       Current balance
-      <input type="number"
-             step="0.01"
+      <input transaction-value
              name="startingBalance"
              ng-model="createAccountCtrl.startingBalance"
-             placeholder="0.00">
+             placeholder="0{{createAccountCtrl.DECIMAL_SEP}}00">
       <div ng-messages="createAccountForm.startingBalance.$error"
            ng-if="createAccountForm.startingBalance.$touched">
         <div ng-message="number" class="message">Not a valid dollar amount</div>
@@ -51,7 +50,7 @@ Off budget accounts are used for tracking purposes (do not affect your budget)."
       Date of current balance
       <input type="text"
              calendar-input
-             date-parser="MM/dd/yy"
+             date-parser="shortDate"
              name="startingBalanceDate"
              ng-model="createAccountCtrl.startingBalanceDate">
       <div ng-messages="createAccountForm.startingBalanceDate.$error"

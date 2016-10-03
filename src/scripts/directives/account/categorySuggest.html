@@ -7,6 +7,11 @@
   </div>
 
   <ul class="dropdown dropdown--padding">
+    <!-- <li>
+      <ul class="dropdown">
+        <li class="dropdown__item"><i class="fa fa-bars"></i> Multiple categories...</li>
+      </ul>
+    </li> -->
     <li>
       <div class="dropdown__header-item" ng-if="filteredIncomes.length">Income</div>
       <ul class="dropdown" ng-repeat="income in $parent.incomes | filter : filterCustomFilterer as filteredIncomes">

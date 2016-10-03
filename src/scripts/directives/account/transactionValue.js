@@ -1,26 +1,33 @@
-angular.module('financier').directive('transactionValue', ($filter, currencies) => {
+angular.module('financier').directive('transactionValue', ($filter, $locale, currencies) => {
+  const GROUP_SEP = $locale.NUMBER_FORMATS.GROUP_SEP;
+  const DECIMAL_SEP = $locale.NUMBER_FORMATS.DECIMAL_SEP;
+
+  const numberFilter = $filter('number');
+  const intCurrencyFilter = $filter('intCurrency');
+
   return {
     restrict: 'A',
     require: 'ngModel',
     link: (scope, element, attrs, ngModelCtrl) => {
-      const currencyFilter = $filter('currency');
-
       //format text going to user (model to view)
       ngModelCtrl.$formatters.push(function(value) {
         if (!value) {
           return null;
         }
 
-        return currencyFilter(value / Math.pow(10, scope.$parent.dbCtrl.currencyDigits), '', scope.$parent.dbCtrl.currencyDigits);
+        return numberFilter(intCurrencyFilter(value, true, scope.$parent.dbCtrl.currencyDigits), scope.$parent.dbCtrl.currencyDigits);
       });
 
       //format text from the user (view to model)
       ngModelCtrl.$parsers.push(function(value) {
-        if (value === '.') {
+        if (value === DECIMAL_SEP) {
           return;
         }
 
-        const num = +value.replace(/,/g,'');
+        value = value.replace(new RegExp(`\\${GROUP_SEP}`, 'g'), '');
+        value = value.replace(new RegExp(`\\${DECIMAL_SEP}`, 'g'), '.');
+
+        const num = +value;
 
         if (num === 0) {
           return;

@@ -1,13 +1,20 @@
 import math from 'mathjs';
 
-angular.module('financier').directive('onUpdate', ($filter, $timeout) => {
+angular.module('financier').directive('onUpdate', ($filter, $timeout, $locale) => {
+  const GROUP_SEP = $locale.NUMBER_FORMATS.GROUP_SEP;
+  const DECIMAL_SEP = $locale.NUMBER_FORMATS.DECIMAL_SEP;
+
+  const numberFilter = $filter('number');
+  const intCurrencyFilter = $filter('intCurrency');
+
   function link(scope, element, attrs) {
     let oldValue;
 
-    scope.$watch('viewModel', (val) => {
+    scope.$watch('viewModel', val => {
       if (document.activeElement !== element[0]) {
-        oldValue = ((val || 0) / Math.pow(10, scope.$parent.dbCtrl.currencyDigits)).toFixed(scope.$parent.dbCtrl.currencyDigits);
-        if (oldValue && +oldValue !== 0) {
+        oldValue = numberFilter(intCurrencyFilter(val, true, scope.$parent.dbCtrl.currencyDigits), scope.$parent.dbCtrl.currencyDigits);
+         // | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits
+        if (val !== 0) {
           element.val(oldValue);
         } else {
           element.val('');
@@ -17,7 +24,11 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout) => {
 
     element.on('blur', () => {
       try {
-        const val = math.eval(element.val());
+        let v = element.val();
+        v = v.replace(new RegExp(`\\${GROUP_SEP}`, 'g'), '');
+        v = v.replace(new RegExp(`\\${DECIMAL_SEP}`, 'g'), '.');
+
+        const val = math.eval(v);
         oldValue = val.toFixed(scope.$parent.dbCtrl.currencyDigits);
       } catch(e) {
         oldValue = 0;
@@ -32,7 +43,6 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout) => {
       });
 
       if (oldValue && +oldValue !== 0) {
-        element.val(oldValue);
       } else {
         element.val('');
       }
@@ -41,11 +51,6 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout) => {
     });
 
     element.on('focus', () => {
-      if (+oldValue === 0) {
-        element.val('');
-      } else {
-        element.val(oldValue);
-      }
 
       element.one('mouseup', () => {
         element[0].select();
