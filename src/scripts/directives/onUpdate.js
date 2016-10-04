@@ -12,13 +12,7 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout, $locale) =
 
     scope.$watch('viewModel', val => {
       if (document.activeElement !== element[0]) {
-        oldValue = numberFilter(intCurrencyFilter(val, true, scope.$parent.dbCtrl.currencyDigits), scope.$parent.dbCtrl.currencyDigits);
-         // | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits
-        if (val !== 0) {
-          element.val(oldValue);
-        } else {
-          element.val('');
-        }
+        setView(val);
       }
     });
 
@@ -38,26 +32,35 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout, $locale) =
         oldValue = 0;
       }
 
+      const val = Math.round(oldValue * Math.pow(10, scope.$parent.dbCtrl.currencyDigits));
+
       scope.onUpdate({
-        model: Math.round(oldValue * Math.pow(10, scope.$parent.dbCtrl.currencyDigits)) // float $2.50123 ==> int 250
+        model: val // float $2.50123 ==> int 250
       });
 
-      if (oldValue && +oldValue !== 0) {
-      } else {
-        element.val('');
-      }
+      // 20.20 => 20.2 goes to 20.20
+      setView(val);
 
       scope.$apply();
     });
 
     element.on('focus', () => {
-
       element.one('mouseup', () => {
         element[0].select();
 
         return false;
       });
     });
+
+    function setView(val) {
+      oldValue = numberFilter(intCurrencyFilter(val, true, scope.$parent.dbCtrl.currencyDigits), scope.$parent.dbCtrl.currencyDigits);
+
+      if (val !== 0) {
+        element.val(oldValue);
+      } else {
+        element.val('');
+      }
+    }
   }
 
   return {

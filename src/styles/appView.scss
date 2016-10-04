@@ -42,6 +42,13 @@
 .app-view__sidebar-footer {
 }
 
+.app-view__sidebar-footer-offline-warning {
+  background-color: $danger;
+  font-size: 0.8rem;
+  padding: 1em;
+  text-align: center;
+}
+
 .app-view__sidebar-footer--logged-in {
   position: relative;
   $height: 30px;
