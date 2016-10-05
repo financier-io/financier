@@ -1,6 +1,6 @@
-<h2>Account contains transactions</h2>
+<h2>{{'ACCOUNT_CONTAINS_TRANSACTIONS' | translate}}</h2>
 
-<p>Please remove the {{totalTransactions}} transactions in this account before deleting it.</p>
+<p translate="ACCOUNT_CONTAINS_TRANSACTIONS_MESSAGE" translate-values="{totalTransactions: totalTransactions}"></p>
 
 <footer>
   <button ng-click="closeThisDialog()">OK</button>

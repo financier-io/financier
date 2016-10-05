@@ -10,7 +10,7 @@
            required>
     <div ng-messages="createBudgetForm.name.$error"
          ng-if="createBudgetForm.name.$dirty">
-      <div ng-message="required" class="message">This is required!</div>
+      <div ng-message="required" class="message">{{'FIELD_REQUIRED' | translate}}</div>
     </div>
   </label>
 
@@ -23,7 +23,7 @@
   <footer>
     <button class="primary"
             ladda="createBudgetCtrl.loading"
-            ng-disabed="createBudgetForm.$invalid">Create budget</button>
-    <button ng-click="closeThisDialog()">Cancel</button>
+            ng-disabed="createBudgetForm.$invalid">{{'CREATE_BUDGET' | translate}}</button>
+    <button ng-click="closeThisDialog()">{{'CANCEL' | translate}}</button>
   </footer>
 </form>

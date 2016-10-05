@@ -58,7 +58,7 @@
       <div class="budget__tr month-overview__row" disable-ng-animate>
         <div class="budget__th budget__month-row budget__category-label budget__category-label--expanded">
           <div class="budget__categories-label">
-            Categories <div class="budget__add-master-category" add-category="budgetCtrl.addMasterCategory(name)" add-label="Add master category"></div>
+            {{'CATEGORIES' | translate}} <div class="budget__add-master-category" add-category="budgetCtrl.addMasterCategory(name)" add-label="{{'ADD_MASTER_CATEGORY' | translate}}"></div>
           </div>
         </div>
         <div class="budget__th budget__month-row month-overview__cell-head"
@@ -79,7 +79,7 @@
               </div>
               <div class="budget__category-name budget__category-name--fill">
                 <span rename ng-model="masterCategory.name" on-remove="budgetCtrl.removeMasterCategory(masterCategory)">{{masterCategory.name}}</span></div>
-              <div class="budget__add-category" add-category="budgetCtrl.addCategory(name, masterCategory)" add-label="Add category"></div>
+              <div class="budget__add-category" add-category="budgetCtrl.addCategory(name, masterCategory)" add-label="{{'ADD_CATEGORY' | translate}}"></div>
             </div>
           </div>
             <div class="budget__td budget__month-row month-body__cell-head"

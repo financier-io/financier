@@ -1,9 +1,9 @@
-<h2>Remove category</h2>
+<h2>{{'REMOVE_CATEGORY' | translate}}</h2>
 
-<p>Are you sure you want to remove the category "{{category}}"? This action can affect historical budget data and should only be used if the category is completely unused.</p>
+<p translate="REMOVE_CATEGORY_MESSAGE" translate-values="{category: category}"></p>
 
 <footer>
   <button class="danger"
-          ng-click="confirm()">Remove category</button>
-  <button ng-click="closeThisDialog()">Cancel</button>
+          ng-click="confirm()">{{'REMOVE_CATEGORY' | translate}}</button>
+  <button ng-click="closeThisDialog()">{{'CANCEL' | translate}}</button>
 </footer>

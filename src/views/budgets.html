@@ -6,11 +6,11 @@
     <div class="budgets-header__title">Financier</div>
 
     <ul class="budgets-header__actions">
-      <li class="budgets-header__action" ng-if="!userCtrl.email" ui-sref="user.signup">Upgrade/Sign up</li>
-      <li class="budgets-header__action" ng-if="!userCtrl.email" ng-click="userCtrl.signin()">Login</li>
+      <li class="budgets-header__action" ng-if="!userCtrl.email" ui-sref="user.signup">{{'UPGRADE_OR_SIGNUP' | translate}}</li>
+      <li class="budgets-header__action" ng-if="!userCtrl.email" ng-click="userCtrl.signin()">{{'LOGIN' | translate}}</li>
 
       <sync-status status="userCtrl.status" ng-if="userCtrl.email"></sync-status>
-      <li class="budgets-header__action" ng-if="userCtrl.email" ng-click="userCtrl.logout()" ladda="userCtrl.logoutLoading">Logout</li>
+      <li class="budgets-header__action" ng-if="userCtrl.email" ng-click="userCtrl.logout()" ladda="userCtrl.logoutLoading">{{'LOGOUT' | translate}}</li>
     </ul>
   </div>
 </div>
@@ -26,10 +26,10 @@
         ng-class="{'budgets__flipper--open': budgetsCtrl.isRemoving(budget)}"
         ng-repeat="budget in budgetsCtrl.budgets | orderBy: budgetsCtrl.budgetOrder : true">
       <div class="budgets__budget-remove">
-        <header>Are you sure you want to permanently delete "{{budget.name}}"?</header>
+        <header translate="REMOVE_BUDGET_CONFIRMATION" translate-values="{name: budget.name}"></header>
 
         <div>
-          <button class="danger" ng-click="budgetsCtrl.remove(budget)">Remove</button> <button ng-click="budgetsCtrl.removing(null, $event)">Cancel</button>
+          <button class="danger" ng-click="budgetsCtrl.remove(budget)">{{'REMOVE' | translate}}</button> <button ng-click="budgetsCtrl.removing(null, $event)">{{'CANCEL' | translate}}</button>
         </div>
       </div>
       <div class="budgets__budget"
@@ -40,7 +40,7 @@
         <div class="budgets__budget-name">{{budget.name}}</div>
         <div class="budgets__budget-opened"
              ng-if="budgetsCtrl.budgetsOpened[budget.id].opened"
-             title="{{budgetsCtrl.budgetsOpened[budget.id].opened | date: 'medium'}}"><sub>Last opened</sub><br>{{budgetsCtrl.budgetsOpened[budget.id].opened | timeAgo}}</div>
+             title="{{budgetsCtrl.budgetsOpened[budget.id].opened | date: 'medium'}}"><sub>{{'LAST_OPENED' | translate}}</sub><br>{{budgetsCtrl.budgetsOpened[budget.id].opened | timeAgo}}</div>
 
         <div class="budgets__budget-close"
              ng-click="budgetsCtrl.removing(budget, $event)"
@@ -61,19 +61,19 @@
     </li>
   </ul>
 
-  <div class="budgets__title">Billing</div>
+  <div class="budgets__title">{{'BILLING' | translate}}</div>
 
   <div ng-if="userCtrl.isFree === true">
-    <p>You're currently using the free version. Your budgets are stored in the browser, and could be deleted if you clear the browser cache!</p>
+    <p>{{'FREE_VERSION_EXPLANATION' | translate}}</p>
   </div>
 
   <p ng-if="userCtrl.loadingFailed">
-    Loading subscription information failed. It looks like you might not have an internet connection. No worries -- refresh the page later when you do.
+    {{'LOADING_SUBSCRIPTIONS_FAILED_EXPLANATION' | translate}}
   </p>
   
   <div ng-if="userCtrl.isFree === false">
     <p ng-if="(userCtrl.loadingSubscription || userCtrl.loadingSource) && !userCtrl.loadingFailed">
-      Loading subscription...
+      {{'LOADING_SUBSCRIPTION' | translate}}
     </p>
 
 
@@ -82,47 +82,50 @@
 
       <div ng-if="userCtrl.subscription">
         <div ng-if="userCtrl.subscription.cancel_at_period_end">
-          <p>It looks like your {{userCtrl.subscription.status === 'trialing' ? 'trial' : 'subscription'}} was canceled. Your last date of premium service will be {{userCtrl.subscription.current_period_end * 1000 | date}}.</p>
+          <p ng-if="userCtrl.subscription.status === 'trialing'" translate="TRIAL_CANCELLED_EXPLANATION" translate-values="{date: (userCtrl.subscription.current_period_end * 1000 | date)}"></p>
 
-          <button class="button button--primary" ladda="userCtrl.loadingStartSubscription" ng-click="userCtrl.startSubscription()">Resume my subscription</button>
+          <p ng-if="userCtrl.subscription.status !== 'trialing'" translate="SUBSCRIPTION_CANCELLED_EXPLANATION" translate-values="{date: (userCtrl.subscription.current_period_end * 1000 | date)}"></p>
+
+          <button class="button button--primary" ladda="userCtrl.loadingStartSubscription" ng-click="userCtrl.startSubscription()">{{'RESUME_MY_SUBSCRIPTION' | translate}}</button>
           
         </div>
 
         <div ng-if="!userCtrl.subscription.cancel_at_period_end">
           <div ng-if="userCtrl.source">
-            <p>Your subscription will be renewed on {{userCtrl.subscription.current_period_end * 1000 | date}} for {{userCtrl.subscription.plan.amount | intCurrency | currency}} on your card ending in {{userCtrl.source.last4}}. Your subscription is billed every {{userCtrl.subscription.plan.interval}}.</p>
+            <p translate="SUBSCRIPTION_BILLING_EXPLANATION" translate-values="{date: (userCtrl.subscription.current_period_end * 1000 | date), amount: (userCtrl.subscription.plan.amount | intCurrency | currency), last4: userCtrl.source.last4}"></p>
 
-            <button class="button button--danger" ladda="userCtrl.loadingStopSubscription" ng-click="userCtrl.stopSubscription()">Cancel subscription</button>
+            <button class="button button--danger" ladda="userCtrl.loadingStopSubscription" ng-click="userCtrl.stopSubscription()">{{'CANCEL_SUBSCRIPTION' | translate}}</button>
 
-            <p><small>(Don't worry, by canceling you will continue to have premium service until {{userCtrl.subscription.current_period_end * 1000 | date}}.)</small></p>
+            <p><small translate="CANCEL_SUBSCRIPTION_SERVICE_CONTINUATION_EXPLANATION" translate-values="{date: (userCtrl.subscript
+ion.current_period_end * 1000 | date)}"></small></p>
           </div>
 
           <div ng-if="!userCtrl.source">
-            <p>It looks like you don't currently have a card on your account! Your subscription will end on {{userCtrl.subscription.current_period_end * 1000 | date}} unless you add a card.</p>
+            <p translate="NO_CARD_ON_ACCOUNT" translate-values="{date: (userCtrl.subscription.current_period_end * 1000 | date)}"></p>
           </div>
         </div>
       </div>
       
 
       <div ng-if="!userCtrl.subscription">
-        <p>You don't currently have an active subscription. <span ng-if="!userCtrl.source">You must add a payment method below before starting your subscription.</span></p>
+        <p>{{'NO_SUBSCRIPTION' | translate}} <span ng-if="!userCtrl.source">{{'YOU_MUST_ADD_A_PAYMENT_METHOD' | translate}}</span></p>
 
         <div ng-if="userCtrl.source">
-          <button class="button button--primary" ng-click="userCtrl.startSubscription()">Start subscription ($12 per year)</button>
+          <button class="button button--primary" ng-click="userCtrl.startSubscription()" translate="START_SUBSCRIPTION" translate-values="{amount: (12 | currency : '$')}"></button>
         </div>
       </div>
 
-      <h2>Your payment method</h2>
+      <h2>{{'YOUR_PAYMENT_METHOD' | translate}}</h2>
 
       <p ng-if="!userCtrl.source">
-        <button class="button button--primary" ng-if="!userCtrl.source" ng-click="userCtrl.addCard()">+ Add a card</button>
+        <button class="button button--primary" ng-if="!userCtrl.source" ng-click="userCtrl.addCard()">+ {{'ADD_A_CARD' | translate}}</button>
       </p>
 
 
       <div ng-if="userCtrl.source">
-        <p>Your card {{userCtrl.source.brand}} ending in {{userCtrl.source.last4}} is on your account.</p>
+        <p translate="CARD_ON_ACCOUNT_EXPLANATION" translate-values="{brand: userCtrl.source.brand, last4: userCtrl.source.last4}"></p>
 
-        <button class="button button--danger" ladda="userCtrl.loadingRemoveSource" ng-click="userCtrl.removeSource()">Remove card</button>
+        <button class="button button--danger" ladda="userCtrl.loadingRemoveSource" ng-click="userCtrl.removeSource()">{{'REMOVE_CARD' | translate}}</button>
       </div>
     </div>
   </div>

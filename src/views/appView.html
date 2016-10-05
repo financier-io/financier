@@ -35,7 +35,7 @@
           <div class="app-view__accounts-list-border" ng-show="dbCtrl.onBudgetAccounts.length">
             <div class="app-view__accounts-title" ng-click="dbCtrl.collapsed.onBudgetAccounts = !dbCtrl.collapsed.onBudgetAccounts">
               <span class="app-view__accounts-name">
-                <i class="fa fa-angle-down app-view__accounts-angle" ng-class="{'app-view__accounts-angle--collapsed': dbCtrl.collapsed.onBudgetAccounts}"></i> On Budget
+                <i class="fa fa-angle-down app-view__accounts-angle" ng-class="{'app-view__accounts-angle--collapsed': dbCtrl.collapsed.onBudgetAccounts}"></i> {{'ON_BUDGET' | translate}}
               </span>
               <span class="app-view__accounts-value">{{dbCtrl.totalAccountsBalance(dbCtrl.onBudgetAccounts) | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
             </div>
@@ -57,7 +57,7 @@
           <div class="app-view__accounts-list-border app-view__accounts-list-border--no-top" ng-show="dbCtrl.offBudgetAccounts.length">
             <div class="app-view__accounts-title" ng-click="dbCtrl.collapsed.offBudgetAccounts = !dbCtrl.collapsed.offBudgetAccounts">
               <span class="app-view__accounts-name">
-                <i class="fa fa-angle-down app-view__accounts-angle" ng-class="{'app-view__accounts-angle--collapsed': dbCtrl.collapsed.offBudgetAccounts}"></i> Off Budget
+                <i class="fa fa-angle-down app-view__accounts-angle" ng-class="{'app-view__accounts-angle--collapsed': dbCtrl.collapsed.offBudgetAccounts}"></i> {{'OFF_BUDGET' | translate}}
               </span>
               <span class="app-view__accounts-value">{{dbCtrl.totalAccountsBalance(dbCtrl.offBudgetAccounts) | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
             </div>
@@ -79,7 +79,7 @@
           <div class="app-view__accounts-list-border app-view__accounts-list-border--no-top" ng-show="dbCtrl.closedAccounts.length">
             <div class="app-view__accounts-title" ng-click="dbCtrl.collapsed.closedAccounts = !dbCtrl.collapsed.closedAccounts">
               <span class="app-view__accounts-name">
-                <i class="fa fa-angle-down app-view__accounts-angle" ng-class="{'app-view__accounts-angle--collapsed': dbCtrl.collapsed.closedAccounts}"></i> Closed
+                <i class="fa fa-angle-down app-view__accounts-angle" ng-class="{'app-view__accounts-angle--collapsed': dbCtrl.collapsed.closedAccounts}"></i> {{'CLOSED' | translate}}
               </span>
               <span class="app-view__accounts-value">{{dbCtrl.totalAccountsBalance(dbCtrl.closedAccounts) | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
             </div>
@@ -109,8 +109,8 @@
         <div class="app-view__sidebar-footer--logged-in">
           <div class="app-view__sidebar-details">
             <ul class="user-options">
-              <li>Logout</li>
-              <li>Logout &amp; remove local budgets</li>
+              <li>{{'LOGOUT' | translate}}</li>
+              <li>{{'LOGOUT_AND_CLEAR_LOCAL_BUDGETS' | translate}}</li>
             </ul>
           </div>
 
@@ -125,16 +125,16 @@
 
       <footer ng-if="!userCtrl.email" class="app-view__sidebar-footer">
         <a class="app-view__sync" ui-sref="user.signup">
-          Don't have an account? Upgrade to unlock syncing. Free for 7 days!
+          {{'DO_NOT_HAVE_ACCOUNT_MESSAGE' | translate}}
         </a>
 
         <div class="app-view__sidebar-footer-offline-warning">
-          <i class="fa fa-exclamation-triangle"></i> <strong>Warning!</strong> You are in offline mode. Click the button below to sign in to ensure you do not lose data.</i>
+          <i class="fa fa-exclamation-triangle"></i> <strong>{{'WARNING_EXCLAMATION' | translate}}</strong> {{'OFFLINE_MODE_WARNING_EXPLANATION' | translate}}</i>
         </div>
 
         <div class="app-view__sidebar-footer--logged-in">
           <div ng-click="userCtrl.signin()" class="app-view__sidebar-footer-button app-view__sidebar-footer-button--sign-in">
-            Sign into your account
+            {{'SIGN_INTO_YOUR_ACCOUNT' | translate}}
           </div>
         </div>
       </footer>

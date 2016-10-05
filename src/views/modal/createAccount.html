@@ -1,8 +1,8 @@
-<h2>New account</h2>
+<h2>{{'NEW_ACCOUNT' | translate}}</h2>
 
 <form name="createAccountForm" ng-submit="createAccountCtrl.submit()" novalidate>
   <label>
-    Account name
+    {{'ACCOUNT_NAME' | translate}}
     <input type="text"
            name="name"
            ng-model="createAccountCtrl.account.name"
@@ -10,44 +10,38 @@
            required>
     <div ng-messages="createAccountForm.name.$error"
          ng-if="createAccountForm.name.$touched">
-      <div ng-message="required" class="message">This is required!</div>
+      <div ng-message="required" class="message">{{'FIELD_REQUIRED' | translate}}</div>
     </div>
   </label>
 
   <label>
-    <span class="help" title="On budget accounts affect your budget.
-
-Off budget accounts are used for tracking purposes (do not affect your budget).">
-      Account type <i class="fa fa-question-circle"></i>
+    <span class="help" title="{{'ACCOUNT_TYPE_HELP' | translate}}">
+      {{'ACCOUNT_TYPE' | translate}} <i class="fa fa-question-circle"></i>
     </span>
     <select name="type"
             ng-model="createAccountCtrl.type"
             ng-options="type.name group by createAccountCtrl.getGroupName(type.onBudget) for type in createAccountCtrl.accountTypes"
             required>
-      <option value="">Select account type...</option>
+      <option value="">{{'SELECT_ACCOUNT_TYPE' | translate}}</option>
     </select>
   </label>
 
   <div class="modal__info" collapse="createAccountCtrl.type.onBudget !== false">
-    <i class="fa fa-info-circle"></i> <strong>Heads up!</strong><br>
-    Off budget accounts do not affect your budget and are not required to use Financier. Only use off budget accounts if you want them reflected in reports and if you can take the time to keep them up to date.
+    <i class="fa fa-info-circle"></i> <strong>{{'HEADS_UP' | translate}}</strong><br>
+    {{'OFF_BUDGET_ACCOUNT_MESSAGE' | translate}}
     </div>
   
   <div class="split">
     <label>
-      Current balance
+      {{'CURRENT_BALANCE' | translate}}
       <input transaction-value
              name="startingBalance"
              ng-model="createAccountCtrl.startingBalance"
              placeholder="0{{createAccountCtrl.DECIMAL_SEP}}00">
-      <div ng-messages="createAccountForm.startingBalance.$error"
-           ng-if="createAccountForm.startingBalance.$touched">
-        <div ng-message="number" class="message">Not a valid dollar amount</div>
-      </div>
     </label>
 
     <label>
-      Date of current balance
+      {{'DATE_CURRENT_BALANCE' | translate}}
       <input type="text"
              calendar-input
              date-parser="shortDate"
@@ -61,7 +55,7 @@ Off budget accounts are used for tracking purposes (do not affect your budget)."
   
   <footer>
     <button class="primary"
-            ng-disabled="createAccountForm.$invalid">Save</button>
-    <button ng-click="closeThisDialog()" type="button">Cancel</button>
+            ng-disabled="createAccountForm.$invalid">{{'SAVE' | translate}}</button>
+    <button ng-click="closeThisDialog()" type="button">{{'CANCEL' | translate}}</button>
   </footer>
 </form>

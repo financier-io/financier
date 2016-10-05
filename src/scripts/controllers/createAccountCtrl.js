@@ -1,4 +1,4 @@
-angular.module('financier').controller('createAccountCtrl', function($locale, myAccount, manager, myBudg, transaction, $q, $rootScope, $scope, $stateParams, category, masterCategory, addCategory, masterCategories, MonthCategory, month, currencyDigits, filterAccounts, onBudgetAccounts, offBudgetAccounts) {
+angular.module('financier').controller('createAccountCtrl', function($locale, myAccount, manager, myBudg, transaction, $q, $rootScope, $scope, $stateParams, category, masterCategory, addCategory, masterCategories, MonthCategory, month, currencyDigits, filterAccounts, onBudgetAccounts, offBudgetAccounts, $translate) {
   const Transaction = transaction($stateParams.budgetId);
   const Category = category($stateParams.budgetId);
   const MasterCategory = masterCategory($stateParams.budgetId);
@@ -13,52 +13,52 @@ angular.module('financier').controller('createAccountCtrl', function($locale, my
   this.getGroupName = onBudget => onBudget ? 'On Budget' : 'Off Budget';
 
   this.accountTypes = [{
-    name: 'Checking',
+    name: $translate.instant('CHECKING'),
     key: 'DEBIT',
     onBudget: true
   },
   {
-    name: 'Savings',
+    name: $translate.instant('SAVINGS'),
     key: 'SAVINGS',
     onBudget: true
   },
   {
-    name: 'Credit Card',
+    name: $translate.instant('CREDIT_CARD'),
     key: 'CREDIT',
     onBudget: true
   },
   {
-    name: 'Cash',
+    name: $translate.instant('CASH'),
     key: 'CASH',
     onBudget: true
   },
   {
-    name: 'Line of Credit',
+    name: $translate.instant('LINE_OF_CREDIT'),
     key: 'OTHERCREDIT',
     onBudget: true
   },
   {
-    name: 'Merchant Account',
+    name: $translate.instant('MERCHANT_ACCOUNT'),
     key: 'MERCHANT',
     onBudget: true
   },
   {
-    name: 'Mortgage',
+    name: $translate.instant('MORTGAGE'),
     key: 'MORTGAGE',
     onBudget: false
   },
   {
-    name: 'Investment Account',
+    name: $translate.instant('INVESTMENT_ACCOUNT'),
     key: 'INVESTMENT',
     onBudget: false
   },
   {
-    name: 'Other Asset',
+    name: $translate.instant('OTHER_ASSET'),
     key: 'ASSET',
     onBudget: false
   },
   {
-    name: 'Other Liability',
+    name: $translate.instant('OTHER_LIABILITY'),
     key: 'LOAN',
     onBudget: false
   }];

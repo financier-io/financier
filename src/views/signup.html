@@ -3,63 +3,63 @@
     <div class="budgets-header__title">Financier</div>
 
     <ul class="budgets-header__actions">
-      <li class="budgets-header__action" ui-sref="user.budget"><i class="fa fa-angle-left"></i> Back to my budgets</li>
+      <li class="budgets-header__action" ui-sref="user.budget"><i class="fa fa-angle-left"></i> {{'BACK_TO_MY_BUDGETS' | translate}}</li>
     </ul>
   </div>
 </div>
 
 <div class="signup">
-  <h1>Sign up today for Financier Premium. No credit card required.</h1>
+  <h1>{{'SIGNUP_TODAY_TITLE' | translate}}</h1>
 
   
   <div class="signup__compare">
-    <h2><em>Free plan</em> <small>Free, forever!</small></h2>
+    <h2><em>{{'FREE_PLAN' | translate}}</em> <small>{{'FREE_FOREVER' | translate}}</small></h2>
     
     <ul>
-      <li><i class="fa fa-check-circle-o"></i> <span>100% offline functionality</span></li>
-      <li><i class="fa fa-times-circle-o"></i> <span>No syncing, data stored in browser</span></li>
-      <li><i class="fa fa-times-circle-o"></i> <span><strong>Clearing your browser cache will delete budgets!</strong></span></li>
+      <li><i class="fa fa-check-circle-o"></i> <span>{{'100_OFFLINE_FUNCTIONALITY' | translate}}</span></li>
+      <li><i class="fa fa-times-circle-o"></i> <span>{{'NO_SYNCING_DATA_IN_BROWSER' | translate}}</span></li>
+      <li><i class="fa fa-times-circle-o"></i> <span><strong>{{'CLEARING_BROWSER_CACHE_WILL_DELETE_BUDGETS' | translate}}</strong></span></li>
     </ul>
   </div>
 
   <div class="signup__compare">
-    <h2><em>Premium plan</em> <small>$12/year</small></h2>
+    <h2><em>{{'PREMIUM_PLAN' | translate}}</em> <small translate="PREMIUM_PLAN_PER_YEAR" translate-values="{amount: (12 | currency: '$')}"></small></h2>
 
     <ul>
-      <li><i class="fa fa-check-circle-o"></i> <span>100% offline functionality</span></li>
-      <li><i class="fa fa-check-circle-o"></i> <span>Syncing and backups to the cloud</span></li>
-      <li><i class="fa fa-check-circle-o"></i> <span>Access your budgets across devices</span></li>
-      <li><i class="fa fa-check-circle-o"></i> <span>Feed the developer</span></li>
-      <li class="signup__upcoming"><i class="fa fa-check-circle-o"></i> <span>Mobile app &mdash; coming soon!</span></li>
+      <li><i class="fa fa-check-circle-o"></i> <span>{{'100_OFFLINE_FUNCTIONALITY' | translate}}</span></li>
+      <li><i class="fa fa-check-circle-o"></i> <span>{{'SYNCING_AND_BACKUPS_TO_CLOUD' | translate}}</span></li>
+      <li><i class="fa fa-check-circle-o"></i> <span>{{'ACCESS_ACROSS_DEVICES' | translate}}</span></li>
+      <li><i class="fa fa-check-circle-o"></i> <span>{{'FEED_THE_DEVELOPER' | translate}}</span></li>
+      <li class="signup__upcoming"><i class="fa fa-check-circle-o"></i> <span>{{'MOBILE_APP_COMING_SOON' | translate}}</span></li>
     </ul>  
   </div>
   
   <div class="signup__footer">
     <div class="signup__footer-container">
-      <h2>Sign up</h2>
+      <h2>{{'SIGNUP' | translate}}</h2>
       
       <form name="signupCtrl.form" ng-submit="signupCtrl.submit(signupCtrl.email, signupCtrl.password)">
         <div class="signup__footer-row">
           <label>
-            Your email
+            {{'YOUR_EMAIL' | translate}}
             <input type="email" name="email" ng-model="signupCtrl.email" required autofocus>
             <div ng-messages="signupCtrl.form.email.$error"
                  ng-if="signupCtrl.form.email.$touched">
-              <div ng-message="required" class="message">This is required!</div>
-              <div ng-message="email" class="message">Invalid email address</div>
-              <div ng-message="duplicate" class="message">This email address is already registered</div>
+              <div ng-message="required" class="message">{{'FIELD_REQUIRED' | translate}}</div>
+              <div ng-message="email" class="message">{{'INVALID_EMAIL_ADDRESS' | translate}}</div>
+              <div ng-message="duplicate" class="message">{{'EMAIL_ADDRESS_ALREADY_REGISTERED' | translate}}</div>
             </div>
           </label>
         </div>
         <div class="signup__footer-row">
           <label>
-            Your password
+            {{'YOUR_PASSWORD' | translate}}
             <div class="signup__password-field">
               <input type="password" name="password" ng-model="signupCtrl.password" required ng-minlength="6">
               <div ng-messages="signupCtrl.form.password.$error"
                    ng-if="signupCtrl.form.password.$touched">
-                <div ng-message="required" class="message">This is required!</div>
-                <div ng-message="minlength" class="message">Password must be at least six characters</div>
+                <div ng-message="required" class="message">{{'FIELD_REQUIRED' | translate}}</div>
+                <div ng-message="minlength" class="message">{{'PASSWORD_MINIMUM_LENGTH' | translate}}</div>
               </div>
               <i class="fa fa-lock"></i>
             </div>
@@ -67,16 +67,14 @@
         </div>
 
         <div class="signup__footer-row">
-          <button class="signup__button" ladda="signupCtrl.loading" ng-disabled="signupCtrl.form.$invalid">Try free for 7 days</button>
+          <button class="signup__button" ladda="signupCtrl.loading" ng-disabled="signupCtrl.form.$invalid"><span translate="TRY_FREE_FOR_DAYS" translate-values="{number: 7}"></span></button>
 
           <div ng-messages="signupCtrl.form.$error">
-            <div ng-message="internalError" class="message">Internal error. Please try again later.</div>
+            <div ng-message="internalError" class="message">{{'INTERNAL_ERROR' | translate}}</div>
           </div>
         </div>
 
-        <div class="signup__footer-note">
-          Your password is immediately encrypted with PBKDF2. We will never share your personal information. By signing up, you agree to our <a href="https://financier.io/terms-of-service/">terms of service</a> and <a href="https://financier.io/privacy-policy/">privacy policy</a>.
-        </div>
+        <div class="signup__footer-note" translate="SIGNUP_FINE_PRINT" translate-compile></div>
       </form>
 
       <div class="signup__footer-success" ng-if="signupCtrl.success">
@@ -85,9 +83,9 @@
           <i class="fa fa-paper-plane"></i>  
           <br>
           <span>
-            Almost done!
+            {{'ALMOST_DONE' | translate}}
             <br>
-            <small>Go check your inbox.</small>
+            <small>{{'GO_CHECK_YOUR_INBOX' | translate}}</small>
           </span>
         </div>
       </div>
