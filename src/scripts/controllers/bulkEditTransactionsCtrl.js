@@ -34,6 +34,7 @@ angular.module('financier').controller('bulkEditTransactionsCtrl', function($roo
       });
 
       $scope.close();
+      $rootScope.$broadcast('account:deselectTransactions');
     }
   };
 

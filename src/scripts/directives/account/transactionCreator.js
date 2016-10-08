@@ -59,7 +59,7 @@ angular.module('financier').directive('transactionCreator', (payee, transaction,
         this.transaction.memo = this.memo;
         this.transaction.cleared = this.cleared;
 
-        this.transaction.value = this.value.value;
+        this.transaction.value = this.value.value || 0;
 
 
         if (this.payee.constructorName === 'Payee') {

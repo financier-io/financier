@@ -162,15 +162,16 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
     that.selectedTransactionIndexes = [];
     this.editingTransaction = null;
     this.newTransaction = null;
-
-    $scope.$digest();
   };
 
   $scope.$on('account:deselectTransactions', documentClickHandler);
 
 
   const selectAllKeyCombos = ['mod+a', 'ctrl+a'];
-  $document.bind('click', documentClickHandler);
+  $document.bind('click', () => {
+    documentClickHandler();
+    $scope.$digest();
+  });
   selectAllKeyCombos.forEach(combo => {
     hotkeys.add({
       combo,
