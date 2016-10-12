@@ -1,14 +1,14 @@
-<h3 class="dropdown__header">My Accounts</h3>
+<h3 class="dropdown__header">{{'MY_ACCOUNTS' | translate}}</h3>
 
 
 <div class="dropdown__scroll-container" scroll-container>
   <div class="dropdown__empty" ng-if="!items.length">
-    You need to create an account before creating a transaction!
+    {{'CREATE_ACCOUNT_BEFORE_TRANSACTION' | translate}}
   </div>
 
   <ul class="dropdown dropdown--padding">
     <li>
-      <div class="dropdown__header-item" ng-if="filteredOnBudgetAccounts.length && (filteredClosedAccounts.length || filteredOffBudgetAccounts.length)">On Budget</div>
+      <div class="dropdown__header-item" ng-if="filteredOnBudgetAccounts.length && (filteredClosedAccounts.length || filteredOffBudgetAccounts.length)">{{'ON_BUDGET' | translate}}</div>
       <ul class="dropdown" ng-repeat="account in $parent.onBudgetAccounts | filter : filterCustomFilterer as filteredOnBudgetAccounts">
         <li class="dropdown__item dropdown__item--indented"
             ng-class="{'dropdown__item--selected': account === selected}"
@@ -19,7 +19,7 @@
       </ul>
     </li>
     <li>
-      <div class="dropdown__header-item" ng-if="filteredOffBudgetAccounts.length">Off Budget</div>
+      <div class="dropdown__header-item" ng-if="filteredOffBudgetAccounts.length">{{'OFF_BUDGET' | translate}}</div>
       <ul class="dropdown" ng-repeat="account in $parent.offBudgetAccounts | filter : filterCustomFilterer as filteredOffBudgetAccounts">
         <li class="dropdown__item dropdown__item--indented"
             ng-class="{'dropdown__item--selected': account === selected}"
@@ -30,7 +30,7 @@
       </ul>
     </li>
     <li>
-      <div class="dropdown__header-item" ng-if="filteredClosedAccounts.length">Closed Accounts</div>
+      <div class="dropdown__header-item" ng-if="filteredClosedAccounts.length">{{'CLOSED_ACCOUNTS' | translate}}</div>
       <ul class="dropdown" ng-repeat="account in $parent.closedAccounts | filter : filterCustomFilterer as filteredClosedAccounts">
         <li class="dropdown__item dropdown__item--indented"
             ng-class="{'dropdown__item--selected': account === selected}"

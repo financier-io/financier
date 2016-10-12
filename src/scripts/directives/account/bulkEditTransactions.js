@@ -48,6 +48,12 @@ angular.module('financier').directive('bulkEditTransactions', ($rootScope, $sce,
         scope.close();
       });
 
+      dropInstance.on('close', () => {
+        $timeout(() => {
+          dropInstance.destroy();
+        });
+      });
+
       dropInstance.open();
     });
 

@@ -1,7 +1,7 @@
 <form class="credit-card" name="vm.cardForm" ng-submit="vm.submit()">
   <fieldset ng-disabled="vm.loadingAddSource">
     <div class="credit-card__title">
-      Add payment method
+      {{'ADD_PAYMENT_METHOD' | translate}}
     </div>
 
     <div class="credit-card__cards">
@@ -13,17 +13,17 @@
 
 
     <label class="credit-card__label">
-      <div class="credit-card__label-name">Name on card</div>
+      <div class="credit-card__label-name">{{'NAME_ON_CARD' | translate}}</div>
 
       <input type="text" name="name" class="credit-card__number" placeholder="John Doe" ng-model="vm.card.name" required>
 
       <div ng-messages="vm.cardForm.name.$error" ng-if="vm.cardForm.name.$touched">
-        <div ng-message="required" class="message">This field is required.</div>
+        <div ng-message="required" class="message">{{'FIELD_REQUIRED' | translate}}</div>
       </div>
     </label>
 
     <label class="credit-card__label">
-      <div class="credit-card__label-name">Card number</div>
+      <div class="credit-card__label-name">{{'CARD_NUMBER' | translate}}</div>
 
       <div class="credit-card__number-wrapper">
         <input type="text"
@@ -36,48 +36,48 @@
                ng-class="{'ng-invalid ng-touched': cardNumberChanged && !vm.card.number}">
       </div>
 
-      <div ng-if="cardNumberChanged && !vm.card.number" class="message">This field is required.</div>
+      <div ng-if="cardNumberChanged && !vm.card.number" class="message">{{'FIELD_REQUIRED' | translate}}</div>
     </label>
 
     <div class="credit-card__block">
       <label class="credit-card__label">
-        <div class="credit-card__label-name">Expiry date</div>
+        <div class="credit-card__label-name">{{'EXPIRY_DATE' | translate}}</div>
 
-        <input type="text" name="expiration" class="credit-card__number" placeholder="MM / YY" credit-card-expiration-spaces="vm.card.exp" expiration-invalid="expirationInvalid" required>
+        <input type="text" name="expiration" class="credit-card__number" placeholder="{{'MM_YY' | translate}}" credit-card-expiration-spaces="vm.card.exp" expiration-invalid="expirationInvalid" required>
 
-        <div ng-if="expirationInvalid" class="message">Invalid expiration date.</div>
+        <div ng-if="expirationInvalid" class="message">{{'INVALID_EXPIRATION_DATE' | translate}}</div>
       </label>
 
       <label class="credit-card__label">
-        <div class="credit-card__label-name">Security code</div>
+        <div class="credit-card__label-name">{{'SECURITY_CODE' | translate}}</div>
 
         <input type="text" name="cvc" class="credit-card__number" ng-model="vm.card.cvc" required>
 
         <div ng-messages="vm.cardForm.cvc.$error" ng-if="vm.cardForm.cvc.$touched">
-          <div ng-message="required" class="message">This field is required.</div>
+          <div ng-message="required" class="message">{{'FIELD_REQUIRED' | translate}}</div>
         </div>
       </label>
     </div>
 
 
     <label class="credit-card__label">
-      <div class="credit-card__label-name">ZIP/Postal code</div>
+      <div class="credit-card__label-name">{{'ZIP_POSTAL' | translate}}</div>
 
       <input type="text" name="address_zip" class="credit-card__number" ng-model="vm.card.address_zip" required>
 
       <div ng-messages="vm.cardForm.address_zip.$error" ng-if="vm.cardForm.address_zip.$touched">
-        <div ng-message="required" class="message">This field is required.</div>
+        <div ng-message="required" class="message">{{'FIELD_REQUIRED' | translate}}</div>
       </div>
     </label>
 
-    <button type="submit" ladda="vm.loadingAddSource" class="credit-card__submit button button--primary" ng-disabled="vm.cardForm.$invalid">Submit</button>
+    <button type="submit" ladda="vm.loadingAddSource" class="credit-card__submit button button--primary" ng-disabled="vm.cardForm.$invalid">{{'SUBMIT' | translate}}</button>
 
     <div ng-messages="vm.cardForm.$error">
       <div ng-message="stripeError" class="message">{{vm.stripeError.message}}</div>
-      <div ng-message="internalError" class="message">There was an internal error. Please try again.</div>
+      <div ng-message="internalError" class="message">{{'INTERNAL_ERROR' | translate}}</div>
     </div>
 
-    <div class="credit-card__submit-help">You won't be charged until your subscription is up.</div>
+    <div class="credit-card__submit-help">{{'NOT_CHARGED_UNTIL_END_MESSAGE' | translate}}</div>
   </fieldset>
 </form>
 

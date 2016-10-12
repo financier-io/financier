@@ -7,11 +7,11 @@
            required>
     <br>
     <button class="button button--primary"
-            ng-disabled="!myNote"><i class="fa fa-check"></i> Save</button>
+            ng-disabled="!myNote"><i class="fa fa-check"></i> {{'SAVE' | translate}}</button>
     <button class="tooltip__delete button button--link-danger tooltip__delete--show"
             type="button"
             ng-click="remove()">
-      <i class="fa fa-minus-circle"></i>Delete category
+      <i class="fa fa-minus-circle"></i> {{'DELETE_CATEGORY' | translate}}
     </button>
   </form>
 </div>

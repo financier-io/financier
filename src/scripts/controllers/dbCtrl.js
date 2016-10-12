@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-angular.module('financier').controller('dbCtrl', function(monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget, budgetOpenedRecord, currencies, $timeout, $state) {
+angular.module('financier').controller('dbCtrl', function(monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget, budgetOpenedRecord, currencies, $timeout, $state, $translate) {
   let {manager, categories, masterCategories, payees} = data;
   const budgetId = $stateParams.budgetId;
 
@@ -132,6 +132,8 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
       return `Income for ${moment(transactionDate).format('MMMM')}`;
     } else if (id === 'incomeNextMonth') {
       return `Income for ${moment(transactionDate).add(1, 'month').format('MMMM')}`;
+    } else if (id === 'split') {
+      return $translate.instant('MULTIPLE_CATEGORIES');
     }
 
     return this.categories[id] && this.categories[id].name;

@@ -1,8 +1,10 @@
 import moment from 'moment';
 
-angular.module('financier').factory('transaction', uuid => {
+angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
   return budgetId => {
-    
+
+    const SplitTransaction = splitTransaction(budgetId);
+
     /**
      * Represents a Transaction
      */
@@ -25,7 +27,8 @@ angular.module('financier').factory('transaction', uuid => {
           reconciled: false,
           flag: null,
           payee: null,
-          transfer: null
+          transfer: null,
+          splits: []
         }, data);
 
         // Ensure whole number
@@ -45,6 +48,8 @@ angular.module('financier').factory('transaction', uuid => {
         this.setMonth();
 
         this.transfer = null;
+
+        this._splits = myData.splits.map(s => new SplitTransaction(this, s));
       }
 
       /**
@@ -90,6 +95,45 @@ angular.module('financier').factory('transaction', uuid => {
         }
       }
 
+      get splits() {
+        return this._splits;
+      }
+
+      set splits(sArr) {
+        let i = 0;
+        while (i < this._splits.length) {
+          if (sArr[i] && sArr[i].id === this._splits[i].id) {
+            this._splits[i].data = sArr[i].data;
+
+            i++;
+          } else {
+            // doesn't exist in order, must have been removed
+            this._splits[i]._remove();
+            this.removeSplit(this._splits[i]);
+            // i will be 'incremented' by removing in place
+          }
+        }
+
+        // if we have additional
+        while (i < sArr.length) {
+          this.addSplit(sArr[i]);
+
+          i++;
+        }
+      }
+
+      addSplit(split) {
+        this._splits.push(split);
+      }
+
+      removeSplit(split) {
+        const index = this._splits.indexOf(split);
+
+        if (index !== -1) {
+          this._splits.splice(index, 1);
+        }
+      }
+
       get transfer() {
         return this._transfer;
       }
@@ -108,77 +152,6 @@ angular.module('financier').factory('transaction', uuid => {
           
           this._emitChange();
         }
-
-
-        // if (this.transfer && p.type === 'TRANSFER') {
-        //   const oldAccount = this.transfer.data.account;
-        //   this.transfer.data.account = p.id;
-
-        //   const oldPayee = this._data.payee;
-        //   this._data.payee = {
-        //     type: null,
-        //     name: ''
-        //   };
-        //   this._emitCategoryChange(() => {
-        //     this._data.category = null;
-
-        //     this.setMonth();
-        //   });
-        //   this._emitPayeeChange(this._data.payee, oldPayee);
-
-        //   this.transfer._emitAccountChange(p.id, oldAccount);
-        //   this.transfer._emitChange();
-
-        //   return; // no record change
-        // } else if (this.transfer && p.type !== 'TRANSFER') {
-        //   this.transfer.transfer = null;
-        //   this.transfer.remove();
-        //   this._emitRemoveTransaction(this.transfer);
-
-        //   this.transfer = null;
-        //   this._data.transfer = null;
-
-        //   const oldPayee = this._data.payee;
-        //   this._data.payee = p;
-
-        //   this._emitPayeeChange(p, oldPayee);
-        // } else if (p.type === 'TRANSFER') {
-        //   this.transfer = new Transaction({
-        //     value: -this._data.value,
-        //     date: this._data.date,
-        //     account: p.id,
-        //     transfer: this.id,
-        //     category: null
-        //   });
-
-        //   const oldPayee = this._data.payee;
-        //   this._data.payee = {
-        //     type: null,
-        //     name: ''
-        //   };
-        //   this._emitCategoryChange(() => {
-        //     this._data.category = null;
-
-        //     this.setMonth();
-        //   });
-        //   this._emitPayeeChange(this._data.payee, oldPayee);
-
-        //   this.transfer.transfer = this;
-
-        //   this._data.transfer = this.transfer.id;
-
-        //   this._emitAddTransaction(this.transfer);
-
-        //   this.transfer.subscribe(this.fn);
-        //   this.fn && this.fn(this.transfer);
-        // } else if (p.type !== 'TRANSFER') {
-        //   const oldPayee = this._data.payee;
-        //   this._data.payee = p;
-
-        //   this._emitPayeeChange(p, oldPayee);
-        // }
-
-        // this._emitChange();
       }
 
       get outflow() {
@@ -635,6 +608,8 @@ angular.module('financier').factory('transaction', uuid => {
        * @returns {object}
       */
       toJSON() {
+        this._data.splits = this._splits.map(s => s.toJSON());
+
         return this._data;
       }
 

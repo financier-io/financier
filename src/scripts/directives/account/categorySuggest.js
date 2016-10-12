@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-angular.module('financier').directive('categorySuggest', ($rootScope, $filter) => {
+angular.module('financier').directive('categorySuggest', ($rootScope, $filter, $translate) => {
   const dateFilter = $filter('date');
 
   return {
@@ -16,6 +16,13 @@ angular.module('financier').directive('categorySuggest', ($rootScope, $filter) =
     compile: () => {
       return {
         pre: (scope, element, attrs) => {
+          scope.disableSplit = angular.isDefined(attrs.disableSplit);
+
+          scope.splits = [{
+            name: $translate.instant('MULTIPLE_CATEGORIES'),
+            id: 'split'
+          }];
+
           scope.incomes = [{
             name: '',
             id: 'income'
@@ -25,8 +32,13 @@ angular.module('financier').directive('categorySuggest', ($rootScope, $filter) =
           }];
 
           scope.$watch('transactionDate', (newDate, oldDate) => {
-            scope.incomes[0].name = `Income for ${dateFilter(scope.transactionDate, 'LLLL')}`;
-            scope.incomes[1].name = `Income for ${dateFilter(moment(scope.transactionDate).add(1, 'month').toDate(), 'LLLL')}`;
+            scope.incomes[0].name = $translate.instant('INCOME_FOR', {
+              month: dateFilter(scope.transactionDate, 'LLLL')
+            });
+
+            scope.incomes[1].name = $translate.instant('INCOME_FOR', {
+              month: dateFilter(moment(scope.transactionDate).add(1, 'month').toDate(), 'LLLL')
+            });
 
             // Don't needlessly trigger upon init
             if (oldDate !== newDate) {
@@ -50,6 +62,10 @@ angular.module('financier').directive('categorySuggest', ($rootScope, $filter) =
             .sort((a, b) => a.sort - b.sort);
 
           scope.items = scope.incomes.concat(scope.items);
+
+          if (!scope.disableSplit) {
+            scope.items = scope.splits.concat(scope.items);
+          }
 
           for (let i = 0; i < scope.items.length; i++) {
             if (scope.items[i].id === scope.ngModel) {
@@ -102,13 +118,14 @@ angular.module('financier').directive('categorySuggest', ($rootScope, $filter) =
             $rootScope.$broadcast('transaction:memo:focus');
           };
 
-          scope.$on('transaction:category:focus', () => {
-            if (scope.ngDisabled) {
-              scope.onSubmit();
-            } else {
-              scope.$broadcast('focus');
+          scope.$on('transaction:category:focus', (e, { index } = {}) => {
+            if (index === scope.$parent.splitIndex) {
+              if (scope.ngDisabled) {
+                scope.onSubmit();
+              } else {
+                scope.$broadcast('focus');
+              }
             }
-
           });
 
           scope.template = require('./categorySuggest.html');

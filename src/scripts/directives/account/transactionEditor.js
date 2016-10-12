@@ -1,4 +1,4 @@
-angular.module('financier').directive('transactionEditor', (payee, transaction, $stateParams) => {
+angular.module('financier').directive('transactionEditor', (payee, transaction, $stateParams, splitTransaction) => {
   return {
     template: require('./transactionEditor.html'),
     bindToController: {
@@ -8,17 +8,33 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
     controller: function($scope) {
       const Payee = payee($stateParams.budgetId);
       const Transaction = transaction($stateParams.budgetId);
+      const SplitTransaction = splitTransaction($stateParams.budgetId);
+
+      // Make completely new copy of split transactions for editing
+      this.splits = this.transaction.splits.map(s => new SplitTransaction(this.transaction, angular.copy(s.data)));
 
       this.account = this.transaction.account;
       this.flag = this.transaction.flag;
       this.date = this.transaction.date;
       this.payee = $scope.dbCtrl.payees[this.transaction.payee];
 
+
       if (this.transaction.transfer) {        
          this.payee = $scope.accountCtrl.manager.getAccount(this.transaction.transfer.account);
       }
 
       this.category = this.transaction.category;
+
+      $scope.$watch(() => this.category, (newCat, oldCat) => {
+        if (newCat !== oldCat) {
+          if (newCat === 'split' && !this.splits.length) {
+            this.splits = [new SplitTransaction(this.transaction)];
+          } else {
+            this.splits = [];
+          }
+        }
+      });
+
       this.memo = this.transaction.memo;
 
       this.value = {
@@ -55,6 +71,8 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
         this.transaction.account = this.account;
         this.transaction.flag = this.flag;
         this.transaction.date = this.date;
+
+        this.transaction.splits = this.splits;
 
         if (!account || account.onBudget) {
           if (transferAccount && transferAccount.onBudget) {
@@ -125,7 +143,6 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
           $scope.accountCtrl.myBudget.put(newPayee);
           newPayee.subscribe($scope.accountCtrl.myBudget.put);
         }
-
 
         this.transaction.fn = saveFn;
         this.transaction._emitChange();

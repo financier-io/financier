@@ -1,14 +1,12 @@
-<h3 class="dropdown__header">My Payees</h3>
+<h3 class="dropdown__header">{{'MY_PAYEES' | translate}}</h3>
 
 
 <div class="dropdown__scroll-container" scroll-container>
-  <div class="dropdown__empty" ng-if="!items.length">
-    Payee '{{userInput}}' will be created.
-  </div>
+  <div class="dropdown__empty" ng-if="!items.length" translate="PAYEE_WILL_BE_CREATED" translate-values="{payee: userInput}"></div>
 
   <ul class="dropdown dropdown--padding">
     <li ng-if="true">
-      <div class="dropdown__header-item" ng-if="filteredCategories.length">Transfer to/from account</div>
+      <div class="dropdown__header-item" ng-if="filteredCategories.length">{{'TRANSFER_TO_FROM' | translate}}</div>
       <ul class="dropdown">
         <li class="dropdown__item dropdown__item--indented"
             ng-repeat="account in $parent.$parent._accounts | filter : filterCustomFilterer as filteredCategories"
@@ -21,7 +19,7 @@
     </li>
 
     <li ng-if="true">
-      <div class="dropdown__header-item" ng-if="filteredCategories.length">Previous payees</div>
+      <div class="dropdown__header-item" ng-if="filteredCategories.length">{{'PREVIOUS_PAYEES' | translate}}</div>
       <ul class="dropdown">
         <li class="dropdown__item dropdown__item--indented"
             ng-repeat="payee in $parent.$parent._payees | filter : filterCustomFilterer as filteredCategories"

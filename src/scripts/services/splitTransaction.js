@@ -31,10 +31,6 @@ angular.module('financier').factory('splitTransaction', uuid => {
 
         this.id = myData.id;
 
-        if (myData.date) {
-          this._date = new Date(myData.date);
-        }
-
         this.subscribeClearedValueChangeFn = [];
         this.subscribeUnclearedValueChangeFn = [];
 
@@ -88,6 +84,15 @@ angular.module('financier').factory('splitTransaction', uuid => {
 
           this.transfer._emitChange();
         }
+      }
+
+      // Pass through
+      get date() {
+        return this.transaction.date;
+      }
+
+      set date(d) {
+        this.transaction.date = d;
       }
 
       get transfer() {

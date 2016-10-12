@@ -1,18 +1,21 @@
 angular.module('financier').controller('flagCtrl', function() {
   this.flags = [{
     color: '#ff0000',
-    label: 'Red'
+    label: 'RED'
   }, {
     color: '#faa710',
-    label: 'Orange'
+    label: 'ORANGE'
+  },{
+    color: '#e5e500',
+    label: 'YELLOW'
   }, {
     color: '#76b852',
-    label: 'Green'
+    label: 'GREEN'
   }, {
     color: '#b852a9',
-    label: 'Purple'
+    label: 'PURPLE'
   }, {
     color: '#5276b8',
-    label: 'Blue'
+    label: 'BLUE'
   }];
 });

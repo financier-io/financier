@@ -47,15 +47,19 @@
   overflow: hidden;
 }
 
-.account__tbody--striped .canvas {
-  background: repeating-linear-gradient(
-    to bottom,
-    $white,
-    $white 30px,
-    lighten($primary, 43%) 30px,
-    lighten($primary, 43%) 60px
-  );
+.account__tr--stripe {
+  background: lighten($primary, 43%);
 }
+
+// .account__tbody--striped {
+//   background: repeating-linear-gradient(
+//     to bottom,
+//     $white,
+//     $white 30px,
+//     lighten($primary, 43%) 30px,
+//     lighten($primary, 43%) 60px
+//   );
+// }
 
 .account__thead .account__tr,
 .account__tbody .account__tr,
@@ -325,7 +329,8 @@ i.account__reconcile-close {
   max-width: 100px;
 }
 
-.account__td--payee {
+.account__td--payee,
+.account__td--category {
   i {
     opacity: 0.5;
     float: right;
@@ -370,6 +375,8 @@ i.account__reconcile-close {
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
 
+  color: white;
+
   z-index: $zEditingButtons;
 }
 
@@ -408,4 +415,24 @@ i.account__reconcile-close {
 
   padding: 2px 5px;
   opacity: 1;
+}
+
+.account__split-arrow {
+  padding: 0 0.5em;
+
+  cursor: pointer;
+  transition: transform 250ms ease;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.account__split-arrow--open {
+  transform: rotate(90deg);
+}
+
+.account__transaction-editor {
+  display: block;
+  position: relative;
 }

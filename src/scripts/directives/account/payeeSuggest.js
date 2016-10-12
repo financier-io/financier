@@ -62,9 +62,11 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
             }
           };
 
-          scope.$on('transaction:payee:focus', () => {
-            element.find('input')[0].focus();
-            scope.$broadcast('focus');
+          scope.$on('transaction:payee:focus', (e, { index } = {}) => {
+            if (index === scope.$parent.splitIndex) {
+              element.find('input')[0].focus();
+              scope.$broadcast('focus');
+            }
           });
 
           scope.template = require('./payeeSuggest.html');

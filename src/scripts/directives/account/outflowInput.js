@@ -10,8 +10,10 @@ angular.module('financier').directive('outflowInput', $rootScope => {
         pre: (scope, element, attrs) => {
           const input = element.find('input');
 
-          scope.$on('transaction:outflow:focus', () => {
-            input[0].focus()
+          scope.$on('transaction:outflow:focus', (e, { index } = {}) => {
+            if (index === scope.$parent.splitIndex) {
+              input[0].focus();
+            }
           });
 
           input.on('keydown', e => {

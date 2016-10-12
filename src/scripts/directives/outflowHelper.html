@@ -1,11 +1,11 @@
 <div class="drop__content drop__content--small">
-  <p>You don't have any transactions (outflows) for {{outflowDate | date:'MMMM yyyy'}} in the category "<strong>{{outflowCategory}}</strong>".</p>
+  <p translate="OUTFLOW_HELPER_MESSAGE" translate-values="{date: (outflowDate | date:'MMMM yyyy'), outflowCategory: outflowCategory}"></p>
 
-  <p>To create transactions, go to the <strong>accounts</strong> view and click <em>add a transaction</em>.</p>
+  <p translate="CREATE_TRANSACTIONS_HELP" translate-compile></p>
 
   <label><input type="checkbox"
                 ng-model="outflowSetting"
                 ng-true-value="false"
-                ng-false-value="true">&nbsp; Don't show again</label>  
+                ng-false-value="true">&nbsp; {{'DO_NOT_SHOW_AGAIN' | translate}}</label>  
 </div>
 

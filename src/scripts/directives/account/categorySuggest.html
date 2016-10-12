@@ -1,19 +1,20 @@
-<h3 class="dropdown__header">Budget Categories</h3>
+<h3 class="dropdown__header">{{'BUDGET_CATEGORIES' | translate}}</h3>
 
 
 <div class="dropdown__scroll-container" scroll-container>
-  <div class="dropdown__empty" ng-if="!items.length">
-    No categories matching '{{userInput}}'.
-  </div>
+  <div class="dropdown__empty" ng-if="!items.length" translate="NO_CATEGORIES_MATCHING" translate-values="{text: userInput}"></div>
 
   <ul class="dropdown dropdown--padding">
-    <!-- <li>
-      <ul class="dropdown">
-        <li class="dropdown__item"><i class="fa fa-bars"></i> Multiple categories...</li>
+    <li ng-if="!$parent.disableSplit">
+      <ul class="dropdown" ng-repeat="split in $parent.$parent.splits | filter : filterCustomFilterer">
+        <li class="dropdown__item"
+            ng-click="submit(split)"
+            ng-class="{'dropdown__item--selected': split === selected}"
+            scroll-into-view-if="split === selected"><i class="fa fa-bars"></i> {{split.name}}</li>
       </ul>
-    </li> -->
+    </li>
     <li>
-      <div class="dropdown__header-item" ng-if="filteredIncomes.length">Income</div>
+      <div class="dropdown__header-item" ng-if="filteredIncomes.length">{{'INCOME' | translate}}</div>
       <ul class="dropdown" ng-repeat="income in $parent.incomes | filter : filterCustomFilterer as filteredIncomes">
         <li class="dropdown__item dropdown__item--indented"
             ng-class="{'dropdown__item--selected': income === selected}"
