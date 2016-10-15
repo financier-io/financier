@@ -76,7 +76,7 @@
 
 .account__th {
   font-size: 0.75em;
-  line-height: 2em;
+  height: 2em;
 
   background-color: $primary;
   color: $white;
@@ -88,6 +88,8 @@
 
   span {
     flex: 1;
+
+    line-height: 2em;
 
     text-overflow: ellipsis;
     overflow: hidden;
@@ -121,19 +123,22 @@
 .account__th,
 .account__td {
   width: 20%; // this can vary
-  overflow-x: hidden;
-  text-overflow: ellipsis;
+  
+  // Small widths keeps consistent sizing
+  min-width: 0;
+
   display: inline-block;
   padding: 0 10px;
   font-weight: 400;
 
   input[type='text'] {
-    width: 100%;
+    width: calc(100% + 10px);
+    margin-left: -5px;
     outline: 0;
     border: 1px solid transparent;
     line-height: 1;
     height: 22px;
-    padding: 0 3px;
+    padding: 0 4px;
 
     &:focus {
       border-color: $primary-alt;
@@ -141,6 +146,23 @@
 
     &:disabled {
       background-color: #ddd;
+    }
+  }
+
+  &,
+  > span {
+    text-overflow: ellipsis;
+  }
+
+  > span {
+    overflow: hidden;
+    display: flex;
+    width: 100%;
+
+    > span {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }
@@ -289,6 +311,7 @@ i.account__reconcile-close {
 
 .account__cell-memo {
   flex-grow: 1;
+  position: relative;
 }
 
 .account__cell-cleared {
@@ -415,6 +438,8 @@ i.account__reconcile-close {
 
   padding: 2px 5px;
   opacity: 1;
+
+  display: inline !important;
 }
 
 .account__split-arrow {
@@ -435,4 +460,55 @@ i.account__reconcile-close {
 .account__transaction-editor {
   display: block;
   position: relative;
+}
+
+.account__add-split {
+  color: white;
+  border: 1px solid white;
+  background: none;
+  padding: 0 8px 0 5px;
+  border-radius: 17px;
+  line-height: 18px;
+  vertical-align: top;
+  margin-left: -36px;
+  display: inline-block;
+  margin-top: 4px;
+
+  outline: none;
+
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.account__remove-split {
+  color: $danger;
+  border: 1px solid $danger;
+  background: none;
+  width: 18px;
+  border-radius: 10px;
+  line-height: 16px;
+  margin-top: 6px;
+  margin-right: -4px;
+  text-align: center;
+  vertical-align: top;
+  display: inline-block;
+  padding: 0;
+
+  outline: none;
+
+  opacity: 0.8;
+
+  float: right;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.account__amount-to-assign {
+  position: absolute;
+  right: 0;
 }

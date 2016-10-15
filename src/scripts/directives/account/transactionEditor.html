@@ -46,7 +46,11 @@
   <div class="account__td account__td--select"></div>
   <div class="account__td account__td--large" ng-if="!accountCtrl.accountId"></div>
   <div class="account__td account__td--flag"></div>
-  <div class="account__td account__td--date"></div>
+  <div class="account__td account__td--date">
+    <button class="account__remove-split" ng-click="transactionCtrl.removeSplit(split)">
+      <i class="fa fa-minus"></i>
+    </button>
+  </div>
 
   <div class="account__td account__td--large">
     <payee-suggest ng-model="split.payee" transaction-account-id="transactionCtrl.account" accounts="dbCtrl.accounts" payees="dbCtrl.payees"></payee-suggest>
@@ -62,10 +66,10 @@
     <memo-input ng-model="split.memo"></memo-input>
   </div>
   <div class="account__td account__td--small account__cell-outflow">
-    <outflow-input ng-model="split.outflow"></outflow-input>
+    <outflow-input ng-model="split.value.outflow"></outflow-input>
   </div>
   <div class="account__td account__td--small account__cell-inflow">
-    <inflow-input ng-model="split.inflow"></inflow-input>
+    <inflow-input ng-model="split.value.inflow"></inflow-input>
   </div>
 
   <div class="account__td account__cell-cleared"></div>
@@ -78,12 +82,12 @@
   <div class="account__td account__td--date"></div>
 
   <div class="account__td account__td--large">
-    Add another split
+    <button class="account__add-split" ng-click="transactionCtrl.addSplit()"><i class="fa fa-plus"></i> {{'ADD_ANOTHER_SPLIT' | translate}}</button>
   </div>
-  <div class="account__td account__td--large" ng-if="accountCtrl.account.onBudget">
-    
+  <div class="account__td account__td--large" ng-if="accountCtrl.account.onBudget"></div>
+  <div class="account__td account__cell-memo">
+    <div class="account__amount-to-assign">{{'AMOUNT_LEFT' | translate}}</div>
   </div>
-  <div class="account__td account__cell-memo"></div>
   <div class="account__td account__td--small account__cell-outflow">{{editSplitTransactionCtrl.outflow | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</div>
   <div class="account__td account__td--small account__cell-inflow">{{editSplitTransactionCtrl.inflow | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</div>
 

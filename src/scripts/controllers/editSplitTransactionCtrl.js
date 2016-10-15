@@ -1,7 +1,7 @@
 angular.module('financier').controller('editSplitTransactionCtrl', function($scope) {
   $scope.$watchCollection(() => {
-    const amount = $scope.transactionCtrl.value.value - $scope.transactionCtrl.splits.reduce((prev, current) => {
-      return prev + current.value;
+    const amount = ($scope.transactionCtrl.value.value || 0) - $scope.transactionCtrl.splits.reduce((prev, current) => {
+      return prev + (current.value.value || 0);
     }, 0);
 
     let inflow = 0, outflow = 0;
@@ -17,4 +17,4 @@ angular.module('financier').controller('editSplitTransactionCtrl', function($sco
     this.inflow = inflow;
     this.outflow = outflow;
   });
-})
+});

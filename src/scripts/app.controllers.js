@@ -18,3 +18,4 @@ import './controllers/resetPasswordCtrl';
 import './controllers/requestResetPasswordCtrl';
 import './controllers/splitTransactionCtrl';
 import './controllers/editSplitTransactionCtrl';
+import './controllers/cancelClickCtrl';

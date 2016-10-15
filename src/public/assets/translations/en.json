@@ -210,5 +210,7 @@
     "NOT_CHARGED_UNTIL_END_MESSAGE": "You won't be charged until your subscription is up.",
     "MM_YY": "MM / YY",
     "SYNC_COMPLETE": "Sync complete",
-    "SYNC_ERROR": "Sync error"
+    "SYNC_ERROR": "Sync error",
+    "AMOUNT_LEFT": "Amount left:",
+    "ADD_ANOTHER_SPLIT": "Add another split"
 }

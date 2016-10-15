@@ -67,11 +67,13 @@ angular.module('financier').directive('categorySuggest', ($rootScope, $filter, $
             scope.items = scope.splits.concat(scope.items);
           }
 
-          for (let i = 0; i < scope.items.length; i++) {
-            if (scope.items[i].id === scope.ngModel) {
-              scope.item = scope.items[i];
+          scope.$watch('ngModel', (ngModel, oldNgModel) => {
+            for (let i = 0; i < scope.items.length; i++) {
+              if (scope.items[i].id === scope.ngModel) {
+                scope.item = scope.items[i];
+              }
             }
-          }
+          });
 
           scope.$watch('item', (newItem, oldItem) => {
             if (newItem !== oldItem) {

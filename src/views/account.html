@@ -90,31 +90,43 @@
         </div>
         <div class="account__td account__td--large" ng-if="!accountCtrl.accountId" transaction-field-focus-name="account">
           <span class="account__category-label" ng-class="{
-              'account__category-label--empty': !accountCtrl.manager.getAccount(transaction.account)}" transaction-field-focus-name="account">
+              'account__category-label--empty': !accountCtrl.manager.getAccount(transaction.account)}">
             {{accountCtrl.manager.getAccount(transaction.account).name || 'No account'}}
           </span>
         </div>
         <div class="account__td account__td--flag"><div class="account__flag" ng-style="{'color': transaction.flag}" flag ng-model="transaction.flag"><div></div></div></div>
-        <div class="account__td account__td--date" transaction-field-focus-name="date">{{transaction.date | date : 'shortDate'}}</div>
-        <div class="account__td account__td--large account__td--payee" transaction-field-focus-name="payee">{{dbCtrl.getAccountName(transaction.transfer.account) || dbCtrl.getPayeeName(transaction.payee)}} <i class="fa fa-exchange" ng-show="transaction.transfer"></i></div>
+        <div class="account__td account__td--date" transaction-field-focus-name="date">
+          <span>{{transaction.date | date : 'shortDate'}}</span>
+        </div>
+        <div class="account__td account__td--large account__td--payee" transaction-field-focus-name="payee">
+          <span>
+            <span>{{dbCtrl.getAccountName(transaction.transfer.account) || dbCtrl.getPayeeName(transaction.payee)}}</span>
+            <i class="fa fa-exchange" ng-show="transaction.transfer"></i>
+          </span>
+        </div>
         <div class="account__td account__td--category account__td--large" ng-if="accountCtrl.account.onBudget" transaction-field-focus-name="category">
           <span class="account__category-label"
                 ng-class="{
                   'account__category-label--empty': !dbCtrl.getCategoryName(transaction.category, transaction.date) && accountCtrl.transactionNeedsCategory(transaction)
-                }"
-                transaction-field-focus-name="category">
-            {{dbCtrl.getCategoryName(transaction.category, transaction.date)
-              || (accountCtrl.transactionNeedsCategory(transaction) ? 'No category' : '')}}
-          </span>
+                }">
+            <span>{{dbCtrl.getCategoryName(transaction.category, transaction.date)
+              || (accountCtrl.transactionNeedsCategory(transaction) ? 'No category' : '')}}</span>
 
-          <i class="fa fa-angle-right account__split-arrow"
+            <i class="fa fa-angle-right account__split-arrow"
              ng-class="{'account__split-arrow--open': transaction.splitOpen}"
              ng-if="transaction.category === 'split'"
              ng-click="accountCtrl.openSplit(transaction, $event)"></i>
+          </span>
         </div>
-        <div class="account__td account__cell-memo" transaction-field-focus-name="memo">{{transaction.memo}}</div>
-        <div class="account__td account__td--small account__cell-outflow" transaction-field-focus-name="outflow">{{transaction.outflow | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>
-        <div class="account__td account__td--small account__cell-inflow" transaction-field-focus-name="inflow">{{transaction.inflow | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>
+        <div class="account__td account__cell-memo" transaction-field-focus-name="memo">
+          <span>{{transaction.memo}}</span>
+        </div>
+        <div class="account__td account__td--small account__cell-outflow" transaction-field-focus-name="outflow">
+          <span>{{transaction.outflow | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
+        </div>
+        <div class="account__td account__td--small account__cell-inflow" transaction-field-focus-name="inflow">
+          <span>{{transaction.inflow | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
+        </div>
         <div class="account__td account__cell-cleared">
           <i class="fa fa-lock"
              ng-if="transaction.reconciled"></i>
@@ -136,7 +148,11 @@
           </div>
           <div class="account__td account__td--flag"></div>
           <div class="account__td account__td--date"></div>
-          <div class="account__td account__td--large account__td--payee" transaction-field-focus-name="payee-{{$index}}">{{dbCtrl.getAccountName(split.transfer.account) || dbCtrl.getPayeeName(split.payee)}} <i class="fa fa-exchange" ng-show="split.transfer"></i></div>
+          <div class="account__td account__td--large account__td--payee" transaction-field-focus-name="payee-{{$index}}">
+            <span>
+              <span>{{dbCtrl.getAccountName(split.transfer.account) || dbCtrl.getPayeeName(split.payee)}}</span><i class="fa fa-exchange" ng-show="split.transfer"></i>
+            </span>
+          </div>
           <div class="account__td account__td--category account__td--large" ng-if="accountCtrl.account.onBudget" transaction-field-focus-name="category-{{$index}}">
             <span class="account__category-label"
                   ng-class="{
@@ -147,9 +163,15 @@
                 || (accountCtrl.transactionNeedsCategory(split) ? 'No category' : '')}}
             </span>
           </div>
-          <div class="account__td account__cell-memo" transaction-field-focus-name="memo-{{$index}}">{{split.memo}}</div>
-          <div class="account__td account__td--small account__cell-outflow" transaction-field-focus-name="outflow-{{$index}}">{{split.outflow | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>
-          <div class="account__td account__td--small account__cell-inflow" transaction-field-focus-name="inflow-{{$index}}">{{split.inflow | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>
+          <div class="account__td account__cell-memo" transaction-field-focus-name="memo-{{$index}}">
+            <span>{{split.memo}}</span>
+          </div>
+          <div class="account__td account__td--small account__cell-outflow" transaction-field-focus-name="outflow-{{$index}}">
+            <span>{{split.outflow | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
+          </div>
+          <div class="account__td account__td--small account__cell-inflow" transaction-field-focus-name="inflow-{{$index}}">
+            <span>{{split.inflow | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
+          </div>
           <div class="account__td account__cell-cleared"></div>
         </div>
       </div>

@@ -104,11 +104,16 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
         while (i < this._splits.length) {
           if (sArr[i] && sArr[i].id === this._splits[i].id) {
             this._splits[i].data = sArr[i].data;
+            this._splits[i].transfer = sArr[i].transfer;
 
             i++;
           } else {
             // doesn't exist in order, must have been removed
-            this._splits[i]._remove();
+            if (this._splits[i].transfer) {
+              this.removeTransaction(this._splits[i].transfer);
+            }
+
+            this.removeTransaction(this._splits[i]);
             this.removeSplit(this._splits[i]);
             // i will be 'incremented' by removing in place
           }
@@ -117,6 +122,7 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
         // if we have additional
         while (i < sArr.length) {
           this.addSplit(sArr[i]);
+          this.addTransaction(sArr[i]);
 
           i++;
         }
@@ -588,6 +594,10 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
        * Mark any linked transfer as deleted, too.
       */
       remove() {
+        this.splits.forEach(split => {
+          split.remove();
+        });
+
         if (this.transfer && !this.transfer._data._deleted) {
           this.transfer._data._deleted = true;
 
@@ -608,7 +618,7 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
        * @returns {object}
       */
       toJSON() {
-        this._data.splits = this._splits.map(s => s.toJSON());
+        this._data.splits = this.splits.map(s => s.toJSON());
 
         return this._data;
       }

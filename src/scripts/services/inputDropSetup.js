@@ -1,7 +1,7 @@
 import Drop from 'tether-drop';
 
-angular.module('financier').factory('inputDropSetup', ($rootScope, $document, $sce, $compile) => {
-  return (scope, input, template) => {
+angular.module('financier').factory('inputDropSetup', ($rootScope, $document, $sce, $compile, $timeout) => {
+  return (scope, input, template, onClosed) => {
     let dropInstance,
       accountSuggestClicked = false;
 
@@ -10,9 +10,10 @@ angular.module('financier').factory('inputDropSetup', ($rootScope, $document, $s
     const handleDocumentClick = e => {
       if (!accountSuggestClicked) {
         $document.off('mousedown', handleDocumentClick);
-        dropInstance.close(); 
+        dropInstance.close();
       }
       accountSuggestClicked = false;
+
     };
 
 
@@ -47,6 +48,13 @@ angular.module('financier').factory('inputDropSetup', ($rootScope, $document, $s
                 pin: true
               }]
             }
+        });
+
+        dropInstance.on('close', () => {
+          // Wait for the animation to complete
+          $timeout(() => {
+            onClosed && onClosed();
+          }, 250);
         });
       }
 

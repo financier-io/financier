@@ -254,7 +254,7 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
       that.editingTransaction = $scope.displayedTransactions[rowIndex];
       that.selectedTransactionIndexes = [];
 
-      let [clickFromField, index] = (event.target.getAttribute('transaction-field-focus-name') || '').split('-');
+      let [clickFromField, index] = (getFocusName(event.target) || '').split('-');
 
       if (window.isNaN(+index)) {
         index = undefined;
@@ -279,6 +279,20 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
 
     $rootScope.$broadcast('vsRepeatTrigger');
   };
+
+  function getFocusName(el) {
+    if (!el) {
+      return '';
+    }
+
+    const name = el.getAttribute('transaction-field-focus-name');
+
+    if (name) {
+      return name;
+    }
+
+    return getFocusName(el.parentNode);
+  }
 
   this.isTransactionSelected = function(trans) {
     return that.selectedTransactions.indexOf(trans) > -1;

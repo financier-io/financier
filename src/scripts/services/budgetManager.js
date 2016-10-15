@@ -233,6 +233,13 @@ angular.module('financier').factory('budgetManager', (
           for (let i = 0; i < res.rows.length; i++) {
             const trans = new Transaction(res.rows[i].doc);
 
+            // Add transaction splits
+            if (trans.splits.length) {
+              for (let j = 0; j < trans.splits.length; j++) {
+                transactions[trans.splits[j].id] = trans.splits[j];
+              }
+            }
+
             transactions[trans.id] = trans;
           }
 

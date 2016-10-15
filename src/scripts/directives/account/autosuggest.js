@@ -24,7 +24,15 @@ angular.module('financier').directive('autosuggest', ($timeout, $filter, inputDr
 
       let items = scope.items;
 
-      const dropSetup = inputDropSetup(scope, input, scope.template);
+      const onClosed = () => {
+        pristineInputField = true;
+
+        runFilter();
+
+        scope.$digest();
+      };
+
+      const dropSetup = inputDropSetup(scope, input, scope.template, onClosed);
 
       scope.$on('focus', () => {
         dropSetup.focus();

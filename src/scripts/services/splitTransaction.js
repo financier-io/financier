@@ -39,6 +39,10 @@ angular.module('financier').factory('splitTransaction', uuid => {
         this.transfer = null;
       }
 
+      get constructorName() {
+        return 'SplitTransaction';
+      }
+
       _remove() {
         // this.transaction.removeSplit(this);
       }
@@ -93,6 +97,11 @@ angular.module('financier').factory('splitTransaction', uuid => {
 
       set date(d) {
         this.transaction.date = d;
+      }
+
+      // TODO: This is temporary
+      get month() {
+        return this.transaction.month;
       }
 
       get transfer() {
@@ -155,6 +164,10 @@ angular.module('financier').factory('splitTransaction', uuid => {
         this._emitChange();
       }
 
+      setMonth() {
+        this.transaction.setMonth.apply(this.transaction, arguments);
+      }
+
       /**
        * The account the transaction is assigned to
        *
@@ -162,6 +175,13 @@ angular.module('financier').factory('splitTransaction', uuid => {
        */
       get account() {
         return this.transaction.account;
+      }
+
+      set account(s) {
+        // You should never be able to set the account of a split transaction...
+        // So let's just do nothing
+
+        return;
       }
 
       /**
@@ -211,6 +231,25 @@ angular.module('financier').factory('splitTransaction', uuid => {
       */
       subscribe(fn) {
         this.fn = fn;
+      }
+
+      subscribeMonthChange(fn) {
+        this.subscribeMonthChangeFn = fn;
+      }
+
+      _emitMonthChange(newMonth, oldMonth) {
+        this.subscribeMonthChangeFn && this.subscribeMonthChangeFn(newMonth, oldMonth);
+      }
+
+      subscribeCategoryChange(beforeFn, afterFn) {
+        this.subscribeCategoryChangeBeforeFn = beforeFn;
+        this.subscribeCategoryChangeAfterFn = afterFn;
+      }
+
+      _emitCategoryChange(fn) {
+        this.subscribeCategoryChangeBeforeFn && this.subscribeCategoryChangeBeforeFn();
+        fn();
+        this.subscribeCategoryChangeAfterFn && this.subscribeCategoryChangeAfterFn();
       }
 
       /**
@@ -302,6 +341,11 @@ angular.module('financier').factory('splitTransaction', uuid => {
         this.subscribePayeeChangeFn = fn;
       }
 
+      subscribeAccountChange() {
+        // Do nothing -- no-op for Transaction vs SplitTransaction
+        // (SplitTransactions do not care if the account changes)
+      }
+
       /**
        * Will call the subscribed value function, if it exists, with how much
        * the value has changed by.
@@ -352,7 +396,7 @@ angular.module('financier').factory('splitTransaction', uuid => {
        * @private
       */
       _emitChange() {
-        return this.fn && this.fn(this);
+        return this.fn && this.fn(this.transaction);
       }
 
       /**
@@ -367,11 +411,11 @@ angular.module('financier').factory('splitTransaction', uuid => {
           this.transfer._emitChange();
         }
 
-        if (!this._data._deleted) {
-          this._data._deleted = true;
+        // if (!this._data._deleted) {
+        //   this._data._deleted = true;
 
-          this._emitChange();
-        }
+        //   this._emitChange();
+        // }
       }
 
       /**

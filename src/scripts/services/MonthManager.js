@@ -56,6 +56,9 @@ angular.module('financier').factory('monthManager', (month, account) => {
 
         trans.subscribe(this.saveFn);
 
+        trans.removeTransaction = t => this.removeTransaction(t);
+        trans.addTransaction = t => this.addTransaction(t);
+
         trans.subscribeAccountChange((newAccountId, oldAccountId) => {
           const oldAccount = this.getAccount(oldAccountId),
             currentMonth = this.getMonth(trans.month);
@@ -131,6 +134,12 @@ angular.module('financier').factory('monthManager', (month, account) => {
 
         transactions.forEach(transaction => {
           if (this.transactions[transaction.id]) {
+            if (transaction.splits && transaction.splits.length) {
+              transaction.splits.forEach(split => {
+                this.removeTransaction(split);
+              });
+            }
+
             delete this.transactions[transaction.id];
 
             const myMonth = this.getMonth(transaction.month),

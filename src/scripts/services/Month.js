@@ -206,6 +206,11 @@ angular.module('financier').factory('month', MonthCategory => {
        * @todo Not currently used
        */
       addTransaction(trans) {
+        // The splits themselves are added, not the parent
+        if (trans.category === 'split') {
+          return;
+        }
+
         if (trans.category === 'income' || trans.category === 'incomeNextMonth') {
           this._addIncome(trans);
         } else {
@@ -251,6 +256,11 @@ angular.module('financier').factory('month', MonthCategory => {
        * @todo Not currently used
        */
       removeTransaction(trans) {
+        // The splits themselves are added, not the parent
+        if (trans.category === 'split') {
+          return;
+        }
+
         if (trans.category === 'income' || trans.category === 'incomeNextMonth') {
           this._removeIncome(trans);
         } else {
