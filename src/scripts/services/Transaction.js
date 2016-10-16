@@ -110,10 +110,10 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
           } else {
             // doesn't exist in order, must have been removed
             if (this._splits[i].transfer) {
-              this.removeTransaction(this._splits[i].transfer);
+              this.removeTransaction && this.removeTransaction(this._splits[i].transfer);
             }
 
-            this.removeTransaction(this._splits[i]);
+            this.removeTransaction && this.removeTransaction(this._splits[i]);
             this.removeSplit(this._splits[i]);
             // i will be 'incremented' by removing in place
           }
@@ -122,7 +122,7 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
         // if we have additional
         while (i < sArr.length) {
           this.addSplit(sArr[i]);
-          this.addTransaction(sArr[i]);
+          this.addTransaction && this.addTransaction(sArr[i]);
 
           i++;
         }
