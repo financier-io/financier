@@ -191,20 +191,23 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
       }
 
       set date(x) {
+        this._setDate(x);
+
+        if (this.transfer) {
+          this.transfer._setDate(x);
+        }
+
+        this.splits.forEach(s => {
+          s._setDateFromParent(x);
+        });
+      }
+
+      _setDate(x) {
         this._data.date = x.toISOString();
         const oldDate = this.month;
         this._date = x;
 
         this.setMonth();
-
-        if (this.transfer) {
-          this.transfer.data.date = this._data.date;
-          this.transfer._date = this._date;
-          this.transfer.setMonth();
-
-          this.transfer._emitMonthChange(this.transfer.month, oldDate);
-          this.transfer._emitChange();
-        }
 
         this._emitMonthChange(this.month, oldDate);
         this._emitChange();
@@ -364,6 +367,14 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
       }
 
       set data(data) {
+        this.splits = data.splits.map(s => new SplitTransaction(this, s));
+
+        // SET CATEGORY
+        this._emitCategoryChange(() => {
+          this._data.category = data.category;
+
+          this.setMonth();
+        });
 
         // SET VALUE
         if (data.cleared) {
@@ -395,14 +406,11 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
         this.setMonth();
         this._emitMonthChange(this.month, oldDate);
 
+        // this.splits.forEach(s => {
+        //   split._emitMonthChange(this.month, oldDate);
+        // });
+
         // TODO payee
-
-        // SET CATEGORY
-        this._emitCategoryChange(() => {
-          this._data.category = data.category;
-
-          this.setMonth();
-        });
 
         this._data = data;
       }

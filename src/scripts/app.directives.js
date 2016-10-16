@@ -8,7 +8,6 @@ import './directives/account/memoInput';
 import './directives/account/payeeSuggest';
 import './directives/account/transactionValue';
 import './directives/account/transactionEditor';
-import './directives/account/transactionCreator';
 import './directives/account/inflowInput';
 import './directives/account/outflowInput';
 

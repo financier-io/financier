@@ -18,7 +18,7 @@ angular.module('financier').directive('memoInput', $rootScope => {
 
           input.on('keydown', e => {
             if (e.which === 13) { // enter
-              $rootScope.$broadcast('transaction:outflow:focus');
+              $rootScope.$broadcast('transaction:outflow:focus', { index: scope.$parent.splitIndex });
             }
           });
         }

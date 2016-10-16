@@ -36,6 +36,8 @@ angular.module('financier').factory('splitTransaction', uuid => {
 
         this._data = myData;
 
+        this.setMonth();
+
         this.transfer = null;
       }
 
@@ -99,9 +101,18 @@ angular.module('financier').factory('splitTransaction', uuid => {
         this.transaction.date = d;
       }
 
-      // TODO: This is temporary
       get month() {
-        return this.transaction.month;
+        return this._month;
+      }
+
+      setMonth() {
+        this._month = moment(this.date);
+
+        if (this.category === 'incomeNextMonth') {
+          this._month = this._month.add(1, 'month');
+        }
+
+        this._month = this._month.toDate();
       }
 
       get transfer() {
@@ -158,14 +169,10 @@ angular.module('financier').factory('splitTransaction', uuid => {
         this._emitCategoryChange(() => {
           this._data.category = x;
 
-          // this.setMonth();
+          this.setMonth();
         });
 
         this._emitChange();
-      }
-
-      setMonth() {
-        this.transaction.setMonth.apply(this.transaction, arguments);
       }
 
       /**
@@ -211,16 +218,34 @@ angular.module('financier').factory('splitTransaction', uuid => {
       }
 
       set data(data) {
-        this._emitValueChange(data.value - this._data.value);
-
         // SET CATEGORY
         this._emitCategoryChange(() => {
           this._data.category = data.category;
 
-          // this.setMonth();
+          this.setMonth();
         });
 
+        this._emitValueChange(data.value - this._data.value);
+
         this._data = data;
+      }
+
+      _setDate(x) {
+        const splitOldMonth = this.month;
+        this.transaction._setDate(x);
+        this.setMonth();
+        this._emitMonthChange(this.month, splitOldMonth);
+
+      }
+
+      _setDateFromParent(x) {
+        const oldMonth = this._month;
+        this.setMonth();
+        this._emitMonthChange(this.month, oldMonth);
+
+        if (this.transfer) {
+          this.transfer._setDate(x);
+        }
       }
 
       /**
@@ -231,6 +256,14 @@ angular.module('financier').factory('splitTransaction', uuid => {
       */
       subscribe(fn) {
         this.fn = fn;
+      }
+
+      set fn(f) {
+        this.transaction.fn = f;
+      }
+
+      get fn() {
+        return this.transaction.fn;
       }
 
       subscribeMonthChange(fn) {

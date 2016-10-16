@@ -439,6 +439,14 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
           }
 
           trans.data = change.doc;
+
+          trans.splits.forEach(split => {
+            split.transfer = manager.transactions[split.data.transfer];
+
+            if (split.transfer) {
+              split.transfer.transfer = split;
+            }
+          });
         }
 
         return;
@@ -458,6 +466,14 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
             trans.transfer.transfer = trans;
           }
         }
+
+        trans.splits.forEach(split => {
+          split.transfer = manager.transactions[split.data.transfer];
+
+          if (split.transfer) {
+            split.transfer.transfer = split;
+          }
+        });
       }
 
     }

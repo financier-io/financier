@@ -71,11 +71,11 @@
 
   <div class="account__tbody">
 
-    <transaction-creator transaction="accountCtrl.newTransaction"
+    <transaction-editor transaction="accountCtrl.newTransaction"
          ng-if="accountCtrl.newTransaction"
-         class="account__tr account__tr--editing"
+         class="account__transaction-editor"
          hotkey="{esc: accountCtrl.stopEditing}"
-         ng-click="dbCtrl.stopPropagation($event)"></transaction-creator>
+         ng-click="dbCtrl.stopPropagation($event)"></transaction-editor>
 
   </div>
   

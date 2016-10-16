@@ -137,6 +137,8 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
       account: this.accountId || null
     });
     this.newTransaction.date = new Date();
+    this.newTransaction.addTransaction = t => this.manager.addTransaction(t);
+    this.newTransaction.removeTransaction = t => this.manager.removeTransaction(t);
 
     $timeout(() => {
       if (this.accountId) {
@@ -224,10 +226,14 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
   });
 
   this.stopEditing = () => {
-    this.selectedTransactions = [this.editingTransaction];
-    this.editingTransaction = null;
+    if (this.newTransaction) {
+      this.newTransaction = null;
+    } else {
+      this.selectedTransactions = [this.editingTransaction];
+      this.editingTransaction = null;
 
-    $rootScope.$broadcast('vsRepeatTrigger');
+      $rootScope.$broadcast('vsRepeatTrigger');
+    }
   };
 
   this.selectRow = function(event, rowIndex) {

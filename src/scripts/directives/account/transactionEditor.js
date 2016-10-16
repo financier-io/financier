@@ -1,4 +1,4 @@
-angular.module('financier').directive('transactionEditor', (payee, transaction, $stateParams, splitTransaction, ngDialog) => {
+angular.module('financier').directive('transactionEditor', ($timeout, $rootScope, payee, transaction, $stateParams, splitTransaction, ngDialog) => {
   return {
     template: require('./transactionEditor.html'),
     bindToController: {
@@ -28,7 +28,7 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
       $scope.$watch(() => this.category, (newCat, oldCat) => {
         if (newCat !== oldCat) {
           if (newCat === 'split' && !this.splits.length) {
-            this.splits = [new SplitTransaction().toJSON()];
+            this.splits = [new SplitTransaction(this.transaction).toJSON()];
             this.splits[0].value = createValueGetterSetter(this.splits[0].value);
           } else {
             this.splits = [];
@@ -70,13 +70,15 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
           }
         }
 
-        if (this.payee.constructorName === 'Account') {
-          ngDialog.open({
-            template: require('../../../views/modal/noTransferAndSplit.html'),
-            controller: 'cancelClickCtrl'
-          });
+        if (this.splits.length) {
+          if (this.payee.constructorName === 'Account') {
+            ngDialog.open({
+              template: require('../../../views/modal/noTransferAndSplit.html'),
+              controller: 'cancelClickCtrl'
+            });
 
-          throw new Error('Split transaction cannot also be transfer');
+            throw new Error('Split transaction cannot also be transfer');
+          }
         }
 
         // Attempt reference to account and transferAccount
@@ -90,6 +92,12 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
         if (this.transaction.transfer) {
           this.transaction.transfer.fn = null;
         }
+
+        this.transaction.splits.forEach(s => {
+          if (s.transfer) {
+            s.transfer.fn = null;
+          }
+        });
 
         // Save all relevant data
         this.transaction.account = this.account;
@@ -123,6 +131,13 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
             this.transaction.splits[i].transfer._emitChange();
           }
         }
+
+        if (!$scope.accountCtrl.manager.transactions[this.transaction.id]) {
+          $scope.accountCtrl.manager.addTransaction(this.transaction);
+          $scope.accountCtrl.myBudget.put(this.transaction);
+        }
+
+        this.transaction = null;
       }
 
       this.addSplit = () => {
@@ -200,15 +215,16 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
 
             $scope.accountCtrl.manager.addTransaction(transaction.transfer);
           }
-        } else if (angular.isString(payee)) {
-          if (!payee) {
-            if (transaction.constructorName === 'SplitTransaction') {
-              return;
-            } else {
-              throw new Error('Payee must have a name');
-            }
+        } else if (!payee) {
+          removeTransfer(transaction);
+
+          if (transaction.payee) {
+            removePayee(transaction);
           }
 
+          transaction.payee = null;
+
+        } else if (angular.isString(payee)) {
           const newPayee = new Payee({
             name: payee
           });
@@ -227,6 +243,7 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
         data.value = createValueGetterSetter(split.value);
 
         data.payee = $scope.dbCtrl.payees[split.payee];
+        data.oldPayee = split.payee;
 
 
         if (split.transfer) {        
@@ -239,6 +256,7 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
       function createSplitTransaction(split, data) {
         split.data.id = data.id;
         split.id = data.id;
+        split.payee = data.oldPayee;
 
         split.transfer = $scope.accountCtrl.manager.transactions[data.transfer];
         split.data.transfer = data.transfer;
@@ -274,7 +292,7 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
 
         for (let i = 0; i < transactions.length; i++) {
           if (transactions[i].payee === transaction.payee &&
-              transactions[i] !== transaction) {
+              transactions[i].id !== transaction.id) {
             transaction.payee = null;
 
             return;
@@ -327,6 +345,16 @@ angular.module('financier').directive('transactionEditor', (payee, transaction, 
           }
         };
       }
+
+      this.submitAndAddAnother = () => {
+        this.submit();
+
+        $timeout(() => {
+          $rootScope.$broadcast('transaction:create');
+        });
+      }
+
+      $scope.$on('submit', this.submitAndAddAnother);
     }
   }
 })

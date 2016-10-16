@@ -95,6 +95,6 @@
 </div>
 
 <ul class="account__editing-buttons">
-  <li class="account__editing-button account__editing-button--save" ng-click="transactionCtrl.submit(); accountCtrl.stopEditing()">{{'SAVE' | translate}}</li><li class="account__editing-button" ng-click="accountCtrl.stopEditing()">{{'CANCEL' | translate}}</li>
+  <li class="account__editing-button account__editing-button--save" ng-click="transactionCtrl.submit(); accountCtrl.stopEditing()">{{'SAVE' | translate}}</li><li class="account__editing-button account__editing-button--save" ng-if="accountCtrl.newTransaction" ng-click="transactionCtrl.submitAndAddAnother()">{{'SAVE_AND_ADD_ANOTHER' | translate}}</li><li class="account__editing-button" ng-click="accountCtrl.stopEditing()">{{'CANCEL' | translate}}</li>
 </ul>
 

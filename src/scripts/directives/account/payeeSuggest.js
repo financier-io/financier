@@ -56,9 +56,9 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
                 (scope.ngModel.onBudget && account.onBudget) ||
                 (!scope.ngModel.onBudget && !account.onBudget)
               )) {
-              $rootScope.$broadcast('transaction:memo:focus');
+              $rootScope.$broadcast('transaction:memo:focus', { index: scope.$parent.splitIndex });
             } else {
-              $rootScope.$broadcast('transaction:category:focus');
+              $rootScope.$broadcast('transaction:category:focus', { index: scope.$parent.splitIndex });
             }
           };
 
