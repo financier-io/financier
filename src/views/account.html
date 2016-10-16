@@ -119,7 +119,7 @@
           </span>
         </div>
         <div class="account__td account__cell-memo" transaction-field-focus-name="memo">
-          <span>{{transaction.memo}}</span>
+          <span><span>{{transaction.memo}}</span></span>
         </div>
         <div class="account__td account__td--small account__cell-outflow" transaction-field-focus-name="outflow">
           <span><span>{{transaction.outflow | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span></span>
@@ -159,18 +159,18 @@
                     'account__category-label--empty': !dbCtrl.getCategoryName(split.category, split.date) && accountCtrl.transactionNeedsCategory(split)
                   }"
                   transaction-field-focus-name="category-{{$index}}">
-              {{dbCtrl.getCategoryName(split.category, split.date)
-                || (accountCtrl.transactionNeedsCategory(split) ? 'No category' : '')}}
+              <span>{{dbCtrl.getCategoryName(split.category, split.date)
+                || (accountCtrl.transactionNeedsCategory(split) ? 'No category' : '')}}</span>
             </span>
           </div>
           <div class="account__td account__cell-memo" transaction-field-focus-name="memo-{{$index}}">
-            <span>{{split.memo}}</span>
+            <span><span>{{split.memo}}</span></span>
           </div>
           <div class="account__td account__td--small account__cell-outflow" transaction-field-focus-name="outflow-{{$index}}">
-            <span>{{split.outflow | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
+            <span><span>{{split.outflow | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span></span>
           </div>
           <div class="account__td account__td--small account__cell-inflow" transaction-field-focus-name="inflow-{{$index}}">
-            <span>{{split.inflow | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
+            <span><span>{{split.inflow | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span></span>
           </div>
           <div class="account__td account__cell-cleared"></div>
         </div>
