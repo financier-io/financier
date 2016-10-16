@@ -33,12 +33,12 @@
   <div class="account__td account__cell-cleared">
 
     <i class="fa fa-lock"
-       ng-if="transaction.reconciled"></i>
+       ng-if="transactionCtrl.transaction.reconciled"></i>
 
     <div class="cleared"
-         ng-if="!transaction.reconciled"
-         ng-class="{'cleared--true': transaction.cleared}"
-         ng-click="accountCtrl.setCleared($event, transaction)">C</div>
+         ng-if="!transactionCtrl.transaction.reconciled"
+         ng-class="{'cleared--true': transactionCtrl.cleared}"
+         ng-click="transactionCtrl.cleared = !transactionCtrl.cleared">C</div>
   </div>
 </div>
 

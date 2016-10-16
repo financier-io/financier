@@ -16,6 +16,7 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
       this.account = this.transaction.account;
       this.flag = this.transaction.flag;
       this.date = this.transaction.date;
+      this.cleared = this.transaction.cleared;
       this.payee = $scope.dbCtrl.payees[this.transaction.payee];
 
 
@@ -108,6 +109,7 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
 
         this.transaction.memo = this.memo;
 
+        this.transaction.cleared = this.cleared;
         this.transaction.value = this.value.value || 0;
 
         savePayee(this.transaction, this.payee, account, transferAccount);
