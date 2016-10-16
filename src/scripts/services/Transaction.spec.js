@@ -1,10 +1,11 @@
 describe('transaction', function() {
-  let transaction, account;
+  let transaction, splitTransaction, account;
 
   beforeEach(angular.mock.module('financier'));
 
-  beforeEach(inject((_transaction_, _account_) => {
+  beforeEach(inject((_transaction_, _splitTransaction_, _account_) => {
     transaction = _transaction_;
+    splitTransaction = _splitTransaction_;
     account = _account_;
   }));
 
@@ -742,6 +743,118 @@ describe('transaction', function() {
       });
 
       expect(() => tran._id = 123).toThrow();
+    });
+  });
+
+  
+  describe('split transactions', () => {
+    let Transaction;
+    let SplitTransaction;
+
+    beforeEach(() => {
+      Transaction = transaction('111-111-111-111');
+      SplitTransaction = splitTransaction('111-111-111-111');
+    });
+
+    it('can have splits', () => {
+      const trans = new Transaction({
+        value: 123,
+        _id: 'b_123-123-123-123_transaction_321-321-321-321',
+        splits: [{
+          id: 'a',
+          category: 'income'
+        }]
+      });
+
+      expect(trans.splits.length).toBe(1);
+      expect(trans.splits[0].constructor.name).toBe('SplitTransaction');
+
+      expect(trans.splits[0].transaction).toBe(trans);
+    });
+
+    it('splits should have reference to parent transaction', () => {
+      const trans = new Transaction({
+        value: 123,
+        _id: 'b_123-123-123-123_transaction_321-321-321-321',
+        splits: [{
+          id: 'a',
+          category: 'income'
+        }]
+      });
+
+      expect(trans.splits[0].transaction).toBe(trans);
+    });
+
+    it('can add splits', () => {
+      const trans = new Transaction({
+        value: 123,
+        _id: 'b_123-123-123-123_transaction_321-321-321-321',
+        splits: [{
+          id: 'a',
+          category: 'income'
+        }]
+      });
+
+      const split = new SplitTransaction(trans);
+
+      trans.splits = [split];
+
+      expect(trans.splits[0].transaction).toBe(trans);
+    });
+
+    it('can update splits', () => {
+      const trans = new Transaction({
+        value: 123,
+        _id: 'b_123-123-123-123_transaction_321-321-321-321',
+        splits: [{
+          id: 'a',
+          category: 'income'
+        }]
+      });
+
+      const split = new SplitTransaction(trans);
+      const split1id = split.id;
+
+      spyOn(split, '_emitValueChange');
+
+      const split1dupe = new SplitTransaction(trans, {
+        id: split1id,
+        value: 123
+      });
+
+      trans.splits = [split];
+
+      expect(split._emitValueChange).not.toHaveBeenCalled();
+      
+      trans.splits = [split1dupe, new SplitTransaction(trans)];
+
+      expect(split._emitValueChange).toHaveBeenCalled();
+
+      expect(split1id).toEqual(split.id);
+    });
+
+    it('should serialize splits properly', () => {
+      const trans = new Transaction({
+        value: 123,
+        _id: 'b_123-123-123-123_transaction_321-321-321-321'
+      });
+
+      const split = new SplitTransaction(trans, {
+        id: 'testid'
+      });
+
+      split.memo = 'test 123';
+
+      trans.splits = [split];
+
+      expect(trans.toJSON().splits).toEqual([{
+        id: 'testid',
+        value: 0,
+        category: null,
+        memo: 'test 123',
+        payee: null,
+        transfer: null
+      }]);
     });
   });
 });

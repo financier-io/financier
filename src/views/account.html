@@ -71,15 +71,119 @@
 
   <div class="account__tbody">
 
-    <transaction-creator transaction="accountCtrl.newTransaction"
+    <transaction-editor transaction="accountCtrl.newTransaction"
          ng-if="accountCtrl.newTransaction"
-         class="account__tr account__tr--editing"
+         class="account__transaction-editor"
          hotkey="{esc: accountCtrl.stopEditing}"
-         ng-click="dbCtrl.stopPropagation($event)"></transaction-creator>
+         ng-click="dbCtrl.stopPropagation($event)"></transaction-editor>
 
   </div>
+  
+  <div class="account__tbody account__tbody--striped virtual-list" vs-repeat vs-size="accountCtrl.getTransactionHeight(transaction)" ng-class="{'odd-total': displayedTransactions.length % 2}">
+    <div ng-repeat="transaction in displayedTransactions track by transaction.id">
+      <div class="account__tr"
+           ng-if="accountCtrl.editingTransaction !== transaction"
+           ng-click="accountCtrl.selectRow($event, $index+startIndex)"
+           ng-class="{'st-selected': accountCtrl.isTransactionSelected(transaction), 'account__tr--stripe': ($index + startIndex) % 2}">
+        <div class="account__td account__td--select" ng-click="accountCtrl.toggle($index+startIndex, $event)">
+          <input type="checkbox" ng-model="accountCtrl.selectGetterSetter(transaction)" ng-model-options="{ getterSetter: true }">
+        </div>
+        <div class="account__td account__td--large" ng-if="!accountCtrl.accountId" transaction-field-focus-name="account">
+          <span class="account__category-label" ng-class="{
+              'account__category-label--empty': !accountCtrl.manager.getAccount(transaction.account)}">
+            {{accountCtrl.manager.getAccount(transaction.account).name || 'No account'}}
+          </span>
+        </div>
+        <div class="account__td account__td--flag"><div class="account__flag" ng-style="{'color': transaction.flag}" flag ng-model="transaction.flag"><div></div></div></div>
+        <div class="account__td account__td--date" transaction-field-focus-name="date">
+          <span>{{transaction.date | date : 'shortDate'}}</span>
+        </div>
+        <div class="account__td account__td--large account__td--payee" transaction-field-focus-name="payee">
+          <span>
+            <span>{{dbCtrl.getAccountName(transaction.transfer.account) || dbCtrl.getPayeeName(transaction.payee)}}</span>
+            <i class="fa fa-exchange" ng-show="transaction.transfer"></i>
+          </span>
+        </div>
+        <div class="account__td account__td--category account__td--large" ng-if="accountCtrl.account.onBudget" transaction-field-focus-name="category">
+          <span class="account__category-label"
+                ng-class="{
+                  'account__category-label--empty': !dbCtrl.getCategoryName(transaction.category, transaction.date) && accountCtrl.transactionNeedsCategory(transaction)
+                }">
+            <span>{{dbCtrl.getCategoryName(transaction.category, transaction.date)
+              || (accountCtrl.transactionNeedsCategory(transaction) ? 'No category' : '')}}</span>
 
-  <virtual-list class="account__tbody account__tbody--striped"></virtual-list>
+            <i class="fa fa-angle-right account__split-arrow"
+             ng-class="{'account__split-arrow--open': transaction.splitOpen}"
+             ng-if="transaction.category === 'split'"
+             ng-click="accountCtrl.openSplit(transaction, $event)"></i>
+          </span>
+        </div>
+        <div class="account__td account__cell-memo" transaction-field-focus-name="memo">
+          <span>{{transaction.memo}}</span>
+        </div>
+        <div class="account__td account__td--small account__cell-outflow" transaction-field-focus-name="outflow">
+          <span>{{transaction.outflow | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
+        </div>
+        <div class="account__td account__td--small account__cell-inflow" transaction-field-focus-name="inflow">
+          <span>{{transaction.inflow | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
+        </div>
+        <div class="account__td account__cell-cleared">
+          <i class="fa fa-lock"
+             ng-if="transaction.reconciled"></i>
 
+          <div class="cleared"
+               ng-if="!transaction.reconciled"
+               ng-class="{'cleared--true': transaction.cleared}" 
+               ng-click="accountCtrl.setCleared($event, transaction)">C</div>
+        </div>
+      </div>
+
+      <div collapse="!transaction.splitOpen" ng-if="accountCtrl.editingTransaction !== transaction" ng-controller="splitTransactionCtrl as splitTransactionCtrl">
+        <div class="account__tr"
+             ng-repeat="split in transaction.splits"
+             ng-click="accountCtrl.selectRow($event, splitTransactionCtrl.index+splitTransactionCtrl.vsIndex)"
+             ng-class="{'st-selected': accountCtrl.isTransactionSelected(transaction), 'account__tr--stripe': (splitTransactionCtrl.index + splitTransactionCtrl.vsIndex) % 2}">
+          <div class="account__td account__td--select"></div>
+          <div class="account__td account__td--large" ng-if="!accountCtrl.accountId">
+          </div>
+          <div class="account__td account__td--flag"></div>
+          <div class="account__td account__td--date"></div>
+          <div class="account__td account__td--large account__td--payee" transaction-field-focus-name="payee-{{$index}}">
+            <span>
+              <span>{{dbCtrl.getAccountName(split.transfer.account) || dbCtrl.getPayeeName(split.payee)}}</span><i class="fa fa-exchange" ng-show="split.transfer"></i>
+            </span>
+          </div>
+          <div class="account__td account__td--category account__td--large" ng-if="accountCtrl.account.onBudget" transaction-field-focus-name="category-{{$index}}">
+            <span class="account__category-label"
+                  ng-class="{
+                    'account__category-label--empty': !dbCtrl.getCategoryName(split.category, split.date) && accountCtrl.transactionNeedsCategory(split)
+                  }"
+                  transaction-field-focus-name="category-{{$index}}">
+              {{dbCtrl.getCategoryName(split.category, split.date)
+                || (accountCtrl.transactionNeedsCategory(split) ? 'No category' : '')}}
+            </span>
+          </div>
+          <div class="account__td account__cell-memo" transaction-field-focus-name="memo-{{$index}}">
+            <span>{{split.memo}}</span>
+          </div>
+          <div class="account__td account__td--small account__cell-outflow" transaction-field-focus-name="outflow-{{$index}}">
+            <span>{{split.outflow | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
+          </div>
+          <div class="account__td account__td--small account__cell-inflow" transaction-field-focus-name="inflow-{{$index}}">
+            <span>{{split.inflow | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
+          </div>
+          <div class="account__td account__cell-cleared"></div>
+        </div>
+      </div>
+
+      <transaction-editor transaction="transaction"
+                          class="account__transaction-editor"
+                          ng-if="accountCtrl.editingTransaction === transaction"
+                          hotkey="{esc: accountCtrl.stopEditing}"
+                          ng-click="dbCtrl.stopPropagation($event)"></transaction-editor>
+      
+    </div>
+
+  </div>
 </div>
 

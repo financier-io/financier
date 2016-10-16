@@ -1,4 +1,4 @@
-angular.module('financier').directive('syncStatus', function() {
+angular.module('financier').directive('syncStatus', function($translate) {
   return {
     restrict: 'E',
     template: '{{syncCtrl.textStatus}}',
@@ -10,10 +10,12 @@ angular.module('financier').directive('syncStatus', function() {
       $element.addClass('sync-status');
 
       $scope.$watch(() => this.status, status => {
+        // SYNCING, SYNC_COMPLETE, SYNC_ERROR
+
         if (status.indexOf('sync') === -1) {
-          this.textStatus = `Sync ${status}`;
+          this.textStatus = $translate.instant(`SYNC_${status.toUpperCase()}`);
         } else {
-          this.textStatus = status.charAt(0).toUpperCase() + status.slice(1);;
+          this.textStatus = $translate.instant(status.toUpperCase());
         }
       });
       
@@ -22,7 +24,7 @@ angular.module('financier').directive('syncStatus', function() {
         $element.addClass(`sync-status--${newStatus}`);
       });
 
-      $element.attr('title', 'The current synchronization status of your local data with the server.');
+      $element.attr('title', $translate.instant('SYNC_STATUS_HELP'));
     }
   };
 });

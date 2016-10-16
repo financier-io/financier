@@ -13,6 +13,7 @@ import './services/MonthManager';
 import './services/offline';
 import './services/Settings';
 import './services/Transaction';
+import './services/splitTransaction';
 import './services/User';
 import './services/uuid';
 import './services/importBudget';

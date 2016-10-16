@@ -1,7 +1,7 @@
 import moment from 'moment';
 import Chart from 'chart.js';
 
-angular.module('financier').directive('netWorthChart', ($filter, netWorth) => {
+angular.module('financier').directive('netWorthChart', ($filter, netWorth, $translate) => {
   return {
     restrict: 'E',
     template: '<canvas></canvas>',
@@ -18,7 +18,7 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth) => {
       var barChartData = {
         labels: report.months,
         datasets: [{
-          label: 'Net Worth',
+          label: $translate.instant('NET_WORTH'),
           type: 'line',
           tension: 0,
           data: report.netWorth.map(amt => amt / 100),
@@ -28,7 +28,7 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth) => {
           radius: 0,
           yAxisID: 'y-axis-1'
         }, {
-          label: 'Net Worth',
+          label: $translate.instant('NET_WORTH'),
           type: 'line',
           borderColor: 'rgba(0, 0, 0, 0)',
           tension: 0,
@@ -39,7 +39,7 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth) => {
           yAxisID: 'y-axis-1'
         }, {
           type: 'bar',
-          label: 'Debts',
+          label: $translate.instant('DEBTS'),
           data: report.debt.map(amt => amt / 100),
           fill: false,
           backgroundColor: '#ff4c4c',
@@ -49,7 +49,7 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth) => {
           yAxisID: 'y-axis-1'
         }, {
           type: 'bar',
-          label: 'Assets',
+          label: $translate.instant('ASSETS'),
           data: report.assets.map(amt => amt / 100),
           fill: false,
           backgroundColor: '#93c776',

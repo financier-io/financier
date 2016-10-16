@@ -1,7 +1,11 @@
-virtual-list {
+.virtual-list {
   overflow-y: auto;
   display: block;
   flex: 1;
+
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
 
   // For tether.js
   // https://github.com/HubSpot/tether/issues/135#issuecomment-167601049
@@ -12,8 +16,27 @@ virtual-list {
     min-height: 100%;
   }
 
-  .renderer {
-    position: absolute;
-    width: 100%;
+  .vs-repeat-after-content {
+    flex: 1;
+
+    background: repeating-linear-gradient(
+      to bottom,
+      $white,
+      $white 30px,
+      lighten($primary, 43%) 30px,
+      lighten($primary, 43%) 60px
+    );
+  }
+
+  &.odd-total {
+    .vs-repeat-after-content { 
+      background: repeating-linear-gradient(
+        to bottom,
+        lighten($primary, 43%),
+        lighten($primary, 43%) 30px,
+        $white 30px,
+        $white 60px
+      );
+    }
   }
 }

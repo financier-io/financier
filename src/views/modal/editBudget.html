@@ -10,7 +10,7 @@
            required>
     <div ng-messages="editBudgetForm.name.$error"
          ng-if="editBudgetForm.name.$dirty">
-      <div ng-message="required" class="message">This is required!</div>
+      <div ng-message="required" class="message">{{'FIELD_REQUIRED' | translate}}</div>
     </div>
   </label>
 

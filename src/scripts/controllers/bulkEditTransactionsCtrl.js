@@ -2,6 +2,15 @@ angular.module('financier').controller('bulkEditTransactionsCtrl', function($roo
   this.removeAll = (transactions, event) => {
     $scope.stopPropagation(event);
 
+    for (let i = 0; i < transactions.length; i++) {
+      if (transactions[i].transfer && transactions[i].transfer.constructorName === 'SplitTransaction') {
+        return ngDialog.open({
+          template: require('../../views/modal/noDeleteSplitTransfer.html'),
+          controller: 'cancelClickCtrl'
+        });
+      }
+    }
+
     const reconciled = transactions.reduce((prev, curr) => {
       return prev + (curr.reconciled ? 1 : 0);
     }, 0);
@@ -39,7 +48,7 @@ angular.module('financier').controller('bulkEditTransactionsCtrl', function($roo
   };
 
   function removePayee(transaction) {
-    const transactions = $scope.manager.allAccounts.transactions;
+    const transactions = Object.keys($scope.manager.transactions).map(k => $scope.manager.transactions[k]);
 
     for (let i = 0; i < transactions.length; i++) {
       if (transactions[i].payee === transaction.payee &&
@@ -48,7 +57,7 @@ angular.module('financier').controller('bulkEditTransactionsCtrl', function($roo
       }
     }
 
-    if (!$scope.payees[transaction.payee].internal) {
+    if ($scope.payees[transaction.payee] && !$scope.payees[transaction.payee].internal) {
       $scope.payees[transaction.payee].remove();
       delete $scope.payees[transaction.payee];
     }

@@ -10,13 +10,15 @@ angular.module('financier').directive('memoInput', $rootScope => {
         pre: (scope, element, attrs) => {
           const input = element.find('input');
 
-          scope.$on('transaction:memo:focus', () => {
-            element.find('input')[0].focus()
+          scope.$on('transaction:memo:focus', (e, { index } = {}) => {
+            if (index === scope.$parent.splitIndex) {
+              element.find('input')[0].focus();
+            }
           });
 
           input.on('keydown', e => {
             if (e.which === 13) { // enter
-              $rootScope.$broadcast('transaction:outflow:focus');
+              $rootScope.$broadcast('transaction:outflow:focus', { index: scope.$parent.splitIndex });
             }
           });
         }

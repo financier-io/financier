@@ -81,6 +81,7 @@
     "angular-smart-table": "^2.1.8",
     "angular-translate": "^2.11.1",
     "angular-ui-router": "^0.3.1",
+    "angular-vs-repeat": "^1.1.7",
     "chart.js": "^2.2.1",
     "font-awesome": "^4.6.3",
     "lato-webfont": "^2.15.1",

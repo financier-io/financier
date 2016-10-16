@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-angular.module('financier').controller('dbCtrl', function(monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget, budgetOpenedRecord, currencies, $timeout, $state) {
+angular.module('financier').controller('dbCtrl', function(monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget, budgetOpenedRecord, currencies, $timeout, $state, $translate) {
   let {manager, categories, masterCategories, payees} = data;
   const budgetId = $stateParams.budgetId;
 
@@ -132,6 +132,8 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
       return `Income for ${moment(transactionDate).format('MMMM')}`;
     } else if (id === 'incomeNextMonth') {
       return `Income for ${moment(transactionDate).add(1, 'month').format('MMMM')}`;
+    } else if (id === 'split') {
+      return $translate.instant('MULTIPLE_CATEGORIES');
     }
 
     return this.categories[id] && this.categories[id].name;
@@ -437,6 +439,14 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
           }
 
           trans.data = change.doc;
+
+          trans.splits.forEach(split => {
+            split.transfer = manager.transactions[split.data.transfer];
+
+            if (split.transfer) {
+              split.transfer.transfer = split;
+            }
+          });
         }
 
         return;
@@ -456,6 +466,14 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
             trans.transfer.transfer = trans;
           }
         }
+
+        trans.splits.forEach(split => {
+          split.transfer = manager.transactions[split.data.transfer];
+
+          if (split.transfer) {
+            split.transfer.transfer = split;
+          }
+        });
       }
 
     }

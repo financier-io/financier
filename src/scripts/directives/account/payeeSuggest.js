@@ -56,15 +56,17 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
                 (scope.ngModel.onBudget && account.onBudget) ||
                 (!scope.ngModel.onBudget && !account.onBudget)
               )) {
-              $rootScope.$broadcast('transaction:memo:focus');
+              $rootScope.$broadcast('transaction:memo:focus', { index: scope.$parent.splitIndex });
             } else {
-              $rootScope.$broadcast('transaction:category:focus');
+              $rootScope.$broadcast('transaction:category:focus', { index: scope.$parent.splitIndex });
             }
           };
 
-          scope.$on('transaction:payee:focus', () => {
-            element.find('input')[0].focus();
-            scope.$broadcast('focus');
+          scope.$on('transaction:payee:focus', (e, { index } = {}) => {
+            if (index === scope.$parent.splitIndex) {
+              element.find('input')[0].focus();
+              scope.$broadcast('focus');
+            }
           });
 
           scope.template = require('./payeeSuggest.html');

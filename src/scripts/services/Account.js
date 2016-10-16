@@ -77,6 +77,10 @@ angular.module('financier').factory('account', uuid => {
        * to subscribe to for future changes.
       */
       addTransaction(trans) {
+        if (trans.constructorName === 'SplitTransaction') {
+          return;
+        }
+
         this.transactions.push(trans);
 
         if (trans.cleared) {
@@ -96,6 +100,10 @@ angular.module('financier').factory('account', uuid => {
        * to unsubscribe from for future changes.
       */
       removeTransaction(trans) {
+        if (trans.constructorName === 'SplitTransaction') {
+          return;
+        }
+
         const index = this.transactions.indexOf(trans);
         if (index !== -1) {
           this.transactions.splice(index, 1);

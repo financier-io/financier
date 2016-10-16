@@ -1,4 +1,4 @@
-angular.module('financier').controller('accountCtrl', function($timeout, $document, $element, $scope, $stateParams, data, hotkeys, transaction, payee, myBudget) {
+angular.module('financier').controller('accountCtrl', function($timeout, $document, $element, $scope, $rootScope, $stateParams, data, hotkeys, transaction, payee, myBudget) {
   const that = this;
 
   const Transaction = transaction($stateParams.budgetId);
@@ -24,6 +24,31 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
     $scope.transactions = manager.getAccount(this.accountId).transactions;
   } else {
     $scope.transactions = manager.allAccounts.transactions;
+  }
+
+  this.openSplit = (trans, $event) => {
+    $event.stopPropagation();
+
+    trans.splitOpen = !trans.splitOpen;
+
+    // TODO: This should be triggered whenever the split height can change
+    // (e.g. when other device updates # of splits, etc)
+    $rootScope.$broadcast('vsRepeatTrigger');
+  }
+
+  this.getTransactionHeight = trans => {
+    const unitHeight = 30; // one "row" of transaction table
+    let rows;
+
+    if (!trans.splitOpen && trans !== this.editingTransaction) {
+      rows = 1;
+    } else if (trans.splitOpen && trans !== this.editingTransaction) {
+      rows = trans.splits.length + 1;
+    } else if (trans === this.editingTransaction) {
+      rows = trans.splits.length + 2;
+    }
+
+    return unitHeight * rows;
   }
 
   this.transactionNeedsCategory = trans => {
@@ -112,6 +137,8 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
       account: this.accountId || null
     });
     this.newTransaction.date = new Date();
+    this.newTransaction.addTransaction = t => this.manager.addTransaction(t);
+    this.newTransaction.removeTransaction = t => this.manager.removeTransaction(t);
 
     $timeout(() => {
       if (this.accountId) {
@@ -120,6 +147,8 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
         $scope.$broadcast('transaction:account:focus');
       }
     });
+
+    $rootScope.$broadcast('vsRepeatTrigger');
   };
 
   $scope.$on('transaction:create', () => {
@@ -162,6 +191,8 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
     that.selectedTransactionIndexes = [];
     this.editingTransaction = null;
     this.newTransaction = null;
+
+    $rootScope.$broadcast('vsRepeatTrigger');
   };
 
   $scope.$on('account:deselectTransactions', documentClickHandler);
@@ -195,8 +226,14 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
   });
 
   this.stopEditing = () => {
-    this.selectedTransactions = [this.editingTransaction];
-    this.editingTransaction = null;
+    if (this.newTransaction) {
+      this.newTransaction = null;
+    } else {
+      this.selectedTransactions = [this.editingTransaction];
+      this.editingTransaction = null;
+
+      $rootScope.$broadcast('vsRepeatTrigger');
+    }
   };
 
   this.selectRow = function(event, rowIndex) {
@@ -223,10 +260,16 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
       that.editingTransaction = $scope.displayedTransactions[rowIndex];
       that.selectedTransactionIndexes = [];
 
-      const clickFromField = event.target.getAttribute('transaction-field-focus-name');
+      let [clickFromField, index] = (getFocusName(event.target) || '').split('-');
+
+      if (window.isNaN(+index)) {
+        index = undefined;
+      } else {
+        index = +index;
+      }
       
       $timeout(() => {
-        $scope.$broadcast(`transaction:${clickFromField}:focus`);
+        $scope.$broadcast(`transaction:${clickFromField}:focus`, { index });
       });
     } else {
       if(event.ctrlKey || event.metaKey) { // mac is metaKey
@@ -240,7 +283,22 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
 
     that.selectedTransactions = that.selectedTransactionIndexes.map(i => $scope.displayedTransactions[i]);
 
+    $rootScope.$broadcast('vsRepeatTrigger');
   };
+
+  function getFocusName(el) {
+    if (!el) {
+      return '';
+    }
+
+    const name = el.getAttribute('transaction-field-focus-name');
+
+    if (name) {
+      return name;
+    }
+
+    return getFocusName(el.parentNode);
+  }
 
   this.isTransactionSelected = function(trans) {
     return that.selectedTransactions.indexOf(trans) > -1;

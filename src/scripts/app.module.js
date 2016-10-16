@@ -7,6 +7,7 @@ import ngMd5 from 'angular-md5';
 import smartTable from 'angular-smart-table';
 import ngTranslate from 'angular-translate';
 import dynamicLocale from 'angular-dynamic-locale';
+import vsRepeat from 'angular-vs-repeat';
 import 'angular-dateParser/dist/angular-dateparser';
 import 'angular-resizable';
 import 'ng-resize';
@@ -24,6 +25,7 @@ let financier = angular.module('financier', [
   smartTable,
   ngTranslate,
   dynamicLocale,
+  vsRepeat,
   'ngLocale',
   'dateParser',
   'angularResizable',
@@ -204,6 +206,9 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
 
   $translateProvider.translations('en', require('../public/assets/translations/en.json'));
   $translateProvider.translations('es', require('../public/assets/translations/es.json'));
+  $translateProvider.translations('ru', require('../public/assets/translations/ru.json'));
+  $translateProvider.translations('ca', require('../public/assets/translations/ca.json'));
+  $translateProvider.translations('de', require('../public/assets/translations/de.json'));
 
   $translateProvider.fallbackLanguage('en');
   $translateProvider.determinePreferredLanguage();

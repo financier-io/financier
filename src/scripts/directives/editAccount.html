@@ -1,7 +1,7 @@
 <div class="drop__content drop__content--wide">
   <form name="editAccountNote" ng-submit="editAccountCtrl.submit()">
     <label>
-      Account name<br>
+      {{'ACCOUNT_NAME' | translate}}<br>
       <input type="text"
              class="form__textarea form__textarea--block"
              ng-model="editAccountCtrl.name"
@@ -10,7 +10,7 @@
     <br>
 
     <label>
-      Note<br>
+      {{'NOTE' | translate}}<br>
       <textarea class="form__textarea form__textarea--monospace form__textarea--block"
                 ng-model="editAccountCtrl.note"
                 rows="3"></textarea>
@@ -19,27 +19,27 @@
 
     <div>
       <button class="button button--primary"
-              ng-disabled="editAccountForm.$invalid"><i class="fa fa-check"></i> Save</button>
+              ng-disabled="editAccountForm.$invalid"><i class="fa fa-check"></i> {{'SAVE' | translate}}</button>
 
       <button class="tooltip__delete button button--link-danger tooltip__delete--show"
               type="button"
               ng-if="!editAccountCtrl.editAccount.closed"
               ng-click="editAccountCtrl.close()">
-        <i class="fa fa-minus-circle"></i>Close account
+        <i class="fa fa-minus-circle"></i>{{'CLOSE_ACCOUNT' | translate}}
       </button>
 
       <button class="tooltip__delete button button--link-primary tooltip__delete--show"
               type="button"
               ng-if="editAccountCtrl.editAccount.closed"
               ng-click="editAccountCtrl.open()">
-        <i class="fa fa-plus-circle"></i>Reopen
+        <i class="fa fa-plus-circle"></i>{{'REOPEN' | translate}}
       </button>
 
       <button class="tooltip__delete button button--link-danger tooltip__delete--show"
               type="button"
               ng-if="editAccountCtrl.editAccount.closed"
               ng-click="editAccountCtrl.remove()">
-        <i class="fa fa-minus-circle"></i>Delete
+        <i class="fa fa-minus-circle"></i>{{'DELETE' | translate}}
       </button>
     </div>
   </form>

@@ -1,5 +1,9 @@
 angular.module('financier').directive('calendarInput', ($rootScope, $locale, inputDropSetup) => {
-  const FIRSTDAYOFWEEK = $locale.DATETIME_FORMATS.FIRSTDAYOFWEEK;
+  let FIRSTDAYOFWEEK = $locale.DATETIME_FORMATS.FIRSTDAYOFWEEK;
+
+  if ($locale.id === 'en-au') {
+    FIRSTDAYOFWEEK = 0;
+  }
 
   return {
     restrict: 'A',
