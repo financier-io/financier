@@ -225,15 +225,36 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
           transaction.payee = null;
 
         } else if (angular.isString(payee)) {
-          const newPayee = new Payee({
-            name: payee
-          });
+          // Find existing in use case where using same payee name for multiple split
+          // transactions on one that doesn't currently exist
 
-          addPayee(transaction, newPayee);
+          const existingPayee = findPayeeByName(payee);
 
-          $scope.dbCtrl.payees[newPayee.id] = newPayee;
-          $scope.accountCtrl.myBudget.put(newPayee);
-          newPayee.subscribe($scope.accountCtrl.myBudget.put);
+          if (existingPayee) {
+            // One already exists
+            if (existingPayee.id !== transaction.payee) {
+              addPayee(transaction, existingPayee);
+            }
+          } else {
+            // Does not exist
+            const newPayee = new Payee({
+              name: payee
+            });
+
+            addPayee(transaction, newPayee);
+
+            $scope.dbCtrl.payees[newPayee.id] = newPayee;
+            $scope.accountCtrl.myBudget.put(newPayee);
+            newPayee.subscribe($scope.accountCtrl.myBudget.put);
+          }
+        }
+      }
+
+      function findPayeeByName(payeeName) {
+        for (let id in $scope.dbCtrl.payees) {
+          if ($scope.dbCtrl.payees[id].name === payeeName) {
+            return $scope.dbCtrl.payees[id];
+          }
         }
       }
 
