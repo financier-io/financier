@@ -96,8 +96,7 @@
 
             <button class="button button--danger" ladda="userCtrl.loadingStopSubscription" ng-click="userCtrl.stopSubscription()">{{'CANCEL_SUBSCRIPTION' | translate}}</button>
 
-            <p><small translate="CANCEL_SUBSCRIPTION_SERVICE_CONTINUATION_EXPLANATION" translate-values="{date: (userCtrl.subscript
-ion.current_period_end * 1000 | date)}"></small></p>
+            <p><small translate="CANCEL_SUBSCRIPTION_SERVICE_CONTINUATION_EXPLANATION" translate-values="{date: (userCtrl.subscription.current_period_end * 1000 | date)}"></small></p>
           </div>
 
           <div ng-if="!userCtrl.source">

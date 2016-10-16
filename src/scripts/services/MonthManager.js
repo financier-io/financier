@@ -85,7 +85,7 @@ angular.module('financier').factory('monthManager', (month, account) => {
           // before change
           const month = this.getMonth(trans.month);
           const account = this.getAccount(trans.account);
-          if (account.onBudget) {
+          if (account && account.onBudget) {
             month.removeTransaction(trans);
             month.startRolling(trans.category);
           }
@@ -93,7 +93,7 @@ angular.module('financier').factory('monthManager', (month, account) => {
           // after change
           const month = this.getMonth(trans.month);
           const account = this.getAccount(trans.account);
-          if (account.onBudget) {
+          if (account && account.onBudget) {
             month.addTransaction(trans);
           }
         });

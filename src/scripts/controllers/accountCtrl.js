@@ -287,7 +287,7 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
   };
 
   function getFocusName(el) {
-    if (!el) {
+    if (!el || !el.getAttribute) {
       return '';
     }
 
