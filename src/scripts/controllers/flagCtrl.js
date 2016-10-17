@@ -12,10 +12,10 @@ angular.module('financier').controller('flagCtrl', function() {
     color: '#76b852',
     label: 'GREEN'
   }, {
-    color: '#b852a9',
-    label: 'PURPLE'
-  }, {
     color: '#5276b8',
     label: 'BLUE'
+  }, {
+    color: '#b852a9',
+    label: 'PURPLE'
   }];
 });
