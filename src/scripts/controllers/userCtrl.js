@@ -31,13 +31,6 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
       });
     }
 
-    this.getSource = () => {
-      return User.getSource()
-      .then(source => {
-        this.source = source;
-      })
-    }
-
     this.startSubscription = () => {
       this.loadingStartSubscription = true;
 
