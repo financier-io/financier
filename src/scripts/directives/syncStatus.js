@@ -11,11 +11,12 @@ angular.module('financier').directive('syncStatus', function($translate) {
 
       $scope.$watch(() => this.status, status => {
         // SYNCING, SYNC_COMPLETE, SYNC_ERROR
-
-        if (status.indexOf('sync') === -1) {
-          this.textStatus = $translate.instant(`SYNC_${status.toUpperCase()}`);
-        } else {
-          this.textStatus = $translate.instant(status.toUpperCase());
+        if (status.isString(status)) {
+          if (status.indexOf('sync') === -1) {
+            this.textStatus = $translate.instant(`SYNC_${status.toUpperCase()}`);
+          } else {
+            this.textStatus = $translate.instant(status.toUpperCase());
+          }
         }
       });
       
