@@ -245,7 +245,7 @@ financier.run(function($translate, tmhDynamicLocale, tmhDynamicLocaleCache) {
   }
 
   try {
-    require(`bundle?lazy!angular-i18n/angular-locale_${language}.js`)(function() {
+    require(`bundle?lazy&name=i18n!angular-i18n/angular-locale_${language}.js`)(function() {
       tmhDynamicLocaleCache.put(language, getInjectedLocale());
 
       tmhDynamicLocale.set(language);
@@ -254,7 +254,7 @@ financier.run(function($translate, tmhDynamicLocale, tmhDynamicLocaleCache) {
   } catch (e) {
     console.log(`Couldn't find locale "${language}", falling back to en-us`);
 
-    require(`bundle?lazy!angular-i18n/angular-locale_en-us.js`)(function() {
+    require(`bundle?lazy&name=i18n!angular-i18n/angular-locale_en-us.js`)(function() {
       tmhDynamicLocaleCache.put('en-us', getInjectedLocale());
 
       tmhDynamicLocale.set('en-us');
