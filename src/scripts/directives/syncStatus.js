@@ -11,7 +11,7 @@ angular.module('financier').directive('syncStatus', function($translate) {
 
       $scope.$watch(() => this.status, status => {
         // SYNCING, SYNC_COMPLETE, SYNC_ERROR
-        if (status.isString(status)) {
+        if (angular.isString(status)) {
           if (status.indexOf('sync') === -1) {
             this.textStatus = $translate.instant(`SYNC_${status.toUpperCase()}`);
           } else {
