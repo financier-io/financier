@@ -474,6 +474,10 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
             split.transfer.transfer = split;
           }
         });
+
+        trans.splits.forEach(split => {
+          manager.addTransaction(split);
+        });
       }
 
     }
