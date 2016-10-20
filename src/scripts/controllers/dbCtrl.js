@@ -92,11 +92,19 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
       localStorage.setItem('closedAccountsCollapsed', s);
       this._closedAccountsCollapsed = localStorage.getItem('closedAccountsCollapsed');
     },
+    get monthOverview() {
+      return this._monthOverviewCollapsed === 'true';
+    },
+    set monthOverview(s) {
+      localStorage.setItem('monthOverviewCollapsed', s);
+      this._monthOverviewCollapsed = localStorage.getItem('monthOverviewCollapsed');
+    }
   };
 
   this.collapsed._onBudgetAccountsCollapsed = false;
   this.collapsed._offBudgetAccountsCollapsed = localStorage.getItem('offBudgetAccountsCollapsed');
   this.collapsed._closedAccountsCollapsed = localStorage.getItem('closedAccountsCollapsed');
+  this.collapsed._monthOverviewCollapsed = localStorage.getItem('monthOverviewCollapsed');
 
   this.filterAccounts();
 

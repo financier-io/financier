@@ -14,6 +14,13 @@
   position: relative;
 }
 
+.month-select__month,
+.month-select__year {
+  @media (max-width: 600px) {
+    display: none;
+  }
+}
+
 
 .month-select__month--current {
   $size: 0.5em;
@@ -54,6 +61,28 @@
   &,
   &:hover {
     background-color: lighten($primary, 10%);
+  }
+}
+
+.month-select__control {
+  @media (max-width: 600px) {
+    flex: 1;
+  }
+}
+
+.month-select__control-label {
+  display: none;
+
+  @media (max-width: 600px) {
+    display: inline;
+  }
+
+  &:first-child {
+    padding-right: 0.5em;
+  }
+
+  &:last-child {
+    padding-left: 0.5em;
   }
 }
 

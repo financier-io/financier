@@ -18,34 +18,37 @@
                          'month-overview__month-overview--current': month.date === budgetCtrl.currentMonth
                        }">
           <div class="month-overview__month-text">{{month.date | date: 'MMMM yyyy'}}</div>
-          <dl class="month-overview__month-list">
-            <dt>{{month.cache.totalAvailableLastMonth | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</dt>
-            <dd>
-              <span ng-if="month.cache.totalAvailableLastMonth >= 0">
-                {{'NOT_BUDGETED_IN' | translate : budgetCtrl.translationPayloads.lastMonth(month.date)}}
-              </span>
-              <span ng-if="month.cache.totalAvailableLastMonth < 0">
-                {{'OVERBUDGETED_IN' | translate : budgetCtrl.translationPayloads.lastMonth(month.date)}}
-              </span>
-            </dd>
+          <div collapse="dbCtrl.collapsed.monthOverview" ng-click="dbCtrl.collapsed.monthOverview = !dbCtrl.collapsed.monthOverview">
+            <dl class="month-overview__month-list">
+              <dt>{{month.cache.totalAvailableLastMonth | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</dt>
+              <dd>
+                <span ng-if="month.cache.totalAvailableLastMonth >= 0">
+                  {{'NOT_BUDGETED_IN' | translate : budgetCtrl.translationPayloads.lastMonth(month.date)}}
+                </span>
+                <span ng-if="month.cache.totalAvailableLastMonth < 0">
+                  {{'OVERBUDGETED_IN' | translate : budgetCtrl.translationPayloads.lastMonth(month.date)}}
+                </span>
+              </dd>
 
-            <dt>-{{month.cache.totalOverspentLastMonth | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</dt>
-            <dd>
-              {{'OVERSPENT_IN' | translate : budgetCtrl.translationPayloads.lastMonth(month.date)}}
-            </dd>
+              <dt>-{{month.cache.totalOverspentLastMonth | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</dt>
+              <dd>
+                {{'OVERSPENT_IN' | translate : budgetCtrl.translationPayloads.lastMonth(month.date)}}
+              </dd>
 
-            <dt><span ng-if="month.cache.totalIncome >= 0">+</span>{{month.cache.totalIncome | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</dt>
-            <dd>
-              {{'INCOME_FOR' | translate : budgetCtrl.translationPayloads.currentMonth(month.date)}}
-            </dd>
+              <dt><span ng-if="month.cache.totalIncome >= 0">+</span>{{month.cache.totalIncome | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</dt>
+              <dd>
+                {{'INCOME_FOR' | translate : budgetCtrl.translationPayloads.currentMonth(month.date)}}
+              </dd>
 
-            <dt>{{-month.cache.totalBudget | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</dt>
-            <dd>
-              {{'BUDGETED_IN' | translate : budgetCtrl.translationPayloads.currentMonth(month.date)}}
-            </dd>
-          </dl>
+              <dt>{{-month.cache.totalBudget | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</dt>
+              <dd>
+                {{'BUDGETED_IN' | translate : budgetCtrl.translationPayloads.currentMonth(month.date)}}
+              </dd>
+            </dl>
+            
+          </div>
 
-          <div class="month-overview__month-total" ng-class="
+          <div ng-click="dbCtrl.collapsed.monthOverview = !dbCtrl.collapsed.monthOverview" class="month-overview__month-total" ng-class="
             {
               'month-overview__month-total--negative': month.cache.totalAvailable < 0
             }">= {{month.cache.totalAvailable | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>

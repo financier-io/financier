@@ -1,3 +1,5 @@
+$breakWidth: 900px;
+
 .account {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -66,7 +68,6 @@
 .account__tfoot .account__tr {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
 }
 
 .account__thead,
@@ -192,9 +193,14 @@
 
 .account__tr--overview {
   background-color: $darkGray;
+  
+  display: flex;
 
-  height: 3rem;
   line-height: 3rem;
+  
+  @media (max-width: #{$breakWidth}) {
+    flex-wrap: wrap;
+  }
 }
 
 .account__tr--reconcile {
@@ -236,6 +242,31 @@ i.account__reconcile-close {
   padding: 0 1em;
   font-weight: 300;
   color: $white;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.account__name--all-accounts {
+  @media (max-width: #{$breakWidth}) {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+.account__stats {
+  display: flex;
+  justify-content: center;
+
+  @media (max-width: #{$breakWidth}) {
+    order: 3;
+    flex: 1;
+  }
+
+  > div {
+    display: flex;
+  }
 }
 
 .account__balance,
@@ -256,6 +287,8 @@ i.account__reconcile-close {
   font-size: 0.8em;
   font-weight: 300;
   margin-bottom: 3px;
+
+  white-space: nowrap;
 }
 
 .account__balance-value {

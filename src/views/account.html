@@ -1,30 +1,33 @@
 <div class="account" st-table="displayedTransactions" st-safe-src="transactions" disable-ng-animate>
   <div class="account__tbody">
     <div class="account__tr account__tr--overview">
-      <div class="account__name">{{accountCtrl.account.name}}</div>
-      <div class="account__balance">
+      <div class="account__name" ng-class="{'account__name--all-accounts': !accountCtrl.accountId}">{{accountCtrl.account.name}}</div>
+      <div class="account__stats">
         <div>
-          <div class="account__balance-title">{{'CLEARED_BALANCE' | translate}}</div>
-          <div class="account__balance-value" ng-class="{'account__balance-value--negative': accountCtrl.account.cache.clearedBalance < 0}">{{accountCtrl.account.cache.clearedBalance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>
+          <div class="account__balance">
+            <div>
+              <div class="account__balance-title">{{'CLEARED_BALANCE' | translate}}</div>
+              <div class="account__balance-value" ng-class="{'account__balance-value--negative': accountCtrl.account.cache.clearedBalance < 0}">{{accountCtrl.account.cache.clearedBalance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>
+            </div>
+          </div>
+          <div class="account__operator">+</div>
+          <div class="account__balance">
+            <div>
+              <div class="account__balance-title">{{'UNCLEARED_BALANCE' | translate}}</div>
+              <div class="account__balance-value" ng-class="{'account__balance-value--negative': accountCtrl.account.cache.unclearedBalance < 0}">{{accountCtrl.account.cache.unclearedBalance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>
+            </div>
+          </div>
+          <div class="account__operator">=</div>
+          <div class="account__balance">
+            <div>
+              <div class="account__balance-title">{{'WORKING_BALANCE' | translate}}</div>
+              <div class="account__balance-value" ng-class="{'account__balance-value--negative': accountCtrl.account.cache.balance < 0}">{{accountCtrl.account.cache.balance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="account__operator">+</div>
-      <div class="account__balance">
-        <div>
-          <div class="account__balance-title">{{'UNCLEARED_BALANCE' | translate}}</div>
-          <div class="account__balance-value" ng-class="{'account__balance-value--negative': accountCtrl.account.cache.unclearedBalance < 0}">{{accountCtrl.account.cache.unclearedBalance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>
-        </div>
-      </div>
-      <div class="account__operator">=</div>
-      <div class="account__balance">
-        <div>
-          <div class="account__balance-title">{{'WORKING_BALANCE' | translate}}</div>
-          <div class="account__balance-value" ng-class="{'account__balance-value--negative': accountCtrl.account.cache.balance < 0}">{{accountCtrl.account.cache.balance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>
-        </div>
-      </div>
-      <div class="account__reconcile">
-        <button ng-if="accountCtrl.accountId"
-                reconcile-account="accountCtrl.account"
+      <div class="account__reconcile" ng-if="accountCtrl.accountId">
+        <button reconcile-account="accountCtrl.account"
                 reconcile-collapsed="accountCtrl.reconcileCollapsed"
                 reconcile-amount="accountCtrl.reconcileAmount"
                 account-balance="accountCtrl.account.cache.clearedBalance">{{'RECONCILE_ACCOUNT' | translate}}</button>

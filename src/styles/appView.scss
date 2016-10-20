@@ -11,9 +11,26 @@
 .app-view__main {
   flex: 1000;
   display: flex;
+
+  // For mobile viewport off page stuff
+  overflow: hidden;
 }
 
 .app-view__sidebar {
+  @media (max-width: 600px) {
+    min-width: 250px; // ignore configured sidebar width
+    max-width: 250px; // ignore configured sidebar width
+
+    transform: translateX(-250px);
+
+    transition: transform 250ms ease;
+
+    .app-view--sidebar-open & {
+      transform: translateX(0);
+    }
+  }
+
+
   width: 15em;
   position: relative;
 
@@ -114,6 +131,27 @@
 .app-view__body {
   flex: 1;
   position: relative;
+
+  @media (max-width: 600px) {
+    transition: transform 250ms ease;
+    transform: translateX(-250px);
+
+    min-width: 100%;
+
+    .app-view--sidebar-open & {
+      transform: translateX(0);
+
+      &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
 }
 
 .app-view__sync {
@@ -123,20 +161,41 @@
   text-align: center;
 }
 
+.app-view__sidebar-toggle {
+
+}
+
 .app-view__title {
+  @media (max-width: 600px) {
+    .app-view__sidebar & {
+      display: none;
+    }
+
+  }
+
+  @media (min-width: 601px) {
+    .app-view__header & {
+      display: none;
+    }
+  }
+
   display: flex;
   font-size: 1.2em;
   font-weight: 300;
   margin: 0;
   text-align: center;
 
+  // Mobile view page transition overlap
+  position: relative;
+  z-index: $zTitle;
+
   height: 3rem;
   line-height: 3rem;
 
   // background-color: rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-
-  margin-bottom: 0.5rem;
+  background: $primary;
+  color: $white;
 
   span {
     width: 3rem;
@@ -154,6 +213,8 @@
     transition: all 250ms ease;
     position: relative;
 
+    text-decoration: none;
+
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -161,7 +222,7 @@
 }
 
 .app-view__links {
-  margin: 0 0 0.5em;
+  margin: 0.5rem 0;
   padding: 0;
   position: relative;
 }

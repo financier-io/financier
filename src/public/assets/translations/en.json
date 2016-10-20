@@ -255,5 +255,7 @@
     "NO_SPLIT_TRANSFER_MESSAGE": "The split transaction cannot also be a transfer. Either change the payee field to not be an account, or make the transaction category not a split.",
     "SPLIT_NOT_EQUAL": "Split transactions do not add up to transaction total",
     "SPLIT_NOT_EQUAL_MESSAGE": "Ensure that your split transaction inflow/outflows add up to the transaction's total, then try saving again.",
+    "PREVIOUS": "Previous",
+    "NEXT": "Next",
     "SYNC_OFFLINE": "Sync offline"
 }

@@ -1,7 +1,13 @@
-<div class="app-view">
+<div class="app-view" ng-class="{'app-view--sidebar-open': sidebarOpen}">
   <div class="app-view__header">
     <staging-warning></staging-warning>
     <apply-update></apply-update>
+
+      <h1 class="app-view__title">
+        <span>F</span>
+        <a ui-sref="user.budget">{{dbCtrl.budgetRecord.name}}</a>
+        <span><i class="fa fa-bars" ng-click="sidebarOpen = !sidebarOpen"></i></span>
+      </h1>
   </div>
 
   <div class="app-view__main">
