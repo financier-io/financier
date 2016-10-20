@@ -13,7 +13,7 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
   const Payee = payee(budgetId);
 
   this.manager = manager;
-  this.categories = [];
+  this.categories = categories;
 
   this.masterCategories = masterCategories;
   this.accounts = manager.accounts;
@@ -226,9 +226,9 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
 
   }
 
-  for (let id in categories) {
-    if (categories.hasOwnProperty(id)) {
-      this.addCategory(categories[id]);
+  for (let id in this.categories) {
+    if (this.categories.hasOwnProperty(id)) {
+      this.addCategory(this.categories[id]);
     }
   }
 
@@ -294,11 +294,11 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
     masterCategory(change) {
       // look through our categories to see if it exists
 
-      const cat = masterCategories[getId(change.id)];
+      const cat = that.masterCategories[getId(change.id)];
 
       if (change.deleted) {
         if (cat) {
-          delete masterCategories[getId(change.id)];
+          delete that.masterCategories[getId(change.id)];
 
           $scope.$broadcast('masterCategories:change');
         }
@@ -310,13 +310,13 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
           const b = new MasterCategory(change.doc);
           b.subscribe(myBudget.put);
 
-          masterCategories[b.id] = b;
+          that.masterCategories[b.id] = b;
 
           // Add back any categories
-          for (let id in categories) {
-            if (categories.hasOwnProperty(id)) {
-              if (categories[id].masterCategory === b.id) {
-                b.categories.push(categories[id]);
+          for (let id in that.categories) {
+            if (that.categories.hasOwnProperty(id)) {
+              if (that.categories[id].masterCategory === b.id) {
+                b.addCategory(that.categories[id]);
               }
             }
           }
@@ -387,14 +387,11 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
         if (mo.categories[moCat.categoryId]) {
           const oldBudget = mo.categories[moCat.categoryId].budget;
           mo.categories[moCat.categoryId].data = change.doc;
-
-          mo.categories[moCat.categoryId]._emitBudgetChange(mo.categories[moCat.categoryId].budget - oldBudget);
         } else {
           moCat.subscribe(myBudget.put);
           mo.addBudget(moCat);
           mo.startRolling(moCat.categoryId);
         }
-
       }
     },
     account(change) {

@@ -22,10 +22,11 @@ angular.module('financier').factory('MonthCategory', uuid => {
       }
       const myData = angular.extend({
         budget: 0,
-        overspending: null
+        overspending: null,
+        note: null
       }, data);
 
-      this.data = myData;
+      this._data = myData;
 
       const s = myData._id.split('_');
       this.categoryId = s[s.length - 1];
@@ -124,6 +125,27 @@ angular.module('financier').factory('MonthCategory', uuid => {
 
       this._emitOverspendingChange(o, oldO);
       this._emitChange();
+    }
+
+    get data() {
+      return this._data;
+    }
+
+    set data(data) {
+      // Set overspending
+      const oldOverspending = this.data.overspending;
+      this.data.overspending = data.overspending;
+      this._emitOverspendingChange(data.overspending, oldOverspending);
+
+      // Set budget
+      const oldBudget = this.data.budget;
+      this.data.budget = data.budget;
+      this._emitBudgetChange(data.budget - oldBudget);
+
+      // Set note
+      this.data.note = data.note;
+
+      this.data._rev = data._rev;
     }
 
     /**

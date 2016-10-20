@@ -326,6 +326,8 @@ angular.module('financier').factory('month', MonthCategory => {
        * @private
        */
       createCategoryIfEmpty(catId) {
+        this.createCategoryCacheIfEmpty(catId);
+
         if (!this.categories[catId]) {
           this.categories[catId] = new MonthCategory.from(budgetId, this.date, catId);
 
