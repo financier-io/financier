@@ -65,6 +65,8 @@
 }
 
 .month-select__control {
+  white-space: nowrap;
+
   @media (max-width: 600px) {
     flex: 1;
   }

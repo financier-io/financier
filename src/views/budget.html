@@ -51,7 +51,7 @@
           <div ng-click="dbCtrl.collapsed.monthOverview = !dbCtrl.collapsed.monthOverview" class="month-overview__month-total" ng-class="
             {
               'month-overview__month-total--negative': month.cache.totalAvailable < 0
-            }">= {{month.cache.totalAvailable | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>
+            }"><span ng-if="!dbCtrl.collapsed.monthOverview">= </span>{{month.cache.totalAvailable | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>
           <div class="month-overview__month-total-subtext">
             <span ng-if="month.cache.totalAvailable >= 0">{{'AVAILABLE_TO_BUDGET' | translate}}</span>
             <span ng-if="month.cache.totalAvailable < 0">{{'OVERBUDGETED' | translate}}</span>
