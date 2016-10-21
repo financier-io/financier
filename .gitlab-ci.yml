@@ -1,4 +1,4 @@
-image: node:argon
+image: node:6
 
 stages:
   - install
