@@ -39,6 +39,7 @@ import './directives/collapse';
 import './directives/editAccount';
 import './directives/logout';
 import './directives/quickBudget';
+import './directives/quickBudgetOne';
 
 import './directives/subscription/creditCard';
 import './directives/subscription/creditCardSpaces';

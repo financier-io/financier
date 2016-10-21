@@ -124,7 +124,9 @@
                      on-update="month.setBudget(category.id, model)"
                      view-model="month.categories[category.id].budget"
                      ng-attr-tabindex="{{$index + 2}}"
-                     on-enter-go-next>
+                     on-enter-go-next
+                     ng-focus="inputFocused = true"
+                     ng-blur="inputFocused = false">
 
               <i class="budget__month-row-note fa fa-sticky-note-o"
                  ng-class="{'budget__month-row-note--showing': month.categories[category.id].note.length}"
@@ -132,6 +134,12 @@
                  ng-model="month.note(category.id)"
                  ng-model-options="{ getterSetter: true }"
                  title="{{month.categories[category.id].note}}"></i>
+              
+              <i class="fa fa-caret-down budget__auto-suggest"
+                 quick-budget-one
+                 month="month"
+                 months="dbCtrl.months"
+                 cat-id="category.id"></i>
 
             </div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--display"

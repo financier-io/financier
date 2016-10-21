@@ -12,6 +12,10 @@ angular.module('financier').directive('note', ($compile, $timeout) => {
       content.on('keypress keydown', e => {
         if (e.which === 27) {
           dropInstance.close();
+        } else if (e.which === 13 && (e.ctrlKey || e.metaKey)) {
+          scope.submit(scope.myNote);
+
+          dropInstance.close();
         }
       });
 

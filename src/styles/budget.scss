@@ -76,6 +76,34 @@ i.budget__month-row-note {
   }
 }
 
+i.budget__auto-suggest {
+  display: none;
+
+  position: absolute;
+  right: -20px;
+  top: 4px;
+  height: 16px;
+  line-height: 16px;
+  width: 16px;
+
+  cursor: pointer;
+
+  text-align: center;
+  background: #ddd;
+
+  &:hover {
+    background: #ccc;
+  }
+
+  &:active {
+    background: #aaa;
+  }
+}
+
+i.budget__auto-suggest--open {
+  display: block;
+}
+
 .budget__month-row-note--category-label {
   margin-top: 4px;
   margin-left: 2px;
@@ -178,10 +206,14 @@ i.budget__month-row-note--showing {
 
     &:focus {
       outline: none;
+
+      ~ .budget__auto-suggest {
+        display: block;
+      }
     }
   }
 
-  i {
+  .budget__month-row-note {
     position: absolute;
     left: 0.5em;
     top: 0;
