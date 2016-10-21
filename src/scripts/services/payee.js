@@ -15,7 +15,8 @@ angular.module('financier').factory('payee', uuid => {
       constructor(data = {
         name: null,
         autosuggest: true,
-        internal: false
+        internal: false,
+        categorySuggest: null
       }) {
 
         // add _id if none exists
@@ -86,6 +87,27 @@ angular.module('financier').factory('payee', uuid => {
       set autosuggest(n) {
         this.data.autosuggest = n;
         this.emitChange();
+      }
+
+      /**
+       * A category ID last used with this payee
+       *
+       * @example
+       * const payee = new Payee();
+       * payee.categorySuggest = '123-123-123-123';
+       * console.log(payee.categorySuggest); // '123-123-123-123'
+       *
+       * @type {boolean}
+      */
+      get categorySuggest() {
+        return this.data.categorySuggest;
+      }
+
+      set categorySuggest(n) {
+        if (this.data.categorySuggest !== n) {
+          this.data.categorySuggest = n;
+          this.emitChange();
+        }
       }
 
       /**

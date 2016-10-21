@@ -26,6 +26,14 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
 
       this.category = this.transaction.category;
 
+      $scope.$watch(() => this.payee, payee => {
+        if (payee && payee.constructorName === 'Payee') {
+          if (!this.category) {
+            this.category = payee.categorySuggest;
+          }
+        }
+      });
+
       $scope.$watch(() => this.category, (newCat, oldCat) => {
         if (newCat !== oldCat) {
           if (newCat === 'split' && !this.splits.length) {
@@ -240,7 +248,8 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
           } else {
             // Does not exist
             const newPayee = new Payee({
-              name: payee
+              name: payee,
+              categorySuggest: transaction.category
             });
 
             addPayee(transaction, newPayee);
@@ -308,6 +317,8 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
         }
 
         transaction.payee = payee.id;
+
+        payee.categorySuggest = transaction.category;
       }
 
       function removePayee(transaction) {

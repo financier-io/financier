@@ -67,22 +67,33 @@ angular.module('financier').directive('categorySuggest', ($rootScope, $filter, $
             scope.items = scope.splits.concat(scope.items);
           }
 
+          let setByParent = false;
+
           scope.$watch('ngModel', (ngModel, oldNgModel) => {
             for (let i = 0; i < scope.items.length; i++) {
               if (scope.items[i].id === scope.ngModel) {
+                if (!scope.item || scope.ngModel !== scope.item.id) {
+                  setByParent = true;
+                }
+
                 scope.item = scope.items[i];
               }
             }
           });
 
           scope.$watch('item', (newItem, oldItem) => {
+
             if (newItem !== oldItem) {
+              if (scope.ngModel !== newItem.id) {
+                setByParent = false;
+              }
+
               scope.ngModel = newItem.id;
             }
           });
 
           scope.categoryFilter = (item, searchInput, pristineInputField) => {
-            if (pristineInputField) {
+            if (pristineInputField || setByParent) {
               return true;
             }
 

@@ -2,7 +2,8 @@ angular.module('financier').directive('memoInput', $rootScope => {
   return {
     restrict: 'E',
     scope: {
-      ngModel: '='
+      ngModel: '=',
+      category: '='
     },
     template: '<input type="text" ng-model="ngModel"></input>',
     compile: () => {
@@ -18,7 +19,11 @@ angular.module('financier').directive('memoInput', $rootScope => {
 
           input.on('keydown', e => {
             if (e.which === 13) { // enter
-              $rootScope.$broadcast('transaction:outflow:focus', { index: scope.$parent.splitIndex });
+              if (scope.category && scope.category.indexOf('income') !== -1) {
+                $rootScope.$broadcast('transaction:inflow:focus', { index: scope.$parent.splitIndex });
+              } else {
+                $rootScope.$broadcast('transaction:outflow:focus', { index: scope.$parent.splitIndex });
+              }
             }
           });
         }
