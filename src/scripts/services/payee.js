@@ -12,16 +12,17 @@ angular.module('financier').factory('payee', uuid => {
        * @param {object} [data] - The record object from the database
        * (with `_id` and `_rev`).
        */
-      constructor(data = {
-        name: null,
-        autosuggest: true,
-        internal: false,
-        categorySuggest: null
-      }) {
+      constructor(data) {
+        const myData = angular.extend({
+          name: null,
+          autosuggest: true,
+          internal: false,
+          categorySuggest: null
+        }, data);
 
         // add _id if none exists
-        if (!data._id) {
-          data._id = Payee.prefix + uuid();
+        if (!myData._id) {
+          myData._id = Payee.prefix + uuid();
         }
 
         /**
@@ -33,9 +34,9 @@ angular.module('financier').factory('payee', uuid => {
          *
          * @type {string}
         */
-        this.id = data._id.slice(data._id.lastIndexOf('_') + 1);
+        this.id = myData._id.slice(myData._id.lastIndexOf('_') + 1);
 
-        this.data = data;
+        this.data = myData;
       }
 
       get constructorName() {

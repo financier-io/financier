@@ -258,5 +258,9 @@
     "SYNC_OFFLINE": "Sync offline",
     "NEXT": "Next",
     "PREVIOUS": "Previous",
-    "ENTER_NOTES_HERE": "Enter notes here"
+    "ENTER_NOTES_HERE": "Enter notes here",
+    "USE_LAST_MONTH_BUDGET": "Use last month's budget",
+    "USE_AVERAGE_3_MONTHS_BUDGET": "Use average of last 3 months' budget",
+    "CLEAR_ALL_BUDGET_AMOUNTS": "Clear this month's budget",
+    "BUDGET_TO_ZERO": "Budget to zero"
 }

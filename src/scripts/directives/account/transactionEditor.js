@@ -26,10 +26,12 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
 
       this.category = this.transaction.category;
 
-      $scope.$watch(() => this.payee, payee => {
-        if (payee && payee.constructorName === 'Payee') {
-          if (!this.category) {
-            this.category = payee.categorySuggest;
+      $scope.$watch(() => this.payee, (payee, oldPayee) => {
+        if (payee !== oldPayee) {
+          if (payee && payee.constructorName === 'Payee') {
+            if (!this.category) {
+              this.category = payee.categorySuggest;
+            }
           }
         }
       });

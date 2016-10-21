@@ -17,6 +17,7 @@
                          'month-overview__month-overview--old': month.date < budgetCtrl.currentMonth,
                          'month-overview__month-overview--current': month.date === budgetCtrl.currentMonth
                        }">
+          <i class="fa fa-bolt month-overview__quick-budget" quick-budget month="month" months="dbCtrl.months"></i>
           <div class="month-overview__month-text">{{month.date | date: 'MMMM yyyy'}}</div>
           <div collapse="dbCtrl.collapsed.monthOverview" ng-click="dbCtrl.collapsed.monthOverview = !dbCtrl.collapsed.monthOverview">
             <dl class="month-overview__month-list">
