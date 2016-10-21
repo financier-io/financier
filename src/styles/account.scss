@@ -261,7 +261,7 @@ i.account__reconcile-close {
 
   @media (max-width: #{$breakWidth}) {
     order: 3;
-    flex: 1 1 100%;
+    flex: 1 1 100%; // "1 100%" for safari
   }
 
   > div {
