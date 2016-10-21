@@ -12,7 +12,7 @@ install:
   script:
     - apt-get -qq update
     - apt-get -qq install -y python2.7 python2.7-dev build-essential make gcc g++ libicu-dev
-    - npm -g install npm --silent
+    - npm -g install npm@3.10.7 --silent
 
     - npm install
   cache:
