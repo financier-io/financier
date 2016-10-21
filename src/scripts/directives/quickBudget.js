@@ -13,7 +13,7 @@ angular.module('financier').directive('quickBudget', ($compile, $timeout) => {
         if (lastMonth) {
           for (let id in this.month.categories) {
             if (this.month.categories.hasOwnProperty(id)) {
-              if (!this.month.categories[id].budget) {
+              if (!this.month.categories[id].budget && lastMonth.categories[id]) {
                 this.month.categories[id].budget = lastMonth.categories[id].budget;
               }
             }
