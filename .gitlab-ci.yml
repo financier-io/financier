@@ -12,9 +12,9 @@ install:
   script:
     - apt-get -qq update
     - apt-get -qq install -y python2.7 python2.7-dev build-essential make gcc g++ libicu-dev
-    - npm -g install npm@3.10.7 --silent
+    - npm -g install yarn
 
-    - npm install
+    - yarn install
   cache:
     key: ${CI_BUILD_ID}
     paths:
