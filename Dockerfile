@@ -1,4 +1,4 @@
-FROM node:wheezy
+FROM node:6
 
 WORKDIR /financier
 RUN npm install express@4.13
