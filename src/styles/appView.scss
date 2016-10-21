@@ -74,10 +74,6 @@
     .app-view__sidebar-footer-button {
       background-color: darken($primary, 10%);
     }
-
-    .app-view__sidebar-details {
-      transform: translateY(-100%);
-    }
   }
 
   img {
@@ -117,15 +113,6 @@
 
 .app-view__sidebar-footer-button--sign-in {
   text-align: center;
-}
-
-.app-view__sidebar-details {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-
-  transition: transform 250ms ease;
 }
 
 .app-view__body {

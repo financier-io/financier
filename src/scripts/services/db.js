@@ -6,15 +6,16 @@ angular.module('financier').provider('db', function() {
   that.adapter = null;
 
   this.$get = (Budget, BudgetOpened, budgetManager, $http, $rootScope) => {
-    const db = new PouchDB('financier', {
-      adapter: that.adapter
-    });
+    let db;
+
+    create();
 
     return {
       budget,
       budgets: budgets(),
       budgetsOpened: budgetsOpened(),
       _pouch: db,
+      destroy,
       sync: {
         start: startSync,
         cancel: cancelSync
@@ -76,6 +77,17 @@ angular.module('financier').provider('db', function() {
       }).on('error', err => {
         // handle errors
         console.log('error subscribing to changes feed', err);
+      });
+    }
+
+    function destroy() {
+      return db.destroy()
+      .then(create);
+    }
+
+    function create() {
+      db = new PouchDB('financier', {
+        adapter: that.adapter
       });
     }
 

@@ -112,14 +112,7 @@
               class="app-view__sidebar-footer">
         <sync-status status="userCtrl.status"></sync-status>
 
-        <div class="app-view__sidebar-footer--logged-in">
-          <div class="app-view__sidebar-details">
-            <ul class="user-options">
-              <li>{{'LOGOUT' | translate}}</li>
-              <li>{{'LOGOUT_AND_CLEAR_LOCAL_BUDGETS' | translate}}</li>
-            </ul>
-          </div>
-
+        <div class="app-view__sidebar-footer--logged-in" logout="userCtrl.logout()" logout-and-remove="userCtrl.logoutAndRemove()">
           <div class="app-view__sidebar-footer-button">
             <span>{{userCtrl.email}}</span>
 

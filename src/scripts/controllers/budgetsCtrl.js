@@ -18,6 +18,10 @@ angular.module('financier').controller('budgetsCtrl', function($q, Budget, Budge
     return _id.slice(_id.lastIndexOf('_') + 1);
   }
 
+  $scope.$on('reset', () => {
+    getBudgets();
+  });
+
   $scope.$on('pouchdb:change', (e, change) => {
     // if it's a Budget
     if (Budget.contains(change.id)) {

@@ -10,7 +10,13 @@
       <li class="budgets-header__action" ng-if="!userCtrl.email" ng-click="userCtrl.signin()">{{'LOGIN' | translate}}</li>
 
       <sync-status status="userCtrl.status" ng-if="userCtrl.email"></sync-status>
-      <li class="budgets-header__action" ng-if="userCtrl.email" ng-click="userCtrl.logout()" ladda="userCtrl.logoutLoading">{{'LOGOUT' | translate}}</li>
+
+      <li class="budgets-header__action"
+          ng-if="userCtrl.email"
+          logout="userCtrl.logout()"
+          position="bottom center"
+          logout-and-remove="userCtrl.logoutAndRemove()"
+          ladda="userCtrl.logoutLoading">{{'LOGOUT' | translate}}</li>
     </ul>
   </div>
 </div>

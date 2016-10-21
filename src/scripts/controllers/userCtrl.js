@@ -1,4 +1,4 @@
-angular.module('financier').controller('userCtrl', function($rootScope, $scope, User, db, ngDialog, $timeout) {
+angular.module('financier').controller('userCtrl', function($rootScope, $scope, User, db, ngDialog, $timeout, $state) {
   $rootScope.loaded = true;
 
   const getSubscriptionInfo = () => {
@@ -135,6 +135,17 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
       this.logoutLoading = false;
     });
   };
+
+  this.logoutAndRemove = () => {
+    this.logout()
+    .then(() => {
+      return db.destroy();
+    })
+    .then(() => {
+      $rootScope.$broadcast('reset');
+      return $state.go('user.budget');
+    });
+  }
 
   this.signin = () => {
     ngDialog.open({
