@@ -97,7 +97,7 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
         const transferAccount = $scope.accountCtrl.manager.getAccount(this.payee.id);
 
         // Remove the emit change handle to prevent 409 conflicts
-        const saveFn = this.transaction.fn;
+        const saveFn = this.transaction.fn || $scope.accountCtrl.manager.saveFn;
         this.transaction.fn = null;
 
         if (this.transaction.transfer) {
@@ -126,9 +126,13 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
 
         this.transaction.splits = this.splits.map(s => createSplitTransaction(new SplitTransaction(this.transaction), s));
 
-        // Save transaction
-        this.transaction.fn = saveFn;
-        this.transaction._emitChange();
+        if (!$scope.accountCtrl.manager.transactions[this.transaction.id]) {
+          $scope.accountCtrl.manager.addTransaction(this.transaction);
+
+          // Save transaction
+          this.transaction.fn = saveFn;
+          this.transaction._emitChange();
+        }
 
         // Save transaction's transfer, if exists
         if (this.transaction.transfer) {
@@ -142,11 +146,6 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
             this.transaction.splits[i].transfer.fn = saveFn;
             this.transaction.splits[i].transfer._emitChange();
           }
-        }
-
-        if (!$scope.accountCtrl.manager.transactions[this.transaction.id]) {
-          $scope.accountCtrl.manager.addTransaction(this.transaction);
-          $scope.accountCtrl.myBudget.put(this.transaction);
         }
 
         this.transaction = null;
