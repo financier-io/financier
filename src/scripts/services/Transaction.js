@@ -38,6 +38,7 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
 
         if (myData.date) {
           this._date = new Date(myData.date);
+          this._date.setHours(0, 0, 0, 0);
         }
 
         this.subscribeClearedValueChangeFn = [];
@@ -206,6 +207,7 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
         this._data.date = x.toISOString();
         const oldDate = this.month;
         this._date = x;
+        this._date.setHours(0, 0, 0, 0);
 
         this.setMonth();
 
@@ -403,6 +405,7 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
         // SET DATE
         const oldDate = this.month;
         this._date = new Date(data.date);
+        this._date.setHours(0, 0, 0, 0);
         this.setMonth();
         this._emitMonthChange(this.month, oldDate);
 

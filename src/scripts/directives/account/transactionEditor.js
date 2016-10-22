@@ -128,11 +128,11 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
 
         if (!$scope.accountCtrl.manager.transactions[this.transaction.id]) {
           $scope.accountCtrl.manager.addTransaction(this.transaction);
-
-          // Save transaction
-          this.transaction.fn = saveFn;
-          this.transaction._emitChange();
         }
+
+        // Save transaction
+        this.transaction.fn = saveFn;
+        this.transaction._emitChange();
 
         // Save transaction's transfer, if exists
         if (this.transaction.transfer) {
