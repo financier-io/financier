@@ -39,7 +39,8 @@
 
   cursor: pointer;
 
-  &:hover {
+  &:hover,
+  &.drop-enabled {
     background-color: rgba(0, 0, 0, 0.1);
   }
 

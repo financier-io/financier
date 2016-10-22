@@ -70,7 +70,8 @@
   position: relative;
   $height: 30px;
 
-  &:hover {
+  &:hover,
+  &.drop-enabled {
     .app-view__sidebar-footer-button {
       background-color: darken($primary, 10%);
     }
