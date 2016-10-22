@@ -5,7 +5,7 @@ angular.module('financier').directive('outflowHelper', ($compile, $timeout) => {
   function link(scope, element, attrs, ngModelCtrl) {
 
     element.on('click', () => {
-      if (scope.outflowSetting) {
+      if (scope.outflowSetting && !scope.disabled) {
 
         const template = require('./outflowHelper.html');
         let dropInstance;
@@ -44,7 +44,8 @@ angular.module('financier').directive('outflowHelper', ($compile, $timeout) => {
     scope: {
       outflowDate: '=',
       outflowCategory: '=',
-      outflowSetting: '='
+      outflowSetting: '=',
+      disabled: "="
     },
     link
   };
