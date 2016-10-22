@@ -130,8 +130,8 @@ describe('transaction', function() {
       });
 
       expect(angular.isDate(tran.date)).toBe(true);
-      expect(tran.date.toISOString()).toBe('2012-12-12T06:00:00.000Z');
-      expect(tran.data.date).toBe('2012-12-12T06:00:00.000Z');
+      expect(tran.date.toISOString().indexOf('2012-12-12')).toBe(0);
+      expect(tran.data.date.indexOf('2012-12-12')).toBe(0);
     });
   });
 
