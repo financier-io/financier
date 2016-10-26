@@ -295,6 +295,13 @@
   cursor: pointer;
 }
 
+.app-view__accounts-name,
+.app-view__accounts-value,
+i.app-view__accounts-angle {
+  line-height: 20px;
+}
+
+
 .app-view__accounts-name {
   flex: 1;
 

@@ -10,7 +10,7 @@ describe('exportCsv', function() {
   describe('_buildTransactionsCsv', () => {
     it('works with no transactions', () => {
       expect(exportCsv._buildTransactionsCsv([])).toEqual(
-`Account,Flag,Date,Payee,Category Group/Category,Category Group,Category,Memo,Outflow,Inflow,Cleared
+`Account,Flag,Date,Payee,Category Group/Category,Category Group,Category,Memo,Outflow,Inflow,Cleared\r
 ,,,,,,,,,,`
       );
     });
