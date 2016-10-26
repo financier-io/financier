@@ -2,15 +2,15 @@ import angular from 'angular';
 
 import 'font-awesome/css/font-awesome.css';
 
-import 'lato-webfont/fonts/Lato-Hairline.woff';
-import 'lato-webfont/fonts/Lato-Thin.woff';
-import 'lato-webfont/fonts/Lato-Light.woff';
-import 'lato-webfont/fonts/Lato-Regular.woff';
-import 'lato-webfont/fonts/Lato-Medium.woff';
-import 'lato-webfont/fonts/Lato-Semibold.woff';
-import 'lato-webfont/fonts/Lato-Bold.woff';
-import 'lato-webfont/fonts/Lato-Heavy.woff';
-import 'lato-webfont/fonts/Lato-Black.woff';
+import 'lato-webfont/fonts/lato-hairline-webfont.woff';
+import 'lato-webfont/fonts/lato-thin-webfont.woff';
+import 'lato-webfont/fonts/lato-light-webfont.woff';
+import 'lato-webfont/fonts/lato-regular-webfont.woff';
+import 'lato-webfont/fonts/lato-medium-webfont.woff';
+import 'lato-webfont/fonts/lato-semibold-webfont.woff';
+import 'lato-webfont/fonts/lato-bold-webfont.woff';
+import 'lato-webfont/fonts/lato-heavy-webfont.woff';
+import 'lato-webfont/fonts/lato-black-webfont.woff';
 
 import '../styles/app.scss';
 

@@ -84,7 +84,7 @@
     "angular-vs-repeat": "^1.1.7",
     "chart.js": "^2.2.1",
     "font-awesome": "^4.6.3",
-    "lato-webfont": "^2.15.1",
+    "lato-webfont": "aeharding/lato-webfont",
     "mathjs": "^3.3.0",
     "moment": "^2.14.1",
     "ng-dialog": "^0.6.2",

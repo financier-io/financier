@@ -21,7 +21,7 @@ $breakWidth: 900px;
   @include ribbon(12px);
   color: #ccc;
 
-  margin-top: 10px;
+  margin-top: 9px;
 }
 
 .account__header-flag {
@@ -113,6 +113,7 @@ $breakWidth: 900px;
   &:after {
     font-family: 'FontAwesome';
     font-size: 1.5em;
+    line-height: 1.25em;
     vertical-align: middle;
   }
 
@@ -370,8 +371,16 @@ i.account__reconcile-close {
 
 .account__th--select,
 .account__td--select {
-  width: 35px;
   line-height: 1.9;
+
+  width: 48px;
+  padding: 0;
+  text-align: center;
+
+  input[type='checkbox'] {
+    // for IE
+    vertical-align: middle;
+  }
 }
 
 .account__flag {
