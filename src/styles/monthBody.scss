@@ -10,6 +10,12 @@
   text-align: right;
 }
 
+.month-body__row {
+  &:hover {
+    background: #f9f9f9;
+  }
+}
+
 .month-body__month-body {
   background-color: $darkGray;
   color: $white;
@@ -17,8 +23,12 @@
 }
 
 .month-body__row--master {
-  background-color: #efefef;
   font-weight: bold;
+
+  &,
+  &:hover {
+    background-color: #efefef;
+  }
 
   .month-body__cell-head {
     border-bottom: 0;

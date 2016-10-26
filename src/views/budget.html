@@ -73,7 +73,11 @@
             ng-repeat-end>{{'BALANCE' | translate}}<div>{{month.cache.totalBalance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div></div>
       </div>
     </div>
-    <div class="budget__tbody overflowable" ng-sortable="masterCategorySortable" disable-ng-animate>
+    <div class="budget__tbody overflowable"
+         ng-sortable="masterCategorySortable"
+         touch-start="masterCategorySortable.disabled = true"
+         touch-end="masterCategorySortable.disabled = false"
+         disable-ng-animate>
       <div ng-repeat="masterCategory in budgetCtrl.masterCategoriesArray track by masterCategory.id">
         <div class="budget__tr month-body__row month-body__row--master">
           <div class="budget__td budget__month-row budget__category-label budget__master-category-label">
@@ -98,7 +102,13 @@
                 ng-repeat-end>{{masterCategoryCtrl.balance | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</div>
         </div>
 
-        <div class="budget__category-sortable" collapse="masterCategory.collapsed" ng-sortable="categorySortable" ng-mouseenter="masterCategorySortable.disabled = true" ng-mouseleave="masterCategorySortable.disabled = false">
+        <div class="budget__category-sortable"
+             collapse="masterCategory.collapsed"
+             ng-sortable="categorySortable"
+             ng-mouseenter="masterCategorySortable.disabled = true"
+             ng-mouseleave="masterCategorySortable.disabled = false"
+             touch-start="categorySortable.disabled = true"
+             touch-end="categorySortable.disabled = false">
           <div class="budget__tr month-body__row"
               ng-repeat="category in masterCategory.categories track by category.id"
               ng-class="{'budget__month-row--last': $last}">

@@ -196,6 +196,8 @@ i.budget__month-row-note--showing {
     position: relative;
     z-index: $zMonthCellInput;
 
+    background: white;
+
     &:hover,
     &:focus {
       // make sure all borders are seen of the

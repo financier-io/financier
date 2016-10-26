@@ -40,6 +40,8 @@ import './directives/editAccount';
 import './directives/logout';
 import './directives/quickBudget';
 import './directives/quickBudgetOne';
+import './directives/touchStart';
+import './directives/touchEnd';
 
 import './directives/subscription/creditCard';
 import './directives/subscription/creditCardSpaces';

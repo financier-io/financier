@@ -21,6 +21,7 @@ import './services/stripeLazyLoader';
 import './services/payee';
 import './services/currencies';
 import './services/distance';
+import './services/exportCsv';
 
 import './services/reports/netWorth';
 
