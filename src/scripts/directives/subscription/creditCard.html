@@ -76,8 +76,11 @@
       <div ng-message="stripeError" class="message">{{vm.stripeError.message}}</div>
       <div ng-message="internalError" class="message">{{'INTERNAL_ERROR' | translate}}</div>
     </div>
-
-    <div class="credit-card__submit-help">{{'NOT_CHARGED_UNTIL_END_MESSAGE' | translate}}</div>
+  
+    <div>
+      <div class="credit-card__submit-help">{{'NOT_CHARGED_UNTIL_END_MESSAGE' | translate}}</div>
+      <div class="credit-card__submit-help"><i class="fa fa-lock"> </i>{{'SECURE_PAYMENT_PROCESSING' | translate}}</div>
+    </div>
   </fieldset>
 </form>
 

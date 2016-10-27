@@ -273,5 +273,6 @@
     "FINANCIER_EXPORT": "Financier Export",
     "EXPORT_BUDGET": "Export Budget",
     "SPLIT_N_OF_TOTAL": "Split ({{number}}/{{total}})",
-    "TRANSFER": "Transfer"
+    "TRANSFER": "Transfer",
+    "SECURE_PAYMENT_PROCESSING": "Your payment information is sent directly to our payment processor, Stripe."
 }
