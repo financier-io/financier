@@ -271,5 +271,6 @@
     "REGISTER": "Register",
     "MY_BUDGET_AS_OF": "{{budgetName}} as of {{date}}",
     "FINANCIER_EXPORT": "Financier Export",
-    "EXPORT_BUDGET": "Export Budget"
+    "EXPORT_BUDGET": "Export Budget",
+    "SPLIT_N_OF_TOTAL": "Split ({{number}}/{{total}})"
 }

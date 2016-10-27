@@ -31,9 +31,6 @@ angular.module('financier').factory('splitTransaction', uuid => {
 
         this.id = myData.id;
 
-        this.subscribeClearedValueChangeFn = [];
-        this.subscribeUnclearedValueChangeFn = [];
-
         this._data = myData;
 
         this.setMonth();
@@ -65,12 +62,6 @@ angular.module('financier').factory('splitTransaction', uuid => {
       set value(x) {
         const oldValue = this._data.value;
         this._data.value = x;
-
-        if (this.cleared) {
-          this._emitClearedValueChange(x - oldValue);
-        } else {
-          this._emitUnclearedValueChange(x - oldValue);
-        }
 
         this._emitValueChange(x - oldValue);
 
@@ -307,60 +298,6 @@ angular.module('financier').factory('splitTransaction', uuid => {
         this.subscribeCategoryChangeBeforeFn && this.subscribeCategoryChangeBeforeFn();
         fn();
         this.subscribeCategoryChangeAfterFn && this.subscribeCategoryChangeAfterFn();
-      }
-
-      /**
-       * Used to set the function(s) to invoke upon cleared value changes.
-       *
-       * @param {function} fn - This function will be invoked upon value
-       * changes with the amount the value has changed as the first parameter,
-       * but only when/if the value is cleared.
-      */
-      subscribeClearedValueChange(fn) {
-        this.subscribeClearedValueChangeFn.push(fn);
-      }
-
-      /**
-       * Used to unset the function to invoke upon cleared value changes.
-       *
-       * @param {function} fn - The function reference originally provided
-       * to subscribeClearedValueChange.
-      */
-      unsubscribeClearedValueChange(fn) {
-        const index = this.subscribeClearedValueChangeFn.indexOf(fn);
-
-        if (index > -1) {
-          this.subscribeClearedValueChangeFn.splice(index, 1);
-        } else {
-          throw new Error('Subscriber does not exist', fn);
-        }
-      }
-
-      /**
-       * Used to unset the function to invoke upon uncleared value changes.
-       *
-       * @param {function} fn - The function reference originally provided
-       * to subscribeUnclearedValueChange.
-      */
-      unsubscribeUnclearedValueChange(fn) {
-        const index = this.subscribeUnclearedValueChangeFn.indexOf(fn);
-
-        if (index > -1) {
-          this.subscribeUnclearedValueChangeFn.splice(index, 1);
-        } else {
-          throw new Error('Subscriber does not exist', fn);
-        }
-      }
-
-      /**
-       * Used to set the function(s) to invoke upon value changes.
-       *
-       * @param {function} fn - This function will be invoked upon value
-       * changes with the amount the value has changed as the first parameter,
-       * but only when/if the value is uncleared.
-      */
-      subscribeUnclearedValueChange(fn) {
-        this.subscribeUnclearedValueChangeFn.push(fn);
       }
 
       /**

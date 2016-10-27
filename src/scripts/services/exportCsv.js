@@ -42,7 +42,11 @@ angular.module('financier').factory('exportCsv', ($translate, $filter, flags) =>
         const account = _getAccount(trans.account, accounts);
         const flag = _getFlagColor(trans.flag);
         const date = dateFilter(trans.date, 'shortDate');
-        const payee = payees[trans.payee] && payees[trans.payee].name;
+
+        const payee = trans.transaction ?
+          (payees[trans.transaction.payee] && payees[trans.transaction.payee].name) :
+          (payees[trans.payee] && payees[trans.payee].name);
+
         const category = _getCategory(trans, categories);
         const masterCategory = _getMasterCategory(trans, masterCategories, categories);
 
@@ -51,12 +55,27 @@ angular.module('financier').factory('exportCsv', ($translate, $filter, flags) =>
           categoryCombo = `${masterCategory}: ${category}`;
         }
 
-        const memo = trans.memo;
+        let memo = trans.memo;
+
+        if (trans.transaction) {
+          const number = trans.transaction.splits.indexOf(trans) + 1,
+            total = trans.transaction.splits.length;
+
+          const initialMemo = memo;
+
+          memo = $translate.instant('SPLIT_N_OF_TOTAL', { number, total });
+
+          if (initialMemo) {
+            memo += ` ${initialMemo}`;
+          }
+        }
 
         const outflow = currency(intCurrency(trans.outflow, false, currencyDigits) || 0, currencySymbol, currencyDigits);
         const inflow = currency(intCurrency(trans.inflow, false, currencyDigits) || 0, currencySymbol, currencyDigits);
 
-        const cleared = $translate.instant(trans.reconciled ? 'RECONCILED' : (trans.cleared ? 'CLEARED' : 'UNCLEARED'));
+        const cleared = trans.transaction ?
+          ($translate.instant(trans.transaction.reconciled ? 'RECONCILED' : (trans.transaction.cleared ? 'CLEARED' : 'UNCLEARED'))) :
+          ($translate.instant(trans.reconciled ? 'RECONCILED' : (trans.cleared ? 'CLEARED' : 'UNCLEARED')));
 
         return [
           account,
