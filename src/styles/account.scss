@@ -149,6 +149,10 @@ $breakWidth: 900px;
     &:disabled {
       background-color: #ddd;
     }
+
+    &.ng-invalid {
+      border-color: $danger;
+    }
   }
 
   &,

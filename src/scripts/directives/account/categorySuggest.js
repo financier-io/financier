@@ -33,11 +33,11 @@ angular.module('financier').directive('categorySuggest', ($rootScope, $filter, $
 
           scope.$watch('transactionDate', (newDate, oldDate) => {
             scope.incomes[0].name = $translate.instant('INCOME_FOR', {
-              month: dateFilter(scope.transactionDate, 'LLLL')
+              month: dateFilter(scope.transactionDate || new Date(), 'LLLL')
             });
 
             scope.incomes[1].name = $translate.instant('INCOME_FOR', {
-              month: dateFilter(moment(scope.transactionDate).add(1, 'month').toDate(), 'LLLL')
+              month: dateFilter(moment(scope.transactionDate || new Date()).add(1, 'month').toDate(), 'LLLL')
             });
 
             // Don't needlessly trigger upon init
@@ -121,7 +121,7 @@ angular.module('financier').directive('categorySuggest', ($rootScope, $filter, $
           };
 
           scope.getCategoryBalance = (categoryId, date) => {
-            const month = scope.$parent.accountCtrl.manager.getMonth(date);
+            const month = scope.$parent.accountCtrl.manager.getMonth(date || new Date());
 
             const categoryCache = month.categoryCache[categoryId];
 

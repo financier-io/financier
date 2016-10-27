@@ -122,14 +122,30 @@ angular.module('financier').factory('exportCsv', ($translate, $filter, flags) =>
           const catId = sortedMasterCategories[j].categories[k].id,
             categoryCombo = `${sortedMasterCategories[j].name}: ${sortedMasterCategories[j].categories[k].name}`;
 
+          let budget, outflow, balance;
+
+          if (months[i].categories[catId]) {
+            budget = currency(intCurrency(months[i].categories[catId].budget, false, currencyDigits) || 0, currencySymbol, currencyDigits);
+          } else {
+            budget = currency(0, currencySymbol, currencyDigits);
+          }
+
+          if (months[i].categoryCache[catId]) {
+            outflow = currency(intCurrency(months[i].categoryCache[catId].outflow, false, currencyDigits) || 0, currencySymbol, currencyDigits);
+            balance = currency(intCurrency(months[i].categoryCache[catId].balance, false, currencyDigits) || 0, currencySymbol, currencyDigits);
+          } else {
+            outflow = currency(0, currencySymbol, currencyDigits);
+            balance = currency(0, currencySymbol, currencyDigits);
+          }
+
           data.push([
             month,
             categoryCombo,
             sortedMasterCategories[j].name,
             sortedMasterCategories[j].categories[k].name,
-            currency(intCurrency(months[i].categories[catId].budget, false, currencyDigits) || 0, currencySymbol, currencyDigits),
-            currency(intCurrency(months[i].categoryCache[catId].outflow, false, currencyDigits) || 0, currencySymbol, currencyDigits),
-            currency(intCurrency(months[i].categoryCache[catId].balance, false, currencyDigits) || 0, currencySymbol, currencyDigits)
+            budget,
+            outflow,
+            balance
           ]);
         }
       }
