@@ -104,7 +104,13 @@
             </ul>
           </div>
 
-          <button class="app-view__add-account" ng-click="dbCtrl.createAccount()">{{'ADD_AN_ACCOUNT' | translate}}</button>
+          <button class="app-view__add-account" ng-click="dbCtrl.createAccount()">
+            {{'ADD_AN_ACCOUNT' | translate}}
+          </button>
+
+          <i class="fa fa-cog app-view__budget-options"
+             budget-options
+             on-export="dbCtrl.export()"></i>
         </div>
       </div>
 

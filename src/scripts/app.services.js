@@ -22,6 +22,7 @@ import './services/payee';
 import './services/currencies';
 import './services/distance';
 import './services/exportCsv';
+import './services/flags';
 
 import './services/reports/netWorth';
 

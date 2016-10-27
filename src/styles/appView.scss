@@ -48,6 +48,19 @@
   }
 }
 
+.app-view__budget-options {
+  opacity: 0.5;
+  
+  cursor: pointer;
+
+  transition: opacity 250ms ease;
+
+  &:hover,
+  &.drop-enabled {
+    opacity: 1;
+  }
+}
+
 .app-view__sidebar-main {
   flex: 1;
   display: flex;

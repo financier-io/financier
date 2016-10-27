@@ -4,19 +4,19 @@ angular.module('financier').factory('netWorth', () => {
 
     // Play safe, kids
     transactions.sort((a, b) => {
-      return a.month - b.month;
+      return a.date - b.date;
     });
 
     transactions.forEach(transaction => {
       if (data.length === 0) {
         data.push({
-          date: transaction.month,
+          date: transaction.date,
           accounts: {}
         });
       } else {
         let month = data[data.length - 1].date;
 
-        while (!isSameMonth(data[data.length - 1].date, transaction.month)) {
+        while (!isSameMonth(data[data.length - 1].date, transaction.date)) {
           month = nextMonth(month);
 
           data.push({

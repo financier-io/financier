@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-angular.module('financier').controller('dbCtrl', function(monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget, budgetOpenedRecord, currencies, $timeout, $state, $translate) {
+angular.module('financier').controller('dbCtrl', function(exportCsv, monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget, budgetOpenedRecord, currencies, $timeout, $state, $translate) {
   let {manager, categories, masterCategories, payees} = data;
   const budgetId = $stateParams.budgetId;
 
@@ -17,6 +17,20 @@ angular.module('financier').controller('dbCtrl', function(monthManager, MonthCat
 
   this.masterCategories = masterCategories;
   this.accounts = manager.accounts;
+
+  this.export = () => {
+    exportCsv.create({
+      transactions: Object.keys(this.manager.transactions).map(id => this.manager.transactions[id]),
+      accounts: this.accounts,
+      masterCategories: this.masterCategories,
+      categories: this.categories,
+      payees: this.payees,
+      currencySymbol: this.currencySymbol,
+      currencyDigits: this.currencyDigits,
+      months: this.manager.months,
+      budgetName: this.budgetRecord.name
+    });
+  }
 
   this.filterAccounts = () => {
     const bySort = (a, b) => a.sort - b.sort;

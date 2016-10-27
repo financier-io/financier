@@ -262,5 +262,15 @@
     "USE_LAST_MONTH_BUDGET": "Use last month's budget",
     "USE_AVERAGE_3_MONTHS_BUDGET": "Use average of last 3 months' budget",
     "CLEAR_ALL_BUDGET_AMOUNTS": "Clear this month's budget",
-    "BUDGET_TO_ZERO": "Budget to zero"
+    "BUDGET_TO_ZERO": "Budget to zero",
+    "CLEARED": "Cleared",
+    "UNCLEARED": "Uncleared",
+    "RECONCILED": "Reconciled",
+    "CATEGORY_GROUP_CATEGORY": "Category Group/Category",
+    "CATEGORY_GROUP": "Category Group",
+    "FLAG": "Flag",
+    "REGISTER": "Register",
+    "MY_BUDGET_AS_OF": "{{budgetName}} as of {{date}}",
+    "FINANCIER_EXPORT": "Financier Export",
+    "EXPORT_BUDGET": "Export Budget"
 }
