@@ -244,5 +244,9 @@
     "TITHING": "Kirchensteuer",
     "CHARITABLE": "Wohltätigkeit",
     "AMOUNT_LEFT": "Restbetrag:",
-    "ADD_ANOTHER_SPLIT": "Eine weitere Teilung hinzufügen"
+    "ADD_ANOTHER_SPLIT": "Eine weitere Teilung hinzufügen",
+    "SYNC_OFFLINE": "Synchronisation offline",
+    "NEXT": "Weiter",
+    "PREVIOUS": "Zurück",
+    "ENTER_NOTES_HERE": "Notizen hier einfügen"
 }

@@ -209,6 +209,7 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
   $translateProvider.translations('ru', require('../public/assets/translations/ru.json'));
   $translateProvider.translations('ca', require('../public/assets/translations/ca.json'));
   $translateProvider.translations('de', require('../public/assets/translations/de.json'));
+  $translateProvider.translations('no', require('../public/assets/translations/no.json'));
 
   $translateProvider.fallbackLanguage('en');
   $translateProvider.determinePreferredLanguage();

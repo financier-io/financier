@@ -99,7 +99,7 @@
     "FREE_FOREVER": "Gratis per sempre!",
     "100_OFFLINE_FUNCTIONALITY": "Funciona 100% sense connexió",
     "NO_SYNCING_DATA_IN_BROWSER": "Sense sincronització; dades desades al navegador",
-    "CLEARING_BROWSER_CACHE_WILL_DELETE_BUDGETS": "¡Netejar o buidar la memòria cau del navegador, eliminarà tots el pressupostos!",
+    "CLEARING_BROWSER_CACHE_WILL_DELETE_BUDGETS": "¡Netejar o buidar la memòria cau del navegador, eliminarà tots els pressupostos!",
     "PREMIUM_PLAN": "Pla premium",
     "PREMIUM_PLAN_PER_YEAR": "{{amount}}/any",
     "SYNCING_AND_BACKUPS_TO_CLOUD": "Sincronització i còpies de seguretat al núvol",
@@ -254,5 +254,12 @@
     "NO_SPLIT_TRANSFER": "Una transacció amb múltiples categories  no pot ser també  una transferència. Cal eliminar el 'Beneficiari' o canviar la categoria de la transacció.",
     "NO_SPLIT_TRANSFER_MESSAGE": "Una transacció amb múltiples categories  no pot ser també  una transferència. Cal modificar el 'Beneficiari' o canviar la categoria de la transacció.",
     "SPLIT_NOT_EQUAL": "La suma dels apunts detallats no coincideix amb el total de la transacció",
-    "SPLIT_NOT_EQUAL_MESSAGE": "Assegureu-vos que els ingressos/despeses dels apunts detallats sumen al total de la transacció i torne a probar novament."
+    "SPLIT_NOT_EQUAL_MESSAGE": "Assegureu-vos que els ingressos/despeses dels apunts detallats sumen al total de la transacció i torne a probar novament.",
+    "SYNC_OFFLINE": "Sincronització desconectada",
+    "NEXT": "Següent",
+    "PREVIOUS": "Anterior",
+    "ENTER_NOTES_HERE": "Introduïu una nota aquí",
+    "USE_LAST_MONTH_BUDGET": "Ompliu amb el pressupost de l'últim mes",
+    "USE_AVERAGE_3_MONTHS_BUDGET": "Ompliu amb la mitjana del pressupostos dels últims 3 mesos",
+    "CLEAR_ALL_BUDGET_AMOUNTS": "Suprimeix totes les dades del pressupost d'aquest mes"
 }

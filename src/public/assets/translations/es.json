@@ -254,5 +254,12 @@
     "NO_SPLIT_TRANSFER": "Una transacción con múltiples categorías no puede ser también una transferencia.",
     "NO_SPLIT_TRANSFER_MESSAGE": "Una transacción con múltiples categorías no puede ser también una transferencia. Cambie el 'Beneficiario' o cambie la categoría de la transacción para que no sea multicategoría.",
     "SPLIT_NOT_EQUAL": "La suma de los apuntes detallados no coincide con el total de la transacción",
-    "SPLIT_NOT_EQUAL_MESSAGE": "Asegúrese de que las entradas y salidas detalladas suman lo mismo que el total de la transacción y pruebe a guardar de nuevo."
+    "SPLIT_NOT_EQUAL_MESSAGE": "Asegúrese de que las entradas y salidas detalladas suman lo mismo que el total de la transacción y pruebe a guardar de nuevo.",
+    "SYNC_OFFLINE": "Sincronización desactivada",
+    "NEXT": "Siguiente",
+    "PREVIOUS": "Anterior",
+    "ENTER_NOTES_HERE": "Introducir nota aquí",
+    "USE_LAST_MONTH_BUDGET": "Usar el presupuesto del último mes",
+    "USE_AVERAGE_3_MONTHS_BUDGET": "Usar el presupuesto medio de los 3 últimos meses",
+    "CLEAR_ALL_BUDGET_AMOUNTS": "Eliminar todas las cantidades del presupuesto para este mes"
 }
