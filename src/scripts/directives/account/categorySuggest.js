@@ -67,13 +67,18 @@ angular.module('financier').directive('categorySuggest', ($rootScope, $filter, $
             scope.items = scope.splits.concat(scope.items);
           }
 
-          let setByParent = false;
+          let setByParent = false,
+            firstRun = true;
 
           scope.$watch('ngModel', (ngModel, oldNgModel) => {
             for (let i = 0; i < scope.items.length; i++) {
               if (scope.items[i].id === scope.ngModel) {
                 if (!scope.item || scope.ngModel !== scope.item.id) {
-                  setByParent = true;
+                  if (!firstRun) {
+                    setByParent = true;
+                  } else {
+                    firstRun = true;
+                  }
                 }
 
                 scope.item = scope.items[i];
