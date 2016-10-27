@@ -28,7 +28,7 @@ angular.module('financier').factory('exportCsv', ($translate, $filter, flags) =>
     categories = {},
     masterCategories = {},
     payees = {},
-    accounts = {}
+    accounts = []
   }) {
     return Papa.unparse({
       fields: ['ACCOUNT', 'FLAG', 'DATE', 'PAYEE', 'CATEGORY_GROUP_CATEGORY', 'CATEGORY_GROUP',  'CATEGORY',  'MEMO',  'OUTFLOW', 'INFLOW', 'CLEARED'].map($translate.instant),
@@ -43,9 +43,15 @@ angular.module('financier').factory('exportCsv', ($translate, $filter, flags) =>
         const flag = _getFlagColor(trans.flag);
         const date = dateFilter(trans.date, 'shortDate');
 
-        const payee = trans.transaction ?
+        let payee = trans.transaction ?
           (payees[trans.transaction.payee] && payees[trans.transaction.payee].name) :
           (payees[trans.payee] && payees[trans.payee].name);
+
+        if (trans.transfer) {
+          const acc = _getAccount(trans.transfer.account, accounts);
+
+          payee = `${$translate.instant('TRANSFER')}: ${acc}`;
+        }
 
         const category = _getCategory(trans, categories);
         const masterCategory = _getMasterCategory(trans, masterCategories, categories);
