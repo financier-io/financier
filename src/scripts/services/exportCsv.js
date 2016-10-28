@@ -18,7 +18,7 @@ angular.module('financier').factory('exportCsv', ($translate, $filter, flags) =>
       const date = urlFriendlyDateFilter(new Date());
 
       return fileSaver.saveAs(contents, `${$translate.instant('FINANCIER_EXPORT')} - ${$translate.instant('MY_BUDGET_AS_OF', { date, budgetName: payload.budgetName })}.zip`);
-    })
+    });
   }
 
   function _buildTransactionsCsv({
@@ -40,7 +40,7 @@ angular.module('financier').factory('exportCsv', ($translate, $filter, flags) =>
       .sort((a, b) => (b.date.getTime() + b.value) - (a.date.getTime() + a.value))
       .map(trans => {
         const account = _getAccount(trans.account, accounts);
-        const flag = _getFlagColor(trans.flag);
+        const flag = _getFlagColor(trans.transaction ? trans.transaction.flag : trans.flag);
         const date = dateFilter(trans.date, 'shortDate');
 
         let payee = trans.transaction ?
