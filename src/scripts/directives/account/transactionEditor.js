@@ -39,8 +39,12 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
       $scope.$watch(() => this.category, (newCat, oldCat) => {
         if (newCat !== oldCat) {
           if (newCat === 'split' && !this.splits.length) {
-            this.splits = [new SplitTransaction(this.transaction).toJSON()];
+            this.splits = [
+              new SplitTransaction(this.transaction).toJSON(),
+              new SplitTransaction(this.transaction).toJSON()
+            ];
             this.splits[0].value = createValueGetterSetter(this.splits[0].value);
+            this.splits[1].value = createValueGetterSetter(this.splits[1].value);
           } else {
             this.splits = [];
           }
@@ -155,6 +159,10 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
         const split = new SplitTransaction(this.transaction).toJSON();
         this.splits.push(split);
         split.value = createValueGetterSetter(split.value);
+
+        $timeout(() => {
+          $rootScope.$broadcast('split:new');
+        });
       };
 
       this.removeSplit = split => {

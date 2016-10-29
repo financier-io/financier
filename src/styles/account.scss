@@ -527,7 +527,8 @@ i.account__reconcile-close {
 
   opacity: 0.8;
 
-  &:hover {
+  &:hover,
+  &:focus {
     opacity: 1;
   }
 }

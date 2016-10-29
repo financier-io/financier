@@ -10,6 +10,7 @@ import './directives/account/transactionValue';
 import './directives/account/transactionEditor';
 import './directives/account/inflowInput';
 import './directives/account/outflowInput';
+import './directives/account/focusOnNewSplit';
 
 import './directives/reports/netWorthChart';
 
