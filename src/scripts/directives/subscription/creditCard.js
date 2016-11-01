@@ -25,7 +25,7 @@ angular.module('financier').directive('creditCard', ($q, User, stripeLazyLoader)
           window.Stripe.setPublishableKey(key);
         })
         .then(() => {
-          return new Promise((resolve, reject) => {
+          return $q((resolve, reject) => {
             window.Stripe.card.createToken(angular.copy(this.card), (status, response) => {
               this.stripeError = response.error;
               this.cardForm.$setValidity('stripeError', !this.stripeError);
