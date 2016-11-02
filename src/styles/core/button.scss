@@ -1,6 +1,8 @@
 .button {
   border: 0;
   cursor: pointer;
+  background: $light-gray;
+  padding: 0.25em 0.75em;
 }
 
 .button--primary {
@@ -34,6 +36,12 @@
     background-color: desaturate($danger, 70%);
 
     cursor: default;
+  }
+}
+
+.button--danger-alt {
+  i {
+    color: $danger;
   }
 }
 

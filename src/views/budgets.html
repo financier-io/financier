@@ -72,13 +72,13 @@
   <div ng-if="userCtrl.isFree === true">
     <p>{{'FREE_VERSION_EXPLANATION' | translate}}</p>
 
-    <button class="button button--danger" ng-click="userCtrl.removeLocalData()"><i class="fa fa-remove"></i> {{'REMOVE_LOCAL_BUDGETS' | translate}}</button>
+    <button class="button" ng-click="userCtrl.removeLocalData()"><i class="fa fa-times"></i> {{'REMOVE_LOCAL_BUDGETS' | translate}}</button>
   </div>
 
   <div ng-if="userCtrl.loadingFailed">
     <p>{{'LOADING_SUBSCRIPTIONS_FAILED_EXPLANATION' | translate}}</p>
 
-    <button class="button button--danger" ng-click="userCtrl.removeLocalData()"><i class="fa fa-remove"></i> {{'REMOVE_LOCAL_BUDGETS' | translate}}</button>
+    <button class="button" ng-click="userCtrl.removeLocalData()"><i class="fa fa-times"></i> {{'REMOVE_LOCAL_BUDGETS' | translate}}</button>
   </div>
   
   <div ng-if="userCtrl.isFree === false">
