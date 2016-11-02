@@ -1,73 +1,73 @@
 angular.module('financier').constant('defaultCategories', [
   {
-    name: 'Monthly Bills',
+    name: 'MONTHLY_BILLS',
     categories: [{
-      name: 'Rent/Mortgage'
+      name: 'RENT_MORTGAGE'
     }, {
-      name: 'Phone'
+      name: 'PHONE'
     }, {
-      name: 'Internet'
+      name: 'INTERNET'
     }, {
-      name: 'Cable TV'
+      name: 'CABLE_TV'
     }, {
-      name: 'Electricity'
+      name: 'ELECTRICITY'
     }, {
-      name: 'Water'
+      name: 'WATER'
     }]
   }, {
-    name: 'Everyday Expenses',
+    name: 'EVERYDAY_EXPENSES',
     categories: [{
-      name: 'Spending Money'
+      name: 'SPENDING_MONEY'
     }, {
-      name: 'Groceries'
+      name: 'GROCERIES'
     }, {
-      name: 'Fuel'
+      name: 'FUEL'
     }, {
-      name: 'Restaurants'
+      name: 'RESTAURANTS'
     }, {
-      name: 'Medical/Dental'
+      name: 'MEDICAL_DENTAL'
     }, {
-      name: 'Clothing'
+      name: 'CLOTHING'
     }, {
-      name: 'Household Goods'
+      name: 'HOUSEHOLD_GOODS'
     }]
   }, {
-    name: 'Rainy Day Funds',
+    name: 'RAINY_DAY_FUNDS',
     categories: [{
-      name: 'Emergency Fund'
+      name: 'EMERGENCY_FUND'
     }, {
-      name: 'Car Maintenance'
+      name: 'CAR_MAINTENANCE'
     }, {
-      name: 'Car Insurance'
+      name: 'CAR_INSURANCE'
     }, {
-      name: 'Birthdays'
+      name: 'BIRTHDAYS'
     }, {
-      name: 'Christmas'
+      name: 'CHRISTMAS'
     }, {
-      name: 'Renters Insurance'
+      name: 'RENTERS_INSURANCE'
     }, {
-      name: 'Retirement'
+      name: 'RETIREMENT'
     }]
   }, {
-    name: 'Savings Goals',
+    name: 'SAVINGS_GOALS',
     categories: [{
-      name: 'Car Replacement'
+      name: 'CAR_REPLACEMENT'
     }, {
-      name: 'Vacation'
+      name: 'VACATION'
     }]
   }, {
-    name: 'Debt',
+    name: 'DEBT',
     categories: [{
-      name: 'Car Payment'
+      name: 'CAR_PAYMENT'
     }, {
-      name: 'Student Loan Payment'
+      name: 'STUDENT_LOAN_PAYMENT'
     }]
   }, {
-    name: 'Giving',
+    name: 'GIVING',
     categories: [{
-      name: 'Tithing'
+      name: 'TITHING'
     }, {
-      name: 'Charitable'
+      name: 'CHARITABLE'
     }]
   }
 ]);

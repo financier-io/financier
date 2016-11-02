@@ -1,11 +1,11 @@
-<h2>Edit budget</h2>
+<h2>{{'EDIT_BUDGET' | translate}}</h2>
 
 <form name="editBudgetForm" ng-submit="editBudgetCtrl.submit(editBudgetCtrl.name, editBudgetCtrl.currency)">
   <label>
     <input type="text"
            name="name"
            ng-model="editBudgetCtrl.name"
-           placeholder="My budget name"
+           placeholder="{{'MY_BUDGET_NAME' | translate}}"
            ng-disabled="editBudgetCtrl.loading"
            required>
     <div ng-messages="editBudgetForm.name.$error"

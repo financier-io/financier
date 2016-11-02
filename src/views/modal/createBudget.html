@@ -1,11 +1,11 @@
-<h2>New budget</h2>
+<h2>{{'NEW_BUDGET' | translate}}</h2>
 
 <form name="createBudgetForm" ng-submit="createBudgetCtrl.submit(name, createBudgetCtrl.currency)">
   <label>
     <input type="text"
            name="name"
            ng-model="name"
-           placeholder="My budget name"
+           placeholder="{{'MY_BUDGET_NAME' | translate}}"
            ng-disabled="createBudgetCtrl.loading"
            required>
     <div ng-messages="createBudgetForm.name.$error"

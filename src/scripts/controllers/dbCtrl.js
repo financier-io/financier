@@ -1,6 +1,8 @@
 import moment from 'moment';
 
-angular.module('financier').controller('dbCtrl', function(exportCsv, monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget, budgetOpenedRecord, currencies, $timeout, $state, $translate) {
+angular.module('financier').controller('dbCtrl', function(exportCsv, monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget, budgetOpenedRecord, currencies, $timeout, $state, $translate, $filter) {
+  const dateFilter = $filter('date');
+
   let {manager, categories, masterCategories, payees} = data;
   const budgetId = $stateParams.budgetId;
 
@@ -151,9 +153,9 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
 
   this.getCategoryName = (id, transactionDate) => {
     if (id === 'income') {
-      return `Income for ${moment(transactionDate).format('MMMM')}`;
+      return $translate.instant('INCOME_FOR', { month: dateFilter(moment(transactionDate).toDate(), 'MMMM') });
     } else if (id === 'incomeNextMonth') {
-      return `Income for ${moment(transactionDate).add(1, 'month').format('MMMM')}`;
+      return $translate.instant('INCOME_FOR', { month: dateFilter(moment(transactionDate).add(1, 'month').toDate(), 'MMMM') })
     } else if (id === 'split') {
       return $translate.instant('MULTIPLE_CATEGORIES');
     }

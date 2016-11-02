@@ -1,4 +1,4 @@
-angular.module('financier').controller('createBudgetCtrl', function($q, $state, $scope, $rootScope, db, Budget, BudgetOpened, payee, currencies) {
+angular.module('financier').controller('createBudgetCtrl', function($translate, $q, $state, $scope, $rootScope, db, Budget, BudgetOpened, payee, currencies) {
   this.currencies = currencies;
 
   this.currency = 'USD';
@@ -11,7 +11,7 @@ angular.module('financier').controller('createBudgetCtrl', function($q, $state, 
 
     const Payee = payee(budget.id),
       initialBalancePayee = new Payee({
-        name: 'Initial balance',
+        name: $translate.instant('INITIAL_BALANCE'),
         autosuggest: false,
         internal: true,
         _id: `${Payee.prefix}initial-balance`

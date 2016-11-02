@@ -1,4 +1,3 @@
-import moment from 'moment';
 import Chart from 'chart.js';
 
 angular.module('financier').directive('netWorthChart', ($filter, netWorth, $translate) => {
@@ -11,6 +10,7 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth, $tran
     replace: true,
     link: (scope, element, attrs) => {
       const currency = $filter('currency'),
+        dateFilter = $filter('date'),
         report = netWorth(scope.transactions);
 
       var ctx = element[0].getContext('2d');
@@ -88,7 +88,7 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth, $tran
               },
               ticks: {
                 callback: date => {
-                  return moment(date).format('MMM \'YY');
+                  return dateFilter(date, 'MMM \'yy');
                 }
               }
             }],

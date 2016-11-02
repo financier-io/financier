@@ -8,6 +8,7 @@ angular.module('financier').factory('budgetManager', (
   payee,
   uuid,
   $q,
+  $translate,
   MonthCategory,
   defaultCategories) => {
 
@@ -168,7 +169,7 @@ angular.module('financier').factory('budgetManager', (
 
       for (let i = 0; i < defaultCategories.length; i++) {
         const masterCat = new MasterCategory({
-          name: defaultCategories[i].name,
+          name: $translate.instant(defaultCategories[i].name),
           sort: i
         });
 
@@ -176,7 +177,7 @@ angular.module('financier').factory('budgetManager', (
 
         for (let j = 0; j < defaultCategories[i].categories.length; j++) {
           const cat = new Category({
-            name: defaultCategories[i].categories[j].name,
+            name: $translate.instant(defaultCategories[i].categories[j].name),
             sort: j,
             masterCategory: masterCat.id
           });
