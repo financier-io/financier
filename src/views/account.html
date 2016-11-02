@@ -1,7 +1,14 @@
 <div class="account" st-table="displayedTransactions" st-safe-src="transactions" disable-ng-animate>
   <div class="account__tbody">
     <div class="account__tr account__tr--overview">
-      <div class="account__name" ng-class="{'account__name--all-accounts': !accountCtrl.accountId}">{{accountCtrl.account.name}}</div>
+      <div ng-if="!accountCtrl.accountId"
+           class="account__name account__name--all-accounts">
+        {{'ALL_ACCOUNTS' | translate}}
+      </div>
+      <div ng-if="accountCtrl.accountId"
+           class="account__name">
+        {{accountCtrl.account.name}}
+      </div>
       <div class="account__stats">
         <div>
           <div class="account__balance">

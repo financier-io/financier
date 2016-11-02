@@ -6,7 +6,7 @@
     <input type="text"
            name="name"
            ng-model="createAccountCtrl.account.name"
-           placeholder="My account name"
+           placeholder="{{'MY_ACCOUNT_NAME' | translate}}"
            required>
     <div ng-messages="createAccountForm.name.$error"
          ng-if="createAccountForm.name.$touched">
@@ -15,7 +15,7 @@
   </label>
 
   <label>
-    <span class="help" title="{{'ACCOUNT_TYPE_HELP' | translate}}">
+    <span class="help" title="{{createAccountCtrl.accountTypeHelp}}">
       {{'ACCOUNT_TYPE' | translate}} <i class="fa fa-question-circle"></i>
     </span>
     <select name="type"

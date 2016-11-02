@@ -277,5 +277,6 @@
     "SECURE_PAYMENT_PROCESSING": "Your payment information is sent directly to our payment processor, Stripe.",
     "REMOVE_LOCAL_BUDGETS": "Clear all local data",
     "REMOVE_LOCAL_BUDGETS_DESCRIPTION": "Are you sure that you want to clear all local budget data? You're not currently logged in, and you will lose all changes since the last time you logged in and synced.",
-    "CONFIRM_REMOVE_LOCAL_BUDGETS": "Confirm clear all local data"
+    "CONFIRM_REMOVE_LOCAL_BUDGETS": "Confirm clear all local data",
+    "MY_ACCOUNT_NAME": "My account name"
 }

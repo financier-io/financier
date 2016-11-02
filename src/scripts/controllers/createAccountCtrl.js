@@ -10,7 +10,10 @@ angular.module('financier').controller('createAccountCtrl', function($locale, my
 
   this.startingBalanceDate = new Date();
 
-  this.getGroupName = onBudget => onBudget ? 'On Budget' : 'Off Budget';
+  this.getGroupName = onBudget => $translate.instant(onBudget ? 'ON_BUDGET' : 'OFF_BUDGET');
+
+  // angular-translate escpaes newline characters
+  this.accountTypeHelp = $translate.instant('ACCOUNT_TYPE_HELP').replace(/\\n/g, '\n');
 
   this.accountTypes = [{
     name: $translate.instant('CHECKING'),
