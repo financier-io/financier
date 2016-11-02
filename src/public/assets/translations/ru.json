@@ -27,7 +27,7 @@
     "MEMO": "Комментарий",
     "INFLOW": "Приход",
     "OUTFLOW": "Расход",
-    "CLEARED": "Освободить",
+    "CLEARED": "Освобождено",
     "MY_PAYEES": "Мои получатели",
     "PAYEE_WILL_BE_CREATED": "Будет создан получатель \"{{name}}\".",
     "SAVE": "Сохранить",
@@ -261,5 +261,18 @@
     "ENTER_NOTES_HERE": "Введите здесь ваш комментарий",
     "USE_LAST_MONTH_BUDGET": "Использовать бюджет прошлого месяца",
     "USE_AVERAGE_3_MONTHS_BUDGET": "Использовать среднее значение за последние 3 месяца",
-    "CLEAR_ALL_BUDGET_AMOUNTS": "Очистить все распределённые на этот месяц суммы"
+    "CLEAR_ALL_BUDGET_AMOUNTS": "Очистить все распределённые на этот месяц суммы",
+    "BUDGET_TO_ZERO": "Обнулить",
+    "UNCLEARED": "Не освобождено",
+    "RECONCILED": "Сведено",
+    "CATEGORY_GROUP_CATEGORY": "Группа категории/Категория",
+    "CATEGORY_GROUP": "Группа категории",
+    "FLAG": "Флаг",
+    "REGISTER": "Регистр",
+    "MY_BUDGET_AS_OF": "{{budgetName}} по состоянию на {{date}}",
+    "FINANCIER_EXPORT": "Экспорт из Financier",
+    "EXPORT_BUDGET": "Экспортировать бюджет",
+    "SPLIT_N_OF_TOTAL": "Разделить ({{number}}/{{total}})",
+    "TRANSFER": "Перевод",
+    "SECURE_PAYMENT_PROCESSING": "Ваши платёжные данные отправляются непосредственно нашему платёжному оператору, компании Stripe."
 }

@@ -136,11 +136,21 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
     });
   };
 
+  this.removeLocalData = () => {
+    return ngDialog.openConfirm({
+      template: require('../../views/modal/removeLocalData.html'),
+      className: 'ngdialog-theme-default ngdialog-theme-default--danger modal'
+    })
+    .then(removeLocalData);
+  }
+
   this.logoutAndRemove = () => {
     this.logout()
-    .then(() => {
-      return db.destroy();
-    })
+    .then(removeLocalData);
+  }
+
+  function removeLocalData() {
+    return db.destroy()
     .then(() => {
       $rootScope.$broadcast('reset');
       return $state.go('user.budget');

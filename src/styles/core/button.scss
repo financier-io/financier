@@ -20,6 +20,23 @@
   }
 }
 
+.button--danger {
+  background-color: $danger;
+  color: $white;
+
+  transition: background-color 100ms linear;
+
+  &:hover {
+    background-color: lighten($danger, 10%);
+  }
+
+  &:disabled {
+    background-color: desaturate($danger, 70%);
+
+    cursor: default;
+  }
+}
+
 .button--link-danger {
   background: none;
 
