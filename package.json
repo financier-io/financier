@@ -10,7 +10,10 @@
     "test": "karma start",
     "test-watch": "karma start --auto-watch --no-single-run",
     "start": "npm run server",
-    "docs": "jsdoc --configure .jsdoc.json"
+    "docs": "jsdoc --configure .jsdoc.json",
+    "pull": "docker pull registry.gitlab.com/financier/financier",
+    "push": "docker push registry.gitlab.com/financier/financier",
+    "tag:prod": "docker tag registry.gitlab.com/financier/financier:latest registry.gitlab.com/financier/financier:production"
   },
   "repository": {
     "type": "git",

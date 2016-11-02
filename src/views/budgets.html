@@ -104,7 +104,7 @@
           <div ng-if="userCtrl.source">
             <p translate="SUBSCRIPTION_BILLING_EXPLANATION" translate-values="{date: (userCtrl.subscription.current_period_end * 1000 | date), amount: (userCtrl.subscription.plan.amount | intCurrency | currency : '$'), last4: userCtrl.source.last4}"></p>
 
-            <button class="button button--danger" ladda="userCtrl.loadingStopSubscription" ng-click="userCtrl.stopSubscription()">{{'CANCEL_SUBSCRIPTION' | translate}}</button>
+            <button class="button" ladda="userCtrl.loadingStopSubscription" ng-click="userCtrl.stopSubscription()">{{'CANCEL_SUBSCRIPTION' | translate}}</button>
 
             <p><small translate="CANCEL_SUBSCRIPTION_SERVICE_CONTINUATION_EXPLANATION" translate-values="{date: (userCtrl.subscription.current_period_end * 1000 | date)}"></small></p>
           </div>
@@ -134,7 +134,7 @@
       <div ng-if="userCtrl.source">
         <p translate="CARD_ON_ACCOUNT_EXPLANATION" translate-values="{brand: userCtrl.source.brand, last4: userCtrl.source.last4}"></p>
 
-        <button class="button button--danger" ladda="userCtrl.loadingRemoveSource" ng-click="userCtrl.removeSource()">{{'REMOVE_CARD' | translate}}</button>
+        <button class="button" ladda="userCtrl.loadingRemoveSource" ng-click="userCtrl.removeSource()">{{'REMOVE_CARD' | translate}}</button>
       </div>
     </div>
   </div>

@@ -43,7 +43,15 @@
   </div>
   <div class="account__tbody account__tbody--reconcile" collapse="accountCtrl.reconcileCollapsed">
     <div class="account__tr account__tr--reconcile" ng-if="accountCtrl.account.cache.clearedBalance - accountCtrl.reconcileAmount !== 0">
-      <i class="fa fa-close account__reconcile-close" ng-click="accountCtrl.reconcileCollapsed = true"></i> You need to clear {{accountCtrl.account.cache.clearedBalance - accountCtrl.reconcileAmount | absolute | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}} of {{accountCtrl.account.cache.clearedBalance - accountCtrl.reconcileAmount > 0 ? 'spending' : 'income'}} to reconcile this account.
+      <i class="fa fa-close account__reconcile-close" ng-click="accountCtrl.reconcileCollapsed = true"></i>
+
+      <span ng-if="accountCtrl.account.cache.clearedBalance - accountCtrl.reconcileAmount > 0"
+            translate="YOU_NEED_TO_CLEAR_SPENDING"
+            translate-values="{ amount: (accountCtrl.account.cache.clearedBalance - accountCtrl.reconcileAmount | absolute | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits) }"></span>
+
+      <span ng-if="accountCtrl.account.cache.clearedBalance - accountCtrl.reconcileAmount <= 0"
+            translate="YOU_NEED_TO_CLEAR_INCOME"
+            translate-values="{ amount: (accountCtrl.account.cache.clearedBalance - accountCtrl.reconcileAmount | absolute | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits) }"></span>
 
       <button class="account__reconcile-button" ng-click="accountCtrl.reconcile()">{{'MAKE_ADJUSTMENT_AND_FINISH' | translate}}</button>
     </div>
