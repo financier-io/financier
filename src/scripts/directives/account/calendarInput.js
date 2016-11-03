@@ -1,5 +1,10 @@
 angular.module('financier').directive('calendarInput', ($rootScope, $locale, inputDropSetup) => {
   let FIRSTDAYOFWEEK = $locale.DATETIME_FORMATS.FIRSTDAYOFWEEK;
+  const shortDate = $locale.DATETIME_FORMATS.shortDate,
+    plusMinusEnabled = shortDate.indexOf('-') === -1 && shortDate.indexOf('+') === -1;
+
+  // plusMinusEnabled disables + and - to switch date if the locale requires
+  // that as the shortDate separator, e.g. 'MM-dd-y'
 
   if ($locale.id === 'en-au') {
     FIRSTDAYOFWEEK = 0;
@@ -35,11 +40,11 @@ angular.module('financier').directive('calendarInput', ($rootScope, $locale, inp
       };
 
       input.on('keydown', event => {
-        if (event.which === 40) { // down
+        if (event.which === 40 || (plusMinusEnabled && event.which === 187 && event.shiftKey)) { // down OR (= AND SHIFT (basically +))
           $scope.nextDay();
 
           event.preventDefault();
-        } else if (event.which === 38) { // up
+        } else if (event.which === 38 || (plusMinusEnabled && event.which === 189 && !event.shiftKey)) { // up OR (- AND NOT SHIFT)
           $scope.previousDay();
 
           event.preventDefault();
