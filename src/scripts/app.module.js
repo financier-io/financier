@@ -182,6 +182,10 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
       angular.element(document.body).removeClass('no-overflow');
     }
   })
+  .state('user.app.manager.view.mobileTransaction', {
+    url: '/mobile-add',
+    template: require('../views/mobileTransaction.html')
+  })
   .state('user.app.manager.view.budget', {
     url: '/budget',
     template: require('../views/budget.html'),

@@ -6,7 +6,7 @@
       <h1 class="app-view__title">
         <span>F</span>
         <a ui-sref="user.budget">{{dbCtrl.budgetRecord.name}}</a>
-        <span><i class="fa fa-bars" ng-click="sidebarOpen = !sidebarOpen"></i></span>
+        <span ng-click="sidebarOpen = !sidebarOpen"><i class="fa fa-bars"></i></span>
       </h1>
   </div>
 
@@ -111,6 +111,11 @@
           <i class="fa fa-cog app-view__budget-options"
              budget-options
              on-export="dbCtrl.export()"></i>
+          
+          <br>
+          <button class="app-view__add-account" ui-sref=".view.mobileTransaction">
+            {{'ADD_A_TRANSACTION' | translate}}
+          </button>
         </div>
       </div>
 

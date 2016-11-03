@@ -48,3 +48,5 @@ import './directives/budgetOptions';
 import './directives/subscription/creditCard';
 import './directives/subscription/creditCardSpaces';
 import './directives/subscription/creditCardExpirationSpaces';
+
+import './directives/mobile/mobileKeypad';

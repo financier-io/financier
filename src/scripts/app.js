@@ -1,3 +1,6 @@
+import fastclick from 'fastclick';
+fastclick.attach(document.body);
+
 import angular from 'angular';
 
 import 'font-awesome/css/font-awesome.css';

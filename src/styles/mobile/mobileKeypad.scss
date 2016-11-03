@@ -1,0 +1,24 @@
+.mobile-keypad {
+  flex: 6;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  margin: -1px;
+  overflow: hidden;
+}
+
+.mobile-keypad__number {
+  flex: 1 1 auto;
+  width: 30%;
+
+  background: $formBorderInactive;
+  font-size: 2em;
+  font-weight: 300;
+
+  margin: 1px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
