@@ -1,4 +1,4 @@
-angular.module('financier').controller('accountCtrl', function($timeout, $document, $element, $scope, $rootScope, $stateParams, data, hotkeys, transaction, payee, myBudget) {
+angular.module('financier').controller('accountCtrl', function($translate, $timeout, $document, $element, $scope, $rootScope, $stateParams, data, hotkeys, transaction, payee, myBudget) {
   const that = this;
 
   const Transaction = transaction($stateParams.budgetId);
@@ -99,7 +99,7 @@ angular.module('financier').controller('accountCtrl', function($timeout, $docume
 
     if (!payee) {
       payee = new Payee({
-        name: 'Reconciled Balance Adjustment',
+        name: $translate.instant('RECONCILED_BALANCE_ADJUSTMENT'),
         autosuggest: false,
         internal: true,
         _id: `${Payee.prefix}reconciled`

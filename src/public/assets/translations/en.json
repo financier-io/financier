@@ -282,5 +282,6 @@
     "INITIAL_BALANCE": "Initial balance",
     "EDIT_BUDGET": "Edit budget",
     "NEW_BUDGET": "New budget",
-    "MY_BUDGET_NAME": "My budget name"
+    "MY_BUDGET_NAME": "My budget name",
+    "RECONCILED_BALANCE_ADJUSTMENT": "Reconciled balance adjustment"
 }
