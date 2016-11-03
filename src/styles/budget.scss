@@ -139,7 +139,9 @@ i.budget__month-row-note--showing {
 }
 
 .budget__month-row--none {
-  color: $white;
+  // We want completely transparent for when the bg changes,
+  // but we want other element aspects to remain intact (border, etc)
+  color: rgba(255, 255, 255, 0);
 }
 
 .budget__month-row--negative {
