@@ -32,3 +32,13 @@
     width: 40px;
   }
 }
+
+
+.mobile-keypad__number--primary {
+  background-color: $primary;
+  color: white;
+
+  &:active {
+    background: darken($primary, 10%);
+  }
+}
