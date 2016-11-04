@@ -21,4 +21,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  &:active {
+    background: darken($formBorderInactive, 10%);
+  }
+}
+
+.mobile-keypad__number--backspace {
+  svg {
+    width: 40px;
+  }
 }
