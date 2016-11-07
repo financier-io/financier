@@ -1,20 +1,24 @@
 angular.module('financier').controller('resetPasswordCtrl', function(User, $state, $stateParams, $rootScope) {
+  this.goSignin = () => {
+    $state.go('user.budget')
+    .then(() => {
+      $rootScope.$broadcast('signin');
+    });
+  }
 
   this.submit = () => {
     this.loading = true;
 
     User.resetPassword($stateParams.token, this.password)
     .then(() => {
-      return User.login($stateParams.email, this.password)
-      .then(() => {
-        $state.go('user.budget')
-        .then(() => {
-          $rootScope.$broadcast('login');
-        });
-      });
+      this.success = true;
     })
-    .catch(() => {
-      this.error = true;
+    .catch(e => {
+      if (e.status === 429) {
+        this.error = 'TOO_MANY_ATTEMPTS';
+      } else {
+        this.error = 'GENERAL';
+      }
     })
     .finally(() => {
       this.loading = false;
