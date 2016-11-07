@@ -133,22 +133,37 @@ angular.module('financier').controller('accountCtrl', function($translate, $time
     this.editingTransaction = null;
     this.selectedTransactions = [];
 
-    this.newTransaction = new Transaction({
-      account: this.accountId || null
-    });
-    this.newTransaction.date = new Date();
-    this.newTransaction.addTransaction = t => this.manager.addTransaction(t);
-    this.newTransaction.removeTransaction = t => this.manager.removeTransaction(t);
+    const oldTransaction = this.newTransaction;
+    this.newTransaction = null;
 
-    $timeout(() => {
-      if (this.accountId) {
-        $scope.$broadcast('transaction:date:focus');
-      } else {
-        $scope.$broadcast('transaction:account:focus');
-      }
-    });
+    const createNew = () => {
+      this.newTransaction = new Transaction({
+        account: this.accountId || null
+      });
+      this.newTransaction.date = oldTransaction ? angular.copy(oldTransaction.date) : new Date();
 
-    $rootScope.$broadcast('vsRepeatTrigger');
+      this.newTransaction.addTransaction = t => this.manager.addTransaction(t);
+      this.newTransaction.removeTransaction = t => this.manager.removeTransaction(t);
+
+      $timeout(() => {
+        if (this.accountId) {
+          $scope.$broadcast('transaction:date:focus');
+        } else {
+          $scope.$broadcast('transaction:account:focus');
+        }
+      });
+
+      $rootScope.$broadcast('vsRepeatTrigger');
+    };
+
+    if (oldTransaction) {
+      $timeout(() => {
+        createNew();
+      });
+    } else {
+      createNew();
+    }
+
   };
 
   $scope.$on('transaction:create', () => {
@@ -169,6 +184,26 @@ angular.module('financier').controller('accountCtrl', function($translate, $time
       that.selectedTransactions[i].cleared = !cleared;
     }
   };
+
+  this.toggleCleared = () => {
+    if (that.editingTransaction) {
+      that.editingTransaction.cleared = !that.editingTransaction.cleared;
+    }
+
+    // Determine what the majority of selected transactions are
+    const amountCleared = that.selectedTransactions.reduce((count, t) => {
+      return count + (t.cleared ? 1 : 0);
+    }, 0);
+
+    let cleared = true;
+    if (amountCleared === that.selectedTransactions.length) {
+      cleared = false;
+    }
+
+    for (let i = 0; i < that.selectedTransactions.length; i++) {
+      that.selectedTransactions[i].cleared = cleared;
+    }
+  }
 
   this.selectAll = () => {
     this.selectedTransactions = $scope.displayedTransactions;

@@ -151,8 +151,6 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
             this.transaction.splits[i].transfer._emitChange();
           }
         }
-
-        this.transaction = null;
       }
 
       this.addSplit = () => {
@@ -391,10 +389,7 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
 
       this.submitAndAddAnother = () => {
         this.submit();
-
-        $timeout(() => {
-          $rootScope.$broadcast('transaction:create');
-        });
+        $rootScope.$broadcast('transaction:create');
       }
 
       $scope.$on('submit', this.submitAndAddAnother);

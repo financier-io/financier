@@ -41,7 +41,8 @@ angular.module('financier').provider('db', function() {
 
       sync = db.sync(`https://${host}/db/${dbName}`, {
         live: true,
-        retry: true
+        retry: true,
+        batch_size: 500
       })
       .on('change', function (info) {
         $rootScope.$broadcast('syncStatus:update', 'syncing');

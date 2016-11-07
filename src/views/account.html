@@ -1,4 +1,8 @@
-<div class="account" st-table="displayedTransactions" st-safe-src="transactions" disable-ng-animate>
+<div class="account"
+     st-table="displayedTransactions"
+     st-safe-src="transactions"
+     disable-ng-animate
+     hotkey="{c: accountCtrl.toggleCleared}">
   <div class="account__tbody">
     <div class="account__tr account__tr--overview">
       <div ng-if="!accountCtrl.accountId"

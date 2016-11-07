@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 angular.module('financier').directive('calendarInput', ($rootScope, $locale, inputDropSetup) => {
   let FIRSTDAYOFWEEK = $locale.DATETIME_FORMATS.FIRSTDAYOFWEEK;
   const shortDate = $locale.DATETIME_FORMATS.shortDate,
@@ -40,11 +42,11 @@ angular.module('financier').directive('calendarInput', ($rootScope, $locale, inp
       };
 
       input.on('keydown', event => {
-        if (event.which === 40 || (plusMinusEnabled && event.which === 187 && event.shiftKey)) { // down OR (= AND SHIFT (basically +))
+        if (event.which === 38 || (plusMinusEnabled && event.which === 187 && event.shiftKey)) { // down OR (= AND SHIFT (basically +))
           $scope.nextDay();
 
           event.preventDefault();
-        } else if (event.which === 38 || (plusMinusEnabled && event.which === 189 && !event.shiftKey)) { // up OR (- AND NOT SHIFT)
+        } else if (event.which === 40 || (plusMinusEnabled && event.which === 189 && !event.shiftKey)) { // up OR (- AND NOT SHIFT)
           $scope.previousDay();
 
           event.preventDefault();
@@ -55,6 +57,18 @@ angular.module('financier').directive('calendarInput', ($rootScope, $locale, inp
         } else if (event.which === 13) { // enter
           dropSetup.close();
           $rootScope.$broadcast('transaction:payee:focus');
+        } else if (event.which === 34) { // pageDown
+          this.ngModel = moment(this.ngModel).add(-1, 'month').toDate();
+
+          event.preventDefault();
+        } else if (event.which === 33) { // pageUp
+          this.ngModel = moment(this.ngModel).add(1, 'month').toDate();
+
+          event.preventDefault();
+        } else if (event.which === 84) { // 't'
+          this.ngModel = new Date();
+
+          event.preventDefault();
         } else {
           return;
         }
