@@ -42,11 +42,11 @@ angular.module('financier').directive('calendarInput', ($rootScope, $locale, inp
       };
 
       input.on('keydown', event => {
-        if (event.which === 38 || (plusMinusEnabled && event.which === 187 && event.shiftKey) || event.which === 107) { // down OR (= AND SHIFT (basically + on keyboard or numpad))
+        if (event.which === 38 || (plusMinusEnabled && ((event.which === 187 && event.shiftKey) || event.which === 107))) { // down OR (= AND SHIFT (basically + on keyboard or numpad))
           $scope.nextDay();
 
           event.preventDefault();
-        } else if (event.which === 40 || (plusMinusEnabled && event.which === 189 && !event.shiftKey) || event.which === 109) { // up OR (- (on keyboard or numpad) AND NOT SHIFT)
+        } else if (event.which === 40 || (plusMinusEnabled && ((event.which === 189 && !event.shiftKey) || event.which === 109))) { // up OR (- (on keyboard or numpad) AND NOT SHIFT)
           $scope.previousDay();
 
           event.preventDefault();
