@@ -13,7 +13,8 @@
     "docs": "jsdoc --configure .jsdoc.json",
     "pull": "docker pull registry.gitlab.com/financier/financier",
     "push": "docker push registry.gitlab.com/financier/financier",
-    "tag:prod": "docker tag registry.gitlab.com/financier/financier:latest registry.gitlab.com/financier/financier:production"
+    "tag:prod": "docker tag registry.gitlab.com/financier/financier:latest registry.gitlab.com/financier/financier:production",
+    "prod": "npm run pull && npm run tag:prod && npm run push"
   },
   "repository": {
     "type": "git",
