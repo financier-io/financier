@@ -300,12 +300,17 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
        * @type {boolean}
        */
       get cleared() {
+        if (this.reconciled) {
+          return true;
+        }
+
         return this._data.cleared;
       }
 
       set cleared(x) {
         // Don't do anything if it's the same
-        if (x === this._data.cleared) {
+        // If reconciled, cannot change cleared status
+        if (x === this.cleared || this.reconciled) {
           return;
         }
 
@@ -379,7 +384,7 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
         });
 
         // SET VALUE
-        if (data.cleared) {
+        if (data.cleared || data.reconciled) {
           this._emitClearedValueChange(data.value - this._data.value);
         } else {
           this._emitUnclearedValueChange(data.value - this._data.value);
@@ -388,8 +393,8 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
         this._emitValueChange(data.value - this._data.value);
 
         // SET CLEARED
-        if (data.cleared !== this._data.cleared) {
-          if (data.cleared) {
+        if ((data.cleared || data.reconciled) !== this.cleared) {
+          if (data.cleared || data.reconciled) {
             this._emitUnclearedValueChange(-data.value);
             this._emitClearedValueChange(data.value);
           } else {
