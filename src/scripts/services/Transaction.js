@@ -297,14 +297,12 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
        * with the inverse of the current `value` (swapping the value
        * from cleared to uncleared or vice versa).
        *
+       * If transaction is reconciled, it's implicitly cleared
+       *
        * @type {boolean}
        */
       get cleared() {
-        if (this.reconciled) {
-          return true;
-        }
-
-        return this._data.cleared;
+        return this._data.cleared || this.reconciled;
       }
 
       set cleared(x) {
