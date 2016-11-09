@@ -186,10 +186,6 @@ angular.module('financier').controller('accountCtrl', function($translate, $time
   };
 
   this.toggleCleared = () => {
-    if (that.editingTransaction) {
-      that.editingTransaction.cleared = !that.editingTransaction.cleared;
-    }
-
     // Determine what the majority of selected transactions are
     const amountCleared = that.selectedTransactions.reduce((count, t) => {
       return count + (t.cleared ? 1 : 0);
