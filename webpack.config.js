@@ -185,6 +185,12 @@ module.exports = function makeWebpackConfig () {
   // Add build specific plugins
   if (isProd) {
     config.plugins.push(
+      new webpack.DefinePlugin({
+          'process.env': {
+              'NODE_ENV': `"production"`
+          }
+      }),
+
       // Reference: http://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin
       // Only emit files when there are no errors
       new webpack.NoErrorsPlugin(),
@@ -216,6 +222,14 @@ module.exports = function makeWebpackConfig () {
         }
       })
     );
+  } else {
+    config.plugins.push(
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': `""`
+            }
+        })
+      )
   }
 
   /**

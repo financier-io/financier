@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV === 'production') {
+  require('./selfxssWarning');
+}
+
 import fastclick from 'fastclick';
 fastclick.attach(document.body);
 
