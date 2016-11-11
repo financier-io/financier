@@ -82,6 +82,7 @@
       <div class="account__th account__td--large" ng-if="!accountCtrl.accountId" st-sort="accountCtrl.customSorts.account"><span><span>{{'ACCOUNT' | translate}}</span></span></div>
       <div class="account__th account__th--flag" st-sort="flag"><div class="account__header-flag"><div></div></div></div>
       <div class="account__th account__th--date" st-sort="accountCtrl.customSorts.date" st-sort-default="reverse"><span><span>{{'DATE' | translate}}</span></span></div>
+      <div class="account__th account__th--check" ng-if="accountCtrl.account.checkNumber" st-sort="accountCtrl.customSorts.checkNumber"><span><span>{{'CHECK' | translate}}</span></span></div>
       <div class="account__th account__td--large" st-sort="payee"><span><span>{{'PAYEE' | translate}}</span></span></div>
       <div class="account__th account__td--large" ng-if="accountCtrl.account.onBudget" st-sort="category"><span><span>{{'CATEGORY' | translate}}</span></span></div>
       <div class="account__th account__cell-memo"><span><span>{{'MEMO' | translate}}</span></span></div>
@@ -119,6 +120,9 @@
         <div class="account__td account__td--flag"><div class="account__flag" ng-style="{'color': transaction.flag}" flag ng-model="transaction.flag"><div></div></div></div>
         <div class="account__td account__td--date" transaction-field-focus-name="date">
           <span><span>{{transaction.date | date : 'shortDate'}}</span></span>
+        </div>
+        <div class="account__td account__td--check" ng-if="accountCtrl.account.checkNumber" transaction-field-focus-name="check">
+          <span><span>{{transaction.checkNumber}}</span></span>
         </div>
         <div class="account__td account__td--large account__td--payee" transaction-field-focus-name="payee">
           <span>
@@ -170,6 +174,7 @@
           </div>
           <div class="account__td account__td--flag"></div>
           <div class="account__td account__td--date"></div>
+          <div class="account__td account__td--check"></div>
           <div class="account__td account__td--large account__td--payee" transaction-field-focus-name="payee-{{$index}}">
             <span>
               <span>{{dbCtrl.getAccountName(split.transfer.account) || dbCtrl.getPayeeName(split.payee)}}</span><i class="fa fa-exchange" ng-show="split.transfer"></i>

@@ -368,6 +368,12 @@ i.account__reconcile-close {
   width: 40px;
 }
 
+.account__th--check,
+.account__td--check {
+  flex-shrink: 0;
+  width: 75px;
+}
+
 .account__th--date,
 .account__td--date {
   width: 120px;

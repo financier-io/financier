@@ -10,7 +10,15 @@
     <input type="text"
            calendar-input
            date-parser="shortDate"
-           ng-model="transactionCtrl.date">
+           ng-model="transactionCtrl.date"
+           not-insane-date-validator>
+  </div>
+  <div class="account__td account__td--check"
+       ng-if="accountCtrl.account.checkNumber"
+       check-number-input
+       check-number="transactionCtrl.checkNumber"
+       transactions="accountCtrl.account.transactions">
+    <input type="text" ng-model="transactionCtrl.checkNumber">
   </div>
   <div class="account__td account__td--large">
     <payee-suggest ng-model="transactionCtrl.payee" transaction-account-id="transactionCtrl.account" accounts="dbCtrl.accounts" payees="dbCtrl.payees"></payee-suggest>
@@ -47,6 +55,11 @@
   <div class="account__td account__td--large" ng-if="!accountCtrl.accountId"></div>
   <div class="account__td account__td--flag"></div>
   <div class="account__td account__td--date">
+    <button ng-if="!accountCtrl.account.checkNumber" class="account__remove-split" ng-click="transactionCtrl.removeSplit(split)">
+      <i class="fa fa-minus"></i>
+    </button>
+  </div>
+  <div class="account__td account__td--check" ng-if="accountCtrl.account.checkNumber">
     <button class="account__remove-split" ng-click="transactionCtrl.removeSplit(split)">
       <i class="fa fa-minus"></i>
     </button>
@@ -80,6 +93,7 @@
   <div class="account__td account__td--large" ng-if="!accountCtrl.accountId"></div>
   <div class="account__td account__td--flag"></div>
   <div class="account__td account__td--date"></div>
+  <div class="account__td account__td--check"></div>
 
   <div class="account__td account__td--large">
     <button class="account__add-split" ng-click="transactionCtrl.addSplit()"><i class="fa fa-plus"></i> {{'ADD_ANOTHER_SPLIT' | translate}}</button>

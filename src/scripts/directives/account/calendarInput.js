@@ -56,7 +56,7 @@ angular.module('financier').directive('calendarInput', ($rootScope, $locale, inp
 
         } else if (event.which === 13) { // enter
           dropSetup.close();
-          $rootScope.$broadcast('transaction:payee:focus');
+          focusNextField();
         } else if (event.which === 34) { // pageDown
           this.ngModel = moment(this.ngModel).add(-1, 'month').toDate();
 
@@ -166,12 +166,21 @@ angular.module('financier').directive('calendarInput', ($rootScope, $locale, inp
         update();
 
         dropSetup.close();
-        $rootScope.$broadcast('transaction:payee:focus');
+
+        focusNextField();
       };
 
       $scope.$on('transaction:date:focus', () => {
         dropSetup.focus();
       });
+
+      function focusNextField() {
+        if ($scope.$parent.accountCtrl.account.checkNumber) {
+          $rootScope.$broadcast('transaction:check:focus');
+        } else {
+          $rootScope.$broadcast('transaction:payee:focus');
+        }
+      }
 
       function nextMonth(date) {
         if (date.getMonth() === 11) {

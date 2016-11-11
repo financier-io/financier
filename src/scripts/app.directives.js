@@ -11,6 +11,8 @@ import './directives/account/transactionEditor';
 import './directives/account/inflowInput';
 import './directives/account/outflowInput';
 import './directives/account/focusOnNewSplit';
+import './directives/account/checkNumberInput';
+import './directives/account/notInsaneDateValidator';
 
 import './directives/reports/netWorthChart';
 

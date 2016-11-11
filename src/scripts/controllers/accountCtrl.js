@@ -79,6 +79,9 @@ angular.module('financier').controller('accountCtrl', function($translate, $time
     date(transaction) {
       // Sort by date and then value
       return transaction.date.getTime() + transaction.value;
+    },
+    checkNumber(transaction) {
+      return +transaction.checkNumber || transaction.checkNumber;
     }
   };
 

@@ -19,7 +19,8 @@ angular.module('financier').factory('account', uuid => {
           name: null,
           note: null,
           sort: 0,
-          onBudget: true
+          onBudget: true,
+          checkNumber: false
         }, data);
 
         // add _id if none exists
@@ -185,6 +186,25 @@ angular.module('financier').factory('account', uuid => {
 
       set note(n) {
         this.data.note = n;
+        this.emitChange();
+      }
+
+      /**
+       * If a check number column is shown. When set, will immediately call subscribed function.
+       *
+       * @example
+       * const checking = new Account();
+       * checking.checkNumber = true;
+       * console.log(checking.checkNumber); // true
+       *
+       * @type {boolean}
+      */
+      get checkNumber() {
+        return this.data.checkNumber;
+      }
+
+      set checkNumber(n) {
+        this.data.checkNumber = n;
         this.emitChange();
       }
 

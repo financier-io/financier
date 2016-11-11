@@ -28,7 +28,8 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
           flag: null,
           payee: null,
           transfer: null,
-          splits: []
+          splits: [],
+          checkNumber: null
         }, data);
 
         // Ensure whole number
@@ -285,6 +286,25 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
 
           this.transfer._emitChange();
         }
+
+        this._emitChange();
+      }
+
+      /**
+       * A user-entered check number for the transaction.
+       * Will call subscriber when changes.
+       *
+       * Note: This is a string even though it's a
+       * "check number" to be flexible
+       *
+       * @type {string}
+       */
+      get checkNumber() {
+        return this._data.checkNumber;
+      }
+
+      set checkNumber(x) {
+        this._data.checkNumber = x;
 
         this._emitChange();
       }

@@ -286,5 +286,6 @@
     "RECONCILED_BALANCE_ADJUSTMENT": "Reconciled balance adjustment",
     "TOO_MANY_PASSWORD_RESET_ATTEMPTS": "Too many password reset attempts. Try again in 15 minutes.",
     "PASSWORD_RESET_SUCCESSFUL": "Password reset successful",
-    "RESET_PROCEED_TO_LOGIN": "You can now proceed to login with your new password."
+    "RESET_PROCEED_TO_LOGIN": "You can now proceed to login with your new password.",
+    "SHOW_CHECK_NUMBER": "Show check number"
 }

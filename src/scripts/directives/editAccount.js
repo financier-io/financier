@@ -38,6 +38,7 @@ angular.module('financier').directive('editAccount', ($compile, $timeout, $rootS
         dropInstance.on('open', () => {
           this.name = this.editAccount.name;
           this.note = this.editAccount.note;
+          this.checkNumber = this.editAccount.checkNumber;
 
           content.find('input')[0].focus();
         });
@@ -63,6 +64,7 @@ angular.module('financier').directive('editAccount', ($compile, $timeout, $rootS
 
           this.editAccount.name = this.name;
           this.editAccount.note = this.note;
+          this.editAccount.checkNumber = this.checkNumber;
 
           this.editAccount.fn = saveFn;
           this.editAccount.emitChange();
