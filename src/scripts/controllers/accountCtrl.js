@@ -1,5 +1,7 @@
-angular.module('financier').controller('accountCtrl', function($translate, $timeout, $document, $element, $scope, $rootScope, $stateParams, data, hotkeys, transaction, payee, myBudget) {
+angular.module('financier').controller('accountCtrl', function($filter, $translate, $timeout, $document, $element, $scope, $rootScope, $stateParams, data, hotkeys, transaction, payee, myBudget) {
   const that = this;
+
+  const orderBy = $filter('orderBy');
 
   const Transaction = transaction($stateParams.budgetId);
   const Payee = payee($stateParams.budgetId);
@@ -84,6 +86,9 @@ angular.module('financier').controller('accountCtrl', function($translate, $time
       return +transaction.checkNumber || transaction.checkNumber;
     }
   };
+
+  // Sort the default order to prevent initial page flash
+  $scope.transactions = orderBy($scope.transactions, this.customSorts.date, 'reverse');
 
   this.finishReconciliation = () => {
     for (let i = 0; i < this.account.transactions.length; i++) {
