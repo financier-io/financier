@@ -46,7 +46,11 @@
               <span class="app-view__accounts-value">{{dbCtrl.totalAccountsBalance(dbCtrl.onBudgetAccounts) | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
             </div>
 
-            <ul class="app-view__accounts-list" ng-sortable="dbCtrl.accountSortable" collapse="dbCtrl.collapsed.onBudgetAccounts">
+            <ul class="app-view__accounts-list"
+                ng-sortable="dbCtrl.accountSortable"
+                collapse="dbCtrl.collapsed.onBudgetAccounts"
+               touch-start="dbCtrl.accountSortable.disabled = true"
+               touch-end="dbCtrl.accountSortable.disabled = false">
               <li class="app-view__account"
                   ng-repeat="account in dbCtrl.onBudgetAccounts"
                   ui-sref="user.app.manager.view.account({accountId: account.id})"
