@@ -40,6 +40,7 @@ import './directives/applyUpdate';
 import './directives/reconcileAccount';
 import './directives/collapse';
 import './directives/editAccount';
+import './directives/editAllAccounts';
 import './directives/logout';
 import './directives/quickBudget';
 import './directives/quickBudgetOne';

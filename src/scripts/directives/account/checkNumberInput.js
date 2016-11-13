@@ -52,13 +52,15 @@ angular.module('financier').directive('checkNumberInput', $rootScope => {
 
             let foundCheckNumber = 0;
 
-            scope.transactions.forEach(transaction => {
-              const checkNumber = +transaction.checkNumber;
+            if (scope.transactions) {
+              scope.transactions.forEach(transaction => {
+                const checkNumber = +transaction.checkNumber;
 
-              if (!isNaN(checkNumber) && checkNumber > foundCheckNumber) {
-                foundCheckNumber = checkNumber;
-              }
-            });
+                if (!isNaN(checkNumber) && checkNumber > foundCheckNumber) {
+                  foundCheckNumber = checkNumber;
+                }
+              });
+            }
 
             return foundCheckNumber;
           }

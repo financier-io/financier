@@ -175,7 +175,7 @@ angular.module('financier').directive('calendarInput', ($rootScope, $locale, inp
       });
 
       function focusNextField() {
-        if ($scope.$parent.accountCtrl.account.checkNumber) {
+        if ($scope.$parent.accountCtrl.checkNumber) {
           $rootScope.$broadcast('transaction:check:focus');
         } else {
           $rootScope.$broadcast('transaction:payee:focus');

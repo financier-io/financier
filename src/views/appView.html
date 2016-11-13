@@ -26,7 +26,7 @@
           <li class="app-view__link" ui-sref-active="app-view__link--active">
             <a ui-sref="user.app.manager.view.reports"><div class="app-view__link-text"><i class="fa fa-pie-chart"></i> {{'REPORTS' | translate}}</div></a>
           </li>
-          <li class="app-view__link" ui-sref-active="app-view__link--active">
+          <li class="app-view__link" ui-sref-active="app-view__link--active" edit-all-accounts="dbCtrl.budgetRecord">
             <a ui-sref="user.app.manager.view.account({accountId: null})">
               <div class="app-view__link-text"><i class="fa fa-credit-card"></i> {{'ACCOUNTS' | translate}}</div>
               <aside>{{dbCtrl.manager.allAccounts.balance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</aside>

@@ -14,10 +14,10 @@
            not-insane-date-validator>
   </div>
   <div class="account__td account__td--check"
-       ng-if="accountCtrl.account.checkNumber"
+       ng-if="accountCtrl.checkNumber"
        check-number-input
        check-number="transactionCtrl.checkNumber"
-       transactions="accountCtrl.account.transactions">
+       transactions="transactionCtrl.accountRecord.transactions">
     <input type="text" ng-model="transactionCtrl.checkNumber">
   </div>
   <div class="account__td account__td--large">
@@ -55,11 +55,11 @@
   <div class="account__td account__td--large" ng-if="!accountCtrl.accountId"></div>
   <div class="account__td account__td--flag"></div>
   <div class="account__td account__td--date">
-    <button ng-if="!accountCtrl.account.checkNumber" class="account__remove-split" ng-click="transactionCtrl.removeSplit(split)">
+    <button ng-if="!accountCtrl.checkNumber" class="account__remove-split" ng-click="transactionCtrl.removeSplit(split)">
       <i class="fa fa-minus"></i>
     </button>
   </div>
-  <div class="account__td account__td--check" ng-if="accountCtrl.account.checkNumber">
+  <div class="account__td account__td--check" ng-if="accountCtrl.checkNumber">
     <button class="account__remove-split" ng-click="transactionCtrl.removeSplit(split)">
       <i class="fa fa-minus"></i>
     </button>

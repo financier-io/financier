@@ -17,7 +17,8 @@ angular.module('financier').factory('Budget', uuid => {
         name: null,
         currency: 'USD',
         _id: 'budget_' + uuid(),
-        created: new Date().toISOString()
+        created: new Date().toISOString(),
+        checkNumber: false
       }, data);
 
       const that = this;
@@ -99,6 +100,25 @@ angular.module('financier').factory('Budget', uuid => {
 
     set currency(c) {
       this._data.currency = c;
+      this.emitChange();
+    }
+
+    /**
+     * If the check number is enabled for the all accounts screen.
+     *
+     * @example
+     * const budget = new Budget();
+     * budget.checkNumber = true;
+     * budget.checkNumber; // === true
+     *
+     * @type {boolean}
+     */
+    get checkNumber() {
+      return this._data.checkNumber;
+    }
+
+    set checkNumber(c) {
+      this._data.checkNumber = c;
       this.emitChange();
     }
 

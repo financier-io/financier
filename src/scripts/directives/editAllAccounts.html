@@ -1,0 +1,14 @@
+<div class="drop__content drop__content--wide">
+  <form name="editAllAccountsForm" ng-submit="editAllAccountsCtrl.submit()">
+    <label>
+      <input type="checkbox" ng-model="editAllAccountsCtrl.checkNumber"> {{'SHOW_CHECK_NUMBER' | translate}}
+    </label>
+    <br>
+
+    <div>
+      <button class="button button--primary"
+              ng-disabled="editAllAccountsForm.$invalid"><i class="fa fa-check"></i> {{'SAVE' | translate}}</button>
+    </div>
+  </form>
+</div>
+

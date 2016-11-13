@@ -20,6 +20,10 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
       this.checkNumber = this.transaction.checkNumber;
       this.payee = $scope.dbCtrl.payees[this.transaction.payee];
 
+      $scope.$watch(() => this.account, (newAccount, oldAccount) => {
+        this.accountRecord = $scope.accountCtrl.manager.getAccount(newAccount);
+      });
+
 
       if (this.transaction.transfer) {        
          this.payee = $scope.accountCtrl.manager.getAccount(this.transaction.transfer.account);

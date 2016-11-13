@@ -1,4 +1,4 @@
-angular.module('financier').controller('accountCtrl', function($filter, $translate, $timeout, $document, $element, $scope, $rootScope, $stateParams, data, hotkeys, transaction, payee, myBudget) {
+angular.module('financier').controller('accountCtrl', function($filter, $translate, $timeout, $document, $element, $scope, $rootScope, $stateParams, data, hotkeys, transaction, payee, myBudget, budgetRecord) {
   const that = this;
 
   const orderBy = $filter('orderBy');
@@ -12,9 +12,28 @@ angular.module('financier').controller('accountCtrl', function($filter, $transla
 
   if ($stateParams.accountId) {
     this.account = manager.getAccount($stateParams.accountId);
+
+    Object.defineProperty(this, 'checkNumber', {
+      get: () => {
+        return this.account.checkNumber;
+      },
+      set: c => {
+        this.account.checkNumber = c;
+      }
+    });
   } else {
     this.account = manager.allAccounts;
+
+    Object.defineProperty(this, 'checkNumber', {
+      get: () => {
+        return budgetRecord.checkNumber;
+      },
+      set: c => {
+        budgetRecord.checkNumber = c;
+      }
+    });
   }
+
 
   // Filter transactions by account
   this.manager = manager;
