@@ -135,7 +135,11 @@ angular.module('financier').factory('MonthCategory', uuid => {
       // Set overspending
       const oldOverspending = this.data.overspending;
       this.data.overspending = data.overspending;
-      this._emitOverspendingChange(data.overspending, oldOverspending);
+
+      // If not set, don't need to change anything
+      if (this.data.overspending != null) {
+        this._emitOverspendingChange(data.overspending, oldOverspending);
+      }
 
       // Set budget
       const oldBudget = this.data.budget;
