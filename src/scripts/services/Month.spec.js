@@ -910,6 +910,33 @@ describe('month', function() {
         expect(mo2.cache.totalBalance).toBe(0);
       });
 
+      it('=true propagates to following months with later transaction(s)', () => {
+        const mo1 = new Month({
+          _id: Month.createID(new Date('1/1/15'))
+        }, () => {});
+        const mo2 = new Month({
+          _id: Month.createID(new Date('2/1/15'))
+        }, () => {});
+
+        mo1.subscribeNextMonth(mo2);
+
+        const moCat = new MonthCategory.from(
+          '111-111-111-111',
+          '201501',
+          '123'
+        );
+
+        moCat.overspending = true;
+
+        mo1.addBudget(moCat);
+
+        mo2.addTransaction(new Transaction({ value: -22, category: '123' }));
+
+        mo1.startRolling('123');
+
+        expect(mo2.cache.totalOverspent).toBe(0);
+      });
+
       it('multiple months', () => {
         const mo1 = new Month({
           _id: Month.createID(new Date('1/1/15'))

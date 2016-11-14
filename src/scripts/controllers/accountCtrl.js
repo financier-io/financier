@@ -1,7 +1,5 @@
-angular.module('financier').controller('accountCtrl', function($filter, $translate, $timeout, $document, $element, $scope, $rootScope, $stateParams, data, hotkeys, transaction, payee, myBudget, budgetRecord) {
+angular.module('financier').controller('accountCtrl', function($translate, $timeout, $document, $element, $scope, $rootScope, $stateParams, data, hotkeys, transaction, payee, myBudget, budgetRecord) {
   const that = this;
-
-  const orderBy = $filter('orderBy');
 
   const Transaction = transaction($stateParams.budgetId);
   const Payee = payee($stateParams.budgetId);
@@ -107,7 +105,11 @@ angular.module('financier').controller('accountCtrl', function($filter, $transla
   };
 
   // Sort the default order to prevent initial page flash
-  $scope.transactions = orderBy($scope.transactions, this.customSorts.date, 'reverse');
+  $scope.transactions.sort((a, b) => {
+    // TODO this sort isn't perfect -- equal dates/values will jump in order
+    // Should make order determinable based off persisted UUID or something.
+    return (b.date.getTime() + b.value) - (a.date.getTime() + a.value);
+  })
 
   this.finishReconciliation = () => {
     for (let i = 0; i < this.account.transactions.length; i++) {

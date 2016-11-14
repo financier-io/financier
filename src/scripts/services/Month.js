@@ -64,6 +64,11 @@ angular.module('financier').factory('month', MonthCategory => {
         this.createCategoryCacheIfEmpty(catId);
 
         if (this.categoryCache[catId].overspending == null) {
+          if (overspending) {
+            // Clear the overspending value last used
+            this._changeCurrentOverspent(Math.min(this.categoryCache[catId].balance, 0));
+          }
+
           this.categoryCache[catId].overspending = overspending;
         }
 
