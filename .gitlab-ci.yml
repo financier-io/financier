@@ -13,7 +13,7 @@ install:
     - echo "192.30.253.112 github.com" >> /etc/hosts
     - apt-get -qq update
     - apt-get -qq install -y python2.7 python2.7-dev build-essential make gcc g++ libicu-dev
-    - npm -g install yarn --silent
+    - npm -g install yarn@0.16 --silent
 
     - yarn install
   cache:
