@@ -208,7 +208,7 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
       }
 
       _setDate(x) {
-        this._data.date = x.toISOString().substring(0, 10);
+        this._data.date = moment(x).format('YYYY-MM-DD');
         const oldDate = this.month;
         this._date = x;
         this._date.setHours(0, 0, 0, 0);
