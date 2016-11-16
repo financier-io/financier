@@ -16,13 +16,13 @@ import './services/Transaction';
 import './services/splitTransaction';
 import './services/User';
 import './services/uuid';
-import './services/importBudget';
 import './services/stripeLazyLoader';
 import './services/payee';
 import './services/currencies';
 import './services/distance';
 import './services/exportCsv';
 import './services/flags';
+import './services/backup';
 
 import './services/reports/netWorth';
 

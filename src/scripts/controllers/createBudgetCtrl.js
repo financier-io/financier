@@ -1,4 +1,4 @@
-angular.module('financier').controller('createBudgetCtrl', function($translate, $q, $state, $scope, $rootScope, db, Budget, BudgetOpened, payee, currencies) {
+angular.module('financier').controller('createBudgetCtrl', function($translate, $q, $state, $scope, $rootScope, db, Budget, BudgetOpened, payee, currencies, ngDialog) {
   this.currencies = currencies;
 
   this.currency = 'USD';
@@ -40,4 +40,13 @@ angular.module('financier').controller('createBudgetCtrl', function($translate, 
       throw e;
     });
   };
+
+  this.restore = () => {
+    $scope.closeThisDialog();
+
+    ngDialog.open({
+      template: require('../../views/modal/importBudget.html'),
+      controller: 'importBudgetCtrl as importBudgetCtrl'
+    });
+  }
 });

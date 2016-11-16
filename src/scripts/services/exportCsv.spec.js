@@ -122,7 +122,7 @@ Test account,,,,,,,,$0.00,$0.00,Uncleared`
       expect(exportCsv._buildTransactionsCsv({
         transactions: [
           new Transaction({
-            date: new Date('12/12/12')
+            date: '2012-12-12'
           })
         ]
       })).toEqual(

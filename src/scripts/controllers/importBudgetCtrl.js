@@ -1,15 +1,21 @@
-angular.module('financier').controller('importBudgetCtrl', function($rootScope, $scope, importBudget, db, Budget) {
-  this.submit = (name, budgetFile, transactionsFile) => {
-    console.log(name, budgetFile, transactionsFile)
-    const budget = new Budget({ name });
-    
-    importBudget(budget, budgetFile, transactionsFile);
+angular.module('financier').controller('importBudgetCtrl', function($rootScope, $scope, backup) {
+  this.submit = file => {
+    var reader = new FileReader();
 
-    db.budgets.put(budget)
-    .then(() => {
-      $rootScope.$broadcast('budgets:update');
-      $scope.closeThisDialog();
-    });
+    // Closure to capture the file information.
+    reader.onload = (theFile => {
+      return e => {
+        backup.restore(JSON.parse(e.target.result))
+        .then(() => {
+          $scope.closeThisDialog();
+
+          $rootScope.$broadcast('reset');
+        });
+      };
+    })(file);
+
+    // Read in the image file as a data URL.
+    reader.readAsText(file);
   };
 
 });

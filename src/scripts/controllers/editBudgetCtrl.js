@@ -21,5 +21,5 @@ angular.module('financier').controller('editBudgetCtrl', function(currencies, $s
     });
 
     budgetRecord.fn = saveFn;
-  }
+  };
 })

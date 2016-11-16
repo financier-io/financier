@@ -44,7 +44,8 @@ angular.module('financier').directive('budgetOptions', ($compile, $timeout) => {
     },
     controllerAs: 'logoutCtrl',
     scope: {
-      onExport: '&'
+      onExport: '&',
+      onBackup: '&'
     }
   };
 });

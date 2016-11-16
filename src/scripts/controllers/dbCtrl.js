@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-angular.module('financier').controller('dbCtrl', function(exportCsv, monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget, budgetOpenedRecord, currencies, $timeout, $state, $translate, $filter) {
+angular.module('financier').controller('dbCtrl', function(exportCsv, monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget, budgetOpenedRecord, currencies, $timeout, $state, $translate, $filter, backup) {
   const dateFilter = $filter('date');
 
   let {manager, categories, masterCategories, payees} = data;
@@ -86,6 +86,10 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
       remove();
     }
   }
+
+  this.backup = () => {
+    return backup.backup(budgetRecord.id);
+  };
 
   this.collapsed = {
     get onBudgetAccounts() {

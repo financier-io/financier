@@ -19,6 +19,8 @@
       <option ng-repeat="option in createBudgetCtrl.currencies" value="{{option.code}}">{{option.name_plural}} - {{option.symbol_native}}</option>
     </select>
   </label>
+
+  <small><a href="#" ng-click="createBudgetCtrl.restore()">{{'RESTORE_FROM_FILE' | translate}}</a></small>
   
   <footer>
     <button class="primary"

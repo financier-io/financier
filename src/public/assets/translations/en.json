@@ -287,5 +287,10 @@
     "TOO_MANY_PASSWORD_RESET_ATTEMPTS": "Too many password reset attempts. Try again in 15 minutes.",
     "PASSWORD_RESET_SUCCESSFUL": "Password reset successful",
     "RESET_PROCEED_TO_LOGIN": "You can now proceed to login with your new password.",
-    "SHOW_CHECK_NUMBER": "Show check number"
+    "SHOW_CHECK_NUMBER": "Show check number",
+    "RESTORE_FROM_FILE": "Restore budget from a file",
+    "RESTORE_BUDGET": "Restore budget",
+    "BUDGET_JSON_FILE": "Budget JSON file",
+    "BACKUP_BUDGET": "Backup Budget",
+    "BACKUP_NAME": "{{name}} (Backup {{date}})"
 }

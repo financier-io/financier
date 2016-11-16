@@ -121,12 +121,21 @@ describe('transaction', function() {
       tran.date = d;
 
       expect(tran.date).toBe(d);
-      expect(tran.data.date).toBe('2012-12-12T06:00:00.000Z');
+      expect(tran.data.date).toBe('2012-12-12');
+    });
+
+    it('zeroes out timezone', () => {
+      // for backward compatibility when dates were toUTCString()'d instead of 'yyyy-mm-dd'
+      const tran = new Transaction({
+        date: '2012-12-12T06:00:00.000Z'
+      });
+
+      expect(tran.date.toISOString().indexOf('2012-12-12')).toBe(0);
     });
 
     it('can be set from record', () => {
       const tran = new Transaction({
-        date: '2012-12-12T06:00:00.000Z'
+        date: '2012-12-12T12:00:00.000Z'
       });
 
       expect(angular.isDate(tran.date)).toBe(true);
