@@ -36,6 +36,9 @@ angular.module('financier').factory('splitTransaction', uuid => {
         this.setMonth();
 
         this.transfer = null;
+
+        this.subscribeClearedValueChangeFn = [];
+        this.subscribeUnclearedValueChangeFn = [];
       }
 
       get constructorName() {

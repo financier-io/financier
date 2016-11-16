@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 angular.module('financier').directive('transactionEditor', ($timeout, $rootScope, payee, transaction, $stateParams, splitTransaction, ngDialog) => {
   return {
     template: require('./transactionEditor.html'),
@@ -215,7 +217,7 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
             // Need to create transfer transaction
             transaction.transfer = new Transaction({
               value: -transaction.value,
-              date: transaction.date,
+              date: moment(transaction.date).format('YYYY-MM-DD'),
               account: payee.id,
               transfer: transaction.id,
               memo: transaction.memo,
