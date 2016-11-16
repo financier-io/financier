@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 angular.module('financier').controller('createAccountCtrl', function($locale, myAccount, manager, myBudg, transaction, $q, $rootScope, $scope, $stateParams, category, masterCategory, addCategory, masterCategories, MonthCategory, month, currencyDigits, filterAccounts, onBudgetAccounts, offBudgetAccounts, $translate) {
   const Transaction = transaction($stateParams.budgetId);
   const Category = category($stateParams.budgetId);
@@ -124,7 +126,7 @@ angular.module('financier').controller('createAccountCtrl', function($locale, my
 
     transaction = new Transaction({
       value: (this.startingBalance || 0) * (myAccount.isCredit() ? -1 : 1),
-      date: this.startingBalanceDate.toISOString(),
+      date: moment(this.startingBalanceDate).format('YYYY-MM-DD'),
       category: (myAccount.isCredit() && myAccount.onBudget) ? cat.id : 'income',
       account: myAccount.id,
       payee: 'initial-balance'

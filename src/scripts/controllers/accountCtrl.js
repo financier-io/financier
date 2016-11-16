@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 angular.module('financier').controller('accountCtrl', function($translate, $timeout, $document, $element, $scope, $rootScope, $stateParams, data, hotkeys, transaction, payee, myBudget, budgetRecord) {
   const that = this;
 
@@ -143,7 +145,7 @@ angular.module('financier').controller('accountCtrl', function($translate, $time
       value: this.reconcileAmount - this.account.cache.clearedBalance,
       cleared: true,
       reconciled: true,
-      date: new Date().toISOString(),
+      date: moment().format('YYYY-MM-DD'),
       account: this.accountId,
       payee: payee.id,
       category: 'income'
