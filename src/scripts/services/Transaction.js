@@ -430,7 +430,7 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
 
         // SET DATE
         const oldDate = this.month;
-        this._date = new Date(data.date);
+        this._date = moment(data.date).toDate();
         this._date.setHours(0, 0, 0, 0);
         this.setMonth();
         this._emitMonthChange(this.month, oldDate);
