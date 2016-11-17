@@ -14,7 +14,9 @@ angular.module('financier').provider('db', function() {
       budget,
       budgets: budgets(),
       budgetsOpened: budgetsOpened(),
-      _pouch: db,
+      get _pouch() {
+        return db;
+      },
       destroy,
       sync: {
         start: startSync,
