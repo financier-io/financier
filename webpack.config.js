@@ -7,6 +7,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var OfflinePlugin = require('offline-plugin');
+var pJson = require('./package.json')
 
 var path = require('path');
 
@@ -163,7 +164,14 @@ module.exports = function makeWebpackConfig () {
    * Reference: http://webpack.github.io/docs/configuration.html#plugins
    * List: http://webpack.github.io/docs/list-of-plugins.html
    */
-  config.plugins = [];
+  config.plugins = [
+      new webpack.DefinePlugin({
+          VERSION: {
+            number: `"${pJson.version}"`,
+            date: `"${pJson.releaseDate}"`
+          }
+      })
+  ];
 
   // Skip rendering index.html in test mode
   if (!isTest) {
@@ -187,7 +195,7 @@ module.exports = function makeWebpackConfig () {
     config.plugins.push(
       new webpack.DefinePlugin({
           'process.env': {
-              'NODE_ENV': `"production"`
+              NODE_ENV: `"production"`
           }
       }),
 

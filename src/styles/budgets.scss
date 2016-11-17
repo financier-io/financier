@@ -1,6 +1,13 @@
+.budgets__wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .budgets {
   max-width: 800px;
   margin: 0 auto;
+
+  flex: 1;
 }
 
 .budgets__title {

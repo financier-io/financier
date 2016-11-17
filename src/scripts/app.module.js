@@ -15,6 +15,8 @@ import 'angular-hotkeys';
 import 'sortablejs/ng-sortable';
 import 'angular-ladda-lw/dist/angular-ladda-lw';
 
+import moment from 'moment';
+
 let financier = angular.module('financier', [
   uiRouter,
   ngAnimate,
@@ -33,7 +35,9 @@ let financier = angular.module('financier', [
   'cfp.hotkeys',
   'ng-sortable',
   'angular-ladda-lw'
-]).run((offline, $rootScope, $timeout) => {
+]).run((offline, $rootScope, $timeout, $filter) => {
+  const dateFilter = $filter('date');
+
   offline.install();
 
   $rootScope.$on('offlineStatus', (e, status) => {
@@ -46,6 +50,11 @@ let financier = angular.module('financier', [
     console.log('$stateChangeError - fired when an error occurs during transition.');
     console.log(arguments);
   });
+
+  $rootScope.version = {
+    number: VERSION.number,
+    date: dateFilter(moment(VERSION.date).toDate(), 'mediumDate')
+  };
 });
 
 financier.config(function($stateProvider, $urlRouterProvider, $injector, $locationProvider, ngDialogProvider, $translateProvider) {
