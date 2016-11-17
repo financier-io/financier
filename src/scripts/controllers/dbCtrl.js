@@ -133,7 +133,14 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
 
   budgetOpenedRecord.open();
 
-  this.currentMonth = new Date();
+  const lastMonth = localStorage.getItem(`lastBudgetMonth_${$stateParams.budgetId}`)
+
+  if (lastMonth) {
+    this.currentMonth = new Date(lastMonth);
+  } else {
+    this.currentMonth = new Date();
+  }
+
   this.months = getView(this.currentMonth);
 
   this.currencySymbol = currencies[budgetRecord.currency].symbol_native;
@@ -186,6 +193,8 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
     (currentMonth, oldCurrentMonth) => {
       if (angular.isDefined(currentMonth)) {
         this.months = getView(currentMonth.toDate ? currentMonth.toDate() : currentMonth);
+
+        localStorage.setItem(`lastBudgetMonth_${$stateParams.budgetId}`, currentMonth.toDate ? currentMonth.toDate() : currentMonth);
       }
     }
   );
