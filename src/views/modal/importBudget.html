@@ -13,6 +13,8 @@
       <div ng-message="required" class="message">{{'FIELD_REQUIRED' | translate}}</div>
     </div>
   </label>
+
+  <div class="message message--main" ng-if="importBudgetCtrl.error">{{'BACKUP_FILE_CORRUPTED' | translate}}</div>
   
   <footer>
     <button class="primary"

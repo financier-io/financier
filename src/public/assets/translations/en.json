@@ -292,5 +292,6 @@
     "RESTORE_BUDGET": "Restore budget",
     "BUDGET_JSON_FILE": "Budget JSON file",
     "BACKUP_BUDGET": "Backup Budget",
-    "BACKUP_NAME": "{{name}} (Backup {{date}})"
+    "BACKUP_NAME": "{{name}} (Backup {{date}})",
+    "BACKUP_FILE_CORRUPTED": "Backup file is corrupted."
 }

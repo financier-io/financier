@@ -5,11 +5,23 @@ angular.module('financier').controller('importBudgetCtrl', function($rootScope, 
     // Closure to capture the file information.
     reader.onload = (theFile => {
       return e => {
-        backup.restore(JSON.parse(e.target.result))
+        let docs;
+
+        try {
+          docs = JSON.parse(e.target.result);
+        } catch(e) {
+          this.error = e;
+          throw e; // rethrow for debugging
+        }
+
+        backup.restore(docs)
         .then(() => {
           $scope.closeThisDialog();
 
           $rootScope.$broadcast('reset');
+        })
+        .catch(e => {
+          this.error = e;
         });
       };
     })(file);
