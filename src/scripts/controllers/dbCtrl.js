@@ -20,6 +20,8 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
   this.masterCategories = masterCategories;
   this.accounts = manager.accounts;
 
+  this.allMonths = manager.months;
+
   this.export = () => {
     exportCsv.create({
       transactions: Object.keys(this.manager.transactions).map(id => this.manager.transactions[id]),
