@@ -1,6 +1,9 @@
 import Chart from 'chart.js';
 
 angular.module('financier').directive('netWorthChart', ($filter, netWorth, $translate) => {
+  const currency = $filter('currency'),
+    intCurrency = $filter('intCurrency');
+
   return {
     restrict: 'E',
     template: '<canvas></canvas>',
@@ -74,7 +77,16 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth, $tran
             responsive: true,
             maintainAspectRatio: false,
             tooltips: {
-              mode: 'label'
+              mode: 'label',
+                callbacks: {
+                  label: function(tooltipItems, data) {
+                    if (tooltipItems.datasetIndex === 1) {
+                      return;
+                    }
+
+                    return data.datasets[tooltipItems.datasetIndex].label + ': ' + currency(intCurrency(tooltipItems.yLabel, true, scope.$parent.dbCtrl.currencyDigits), scope.$parent.dbCtrl.currencySymbol, scope.$parent.dbCtrl.currencyDigits);
+                  }
+                }
             },
             legend: {
               display: false
