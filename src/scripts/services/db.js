@@ -90,7 +90,8 @@ angular.module('financier').provider('db', function() {
 
     function create() {
       db = new PouchDB('financier', {
-        adapter: that.adapter
+        adapter: that.adapter,
+        size: 50
       });
     }
 
