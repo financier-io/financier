@@ -5,6 +5,8 @@
   padding: 0;
   font-weight: 300;
   justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
 }
 
 $triangleSize: 5px;
@@ -20,7 +22,7 @@ $triangleSize: 5px;
   justify-content: center;
   text-align: center;
   line-height: 1.2;
-  font-size: 0.8em;
+  font-size: 0.9em;
   color: $white;
   position: relative;
   cursor: pointer;
@@ -36,19 +38,26 @@ $triangleSize: 5px;
   &:last-child {
     margin-right: 0;
   }
+
+  &:after {
+    content: '';
+    background-color: #eee;
+    left: calc(50% - #{$triangleSize});
+    bottom: -$triangleSize;
+    width: $triangleSize * 2;
+    height: $triangleSize * 2;
+    position: absolute;
+
+    transform: rotate(45deg) translate($triangleSize, $triangleSize);
+
+    transition: transform 250ms ease;
+  }
 }
 
 .report-select__item--selected {
   opacity: 1;
 
   &:after {
-    content: '';
-    background-color: $white;
-    transform: rotate(45deg);
-    left: calc(50% - #{$triangleSize});
-    bottom: -$triangleSize;
-    width: $triangleSize * 2;
-    height: $triangleSize * 2;
-    position: absolute;
+    transform: rotate(45deg) translate(0, 0);
   }
 }

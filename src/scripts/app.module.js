@@ -35,7 +35,7 @@ let financier = angular.module('financier', [
   'cfp.hotkeys',
   'ng-sortable',
   'angular-ladda-lw'
-]).run((offline, $rootScope, $timeout, $filter) => {
+]).run((offline, $rootScope, $timeout, $filter, $state) => {
   const dateFilter = $filter('date');
 
   offline.install();
@@ -44,6 +44,13 @@ let financier = angular.module('financier', [
     $timeout(() => {
       $rootScope._offlineStatus = status;
     });
+  });
+
+  $rootScope.$on('$stateChangeStart', function(evt, to, params) {
+    if (to.redirectToReport) {
+      evt.preventDefault();
+      $state.go(`user.app.manager.view.reports.${$rootScope.lastOpenedReport || 'netWorth'}`, params)
+    }
   });
 
   $rootScope.$on('$stateChangeError',function(event, toState, toParams, fromState, fromParams){
@@ -208,7 +215,23 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
   .state('user.app.manager.view.reports', {
     url: '/reports',
     template: require('../views/reports.html'),
-    controller: 'reportCtrl as reportCtrl'
+    controller: 'reportCtrl as reportCtrl',
+    redirectToReport: true
+  })
+  .state('user.app.manager.view.reports.heatMap', {
+    url: '/heat-map',
+    template: require('../views/reports/heatMap.html'),
+    controller: 'heatMapCtrl as heatMapCtrl',
+    onEnter: $rootScope => {
+      $rootScope.lastOpenedReport = 'heatMap';
+    }
+  })
+  .state('user.app.manager.view.reports.netWorth', {
+    url: '/net-worth',
+    template: require('../views/reports/netWorth.html'),
+    onEnter: $rootScope => {
+      $rootScope.lastOpenedReport = 'netWorth';
+    }
   })
   .state('404', {
     template: require('../views/404.html'),

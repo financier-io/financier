@@ -19,3 +19,4 @@ import './controllers/requestResetPasswordCtrl';
 import './controllers/splitTransactionCtrl';
 import './controllers/editSplitTransactionCtrl';
 import './controllers/cancelClickCtrl';
+import './controllers/reports/heatMapCtrl';

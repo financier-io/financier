@@ -47,9 +47,12 @@ import './directives/quickBudgetOne';
 import './directives/touchStart';
 import './directives/touchEnd';
 import './directives/budgetOptions';
+import './directives/dateRange';
 
 import './directives/subscription/creditCard';
 import './directives/subscription/creditCardSpaces';
 import './directives/subscription/creditCardExpirationSpaces';
 
 import './directives/mobile/mobileKeypad';
+
+import './directives/heatMap';

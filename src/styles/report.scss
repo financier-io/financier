@@ -6,9 +6,15 @@
 
 .report__chart-container {
   flex: 1;
-  margin: 2em;
+  display: flex;
+  flex-direction: column;
 
   canvas {
     position: absolute;
   }
+}
+
+.report__chart {
+  flex: 1;
+  padding: 1em;
 }

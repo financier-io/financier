@@ -1,0 +1,18 @@
+.heat-map {
+  max-width: 900px;
+  margin: 5px auto;
+  display: block;
+
+  text {
+    font-size: 10px;
+    font-weight: 300;
+    fill: #aaa;
+  }
+
+  rect {
+    &.active {
+      stroke: #555;
+      stroke-width: 1px;
+    }
+  }
+}

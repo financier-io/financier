@@ -2,6 +2,7 @@
   background-color: $primary;
   color: $white;
   font-weight: 300;
+  flex-shrink: 0;
 }
 
 .budgets-header__container {

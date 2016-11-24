@@ -1,0 +1,11 @@
+<div class="report-sub">
+  <div class="report-sub__input">
+    <select ng-model="heatMapCtrl.selectedYear" ng-options="year as year.label for year in heatMapCtrl.years"></select>
+  </div>
+  <!-- <date-range start-date="reportCtrl.startDate" end-date="reportCtrl.endDate"></date-range> -->
+</div>
+
+<div class="report__chart report__chart--center">
+  <heat-map end-date="heatMapCtrl.selectedYear.value" data="heatMapCtrl.inflowHeat" hue="120" max="100000"></heat-map>
+  <heat-map end-date="heatMapCtrl.selectedYear.value" data="heatMapCtrl.outflowHeat" hue="2" show-month-labels="false" max="20000"></heat-map>
+</div>
