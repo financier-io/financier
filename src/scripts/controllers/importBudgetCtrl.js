@@ -1,5 +1,8 @@
 angular.module('financier').controller('importBudgetCtrl', function($rootScope, $scope, backup) {
   this.submit = file => {
+    this.loading = true;
+    this.error = null;
+
     var reader = new FileReader();
 
     // Closure to capture the file information.
