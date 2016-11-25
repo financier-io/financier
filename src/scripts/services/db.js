@@ -66,6 +66,8 @@ angular.module('financier').provider('db', function() {
         // handle complete
       })
       .on('error', function (err) {
+        console.log('sync error', err);
+
         $rootScope.$broadcast('syncStatus:update', 'error');
         // handle error
       });
