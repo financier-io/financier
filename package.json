@@ -57,7 +57,7 @@
     "offline-plugin": "^3.4.2",
     "phantomjs-prebuilt": "^2.1.4",
     "postcss-loader": "^0.9.1",
-    "pouchdb-adapter-memory": "^5.4.5",
+    "pouchdb-adapter-memory": "^6.0.7",
     "raw-loader": "^0.5.1",
     "rimraf": "^2.5.1",
     "sass-loader": "^4.0.0",
@@ -101,7 +101,7 @@
     "node-uuid": "^1.4.7",
     "normalize.css": "^4.2.0",
     "papaparse": "^4.1.2",
-    "pouchdb": "^5.4.5",
+    "pouchdb": "^6.0.7",
     "sortablejs": "^1.4.2",
     "tether-drop": "^1.4.2"
   }
