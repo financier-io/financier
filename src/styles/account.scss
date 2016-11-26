@@ -82,7 +82,7 @@ $breakWidth: 900px;
   background-color: $primary;
   color: $white;
 
-  &[st-sort] {
+  &[st-multi-sort] {
     cursor: pointer;
     display: flex;
   }

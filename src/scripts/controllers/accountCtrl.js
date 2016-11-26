@@ -103,6 +103,30 @@ angular.module('financier').controller('accountCtrl', function($translate, $time
     },
     checkNumber(transaction) {
       return +transaction.checkNumber || transaction.checkNumber;
+    },
+    category(transaction) {
+      return $scope.dbCtrl.getCategoryName(transaction.category, transaction.date) || '';
+    },
+    payee(transaction) {
+      return (transaction.transfer ? $scope.dbCtrl.getAccountName(transaction.transfer.account) : $scope.dbCtrl.getPayeeName(transaction.payee)) || '';
+    },
+    cleared(transaction) {
+      if (transaction.reconciled) {
+        return 2;
+      } else if (transaction.cleared) {
+        return 1;
+      }
+
+      return 0;
+    },
+    outflow(transaction) {
+      return -transaction.value;
+    },
+    inflow(transaction) {
+      return transaction.value;
+    },
+    flag(transaction) {
+      return transaction.flag || '';
     }
   };
 

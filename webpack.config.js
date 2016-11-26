@@ -73,6 +73,10 @@ module.exports = function makeWebpackConfig () {
     config.devtool = 'eval-source-map';
   }
 
+  config.resolve = {
+    extensions: ['', '.webpack.js', '.web.js', '.js', '.html', '.coffee']
+  };
+
   /**
    * Loaders
    * Reference: http://webpack.github.io/docs/configuration.html#module-loaders
@@ -130,6 +134,12 @@ module.exports = function makeWebpackConfig () {
     }, {
       test: /.(png|woff(2)?|eot|ttf|svg)(\?[a-z0-9=\.]+)?$/,
       loader: 'url-loader?limit=100000'
+    }, {
+      test: /\.coffee$/,
+      loader: 'coffee-loader'
+    }, {
+      test: /\.(coffee\.md|litcoffee)$/,
+      loader: 'coffee-loader?literate'
     }]
   };
 

@@ -5,6 +5,7 @@ import ngSanitize from 'angular-sanitize';
 import ngDialog from 'ng-dialog';
 import ngMd5 from 'angular-md5';
 import smartTable from 'angular-smart-table';
+import 'st-multi-sort/src/index.coffee';
 import ngTranslate from 'angular-translate';
 import dynamicLocale from 'angular-dynamic-locale';
 import vsRepeat from 'angular-vs-repeat';
