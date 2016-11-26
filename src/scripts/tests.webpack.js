@@ -6,6 +6,10 @@ import './app';
 
 import 'angular-mocks/angular-mocks';
 
+import PouchDB from 'pouchdb';
+
+PouchDB.plugin(require('pouchdb-adapter-memory'));
+
 const context = require.context('.', true, /.spec.js$/);
 
 context.keys().forEach(context);
