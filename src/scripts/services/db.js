@@ -86,6 +86,8 @@ angular.module('financier').provider('db', function() {
     }
 
     function destroy() {
+      cancelSync();
+
       return db.destroy()
       .then(create);
     }
