@@ -264,7 +264,6 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
       rect.setAttributeNS(null, 'y', y);
 
       const title = document.createElementNS(svgns, 'title')
-      title.textContent = this.getTitleForIndex(index);
 
       rect.appendChild(title);
 
@@ -281,6 +280,9 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
 
       rect.onmouseover = () => {
         emit(index);
+
+        // Lazy title parsing
+        title.textContent = this.getTitleForIndex(index);
       }
 
       rect.onmouseleave = () => {
