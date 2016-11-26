@@ -18,6 +18,10 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth, $tran
         }
       });
 
+      function getCurrencyValue(intVal) {
+        return intCurrency(intVal, true, scope.$parent.dbCtrl.currencyDigits);
+      }
+
       function generateReport() {
         const currency = $filter('currency'),
           dateFilter = $filter('date'),
@@ -31,7 +35,7 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth, $tran
             label: $translate.instant('NET_WORTH'),
             type: 'line',
             tension: 0,
-            data: report.netWorth.map(amt => amt / 100),
+            data: report.netWorth.map(amt => getCurrencyValue(amt)),
             fill: false,
             borderWidth: 1,
             borderColor: '#888',
@@ -42,7 +46,7 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth, $tran
             type: 'line',
             borderColor: 'rgba(0, 0, 0, 0)',
             tension: 0,
-            data: report.netWorth.map(amt => amt / 100),
+            data: report.netWorth.map(amt => getCurrencyValue(amt)),
             fill: true,
             radius: 0,
             backgroundColor: 'rgba(255, 255, 0, 0.1)',
@@ -50,7 +54,7 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth, $tran
           }, {
             type: 'bar',
             label: $translate.instant('DEBTS'),
-            data: report.debt.map(amt => amt / 100),
+            data: report.debt.map(amt => getCurrencyValue(amt)),
             fill: false,
             backgroundColor: '#ff4c4c',
             borderColor: '#ff4c4c',
@@ -60,7 +64,7 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth, $tran
           }, {
             type: 'bar',
             label: $translate.instant('ASSETS'),
-            data: report.assets.map(amt => amt / 100),
+            data: report.assets.map(amt => getCurrencyValue(amt)),
             fill: false,
             backgroundColor: '#93c776',
             borderColor: '#93c776',
@@ -84,7 +88,7 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth, $tran
                       return;
                     }
 
-                    return data.datasets[tooltipItems.datasetIndex].label + ': ' + currency(intCurrency(tooltipItems.yLabel, true, scope.$parent.dbCtrl.currencyDigits), scope.$parent.dbCtrl.currencySymbol, scope.$parent.dbCtrl.currencyDigits);
+                    return data.datasets[tooltipItems.datasetIndex].label + ': ' + currency(tooltipItems.yLabel, scope.$parent.dbCtrl.currencySymbol, scope.$parent.dbCtrl.currencyDigits);
                   }
                 }
             },
