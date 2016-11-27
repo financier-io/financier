@@ -292,5 +292,6 @@
     "RESTORE_BUDGET": "Restaura el pressupost",
     "BUDGET_JSON_FILE": "JSON del pressupost",
     "BACKUP_BUDGET": "Còpia de seguretat del pressupost",
-    "BACKUP_NAME": "{{name}} (Còpia de seguretat {{date}})"
+    "BACKUP_NAME": "{{name}} (Còpia de seguretat {{date}})",
+    "BACKUP_FILE_CORRUPTED": "El fitxer de còpia de seguretat està danyat."
 }

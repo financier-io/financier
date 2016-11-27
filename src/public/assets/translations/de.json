@@ -8,7 +8,7 @@
     "OVERBUDGETED": "Budget überschritten",
     "BUDGETED": "Budget",
     "OUTFLOWS": "Ausgaben",
-    "BALANCE": "Differenzbetrag",
+    "BALANCE": "Differenz",
     "MY_ACCOUNTS": "Meine Konten",
     "ADD_AN_ACCOUNT": "Ein Konto hinzufügen",
     "SIGN_INTO_YOUR_ACCOUNT": "In deinem Konto anmelden",
@@ -287,5 +287,11 @@
     "TOO_MANY_PASSWORD_RESET_ATTEMPTS": "Zu viele Versuche das Passwort zurückzusetzten. Versuch es in 15 Minuten erneut.",
     "PASSWORD_RESET_SUCCESSFUL": "Das Zurücksetzten des Passworts war erfolgreich.",
     "RESET_PROCEED_TO_LOGIN": "Du kannst dich jetzt mit dem neuen Passowort einloggen.",
-    "SHOW_CHECK_NUMBER": "Schecknummer anzeigen"
+    "SHOW_CHECK_NUMBER": "Schecknummer anzeigen",
+    "RESTORE_FROM_FILE": "Budget aus einer Datei wiederherstellen",
+    "RESTORE_BUDGET": "Budget wiederherstellen",
+    "BUDGET_JSON_FILE": "Budget JSON Datei",
+    "BACKUP_BUDGET": "Budget sichern",
+    "BACKUP_NAME": "{{name}} (Backup {{date}})",
+    "BACKUP_FILE_CORRUPTED": "Das Backup ist beschädigt."
 }

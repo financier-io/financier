@@ -287,5 +287,13 @@
     "TOO_MANY_PASSWORD_RESET_ATTEMPTS": "Слишком много попыток сбросить пароль... Попробуйте ещё раз через 15 минут.",
     "PASSWORD_RESET_SUCCESSFUL": "Пароль был успешно сброшен",
     "RESET_PROCEED_TO_LOGIN": "Теперь вы можете авторизоваться, используя ваш новый пароль.",
-    "SHOW_CHECK_NUMBER": "Показать номер чека"
+    "SHOW_CHECK_NUMBER": "Показать номер чека",
+    "RESTORE_FROM_FILE": "Восстановить бюджет из файла",
+    "RESTORE_BUDGET": "Восстановить бюджет из файла",
+    "BUDGET_JSON_FILE": "JSON-файл бюджета",
+    "BACKUP_BUDGET": "Резервный бюджет",
+    "BACKUP_NAME": "{{name}} (резервная копия от {{date}})",
+    "BACKUP_FILE_CORRUPTED": "Файл резервной копии поврежден.",
+    "HEAT_MAP": "Тепловая карта",
+    "LAST_12_MONTHS": "Последние 12 месяцев"
 }
