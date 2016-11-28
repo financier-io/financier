@@ -248,14 +248,18 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
   $translateProvider.translations('de', require('../public/assets/translations/de.json'));
   $translateProvider.translations('no', require('../public/assets/translations/no.json'));
 
-  $translateProvider.fallbackLanguage('en');
   $translateProvider.determinePreferredLanguage();
+  $translateProvider.fallbackLanguage('en');
 
-  $translateProvider.registerAvailableLanguageKeys(['en', 'es', 'ru', 'ca', 'de', 'no'], {
-    'nb*': 'no',
-    'nn*': 'no',
-    '*': 'en'
-  });
+  // $translateProvider.registerAvailableLanguageKeys(['en', 'es', 'ru', 'ca', 'de', 'no'], {
+  //   'nb*': 'no',
+  //   'nn*': 'no',
+  //   'es*': 'es',
+  //   'ru*': 'ru',
+  //   'ca*': 'ca',
+  //   'de*': 'de',
+  //   '*': 'en',
+  // });
 
   $translateProvider.useSanitizeValueStrategy(null); // angular-translate's sanitization is broke as fuck
 
