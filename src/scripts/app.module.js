@@ -248,7 +248,7 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
   $translateProvider.translations('de', require('../public/assets/translations/de.json'));
   $translateProvider.translations('no', require('../public/assets/translations/no.json'));
 
-  $translateProvider.registerAvailableLanguageKeys(['no'], {
+  $translateProvider.registerAvailableLanguageKeys(['en', 'es', 'ru', 'ca', 'de', 'no'], {
     'nb*': 'no',
     'nn*': 'no'
   });
