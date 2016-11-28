@@ -121,7 +121,7 @@
           <p>{{'NO_SUBSCRIPTION' | translate}} <span ng-if="!userCtrl.source">{{'YOU_MUST_ADD_A_PAYMENT_METHOD' | translate}}</span></p>
 
           <div ng-if="userCtrl.source">
-            <button class="button button--primary" ladda="userCtrl.loadingStartSubscription" ng-click="userCtrl.startSubscription()" translate="START_SUBSCRIPTION" translate-values="{amount: (12 | currency : '$')}"></button>
+            <button class="button button--primary" ladda="userCtrl.loadingStartSubscription" ng-click="userCtrl.startSubscription()"><span translate="START_SUBSCRIPTION" translate-values="{amount: (12 | currency : '$')}"></span></button>
           </div>
         </div>
 
