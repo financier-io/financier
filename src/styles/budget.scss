@@ -253,13 +253,19 @@ i.budget__month-row-note--showing {
 
 .budget__category-label {
   font-size: 0.8em;
-  width: 50px; // px to prevent rounding issues
+  flex-basis: 150px;
   height: 20px;
+  flex-grow: 0;
+  max-width: 250px;
+  min-width: 30px;
+  height: auto;
+
+  padding: 0 5px;
+  box-sizing: content-box;
 
   // text-align: left;
 
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
 
   position: relative;
@@ -286,6 +292,7 @@ i.budget__month-row-note--showing {
   bottom: 0;
   left: 20px;
   right: 0;
+  overflow: hidden;
 
   color: #999;
 }
@@ -374,4 +381,14 @@ i.budget__category-collapse {
 
 .budget__category-label--expanded {
   height: auto;
+}
+
+.budget__category-resize-handle {
+  position: absolute;
+  top: 0;
+  right: -3px;
+  width: 6px;
+  bottom: 0;
+  z-index: 2;
+  cursor: col-resize;
 }

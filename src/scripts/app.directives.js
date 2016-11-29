@@ -48,6 +48,7 @@ import './directives/touchStart';
 import './directives/touchEnd';
 import './directives/budgetOptions';
 import './directives/dateRange';
+import './directives/resizeCategories';
 
 import './directives/subscription/creditCard';
 import './directives/subscription/creditCardSpaces';
