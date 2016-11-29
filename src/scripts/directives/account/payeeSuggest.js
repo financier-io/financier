@@ -19,13 +19,33 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
           };
 
 
-          scope._accounts = scope.accounts;
+          scope._accounts = scope.accounts
+          .filter(acc => acc.onBudget && !acc.closed)
+          .sort((a, b) => {
+            return a.sort - b.sort;
+          })
+          .concat(
+            scope.accounts
+            .filter(acc => !acc.onBudget && !acc.closed)
+            .sort((a, b) => {
+              return a.sort - b.sort;
+            })
+          )
+          .concat(
+            scope.accounts
+            .filter(acc => acc.closed)
+            .sort((a, b) => {
+              return a.sort - b.sort;
+            })
+          );
+
           scope._payees = Object.keys(scope.payees).map(key => {
             return scope.payees[key];
           })
           .sort(byName);
 
-          scope.items = scope._accounts.sort(byName).concat(scope._payees);
+          scope.items = scope._accounts
+          .concat(scope._payees);
 
           scope.$watch('transactionAccountId', () => {
             scope.$broadcast('autosuggest:filter');
@@ -33,6 +53,10 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
 
           scope.itemFilter = (item, searchInput, pristineInputField) => {
             if (item.autosuggest === false) {
+              return false;
+            }
+
+            if (!(scope.ngModel && scope.ngModel.constructorName === 'Account' && scope.ngModel.closed) && item.constructorName === 'Account' && item.closed) {
               return false;
             }
 

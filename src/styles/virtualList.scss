@@ -16,9 +16,8 @@
     min-height: 100%;
   }
 
+  .vs-repeat-before-content,
   .vs-repeat-after-content {
-    flex: 1;
-
     background: repeating-linear-gradient(
       to bottom,
       $white,
@@ -26,6 +25,10 @@
       lighten($primary, 43%) 30px,
       lighten($primary, 43%) 60px
     );
+  }
+
+  .vs-repeat-after-content {
+    flex: 1;
   }
 
   &.odd-total {
