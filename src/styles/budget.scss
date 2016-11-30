@@ -301,6 +301,10 @@ i.budget__month-row-note--showing {
   display: flex;
 }
 
+.budget__category-label-container--category {
+  margin-top: 2px;
+}
+
 .budget__category-name {
   overflow: hidden;
   text-overflow: ellipsis;

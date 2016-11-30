@@ -113,7 +113,7 @@
               ng-repeat="category in masterCategory.categories track by category.id"
               ng-class="{'budget__month-row--last': $last}">
             <div class="budget__td budget__month-row budget__category-label" resize-categories>
-              <div class="budget__category-label-container" title="{{category.note}}">
+              <div class="budget__category-label-container budget__category-label-container--category" title="{{category.note}}">
                 <div class="budget__category-name">
                   <span rename ng-model="category.name" on-remove="budgetCtrl.removeCategory(category.id, masterCategory)">{{category.name}}</span>
                 </div>
