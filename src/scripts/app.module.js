@@ -246,7 +246,12 @@ financier.config(function($stateProvider, $urlRouterProvider, $injector, $locati
   $translateProvider.translations('ru', require('../public/assets/translations/ru.json'));
   $translateProvider.translations('ca', require('../public/assets/translations/ca.json'));
   $translateProvider.translations('de', require('../public/assets/translations/de.json'));
-  $translateProvider.translations('no', require('../public/assets/translations/no.json'));
+
+  const norwegianI18n = require('../public/assets/translations/no.json');
+
+  $translateProvider.translations('no', norwegianI18n); // Norwegian
+  $translateProvider.translations('nn', norwegianI18n); // Norwegian Nynorsk
+  $translateProvider.translations('nb', norwegianI18n); // Norwegian Bokmål
 
   $translateProvider.determinePreferredLanguage();
   $translateProvider.fallbackLanguage('en');
