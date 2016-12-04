@@ -4,6 +4,10 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth, $tran
   const currency = $filter('currency'),
     intCurrency = $filter('intCurrency');
 
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
   return {
     restrict: 'E',
     template: '<canvas></canvas>',
@@ -111,7 +115,7 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth, $tran
                 },
                 ticks: {
                   callback: date => {
-                    return dateFilter(date, 'MMM \'yy');
+                    return capitalize(dateFilter(date, 'MMM \'yy'));
                   }
                 }
               }],
