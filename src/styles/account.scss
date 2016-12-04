@@ -41,10 +41,6 @@ $breakWidth: 900px;
   text-transform: uppercase;
 }
 
-.account__tbody {
-  display: inline-block;
-}
-
 .account__tbody--reconcile {
   overflow: hidden;
 }
@@ -567,4 +563,61 @@ i.account__reconcile-close {
 .account__amount-to-assign {
   position: absolute;
   right: 0;
+}
+
+.account__scheduled-transactions-ctrl {
+  display: flex;
+  flex-direction: column;
+}
+
+.account__scheduled-transactions {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 87px;
+
+  .rg-top {
+    cursor: row-resize;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    z-index: 2;
+    text-align: center;
+
+    background: #ccc;
+    color: #888;
+
+    &:hover {
+      background: #aaa;
+      color: #333;
+    }
+
+    i {
+      position: absolute;
+      top: 0;
+      line-height: 8px;
+      margin-left: -5px;
+      font-size: 0.8em;
+
+      + i {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  &:before {
+    display: block;
+    min-height: 8px;
+    content: '';
+  }
+}
+
+.account__resize-grabber {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }

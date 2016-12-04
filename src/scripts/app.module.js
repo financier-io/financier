@@ -65,7 +65,11 @@ let financier = angular.module('financier', [
   };
 });
 
-financier.config(function($stateProvider, $urlRouterProvider, $injector, $locationProvider, ngDialogProvider, $translateProvider) {
+financier.config(function($compileProvider, $stateProvider, $urlRouterProvider, $injector, $locationProvider, ngDialogProvider, $translateProvider) {
+  $compileProvider.commentDirectivesEnabled(false);
+  $compileProvider.cssClassDirectivesEnabled(false);
+  // $compileProvider.debugInfoEnabled(false);
+
   // For any unmatched url, redirect to /state1
   // $urlRouterProvider.otherwise('/state1');
   //

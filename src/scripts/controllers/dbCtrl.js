@@ -18,7 +18,6 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
   this.categories = categories;
 
   this.masterCategories = masterCategories;
-  this.accounts = manager.accounts;
 
   this.allMonths = manager.months;
 
@@ -38,6 +37,8 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
 
   this.filterAccounts = () => {
     const bySort = (a, b) => a.sort - b.sort;
+
+    this.accounts = Object.keys(manager.accounts).map(id => manager.accounts[id]).sort(bySort);
 
     this.onBudgetAccounts = this.accounts.filter(acc => acc.onBudget && !acc.closed).sort(bySort);
     this.offBudgetAccounts = this.accounts.filter(acc => !acc.onBudget && !acc.closed).sort(bySort);
@@ -177,10 +178,10 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
   };
 
   this.getAccountName = id => {
-    for (let i = 0; i < this.accounts.length; i++) {
-      if (this.accounts[i].id === id) {
-        return this.accounts[i].name;
-      }
+    const acc = this.manager.accounts[id];
+
+    if (acc) {
+      return acc.name;
     }
 
     return id;
@@ -317,11 +318,6 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
   if (lastWidth) {
     this.sidebarInitialWidth = +lastWidth;
   }
-
-  $scope.$on('angular-resizable.resizeEnd', (e, { width }) => {
-    localStorage.setItem('sidebarWidth', width);
-  });
-
 
   function getId(_id) {
     return _id.slice(_id.lastIndexOf('_') + 1);

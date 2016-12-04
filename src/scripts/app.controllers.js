@@ -20,3 +20,5 @@ import './controllers/splitTransactionCtrl';
 import './controllers/editSplitTransactionCtrl';
 import './controllers/cancelClickCtrl';
 import './controllers/reports/heatMapCtrl';
+import './controllers/sidebarCtrl';
+import './controllers/scheduledTransactionsCtrl';

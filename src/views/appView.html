@@ -10,7 +10,7 @@
       </h1>
   </div>
 
-  <div class="app-view__main">
+  <div class="app-view__main" ng-controller="sidebarCtrl as sidebarCtrl">
     <div class="app-view__sidebar" resizable r-directions="['right']" r-flex="true" r-width="dbCtrl.sidebarInitialWidth">
 
       <h1 class="app-view__title">
@@ -27,7 +27,7 @@
             <a ui-sref="user.app.manager.view.reports"><div class="app-view__link-text"><i class="fa fa-pie-chart"></i> {{'REPORTS' | translate}}</div></a>
           </li>
           <li class="app-view__link" ui-sref-active="app-view__link--active" edit-all-accounts="dbCtrl.budgetRecord">
-            <a ui-sref="user.app.manager.view.account({accountId: null})">
+            <a ui-sref="user.app.manager.view.account({accountId: ''})">
               <div class="app-view__link-text"><i class="fa fa-credit-card"></i> {{'ACCOUNTS' | translate}}</div>
               <aside>{{dbCtrl.manager.allAccounts.balance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</aside>
             </a>

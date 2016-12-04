@@ -37,7 +37,7 @@ angular.module('financier').factory('monthManager', (month, account) => {
         }
 
         this.months = months;
-        this.accounts = [];
+        this.accounts = {};
         this.allAccounts = new Account({
           name: 'All Accounts'
         });
@@ -281,22 +281,16 @@ angular.module('financier').factory('monthManager', (month, account) => {
       }
 
       getAccount(id) {
-        for (let i = 0; i < this.accounts.length; i++) {
-          if (this.accounts[i].id === id) {
-            return this.accounts[i];
-          }
-        }
+        return this.accounts[id];
       }
 
       addAccount(acc) {
         acc.subscribe(this.saveFn);
 
-        this.accounts.push(acc);
+        this.accounts[acc.id] = acc;
       }
 
       removeAccount(acc) {
-        const index = this.accounts.indexOf(acc);
-
         for (let i = 0; i < acc.transactions.length; i++) {
           if (acc.onBudget) {
             const month = this.getMonth(acc.transactions[i].month);
@@ -307,11 +301,7 @@ angular.module('financier').factory('monthManager', (month, account) => {
           acc.removeTransaction(acc.transactions[i]);
         }
 
-        if (index !== -1) {
-          this.accounts.splice(index, 1);
-        } else {
-          throw new Error(`Account with id ${acc.id} not found!`);
-        }
+        delete this.accounts[acc.id];
       }
 
       /**
