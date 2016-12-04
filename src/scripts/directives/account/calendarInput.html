@@ -5,7 +5,7 @@
     <div class="calendar__control" ng-click="nextMonth()"><i class="fa fa-angle-right"></i></div>
   </div>
   <div class="calendar__week calendar__week--header">
-    <div class="calendar__week-day" ng-repeat="day in month[0]">{{day.date | date : 'EEE'}}</div>
+    <div class="calendar__week-day" ng-repeat="day in month[0]">{{day.date | date : 'EEE' | removeDots}}</div>
   </div>
   <div class="calendar__week" ng-repeat="week in month track by week[0].date">
     <div class="calendar__day"

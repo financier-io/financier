@@ -7,7 +7,7 @@
        ng-repeat="month in months track by $index"
        ng-class="{ 'month-select__month--selected': month.view,
                    'month-select__month--current': month.date.month() === today.month() && month.date.year() === today.year() }"
-       ng-click="setMonth(month.date)">{{month.date.toDate() | date: dateFormat | limitTo: limitTo}}</div>
+       ng-click="setMonth(month.date)">{{month.date.toDate() | date: dateFormat | removeDots | limitTo: limitTo}}</div>
   <div class="month-select__control" ng-click="nextMonth()">
     <span class="month-select__control-label">{{'NEXT' | translate}}</span> <i class="fa fa-angle-right"></i>
   </div>

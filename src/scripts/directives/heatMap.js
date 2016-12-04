@@ -3,7 +3,8 @@ import moment from 'moment';
 angular.module('financier').directive('heatMap', ($filter, $locale) => {
   const dateFilter = $filter('date'),
     currency = $filter('currency'),
-    intCurrency = $filter('intCurrency');
+    intCurrency = $filter('intCurrency'),
+    removeDots = $filter('removeDots');
   let FIRSTDAYOFWEEK = $locale.DATETIME_FORMATS.FIRSTDAYOFWEEK;
 
   if ($locale.id === 'en-au') {
@@ -329,7 +330,7 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
           text.setAttributeNS(null, 'x', x);
           text.setAttributeNS(null, 'y', y);
 
-          text.textContent = dateFilter(endOfWeek, 'MMM');
+          text.textContent = removeDots(dateFilter(endOfWeek, 'MMM'));
           return text;
         }
 
