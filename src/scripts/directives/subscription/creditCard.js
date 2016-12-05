@@ -39,7 +39,17 @@ angular.module('financier').directive('creditCard', ($q, User, stripeLazyLoader)
           })
         })
         .then(token => {
-          return this.addToken({ token });
+          return this.addToken({ token })
+          .catch(e => {
+            this.stripeError = e.data;
+            this.cardForm.$setValidity('stripeError', !this.stripeError);
+
+            if (this.stripeError) {
+              throw 'stripeError';
+            }
+
+            throw e;
+          });
         })
         .then(() => {
           $scope.closeThisDialog();
