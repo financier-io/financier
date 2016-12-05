@@ -105,6 +105,8 @@
     "normalize.css": "^4.2.0",
     "papaparse": "^4.1.2",
     "pouchdb": "^6.0.7",
+    "pouchdb-core": "^6.0.7",
+    "sortablejs": "^1.4.0",
     "st-multi-sort": "^1.0.2",
     "tether-drop": "^1.4.2"
   }
