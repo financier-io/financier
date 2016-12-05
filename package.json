@@ -74,17 +74,18 @@
     ]
   },
   "dependencies": {
-    "angular": "^1.5.8",
-    "angular-animate": "^1.5.8",
+    "angular": "^1.5.9",
+    "angular-animate": "^1.5.9",
     "angular-dateParser": "^1.1.0",
     "angular-dynamic-locale": "^0.1.32",
     "angular-hotkeys": "^1.7.0",
-    "angular-i18n": "^1.5.8",
+    "angular-i18n": "^1.5.9",
     "angular-ladda-lw": "^0.4.0",
+    "angular-legacy-sortablejs": "SortableJS/angular-legacy-sortablejs",
     "angular-md5": "^0.1.10",
-    "angular-messages": "^1.5.8",
+    "angular-messages": "^1.5.9",
     "angular-resizable": "^1.2.0",
-    "angular-sanitize": "^1.5.8",
+    "angular-sanitize": "^1.5.9",
     "angular-smart-table": "^2.1.8",
     "angular-translate": "^2.11.1",
     "angular-ui-router": "^0.3.1",
@@ -104,7 +105,6 @@
     "normalize.css": "^4.2.0",
     "papaparse": "^4.1.2",
     "pouchdb": "^6.0.7",
-    "sortablejs": "^1.4.2",
     "st-multi-sort": "^1.0.2",
     "tether-drop": "^1.4.2"
   }

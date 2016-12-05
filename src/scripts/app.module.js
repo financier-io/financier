@@ -13,7 +13,7 @@ import 'angular-dateParser/dist/angular-dateparser';
 import 'angular-resizable';
 import 'ng-resize';
 import 'angular-hotkeys';
-import 'sortablejs/ng-sortable';
+import 'angular-legacy-sortablejs';
 import 'angular-ladda-lw/dist/angular-ladda-lw';
 
 import moment from 'moment';
@@ -65,7 +65,11 @@ let financier = angular.module('financier', [
   };
 });
 
-financier.config(function($stateProvider, $urlRouterProvider, $injector, $locationProvider, ngDialogProvider, $translateProvider) {
+financier.config(function($compileProvider, $stateProvider, $urlRouterProvider, $injector, $locationProvider, ngDialogProvider, $translateProvider) {
+  $compileProvider.debugInfoEnabled(false);
+  $compileProvider.commentDirectivesEnabled(false);
+  $compileProvider.cssClassDirectivesEnabled(false);
+
   // For any unmatched url, redirect to /state1
   // $urlRouterProvider.otherwise('/state1');
   //
