@@ -232,12 +232,7 @@ module.exports = function makeWebpackConfig () {
           navigateFallbackURL: '/',
           events: true
         },
-        AppCache: {
-          FALLBACK: {
-            '/': 'index.html'
-          },
-          events: true
-        }
+        AppCache: false
       })
     );
   } else {
