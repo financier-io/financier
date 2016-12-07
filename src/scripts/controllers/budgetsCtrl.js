@@ -84,10 +84,15 @@ angular.module('financier').controller('budgetsCtrl', function($q, Budget, Budge
   }
 
   this.remove = budget => {
-    $q.all([
-      db.budget(budget.id).remove(),
-      this.budgetsOpened[budget.id].remove()
-    ])
+    const recordsToRemove = [
+      db.budget(budget.id).remove()
+    ];
+
+    if (this.budgetsOpened[budget.id]) {
+      recordsToRemove.push(this.budgetsOpened[budget.id].remove());
+    }
+
+    $q.all(recordsToRemove)
     .then(() => {
       return budget.remove();
     })
