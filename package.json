@@ -87,7 +87,7 @@
     "angular-resizable": "^1.2.0",
     "angular-sanitize": "^1.5.9",
     "angular-smart-table": "^2.1.8",
-    "angular-translate": "^2.11.1",
+    "angular-translate": "^2.13.0",
     "angular-ui-router": "^0.3.1",
     "angular-vs-repeat": "^1.1.7",
     "chart.js": "^2.2.1",

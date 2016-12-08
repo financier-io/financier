@@ -250,25 +250,20 @@ financier.config(function($compileProvider, $stateProvider, $urlRouterProvider, 
   $translateProvider.translations('ru', require('../public/assets/translations/ru.json'));
   $translateProvider.translations('ca', require('../public/assets/translations/ca.json'));
   $translateProvider.translations('de', require('../public/assets/translations/de.json'));
+  $translateProvider.translations('no', require('../public/assets/translations/no.json'));
 
-  const norwegianI18n = require('../public/assets/translations/no.json');
-
-  $translateProvider.translations('no', norwegianI18n); // Norwegian
-  $translateProvider.translations('nn', norwegianI18n); // Norwegian Nynorsk
-  $translateProvider.translations('nb', norwegianI18n); // Norwegian Bokmål
-
-  $translateProvider.determinePreferredLanguage();
-  $translateProvider.fallbackLanguage('en');
-
-  // $translateProvider.registerAvailableLanguageKeys(['en', 'es', 'ru', 'ca', 'de', 'no'], {
-  //   'nb*': 'no',
-  //   'nn*': 'no',
-  //   'es*': 'es',
-  //   'ru*': 'ru',
-  //   'ca*': 'ca',
-  //   'de*': 'de',
-  //   '*': 'en',
-  // });
+  $translateProvider.registerAvailableLanguageKeys(['en', 'es', 'ru', 'ca', 'de', 'no'], {
+    'en*': 'en',
+    'es*': 'es',
+    'ru*': 'ru',
+    'ca*': 'ca',
+    'de*': 'de',
+    'no*': 'no',
+    'nn*': 'no', // (alt) Norwegian Nynorsk
+    'nb*': 'no', // (alt) Norwegian Bokmål
+    '*': 'en' // (fallback)
+  })
+  .determinePreferredLanguage();
 
   $translateProvider.useSanitizeValueStrategy(null); // angular-translate's sanitization is broke as fuck
 
