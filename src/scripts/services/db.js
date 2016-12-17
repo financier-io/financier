@@ -36,22 +36,34 @@ angular.module('financier').provider('db', function() {
       }
     }
 
-    function startSync(dbName) {
+    function startSync(dbName, isValidSub) {
+      const options = {
+        live: true,
+        retry: true,
+        batch_size: 500
+      };
+
       cancelSync();
 
       const host = window.location.host;
 
-      sync = db.sync(`https://${host}/db/${dbName}`, {
-        live: true,
-        retry: true,
-        batch_size: 500
-      })
+      if (isValidSub) {
+        sync = db.sync(`https://${host}/db/${dbName}`, options)
+        .on('paused', function () {
+          // user went offline
+          $rootScope.$broadcast('syncStatus:update', 'complete');
+        });
+      } else {
+        sync = PouchDB.replicate(`https://${host}/db/${dbName}`, db, options)
+        .on('paused', function () {
+          // user went offline
+          $rootScope.$broadcast('syncStatus:update', 'subscription_ended');
+        });
+      }
+
+      sync
       .on('change', function (info) {
         $rootScope.$broadcast('syncStatus:update', 'syncing');
-      })
-      .on('paused', function () {
-        // user went offline
-        $rootScope.$broadcast('syncStatus:update', 'complete');
       })
       .on('active', function () {
         $rootScope.$broadcast('syncStatus:update', 'syncing');

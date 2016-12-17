@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 angular.module('financier').controller('userCtrl', function($rootScope, $scope, User, db, ngDialog, $timeout, $state) {
   $rootScope.loaded = true;
 
@@ -36,6 +38,10 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
 
       User.startSubscription().then(subscription => {
         this.subscription = subscription;
+
+        // Start the sync of new budget data
+        db.sync.cancel();
+        db.sync.start(this.userDb, true);
       })
       .finally(() => {
         this.loadingStartSubscription = false;
@@ -85,7 +91,7 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
     this.getSource();
   }
 
-
+  this.userDb = null;
 
   const getSession = () => {
     return User.session()
@@ -93,11 +99,21 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
       if (s.userCtx && s.userCtx.name) {
         this.email = s.userCtx.name;
 
+        let isValidSub = false;
+
         for (let i = 0; i < s.userCtx.roles.length; i++) {
           if (s.userCtx.roles[i].indexOf('userdb-') === 0) {
-            db.sync.start(s.userCtx.roles[i]);
+            this.userDb = s.userCtx.roles[i];
           }
         }
+
+        for (let i = 0; i < s.userCtx.roles.length; i++) {
+          if (s.userCtx.roles[i].indexOf('exp-') === 0) {
+            isValidSub = moment().unix() < +s.userCtx.roles[i].slice(4);
+          }
+        }
+
+        db.sync.start(this.userDb, isValidSub);
 
         this.isFree = false;
 
