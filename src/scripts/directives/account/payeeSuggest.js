@@ -15,7 +15,15 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
             var nameA = a.name.toUpperCase();
             var nameB = b.name.toUpperCase();
 
-            return nameA > nameB;
+            if(nameA < nameB) {
+              return -1;
+            }
+
+            if(nameA > nameB) {
+              return 1;
+            }
+
+            return 0;
           };
 
 
