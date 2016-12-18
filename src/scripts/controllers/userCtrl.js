@@ -188,10 +188,7 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
   this.status = 'offline';
 
   $rootScope.$on('syncStatus:update', (e, status) => {
-    if (this.status !== status) {
-      this.status = status;
-      $scope.$apply();
-    }
+    this.status = status;
   });
 
   $rootScope.$on('login', (e, status) => {

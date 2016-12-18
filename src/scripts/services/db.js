@@ -50,14 +50,18 @@ angular.module('financier').provider('db', function() {
       if (isValidSub) {
         sync = db.sync(`https://${host}/db/${dbName}`, options)
         .on('paused', function () {
-          // user went offline
-          $rootScope.$broadcast('syncStatus:update', 'complete');
+          $rootScope.$apply(() => {
+            // user went offline
+            $rootScope.$broadcast('syncStatus:update', 'complete');
+          });
         });
       } else {
         sync = PouchDB.replicate(`https://${host}/db/${dbName}`, db, options)
         .on('paused', function () {
-          // user went offline
-          $rootScope.$broadcast('syncStatus:update', 'subscription_ended');
+          $rootScope.$apply(() => {
+            // user went offline
+            $rootScope.$broadcast('syncStatus:update', 'subscription_ended');
+          });
         });
       }
 
@@ -66,22 +70,28 @@ angular.module('financier').provider('db', function() {
         $rootScope.$broadcast('syncStatus:update', 'syncing');
       })
       .on('active', function () {
-        $rootScope.$broadcast('syncStatus:update', 'syncing');
+        $rootScope.$apply(() => {
+          $rootScope.$broadcast('syncStatus:update', 'syncing');
+        });
         // replicate resumed (e.g. user went back online)
       })
       .on('denied', function (info) {
-        $rootScope.$broadcast('syncStatus:update', 'error');
-        // a document failed to replicate (e.g. due to permissions)
+        $rootScope.$apply(() => {
+          $rootScope.$broadcast('syncStatus:update', 'error');
+          // a document failed to replicate (e.g. due to permissions)
+        });
       })
       .on('complete', function (info) {
         $rootScope.$broadcast('syncStatus:update', 'error');
         // handle complete
       })
       .on('error', function (err) {
-        console.log('sync error', err);
+        $rootScope.$apply(() => {
+          console.log('sync error', err);
 
-        $rootScope.$broadcast('syncStatus:update', 'error');
-        // handle error
+          $rootScope.$broadcast('syncStatus:update', 'error');
+          // handle error
+        });
       });
 
       changes = db.changes({
@@ -90,7 +100,9 @@ angular.module('financier').provider('db', function() {
         include_docs: true
       }).on('change', change => {
         // received a change
-        $rootScope.$broadcast('pouchdb:change', change);
+        $rootScope.$apply(() => {
+          $rootScope.$broadcast('pouchdb:change', change);
+        });
       }).on('error', err => {
         // handle errors
         console.log('error subscribing to changes feed', err);
