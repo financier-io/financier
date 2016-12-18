@@ -188,19 +188,6 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
   this.status = 'offline';
 
   $rootScope.$on('syncStatus:update', (e, status) => {
-
-    //      NEW STATUS                   OLD STATUS
-    if (status === 'complete' && this.status === 'error') {
-
-      // If we get an error, we want to display it even when complete
-      // (usually right after the error comes up). This will still
-      // let syncStatus transition back to syncing if something 
-      // triggers that.
-      //
-      // So, don't update the directive.
-      return;
-    }
-
     this.status = status;
     $rootScope.$apply();
   });

@@ -70,8 +70,6 @@ angular.module('financier').controller('budgetsCtrl', function($q, Budget, Budge
         this.budgetsOpened[b.id] = b;
       }
     }
-
-    $scope.$apply();
   });
 
   let removingBudget;
