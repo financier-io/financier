@@ -86,7 +86,7 @@ angular.module('financier').provider('db', function() {
 
       changes = db.changes({
         since: 'now',
-        live: true,
+        live: isValidSub, // Don't need to wait for changes after initial sync if not subscribed
         include_docs: true
       }).on('change', change => {
         // received a change
