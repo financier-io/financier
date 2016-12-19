@@ -288,11 +288,9 @@ financier.run(function($translate, tmhDynamicLocale, tmhDynamicLocaleCache) {
   }
 
   // put de-de language into cache
-  let language = $translate.use().replace('_', '-').toLowerCase();
+  let language = window.navigator.language.toLowerCase();
 
   if (language === 'es-xl') {
-    $translate.use('es');
-
     language = 'es-419';
   }
 
