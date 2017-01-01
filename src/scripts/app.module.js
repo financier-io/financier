@@ -168,6 +168,12 @@ financier.config(function($compileProvider, $stateProvider, $urlRouterProvider, 
           throw e;
         });
       }
+    },
+    onEnter: ($rootScope, budgetRecord) => {
+      $rootScope.appTitle = `${budgetRecord.name} - Financier`;
+    },
+    onExit: $rootScope => {
+      $rootScope.appTitle = 'Financier';
     }
   })
   .state('user.app.manager', {
