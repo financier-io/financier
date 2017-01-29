@@ -2,6 +2,7 @@ import moment from 'moment';
 
 angular.module('financier').controller('userCtrl', function($rootScope, $scope, User, db, ngDialog, $timeout, $state) {
   $rootScope.loaded = true;
+  this.loadingSubscription = true;
 
   const getSubscriptionInfo = () => {
     this.addCard = () => {
