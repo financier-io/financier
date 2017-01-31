@@ -24,6 +24,7 @@ import './directives/note';
 import './directives/onEnterGoNext';
 import './directives/onUpdate';
 import './directives/outflowHelper';
+import './directives/outflowTip';
 import './directives/overspendingSelect';
 import './directives/rename';
 import './directives/scrollContainer';

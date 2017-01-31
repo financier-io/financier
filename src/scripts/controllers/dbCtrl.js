@@ -1,6 +1,8 @@
 import moment from 'moment';
 
 angular.module('financier').controller('dbCtrl', function(exportCsv, monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget, budgetOpenedRecord, currencies, $timeout, $state, $translate, $filter, backup) {
+  const that = this;
+
   const dateFilter = $filter('date');
 
   let {manager, categories, masterCategories, payees} = data;
@@ -35,6 +37,66 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
       budgetName: this.budgetRecord.name
     });
   }
+
+  this.getTransactionHeight = trans => {
+    const unitHeight = 30; // one "row" of transaction table
+    let rows;
+
+    if (!trans.splitOpen && trans !== this.editingTransaction) {
+      rows = 1;
+    } else if (trans.splitOpen && trans !== this.editingTransaction) {
+      rows = trans.splits.length + 1;
+    } else if (trans === this.editingTransaction) {
+      rows = trans.splits.length + 2;
+    }
+
+    return unitHeight * rows;
+  }
+
+  function _removeEmojis(str) {
+    if (angular.isString(str)) {
+      return str.replace(/([#0-9]\u20E3)|[\xA9\xAE\u203C\u2047-\u2049\u2122\u2139\u3030\u303D\u3297\u3299][\uFE00-\uFEFF]?|[\u2190-\u21FF][\uFE00-\uFEFF]?|[\u2300-\u23FF][\uFE00-\uFEFF]?|[\u2460-\u24FF][\uFE00-\uFEFF]?|[\u25A0-\u25FF][\uFE00-\uFEFF]?|[\u2600-\u27BF][\uFE00-\uFEFF]?|[\u2900-\u297F][\uFE00-\uFEFF]?|[\u2B00-\u2BF0][\uFE00-\uFEFF]?|(?:\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDEFF])[\uFE00-\uFEFF]?/g, '').trim();
+    }
+
+    return str;
+  }
+
+  this.customSorts = {
+    account(transaction) {
+      return _removeEmojis(manager.getAccount(transaction.account).name);
+    },
+    date(transaction) {
+      // Sort by date and then value
+      return transaction.date.getTime() + transaction.value;
+    },
+    checkNumber(transaction) {
+      return +transaction.checkNumber || transaction.checkNumber;
+    },
+    category(transaction) {
+      return _removeEmojis(that.getCategoryName(transaction.category, transaction.date)) || '';
+    },
+    payee(transaction) {
+      return (transaction.transfer ? _removeEmojis($scope.dbCtrl.getAccountName(transaction.transfer.account)) : _removeEmojis(that.getPayeeName(transaction.payee))) || '';
+    },
+    cleared(transaction) {
+      if (transaction.reconciled) {
+        return 2;
+      } else if (transaction.cleared) {
+        return 1;
+      }
+
+      return 0;
+    },
+    outflow(transaction) {
+      return -transaction.value;
+    },
+    inflow(transaction) {
+      return transaction.value;
+    },
+    flag(transaction) {
+      return transaction.flag || '';
+    }
+  };
 
   this.filterAccounts = () => {
     const bySort = (a, b) => a.sort - b.sort;
@@ -190,6 +252,20 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
     return (payees[id] && payees[id].name) || id;
   };
 
+  this.getSplitPayeeName = trans => {
+    var payee = this.getPayeeName(trans.payee);
+
+    if (trans.constructorName === 'SplitTransaction') {
+      if (payee !== trans.payee && payee) {
+        payee = ` : ${payee}`;
+      }
+
+      payee = `[Split] ${this.getPayeeName(trans.transaction.payee)}${payee || ''}`;
+    }
+
+    return payee;
+  };
+
   $scope.$watch(
     () => this.currentMonth,
     (currentMonth, oldCurrentMonth) => {
@@ -326,8 +402,6 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
   function getId(_id) {
     return _id.slice(_id.lastIndexOf('_') + 1);
   }
-
-  const that = this;
 
   const doChange = {
     masterCategory(change) {

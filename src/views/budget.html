@@ -36,7 +36,11 @@
                 {{'OVERSPENT_IN' | translate : budgetCtrl.translationPayloads.lastMonth(month.date)}}
               </dd>
 
-              <dt><span ng-if="month.cache.totalIncome >= 0">+</span>{{month.cache.totalIncome | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</dt>
+              <dt class="budget__outflow-link">
+                <span outflow-tip category="income" position="{{$last ? 'bottom right' : 'bottom center'}}">
+                  <span ng-if="month.cache.totalIncome >= 0">+</span>{{month.cache.totalIncome | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}
+                </span>
+              </dt>
               <dd>
                 {{'INCOME_FOR' | translate : budgetCtrl.translationPayloads.currentMonth(month.date)}}
               </dd>
@@ -157,7 +161,7 @@
                  outflow-date="month.date"
                  outflow-category="category.name"
                  outflow-setting="dbCtrl.budgetRecord.hints.outflow"
-                 disabled="!!month.categoryCache[category.id].outflow"><span ng-if="month.categoryCache[category.id].outflow !== 0">{{month.categoryCache[category.id].outflow | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</span></div>
+                 disabled="!!month.categoryCache[category.id].outflow"><span class="budget__outflow-link" outflow-tip position="{{$last ? 'bottom right' : 'bottom center'}}" constrain-to-scroll-parent="true" category="{{category.id}}" ng-if="month.categoryCache[category.id].outflow !== 0">{{month.categoryCache[category.id].outflow | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</span></div>
             <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--display"
                  ng-class="{'budget__month-end': !$last,
                             'budget__month-row--zero': !month.categoryCache[category.id].balance,

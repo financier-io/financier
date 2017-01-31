@@ -68,10 +68,6 @@ $breakWidth: 900px;
 .account__tfoot .account__tr {
   display: flex;
   flex-direction: row;
-}
-
-.account__thead,
-.account__tfoot {
   flex-shrink: 0;
 }
 

@@ -79,16 +79,16 @@
       <div class="account__th account__th--select">
         <input type="checkbox" ng-model="accountCtrl.isAllSelected" ng-model-options="{ getterSetter: true }">
       </div>
-      <div class="account__th account__td--large" ng-if="!accountCtrl.accountId" st-multi-sort="accountCtrl.customSorts.account"><span><span>{{'ACCOUNT' | translate}}</span></span></div>
-      <div class="account__th account__th--flag" st-multi-sort="accountCtrl.customSorts.flag"><div class="account__header-flag"><div></div></div></div>
-      <div class="account__th account__th--date" st-multi-sort="accountCtrl.customSorts.date" st-sort-default="reverse"><span><span>{{'DATE' | translate}}</span></span></div>
-      <div class="account__th account__th--check" ng-if="accountCtrl.checkNumber" st-multi-sort="accountCtrl.customSorts.checkNumber"><span><span>{{'CHECK' | translate}}</span></span></div>
-      <div class="account__th account__td--large" st-multi-sort="accountCtrl.customSorts.payee"><span><span>{{'PAYEE' | translate}}</span></span></div>
-      <div class="account__th account__td--large" ng-if="accountCtrl.account.onBudget" st-multi-sort="accountCtrl.customSorts.category"><span><span>{{'CATEGORY' | translate}}</span></span></div>
+      <div class="account__th account__td--large" ng-if="!accountCtrl.accountId" st-multi-sort="dbCtrl.customSorts.account"><span><span>{{'ACCOUNT' | translate}}</span></span></div>
+      <div class="account__th account__th--flag" st-multi-sort="dbCtrl.customSorts.flag"><div class="account__header-flag"><div></div></div></div>
+      <div class="account__th account__th--date" st-multi-sort="dbCtrl.customSorts.date" st-sort-default="reverse"><span><span>{{'DATE' | translate}}</span></span></div>
+      <div class="account__th account__th--check" ng-if="accountCtrl.checkNumber" st-multi-sort="dbCtrl.customSorts.checkNumber"><span><span>{{'CHECK' | translate}}</span></span></div>
+      <div class="account__th account__td--large" st-multi-sort="dbCtrl.customSorts.payee"><span><span>{{'PAYEE' | translate}}</span></span></div>
+      <div class="account__th account__td--large" ng-if="accountCtrl.account.onBudget" st-multi-sort="dbCtrl.customSorts.category"><span><span>{{'CATEGORY' | translate}}</span></span></div>
       <div class="account__th account__cell-memo"><span><span>{{'MEMO' | translate}}</span></span></div>
-      <div class="account__th account__td--small account__cell-outflow" st-multi-sort="accountCtrl.customSorts.outflow"><span><span>{{'OUTFLOW' | translate}}</span></span></div>
-      <div class="account__th account__td--small account__cell-inflow" st-multi-sort="accountCtrl.customSorts.inflow"><span><span>{{'INFLOW' | translate}}</span></span></div>
-      <div class="account__th account__cell-cleared" st-multi-sort="accountCtrl.customSorts.cleared"><span><span>{{'CLEARED' | translate}}</span></span></div>
+      <div class="account__th account__td--small account__cell-outflow" st-multi-sort="dbCtrl.customSorts.outflow"><span><span>{{'OUTFLOW' | translate}}</span></span></div>
+      <div class="account__th account__td--small account__cell-inflow" st-multi-sort="dbCtrl.customSorts.inflow"><span><span>{{'INFLOW' | translate}}</span></span></div>
+      <div class="account__th account__cell-cleared" st-multi-sort="dbCtrl.customSorts.cleared"><span><span>{{'CLEARED' | translate}}</span></span></div>
     </div>
   </div>
 
@@ -102,7 +102,7 @@
 
   </div>
   
-  <div class="account__tbody account__tbody--striped virtual-list" vs-repeat vs-size="accountCtrl.getTransactionHeight(transaction)" ng-class="{'odd-total': displayedTransactions.length % 2}">
+  <div class="account__tbody account__tbody--striped virtual-list" vs-repeat vs-size="dbCtrl.getTransactionHeight(transaction)" ng-class="{'odd-total': displayedTransactions.length % 2}">
     <div ng-repeat="transaction in displayedTransactions track by transaction.id">
       <div class="account__tr"
            ng-if="accountCtrl.editingTransaction !== transaction"
