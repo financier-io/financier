@@ -293,5 +293,9 @@
     "BUDGET_JSON_FILE": "JSON del presupuesto",
     "BACKUP_BUDGET": "Copia de seguridad del presupuesto",
     "BACKUP_NAME": "{{name}} (Copia de seguridad {{date}})",
-    "BACKUP_FILE_CORRUPTED": "El archivo de copia de seguridad está dañado."
+    "BACKUP_FILE_CORRUPTED": "El archivo de copia de seguridad está dañado.",
+    "LAST_12_MONTHS": "Últimos 12 meses",
+    "BACK_TO_WEBSITE": "Volver a financier.io",
+    "VERSION_INFORMATION": "Versión {{number}} ({{date}})",
+    "SYNC_SUBSCRIPTION_ENDED": "Su subscripción ha caducado"
 }

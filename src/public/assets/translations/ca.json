@@ -186,7 +186,7 @@
     "SYNC_STATUS_HELP": "Estat actual de la sincronització de les dades locals amb el servidor",
     "CREATE_ACCOUNT_BEFORE_TRANSACTION": "Necessiteu crear un nou compte abans de poder afegir transaccions!",
     "CLOSED_ACCOUNTS": "Comptes tancats",
-    "NO_CATEGORIES_MATCHING": "\"{{test}}\" no coincideix amb cap categoria",
+    "NO_CATEGORIES_MATCHING": "\"{{text}}\" no coincideix amb cap categoria",
     "INCOME": "Ingressos",
     "MULTIPLE_CATEGORIES": "Múltiples categories...",
     "BUDGET_CATEGORIES": "Categories del pressupot",
@@ -293,5 +293,9 @@
     "BUDGET_JSON_FILE": "JSON del pressupost",
     "BACKUP_BUDGET": "Còpia de seguretat del pressupost",
     "BACKUP_NAME": "{{name}} (Còpia de seguretat {{date}})",
-    "BACKUP_FILE_CORRUPTED": "El fitxer de còpia de seguretat està danyat."
+    "BACKUP_FILE_CORRUPTED": "El fitxer de còpia de seguretat està danyat.",
+    "LAST_12_MONTHS": "Últims 12 mesos",
+    "BACK_TO_WEBSITE": "Torna a financier.io",
+    "VERSION_INFORMATION": "Versió {{number}} ({{date}})",
+    "SYNC_SUBSCRIPTION_ENDED": "La seua subscripció ha caducat."
 }

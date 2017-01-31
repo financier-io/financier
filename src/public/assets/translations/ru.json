@@ -295,5 +295,8 @@
     "BACKUP_NAME": "{{name}} (резервная копия от {{date}})",
     "BACKUP_FILE_CORRUPTED": "Файл резервной копии поврежден.",
     "HEAT_MAP": "Тепловая карта",
-    "LAST_12_MONTHS": "Последние 12 месяцев"
+    "LAST_12_MONTHS": "Последние 12 месяцев",
+    "BACK_TO_WEBSITE": "Обратно на financier.io",
+    "VERSION_INFORMATION": "Версия {{number}} ({{date}})",
+    "SYNC_SUBSCRIPTION_ENDED": "Срок действия подписки истёк!"
 }

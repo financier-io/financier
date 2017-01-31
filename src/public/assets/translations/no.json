@@ -295,5 +295,8 @@
     "BACKUP_NAME": "{{name}} (Sikkerhetskopi {{date}})",
     "BACKUP_FILE_CORRUPTED": "Sikkerhetskopien er korrupt.",
     "HEAT_MAP": "Varmekart",
-    "LAST_12_MONTHS": "Siste 12 måneder"
+    "LAST_12_MONTHS": "Siste 12 måneder",
+    "BACK_TO_WEBSITE": "Tilbake til financier.io",
+    "VERSION_INFORMATION": "Versjon {{number}} ({{date}})",
+    "SYNC_SUBSCRIPTION_ENDED": "Abonnementet er avsluttet"
 }
