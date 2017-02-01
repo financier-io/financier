@@ -36,8 +36,8 @@
                 {{'OVERSPENT_IN' | translate : budgetCtrl.translationPayloads.lastMonth(month.date)}}
               </dd>
 
-              <dt class="budget__outflow-link">
-                <span outflow-tip category="income" position="{{$last ? 'bottom right' : 'bottom center'}}">
+              <dt>
+                <span class="budget__outflow-link" outflow-tip category="income" position="{{$last ? 'bottom right' : 'bottom center'}}">
                   <span ng-if="month.cache.totalIncome >= 0">+</span>{{month.cache.totalIncome | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}
                 </span>
               </dt>
