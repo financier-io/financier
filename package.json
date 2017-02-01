@@ -1,8 +1,8 @@
 {
   "name": "financier",
   "private": true,
-  "version": "1.5.0",
-  "releaseDate": "2017-01-31",
+  "version": "1.5.1",
+  "releaseDate": "2017-02-01",
   "description": "Straightforward budgeting",
   "main": "index.js",
   "scripts": {
