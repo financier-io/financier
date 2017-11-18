@@ -13,7 +13,7 @@ import 'angular-dateParser/dist/angular-dateparser';
 import 'angular-resizable';
 import 'ng-resize';
 import 'angular-hotkeys';
-import 'angular-legacy-sortablejs';
+import 'angular-legacy-sortablejs-maintained';
 import 'angular-ladda-lw/dist/angular-ladda-lw';
 
 import moment from 'moment';
