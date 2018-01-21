@@ -58,7 +58,6 @@ deploy:
     - docker tag $CI_REGISTRY_IMAGE:$COMMIT $CI_REGISTRY_IMAGE:gitlab-$CI_BUILD_ID
     - docker push $CI_REGISTRY_IMAGE
 
-    - apt-get install -y curl
     - curl -I -s -L -X POST $REDEPLOY_WEBHOOK_URL
   when: on_success
 
