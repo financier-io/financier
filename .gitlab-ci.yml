@@ -58,6 +58,7 @@ deploy:
     - docker tag $CI_REGISTRY_IMAGE:$COMMIT $CI_REGISTRY_IMAGE:gitlab-$CI_BUILD_ID
     - docker push $CI_REGISTRY_IMAGE
 
+    - apk add --no-cache curl
     - curl -I -s -L -X POST $REDEPLOY_WEBHOOK_URL
   when: on_success
 
