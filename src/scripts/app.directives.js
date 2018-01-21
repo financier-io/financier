@@ -16,6 +16,7 @@ import './directives/account/notInsaneDateValidator';
 
 import './directives/reports/netWorthChart';
 
+import './directives/calcInput';
 import './directives/autofocus';
 import './directives/disableNgAnimate';
 import './directives/flexMonths';
