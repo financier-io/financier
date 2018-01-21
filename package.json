@@ -81,7 +81,7 @@
     "angular-hotkeys": "^1.7.0",
     "angular-i18n": "^1.5.9",
     "angular-ladda-lw": "^0.4.0",
-    "angular-legacy-sortablejs": "SortableJS/angular-legacy-sortablejs",
+    "angular-legacy-sortablejs-maintained": "^0.6.0",
     "angular-md5": "^0.1.10",
     "angular-messages": "^1.5.9",
     "angular-resizable": "^1.2.0",
