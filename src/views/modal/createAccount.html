@@ -34,9 +34,10 @@
   <div class="split">
     <label>
       {{'CURRENT_BALANCE' | translate}}
-      <input transaction-value
+      <input on-update="createAccountCtrl.startingBalance = model"
+             view-model="createAccountCtrl.startingBalance"
+             calc-input
              name="startingBalance"
-             ng-model="createAccountCtrl.startingBalance"
              placeholder="0{{createAccountCtrl.DECIMAL_SEP}}00">
     </label>
 

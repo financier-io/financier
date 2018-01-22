@@ -16,7 +16,7 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout, $locale) =
       }
     });
 
-    element.on('blur', () => {
+    const parse = () => {
       try {
         let v = element.val();
         v = v.replace(new RegExp(`\\${GROUP_SEP}`, 'g'), '');
@@ -40,8 +40,12 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout, $locale) =
 
       // 20.20 => 20.2 goes to 20.20
       setView(val);
+    }
 
-      scope.$apply();
+    element.on('keydown blur', event => {
+      if (event.which === 13 || event.type == 'blur') { // enter or blur
+        parse();
+      }
     });
 
     element.on('focus', () => {
