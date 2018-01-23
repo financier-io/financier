@@ -176,7 +176,7 @@ describe('month', function() {
     describe('addBudget', () => {
       it('should be set on categories[]', () => {
         const mo = new Month(defaultMonth(), () => {}),
-            cat = new MonthCategory.from(
+            cat = MonthCategory.from(
               '111-111-111-111',
               mo.date,
               '333-333-333-333'
@@ -195,7 +195,7 @@ describe('month', function() {
         spyOn(foo, 'change');
 
         const mo = new Month(defaultMonth(), foo.change),
-            cat = new MonthCategory.from(
+            cat = MonthCategory.from(
               '111-111-111-111',
               mo.date,
               '333-333-333-333'
@@ -218,7 +218,7 @@ describe('month', function() {
         spyOn(foo, 'change');
 
         const mo = new Month(defaultMonth(), foo.change),
-            cat = new MonthCategory({
+            cat = MonthCategory({
               _id: 'b_111-111-111-111_m_category_2015-01-01_333-333-333-333',
               budget: 300
             });
@@ -621,7 +621,7 @@ describe('month', function() {
           _id: Month.createID(new Date('1/1/15'))
         }, () => {});
 
-        const moCat = new MonthCategory.from(
+        const moCat = MonthCategory.from(
           '111-111-111-111',
           '201501',
           '123'
@@ -643,7 +643,7 @@ describe('month', function() {
 
         mo1.subscribeNextMonth(mo2);
 
-        const moCat = new MonthCategory.from(
+        const moCat = MonthCategory.from(
           '111-111-111-111',
           '201501',
           '123'
@@ -669,7 +669,7 @@ describe('month', function() {
 
         mo1.subscribeNextMonth(mo2);
 
-        const moCat = new MonthCategory.from(
+        const moCat = MonthCategory.from(
           '111-111-111-111',
           '201501',
           '123'
@@ -691,7 +691,7 @@ describe('month', function() {
           _id: Month.createID(new Date('1/1/15'))
         }, () => {});
 
-        const moCat = new MonthCategory.from(
+        const moCat = MonthCategory.from(
           '111-111-111-111',
           '201501',
           '123'
@@ -715,7 +715,7 @@ describe('month', function() {
 
         mo1.subscribeNextMonth(mo2);
 
-        const moCat = new MonthCategory.from(
+        const moCat = MonthCategory.from(
           '111-111-111-111',
           '201501',
           '123'
@@ -742,7 +742,7 @@ describe('month', function() {
 
         mo1.subscribeNextMonth(mo2);
 
-        const moCat = new MonthCategory.from(
+        const moCat = MonthCategory.from(
           '111-111-111-111',
           '201501',
           '123'
@@ -769,7 +769,7 @@ describe('month', function() {
 
         mo1.subscribeNextMonth(mo2);
 
-        const moCat = new MonthCategory.from(
+        const moCat = MonthCategory.from(
           '111-111-111-111',
           '201501',
           '123'
@@ -801,7 +801,7 @@ describe('month', function() {
 
         mo1.subscribeNextMonth(mo2);
 
-        const moCat = new MonthCategory.from(
+        const moCat = MonthCategory.from(
           '111-111-111-111',
           '201501',
           '123'
@@ -833,7 +833,7 @@ describe('month', function() {
 
         mo1.subscribeNextMonth(mo2);
 
-        const moCat = new MonthCategory.from(
+        const moCat = MonthCategory.from(
           '111-111-111-111',
           '201501',
           '123'
@@ -862,7 +862,7 @@ describe('month', function() {
 
         mo1.subscribeNextMonth(mo2);
 
-        const moCat = new MonthCategory.from(
+        const moCat = MonthCategory.from(
           '111-111-111-111',
           '201501',
           '123'
@@ -891,7 +891,7 @@ describe('month', function() {
 
         mo1.subscribeNextMonth(mo2);
 
-        const moCat = new MonthCategory.from(
+        const moCat = MonthCategory.from(
           '111-111-111-111',
           '201501',
           '123'
@@ -920,7 +920,7 @@ describe('month', function() {
 
         mo1.subscribeNextMonth(mo2);
 
-        const moCat = new MonthCategory.from(
+        const moCat = MonthCategory.from(
           '111-111-111-111',
           '201501',
           '123'
@@ -951,7 +951,7 @@ describe('month', function() {
         mo1.subscribeNextMonth(mo2);
         mo2.subscribeNextMonth(mo3);
 
-        const moCat2 = new MonthCategory.from(
+        const moCat2 = MonthCategory.from(
           '111-111-111-111',
           '201502',
           '123'
@@ -959,7 +959,7 @@ describe('month', function() {
         moCat2.overspending = false;
         // moCat.budget = -123;
 
-        const moCat1 = new MonthCategory.from(
+        const moCat1 = MonthCategory.from(
           '111-111-111-111',
           '201502',
           '123'

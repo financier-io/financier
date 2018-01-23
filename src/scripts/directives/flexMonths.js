@@ -1,4 +1,4 @@
-angular.module('financier').directive('flexMonths', function(resize, $rootScope) {
+angular.module('financier').directive('flexMonths', (resize, $rootScope) => {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {

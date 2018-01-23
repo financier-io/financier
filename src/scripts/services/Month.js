@@ -334,7 +334,7 @@ angular.module('financier').factory('month', MonthCategory => {
         this.createCategoryCacheIfEmpty(catId);
 
         if (!this.categories[catId]) {
-          this.categories[catId] = new MonthCategory.from(budgetId, this.date, catId);
+          this.categories[catId] = MonthCategory.from(budgetId, this.date, catId);
 
           this.categories[catId].subscribe(record => {
             this.saveFn(record);

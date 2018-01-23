@@ -7,8 +7,6 @@ fastclick.attach(document.body);
 
 import angular from 'angular';
 
-import 'font-awesome/css/font-awesome.css';
-
 import 'lato-webfont/fonts/lato-hairline-webfont.woff';
 import 'lato-webfont/fonts/lato-thin-webfont.woff';
 import 'lato-webfont/fonts/lato-light-webfont.woff';

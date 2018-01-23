@@ -54,7 +54,7 @@ angular.module('financier').factory('MonthCategory', uuid => {
      * @param {string} categoryId - The category UUID.
      *
      * @example
-     * const monthCat = new MonthCategory.from(
+     * const monthCat = MonthCategory.from(
      *   '111-111-111-111',
      *   '201501',
      *   '333-333-333-333'
@@ -174,7 +174,7 @@ angular.module('financier').factory('MonthCategory', uuid => {
      * Will be called with the MonthCategory object.
      *
      * @example
-     * const monthCat = new MonthCategory.from(
+     * const monthCat = MonthCategory.from(
      *   '111-111-111-111',
      *   '201501',
      *   '333-333-333-333'
@@ -197,7 +197,7 @@ angular.module('financier').factory('MonthCategory', uuid => {
      * the budget delta.
      *
      * @example
-     * const monthCat = new MonthCategory.from(
+     * const monthCat = MonthCategory.from(
      *   '111-111-111-111',
      *   '201501',
      *   '333-333-333-333'
@@ -228,7 +228,7 @@ angular.module('financier').factory('MonthCategory', uuid => {
      * the new and old overspending value.
      *
      * @example
-     * const monthCat = new MonthCategory.from(
+     * const monthCat = MonthCategory.from(
      *   '111-111-111-111',
      *   '201501',
      *   '333-333-333-333'

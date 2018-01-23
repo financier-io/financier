@@ -1,5 +1,8 @@
 @import '~normalize.css/normalize';
 
+$fa-font-path: "~font-awesome/fonts";
+@import '~font-awesome/scss/font-awesome.scss';
+
 @import '~tether-drop/dist/css/drop-theme-arrows-bounce';
 
 @import '~ng-dialog/css/ngDialog';

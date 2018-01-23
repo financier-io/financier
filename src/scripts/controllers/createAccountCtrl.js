@@ -109,7 +109,7 @@ angular.module('financier').controller('createAccountCtrl', function($locale, my
       masterCategory: masterCat.id
     });
 
-    const monthCat = new MonthCategory.from($stateParams.budgetId, Month.createID(this.startingBalanceDate), cat.id);
+    const monthCat = MonthCategory.from($stateParams.budgetId, Month.createID(this.startingBalanceDate), cat.id);
     monthCat.overspending = true;
 
     if (myAccount.isCredit() && myAccount.onBudget) {

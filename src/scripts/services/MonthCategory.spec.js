@@ -24,7 +24,7 @@ describe('MonthCategory', function() {
 
       describe('contains', () => {
         it('is true if _id is of budget and is MonthCategory', () => {
-          let moCat = new MonthCategory.from(
+          let moCat = MonthCategory.from(
             '111-111-111-111',
             '201501',
             '333-333-333-333'
@@ -34,7 +34,7 @@ describe('MonthCategory', function() {
         });
 
         it('is false if _id is of other budget and is MonthCategory', () => {
-          let moCat = new MonthCategory.from(
+          let moCat = MonthCategory.from(
             '111-111-111-111',
             '201501',
             '333-333-333-333'
@@ -62,7 +62,7 @@ describe('MonthCategory', function() {
       });
     });
     it('is a Budget', () => {
-      let sets = new MonthCategory.from(
+      let sets = MonthCategory.from(
         '111-111-111-111',
         '201501',
         '333-333-333-333'
@@ -72,7 +72,7 @@ describe('MonthCategory', function() {
     });
 
     it('creates proper _id', () => {
-      let sets = new MonthCategory.from(
+      let sets = MonthCategory.from(
         '111-111-111-111',
         '201501',
         '333-333-333-333'

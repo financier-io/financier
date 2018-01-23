@@ -5,7 +5,7 @@ import ngSanitize from 'angular-sanitize';
 import ngDialog from 'ng-dialog';
 import ngMd5 from 'angular-md5';
 import smartTable from 'angular-smart-table';
-import 'st-multi-sort/src/index.coffee';
+import 'st-multi-sort';
 import ngTranslate from 'angular-translate';
 import dynamicLocale from 'angular-dynamic-locale';
 import vsRepeat from 'angular-vs-repeat';
@@ -307,7 +307,7 @@ financier.run(function($translate, tmhDynamicLocale, tmhDynamicLocaleCache) {
   }
 
   try {
-    require(`bundle?lazy&name=i18n!angular-i18n/angular-locale_${language}.js`)(function() {
+    require(`bundle-loader?lazy&name=i18n!angular-i18n/angular-locale_${language}.js`)(function() {
       tmhDynamicLocaleCache.put(language, getInjectedLocale());
 
       tmhDynamicLocale.set(language);
@@ -316,7 +316,7 @@ financier.run(function($translate, tmhDynamicLocale, tmhDynamicLocaleCache) {
   } catch (e) {
     console.log(`Couldn't find locale "${language}", falling back to en-us`);
 
-    require(`bundle?lazy&name=i18n!angular-i18n/angular-locale_en-us.js`)(function() {
+    require(`bundle-loader?lazy&name=i18n!angular-i18n/angular-locale_en-us.js`)(function() {
       tmhDynamicLocaleCache.put('en-us', getInjectedLocale());
 
       tmhDynamicLocale.set('en-us');
