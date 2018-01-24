@@ -268,17 +268,6 @@ angular.module('financier').factory('splitTransaction', uuid => {
         this.subscribeMonthChangeFn && this.subscribeMonthChangeFn(newMonth, oldMonth);
       }
 
-      subscribeCategoryChange(beforeFn, afterFn) {
-        this.subscribeCategoryChangeBeforeFn = beforeFn;
-        this.subscribeCategoryChangeAfterFn = afterFn;
-      }
-
-      _emitCategoryChange(fn) {
-        this.subscribeCategoryChangeBeforeFn && this.subscribeCategoryChangeBeforeFn();
-        fn();
-        this.subscribeCategoryChangeAfterFn && this.subscribeCategoryChangeAfterFn();
-      }
-
       /**
        * Used to set the function to invoke upon uncleared value changes.
        *

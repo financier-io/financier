@@ -1,15 +1,24 @@
-angular.module('financier').directive('flexMonths', (resize, $rootScope) => {
+import { throttle } from 'underscore';
+
+angular.module('financier').directive('flexMonths', ($rootScope) => {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
       let flexMonths = Math.floor((element[0].offsetWidth - 175) / 260);
       $rootScope.$emit('budget:columns', flexMonths);
 
-      scope.$on('resize', function($event) {
+      const onResize = throttle(() => {
         flexMonths = Math.floor((element[0].offsetWidth - 175) / 260);
         $rootScope.$emit('budget:columns', flexMonths);
-      });
 
+        $rootScope.$apply();
+      }, 250);
+
+      window.addEventListener('resize', onResize, false);
+
+      scope.$on('$destroy', () => {
+        window.removeEventListener('resize', onResize, false);
+      });
     }
   };
 });

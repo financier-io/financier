@@ -79,6 +79,8 @@ a {
 }
 
 button {
+  font-family: inherit;
+
   &:not(:disabled) {
     cursor: pointer;
   }

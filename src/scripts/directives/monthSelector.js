@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { throttle } from 'underscore';
 
 angular.module('financier').directive('monthSelector', function() {
   return {
@@ -40,8 +41,16 @@ angular.module('financier').directive('monthSelector', function() {
         scope.ngModel = moment(scope.ngModel).subtract(1, 'month').toDate();
       };
 
+      const onResize = throttle(() => {
+        changeHeaderStyle();
+        scope.$apply();
+      }, 250);
 
-      scope.$on('resize', changeHeaderStyle);
+      window.addEventListener('resize', onResize, false);
+
+      scope.$on('$destroy', () => {
+        window.removeEventListener('resize', onResize, false);
+      });
 
       function changeHeaderStyle() {
         if (document.body.clientWidth < 990) {

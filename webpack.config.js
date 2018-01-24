@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJs = require('uglifyjs-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const OfflinePlugin = require('offline-plugin');
 const pJson = require('./package.json');
@@ -76,15 +77,16 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: [{
-          loader: 'style-loader' // creates style nodes from JS strings
-        }, {
-          loader: 'css-loader' // translates CSS into CommonJS
-        }, {
-          loader: 'postcss-loader'
-        }, {
-          loader: 'sass-loader' // compiles Sass to CSS
-        }]
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [{
+            loader: 'css-loader' // translates CSS into CommonJS
+          }, {
+            loader: 'postcss-loader'
+          }, {
+            loader: 'sass-loader' // compiles Sass to CSS
+          }]
+        })
       }
     ]
   },
@@ -152,12 +154,17 @@ module.exports = {
           number: `"${pJson.version}"`,
           date: `"${pJson.releaseDate}"`
         }
-      })
+      }),
+
+      new ExtractTextPlugin('[name].[hash].css', { disable: !isProd })
     ];
 
     if (isProd) {
       plugins = plugins.concat([
-        new ExtractTextPlugin('[name].[hash].css', {disable: !isProd}),
+        new OptimizeCssAssetsPlugin({
+          cssProcessorOptions: { discardComments: { removeAll: true } },
+          canPrint: true
+        }),
 
         // Reference: http://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin
         // Only emit files when there are no errors
