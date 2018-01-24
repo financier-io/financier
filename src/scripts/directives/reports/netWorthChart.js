@@ -115,7 +115,7 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth, $tran
                 },
                 ticks: {
                   callback: date => {
-                    return capitalize(dateFilter(date, 'MMM \'yy'));
+                    return capitalize(dateFilter(date, 'MMM \'\'yy'));
                   }
                 }
               }],

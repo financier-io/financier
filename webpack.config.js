@@ -11,13 +11,13 @@ const pJson = require('./package.json');
  * Env
  * Get npm lifecycle event to identify the environment
  */
-var ENV = process.env.npm_lifecycle_event;
-var isTest = ENV === 'test' || ENV === 'test-watch';
-var isProd = ENV === 'build';
-var webpack = require('webpack');
+const ENV = process.env.npm_lifecycle_event;
+const isTest = ENV === 'test' || ENV === 'test-watch';
+const isProd = ENV === 'build';
+const webpack = require('webpack');
 
 module.exports = {
-  entry: isTest ? {} : {
+  entry: isTest ? null : {
     app: './src/scripts/app.js'
   },
 
@@ -63,13 +63,11 @@ module.exports = {
       {
         // Capture eot, ttf, woff, and woff2
         test: /\.(eot|ttf|woff|woff2|svg|otf|eot)(\?v=\d+\.\d+\.\d+)?$/,
-        use: {
-          loader: 'file-loader'
-        }
+        use: isTest ? 'null-loader' : 'file-loader'
       },
       {
         test: /\.css$/,
-        use: [
+        use: isTest ? 'null-loader' : [
           'style-loader',
           { loader: 'css-loader', options: { importLoaders: 1 } },
           'postcss-loader'
@@ -77,7 +75,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
+        use: isTest ? 'null-loader' : ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [{
             loader: 'css-loader' // translates CSS into CommonJS
@@ -111,7 +109,16 @@ module.exports = {
     }
   },
 
-  devtool: 'source-map', // enum
+  devtool: (function() {
+    if (isTest) {
+      return 'inline-source-map';
+    }
+    if (isProd) {
+      return 'source-map';
+    }
+
+    return 'eval-source-map';
+  }()), // enum
   // enhance debugging by adding meta info for the browser devtools
   // source-map most detailed at the expense of build speed.
 
@@ -140,13 +147,9 @@ module.exports = {
 
   plugins: (function() {
     let plugins = [
-      new HtmlWebpackPlugin({
-        template: './src/public/index.html',
-        inject: 'body'
-      }),
       new webpack.DefinePlugin({
           'process.env': {
-              'NODE_ENV': isProd ? `"production"` : `""`
+              'NODE_ENV': (isProd && !isTest) ? `"production"` : `""`
           }
       }),
       new webpack.DefinePlugin({
@@ -154,12 +157,21 @@ module.exports = {
           number: `"${pJson.version}"`,
           date: `"${pJson.releaseDate}"`
         }
-      }),
-
-      new ExtractTextPlugin('[name].[hash].css', { disable: !isProd })
+      })
     ];
 
-    if (isProd) {
+    if (!isTest) {
+      plugins = plugins.concat([
+        new HtmlWebpackPlugin({
+          template: './src/public/index.html',
+          inject: 'body'
+        }),
+
+        new ExtractTextPlugin('[name].[hash].css', { disable: !isProd })
+      ]);
+    }
+
+    if (isProd && !isTest) {
       plugins = plugins.concat([
         new OptimizeCssAssetsPlugin({
           cssProcessorOptions: { discardComments: { removeAll: true } },

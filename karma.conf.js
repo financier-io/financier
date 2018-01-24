@@ -1,4 +1,5 @@
-module.exports = function karmaConfig (config) {
+// Karma configuration
+module.exports = function(config) {
   config.set({
     frameworks: [
       // Reference: https://github.com/karma-runner/karma-jasmine
@@ -6,49 +7,28 @@ module.exports = function karmaConfig (config) {
       'jasmine'
     ],
 
-    reporters: [
-      // Reference: https://github.com/mlex/karma-spec-reporter
-      // Set reporter to print detailed results to console
-      'progress',
-
-      // Reference: https://github.com/karma-runner/karma-coverage
-      // Output code coverage files
-      'coverage'
+    browsers: [
+      // Run tests using PhantomJS
+      // 'PhantomJS'
     ],
 
+    // ... normal karma configuration
     files: [
-      // Grab all files in the app folder that contain .spec.
+      // all files ending in "_test"
       'src/scripts/tests.webpack.js'
     ],
 
     preprocessors: {
-      // Reference: http://webpack.github.io/docs/testing.html
-      // Reference: https://github.com/webpack/karma-webpack
-      // Convert files with webpack and load sourcemaps
-      'src/scripts/tests.webpack.js': ['webpack'] // , 'sourcemap'
-    },
-
-    browsers: [
-      // Run tests using PhantomJS
-      'PhantomJS'
-    ],
-
-    singleRun: true,
-
-    // Configure code coverage reporter
-    coverageReporter: {
-      dir: 'coverage/',
-      reporters: [
-        {type: 'text-summary'},
-        {type: 'html'}
-      ]
+      // add webpack as preprocessor
+      'src/scripts/tests.webpack.js': ['webpack']
     },
 
     webpack: require('./webpack.config'),
 
-    // Hide webpack build information from output
     webpackMiddleware: {
-      noInfo: 'errors-only'
+      // webpack-dev-middleware configuration
+      // i. e.
+      stats: 'errors-only'
     }
   });
 };
