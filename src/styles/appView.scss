@@ -395,7 +395,6 @@ i.app-view__accounts-angle {
   font-size: 0.9em;
   display: flex;
   line-height: 2rem;
-  opacity: 0.7;
   cursor: pointer;
   opacity: 0.8;
   padding: 0 0.5rem;
@@ -407,13 +406,17 @@ i.app-view__accounts-angle {
   }
 }
 
-.app-view__account--ghost {
-  visibility: hidden;
-}
-
 .app-view__account--active {
   background-color: rgba(0, 0, 0, 0.3);
   opacity: 1;
+}
+
+.app-view__account--ghost {
+  // Use instead of visibility: hidden; to prevent bug
+  // where you try to drag an account to the top and it
+  // glitches about
+  color: rgba(0, 0, 0, 0);
+  background: none;
 }
 
 .app-view__name {
