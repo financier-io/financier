@@ -113,8 +113,8 @@ financier.config(function($compileProvider, $stateProvider, $urlRouterProvider, 
         template: require('../views/modal/createBudget.html'),
         controller: 'createBudgetCtrl',
         controllerAs: 'createBudgetCtrl'
-      }).closePromise.finally(res => {
-        if (!res) {
+      }).closePromise.then(({ value }) => {
+        if (value && value.indexOf('$') === 0) { // internal ngDialog close event
           $state.go('^');
         }
       });
@@ -130,8 +130,10 @@ financier.config(function($compileProvider, $stateProvider, $urlRouterProvider, 
         template: require('../views/modal/importBudget.html'),
         controller: 'importBudgetCtrl',
         controllerAs: 'importBudgetCtrl'
-      }).closePromise.finally(() => {
-        $state.go('^');
+      }).closePromise.then(({ value }) => {
+        if (value && value.indexOf('$') === 0) { // internal ngDialog close event
+          $state.go('^');
+        }
       });
     },
     onExit: ngDialog => {

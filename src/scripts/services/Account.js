@@ -1,11 +1,9 @@
 angular.module('financier').factory('account', uuid => {
   return budgetId => {
-
     /**
      * Represents an account (credit card, checking, etc)
      */
     class Account {
-
       /**
        * Create an Account
        *

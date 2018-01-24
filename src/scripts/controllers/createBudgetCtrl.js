@@ -28,11 +28,7 @@ angular.module('financier').controller('createBudgetCtrl', function($translate, 
     .then(() => {
       $state.go('user.app.manager.view.budget', {
         budgetId: budget.id
-      })
-      .then(() => {
-        $scope.closeThisDialog(true);
       });
-
     })
     .catch(e => {
       this.loading = false;
@@ -42,11 +38,6 @@ angular.module('financier').controller('createBudgetCtrl', function($translate, 
   };
 
   this.restore = () => {
-    $scope.closeThisDialog();
-
-    ngDialog.open({
-      template: require('../../views/modal/importBudget.html'),
-      controller: 'importBudgetCtrl as importBudgetCtrl'
-    });
+    $state.go('user.budget.import');
   }
 });
