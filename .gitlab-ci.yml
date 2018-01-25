@@ -11,7 +11,6 @@ stages:
 install:
   stage: install
   script:
-    - echo "192.30.253.112 github.com" >> /etc/hosts
     - apt-get -qq update
     - apt-get -qq install -y python2.7 python2.7-dev build-essential make gcc g++ libicu-dev
 
@@ -27,7 +26,7 @@ install:
 lint:
   stage: lint
   script:
-    - npm lint
+    - npm run lint
 
 test:
   stage: test
