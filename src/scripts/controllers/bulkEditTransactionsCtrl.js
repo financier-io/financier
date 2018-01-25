@@ -1,4 +1,4 @@
-angular.module('financier').controller('bulkEditTransactionsCtrl', function($rootScope, $scope, ngDialog) {
+angular.module('financier').controller('bulkEditTransactionsCtrl', function ($rootScope, $scope, ngDialog) {
   this.removeAll = (transactions, event) => {
     $scope.stopPropagation(event);
 

@@ -1,7 +1,7 @@
 @import '~normalize.css/normalize';
 
-$fa-font-path: "~font-awesome/fonts";
-@import '~font-awesome/scss/font-awesome.scss';
+$fa-font-path: '~font-awesome/fonts';
+@import '~font-awesome/scss/font-awesome';
 
 @import '~tether-drop/dist/css/drop-theme-arrows-bounce';
 
@@ -50,8 +50,8 @@ html {
 
 * {
   &,
-  &:before,
-  &:after {
+  &::before,
+  &::after {
     box-sizing: inherit;
   }
 }
@@ -62,9 +62,9 @@ body {
   //   font-size: 0.8em;
   // }
 
-  font-family: 'Lato', sans-serif;
+  -webkit-font-smoothing: subpixel-antialiased; // sass-lint:disable-line no-vendor-prefixes
 
-  -webkit-font-smoothing: subpixel-antialiased;
+  font-family: 'Lato', sans-serif;
 }
 
 h1,
@@ -94,7 +94,7 @@ input {
   border-radius: 0;
 }
 
-::-ms-clear {
+::-ms-clear { // sass-lint:disable-line no-vendor-prefixes
   display: none;
 }
 

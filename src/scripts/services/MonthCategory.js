@@ -1,4 +1,4 @@
-angular.module('financier').factory('MonthCategory', uuid => {
+angular.module('financier').factory('MonthCategory', () => {
 
   /**
    * Represents a MonthCategory (containing a budget cell for the intersection of a given month and category).
@@ -318,7 +318,7 @@ angular.module('financier').factory('MonthCategory', uuid => {
     static contains(budgetId, _id) {
       return _id > this.startKey(budgetId) && _id < this.endKey(budgetId);
     }
-  };
+  }
 
   return MonthCategory;
 });

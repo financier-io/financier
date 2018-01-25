@@ -18,7 +18,7 @@ angular.module('financier').directive('calendarInput', ($rootScope, $locale, inp
       ngModel: '='
     },
     controllerAs: 'calendarCtrl',
-    controller: function($scope, $element) {
+    controller: function ($scope, $element) {
       const input = $element,
         template = require('./calendarInput.html');
 
@@ -38,15 +38,25 @@ angular.module('financier').directive('calendarInput', ($rootScope, $locale, inp
       };
 
       $scope.datesAreEqualToDay = (d1, d2) => {
-        return d1 && d2 && (d1.getYear() === d2.getYear()) && (d1.getMonth() === d2.getMonth()) && (d1.getDate() === d2.getDate());
+        return d1 &&
+               d2 &&
+               (d1.getYear() === d2.getYear()) && (d1.getMonth() === d2.getMonth()) &&
+               (d1.getDate() === d2.getDate());
       };
 
       input.on('keydown', event => {
-        if (event.which === 38 || (plusMinusEnabled && ((event.which === 187 && event.shiftKey) || event.which === 107))) { // down OR (= AND SHIFT (basically + on keyboard or numpad))
+        // down OR (= AND SHIFT (basically + on keyboard or numpad))
+        if (event.which === 38 ||
+            (plusMinusEnabled && ((event.which === 187 && event.shiftKey) || event.which === 107))
+        ) {
           $scope.nextDay();
 
           event.preventDefault();
-        } else if (event.which === 40 || (plusMinusEnabled && ((event.which === 189 && !event.shiftKey) || event.which === 109))) { // up OR (- (on keyboard or numpad) AND NOT SHIFT)
+
+        // up OR (- (on keyboard or numpad) AND NOT SHIFT)
+        } else if (event.which === 40 ||
+            (plusMinusEnabled && ((event.which === 189 && !event.shiftKey) || event.which === 109))
+        ) {
           $scope.previousDay();
 
           event.preventDefault();
@@ -76,9 +86,9 @@ angular.module('financier').directive('calendarInput', ($rootScope, $locale, inp
         $scope.$apply();
       });
 
-      $scope.generateMonth = function(date, selectedDate) {
+      $scope.generateMonth = function (date, selectedDate) {
         var d, dateIterator, i, j, month, startingDay, today, week;
-        startingDay = (function() {
+        startingDay = (function () {
           var firstDayOfMonth, month, offset, ret, year;
 
           year = date.getFullYear();
@@ -121,7 +131,7 @@ angular.module('financier').directive('calendarInput', ($rootScope, $locale, inp
 
       const update = () => {
         $scope.month = $scope.generateMonth($scope.thisMonth, this.ngModel);
-      }
+      };
 
       // $scope.month = $scope.generateMonth($scope.thisMonth, this.ngModel);
       

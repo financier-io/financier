@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-angular.module('financier').controller('heatMapCtrl', function($scope, $rootScope, $state, $translate, $filter) {
+angular.module('financier').controller('heatMapCtrl', function ($scope, $rootScope, $state, $translate, $filter) {
   const dateFilter = $filter('date');
 
   this.heatMapData = [];

@@ -8,10 +8,12 @@ import 'angular-mocks/angular-mocks';
 import './app';
 
 import PouchDB from 'pouchdb';
-window.Promise = require('es6-promise').Promise
+import memory from 'pouchdb-adapter-memory';
 
-PouchDB.plugin(require('pouchdb-adapter-memory'));
+window.Promise = require('es6-promise').Promise;
 
-const context = require.context('.', true, /\.js$/);
+PouchDB.plugin(memory);
+
+const context = require.context('.', true, /\.spec.js$/);
 
 context.keys().forEach(context);

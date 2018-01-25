@@ -1,6 +1,6 @@
 angular.module('financier').factory('masterCategory', (category, uuid) => {
   return budgetId => {
-    const Category = category(budgetId);
+    // const Category = category(budgetId);
 
     /**
      * Represents a MasterCategory (contains Category[])
@@ -234,7 +234,7 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
       static contains(_id) {
         return _id > this.startKey && _id < this.endKey;
       }
-    };
+    }
 
     return MasterCategory;
   };

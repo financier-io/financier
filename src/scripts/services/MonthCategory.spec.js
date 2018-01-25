@@ -1,4 +1,4 @@
-describe('MonthCategory', function() {
+describe('MonthCategory', function () {
   let MonthCategory, transaction;
 
   beforeEach(angular.mock.module('financier'));
@@ -96,7 +96,7 @@ describe('MonthCategory', function() {
     it('throws if no constructor params', () => {
       
       expect(() => {
-        let sets = new MonthCategory();
+        new MonthCategory();
       }).toThrow();
 
     });

@@ -6,7 +6,7 @@ angular.module('financier').directive('creditCard', ($q, User, stripeLazyLoader)
       addToken: '&'
     },
     controllerAs: 'vm',
-    controller: function($scope) {
+    controller: function ($scope) {
       this.card = {};
 
       $scope.$watch(() => this.card, () => {
@@ -36,7 +36,7 @@ angular.module('financier').directive('creditCard', ($q, User, stripeLazyLoader)
                 resolve(response.id);
               }
             });
-          })
+          });
         })
         .then(token => {
           return this.addToken({ token })
@@ -61,7 +61,7 @@ angular.module('financier').directive('creditCard', ($q, User, stripeLazyLoader)
             this.cardForm.$setValidity('internalError', false);
           }
         });
-      }
+      };
     }
   };
 });

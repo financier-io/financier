@@ -8,5 +8,5 @@ angular.module('financier').directive('focusOnNewSplit', () => {
         }
       });
     }
-  }
-})
+  };
+});

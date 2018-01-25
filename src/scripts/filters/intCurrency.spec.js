@@ -1,4 +1,4 @@
-describe('intCurrency filter', function() {
+describe('intCurrency filter', function () {
   let intCurrencyFilter;
 
   beforeEach(angular.mock.module('financier'));

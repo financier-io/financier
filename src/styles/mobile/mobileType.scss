@@ -24,13 +24,13 @@
 }
 
 .mobile-type__option--expense {
-  color: $negativeNumber;
+  color: $negative-number;
 }
 
 .mobile-type__option--selected {
   color: white;
 
-  &:after {
+  &::after {
     $size: 10px;
 
     content: '';
@@ -42,23 +42,23 @@
     height: 0;
     border-left: $size solid transparent;
     border-right: $size solid transparent;
-    
+
     border-bottom: $size solid;
   }
 
   &.mobile-type__option--income {
     background: $primary;
 
-    &:after {
+    &::after {
       border-bottom-color: $primary;
     }
   }
 
   &.mobile-type__option--expense {
-    background: $negativeNumber;
+    background: $negative-number;
 
-    &:after {
-      border-bottom-color: $negativeNumber;
+    &::after {
+      border-bottom-color: $negative-number;
     }
   }
 }

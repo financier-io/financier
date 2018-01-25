@@ -1,4 +1,4 @@
-describe('distnace', function() {
+describe('distnace', function () {
   let distance;
 
   beforeEach(angular.mock.module('financier'));

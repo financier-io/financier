@@ -7,7 +7,7 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout, $locale) =
   const numberFilter = $filter('number');
   const intCurrencyFilter = $filter('intCurrency');
 
-  function link(scope, element, attrs) {
+  function link(scope, element) {
     let oldValue;
 
     scope.$watch('viewModel', val => {
@@ -24,7 +24,7 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout, $locale) =
 
         const val = math.eval(v);
         oldValue = val.toFixed(scope.$parent.dbCtrl.currencyDigits);
-      } catch(e) {
+      } catch (e) {
         oldValue = 0;
       }
 
@@ -40,7 +40,7 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout, $locale) =
 
       // 20.20 => 20.2 goes to 20.20
       setView(val);
-    }
+    };
 
     element.on('keydown blur', event => {
       if (event.which === 13 || event.type == 'blur') { // enter or blur
@@ -57,7 +57,14 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout, $locale) =
     });
 
     function setView(val) {
-      oldValue = numberFilter(intCurrencyFilter(val, true, scope.$parent.dbCtrl.currencyDigits), scope.$parent.dbCtrl.currencyDigits);
+      oldValue = numberFilter(
+        intCurrencyFilter(
+          val,
+          true,
+          scope.$parent.dbCtrl.currencyDigits
+        ),
+        scope.$parent.dbCtrl.currencyDigits
+      );
 
       if (val !== 0) {
         element.val(oldValue);

@@ -1,4 +1,4 @@
-describe('transaction', function() {
+describe('transaction', function () {
   let transaction, splitTransaction, account;
 
   beforeEach(angular.mock.module('financier'));
@@ -751,7 +751,8 @@ describe('transaction', function() {
         _id: 'foobar'
       });
 
-      expect(() => tran._id = 123).toThrow();
+      tran._id = 123;
+      expect(tran._id).not.toBe(123);
     });
   });
 

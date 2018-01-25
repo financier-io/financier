@@ -1,10 +1,10 @@
-angular.module('financier').controller('resetPasswordCtrl', function(User, $state, $stateParams, $rootScope) {
+angular.module('financier').controller('resetPasswordCtrl', function (User, $state, $stateParams, $rootScope) {
   this.goSignin = () => {
     $state.go('user.budget')
     .then(() => {
       $rootScope.$broadcast('signin');
     });
-  }
+  };
 
   this.submit = () => {
     this.loading = true;
@@ -23,5 +23,5 @@ angular.module('financier').controller('resetPasswordCtrl', function(User, $stat
     .finally(() => {
       this.loading = false;
     });
-  }
+  };
 });

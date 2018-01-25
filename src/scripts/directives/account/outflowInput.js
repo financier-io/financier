@@ -7,7 +7,7 @@ angular.module('financier').directive('outflowInput', $rootScope => {
     template: '<input type="text" transaction-value ng-model="ngModel">',
     compile: () => {
       return {
-        pre: (scope, element, attrs) => {
+        pre: (scope, element) => {
           const input = element.find('input');
 
           scope.$on('transaction:outflow:focus', (e, { index } = {}) => {

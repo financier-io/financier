@@ -194,7 +194,7 @@ angular.module('financier').factory('payee', uuid => {
       static contains(_id) {
         return _id > this.startKey && _id < this.endKey;
       }
-    };
+    }
 
     return Payee;
     

@@ -5,8 +5,8 @@ angular.module('financier').directive('creditCardSpaces', () => {
       creditCardSpaces: '=',
       cardChanged: '='
     },
-    link: (scope, element, attrs, ngModelCtrl) => {
-      element.on('input', function() {
+    link: (scope, element) => {
+      element.on('input', function () {
         scope.cardChanged = true;
 
         var newValue = this.value.split(' ').join('');

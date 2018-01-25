@@ -1,24 +1,20 @@
 angular.module('financier').directive('onEnterGoNext', () => {
   function link(scope, element, attrs) {
     element.on('keydown', e => {
-      if (e.which === 13 || e.which === 40) {
-        // enter key, down key
+      const els = document.querySelectorAll(`[tabindex='${attrs.tabindex}']`);
+
+      if (e.which === 13 || e.which === 40) { // enter key, down key
         e.preventDefault();
 
-        var els = document.querySelectorAll(`[tabindex='${attrs.tabindex}']`);
-
-        for (var i = 0; i < els.length; i++) {
+        for (let i = 0; i < els.length; i++) {
           if (els[i] === element[0]) {
             return findNext(els, i, i);
           }
         }
-      } else if (e.which === 38) {
+      } else if (e.which === 38) { // up key
         e.preventDefault();
 
-        // up key
-        var els = document.querySelectorAll(`[tabindex='${attrs.tabindex}']`);
-
-        for (var i = 0; i < els.length; i++) {
+        for (let i = 0; i < els.length; i++) {
           if (els[i] === element[0]) {
             return findPrevious(els, i, i);
           }

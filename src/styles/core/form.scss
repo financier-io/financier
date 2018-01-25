@@ -1,18 +1,15 @@
 .form__textarea {
   line-height: 1;
   padding: 5px;
+  width: 100%;
 
-  border: 1px solid $formBorderInactive;
+  border: 1px solid $form-border-inactive;
 
   &:focus {
     border-color: $primary;
 
     outline: 0;
   }
-}
-
-.form__textarea {
-  width: 100%;
 }
 
 .form__textarea--monospace {

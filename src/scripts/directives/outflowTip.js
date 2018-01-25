@@ -3,7 +3,7 @@ import moment from 'moment';
 
 angular.module('financier').directive('outflowTip', ($compile, $timeout) => {
 
-  function link(scope, element, attrs, ngModelCtrl) {
+  function link(scope, element, attrs) {
 
     element.on('click', () => {
       scope.transactions = Object.keys(scope.dbCtrl.manager.transactions).map(id => {

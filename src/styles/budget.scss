@@ -1,4 +1,4 @@
-$budgetMonthCellPadding: 2px 5px 0;
+$budget-month-cell-padding: 2px 5px 0;
 
 .budget {
   height: 100%;
@@ -17,11 +17,7 @@ $budgetMonthCellPadding: 2px 5px 0;
   flex-grow: 0;
   flex-shrink: 0;
   overflow-y: scroll;
-}
 
-.budget__tbody,
-.budget__thead,
-.budget__tfoot {
   &.overflowable {
     flex-grow: 1;
     flex-shrink: 1;
@@ -120,7 +116,7 @@ i.budget__month-row-note--showing {
 }
 
 .budget__month-row {
-  padding: $budgetMonthCellPadding;
+  padding: $budget-month-cell-padding;
   transition: color 250ms linear;
 
   box-sizing: content-box;
@@ -162,7 +158,7 @@ i.budget__month-row-note--showing {
   height: 18px;
 
   .budget__month-row--last & {
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
 
   // we want the input to emulate the cell
@@ -174,29 +170,28 @@ i.budget__month-row-note--showing {
     // because it would wreck the layout
     margin-left: -5px;
     margin-top: -2px;
-    
+
     // "effective" 100%, after adding margin
     width: calc(100% + 4px);
 
     font-size: 12px;
-  
+
     // now we add the padding back to the input
     padding: 0 5px 0 0; // explicit for vendor inconsistencies
-  
+
     // this is weird. 2em "magic number" minus 1px
     // for border collapsing (see the cell
     // border-bottom: -1px)
     height: 22px;
 
     appearance: none;
-    background: none;
     text-align: right;
     border: 1px solid lighten(desaturate($primary, 10%), 20%);
-    
+
     // should override the grey border of the cell to
     // the right (after in the DOM, aka on top by default)
     position: relative;
-    z-index: $zMonthCellInput;
+    z-index: $z-month-cell-input;
 
     background: white;
 
@@ -204,7 +199,7 @@ i.budget__month-row-note--showing {
     &:focus {
       // make sure all borders are seen of the
       // important cell
-      z-index: $zMonthCellInputFocus;
+      z-index: $z-month-cell-input-focus;
       border: 1px solid darken($primary, 20%);
     }
 
@@ -223,7 +218,7 @@ i.budget__month-row-note--showing {
     top: 0;
     line-height: 2em;
 
-    z-index: $zMonthCellNote;
+    z-index: $z-month-cell-note;
   }
 }
 
@@ -331,7 +326,7 @@ i.budget__month-row-note--showing {
 
   cursor: pointer;
 
-  &:after {
+  &::after {
     content: '+';
   }
 }
@@ -356,7 +351,7 @@ i.budget__month-row-note--showing {
 
   cursor: pointer;
 
-  &:after {
+  &::after {
     content: '+';
   }
 

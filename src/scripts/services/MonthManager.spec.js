@@ -1,4 +1,4 @@
-describe('category', function() {
+describe('category', function () {
   let monthManager, MonthManager, month, Month;
 
   beforeEach(angular.mock.module('financier'));
@@ -135,8 +135,7 @@ describe('category', function() {
       });
 
       it('Throws if months are out of order', () => {
-        const mm = new MonthManager(),
-          myMonth = new Month('2015-01-01');
+        const mm = new MonthManager();
 
         expect(() => {
           mm._fillMonthGaps([
@@ -147,8 +146,7 @@ describe('category', function() {
       });
 
       it('Throws if months are duplicated', () => {
-        const mm = new MonthManager(),
-          myMonth = new Month('2015-01-01');
+        const mm = new MonthManager();
 
         expect(() => {
           mm._fillMonthGaps([

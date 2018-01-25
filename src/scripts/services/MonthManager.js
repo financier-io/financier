@@ -29,8 +29,6 @@ angular.module('financier').factory('monthManager', (month, account) => {
         months = this._fillMonthGaps(months);
 
         for (let i = 0; i < months.length; i++) {
-          const month = months[i];
-
           if (months[i + 1]) {
             this._linkMonths(months[i], months[i + 1]);
           }
@@ -64,7 +62,7 @@ angular.module('financier').factory('monthManager', (month, account) => {
             currentMonth = this.getMonth(trans.month);
 
           if (oldAccount) {
-            oldAccount.removeTransaction(trans)
+            oldAccount.removeTransaction(trans);
           }
 
           const newAccount = this.getAccount(newAccountId);
@@ -420,7 +418,7 @@ angular.module('financier').factory('monthManager', (month, account) => {
         const [year, month] = date.split('-');
         return Month.createID(new Date(year, month - 2, 1));
       }
-    };
+    }
 
     return MonthManager;
   };

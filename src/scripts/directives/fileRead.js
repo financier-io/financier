@@ -1,10 +1,10 @@
-angular.module('financier').directive("fileRead", [function () {
+angular.module('financier').directive('fileRead', [function () {
     return {
         scope: {
-            fileRead: "="
+            fileRead: '='
         },
-        link: function (scope, element, attributes) {
-            element.bind("change", function (changeEvent) {
+        link: function (scope, element) {
+            element.bind('change', function (changeEvent) {
                 scope.$apply(function () {
                     scope.fileRead = changeEvent.target.files[0];
                     // or all selected files:
@@ -12,5 +12,5 @@ angular.module('financier').directive("fileRead", [function () {
                 });
             });
         }
-    }
+    };
 }]);

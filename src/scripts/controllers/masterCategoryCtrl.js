@@ -1,4 +1,4 @@
-angular.module('financier').controller('masterCategoryCtrl', function($scope) {
+angular.module('financier').controller('masterCategoryCtrl', function ($scope) {
   // TODO improve this -- move calculation to the Month service
   // Doesn't seem to make performance suck at the moment, and O(1) w/
   // growing db size (just the view calc), so I'll keep it for now...

@@ -4,9 +4,9 @@ angular.module('financier').directive('notInsaneDateValidator', () => {
     require: 'ngModel',
     link: (scope, element, attrs, ngModel) => {
         //For DOM -> model validation
-        ngModel.$validators.notInsaneDate = function(value) {
+        ngModel.$validators.notInsaneDate = function (value) {
           return value.getFullYear() >= 1970;
         };
     }
   };
-})
+});

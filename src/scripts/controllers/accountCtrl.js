@@ -1,12 +1,12 @@
 import moment from 'moment';
 
-angular.module('financier').controller('accountCtrl', function($translate, $timeout, $document, $element, $scope, $rootScope, $stateParams, data, hotkeys, transaction, payee, myBudget, budgetRecord) {
+angular.module('financier').controller('accountCtrl', function ($translate, $timeout, $document, $element, $scope, $rootScope, $stateParams, data, hotkeys, transaction, payee, myBudget, budgetRecord) {
   const that = this;
 
   const Transaction = transaction($stateParams.budgetId);
   const Payee = payee($stateParams.budgetId);
 
-  const {manager, categories} = data;
+  const { manager } = data;
 
   this.accountId = $stateParams.accountId;
 
@@ -55,7 +55,7 @@ angular.module('financier').controller('accountCtrl', function($translate, $time
     // TODO: This should be triggered whenever the split height can change
     // (e.g. when other device updates # of splits, etc)
     $rootScope.$broadcast('vsRepeatTrigger');
-  }
+  };
 
   this.transactionNeedsCategory = trans => {
     if (trans) {
@@ -76,14 +76,14 @@ angular.module('financier').controller('accountCtrl', function($translate, $time
 
       return true;
     }
-  }
+  };
 
   // Sort the default order to prevent initial page flash
   $scope.transactions.sort((a, b) => {
     // TODO this sort isn't perfect -- equal dates/values will jump in order
     // Should make order determinable based off persisted UUID or something.
     return (b.date.getTime() + b.value) - (a.date.getTime() + a.value);
-  })
+  });
 
   this.finishReconciliation = () => {
     for (let i = 0; i < this.account.transactions.length; i++) {
@@ -95,7 +95,7 @@ angular.module('financier').controller('accountCtrl', function($translate, $time
     }
 
     this.reconcileCollapsed = true;
-  }
+  };
 
   this.reconcile = () => {
     let payee = $scope.dbCtrl.payees['reconciled'];
@@ -127,7 +127,7 @@ angular.module('financier').controller('accountCtrl', function($translate, $time
     myBudget.put(trans);
 
     this.finishReconciliation();
-  }
+  };
 
   that.selectedTransactionIndexes = [];
   that.selectedTransactions = [];
@@ -202,7 +202,7 @@ angular.module('financier').controller('accountCtrl', function($translate, $time
     for (let i = 0; i < that.selectedTransactions.length; i++) {
       that.selectedTransactions[i].cleared = cleared;
     }
-  }
+  };
 
   this.selectAll = () => {
     this.selectedTransactions = $scope.displayedTransactions;
@@ -220,7 +220,7 @@ angular.module('financier').controller('accountCtrl', function($translate, $time
     return this.selectedTransactions.length === ($scope.displayedTransactions || []).length;
   };
 
-  const documentClickHandler = e => {
+  const documentClickHandler = () => {
     that.selectedTransactions = [];
     that.selectedTransactionIndexes = [];
     this.editingTransaction = null;
@@ -270,7 +270,7 @@ angular.module('financier').controller('accountCtrl', function($translate, $time
     }
   };
 
-  this.selectRow = function(event, rowIndex) {
+  this.selectRow = function (event, rowIndex) {
     $scope.dbCtrl.stopPropagation(event);
 
     this.editingTransaction = null;
@@ -306,9 +306,9 @@ angular.module('financier').controller('accountCtrl', function($translate, $time
         $scope.$broadcast(`transaction:${clickFromField}:focus`, { index });
       });
     } else {
-      if(event.ctrlKey || event.metaKey) { // mac is metaKey
+      if (event.ctrlKey || event.metaKey) { // mac is metaKey
           changeSelectionStatus(rowIndex);
-      } else if(event.shiftKey) {
+      } else if (event.shiftKey) {
           selectWithShift(rowIndex);
       } else {
           that.selectedTransactionIndexes = [rowIndex];
@@ -334,13 +334,13 @@ angular.module('financier').controller('accountCtrl', function($translate, $time
     return getFocusName(el.parentNode);
   }
 
-  this.isTransactionSelected = function(trans) {
+  this.isTransactionSelected = function (trans) {
     return that.selectedTransactions.indexOf(trans) > -1;
   };
 
   function isRowSelected(index) {
     return that.selectedTransactionIndexes.indexOf(index) > -1;
-  };
+  }
 
   function selectWithShift(rowIndex) {
     var lastSelectedRowIndexInSelectedRowsList = that.selectedTransactionIndexes.length - 1;
@@ -350,27 +350,14 @@ angular.module('financier').controller('accountCtrl', function($translate, $time
     selectRows(selectFromIndex, selectToIndex);
   }
 
-  function getSelectedRows() {
-    var selectedRows = [];
-    that.selectedTransactionIndexes.forEach(function(rowIndex) {
-      selectedRows.push($scope.displayedTransactions[rowIndex]);
-    });
-    return selectedRows;
-  }
-
-  function getFirstSelectedRow() {
-    var firstSelectedRowIndex = that.selectedTransactionIndexes[0];
-    return $scope.displayedTransactions[firstSelectedRowIndex];
-  }
-
   function selectRows(selectFromIndex, selectToIndex) {
-    for(var rowToSelect = selectFromIndex; rowToSelect <= selectToIndex; rowToSelect++) {
+    for (var rowToSelect = selectFromIndex; rowToSelect <= selectToIndex; rowToSelect++) {
       select(rowToSelect);
     }
   }
 
   function changeSelectionStatus(rowIndex) {
-    if(isRowSelected(rowIndex)) {
+    if (isRowSelected(rowIndex)) {
         unselect(rowIndex);
     } else {
         select(rowIndex);
@@ -378,7 +365,7 @@ angular.module('financier').controller('accountCtrl', function($translate, $time
   }
 
   function select(rowIndex) {
-    if(!isRowSelected(rowIndex)) {
+    if (!isRowSelected(rowIndex)) {
         that.selectedTransactionIndexes.push(rowIndex);
     }
   }
@@ -387,10 +374,6 @@ angular.module('financier').controller('accountCtrl', function($translate, $time
     var rowIndexInSelectedRowsList = that.selectedTransactionIndexes.indexOf(rowIndex);
     var unselectOnlyOneRow = 1;
     that.selectedTransactionIndexes.splice(rowIndexInSelectedRowsList, unselectOnlyOneRow);
-  }
-
-  function resetSelection() {
-    that.selectedTransactionIndexes = [];
   }
 
   this.toggle = (index, event) => {
@@ -418,7 +401,7 @@ angular.module('financier').controller('accountCtrl', function($translate, $time
     return val => {
       if (angular.isUndefined(val)) {
         return that.isTransactionSelected(trans);
-      };
+      }
     };
   };
 

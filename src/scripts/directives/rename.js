@@ -50,7 +50,7 @@ angular.module('financier').directive('rename', ($compile, $timeout) => {
       scope.remove = () => {
         dropInstance.close();
         scope.onRemove();
-      }
+      };
 
       scope.submit = rename => {
         ngModelCtrl.$setViewValue(rename);

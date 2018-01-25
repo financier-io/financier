@@ -29,7 +29,11 @@ angular.module('financier').directive('scrollIntoViewIf', () => {
 
         } else if (element[0].offsetTop + element[0].offsetHeight > container.scrollTop + container.offsetHeight) {
           // Out of view below (needs to scroll down)
-          scrollContainerCtrl.scroller = scrollTo(container, element[0].offsetTop + element[0].offsetHeight - container.offsetHeight, SCROLL_SPEED);
+          scrollContainerCtrl.scroller = scrollTo(
+            container,
+            element[0].offsetTop + element[0].offsetHeight - container.offsetHeight,
+            SCROLL_SPEED
+          );
         }
       }
     }
@@ -54,7 +58,7 @@ function scrollTo(element, to, duration) {
     currentTime += increment;
     var val = easeInOutQuad(currentTime, start, change, duration);
     element.scrollTop = val;
-    if(currentTime < duration) {
+    if (currentTime < duration) {
         setTimeout(animateScroll, increment);
     }
   };
@@ -78,4 +82,4 @@ function easeInOutQuad(t, b, c, d) {
   }
   t--;
   return -c / 2 * (t * (t - 2) - 1) + b;
-};
+}

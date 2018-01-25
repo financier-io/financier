@@ -1,7 +1,7 @@
-angular.module('financier').directive('collapse', function($animate, $q, $parse, $injector) {
+angular.module('financier').directive('collapse', function ($animate, $q, $parse, $injector) {
   var $animateCss = $injector.has('$animateCss') ? $injector.get('$animateCss') : null;
   return {
-    link: function(scope, element, attrs) {
+    link: function (scope, element, attrs) {
       var expandingExpr = $parse(attrs.expanding),
         expandedExpr = $parse(attrs.expanded),
         collapsingExpr = $parse(attrs.collapsing),
@@ -47,7 +47,7 @@ angular.module('financier').directive('collapse', function($animate, $q, $parse,
         }
 
         $q.resolve(expandingExpr(scope))
-          .then(function() {
+          .then(function () {
             element.removeClass('collapse')
               .addClass('collapsing')
               .attr('aria-expanded', true)
@@ -86,7 +86,7 @@ angular.module('financier').directive('collapse', function($animate, $q, $parse,
         }
 
         $q.resolve(collapsingExpr(scope))
-          .then(function() {
+          .then(function () {
             element
             // IMPORTANT: The width must be set before adding "collapsing" class.
             // Otherwise, the browser attempts to animate from width 0 (in
@@ -119,7 +119,7 @@ angular.module('financier').directive('collapse', function($animate, $q, $parse,
         collapsedExpr(scope);
       }
 
-      scope.$watch(attrs.collapse, function(shouldCollapse) {
+      scope.$watch(attrs.collapse, function (shouldCollapse) {
         if (shouldCollapse) {
           collapse();
         } else {

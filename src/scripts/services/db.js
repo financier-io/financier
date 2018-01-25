@@ -1,12 +1,12 @@
 import PouchDB from 'pouchdb';
 
-angular.module('financier').provider('db', function() {
+angular.module('financier').provider('db', function () {
   const that = this;
 
   that.adapter = null;
 
   this.$get = (Budget, BudgetOpened, budgetManager, $http, $rootScope) => {
-    let db;
+    let db, sync, changes;
 
     create();
 
@@ -23,8 +23,6 @@ angular.module('financier').provider('db', function() {
         cancel: cancelSync
       }
     };
-
-    let sync, changes;
 
     function cancelSync() {
       if (sync) {
@@ -66,26 +64,26 @@ angular.module('financier').provider('db', function() {
       }
 
       sync
-      .on('change', function (info) {
+      .on('change', () => {
         $rootScope.$broadcast('syncStatus:update', 'syncing');
       })
-      .on('active', function () {
+      .on('active', () => {
         $rootScope.$apply(() => {
           $rootScope.$broadcast('syncStatus:update', 'syncing');
         });
         // replicate resumed (e.g. user went back online)
       })
-      .on('denied', function (info) {
+      .on('denied', () => {
         $rootScope.$apply(() => {
           $rootScope.$broadcast('syncStatus:update', 'error');
           // a document failed to replicate (e.g. due to permissions)
         });
       })
-      .on('complete', function (info) {
+      .on('complete', () => {
         $rootScope.$broadcast('syncStatus:update', 'error');
         // handle complete
       })
-      .on('error', function (err) {
+      .on('error', err => {
         $rootScope.$apply(() => {
           console.log('sync error', err);
 

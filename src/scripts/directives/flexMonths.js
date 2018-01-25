@@ -3,7 +3,7 @@ import { throttle } from 'underscore';
 angular.module('financier').directive('flexMonths', ($rootScope) => {
   return {
     restrict: 'A',
-    link: function(scope, element, attrs) {
+    link: function (scope, element) {
       let flexMonths = Math.floor((element[0].offsetWidth - 175) / 260);
       $rootScope.$emit('budget:columns', flexMonths);
 

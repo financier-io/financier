@@ -3,7 +3,7 @@ import Drop from 'tether-drop';
 angular.module('financier').directive('quickBudgetOne', ($compile, $timeout) => {
   return {
     restrict: 'A',
-    controller: function($scope, $element, $attrs) {
+    controller: function ($scope, $element) {
 
       // Get the last month's budget values, and put them into the corresponding
       // current month's categories (but only if their budget value is not set)
@@ -15,7 +15,7 @@ angular.module('financier').directive('quickBudgetOne', ($compile, $timeout) => 
         } else {
           this.month.categories[this.catId].budget = 0;
         }
-      }
+      };
 
       this.average = () => {
         let accumulator = 0;
@@ -27,15 +27,15 @@ angular.module('financier').directive('quickBudgetOne', ($compile, $timeout) => 
         }
 
         this.month.categories[this.catId].budget = Math.round(accumulator / 3);
-      }
+      };
 
       this.clear = () => {
         this.month.categories[this.catId].budget = 0; 
-      }
+      };
 
       this.zero = () => {
         this.month.categories[this.catId].budget -= this.month.categoryCache[this.catId].balance;
-      }
+      };
 
       $element.on('mousedown', () => {
         $element.addClass('budget__auto-suggest--open');
@@ -48,7 +48,7 @@ angular.module('financier').directive('quickBudgetOne', ($compile, $timeout) => 
         const wrap = angular.element('<div class="tooltip"></div>').append(template);
         const content = $compile(wrap)($scope);
 
-        content.on('click', e => {
+        content.on('click', () => {
           dropInstance.close();
         });
 

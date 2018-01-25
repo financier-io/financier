@@ -1,8 +1,7 @@
 import Chart from 'chart.js';
 
 angular.module('financier').directive('netWorthChart', ($filter, netWorth, $translate) => {
-  const currency = $filter('currency'),
-    intCurrency = $filter('intCurrency');
+  const intCurrency = $filter('intCurrency');
 
   function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -15,7 +14,7 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth, $tran
       transactions: '='
     },
     replace: true,
-    link: (scope, element, attrs) => {
+    link: (scope, element) => {
       scope.$watch('transactions', transactions => {
         if (transactions) {
           generateReport();
@@ -78,7 +77,7 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth, $tran
           }]
         };
 
-        const myBar = new Chart(ctx, {
+        new Chart(ctx, {
           type: 'bar',
           data: barChartData,
           options: {
@@ -87,7 +86,7 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth, $tran
             tooltips: {
               mode: 'label',
                 callbacks: {
-                  label: function(tooltipItems, data) {
+                  label: function (tooltipItems, data) {
                     if (tooltipItems.datasetIndex === 1) {
                       return;
                     }
@@ -132,7 +131,13 @@ angular.module('financier').directive('netWorthChart', ($filter, netWorth, $tran
                 },
                 ticks: {
                   beginAtZero: true,
-                  callback: amount => currency(amount, scope.$parent.dbCtrl.currencySymbol, scope.$parent.dbCtrl.currencyDigits)
+                  callback: amount => {
+                    return currency(
+                      amount,
+                      scope.$parent.dbCtrl.currencySymbol,
+                      scope.$parent.dbCtrl.currencyDigits
+                    );
+                  }
                 }
               }]
             }

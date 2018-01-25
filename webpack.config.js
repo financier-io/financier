@@ -63,7 +63,7 @@ module.exports = {
       {
         // Capture eot, ttf, woff, and woff2
         test: /\.(eot|ttf|woff|woff2|svg|otf|eot)(\?v=\d+\.\d+\.\d+)?$/,
-        use: isTest ? 'null-loader' : 'file-loader'
+        use: 'file-loader'
       },
       {
         test: /\.css$/,
@@ -145,11 +145,11 @@ module.exports = {
     noInfo: true, // only errors & warns on hot reload
   },
 
-  plugins: (function() {
+  plugins: (function () {
     let plugins = [
       new webpack.DefinePlugin({
           'process.env': {
-              'NODE_ENV': (isProd && !isTest) ? `"production"` : `""`
+              'NODE_ENV': (isProd && !isTest) ? '"production"' : '""'
           }
       }),
       new webpack.DefinePlugin({

@@ -1,4 +1,4 @@
-angular.module('financier').controller('budgetsCtrl', function($q, Budget, BudgetOpened, myBudgets, myBudgetsOpened, $scope, $http, db, ngDialog) {
+angular.module('financier').controller('budgetsCtrl', function ($q, Budget, BudgetOpened, myBudgets, myBudgetsOpened, $scope, $http, db, ngDialog) {
   this.budgets = myBudgets;
   this.budgetsOpened = myBudgetsOpened;
 
@@ -81,7 +81,7 @@ angular.module('financier').controller('budgetsCtrl', function($q, Budget, Budge
     e.stopPropagation();
 
     removingBudget = budget;
-  }
+  };
 
   this.remove = budget => {
     const recordsToRemove = [

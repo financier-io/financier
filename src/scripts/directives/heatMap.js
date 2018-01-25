@@ -37,7 +37,7 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
     if (arr && arr.length) {
       return arr.reduce(fn, defaultValue);
     }
-  }
+  };
 
 
   function shiftDate(date, numDays) {
@@ -54,8 +54,6 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
   function convertToDate(obj) {
     return (obj instanceof Date) ? obj : (moment(obj).toDate());
   }
-
-  const MILLISECONDS_IN_ONE_DAY = 24 * 60 * 60 * 1000;
 
   const DAYS_IN_WEEK = 7;
 
@@ -233,14 +231,12 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
           8,
           ((weekIndex + 2) * this.getSquareSizeWithGutter()) - 3 + MONTH_LABEL_GUTTER_SIZE
         ];
-      } else {
-        return [
-          8,
-          ((weekIndex + 1) * this.getSquareSizeWithGutter()) - 2
-        ];
       }
-      
-      throw 'error';
+
+      return [
+        8,
+        ((weekIndex + 1) * this.getSquareSizeWithGutter()) - 2
+      ];
     }
 
     handleClick(value) {
@@ -250,7 +246,10 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
     }
 
     renderSquare(dayIndex, index) {
-      const indexOutOfRange = index < this.getNumEmptyDaysAtStart() || index >= this.getNumEmptyDaysAtStart() + this.props.numDays;
+      const indexOutOfRange =
+        index < this.getNumEmptyDaysAtStart() ||
+        index >= this.getNumEmptyDaysAtStart() + this.props.numDays;
+
       if (indexOutOfRange && !this.props.showOutOfRangeDays) {
         return null;
       }
@@ -264,7 +263,7 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
       rect.setAttributeNS(null, 'x', x);
       rect.setAttributeNS(null, 'y', y);
 
-      const title = document.createElementNS(svgns, 'title')
+      const title = document.createElementNS(svgns, 'title');
 
       rect.appendChild(title);
 
@@ -284,11 +283,11 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
 
         // Lazy title parsing
         title.textContent = this.getTitleForIndex(index);
-      }
+      };
 
       rect.onmouseleave = () => {
         emit(index, 'leave');
-      }
+      };
 
       return rect;
     }
@@ -368,7 +367,7 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
         gLabels.setAttributeNS(null, 'transform', labels);
       }
 
-      var monthLabels = this.renderMonthLabels()
+      var monthLabels = this.renderMonthLabels();
       if (monthLabels) {
         for (let i = 0; i < monthLabels.length; i++) {
           if (monthLabels[i]) {
@@ -414,7 +413,7 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
       max: '=',
       endDate: '='
     },
-    link: (scope, element, attrs) => {
+    link: (scope, element) => {
       function rainbow(n) {
         let step = Math.abs(Math.min(Math.abs(n), scope.max) / scope.max) * 100;
 
@@ -443,8 +442,18 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
               index = index - (scope.endDate.getDay() - 2 - (FIRSTDAYOFWEEK - 7));
               const date = dateFilter(moment(scope.endDate).subtract(365 - index, 'days').toDate(), 'mediumDate');
               let amount = value ? value.count : 0;
-              amount = currency(intCurrency(amount, true, scope.$parent.dbCtrl.currencyDigits), scope.$parent.dbCtrl.currencySymbol, scope.$parent.dbCtrl.currencyDigits);
-              return `${date}\n${amount}`
+
+              amount = currency(
+                intCurrency(
+                  amount,
+                  true,
+                  scope.$parent.dbCtrl.currencyDigits
+                ),
+                scope.$parent.dbCtrl.currencySymbol,
+                scope.$parent.dbCtrl.currencyDigits
+              );
+
+              return `${date}\n${amount}`;
             },
             fill: value => {
               let step;
@@ -452,7 +461,7 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
               if (value && angular.isNumber(value.count)) {
                 step = rainbow(value.count);
               } else {
-                step = `#efefef`;
+                step = '#efefef';
               }
 
               return step;
@@ -464,5 +473,5 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
         }
       }
     }
-  }
+  };
 });

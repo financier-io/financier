@@ -70,7 +70,7 @@ angular.module('financier').directive('categorySuggest', ($rootScope, $filter, $
           let setByParent = false,
             firstRun = true;
 
-          scope.$watch('ngModel', (ngModel, oldNgModel) => {
+          scope.$watch('ngModel', () => {
             for (let i = 0; i < scope.items.length; i++) {
               if (scope.items[i].id === scope.ngModel) {
                 if (!scope.item || scope.ngModel !== scope.item.id) {
@@ -105,15 +105,18 @@ angular.module('financier').directive('categorySuggest', ($rootScope, $filter, $
             const searchInputLower = searchInput.toLowerCase();
 
             for (let id in scope.masterCategories) {
-              if (scope.masterCategories.hasOwnProperty(id) && scope.masterCategories[id].categories.indexOf(name.id || name) !== -1) {
-                if (scope.masterCategories[id].name && scope.masterCategories[id].name.toLowerCase().indexOf(searchInputLower) !== -1) {
+              if (scope.masterCategories.hasOwnProperty(id) &&
+                  scope.masterCategories[id].categories.indexOf(name.id || name) !== -1) {
+                if (scope.masterCategories[id].name &&
+                    scope.masterCategories[id].name.toLowerCase().indexOf(searchInputLower) !== -1) {
                   return true;
                 }
               }
             }
 
             if (angular.isString(item)) {
-              return scope.categories[item] && scope.categories[item].name.toLowerCase().indexOf(searchInputLower) !== -1;
+              return scope.categories[item] &&
+                scope.categories[item].name.toLowerCase().indexOf(searchInputLower) !== -1;
             }
 
             return item.name && item.name.toLowerCase().indexOf(searchInputLower) !== -1;

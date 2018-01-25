@@ -1,49 +1,49 @@
-$messageHeight: 1.2em;
-$messageHeightAnimationTime: 250ms;
+$message-height: 1.2em;
+$message-height-animation-time: 250ms;
 
 .message {
-    animation: heightEnter $messageHeightAnimationTime ease;
-    animation-fill-mode: forwards;
+  animation: heightEnter $message-height-animation-time ease;
+  animation-fill-mode: forwards;
 
-    overflow: hidden;
-    line-height: $messageHeight;
-    font-size: 0.9rem;
-    color: $danger;
+  overflow: hidden;
+  line-height: $message-height;
+  font-size: 0.9rem;
+  color: $danger;
 }
 
 .message--success {
-    color: $primary;
+  color: $primary;
 }
 
 .message--main {
-    text-align: center;
+  text-align: center;
 }
 
 .message.ng-leave {
-    animation: heightLeave $messageHeightAnimationTime ease;
-    animation-fill-mode: forwards;
+  animation: heightLeave $message-height-animation-time ease;
+  animation-fill-mode: forwards;
 }
 
 @keyframes heightEnter {
-    0% {
-        height: 0;
-    }
+  0% {
+    height: 0;
+  }
 
-    100% {
-        height: $messageHeight;
-    }
+  100% {
+    height: $message-height;
+  }
 }
 
 @keyframes heightLeave {
-    100% {
-        height: 0;
-    }
+  100% {
+    height: 0;
+  }
 
-    0% {
-        height: $messageHeight;
-    }
+  0% {
+    height: $message-height;
+  }
 }
 
 .message.ng-enter-active {
-    height: 100px;
+  height: 100px;
 }

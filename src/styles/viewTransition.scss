@@ -28,20 +28,20 @@
 
 $reports: 'netWorth' 'heatMap';
 
-@each $reportName in $reports {
-  .state-user-app-manager-view-budget + .state-user-app-manager-view-reports-#{$reportName}.ng-leave {
+@each $report-name in $reports {
+  .state-user-app-manager-view-budget + .state-user-app-manager-view-reports-#{$report-name}.ng-leave {
     animation: slideOutRight 0.5s both ease;
   }
 
-  .state-user-app-manager-view-account + .state-user-app-manager-view-reports-#{$reportName}.ng-leave {
+  .state-user-app-manager-view-account + .state-user-app-manager-view-reports-#{$report-name}.ng-leave {
     animation: slideOutLeft 0.5s both ease;
   }
 
-  .state-user-app-manager-view-reports-#{$reportName}.state-user-app-manager-view-budget-leave.ng-enter {
+  .state-user-app-manager-view-reports-#{$report-name}.state-user-app-manager-view-budget-leave.ng-enter {
     animation: slideInRight 0.5s both ease;
   }
 
-  .state-user-app-manager-view-reports-#{$reportName}.state-user-app-manager-view-account-leave.ng-enter {
+  .state-user-app-manager-view-reports-#{$report-name}.state-user-app-manager-view-account-leave.ng-enter {
     animation: slideInLeft 0.5s both ease;
   }
 }

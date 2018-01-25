@@ -50,7 +50,7 @@
 
 .app-view__budget-options {
   opacity: 0.5;
-  
+
   cursor: pointer;
 
   transition: opacity 250ms ease;
@@ -142,7 +142,7 @@
     .app-view--sidebar-open & {
       transform: translateX(0);
 
-      &:after {
+      &::after {
         content: '';
         position: absolute;
         top: 0;
@@ -188,7 +188,7 @@
 
   // Mobile view page transition overlap
   position: relative;
-  z-index: $zTitle;
+  z-index: $z-title;
 
   height: 3rem;
   line-height: 3rem;
@@ -329,7 +329,6 @@ i.app-view__accounts-angle {
 
 .app-view__add-account {
   margin: 0 0.5em;
-  border: 0;
   background: none;
   border: 1px solid white;
   font-size: 0.85em;
@@ -344,7 +343,7 @@ i.app-view__accounts-angle {
 
   opacity: 0.8;
 
-  &:before {
+  &::before {
     content: '+ ';
   }
 
@@ -369,7 +368,7 @@ i.app-view__accounts-angle {
 }
 
 .app-view__accounts-angle--collapsed {
-  transform: rotate(-90deg);  
+  transform: rotate(-90deg);
 }
 
 .app-view__accounts-list {

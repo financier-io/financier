@@ -1,4 +1,4 @@
-describe('exportCsv', function() {
+describe('exportCsv', function () {
   let exportCsv, transaction, Transaction;
 
   beforeEach(angular.mock.module('financier'));

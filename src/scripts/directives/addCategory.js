@@ -7,7 +7,7 @@ angular.module('financier').directive('addCategory', ($compile, $timeout) => {
       addCategory: '&',
       addLabel: '@'
     },
-    link(scope, element, attrs) {
+    link(scope, element) {
       element.on('click', () => {
         const template = require('./addCategory.html');
 

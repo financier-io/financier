@@ -1,4 +1,4 @@
-angular.module('financier').controller('signinCtrl', function(User, $scope, $rootScope, ngDialog) {
+angular.module('financier').controller('signinCtrl', function (User, $scope, $rootScope, ngDialog) {
   this.login = (username, password, closeThisDialog) => {
     this.loading = true;
     this.error = null;

@@ -1,4 +1,4 @@
-describe('netWorth', function() {
+describe('netWorth', function () {
   let netWorth, transaction, Transaction;
 
   beforeEach(angular.mock.module('financier'));

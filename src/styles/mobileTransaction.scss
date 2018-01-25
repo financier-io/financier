@@ -10,7 +10,7 @@
 }
 
 .mobile-transaction__amount {
-  color: $positiveNumber;
+  color: $positive-number;
   font-size: 4em;
   background: $blue-background;
   font-weight: 200;
@@ -21,7 +21,7 @@
 }
 
 .mobile-transaction__amount--negative {
-  color: lighten($negativeNumber, 5%);
+  color: lighten($negative-number, 5%);
 }
 
 .mobile-transaction__detail {

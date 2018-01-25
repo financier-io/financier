@@ -5,7 +5,7 @@ if (process.env.NODE_ENV === 'production') {
 import fastclick from 'fastclick';
 fastclick.attach(document.body);
 
-import angular from 'angular';
+import 'angular';
 
 import 'lato-webfont/fonts/lato-hairline-webfont.woff';
 import 'lato-webfont/fonts/lato-thin-webfont.woff';

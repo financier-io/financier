@@ -1,4 +1,4 @@
-describe('category', function() {
+describe('category', function () {
   let category, transaction;
 
   beforeEach(angular.mock.module('financier'));
@@ -171,7 +171,8 @@ describe('category', function() {
         _id: 'foobar'
       });
 
-      expect(() => cat._id = 123).toThrow();
+      cat._id = 123;
+      expect(cat._id).not.toBe(123);
     });
   });
 

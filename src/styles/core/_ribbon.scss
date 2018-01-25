@@ -1,18 +1,18 @@
 @mixin ribbon($width) {
   padding: 0 ($width / 4) 0 0;
-  width: $width * 1.3;
   position: relative;
+  width: $width * 1.3;
 
   div {
     background: currentColor;
     height: $width;
 
-    &:after {
-      border-top: ($width / 2) solid currentColor;
+    &::after {
       border-bottom: ($width / 2) solid currentColor;
       border-right: ($width / 2) solid transparent;
-      top: 0;
+      border-top: ($width / 2) solid currentColor;
       content: '';
+      top: 0;
       height: 0;
       right: -($width / 4);
       position: absolute;

@@ -274,7 +274,7 @@ angular.module('financier').factory('budgetManager', (
 
             return getAllAccounts()
             .then(accounts => {
-              for(let i = 0; i < accounts.length; i++) {
+              for (let i = 0; i < accounts.length; i++) {
                 manager.addAccount(accounts[i]);
               }
 

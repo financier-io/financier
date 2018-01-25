@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 angular.module('financier').factory('splitTransaction', uuid => {
-  return budgetId => {
+  return () => {
 
     /**
      * Represents a Transaction
@@ -389,7 +389,7 @@ angular.module('financier').factory('splitTransaction', uuid => {
       toJSON() {
         return this._data;
       }
-    };
+    }
 
     return SplitTransaction;
   };

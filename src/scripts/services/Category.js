@@ -283,7 +283,7 @@ angular.module('financier').factory('category', uuid => {
       static contains(_id) {
         return _id > this.startKey && _id < this.endKey;
       }
-    };
+    }
 
     return Category;
   };

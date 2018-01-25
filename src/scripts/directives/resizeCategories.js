@@ -1,5 +1,5 @@
 angular.module('financier').directive('resizeCategories', () => {
-  const sheet = (function() {
+  const sheet = (function () {
     // Create the <style> tag
     const style = document.createElement('style');
 
@@ -35,7 +35,7 @@ angular.module('financier').directive('resizeCategories', () => {
 
   return {
     restrict: 'A',
-    link: (scope, element, attrs) => {
+    link: (scope, element) => {
       const handle = angular.element('<div class="budget__category-resize-handle"></div>');
 
       handle.on('mousedown', evt => {
@@ -44,8 +44,7 @@ angular.module('financier').directive('resizeCategories', () => {
 
         const body = angular.element(document.body);
 
-        var mousemove = body
-        .on('mousemove', evt => {
+        body.on('mousemove', evt => {
           const pageOffset = element[0].getBoundingClientRect();
 
           // +10 for CSS box-sizing: content-box; w/ padding. TODO
@@ -61,5 +60,5 @@ angular.module('financier').directive('resizeCategories', () => {
 
       element.append(handle);
     }
-  }
-})
+  };
+});

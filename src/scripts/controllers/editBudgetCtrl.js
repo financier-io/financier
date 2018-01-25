@@ -1,10 +1,10 @@
-angular.module('financier').controller('editBudgetCtrl', function(currencies, $scope, budgetRecord) {
+angular.module('financier').controller('editBudgetCtrl', function (currencies, $scope, budgetRecord) {
   this.name = budgetRecord.name;
   this.currency = budgetRecord.currency;
 
   this.currencies = currencies;
 
-  this.submit = (name, currency) => {
+  this.submit = () => {
     this.loading = true;
 
     const saveFn = budgetRecord.fn;
@@ -22,4 +22,4 @@ angular.module('financier').controller('editBudgetCtrl', function(currencies, $s
 
     budgetRecord.fn = saveFn;
   };
-})
+});

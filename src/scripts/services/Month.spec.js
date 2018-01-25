@@ -1,4 +1,4 @@
-describe('month', function() {
+describe('month', function () {
   let month, Month, transaction, Transaction, MonthCategory;
 
   function defaultMonth() {
@@ -218,7 +218,7 @@ describe('month', function() {
         spyOn(foo, 'change');
 
         const mo = new Month(defaultMonth(), foo.change),
-            cat = MonthCategory({
+            cat = new MonthCategory({
               _id: 'b_111-111-111-111_m_category_2015-01-01_333-333-333-333',
               budget: 300
             });

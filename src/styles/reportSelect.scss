@@ -1,6 +1,6 @@
 .report-select {
   display: flex;
-  background-color: $darkGray;
+  background-color: $dark-gray;
   margin: 0;
   padding: 0;
   font-weight: 300;
@@ -9,13 +9,13 @@
   overflow: hidden;
 }
 
-$triangleSize: 5px;
+$triangle-size: 5px;
 
 .report-select__item {
   flex: 1;
   max-width: 14em;
   margin-right: 1em;
-  padding: ($triangleSize * 2) 1em;
+  padding: ($triangle-size * 2) 1em;
   min-height: 3rem;
   display: flex;
   align-items: center;
@@ -39,16 +39,16 @@ $triangleSize: 5px;
     margin-right: 0;
   }
 
-  &:after {
+  &::after {
     content: '';
     background-color: #eee;
-    left: calc(50% - #{$triangleSize});
-    bottom: -$triangleSize;
-    width: $triangleSize * 2;
-    height: $triangleSize * 2;
+    left: calc(50% - #{$triangle-size});
+    bottom: -$triangle-size;
+    width: $triangle-size * 2;
+    height: $triangle-size * 2;
     position: absolute;
 
-    transform: rotate(45deg) translate($triangleSize, $triangleSize);
+    transform: rotate(45deg) translate($triangle-size, $triangle-size);
 
     transition: transform 250ms ease;
   }
@@ -57,7 +57,7 @@ $triangleSize: 5px;
 .report-select__item--selected {
   opacity: 1;
 
-  &:after {
+  &::after {
     transform: rotate(45deg) translate(0, 0);
   }
 }

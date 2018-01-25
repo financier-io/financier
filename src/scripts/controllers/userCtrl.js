@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-angular.module('financier').controller('userCtrl', function($rootScope, $scope, User, db, ngDialog, $timeout, $state) {
+angular.module('financier').controller('userCtrl', function ($rootScope, $scope, User, db, ngDialog, $timeout, $state) {
   $rootScope.loaded = true;
   this.loadingSubscription = true;
 
@@ -20,7 +20,7 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
       .then(source => {
         this.source = source;
       });
-    }
+    };
 
     this.removeSource = () => {
       this.loadingRemoveSource = true;
@@ -32,7 +32,7 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
       .finally(() => {
         this.loadingRemoveSource = false;
       });
-    }
+    };
 
     this.startSubscription = () => {
       this.loadingStartSubscription = true;
@@ -46,7 +46,7 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
       })
       .finally(() => {
         this.loadingStartSubscription = false;
-      })
+      });
     };
 
     this.stopSubscription = () => {
@@ -56,7 +56,7 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
       })
       .finally(() => {
         this.loadingStopSubscription = false;
-      })
+      });
     };
 
     this.loadingSubscription = true;
@@ -65,13 +65,13 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
       return User.getSubscription().then(subscription => {
         this.subscription = subscription;
       })
-      .catch(e => {
+      .catch(() => {
         this.subscription = null;
       })
       .finally(() => {
         this.loadingSubscription = false;
       });
-    }
+    };
 
     this.getSubscription();
 
@@ -81,16 +81,16 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
       return User.getSource().then(source => {
         this.source = source;
       })
-      .catch(e => {
+      .catch(() => {
         this.source = null;
       })
       .finally(() => {
         this.loadingSource = false;
       });
-    }
+    };
 
     this.getSource();
-  }
+  };
 
   this.userDb = null;
 
@@ -118,7 +118,7 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
 
         this.isFree = false;
 
-        getSubscriptionInfo()
+        getSubscriptionInfo();
       } else {
         this.email = null;
         this.isFree = true;
@@ -159,12 +159,12 @@ angular.module('financier').controller('userCtrl', function($rootScope, $scope, 
       className: 'ngdialog-theme-default ngdialog-theme-default--danger modal'
     })
     .then(removeLocalData);
-  }
+  };
 
   this.logoutAndRemove = () => {
     this.logout()
     .then(removeLocalData);
-  }
+  };
 
   function removeLocalData() {
     return db.destroy()

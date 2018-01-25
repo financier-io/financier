@@ -10,7 +10,7 @@ angular.module('financier').factory('stripeLazyLoader', $q => {
     script.src = 'https://js.stripe.com/v2/';
     script.onload = () => {
       deferred.resolve();
-    }
+    };
 
     document.body.appendChild(script);
   }

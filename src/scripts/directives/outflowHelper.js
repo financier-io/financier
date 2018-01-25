@@ -2,7 +2,7 @@ import Drop from 'tether-drop';
 
 angular.module('financier').directive('outflowHelper', ($compile, $timeout) => {
 
-  function link(scope, element, attrs, ngModelCtrl) {
+  function link(scope, element) {
 
     element.on('click', () => {
       if (scope.outflowSetting && !scope.disabled) {
@@ -45,7 +45,7 @@ angular.module('financier').directive('outflowHelper', ($compile, $timeout) => {
       outflowDate: '=',
       outflowCategory: '=',
       outflowSetting: '=',
-      disabled: "="
+      disabled: '='
     },
     link
   };

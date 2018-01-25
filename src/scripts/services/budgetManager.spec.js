@@ -1,4 +1,4 @@
-describe('budgetManager', function() {
+describe('budgetManager', function () {
   let db, budgetManager, month, account, Month, Account;
 
   // a random budget uuid to test with
@@ -46,7 +46,7 @@ describe('budgetManager', function() {
           _id: 'b_555-555-555-555_month_' + Month.createID(new Date('2/1/15'))
         }, {
           _id: 'b_555-555-555-555_month_' + Month.createID(new Date('3/1/15'))
-        }]).then(res => {
+        }]).then(() => {
           return budget.budget().then(monthManager => {
             expect(monthManager.months.length).toBe(3);
 
@@ -64,7 +64,7 @@ describe('budgetManager', function() {
           _id: 'b_555-555-555-555_month_' + Month.createID(new Date('2/1/15'))
         }, {
           _id: 'b_555-555-555-555_month_' + Month.createID(new Date('3/1/15'))
-        }]).then(res => {
+        }]).then(() => {
           return budget.budget().then(monthManager => {
             monthManager.months[0].setBudget('123', 323);
 
@@ -104,7 +104,7 @@ describe('budgetManager', function() {
         _id: 'b_555-555-555-555_account_foo',
         name: 'foobar',
         type: 'CREDIT'
-      }]).then(res => {
+      }]).then(() => {
         return budget.accounts.all().then(accounts => {
           expect(accounts.length).toBe(1);
 
@@ -122,7 +122,7 @@ describe('budgetManager', function() {
         _id: 'b_555-555-555-555_account_foo',
         name: 'foobar',
         type: 'CREDIT'
-      }]).then(res => {
+      }]).then(() => {
         return budget.accounts.all().then(accounts => {
 
           accounts[0].name = 'mynewname';

@@ -15,9 +15,9 @@
 }
 
 .sync-status--syncing {
-  &:before {
+  &::before {
     @include loading(inherit, 400ms, 2px);
-    
+
     vertical-align: middle;
     display: inline-block;
     content: '';
@@ -28,7 +28,7 @@
 }
 
 .sync-status--offline {
-  &:before {
+  &::before {
     vertical-align: middle;
     display: inline-block;
     content: '';
@@ -45,12 +45,11 @@
 }
 
 @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
+  from {
+    transform: rotate(0deg);
+  }
 
-    to {
-      transform: rotate(360deg);
-    }
+  to {
+    transform: rotate(360deg);
+  }
 }
-

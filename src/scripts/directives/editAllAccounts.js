@@ -7,7 +7,7 @@ angular.module('financier').directive('editAllAccounts', ($compile, $timeout, $r
       editAllAccounts: '='
     },
     controllerAs: 'editAllAccountsCtrl',
-    controller: function($scope, $element) {
+    controller: function ($scope, $element) {
       $element.on('contextmenu', e => {
         e.preventDefault();
 
@@ -52,9 +52,9 @@ angular.module('financier').directive('editAllAccounts', ($compile, $timeout, $r
         $scope.remove = () => {
           dropInstance.close();
           $scope.onRemove();
-        }
+        };
 
-        this.submit = rename => {
+        this.submit = () => {
           this.editAllAccounts.checkNumber = this.checkNumber;
 
           dropInstance.close();
@@ -65,4 +65,4 @@ angular.module('financier').directive('editAllAccounts', ($compile, $timeout, $r
 
     }
   };
-})
+});

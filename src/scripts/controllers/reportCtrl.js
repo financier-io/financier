@@ -1,6 +1,4 @@
-import moment from 'moment';
-
-angular.module('financier').controller('reportCtrl', function($scope) {
+angular.module('financier').controller('reportCtrl', function ($scope) {
   this.transactions = $scope.dbCtrl.manager.allAccounts.transactions;
 
   this.startDate = -Infinity;

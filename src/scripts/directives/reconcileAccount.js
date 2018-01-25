@@ -2,7 +2,7 @@ import Drop from 'tether-drop';
 
 angular.module('financier').directive('reconcileAccount', ($compile, $timeout) => {
 
-  function link(scope, element, attrs, ngModelCtrl) {
+  function link(scope, element) {
     scope.dbCtrl = scope.$parent.dbCtrl;
 
     element.on('click', () => {
@@ -16,7 +16,9 @@ angular.module('financier').directive('reconcileAccount', ($compile, $timeout) =
           dropInstance.close();
         }
       });
-// content.find('input')[0].focus();
+
+      // content.find('input')[0].focus();
+
       const dropInstance = new Drop({
         target: element[0],
         content: content[0],

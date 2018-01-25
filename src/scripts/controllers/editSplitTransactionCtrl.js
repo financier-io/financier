@@ -1,4 +1,4 @@
-angular.module('financier').controller('editSplitTransactionCtrl', function($scope) {
+angular.module('financier').controller('editSplitTransactionCtrl', function ($scope) {
   $scope.$watchCollection(() => {
     const amount = ($scope.transactionCtrl.value.value || 0) - $scope.transactionCtrl.splits.reduce((prev, current) => {
       return prev + (current.value.value || 0);

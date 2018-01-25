@@ -1,3 +1,5 @@
+/* global Stripe */
+
 angular.module('financier').directive('creditCardExpirationSpaces', () => {
   return {
     restrict: 'A',
@@ -5,7 +7,7 @@ angular.module('financier').directive('creditCardExpirationSpaces', () => {
       creditCardExpirationSpaces: '=',
       expirationInvalid: '='
     },
-    link: (scope, element, attrs, ngModelCtrl) => {
+    link: (scope, element) => {
       element.on('keydown', e => {
         if (e.keyCode === 191) { // '/' character
           e.preventDefault();
@@ -14,8 +16,8 @@ angular.module('financier').directive('creditCardExpirationSpaces', () => {
             element.val(element.val() + ' / ');
           }
         }
-      })
-      element.on('input', function(e) {
+      });
+      element.on('input', function () {
         var newValue = this.value.split(' / ').join('');
 
         if (newValue.length > 0 && newValue.length <= 4) {

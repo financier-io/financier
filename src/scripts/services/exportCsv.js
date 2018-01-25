@@ -1,5 +1,4 @@
 import Papa from 'papaparse';
-import moment from 'moment';
 import fileSaver from 'file-saver';
 import JSZip from 'jszip';
 
@@ -76,8 +75,24 @@ angular.module('financier').factory('exportCsv', ($translate, $filter, flags) =>
           }
         }
 
-        const outflow = currency(intCurrency(trans.outflow, false, currencyDigits) || 0, currencySymbol, currencyDigits);
-        const inflow = currency(intCurrency(trans.inflow, false, currencyDigits) || 0, currencySymbol, currencyDigits);
+        const outflow = currency(
+          intCurrency(
+            trans.outflow,
+            false,
+            currencyDigits
+          ) || 0,
+          currencySymbol,
+          currencyDigits
+        );
+
+        const inflow = currency(
+          intCurrency(
+            trans.inflow,
+            false,
+            currencyDigits) || 0,
+          currencySymbol,
+          currencyDigits
+        );
 
         const cleared = trans.transaction ?
           ($translate.instant(trans.transaction.reconciled ? 'RECONCILED' : (trans.transaction.cleared ? 'CLEARED' : 'UNCLEARED'))) :
@@ -104,7 +119,7 @@ angular.module('financier').factory('exportCsv', ($translate, $filter, flags) =>
     months,
     currencySymbol = '$',
     currencyDigits = 2,
-    categories = {},
+    // categories = {},
     masterCategories = {}
   }) {
     const data = [];
@@ -125,14 +140,36 @@ angular.module('financier').factory('exportCsv', ($translate, $filter, flags) =>
           let budget, outflow, balance;
 
           if (months[i].categories[catId]) {
-            budget = currency(intCurrency(months[i].categories[catId].budget, false, currencyDigits) || 0, currencySymbol, currencyDigits);
+            budget = currency(
+              intCurrency(
+                months[i].categories[catId].budget,
+                false,
+                currencyDigits) || 0,
+              currencySymbol,
+              currencyDigits
+            );
           } else {
             budget = currency(0, currencySymbol, currencyDigits);
           }
 
           if (months[i].categoryCache[catId]) {
-            outflow = currency(intCurrency(months[i].categoryCache[catId].outflow, false, currencyDigits) || 0, currencySymbol, currencyDigits);
-            balance = currency(intCurrency(months[i].categoryCache[catId].balance, false, currencyDigits) || 0, currencySymbol, currencyDigits);
+            outflow = currency(
+              intCurrency(
+                months[i].categoryCache[catId].outflow,
+                false,
+                currencyDigits
+              ) || 0,
+              currencySymbol,
+              currencyDigits
+            );
+            balance = currency(
+              intCurrency(
+                months[i].categoryCache[catId].balance,
+                false,
+                currencyDigits) || 0,
+              currencySymbol,
+              currencyDigits
+            );
           } else {
             outflow = currency(0, currencySymbol, currencyDigits);
             balance = currency(0, currencySymbol, currencyDigits);
@@ -213,5 +250,5 @@ angular.module('financier').factory('exportCsv', ($translate, $filter, flags) =>
     _buildBudgetCsv,
     _getFlagColor,
     _getCategory
-  }
+  };
 });

@@ -1,9 +1,33 @@
 {
-  "extends": ["semistandard"],
-  "env": {
-    "browser": true
+  "extends": "eslint:recommended",
+
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
   },
+
+  "env": {
+    "browser": true,
+    "node": true,
+    "jasmine": true
+  },
+
   "globals": {
-    "angular": true
+    "angular": true,
+    "inject": true,
+    "VERSION": true
+  },
+
+  "rules": {
+    "quotes": ["error", "single"],
+    "no-empty": 0,
+    "no-console": 0,
+    "semi": ["error", "always"],
+    "curly": ["error", "all"],
+    "space-unary-ops": ["error", {"words": true}],
+    "space-before-function-paren": ["error", {"anonymous": "always", "named": "never"}],
+    "max-len": ["error", 120, {"ignoreComments": true, "ignoreStrings": true, "ignoreRegExpLiterals": true}],
+    "keyword-spacing": ["error"],
+    "space-before-blocks": ["error"],
   }
 }

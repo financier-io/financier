@@ -1,4 +1,4 @@
-describe('masterCategory', function() {
+describe('masterCategory', function () {
   let category, masterCategory;
 
   beforeEach(angular.mock.module('financier'));

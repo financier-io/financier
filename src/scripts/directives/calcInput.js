@@ -1,5 +1,5 @@
 angular.module('financier').directive('calcInput', () => {
-  return function (scope, element, attrs) {
+  return function (scope, element) {
     element.bind('keypress', event => {
       const charCode = event.which || event.keyCode;
       const charTyped = String.fromCharCode(charCode);

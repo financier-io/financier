@@ -7,7 +7,7 @@ angular.module('financier').directive('checkNumberInput', $rootScope => {
     },
     compile: () => {
       return {
-        pre: (scope, element, attrs) => {
+        pre: (scope, element) => {
           const input = element.find('input');
 
           scope.$on('transaction:check:focus', () => {

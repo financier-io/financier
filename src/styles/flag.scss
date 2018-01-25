@@ -20,7 +20,7 @@
 
     .account__flag {
       // required to over
-      color: rgba(0, 0, 0, 0.3) !important;
+      color: rgba(0, 0, 0, 0.3) !important; // sass-lint:disable-line no-important
     }
   }
 }

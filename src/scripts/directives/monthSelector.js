@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { throttle } from 'underscore';
 
-angular.module('financier').directive('monthSelector', function() {
+angular.module('financier').directive('monthSelector', function () {
   return {
     restrict: 'E',
     template: require('./monthSelector.html'),
@@ -10,14 +10,14 @@ angular.module('financier').directive('monthSelector', function() {
       ngModel: '=',
       showMonths: '='
     },
-    link: function(scope, element, attrs, ngModelCtrl) {
+    link: function (scope, element, attrs, ngModelCtrl) {
       scope.months = [];
       scope.today = moment().startOf('month');
 
       scope.$watchCollection(() => [
         ngModelCtrl.$modelValue,
         scope.showMonths
-      ], function([newValue, showMonths]) {
+      ], function ([newValue, showMonths]) {
         if (angular.isDefined(newValue)) {
           const modelMonth = moment(newValue);
 
@@ -34,10 +34,10 @@ angular.module('financier').directive('monthSelector', function() {
         }
       });
 
-      scope.nextMonth = function() {
+      scope.nextMonth = function () {
         scope.ngModel = moment(scope.ngModel).add(1, 'month').toDate();
       };
-      scope.previousMonth = function() {
+      scope.previousMonth = function () {
         scope.ngModel = moment(scope.ngModel).subtract(1, 'month').toDate();
       };
 
@@ -68,7 +68,7 @@ angular.module('financier').directive('monthSelector', function() {
 
       changeHeaderStyle();
 
-      scope.setMonth = function(date) {
+      scope.setMonth = function (date) {
         scope.ngModel = date;
       };
     }

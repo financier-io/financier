@@ -698,7 +698,7 @@ angular.module('financier').factory('transaction', (uuid, splitTransaction) => {
       static contains(_id) {
         return _id > this.startKey && _id < this.endKey;
       }
-    };
+    }
 
     return Transaction;
   };

@@ -1,4 +1,4 @@
-angular.module('financier').controller('budgetCtrl', function($filter, $stateParams, $rootScope, $timeout, $scope, month, masterCategory, category, myBudget, ngDialog) {
+angular.module('financier').controller('budgetCtrl', function ($filter, $stateParams, $rootScope, $timeout, $scope, month, masterCategory, category, myBudget, ngDialog) {
   const Month = month($stateParams.budgetId);
   const MasterCategory = masterCategory($stateParams.budgetId);
   const Category = category($stateParams.budgetId);
@@ -18,7 +18,7 @@ angular.module('financier').controller('budgetCtrl', function($filter, $statePar
     }
 
     this.masterCategoriesArray.sort((a, b) => a.sort - b.sort);
-  }
+  };
 
   $scope.$on('masterCategories:change', updateCategories);
   updateCategories(); // run to start
@@ -87,7 +87,7 @@ angular.module('financier').controller('budgetCtrl', function($filter, $statePar
 
     myBudget.masterCategories.put(cat);
     cat.subscribe(myBudget.masterCategories.put);
-  }
+  };
 
   this.addCategory = (name, masterCategory) => {
     let sort = masterCategory.categories[masterCategory.categories.length - 1] ?
@@ -105,9 +105,9 @@ angular.module('financier').controller('budgetCtrl', function($filter, $statePar
 
     myBudget.categories.put(cat);
     cat.subscribe(myBudget.categories.put);
-  }
+  };
 
-  this.removeCategory = (id, masterCategory) => {
+  this.removeCategory = id => {
     removeConfirm($scope.dbCtrl.categories[id].name)
     .then(() => {
       return remove();
@@ -134,7 +134,7 @@ angular.module('financier').controller('budgetCtrl', function($filter, $statePar
 
       return cat.remove();
     }
-  }
+  };
 
   this.removeMasterCategory = masterCategory => {
     removeConfirm(masterCategory.name)
@@ -171,7 +171,7 @@ angular.module('financier').controller('budgetCtrl', function($filter, $statePar
       updateCategories();
       masterCategory.remove();
     }
-  }
+  };
 
   function removeConfirm(name) {
     const scope = $scope.$new({});

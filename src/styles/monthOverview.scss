@@ -16,7 +16,7 @@
 .month-overview__month-overview {
   position: relative;
 
-  background-color: $darkGray;
+  background-color: $dark-gray;
   color: $white;
   font-weight: 400;
   text-align: center;
@@ -35,7 +35,7 @@
   opacity: 0.5;
 
   cursor: pointer;
-  
+
   transition: opacity 250ms ease;
 
   &:hover,
@@ -65,7 +65,7 @@
 }
 
 .month-overview__month-overview--old {
-  background-color: lighten($darkGray, 15%);
+  background-color: lighten($dark-gray, 15%);
 }
 
 .month-overview__month-list {
@@ -100,12 +100,12 @@
   font-size: 2em;
   line-height: 1em;
 
-  color: $positiveNumber;
+  color: $positive-number;
   cursor: pointer;
 }
 
 .month-overview__month-total--negative {
-  color: $negativeNumber;
+  color: $negative-number;
 }
 
 .month-overview__month-total-subtext {

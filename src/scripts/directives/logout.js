@@ -3,7 +3,7 @@ import Drop from 'tether-drop';
 angular.module('financier').directive('logout', ($compile, $timeout) => {
   return {
     restrict: 'A',
-    controller: function($scope, $element, $attrs) {
+    controller: function ($scope, $element, $attrs) {
       $element.on('click', () => {
 
         const template = require('./logout.html');
@@ -12,7 +12,7 @@ angular.module('financier').directive('logout', ($compile, $timeout) => {
         const wrap = angular.element('<div class="tooltip"></div>').append(template);
         const content = $compile(wrap)($scope);
 
-        content.on('click', e => {
+        content.on('click', () => {
           dropInstance.close();
         });
 

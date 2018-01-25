@@ -45,14 +45,14 @@ let financier = angular.module('financier', [
     });
   });
 
-  $rootScope.$on('$stateChangeStart', function(evt, to, params) {
+  $rootScope.$on('$stateChangeStart', function (evt, to, params) {
     if (to.redirectToReport) {
       evt.preventDefault();
-      $state.go(`user.app.manager.view.reports.${$rootScope.lastOpenedReport || 'netWorth'}`, params)
+      $state.go(`user.app.manager.view.reports.${$rootScope.lastOpenedReport || 'netWorth'}`, params);
     }
   });
 
-  $rootScope.$on('$stateChangeError',function(event, toState, toParams, fromState, fromParams){
+  $rootScope.$on('$stateChangeError', () => {
     console.log('$stateChangeError - fired when an error occurs during transition.');
     console.log(arguments);
   });
@@ -63,7 +63,14 @@ let financier = angular.module('financier', [
   };
 });
 
-financier.config(function($compileProvider, $stateProvider, $urlRouterProvider, $injector, $locationProvider, ngDialogProvider, $translateProvider) {
+financier.config(function (
+  $compileProvider,
+  $stateProvider,
+  $urlRouterProvider,
+  $injector,
+  $locationProvider,
+  ngDialogProvider,
+  $translateProvider) {
   $compileProvider.debugInfoEnabled(false);
   $compileProvider.commentDirectivesEnabled(false);
   $compileProvider.cssClassDirectivesEnabled(false);
@@ -98,17 +105,17 @@ financier.config(function($compileProvider, $stateProvider, $urlRouterProvider, 
     template: require('../views/budgets.html'),
     controller: 'budgetsCtrl as budgetsCtrl',
     resolve: {
-      myBudgets: function(db) {
+      myBudgets: function (db) {
         return db.budgets.all();
       },
-      myBudgetsOpened: function(db) {
+      myBudgetsOpened: function (db) {
         return db.budgetsOpened.all();
       }
     }
   })
   .state('user.budget.create', {
     url: 'create-budget',
-    onEnter: function(ngDialog, $state) {
+    onEnter: function (ngDialog, $state) {
       ngDialog.open({
         template: require('../views/modal/createBudget.html'),
         controller: 'createBudgetCtrl',
@@ -125,7 +132,7 @@ financier.config(function($compileProvider, $stateProvider, $urlRouterProvider, 
   })
   .state('user.budget.import', {
     url: 'import-budget',
-    onEnter: function(ngDialog, $state) {
+    onEnter: function (ngDialog, $state) {
       ngDialog.open({
         template: require('../views/modal/importBudget.html'),
         controller: 'importBudgetCtrl',
@@ -145,10 +152,10 @@ financier.config(function($compileProvider, $stateProvider, $urlRouterProvider, 
     abstract: true,
     template: '<ui-view></ui-view>',
     resolve: {
-      myBudget: function(db, $stateParams) {
+      myBudget: function (db, $stateParams) {
         return db.budget($stateParams.budgetId);
       },
-      budgetRecord: function(db, $stateParams, $state) {
+      budgetRecord: function (db, $stateParams, $state) {
         return db.budgets.get($stateParams.budgetId)
         .catch(e => {
           if (e.status === 404) {
@@ -158,7 +165,7 @@ financier.config(function($compileProvider, $stateProvider, $urlRouterProvider, 
           throw e;
         });
       },
-      budgetOpenedRecord: function(db, $stateParams, $state) {
+      budgetOpenedRecord: function (db, $stateParams, $state) {
         return db.budgetsOpened.get($stateParams.budgetId)
         .catch(e => {
           if (e.status === 404) {
@@ -181,7 +188,7 @@ financier.config(function($compileProvider, $stateProvider, $urlRouterProvider, 
     template: require('../views/appView.html'),
     controller: 'dbCtrl as dbCtrl',
     resolve: {
-      data: function(myBudget, $q) {
+      data: function (myBudget, $q) {
         return $q.all([
           myBudget.budget(),
           myBudget.categories.all(),
@@ -275,7 +282,7 @@ financier.config(function($compileProvider, $stateProvider, $urlRouterProvider, 
 
   $locationProvider.html5Mode(true);
 
-  $urlRouterProvider.otherwise(function($injector, $location){
+  $urlRouterProvider.otherwise(function ($injector, $location) {
      const state = $injector.get('$state');
      state.go('404');
      return $location.path();
@@ -287,7 +294,7 @@ financier.config(function($compileProvider, $stateProvider, $urlRouterProvider, 
   });
 });
 
-financier.run(function($translate, tmhDynamicLocale, tmhDynamicLocaleCache) {
+financier.run(function ($translate, tmhDynamicLocale, tmhDynamicLocaleCache) {
   function getInjectedLocale() {
     var localInjector = angular.injector(['ngLocale']);
     return localInjector.get('$locale');
@@ -297,7 +304,7 @@ financier.run(function($translate, tmhDynamicLocale, tmhDynamicLocaleCache) {
   let language;
 
   if (window.navigator.languages && window.navigator.languages.length) {
-    language = window.navigator.languages[0].toLowerCase()
+    language = window.navigator.languages[0].toLowerCase();
   } else {
     language = window.navigator.language.toLowerCase();
   }
@@ -307,7 +314,7 @@ financier.run(function($translate, tmhDynamicLocale, tmhDynamicLocaleCache) {
   }
 
   try {
-    require(`bundle-loader?lazy&name=i18n!angular-i18n/angular-locale_${language}.js`)(function() {
+    require(`bundle-loader?lazy&name=i18n!angular-i18n/angular-locale_${language}.js`)(function () {
       tmhDynamicLocaleCache.put(language, getInjectedLocale());
 
       tmhDynamicLocale.set(language);
@@ -316,7 +323,7 @@ financier.run(function($translate, tmhDynamicLocale, tmhDynamicLocaleCache) {
   } catch (e) {
     console.log(`Couldn't find locale "${language}", falling back to en-us`);
 
-    require(`bundle-loader?lazy&name=i18n!angular-i18n/angular-locale_en-us.js`)(function() {
+    require('bundle-loader?lazy&name=i18n!angular-i18n/angular-locale_en-us.js')(function () {
       tmhDynamicLocaleCache.put('en-us', getInjectedLocale());
 
       tmhDynamicLocale.set('en-us');

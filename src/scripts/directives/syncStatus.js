@@ -1,4 +1,4 @@
-angular.module('financier').directive('syncStatus', function($translate) {
+angular.module('financier').directive('syncStatus', function ($translate) {
   return {
     restrict: 'E',
     template: '{{syncCtrl.textStatus}}',
@@ -6,7 +6,7 @@ angular.module('financier').directive('syncStatus', function($translate) {
       status: '='
     },
     controllerAs: 'syncCtrl',
-    controller: function($scope, $element) {
+    controller: function ($scope, $element) {
       $element.addClass('sync-status');
 
       $scope.$watch(() => this.status, status => {

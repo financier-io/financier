@@ -1,4 +1,4 @@
-describe('Settings', function() {
+describe('Settings', function () {
   let Settings;
 
   beforeEach(angular.mock.module('financier'));
@@ -44,7 +44,8 @@ describe('Settings', function() {
     it('cannot set _id', () => {
       let sets = new Settings();
 
-      expect(() => sets._id = 123).toThrow();
+      sets._id = 123;
+      expect(sets._id).not.toBe(123);
     });
   });
 

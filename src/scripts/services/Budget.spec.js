@@ -1,4 +1,4 @@
-describe('Budget', function() {
+describe('Budget', function () {
   let Budget, account;
 
   beforeEach(angular.mock.module('financier'));
@@ -134,13 +134,15 @@ describe('Budget', function() {
     it('cannot set _id', () => {
       let sets = new Budget();
 
-      expect(() => sets._id = 123).toThrow();
+      sets._id = 123;
+      expect(sets._id).not.toBe(123);
     });
 
     it('cannot set created', () => {
       let sets = new Budget();
 
-      expect(() => sets.created = '2016-03-03T03:16:34.882Z').toThrow();
+      sets.created = 123;
+      expect(sets.created).not.toBe(123);
     });
   });
 

@@ -1,5 +1,4 @@
 .calendar {
-
 }
 
 .calendar__header {
@@ -66,7 +65,7 @@
 
   $size: 10px;
 
-  &:after {
+  &::after {
     content: '';
     position: absolute;
     top: 0;

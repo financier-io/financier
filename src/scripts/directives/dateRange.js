@@ -12,7 +12,7 @@ angular.module('financier').directive('dateRange', ($filter, $compile, $timeout)
       startDate: '=',
       endDate: '='
     },
-    link: (scope, element, attrs) => {
+    link: (scope, element) => {
       scope.$watch('startDate', startDate => {
         scope.all = !isFinite(startDate);
         scope.start = dateFilter(startDate, 'MMM yy');
@@ -43,7 +43,7 @@ angular.module('financier').directive('dateRange', ($filter, $compile, $timeout)
           scope.startDate = moment().subtract(1, 'year').startOf('year').toDate();
           scope.endDate = moment().subtract(1, 'year').endOf('year').toDate();
         }
-      }
+      };
 
       element.on('click', () => {
         const template = require('./dateRange.html');
@@ -55,7 +55,7 @@ angular.module('financier').directive('dateRange', ($filter, $compile, $timeout)
           if (e.which === 27) {
             dropInstance.close();
           } else if (e.which === 13 && (e.ctrlKey || e.metaKey)) {
-            scope.submit(scope.myNote);
+            scope.submit();
 
             dropInstance.close();
           }
@@ -94,7 +94,7 @@ angular.module('financier').directive('dateRange', ($filter, $compile, $timeout)
           dropInstance.close();
         });
 
-        scope.submit = note => {
+        scope.submit = () => {
           // ngModelCtrl.$setViewValue(note);
 
           dropInstance.close();
@@ -104,5 +104,5 @@ angular.module('financier').directive('dateRange', ($filter, $compile, $timeout)
         dropInstance.open();
       });
     }
-  }
-})
+  };
+});

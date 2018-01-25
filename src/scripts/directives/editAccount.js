@@ -9,7 +9,7 @@ angular.module('financier').directive('editAccount', ($compile, $timeout, $rootS
       onRemoveAccount: '&'
     },
     controllerAs: 'editAccountCtrl',
-    controller: function($scope, $element) {
+    controller: function ($scope, $element) {
       $element.on('contextmenu', e => {
         e.preventDefault();
 
@@ -56,9 +56,9 @@ angular.module('financier').directive('editAccount', ($compile, $timeout, $rootS
         $scope.remove = () => {
           dropInstance.close();
           $scope.onRemove();
-        }
+        };
 
-        this.submit = rename => {
+        this.submit = () => {
           const saveFn = this.editAccount.fn;
           this.editAccount.fn = null;
 
@@ -98,4 +98,4 @@ angular.module('financier').directive('editAccount', ($compile, $timeout, $rootS
 
     }
   };
-})
+});

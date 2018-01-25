@@ -7,7 +7,7 @@ angular.module('financier').factory('inputDropSetup', ($rootScope, $document, $s
 
     let showDrop;
 
-    const handleDocumentClick = e => {
+    const handleDocumentClick = () => {
       if (!accountSuggestClicked) {
         $document.off('mousedown', handleDocumentClick);
         dropInstance.close();
@@ -27,7 +27,7 @@ angular.module('financier').factory('inputDropSetup', ($rootScope, $document, $s
       showDrop();
     });
 
-    showDrop = function() {
+    showDrop = function () {
       accountSuggestClicked = false;
 
       if (!dropInstance) {
@@ -67,7 +67,7 @@ angular.module('financier').factory('inputDropSetup', ($rootScope, $document, $s
     };
 
     // Close on window mousedown except when the popup is clicked
-    content.on('mousedown', e => {
+    content.on('mousedown', () => {
       accountSuggestClicked = true;
     });
 
@@ -75,7 +75,7 @@ angular.module('financier').factory('inputDropSetup', ($rootScope, $document, $s
       e.stopPropagation();
     });
 
-    input.on('mousedown', e => {
+    input.on('mousedown', () => {
       accountSuggestClicked = true;
     });
 

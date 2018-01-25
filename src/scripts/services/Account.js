@@ -368,7 +368,7 @@ angular.module('financier').factory('account', uuid => {
       static contains(_id) {
         return _id > this.startKey && _id < this.endKey;
       }
-    };
+    }
 
     return Account;
     

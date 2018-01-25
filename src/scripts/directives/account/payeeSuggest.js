@@ -10,16 +10,16 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
     template: '<autosuggest can-submit-new="true" on-submit="onSubmit()" custom-filter="itemFilter(item, searchValue, pristineInputField)" ng-model="ngModel" items="items" template="template"></autosuggest>',
     compile: () => {
       return {
-        pre: (scope, element, attrs) => {
+        pre: (scope, element) => {
           const byName = (a, b) => {
             var nameA = a.name.toUpperCase();
             var nameB = b.name.toUpperCase();
 
-            if(nameA < nameB) {
+            if (nameA < nameB) {
               return -1;
             }
 
-            if(nameA > nameB) {
+            if (nameA > nameB) {
               return 1;
             }
 

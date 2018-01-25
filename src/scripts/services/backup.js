@@ -23,7 +23,7 @@ angular.module('financier').factory('backup', (db, uuid, $filter, $translate, $q
           docs.unshift(doc);
 
           return docs;
-        })
+        });
       })
       .then(docs => {
         return db._pouch.get(`budget_${budgetId}`)
@@ -42,7 +42,7 @@ angular.module('financier').factory('backup', (db, uuid, $filter, $translate, $q
         });
       })
       .then(([name, docs]) => {
-        const blob = new Blob([JSON.stringify(docs, null, 2)], {type: "text/plain;charset=utf-8"});
+        const blob = new Blob([JSON.stringify(docs, null, 2)], {type: 'text/plain;charset=utf-8'});
 
         return fileSaver.saveAs(blob, `${name}.json`);
       });
@@ -62,7 +62,7 @@ angular.module('financier').factory('backup', (db, uuid, $filter, $translate, $q
 
   function validate(budgetId, docs) {
     if (!budgetId) {
-      throw new Error('Could not find budgetId for budget.')
+      throw new Error('Could not find budgetId for budget.');
     }
 
     docs.forEach(doc => {
@@ -71,7 +71,7 @@ angular.module('financier').factory('backup', (db, uuid, $filter, $translate, $q
           doc._id.indexOf(`budget_${budgetId}`) !== 0) {
         throw new Error(`Doc _id '${doc._id}' does not match budgetId '${budgetId}'`);
       }
-    })
+    });
   }
 
   function findBudgetId(docs) {
@@ -98,4 +98,4 @@ angular.module('financier').factory('backup', (db, uuid, $filter, $translate, $q
       return doc;
     });
   }
-})
+});

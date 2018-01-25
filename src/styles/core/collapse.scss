@@ -1,17 +1,17 @@
 .collapse {
-    display: none;
+  display: none;
 }
 
 .collapse.in {
-    display: block;
+  display: block;
 }
 
 .collapsing {
-    animation-timing-function: linear;
-    transition-duration: 250ms;
-    transition-property: height, visibility;
+  animation-timing-function: linear;
+  transition-duration: 250ms;
+  transition-property: height, visibility;
 
-    position: relative;
-    height: 0;
-    overflow: hidden;
+  position: relative;
+  height: 0;
+  overflow: hidden;
 }

@@ -11,10 +11,10 @@ angular.module('financier').directive('accountSuggest', $rootScope => {
     template: '<autosuggest custom-filter="itemFilter(item, searchValue)" on-submit="onSubmit()" ng-model="item" items="items" template="template"></autosuggest>',
     compile: () => {
       return {
-        pre: (scope, element, attrs) => {
+        pre: scope => {
           scope.items = [];
 
-          scope.itemFilter = (item, searchValue) => {
+          scope.itemFilter = item => {
             if (item.id === scope.transactionPayeeId) {
               return false;
             }
@@ -29,13 +29,6 @@ angular.module('financier').directive('accountSuggest', $rootScope => {
           scope.$watch('transactionPayeeId', () => {
             scope.$broadcast('autosuggest:filter');
           });
-
-          const accountItemMapper = account => {
-            return {
-              name: account.name,
-              account
-            };
-          };
 
           scope.items = scope.onBudgetAccounts
               .concat(scope.offBudgetAccounts)

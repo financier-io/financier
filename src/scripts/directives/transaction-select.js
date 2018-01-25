@@ -7,13 +7,13 @@ angular.module('financier').directive('transactionSelect', function () {
         },
         link: function (scope, element, attr, ctrl) {
 
-            element.bind('change', function (evt) {
+            element.bind('change', function () {
                 scope.$apply(function () {
                     ctrl.select(scope.transaction, 'multiple');
                 });
             });
 
-            scope.$watch('transaction.isSelected', function (newValue, oldValue) {
+            scope.$watch('transaction.isSelected', function (newValue) {
                 if (newValue === true) {
                     element.parent().addClass('st-selected');
                 } else {

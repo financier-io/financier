@@ -2,7 +2,7 @@ import Drop from 'tether-drop';
 
 angular.module('financier').directive('bulkEditTransactions', ($rootScope, $sce, $compile, $timeout) => {
 
-  function link(scope, element, attrs, ngModelCtrl) {
+  function link(scope, element) {
     element.on('click', event => {
       event.stopPropagation();
 

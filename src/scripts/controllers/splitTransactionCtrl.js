@@ -1,4 +1,4 @@
-angular.module('financier').controller('splitTransactionCtrl', function($scope) {
+angular.module('financier').controller('splitTransactionCtrl', function ($scope) {
   $scope.transactionIndex = $scope.$index;
   $scope.transactionVsIndex = $scope.startIndex;
 
@@ -9,4 +9,4 @@ angular.module('financier').controller('splitTransactionCtrl', function($scope) 
   $scope.$watch('$index', $index => {
     this.index = $index;
   });
-})
+});

@@ -1,4 +1,4 @@
-describe('account', function() {
+describe('account', function () {
   let account, Account, transaction, Transaction;
 
   beforeEach(angular.mock.module('financier'));

@@ -1,5 +1,5 @@
 // http://www.adrenalinmedia.com.au/the-agency/insights/this-changes-everything-css-fluid-properties.aspx
-
+// sass-lint:disable-all
 @mixin fp($property, $min, $max, $start: 320, $end: 1920, $clip: true, $clipAtStart: true, $clipAtEnd: true) {
   $multiplier: ($max - $min) / ($end - $start) * 100;
   $adder: ($min * $end - $max * $start) / ($end - $start);
@@ -16,3 +16,4 @@
   }
   #{$property}: $formula;
 }
+// sass-lint:enable-all

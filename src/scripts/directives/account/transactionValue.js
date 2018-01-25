@@ -1,4 +1,4 @@
-angular.module('financier').directive('transactionValue', ($filter, $locale, currencies) => {
+angular.module('financier').directive('transactionValue', ($filter, $locale) => {
   const GROUP_SEP = $locale.NUMBER_FORMATS.GROUP_SEP;
   const DECIMAL_SEP = $locale.NUMBER_FORMATS.DECIMAL_SEP;
 
@@ -10,16 +10,23 @@ angular.module('financier').directive('transactionValue', ($filter, $locale, cur
     require: 'ngModel',
     link: (scope, element, attrs, ngModelCtrl) => {
       //format text going to user (model to view)
-      ngModelCtrl.$formatters.push(function(value) {
+      ngModelCtrl.$formatters.push(function (value) {
         if (!value) {
           return null;
         }
 
-        return numberFilter(intCurrencyFilter(value, true, scope.$parent.dbCtrl.currencyDigits), scope.$parent.dbCtrl.currencyDigits);
+        return numberFilter(
+          intCurrencyFilter(
+            value,
+            true,
+            scope.$parent.dbCtrl.currencyDigits
+          ),
+          scope.$parent.dbCtrl.currencyDigits
+        );
       });
 
       //format text from the user (view to model)
-      ngModelCtrl.$parsers.push(function(value) {
+      ngModelCtrl.$parsers.push(function (value) {
         if (value === DECIMAL_SEP) {
           return;
         }

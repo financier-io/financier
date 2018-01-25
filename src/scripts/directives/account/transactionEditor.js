@@ -7,12 +7,12 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
       transaction: '='
     },
     controllerAs: 'transactionCtrl',
-    controller: function($scope) {
+    controller: function ($scope) {
       const Payee = payee($stateParams.budgetId);
       const Transaction = transaction($stateParams.budgetId);
       const SplitTransaction = splitTransaction($stateParams.budgetId);
 
-      this.$onInit = function() {
+      this.$onInit = function () {
         // Make completely new copy of split transactions for editing
         this.splits = this.transaction.splits.map(s => initializeSplitEditor(s));
 
@@ -23,7 +23,7 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
         this.checkNumber = this.transaction.checkNumber;
         this.payee = $scope.dbCtrl.payees[this.transaction.payee];
         
-        $scope.$watch(() => this.account, (newAccount, oldAccount) => {
+        $scope.$watch(() => this.account, newAccount => {
           this.accountRecord = $scope.accountCtrl.manager.getAccount(newAccount);
         });
         if (this.transaction.transfer) {        
@@ -135,7 +135,9 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
 
           savePayee(this.transaction, this.payee, account, transferAccount);
 
-          this.transaction.splits = this.splits.map(s => createSplitTransaction(new SplitTransaction(this.transaction), s));
+          this.transaction.splits = this.splits.map(s => {
+            return createSplitTransaction(new SplitTransaction(this.transaction), s);
+          });
 
           if (!$scope.accountCtrl.manager.transactions[this.transaction.id]) {
             $scope.accountCtrl.manager.addTransaction(this.transaction);
@@ -158,7 +160,7 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
               this.transaction.splits[i].transfer._emitChange();
             }
           }
-        }
+        };
 
         this.addSplit = () => {
           const split = new SplitTransaction(this.transaction).toJSON();
@@ -336,7 +338,9 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
         }
 
         function removePayee(transaction) {
-          const transactions = Object.keys($scope.accountCtrl.manager.transactions).map(k => $scope.accountCtrl.manager.transactions[k]);
+          const transactions = Object.keys($scope.accountCtrl.manager.transactions).map(k => {
+            return $scope.accountCtrl.manager.transactions[k];
+          });
 
           for (let i = 0; i < transactions.length; i++) {
             if (transactions[i].payee === transaction.payee &&
@@ -397,10 +401,10 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
         this.submitAndAddAnother = () => {
           this.submit();
           $rootScope.$broadcast('transaction:create');
-        }
+        };
 
         $scope.$on('submit', this.submitAndAddAnother);
-      }
+      };
     }
-  }
-})
+  };
+});

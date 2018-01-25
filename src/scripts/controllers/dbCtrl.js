@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-angular.module('financier').controller('dbCtrl', function(exportCsv, monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget, budgetOpenedRecord, currencies, $timeout, $state, $translate, $filter, backup) {
+angular.module('financier').controller('dbCtrl', function (exportCsv, monthManager, MonthCategory, category, account, transaction, payee, masterCategory, db, budgetRecord, data, $stateParams, $scope, $q, month, ngDialog, myBudget, budgetOpenedRecord, currencies, $timeout, $state, $translate, $filter, backup) {
   const that = this;
 
   const dateFilter = $filter('date');
@@ -36,7 +36,7 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
       months: this.manager.months,
       budgetName: this.budgetRecord.name
     });
-  }
+  };
 
   this.getTransactionHeight = trans => {
     const unitHeight = 30; // one "row" of transaction table
@@ -51,7 +51,7 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
     }
 
     return unitHeight * rows;
-  }
+  };
 
   function _removeEmojis(str) {
     if (angular.isString(str)) {
@@ -104,7 +104,7 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
     this.onBudgetAccounts = this.accounts.filter(acc => acc.onBudget && !acc.closed).sort(bySort);
     this.offBudgetAccounts = this.accounts.filter(acc => !acc.onBudget && !acc.closed).sort(bySort);
     this.closedAccounts = this.accounts.filter(acc => acc.closed).sort(bySort);
-  }
+  };
 
   this.totalAccountsBalance = accounts => {
     let total = 0;
@@ -114,7 +114,7 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
     }
 
     return total;
-  }
+  };
 
   this.removeAccount = account => {
     // require all transactions in account to first be removed
@@ -137,7 +137,7 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
       account.remove();
 
       account.subscribe(null);
-    }
+    };
 
     if ($state.includes('user.app.manager.view.account', {
       accountId: account.id
@@ -149,7 +149,7 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
     } else {
       remove();
     }
-  }
+  };
 
   this.backup = () => {
     return backup.backup(budgetRecord.id);
@@ -197,7 +197,7 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
 
   budgetOpenedRecord.open();
 
-  const lastMonth = localStorage.getItem(`lastBudgetMonth_${$stateParams.budgetId}`)
+  const lastMonth = localStorage.getItem(`lastBudgetMonth_${$stateParams.budgetId}`);
 
   if (lastMonth) {
     this.currentMonth = new Date(lastMonth);
@@ -230,7 +230,7 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
     if (id === 'income') {
       return $translate.instant('INCOME_FOR', { month: dateFilter(moment(transactionDate).toDate(), 'MMMM') });
     } else if (id === 'incomeNextMonth') {
-      return $translate.instant('INCOME_FOR', { month: dateFilter(moment(transactionDate).add(1, 'month').toDate(), 'MMMM') })
+      return $translate.instant('INCOME_FOR', { month: dateFilter(moment(transactionDate).add(1, 'month').toDate(), 'MMMM') });
     } else if (id === 'split') {
       return $translate.instant('MULTIPLE_CATEGORIES');
     }
@@ -268,11 +268,14 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
 
   $scope.$watch(
     () => this.currentMonth,
-    (currentMonth, oldCurrentMonth) => {
+    currentMonth => {
       if (angular.isDefined(currentMonth)) {
         this.months = getView(currentMonth.toDate ? currentMonth.toDate() : currentMonth);
 
-        localStorage.setItem(`lastBudgetMonth_${$stateParams.budgetId}`, currentMonth.toDate ? currentMonth.toDate() : currentMonth);
+        localStorage.setItem(
+          `lastBudgetMonth_${$stateParams.budgetId}`,
+          currentMonth.toDate ? currentMonth.toDate() : currentMonth
+        );
       }
     }
   );
@@ -281,7 +284,7 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
     delete this.categories[cat.id];
 
     this.masterCategories[cat.masterCategory].removeCategory(cat);
-  }
+  };
 
   this.addCategory = cat => {
     this.categories[cat.id] = cat;
@@ -339,7 +342,7 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
       console.log(`Couldn't find master category with ID ${cat.masterCategory}!`);
     }
 
-  }
+  };
 
   for (let id in this.categories) {
     if (this.categories.hasOwnProperty(id)) {
@@ -481,7 +484,7 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
         }
       }
     },
-    month(change) {
+    month() {
       // TODO
     },
     monthCategory(change) {
@@ -498,7 +501,6 @@ angular.module('financier').controller('dbCtrl', function(exportCsv, monthManage
         const mo = manager.getMonth(MonthManager._dateIDToDate(moCat.monthId));
 
         if (mo.categories[moCat.categoryId]) {
-          const oldBudget = mo.categories[moCat.categoryId].budget;
           mo.categories[moCat.categoryId].data = change.doc;
         } else {
           moCat.subscribe(myBudget.put);

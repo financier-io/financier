@@ -11,7 +11,7 @@
 
 .verify-email__text--loading {
   animation: pulsate 1s ease-out;
-  animation-iteration-count: infinite; 
+  animation-iteration-count: infinite;
   opacity: 0.5;
 }
 
@@ -19,9 +19,11 @@
   0% {
     opacity: 0.5;
   }
+
   50% {
-    opacity: 1.0;
+    opacity: 1;
   }
+
   100% {
     opacity: 0.5;
   }

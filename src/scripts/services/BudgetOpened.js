@@ -120,7 +120,7 @@ angular.module('financier').factory('BudgetOpened', () => {
      * @type {string}
      */
     static get startKey() {
-      return `budget-opened_`;
+      return 'budget-opened_';
     }
 
     /**
@@ -152,7 +152,7 @@ angular.module('financier').factory('BudgetOpened', () => {
     static contains(_id) {
       return _id > this.startKey && _id < this.endKey;
     }
-  };
+  }
 
   return BudgetOpened;
 });

@@ -1,4 +1,4 @@
-angular.module('financier').controller('requestResetPasswordCtrl', function($scope, User, userEmail) {
+angular.module('financier').controller('requestResetPasswordCtrl', function ($scope, User, userEmail) {
   this.email = userEmail;
 
   this.submit = email => {
@@ -18,7 +18,7 @@ angular.module('financier').controller('requestResetPasswordCtrl', function($sco
     });
   };
 
-  $scope.$watch(() => this.email, email => {
+  $scope.$watch(() => this.email, () => {
     this.formDisabled = false;
 
     if (this.form) {

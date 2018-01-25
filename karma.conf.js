@@ -1,5 +1,5 @@
 // Karma configuration
-module.exports = function(config) {
+module.exports = config => {
   config.set({
     frameworks: [
       // Reference: https://github.com/karma-runner/karma-jasmine
@@ -9,26 +9,28 @@ module.exports = function(config) {
 
     browsers: [
       // Run tests using PhantomJS
-      // 'PhantomJS'
+      'PhantomJS'
     ],
 
-    // ... normal karma configuration
     files: [
-      // all files ending in "_test"
       'src/scripts/tests.webpack.js'
     ],
 
     preprocessors: {
       // add webpack as preprocessor
-      'src/scripts/tests.webpack.js': ['webpack']
+      'src/scripts/tests.webpack.js': ['webpack', 'sourcemap']
     },
 
+    // TODO: Using 2.0.6 karma-webpack due to bug:
+    // https://github.com/webpack-contrib/karma-webpack/issues/291
     webpack: require('./webpack.config'),
 
     webpackMiddleware: {
       // webpack-dev-middleware configuration
       // i. e.
       stats: 'errors-only'
-    }
+    },
+
+    singleRun: true
   });
 };
