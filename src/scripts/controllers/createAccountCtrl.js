@@ -10,6 +10,7 @@ angular.module('financier').controller('createAccountCtrl', function ($locale, m
 
   this.account = myAccount;
 
+  this.startingBalanceValid = false;
   this.startingBalanceDate = new Date();
 
   this.getGroupName = onBudget => $translate.instant(onBudget ? 'ON_BUDGET' : 'OFF_BUDGET');
@@ -143,7 +144,9 @@ angular.module('financier').controller('createAccountCtrl', function ($locale, m
     promises.push(myBudg.put(transaction));
 
     $q.all(promises).then(() => {
-      $scope.closeThisDialog();
+      setTimeout(() => {
+        $scope.closeThisDialog();
+      });
     });
 
   };

@@ -7,7 +7,7 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout, $locale) =
   const numberFilter = $filter('number');
   const intCurrencyFilter = $filter('intCurrency');
 
-  function link(scope, element) {
+  function link(scope, element, attrs) {
     let oldValue;
 
     scope.$watch('viewModel', val => {
@@ -25,26 +25,39 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout, $locale) =
         const val = math.eval(v);
         oldValue = val.toFixed(scope.$parent.dbCtrl.currencyDigits);
       } catch (e) {
-        oldValue = 0;
+        oldValue = attrs.required ? null : 0;
       }
 
       if (!isFinite(oldValue) || isNaN(oldValue)) {
-        oldValue = 0;
+        oldValue = attrs.required ? null : 0;
+      }
+
+      if (attrs.required && oldValue == null) {
+        return null;
       }
 
       const val = Math.round(oldValue * Math.pow(10, scope.$parent.dbCtrl.currencyDigits));
 
-      scope.onUpdate({
-        model: val // float $2.50123 ==> int 250
-      });
-
-      // 20.20 => 20.2 goes to 20.20
-      setView(val);
+      return val;
     };
 
-    element.on('keydown blur', event => {
+    element.on('input', () => {
+      validate();
+      scope.$apply();
+    });
+
+    element.on('keypress blur', event => {
       if (event.which === 13 || event.type == 'blur') { // enter or blur
-        parse();
+        const val = parse();
+
+        scope.onUpdate({
+          model: val // float $2.50123 ==> int 250
+        });
+
+        // 20.20 => 20.2 goes to 20.20
+        setView(val);
+
+        scope.$apply();
       }
     });
 
@@ -56,6 +69,12 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout, $locale) =
       });
     });
 
+    function validate() {
+      const isValid = parse() != null;
+
+      scope.onValidate({ isValid });
+    }
+
     function setView(val) {
       oldValue = numberFilter(
         intCurrencyFilter(
@@ -66,7 +85,7 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout, $locale) =
         scope.$parent.dbCtrl.currencyDigits
       );
 
-      if (val !== 0) {
+      if (attrs.required || val !== 0) {
         element.val(oldValue);
       } else {
         element.val('');
@@ -78,7 +97,8 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout, $locale) =
     restrict: 'A',
     scope: {
       viewModel: '=',
-      onUpdate: '&'
+      onUpdate: '&',
+      onValidate: '&'
     },
     link
   };

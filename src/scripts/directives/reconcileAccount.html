@@ -17,9 +17,15 @@
     <div ng-switch-when="AMOUNT">
       <form name="actualForm" ng-submit="go.start($event)" novalidate>
         <h3>{{'WHAT_ACTUAL_BALANCE' | translate}}</h3>
-        <input name="amount" ng-model="val.amount" transaction-value required>
+        <input name="amount"
+               required
+               on-update="val.amount = model"
+               on-validate= "val.valid = isValid"
+               view-model="val.amount"
+               calc-input
+               class="reconcile-account__input">
         <br><br>
-        <button class="button button--primary" ng-disabled="actualForm.$invalid"><i class="fa fa-check"></i> {{'START_RECONCILIATION' | translate}}</button>
+        <button class="button button--primary" ng-disabled="!val.valid"><i class="fa fa-check"></i> {{'START_RECONCILIATION' | translate}}</button>
       </form>
     </div>
   </div>

@@ -42,3 +42,14 @@ i.reconcile-account__done-icon {
   font-size: 3em;
   color: white;
 }
+
+.reconcile-account__input {
+  outline: 0;
+  padding: 5px;
+  border: 1px solid $form-border-inactive;
+  text-align: center;
+
+  &:focus {
+    border-color: $primary;
+  }
+}

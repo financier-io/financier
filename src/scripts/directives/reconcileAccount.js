@@ -40,7 +40,8 @@ angular.module('financier').directive('reconcileAccount', ($compile, $timeout) =
         scope.reconcileCollapsed = true;
 
         scope.val = {
-          amount: null
+          amount: null,
+          valid: false
         };
 
         $timeout(() => {

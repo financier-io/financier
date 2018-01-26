@@ -50,7 +50,7 @@ angular.module('financier').directive('bulkEditTransactions', ($rootScope, $sce,
 
       dropInstance.on('close', () => {
         $timeout(() => {
-          dropInstance.destroy();
+          dropInstance && dropInstance.destroy();
         });
       });
 

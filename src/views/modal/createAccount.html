@@ -35,7 +35,9 @@
     <label>
       {{'CURRENT_BALANCE' | translate}}
       <input on-update="createAccountCtrl.startingBalance = model"
+             on-validate="createAccountCtrl.startingBalanceValid = isValid"
              view-model="createAccountCtrl.startingBalance"
+             required
              calc-input
              name="startingBalance"
              placeholder="0{{createAccountCtrl.DECIMAL_SEP}}00">
@@ -56,7 +58,7 @@
   
   <footer>
     <button class="primary"
-            ng-disabled="createAccountForm.$invalid">{{'SAVE' | translate}}</button>
+            ng-disabled="createAccountForm.$invalid || !createAccountCtrl.startingBalanceValid">{{'SAVE' | translate}}</button>
     <button ng-click="closeThisDialog()" type="button">{{'CANCEL' | translate}}</button>
   </footer>
 </form>
