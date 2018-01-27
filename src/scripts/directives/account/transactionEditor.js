@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-angular.module('financier').directive('transactionEditor', ($timeout, $rootScope, payee, transaction, $stateParams, splitTransaction, ngDialog) => {
+angular.module('financier').directive('transactionEditor', ($timeout, $rootScope, payee, transaction, $stateParams, splitTransaction, ngDialog, Hotkeys) => {
   return {
     template: require('./transactionEditor.html'),
     bindToController: {
@@ -404,7 +404,22 @@ angular.module('financier').directive('transactionEditor', ($timeout, $rootScope
         };
 
         $scope.$on('submit', this.submitAndAddAnother);
+
+        const hotkeys = Hotkeys.createHotkey({
+            key: 'escape',
+            callback: () => {
+              $scope.accountCtrl.stopEditing();
+            }
+        });
+
+        // Register hotkeys object
+        Hotkeys.registerHotkey(hotkeys);
+
+        $scope.$on('$destroy', () => {
+          Hotkeys.deregisterHotkey(hotkeys);
+        });
       };
+
     }
   };
 });

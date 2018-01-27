@@ -11,6 +11,7 @@ import dynamicLocale from 'angular-dynamic-locale';
 import vsRepeat from 'angular-vs-repeat';
 import 'angular-dateParser/dist/angular-dateparser';
 import 'angular-resizable';
+import 'angular-hotkeys-light';
 import 'angular-hotkeys';
 import 'angular-legacy-sortablejs-maintained';
 import 'angular-ladda-lw/dist/angular-ladda-lw';
@@ -31,7 +32,7 @@ let financier = angular.module('financier', [
   'ngLocale',
   'dateParser',
   'angularResizable',
-  'cfp.hotkeys',
+  'fps.hotkeys',
   'ng-sortable',
   'angular-ladda-lw'
 ]).run((offline, $rootScope, $timeout, $filter, $state) => {

@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-angular.module('financier').controller('accountCtrl', function ($translate, $timeout, $document, $element, $scope, $rootScope, $stateParams, data, hotkeys, transaction, payee, myBudget, budgetRecord) {
+angular.module('financier').controller('accountCtrl', function ($translate, $timeout, $document, $element, $scope, $rootScope, $stateParams, data, transaction, payee, myBudget, budgetRecord, Hotkeys) {
   const that = this;
 
   const Transaction = transaction($stateParams.budgetId);
@@ -232,14 +232,13 @@ angular.module('financier').controller('accountCtrl', function ($translate, $tim
   $scope.$on('account:deselectTransactions', documentClickHandler);
 
 
-  const selectAllKeyCombos = ['mod+a', 'ctrl+a'];
+  const selectAllKeyCombos = ['meta+a', 'ctrl+a'];
   $document.bind('click', () => {
     documentClickHandler();
     $scope.$digest();
   });
-  selectAllKeyCombos.forEach(combo => {
-    hotkeys.add({
-      combo,
+  const hotkeys = Hotkeys.createHotkey({
+      key: selectAllKeyCombos,
       callback: event => {
         // Stop default behavior => selecting all text
         event.preventDefault();
@@ -247,16 +246,14 @@ angular.module('financier').controller('accountCtrl', function ($translate, $tim
 
         this.selectAll();
       }
-    });
   });
+  Hotkeys.registerHotkey(hotkeys);
 
   // Do before $destroy (since both states can exist at once, 'cause animations)
   $scope.$on('$stateChangeStart', () => {
     $document.unbind('click');
 
-    selectAllKeyCombos.forEach(combo => {
-      hotkeys.del(combo);
-    });
+    Hotkeys.deregisterHotkey(hotkeys);
   });
 
   this.stopEditing = () => {
@@ -405,4 +402,17 @@ angular.module('financier').controller('accountCtrl', function ($translate, $tim
     };
   };
 
+  const clearedHotkeys = Hotkeys.createHotkey({
+      key: 'c',
+      callback: () => {
+        this.toggleCleared();
+      }
+  });
+
+  // Register hotkeys object
+  Hotkeys.registerHotkey(clearedHotkeys);
+
+  $scope.$on('$destroy', () => {
+    Hotkeys.deregisterHotkey(clearedHotkeys);
+  });
 });

@@ -8,6 +8,8 @@ angular.module('financier').controller('budgetCtrl', function ($filter, $statePa
     this.showMonths = (months >= 5 ? 5 : months) || 1;
   });
 
+  $scope.styles = {}; // for resize-categories directive
+
   const updateCategories = () => {
     this.masterCategoriesArray = [];
 

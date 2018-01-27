@@ -1,8 +1,7 @@
 <div class="account"
      st-table="displayedTransactions"
      st-safe-src="transactions"
-     disable-ng-animate
-     hotkey="{c: accountCtrl.toggleCleared}">
+     disable-ng-animate>
   <div class="account__tbody">
     <div class="account__tr account__tr--overview">
       <div ng-if="!accountCtrl.accountId"
@@ -97,7 +96,6 @@
     <transaction-editor transaction="accountCtrl.newTransaction"
          ng-if="accountCtrl.newTransaction"
          class="account__transaction-editor"
-         hotkey="{esc: accountCtrl.stopEditing}"
          ng-click="dbCtrl.stopPropagation($event)"></transaction-editor>
 
   </div>
@@ -206,7 +204,6 @@
       <transaction-editor transaction="transaction"
                           class="account__transaction-editor"
                           ng-if="accountCtrl.editingTransaction === transaction"
-                          hotkey="{esc: accountCtrl.stopEditing}"
                           ng-click="dbCtrl.stopPropagation($event)"></transaction-editor>
       
     </div>

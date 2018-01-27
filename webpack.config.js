@@ -103,13 +103,13 @@ module.exports = {
     hints: 'warning', // enum
     maxAssetSize: 20000000, // int (in bytes),
     maxEntrypointSize: 40000000, // int (in bytes)
-    assetFilter: function(assetFilename) {
+    assetFilter: assetFilename => {
       // Function predicate that provides asset filenames
       return assetFilename.endsWith('.css') || assetFilename.endsWith('.js');
     }
   },
 
-  devtool: (function() {
+  devtool: (function () {
     if (isTest) {
       return 'inline-source-map';
     }

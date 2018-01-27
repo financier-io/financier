@@ -1,4 +1,4 @@
-import math from 'mathjs';
+import { Parser } from 'expr-eval';
 
 angular.module('financier').directive('onUpdate', ($filter, $timeout, $locale) => {
   const GROUP_SEP = $locale.NUMBER_FORMATS.GROUP_SEP;
@@ -22,7 +22,7 @@ angular.module('financier').directive('onUpdate', ($filter, $timeout, $locale) =
         v = v.replace(new RegExp(`\\${GROUP_SEP}`, 'g'), '');
         v = v.replace(new RegExp(`\\${DECIMAL_SEP}`, 'g'), '.');
 
-        const val = math.eval(v);
+        const val = Parser.evaluate(v);
         oldValue = val.toFixed(scope.$parent.dbCtrl.currencyDigits);
       } catch (e) {
         oldValue = attrs.required ? null : 0;

@@ -24,6 +24,10 @@ angular.module('financier').directive('calendarInput', ($rootScope, $locale, inp
 
       const dropSetup = inputDropSetup($scope, input, template);
 
+      $scope.$on('$destroy', () => {
+        dropSetup.destroy();
+      });
+
       $scope.thisMonth = new Date();
 
       $scope.$watch((() => this.ngModel), m => {
