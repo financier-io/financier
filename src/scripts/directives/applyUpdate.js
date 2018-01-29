@@ -19,7 +19,7 @@ angular.module('financier').directive('applyUpdate', offline => {
     this.applyUpdate = () => {
       offline.applyUpdate();
 
-      window.location.reload();
+      window.location.reload(true);
     };
   }
 
