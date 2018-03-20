@@ -265,8 +265,9 @@ financier.config(function (
   $translateProvider.translations('ca', require('../public/assets/translations/ca.json'));
   $translateProvider.translations('de', require('../public/assets/translations/de.json'));
   $translateProvider.translations('no', require('../public/assets/translations/no.json'));
+  $translateProvider.translations('fr', require('../public/assets/translations/fr.json'));
 
-  $translateProvider.registerAvailableLanguageKeys(['en', 'es', 'ru', 'ca', 'de', 'no'], {
+  $translateProvider.registerAvailableLanguageKeys(['en', 'es', 'ru', 'ca', 'de', 'no', 'fr'], {
     'en*': 'en',
     'es*': 'es',
     'ru*': 'ru',
@@ -275,6 +276,7 @@ financier.config(function (
     'no*': 'no',
     'nn*': 'no', // (alt) Norwegian Nynorsk
     'nb*': 'no', // (alt) Norwegian Bokmål
+    'fr*': 'fr',
     '*': 'en' // (fallback)
   })
   .determinePreferredLanguage();
