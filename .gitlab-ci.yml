@@ -63,7 +63,7 @@ deploy:
     - docker push $CI_REGISTRY_IMAGE
 
     - apk add --no-cache curl
-    - curl -I -s -L -X POST $REDEPLOY_WEBHOOK_URL
+    - curl -s -X POST $REDEPLOY_WEBHOOK_URL
   when: on_success
 
 clean_up_job:
