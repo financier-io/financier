@@ -22,4 +22,3 @@ ___________
 ‾‾‾‾‾‾‾‾‾‾‾
  * Code, continuous integration, container image hosting and
    static webpage hosting for free by Gitlab.
- * Container management for free by Docker Cloud.
