@@ -193,9 +193,16 @@ module.exports = {
         }]),
 
         new OfflinePlugin({
+          publicPath: '/',
+          caches: {
+            main: [':rest:']
+          },
+          externals: [
+            '/'
+          ],
           ServiceWorker: {
-            navigateFallbackURL: '/',
-            events: true
+            events: true,
+            navigateFallbackURL: '/'
           },
           AppCache: false
         })
