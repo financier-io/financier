@@ -240,6 +240,10 @@ angular.module('financier').controller('accountCtrl', function ($translate, $tim
   const hotkeys = Hotkeys.createHotkey({
       key: selectAllKeyCombos,
       callback: event => {
+        if (event.target.tagName === 'INPUT') {
+          return;
+        }
+
         // Stop default behavior => selecting all text
         event.preventDefault();
         event.stopPropagation();
