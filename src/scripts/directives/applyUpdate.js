@@ -5,6 +5,10 @@ angular.module('financier').directive('applyUpdate', offline => {
     this.show = show;
 
     $scope.$on('serviceWorker:updateReady', () => {
+      offline.applyUpdate();
+    });
+
+    $scope.$on('serviceWorker:updated', () => {
       show = true;
       this.show = true;
 
@@ -17,8 +21,6 @@ angular.module('financier').directive('applyUpdate', offline => {
     };
 
     this.applyUpdate = () => {
-      offline.applyUpdate();
-
       window.location.reload(true);
     };
   }

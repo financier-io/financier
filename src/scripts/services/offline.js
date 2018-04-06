@@ -12,6 +12,9 @@ angular.module('financier').factory('offline', $rootScope => {
       },
       onUpdateReady: () => {
         $rootScope.$broadcast('serviceWorker:updateReady');
+      },
+      onUpdated: () => {
+        $rootScope.$broadcast('serviceWorker:updated');
       }
     });
   }
