@@ -218,7 +218,7 @@ name_plural: 'Chilean pesos'
 CNY: {
 symbol: 'CN¥',
 name: 'Chinese Yuan',
-symbol_native: 'CN¥',
+symbol_native: '¥',
 decimal_digits: 2,
 rounding: 0,
 code: 'CNY',
