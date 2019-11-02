@@ -12,14 +12,14 @@ angular.module('financier').directive('editAccount', ($compile, $timeout, $rootS
     controller: function ($scope, $element) {
       var pressTimer;
 
-      $element.on('mouseup', e => {
+      $element.on('mouseup', () => {
         clearTimeout(pressTimer);
         // Clear timeout
         return false;
       }).on('mousedown', e => {
         // Set timeout
         pressTimer = window.setTimeout(() => {
-          open(e)
+          open(e);
         },1000);
         return false;
       });

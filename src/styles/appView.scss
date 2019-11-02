@@ -43,6 +43,8 @@
   background: linear-gradient($primary, $dark-primary);
   color: $white;
 
+  user-select: none;
+
   a {
     text-decoration: none;
   }
