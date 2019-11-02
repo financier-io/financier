@@ -10,7 +10,23 @@ angular.module('financier').directive('editAccount', ($compile, $timeout, $rootS
     },
     controllerAs: 'editAccountCtrl',
     controller: function ($scope, $element) {
-      $element.on('contextmenu', e => {
+      var pressTimer;
+
+      $element.on('mouseup', e => {
+        clearTimeout(pressTimer);
+        // Clear timeout
+        return false;
+      }).on('mousedown', e => {
+        // Set timeout
+        pressTimer = window.setTimeout(() => {
+          open(e)
+        },1000);
+        return false;
+      });
+
+      $element.on('contextmenu', open);
+
+      function open(e) {
         e.preventDefault();
 
         $rootScope.$broadcast('account:deselectTransactions');
@@ -94,7 +110,9 @@ angular.module('financier').directive('editAccount', ($compile, $timeout, $rootS
 
 
         dropInstance.open();
-      });
+
+        return false;
+      }
 
     }
   };
