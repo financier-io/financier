@@ -171,8 +171,7 @@ describe("category", function () {
         _id: "foobar",
       });
 
-      cat._id = 123;
-      expect(cat._id).not.toBe(123);
+      expect(() => (cat._id = 123)).toThrow(TypeError);
     });
   });
 

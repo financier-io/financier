@@ -136,15 +136,13 @@ describe("Budget", function () {
     it("cannot set _id", () => {
       let sets = new Budget();
 
-      sets._id = 123;
-      expect(sets._id).not.toBe(123);
+      expect(() => (sets._id = 123)).toThrow(TypeError);
     });
 
     it("cannot set created", () => {
       let sets = new Budget();
 
-      sets.created = 123;
-      expect(sets.created).not.toBe(123);
+      expect(() => (sets.created = 123)).toThrow(TypeError);
     });
   });
 

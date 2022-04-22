@@ -751,8 +751,7 @@ describe("transaction", function () {
         _id: "foobar",
       });
 
-      tran._id = 123;
-      expect(tran._id).not.toBe(123);
+      expect(() => (tran._id = 123)).toThrow(TypeError);
     });
   });
 

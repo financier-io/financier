@@ -44,8 +44,7 @@ describe("Settings", function () {
     it("cannot set _id", () => {
       let sets = new Settings();
 
-      sets._id = 123;
-      expect(sets._id).not.toBe(123);
+      expect(() => (sets._id = 123)).toThrow(TypeError);
     });
   });
 
