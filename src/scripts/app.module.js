@@ -353,6 +353,9 @@ financier.run(function ($translate, tmhDynamicLocale, tmhDynamicLocaleCache) {
     language = "es-419";
   }
 
+  // Hack to avoid running locale require() statements in Jest
+  if (typeof jest !== "undefined") return;
+
   try {
     require(`bundle-loader?lazy&name=i18n!angular-i18n/angular-locale_${language}.js`)(
       function () {

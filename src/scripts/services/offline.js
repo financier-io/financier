@@ -1,4 +1,8 @@
 angular.module("financier").factory("offline", ($rootScope) => {
+  // Hack to avoid running jest unit test clutter
+  if (typeof jest !== "undefined")
+    return { install: () => {}, applyUpdate: () => {} };
+
   const runtime = require("@lcdp/offline-plugin/runtime");
 
   function install() {

@@ -40,31 +40,29 @@ describe("budgetManager", function () {
     });
 
     describe("all", () => {
-      it("should return with Months", () => {
-        return db._pouch
-          .bulkDocs([
-            {
-              _id:
-                "b_555-555-555-555_month_" + Month.createID(new Date("1/1/15")),
-            },
-            {
-              _id:
-                "b_555-555-555-555_month_" + Month.createID(new Date("2/1/15")),
-            },
-            {
-              _id:
-                "b_555-555-555-555_month_" + Month.createID(new Date("3/1/15")),
-            },
-          ])
-          .then(() => {
-            return budget.budget().then((monthManager) => {
-              expect(monthManager.months.length).toBe(3);
+      it("should return with Months", async () => {
+        await db._pouch.bulkDocs([
+          {
+            _id:
+              "b_555-555-555-555_month_" + Month.createID(new Date("1/1/15")),
+          },
+          {
+            _id:
+              "b_555-555-555-555_month_" + Month.createID(new Date("2/1/15")),
+          },
+          {
+            _id:
+              "b_555-555-555-555_month_" + Month.createID(new Date("3/1/15")),
+          },
+        ]);
 
-              expect(monthManager.months[0].constructor.name).toBe("Month");
-              expect(monthManager.months[1].constructor.name).toBe("Month");
-              expect(monthManager.months[2].constructor.name).toBe("Month");
-            });
-          });
+        const monthManager = await budget.budget();
+
+        expect(monthManager.months.length).toBe(3);
+
+        expect(monthManager.months[0].constructor.name).toBe("Month");
+        expect(monthManager.months[1].constructor.name).toBe("Month");
+        expect(monthManager.months[2].constructor.name).toBe("Month");
       });
 
       it("should update database", () => {
