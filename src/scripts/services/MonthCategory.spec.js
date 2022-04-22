@@ -1,111 +1,122 @@
-describe('MonthCategory', function () {
+describe("MonthCategory", function () {
   let MonthCategory, transaction;
 
-  beforeEach(angular.mock.module('financier'));
+  beforeEach(angular.mock.module("financier"));
 
   beforeEach(inject((_MonthCategory_, _transaction_) => {
     MonthCategory = _MonthCategory_;
     transaction = _transaction_;
   }));
 
-  describe('new Budget.from()', () => {
-    describe('static property', () => {
-      it('startKey', () => {
-        expect(MonthCategory.startKey('111-111-111-111')).toBe('b_111-111-111-111_m_category_');
+  describe("new Budget.from()", () => {
+    describe("static property", () => {
+      it("startKey", () => {
+        expect(MonthCategory.startKey("111-111-111-111")).toBe(
+          "b_111-111-111-111_m_category_"
+        );
       });
 
-      it('startKey', () => {
-        expect(MonthCategory.endKey('111-111-111-111')).toBe('b_111-111-111-111_m_category_\uffff');
+      it("startKey", () => {
+        expect(MonthCategory.endKey("111-111-111-111")).toBe(
+          "b_111-111-111-111_m_category_\uffff"
+        );
       });
 
-      it('prefix', () => {
-        expect(MonthCategory.prefix('111-111-111-111')).toBe('b_111-111-111-111_m_category_');
+      it("prefix", () => {
+        expect(MonthCategory.prefix("111-111-111-111")).toBe(
+          "b_111-111-111-111_m_category_"
+        );
       });
 
-      describe('contains', () => {
-        it('is true if _id is of budget and is MonthCategory', () => {
+      describe("contains", () => {
+        it("is true if _id is of budget and is MonthCategory", () => {
           let moCat = MonthCategory.from(
-            '111-111-111-111',
-            '201501',
-            '333-333-333-333'
+            "111-111-111-111",
+            "201501",
+            "333-333-333-333"
           );
 
-          expect(MonthCategory.contains('111-111-111-111', moCat.data._id)).toBe(true);
+          expect(
+            MonthCategory.contains("111-111-111-111", moCat.data._id)
+          ).toBe(true);
         });
 
-        it('is false if _id is of other budget and is MonthCategory', () => {
+        it("is false if _id is of other budget and is MonthCategory", () => {
           let moCat = MonthCategory.from(
-            '111-111-111-111',
-            '201501',
-            '333-333-333-333'
+            "111-111-111-111",
+            "201501",
+            "333-333-333-333"
           );
 
-          expect(MonthCategory.contains('222-222-222-222', moCat.data._id)).toBe(false);
+          expect(
+            MonthCategory.contains("222-222-222-222", moCat.data._id)
+          ).toBe(false);
         });
 
-        it('is false if _id is of budget and is MonthCategory', () => {
-          const Transaction = transaction('111-111-111-111'),
+        it("is false if _id is of budget and is MonthCategory", () => {
+          const Transaction = transaction("111-111-111-111"),
             trans = new Transaction();
 
-          expect(MonthCategory.contains('111-111-111-111', trans.data._id)).toBe(false);
+          expect(
+            MonthCategory.contains("111-111-111-111", trans.data._id)
+          ).toBe(false);
         });
 
         // Explicit coverage test
-        it('is false if _id is greater than', () => {
-          expect(MonthCategory.contains('111-111-111-111', 'aaa')).toBe(false);
+        it("is false if _id is greater than", () => {
+          expect(MonthCategory.contains("111-111-111-111", "aaa")).toBe(false);
         });
 
         // Explicit coverage test
-        it('is false if _id is less than', () => {
-          expect(MonthCategory.contains('111-111-111-111', 'zzz')).toBe(false);
+        it("is false if _id is less than", () => {
+          expect(MonthCategory.contains("111-111-111-111", "zzz")).toBe(false);
         });
       });
     });
-    it('is a Budget', () => {
+    it("is a Budget", () => {
       let sets = MonthCategory.from(
-        '111-111-111-111',
-        '201501',
-        '333-333-333-333'
+        "111-111-111-111",
+        "201501",
+        "333-333-333-333"
       );
 
-      expect(sets.constructor.name).toBe('MonthCategory');
+      expect(sets.constructor.name).toBe("MonthCategory");
     });
 
-    it('creates proper _id', () => {
+    it("creates proper _id", () => {
       let sets = MonthCategory.from(
-        '111-111-111-111',
-        '201501',
-        '333-333-333-333'
+        "111-111-111-111",
+        "201501",
+        "333-333-333-333"
       );
 
-      expect(sets._id).toBe('b_111-111-111-111_m_category_201501_333-333-333-333');
+      expect(sets._id).toBe(
+        "b_111-111-111-111_m_category_201501_333-333-333-333"
+      );
     });
   });
 
-  describe('new Budget()', () => {
-
-    it('can take existing settings', () => {
+  describe("new Budget()", () => {
+    it("can take existing settings", () => {
       let sets = new MonthCategory({
-        _id: 'b_111-111_m_201501_222-222',
-        budget: 223
+        _id: "b_111-111_m_201501_222-222",
+        budget: 223,
       });
 
       expect(sets.budget).toBe(223);
     });
 
-    it('throws if no constructor params', () => {
-      
+    it("throws if no constructor params", () => {
       expect(() => {
         new MonthCategory();
       }).toThrow();
-
     });
   });
 
-  describe('set', () => {
-    it('budget', () => {
+  describe("set", () => {
+    it("budget", () => {
       let sets = new MonthCategory({
-        _id: 'b_111-111_m_201501_month-category_222-222'
+        _id: "b_111-111_m_201501_month-category_222-222",
       });
 
       sets.budget = 123;
@@ -113,20 +124,20 @@ describe('MonthCategory', function () {
       expect(sets.toJSON().budget).toBe(123);
     });
 
-    it('note', () => {
+    it("note", () => {
       let sets = new MonthCategory({
-        _id: 'b_111-111_m_201501_month-category_222-222'
+        _id: "b_111-111_m_201501_month-category_222-222",
       });
 
-      sets.note = 'foobar';
+      sets.note = "foobar";
 
-      expect(sets.toJSON().note).toBe('foobar');
-      expect(sets.note).toBe('foobar');
+      expect(sets.toJSON().note).toBe("foobar");
+      expect(sets.note).toBe("foobar");
     });
 
-    it('overspending', () => {
+    it("overspending", () => {
       let sets = new MonthCategory({
-        _id: 'b_111-111_m_201501_month-category_222-222'
+        _id: "b_111-111_m_201501_month-category_222-222",
       });
 
       sets.overspending = true;
@@ -136,20 +147,19 @@ describe('MonthCategory', function () {
     });
   });
 
-  describe('pub/sub', () => {
-
-    it('budget', () => {
+  describe("pub/sub", () => {
+    it("budget", () => {
       const foo = {
         sub: () => {},
-        bdgSub: () => {}
+        bdgSub: () => {},
       };
 
-      spyOn(foo, 'sub');
-      spyOn(foo, 'bdgSub');
+      jest.spyOn(foo, "sub");
+      jest.spyOn(foo, "bdgSub");
 
       let sets = new MonthCategory({
-        _id: 'b_111-111_m_201501_month-category_222-222',
-        budget: 12
+        _id: "b_111-111_m_201501_month-category_222-222",
+        budget: 12,
       });
 
       sets.subscribe(foo.sub);
@@ -164,18 +174,18 @@ describe('MonthCategory', function () {
       expect(foo.bdgSub).toHaveBeenCalledWith(210);
     });
 
-    it('budget does not emit event if the same', () => {
+    it("budget does not emit event if the same", () => {
       const foo = {
         sub: () => {},
-        bdgSub: () => {}
+        bdgSub: () => {},
       };
 
-      spyOn(foo, 'sub');
-      spyOn(foo, 'bdgSub');
+      jest.spyOn(foo, "sub");
+      jest.spyOn(foo, "bdgSub");
 
       let sets = new MonthCategory({
-        _id: 'b_111-111_m_201501_month-category_222-222',
-        budget: 12
+        _id: "b_111-111_m_201501_month-category_222-222",
+        budget: 12,
       });
 
       sets.subscribe(foo.sub);
@@ -190,19 +200,18 @@ describe('MonthCategory', function () {
       expect(foo.bdgSub).not.toHaveBeenCalled();
     });
 
-    it('note', () => {
+    it("note", () => {
       const foo = {
         sub: () => {},
-        bdgSub: () => {}
+        bdgSub: () => {},
       };
 
-      spyOn(foo, 'sub');
-      spyOn(foo, 'bdgSub');
-
+      jest.spyOn(foo, "sub");
+      jest.spyOn(foo, "bdgSub");
 
       let sets = new MonthCategory({
-        _id: 'b_111-111_m_201501_month-category_222-222',
-        note: 'foobar'
+        _id: "b_111-111_m_201501_month-category_222-222",
+        note: "foobar",
       });
 
       sets.subscribe(foo.sub);
@@ -211,25 +220,24 @@ describe('MonthCategory', function () {
       expect(foo.sub).not.toHaveBeenCalled();
       expect(foo.bdgSub).not.toHaveBeenCalled();
 
-      sets.note = 'barfoo';
+      sets.note = "barfoo";
 
       expect(foo.sub).toHaveBeenCalledWith(sets);
       expect(foo.bdgSub).not.toHaveBeenCalled();
     });
 
-    it('overspending', () => {
+    it("overspending", () => {
       const foo = {
         sub: () => {},
-        bdgSub: () => {}
+        bdgSub: () => {},
       };
 
-      spyOn(foo, 'sub');
-      spyOn(foo, 'bdgSub');
-
+      jest.spyOn(foo, "sub");
+      jest.spyOn(foo, "bdgSub");
 
       let sets = new MonthCategory({
-        _id: 'b_111-111_m_201501_month-category_222-222',
-        overspending: true
+        _id: "b_111-111_m_201501_month-category_222-222",
+        overspending: true,
       });
 
       sets.subscribe(foo.sub);
@@ -243,6 +251,5 @@ describe('MonthCategory', function () {
       expect(foo.sub).toHaveBeenCalledWith(sets);
       expect(foo.bdgSub).not.toHaveBeenCalled();
     });
-
   });
 });

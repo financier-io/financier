@@ -1,14 +1,14 @@
-angular.module('financier').directive('applyUpdate', offline => {
+angular.module("financier").directive("applyUpdate", (offline) => {
   let show = false;
 
   function controller($scope) {
     this.show = show;
 
-    $scope.$on('serviceWorker:updateReady', () => {
+    $scope.$on("serviceWorker:updateReady", () => {
       offline.applyUpdate();
     });
 
-    $scope.$on('serviceWorker:updated', () => {
+    $scope.$on("serviceWorker:updated", () => {
       show = true;
       this.show = true;
 
@@ -26,10 +26,10 @@ angular.module('financier').directive('applyUpdate', offline => {
   }
 
   return {
-    restrict: 'E',
-    template: require('./applyUpdate.html'),
+    restrict: "E",
+    template: require("./applyUpdate.html").default,
     controller,
     replace: true,
-    controllerAs: 'applyUpdateCtrl'
+    controllerAs: "applyUpdateCtrl",
   };
 });

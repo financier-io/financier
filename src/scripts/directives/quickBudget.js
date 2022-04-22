@@ -1,10 +1,9 @@
-import Drop from 'tether-drop';
+import Drop from "tether-drop";
 
-angular.module('financier').directive('quickBudget', ($compile, $timeout) => {
+angular.module("financier").directive("quickBudget", ($compile, $timeout) => {
   return {
-    restrict: 'A',
+    restrict: "A",
     controller: function ($scope, $element) {
-
       // Get the last month's budget values, and put them into the corresponding
       // current month's categories (but only if their budget value is not set)
       this.lastMonth = () => {
@@ -13,8 +12,12 @@ angular.module('financier').directive('quickBudget', ($compile, $timeout) => {
         if (lastMonth) {
           for (let id in this.month.categories) {
             if (this.month.categories.hasOwnProperty(id)) {
-              if (!this.month.categories[id].budget && lastMonth.categories[id]) {
-                this.month.categories[id].budget = lastMonth.categories[id].budget;
+              if (
+                !this.month.categories[id].budget &&
+                lastMonth.categories[id]
+              ) {
+                this.month.categories[id].budget =
+                  lastMonth.categories[id].budget;
               }
             }
           }
@@ -55,39 +58,40 @@ angular.module('financier').directive('quickBudget', ($compile, $timeout) => {
       this.zero = () => {
         for (let id in this.month.categories) {
           if (this.month.categories.hasOwnProperty(id)) {
-            this.month.categories[id].budget -= this.month.categoryCache[id].balance;
+            this.month.categories[id].budget -=
+              this.month.categoryCache[id].balance;
           }
         }
       };
 
-
-
-
-      $element.on('click', () => {
-
-        const template = require('./quickBudget.html');
+      $element.on("click", () => {
+        const template = require("./quickBudget.html").default;
         let dropInstance;
 
-        const wrap = angular.element('<div class="tooltip"></div>').append(template);
+        const wrap = angular
+          .element('<div class="tooltip"></div>')
+          .append(template);
         const content = $compile(wrap)($scope);
 
-        content.on('click', () => {
+        content.on("click", () => {
           dropInstance.close();
         });
 
         dropInstance = new Drop({
           target: $element[0],
           content: content[0],
-          classes: 'drop-theme-arrows-bounce',
-          openOn: 'click',
-          position: 'top center',
+          classes: "drop-theme-arrows-bounce",
+          openOn: "click",
+          position: "top center",
           tetherOptions: {
-            constraints: [{
-              to: 'window',
-              attachment: 'together',
-              pin: true
-            }]
-          }
+            constraints: [
+              {
+                to: "window",
+                attachment: "together",
+                pin: true,
+              },
+            ],
+          },
         });
 
         dropInstance.open();
@@ -96,22 +100,21 @@ angular.module('financier').directive('quickBudget', ($compile, $timeout) => {
           dropInstance.position();
         });
 
-        $scope.$on('drop:close', () => {
+        $scope.$on("drop:close", () => {
           dropInstance.close();
         });
 
-        dropInstance.on('close', () => {
+        dropInstance.on("close", () => {
           $timeout(() => {
             dropInstance.destroy();
           });
         });
-
       });
     },
-    controllerAs: 'quickBudgetCtrl',
+    controllerAs: "quickBudgetCtrl",
     bindToController: {
-      months: '=',
-      month: '='
-    }
+      months: "=",
+      month: "=",
+    },
   };
 });

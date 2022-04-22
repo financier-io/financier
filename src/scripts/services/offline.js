@@ -1,27 +1,25 @@
-angular.module('financier').factory('offline', $rootScope => {
-  const runtime = require('offline-plugin/runtime');
+angular.module("financier").factory("offline", ($rootScope) => {
+  const runtime = require("@lcdp/offline-plugin/runtime");
 
   function install() {
-    runtime
-    .install({
+    runtime.install({
       onInstalled: () => {
-        $rootScope.$broadcast('offlineStatus', 'refresh');
+        $rootScope.$broadcast("offlineStatus", "refresh");
       },
       onUpdateFailed: () => {
-        $rootScope.$broadcast('serviceWorker', 'error');
+        $rootScope.$broadcast("serviceWorker", "error");
       },
       onUpdateReady: () => {
-        $rootScope.$broadcast('serviceWorker:updateReady');
+        $rootScope.$broadcast("serviceWorker:updateReady");
       },
       onUpdated: () => {
-        $rootScope.$broadcast('serviceWorker:updated');
-      }
+        $rootScope.$broadcast("serviceWorker:updated");
+      },
     });
   }
 
   return {
     install,
-    applyUpdate: runtime.applyUpdate
+    applyUpdate: runtime.applyUpdate,
   };
-
 });

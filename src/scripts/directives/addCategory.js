@@ -1,20 +1,20 @@
-import Drop from 'tether-drop';
+import Drop from "tether-drop";
 
-angular.module('financier').directive('addCategory', ($compile, $timeout) => {
+angular.module("financier").directive("addCategory", ($compile, $timeout) => {
   return {
-    restrict: 'A',
+    restrict: "A",
     scope: {
-      addCategory: '&',
-      addLabel: '@'
+      addCategory: "&",
+      addLabel: "@",
     },
     link(scope, element) {
-      element.on('click', () => {
-        const template = require('./addCategory.html');
+      element.on("click", () => {
+        const template = require("./addCategory.html").default;
 
-        const wrap = angular.element('<div></div>').append(template);
+        const wrap = angular.element("<div></div>").append(template);
         const content = $compile(wrap)(scope);
 
-        content.on('keypress keydown', e => {
+        content.on("keypress keydown", (e) => {
           if (e.which === 27) {
             dropInstance.close();
           }
@@ -23,21 +23,21 @@ angular.module('financier').directive('addCategory', ($compile, $timeout) => {
         const dropInstance = new Drop({
           target: element[0],
           content: content[0],
-          classes: 'drop-theme-arrows-bounce',
-          openOn: 'click',
+          classes: "drop-theme-arrows-bounce",
+          openOn: "click",
           tetherOptions: {
-            targetOffset: '0 -18px',
+            targetOffset: "0 -18px",
             optimizations: {
-              moveElement: true
-            }
-          }
+              moveElement: true,
+            },
+          },
         });
 
-        dropInstance.on('open', () => {
-          content.find('input')[0].focus();
+        dropInstance.on("open", () => {
+          content.find("input")[0].focus();
         });
 
-        dropInstance.on('close', () => {
+        dropInstance.on("close", () => {
           scope.name = null;
 
           $timeout(() => {
@@ -45,19 +45,18 @@ angular.module('financier').directive('addCategory', ($compile, $timeout) => {
           });
         });
 
-        scope.$on('drop:close', () => {
+        scope.$on("drop:close", () => {
           dropInstance.close();
         });
 
-        scope.submit = name => {
+        scope.submit = (name) => {
           scope.addCategory({ name });
 
           dropInstance.close();
         };
 
-
         dropInstance.open();
       });
-    }
+    },
   };
 });

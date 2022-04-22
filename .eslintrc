@@ -1,6 +1,8 @@
 {
   "extends": "eslint:recommended",
 
+  "plugins": ["jest"],
+
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module"
@@ -8,8 +10,7 @@
 
   "env": {
     "browser": true,
-    "node": true,
-    "jasmine": true
+    "node": true
   },
 
   "globals": {
@@ -18,16 +19,5 @@
     "VERSION": true
   },
 
-  "rules": {
-    "quotes": ["error", "single", { "avoidEscape": true }],
-    "no-empty": 0,
-    "no-console": 0,
-    "semi": ["error", "always"],
-    "curly": ["error", "all"],
-    "space-unary-ops": ["error", {"words": true}],
-    "space-before-function-paren": ["error", {"anonymous": "always", "named": "never"}],
-    "max-len": ["error", 120, {"ignoreComments": true, "ignoreStrings": true, "ignoreRegExpLiterals": true}],
-    "keyword-spacing": ["error"],
-    "space-before-blocks": ["error"],
-  }
+  "rules": {}
 }

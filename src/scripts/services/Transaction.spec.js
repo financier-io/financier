@@ -1,7 +1,7 @@
-describe('transaction', function () {
+describe("transaction", function () {
   let transaction, splitTransaction, account;
 
-  beforeEach(angular.mock.module('financier'));
+  beforeEach(angular.mock.module("financier"));
 
   beforeEach(inject((_transaction_, _splitTransaction_, _account_) => {
     transaction = _transaction_;
@@ -9,149 +9,149 @@ describe('transaction', function () {
     account = _account_;
   }));
 
-  it('is a function', () => {
-    expect(typeof transaction).toBe('function');
+  it("is a function", () => {
+    expect(typeof transaction).toBe("function");
   });
 
-  describe('static methods', () => {
+  describe("static methods", () => {
     let Transaction;
 
     beforeEach(() => {
-      Transaction = transaction('123-123-123-123');
+      Transaction = transaction("123-123-123-123");
     });
 
-    it('startKey', () => {
-      expect(Transaction.startKey).toBe('b_123-123-123-123_transaction_');
+    it("startKey", () => {
+      expect(Transaction.startKey).toBe("b_123-123-123-123_transaction_");
     });
 
-    it('startKey', () => {
-      expect(Transaction.endKey).toBe('b_123-123-123-123_transaction_\uffff');
+    it("startKey", () => {
+      expect(Transaction.endKey).toBe("b_123-123-123-123_transaction_\uffff");
     });
 
-    it('prefix', () => {
-      expect(Transaction.prefix).toBe('b_123-123-123-123_transaction_');
+    it("prefix", () => {
+      expect(Transaction.prefix).toBe("b_123-123-123-123_transaction_");
     });
 
-    describe('contains', () => {
-      it('is true if _id is of budget and is Transaction', () => {
+    describe("contains", () => {
+      it("is true if _id is of budget and is Transaction", () => {
         const trans = new Transaction();
 
         expect(Transaction.contains(trans.data._id)).toBe(true);
       });
 
-      it('is false if _id is of other budget and is Transaction', () => {
-        const OtherBudgetTransaction = transaction('222-222-222-222'),
+      it("is false if _id is of other budget and is Transaction", () => {
+        const OtherBudgetTransaction = transaction("222-222-222-222"),
           trans = new OtherBudgetTransaction();
 
         expect(Transaction.contains(trans.data._id)).toBe(false);
       });
 
-      it('is false if _id is of budget and is Transaction', () => {
-        const Account = account('123-123-123-123'),
+      it("is false if _id is of budget and is Transaction", () => {
+        const Account = account("123-123-123-123"),
           acc = new Account();
 
         expect(Transaction.contains(acc.data._id)).toBe(false);
       });
 
       // Explicit coverage test
-      it('is false if _id is greater than', () => {
-        expect(Transaction.contains('aaa')).toBe(false);
+      it("is false if _id is greater than", () => {
+        expect(Transaction.contains("aaa")).toBe(false);
       });
 
       // Explicit coverage test
-      it('is false if _id is less than', () => {
-        expect(Transaction.contains('zzz')).toBe(false);
+      it("is false if _id is less than", () => {
+        expect(Transaction.contains("zzz")).toBe(false);
       });
     });
   });
 
-  it('takes a budgetId and returns Transaction', () => {
-    const Transaction = transaction('123-123-123-123');
+  it("takes a budgetId and returns Transaction", () => {
+    const Transaction = transaction("123-123-123-123");
     const tran = new Transaction({
-      value: 0
+      value: 0,
     });
 
-    expect(tran.constructor.name).toBe('Transaction');
+    expect(tran.constructor.name).toBe("Transaction");
   });
 
-  describe('new transaction()', () => {
+  describe("new transaction()", () => {
     let Transaction;
 
     beforeEach(() => {
-      Transaction = transaction('111-111-111-111');
+      Transaction = transaction("111-111-111-111");
     });
 
-    it('can take an existing database document', () => {
+    it("can take an existing database document", () => {
       let tran = new Transaction({
         value: 123,
-        _id: 'b_123-123-123-123_transaction_321-321-321-321'
+        _id: "b_123-123-123-123_transaction_321-321-321-321",
       });
 
-      expect(tran.constructor.name).toBe('Transaction');
+      expect(tran.constructor.name).toBe("Transaction");
     });
 
-    it('can create default id', () => {
+    it("can create default id", () => {
       let tran = new Transaction({
-        value: 0
+        value: 0,
       });
 
-      expect(tran._id.indexOf('b_111-111-111-111_transaction_')).toBe(0);
+      expect(tran._id.indexOf("b_111-111-111-111_transaction_")).toBe(0);
     });
 
-    it('uses existing _id if exists', () => {
+    it("uses existing _id if exists", () => {
       let tran = new Transaction({
-        _id: 'b_123-123-123-123_transaction_321-321-321-321'
+        _id: "b_123-123-123-123_transaction_321-321-321-321",
       });
 
-      expect(tran._id).toBe('b_123-123-123-123_transaction_321-321-321-321');
+      expect(tran._id).toBe("b_123-123-123-123_transaction_321-321-321-321");
     });
   });
 
-  describe('date', () => {
+  describe("date", () => {
     let Transaction;
 
     beforeEach(() => {
-      Transaction = transaction('111-111-111-111');
+      Transaction = transaction("111-111-111-111");
     });
 
-    it('can be set', () => {
+    it("can be set", () => {
       const tran = new Transaction();
-      const d = new Date('2012-12-12T06:00:00.000Z');
+      const d = new Date("2012-12-12T06:00:00.000Z");
 
       tran.date = d;
 
       expect(tran.date).toBe(d);
-      expect(tran.data.date).toBe('2012-12-12');
+      expect(tran.data.date).toBe("2012-12-12");
     });
 
-    it('zeroes out timezone', () => {
+    it("zeroes out timezone", () => {
       // for backward compatibility when dates were toUTCString()'d instead of 'yyyy-mm-dd'
       const tran = new Transaction({
-        date: '2012-12-12T06:00:00.000Z'
+        date: "2012-12-12T06:00:00.000Z",
       });
 
-      expect(tran.date.toISOString().indexOf('2012-12-12')).toBe(0);
+      expect(tran.date.toISOString().indexOf("2012-12-12")).toBe(0);
     });
 
-    it('can be set from record', () => {
+    it("can be set from record", () => {
       const tran = new Transaction({
-        date: '2012-12-12T12:00:00.000Z'
+        date: "2012-12-12T12:00:00.000Z",
       });
 
       expect(angular.isDate(tran.date)).toBe(true);
-      expect(tran.date.toISOString().indexOf('2012-12-12')).toBe(0);
-      expect(tran.data.date.indexOf('2012-12-12')).toBe(0);
+      expect(tran.date.toISOString().indexOf("2012-12-12")).toBe(0);
+      expect(tran.data.date.indexOf("2012-12-12")).toBe(0);
     });
   });
 
-  describe('inflow', () => {
+  describe("inflow", () => {
     let Transaction;
 
     beforeEach(() => {
-      Transaction = transaction('111-111-111-111');
+      Transaction = transaction("111-111-111-111");
     });
 
-    it('sets value', () => {
+    it("sets value", () => {
       const tran = new Transaction();
 
       tran.inflow = 123;
@@ -161,7 +161,7 @@ describe('transaction', function () {
       expect(tran.data.value).toBe(123);
     });
 
-    it('is undefined with negative value', () => {
+    it("is undefined with negative value", () => {
       const tran = new Transaction();
 
       tran.value = -123;
@@ -170,12 +170,12 @@ describe('transaction', function () {
       expect(tran.data.inflow).toBeUndefined();
     });
 
-    it('calls subscriber', () => {
+    it("calls subscriber", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       const tran = new Transaction();
 
@@ -187,14 +187,14 @@ describe('transaction', function () {
     });
   });
 
-  describe('outflow', () => {
+  describe("outflow", () => {
     let Transaction;
 
     beforeEach(() => {
-      Transaction = transaction('111-111-111-111');
+      Transaction = transaction("111-111-111-111");
     });
 
-    it('sets value', () => {
+    it("sets value", () => {
       const tran = new Transaction();
 
       tran.outflow = 123;
@@ -204,7 +204,7 @@ describe('transaction', function () {
       expect(tran.data.value).toBe(-123);
     });
 
-    it('is undefined with postive value', () => {
+    it("is undefined with postive value", () => {
       const tran = new Transaction();
 
       tran.value = 123;
@@ -213,12 +213,12 @@ describe('transaction', function () {
       expect(tran.data.outflow).toBeUndefined();
     });
 
-    it('calls subscriber', () => {
+    it("calls subscriber", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       const tran = new Transaction();
 
@@ -230,43 +230,43 @@ describe('transaction', function () {
     });
   });
 
-  it('can be removed', () => {
-      const Transaction = transaction('111-111-111-111');
+  it("can be removed", () => {
+    const Transaction = transaction("111-111-111-111");
 
-      const foo = {
-        change: () => {}
-      };
+    const foo = {
+      change: () => {},
+    };
 
-      spyOn(foo, 'change');
+    jest.spyOn(foo, "change");
 
-      let tran = new Transaction({
-        _id: 'foo'
-      });
+    let tran = new Transaction({
+      _id: "foo",
+    });
 
-      tran.subscribe(foo.change);
+    tran.subscribe(foo.change);
 
-      expect(foo.change).not.toHaveBeenCalled();
-      expect(tran.toJSON()._deleted).not.toBeDefined();
+    expect(foo.change).not.toHaveBeenCalled();
+    expect(tran.toJSON()._deleted).not.toBeDefined();
 
-      tran.remove();
+    tran.remove();
 
-      expect(foo.change).toHaveBeenCalledWith(tran);
-      expect(tran.toJSON()._deleted).toBe(true);
+    expect(foo.change).toHaveBeenCalledWith(tran);
+    expect(tran.toJSON()._deleted).toBe(true);
   });
 
-  describe('_emitValueChange', () => {
+  describe("_emitValueChange", () => {
     let Transaction;
 
     beforeEach(() => {
-      Transaction = transaction('111-111-111-111');
+      Transaction = transaction("111-111-111-111");
     });
 
-    it('send a value to the value subscriber', () => {
+    it("send a value to the value subscriber", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.subscribeValueChange(foo.change);
@@ -279,19 +279,19 @@ describe('transaction', function () {
     });
   });
 
-  describe('pub/sub value', () => {
+  describe("pub/sub value", () => {
     let Transaction;
 
     beforeEach(() => {
-      Transaction = transaction('111-111-111-111');
+      Transaction = transaction("111-111-111-111");
     });
 
-    it('value', () => {
+    it("value", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.subscribeValueChange(foo.change);
@@ -308,19 +308,19 @@ describe('transaction', function () {
     });
   });
 
-  describe('subscribeClearedValueChange subscription', () => {
+  describe("subscribeClearedValueChange subscription", () => {
     let Transaction;
 
     beforeEach(() => {
-      Transaction = transaction('111-111-111-111');
+      Transaction = transaction("111-111-111-111");
     });
 
-    it('emits when transaction is cleared and value changes', () => {
+    it("emits when transaction is cleared and value changes", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.cleared = true;
@@ -334,12 +334,12 @@ describe('transaction', function () {
       expect(foo.change).toHaveBeenCalledWith(123);
     });
 
-    it('emits when transaction changes cleared to uncleared', () => {
+    it("emits when transaction changes cleared to uncleared", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.cleared = true;
@@ -351,12 +351,12 @@ describe('transaction', function () {
       expect(foo.change).toHaveBeenCalledWith(-123);
     });
 
-    it('emits when transaction changes uncleared to cleared', () => {
+    it("emits when transaction changes uncleared to cleared", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.cleared = false;
@@ -368,12 +368,12 @@ describe('transaction', function () {
       expect(foo.change).toHaveBeenCalledWith(123);
     });
 
-    it('does not emit when transaction is uncleared and value changes', () => {
+    it("does not emit when transaction is uncleared and value changes", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.cleared = false;
@@ -387,14 +387,14 @@ describe('transaction', function () {
       expect(foo.change).not.toHaveBeenCalled();
     });
 
-    it('emits to multiple subscribers', () => {
+    it("emits to multiple subscribers", () => {
       const foo = {
         change1: () => {},
-        change2: () => {}
+        change2: () => {},
       };
 
-      spyOn(foo, 'change1');
-      spyOn(foo, 'change2');
+      jest.spyOn(foo, "change1");
+      jest.spyOn(foo, "change2");
 
       let tran = new Transaction();
       tran.cleared = true;
@@ -411,12 +411,12 @@ describe('transaction', function () {
       expect(foo.change2).toHaveBeenCalledWith(123);
     });
 
-    it('can unsubscribe', () => {
+    it("can unsubscribe", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.cleared = true;
@@ -429,7 +429,7 @@ describe('transaction', function () {
       expect(foo.change).not.toHaveBeenCalled();
     });
 
-    it('throws if unsubscriber does not exist', () => {
+    it("throws if unsubscriber does not exist", () => {
       let tran = new Transaction();
 
       expect(() => {
@@ -438,19 +438,19 @@ describe('transaction', function () {
     });
   });
 
-  describe('subscribeUnclearedValueChange subscription', () => {
+  describe("subscribeUnclearedValueChange subscription", () => {
     let Transaction;
 
     beforeEach(() => {
-      Transaction = transaction('111-111-111-111');
+      Transaction = transaction("111-111-111-111");
     });
 
-    it('emits when transaction is uncleared and value changes', () => {
+    it("emits when transaction is uncleared and value changes", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.cleared = false;
@@ -464,12 +464,12 @@ describe('transaction', function () {
       expect(foo.change).toHaveBeenCalledWith(123);
     });
 
-    it('emits when transaction changes cleared to uncleared', () => {
+    it("emits when transaction changes cleared to uncleared", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.cleared = true;
@@ -481,12 +481,12 @@ describe('transaction', function () {
       expect(foo.change).toHaveBeenCalledWith(123);
     });
 
-    it('emits when transaction changes uncleared to cleared', () => {
+    it("emits when transaction changes uncleared to cleared", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.cleared = false;
@@ -498,12 +498,12 @@ describe('transaction', function () {
       expect(foo.change).toHaveBeenCalledWith(-123);
     });
 
-    it('does not emit when transaction is cleared and value changes', () => {
+    it("does not emit when transaction is cleared and value changes", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.cleared = true;
@@ -517,14 +517,14 @@ describe('transaction', function () {
       expect(foo.change).not.toHaveBeenCalled();
     });
 
-    it('emits to multiple subscribers', () => {
+    it("emits to multiple subscribers", () => {
       const foo = {
         change1: () => {},
-        change2: () => {}
+        change2: () => {},
       };
 
-      spyOn(foo, 'change1');
-      spyOn(foo, 'change2');
+      jest.spyOn(foo, "change1");
+      jest.spyOn(foo, "change2");
 
       let tran = new Transaction();
       tran.cleared = false;
@@ -541,12 +541,12 @@ describe('transaction', function () {
       expect(foo.change2).toHaveBeenCalledWith(123);
     });
 
-    it('can unsubscribe', () => {
+    it("can unsubscribe", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.cleared = false;
@@ -559,7 +559,7 @@ describe('transaction', function () {
       expect(foo.change).not.toHaveBeenCalled();
     });
 
-    it('throws if unsubscriber does not exist', () => {
+    it("throws if unsubscriber does not exist", () => {
       let tran = new Transaction();
 
       expect(() => {
@@ -568,19 +568,19 @@ describe('transaction', function () {
     });
   });
 
-  describe('pub/sub', () => {
+  describe("pub/sub", () => {
     let Transaction;
 
     beforeEach(() => {
-      Transaction = transaction('111-111-111-111');
+      Transaction = transaction("111-111-111-111");
     });
 
-    it('value', () => {
+    it("value", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.subscribe(foo.change);
@@ -595,12 +595,12 @@ describe('transaction', function () {
       expect(foo.change).toHaveBeenCalledWith(tran);
     });
 
-    it('account', () => {
+    it("account", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.subscribe(foo.change);
@@ -609,18 +609,18 @@ describe('transaction', function () {
 
       expect(tran.toJSON().account).toBe(null);
 
-      tran.account = 'my_account_id';
+      tran.account = "my_account_id";
 
-      expect(tran.toJSON().account).toBe('my_account_id');
+      expect(tran.toJSON().account).toBe("my_account_id");
       expect(foo.change).toHaveBeenCalledWith(tran);
     });
 
-    it('memo', () => {
+    it("memo", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.subscribe(foo.change);
@@ -629,18 +629,18 @@ describe('transaction', function () {
 
       expect(tran.toJSON().memo).toBe(null);
 
-      tran.memo = 'my_memo';
+      tran.memo = "my_memo";
 
-      expect(tran.toJSON().memo).toBe('my_memo');
+      expect(tran.toJSON().memo).toBe("my_memo");
       expect(foo.change).toHaveBeenCalledWith(tran);
     });
 
-    it('cleared', () => {
+    it("cleared", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.subscribe(foo.change);
@@ -659,12 +659,12 @@ describe('transaction', function () {
       expect(foo.change).toHaveBeenCalledWith(tran);
     });
 
-    it('flag', () => {
+    it("flag", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.subscribe(foo.change);
@@ -673,19 +673,19 @@ describe('transaction', function () {
 
       expect(tran.toJSON().flag).toBe(null);
 
-      tran.flag = '#ff0000';
+      tran.flag = "#ff0000";
 
-      expect(tran.toJSON().flag).toBe('#ff0000');
-      expect(tran.flag).toBe('#ff0000');
+      expect(tran.toJSON().flag).toBe("#ff0000");
+      expect(tran.flag).toBe("#ff0000");
       expect(foo.change).toHaveBeenCalledWith(tran);
     });
 
-    it('category', () => {
+    it("category", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.subscribe(foo.change);
@@ -695,19 +695,19 @@ describe('transaction', function () {
       expect(tran.category).toBe(null);
       expect(tran.toJSON().category).toBe(null);
 
-      tran.category = '123-123-123-123';
+      tran.category = "123-123-123-123";
 
-      expect(tran.toJSON().category).toBe('123-123-123-123');
-      expect(tran.category).toBe('123-123-123-123');
+      expect(tran.toJSON().category).toBe("123-123-123-123");
+      expect(tran.category).toBe("123-123-123-123");
       expect(foo.change).toHaveBeenCalledWith(tran);
     });
 
-    it('account', () => {
+    it("account", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.subscribe(foo.change);
@@ -717,19 +717,19 @@ describe('transaction', function () {
       expect(tran.account).toBe(null);
       expect(tran.toJSON().account).toBe(null);
 
-      tran.account = '123-123-123-123';
+      tran.account = "123-123-123-123";
 
-      expect(tran.toJSON().account).toBe('123-123-123-123');
-      expect(tran.account).toBe('123-123-123-123');
+      expect(tran.toJSON().account).toBe("123-123-123-123");
+      expect(tran.account).toBe("123-123-123-123");
       expect(foo.change).toHaveBeenCalledWith(tran);
     });
 
-    it('memo', () => {
+    it("memo", () => {
       const foo = {
-        change: () => {}
+        change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.subscribe(foo.change);
@@ -739,16 +739,16 @@ describe('transaction', function () {
       expect(tran.memo).toBe(null);
       expect(tran.toJSON().memo).toBe(null);
 
-      tran.memo = '123-123-123-123';
+      tran.memo = "123-123-123-123";
 
-      expect(tran.toJSON().memo).toBe('123-123-123-123');
-      expect(tran.memo).toBe('123-123-123-123');
+      expect(tran.toJSON().memo).toBe("123-123-123-123");
+      expect(tran.memo).toBe("123-123-123-123");
       expect(foo.change).toHaveBeenCalledWith(tran);
     });
 
-    it('cannot set _id', () => {
+    it("cannot set _id", () => {
       let tran = new Transaction({
-        _id: 'foobar'
+        _id: "foobar",
       });
 
       tran._id = 123;
@@ -756,53 +756,58 @@ describe('transaction', function () {
     });
   });
 
-  
-  describe('split transactions', () => {
+  describe("split transactions", () => {
     let Transaction;
     let SplitTransaction;
 
     beforeEach(() => {
-      Transaction = transaction('111-111-111-111');
-      SplitTransaction = splitTransaction('111-111-111-111');
+      Transaction = transaction("111-111-111-111");
+      SplitTransaction = splitTransaction("111-111-111-111");
     });
 
-    it('can have splits', () => {
+    it("can have splits", () => {
       const trans = new Transaction({
         value: 123,
-        _id: 'b_123-123-123-123_transaction_321-321-321-321',
-        splits: [{
-          id: 'a',
-          category: 'income'
-        }]
+        _id: "b_123-123-123-123_transaction_321-321-321-321",
+        splits: [
+          {
+            id: "a",
+            category: "income",
+          },
+        ],
       });
 
       expect(trans.splits.length).toBe(1);
-      expect(trans.splits[0].constructor.name).toBe('SplitTransaction');
+      expect(trans.splits[0].constructor.name).toBe("SplitTransaction");
 
       expect(trans.splits[0].transaction).toBe(trans);
     });
 
-    it('splits should have reference to parent transaction', () => {
+    it("splits should have reference to parent transaction", () => {
       const trans = new Transaction({
         value: 123,
-        _id: 'b_123-123-123-123_transaction_321-321-321-321',
-        splits: [{
-          id: 'a',
-          category: 'income'
-        }]
+        _id: "b_123-123-123-123_transaction_321-321-321-321",
+        splits: [
+          {
+            id: "a",
+            category: "income",
+          },
+        ],
       });
 
       expect(trans.splits[0].transaction).toBe(trans);
     });
 
-    it('can add splits', () => {
+    it("can add splits", () => {
       const trans = new Transaction({
         value: 123,
-        _id: 'b_123-123-123-123_transaction_321-321-321-321',
-        splits: [{
-          id: 'a',
-          category: 'income'
-        }]
+        _id: "b_123-123-123-123_transaction_321-321-321-321",
+        splits: [
+          {
+            id: "a",
+            category: "income",
+          },
+        ],
       });
 
       const split = new SplitTransaction(trans);
@@ -812,30 +817,32 @@ describe('transaction', function () {
       expect(trans.splits[0].transaction).toBe(trans);
     });
 
-    it('can update splits', () => {
+    it("can update splits", () => {
       const trans = new Transaction({
         value: 123,
-        _id: 'b_123-123-123-123_transaction_321-321-321-321',
-        splits: [{
-          id: 'a',
-          category: 'income'
-        }]
+        _id: "b_123-123-123-123_transaction_321-321-321-321",
+        splits: [
+          {
+            id: "a",
+            category: "income",
+          },
+        ],
       });
 
       const split = new SplitTransaction(trans);
       const split1id = split.id;
 
-      spyOn(split, '_emitValueChange');
+      jest.spyOn(split, "_emitValueChange");
 
       const split1dupe = new SplitTransaction(trans, {
         id: split1id,
-        value: 123
+        value: 123,
       });
 
       trans.splits = [split];
 
       expect(split._emitValueChange).not.toHaveBeenCalled();
-      
+
       trans.splits = [split1dupe, new SplitTransaction(trans)];
 
       expect(split._emitValueChange).toHaveBeenCalled();
@@ -843,28 +850,30 @@ describe('transaction', function () {
       expect(split1id).toEqual(split.id);
     });
 
-    it('should serialize splits properly', () => {
+    it("should serialize splits properly", () => {
       const trans = new Transaction({
         value: 123,
-        _id: 'b_123-123-123-123_transaction_321-321-321-321'
+        _id: "b_123-123-123-123_transaction_321-321-321-321",
       });
 
       const split = new SplitTransaction(trans, {
-        id: 'testid'
+        id: "testid",
       });
 
-      split.memo = 'test 123';
+      split.memo = "test 123";
 
       trans.splits = [split];
 
-      expect(trans.toJSON().splits).toEqual([{
-        id: 'testid',
-        value: 0,
-        category: null,
-        memo: 'test 123',
-        payee: null,
-        transfer: null
-      }]);
+      expect(trans.toJSON().splits).toEqual([
+        {
+          id: "testid",
+          value: 0,
+          category: null,
+          memo: "test 123",
+          payee: null,
+          transfer: null,
+        },
+      ]);
     });
   });
 });

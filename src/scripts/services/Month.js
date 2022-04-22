@@ -1,11 +1,9 @@
-angular.module('financier').factory('month', MonthCategory => {
-  return budgetId => {
-
+angular.module("financier").factory("month", (MonthCategory) => {
+  return (budgetId) => {
     /**
      * Represents a Month
      */
     class Month {
-
       /**
        * Create a Month
        *
@@ -18,8 +16,7 @@ angular.module('financier').factory('month', MonthCategory => {
        * Once complete, will set the _rev of the Object (`obj._rev = 'uid'`).
        */
       constructor(data, saveFn) {
-        const defaults = {
-        };
+        const defaults = {};
 
         this.saveFn = saveFn;
 
@@ -33,7 +30,7 @@ angular.module('financier').factory('month', MonthCategory => {
         }
 
         // database prefix TODO
-        this.date = myData._id.slice(myData._id.lastIndexOf('_') + 1);
+        this.date = myData._id.slice(myData._id.lastIndexOf("_") + 1);
 
         this.data = myData;
 
@@ -49,7 +46,7 @@ angular.module('financier').factory('month', MonthCategory => {
           totalOverspent: 0,
           totalOverspentLastMonth: 0,
           totalIncome: 0, // todo
-          totalOutflow: 0
+          totalOutflow: 0,
         };
       }
 
@@ -58,7 +55,7 @@ angular.module('financier').factory('month', MonthCategory => {
        *
        * @param {string} catId - The category UID.
        * @param {currency} rolling - The absolute value to be used.
-      */
+       */
       setRolling(catId, rolling, overspending) {
         this.createCategoryIfEmpty(catId);
         this.createCategoryCacheIfEmpty(catId);
@@ -66,7 +63,9 @@ angular.module('financier').factory('month', MonthCategory => {
         if (this.categoryCache[catId].overspending == null) {
           if (overspending) {
             // Clear the overspending value last used
-            this._changeCurrentOverspent(Math.min(this.categoryCache[catId].balance, 0));
+            this._changeCurrentOverspent(
+              Math.min(this.categoryCache[catId].balance, 0)
+            );
           }
 
           this.categoryCache[catId].overspending = overspending;
@@ -81,26 +80,36 @@ angular.module('financier').factory('month', MonthCategory => {
         this.cache.totalBalance += rolling - oldRolling;
 
         if (this.categoryCache[catId].overspending) {
-          this.nextRollingFn && this.nextRollingFn(
-            catId,
-            this.categoryCache[catId].balance,
-            this.categoryCache[catId].overspending
-          );
-        } else {
-          this._changeCurrentOverspent(0 - (Math.min(this.categoryCache[catId].balance, 0) - Math.min(oldBalance, 0)));
-
-          if (this.categoryCache[catId].balance > 0) {
-            this.nextRollingFn && this.nextRollingFn(
+          this.nextRollingFn &&
+            this.nextRollingFn(
               catId,
               this.categoryCache[catId].balance,
               this.categoryCache[catId].overspending
             );
+        } else {
+          this._changeCurrentOverspent(
+            0 -
+              (Math.min(this.categoryCache[catId].balance, 0) -
+                Math.min(oldBalance, 0))
+          );
+
+          if (this.categoryCache[catId].balance > 0) {
+            this.nextRollingFn &&
+              this.nextRollingFn(
+                catId,
+                this.categoryCache[catId].balance,
+                this.categoryCache[catId].overspending
+              );
           } else {
             // Your category balance is overdrawn!
-            this.nextRollingFn && this.nextRollingFn(catId, 0, this.categoryCache[catId].overspending);
+            this.nextRollingFn &&
+              this.nextRollingFn(
+                catId,
+                0,
+                this.categoryCache[catId].overspending
+              );
           }
         }
-
       }
 
       /**
@@ -111,7 +120,11 @@ angular.module('financier').factory('month', MonthCategory => {
        */
       startRolling(catId) {
         this.createCategoryCacheIfEmpty(catId);
-        this.setRolling(catId, this.categoryCache[catId].rolling, this.categoryCache[catId].overspending);
+        this.setRolling(
+          catId,
+          this.categoryCache[catId].rolling,
+          this.categoryCache[catId].overspending
+        );
       }
 
       /**
@@ -134,53 +147,58 @@ angular.module('financier').factory('month', MonthCategory => {
        * @param {MonthCategory} monthCat - The month category integrate with the month.
        */
       addBudget(monthCat) {
-          // assume is MonthCategory
-          this.categories[monthCat.categoryId] = monthCat;
-          this.createCategoryCacheIfEmpty(monthCat.categoryId);
+        // assume is MonthCategory
+        this.categories[monthCat.categoryId] = monthCat;
+        this.createCategoryCacheIfEmpty(monthCat.categoryId);
 
-          monthCat.subscribe(record => {
-            this.saveFn(record);
-          });
+        monthCat.subscribe((record) => {
+          this.saveFn(record);
+        });
 
-          monthCat.subscribeBudget(value => {
-            this.budgetChange(monthCat.categoryId, value);
-          });
+        monthCat.subscribeBudget((value) => {
+          this.budgetChange(monthCat.categoryId, value);
+        });
 
+        monthCat.subscribeOverspending((newO) => {
+          const oldOverspending =
+            this.categoryCache[monthCat.categoryId].overspending;
+          this.categoryCache[monthCat.categoryId].overspending = newO;
 
-          monthCat.subscribeOverspending(newO => {
-            const oldOverspending = this.categoryCache[monthCat.categoryId].overspending; 
-            this.categoryCache[monthCat.categoryId].overspending = newO;
-
-            // We need to manually restore the overspent amount
-            // to whatever the functionality should be (for this category)
-            if (newO && !oldOverspending) {
-              this._changeCurrentOverspent(Math.min(0, this.categoryCache[monthCat.categoryId].balance));
-            } else if (!newO && oldOverspending) {
-              this._changeCurrentOverspent(-Math.min(0, this.categoryCache[monthCat.categoryId].balance));
-            }
-
-            this.startRolling(monthCat.categoryId);
-          });
-
-          if (monthCat.overspending !== null) {
-            this.categoryCache[monthCat.categoryId].overspending = monthCat.overspending;
+          // We need to manually restore the overspent amount
+          // to whatever the functionality should be (for this category)
+          if (newO && !oldOverspending) {
+            this._changeCurrentOverspent(
+              Math.min(0, this.categoryCache[monthCat.categoryId].balance)
+            );
+          } else if (!newO && oldOverspending) {
+            this._changeCurrentOverspent(
+              -Math.min(0, this.categoryCache[monthCat.categoryId].balance)
+            );
           }
 
-          this.cache.totalBudget += monthCat.budget;
+          this.startRolling(monthCat.categoryId);
+        });
 
-          this.changeAvailable(-monthCat.budget);
+        if (monthCat.overspending !== null) {
+          this.categoryCache[monthCat.categoryId].overspending =
+            monthCat.overspending;
+        }
 
-          this.categoryCache[monthCat.categoryId].balance += monthCat.budget;
+        this.cache.totalBudget += monthCat.budget;
 
-          if (!this.categoryCache[monthCat.categoryId].overspending) {
-            this._changeCurrentOverspent(-Math.min(0, monthCat.budget));
-          }
+        this.changeAvailable(-monthCat.budget);
 
-          this.cache.totalBalance += monthCat.budget;
+        this.categoryCache[monthCat.categoryId].balance += monthCat.budget;
 
-          // Don't call nextRollingFn quite yet since we're adding the MonthCategory
-          // upon initialization, and we'll run startRolling on the whole collection
-          // of months later
+        if (!this.categoryCache[monthCat.categoryId].overspending) {
+          this._changeCurrentOverspent(-Math.min(0, monthCat.budget));
+        }
+
+        this.cache.totalBalance += monthCat.budget;
+
+        // Don't call nextRollingFn quite yet since we're adding the MonthCategory
+        // upon initialization, and we'll run startRolling on the whole collection
+        // of months later
       }
 
       /**
@@ -189,30 +207,29 @@ angular.module('financier').factory('month', MonthCategory => {
        * @param {MonthCategory} monthCat - The month category integrate with the month.
        */
       removeBudget(monthCat) {
-          // assume is MonthCategory
+        // assume is MonthCategory
 
-          monthCat.subscribeBudget(null);
+        monthCat.subscribeBudget(null);
 
-          this.cache.totalBudget -= monthCat.budget;
+        this.cache.totalBudget -= monthCat.budget;
 
-          this.changeAvailable(monthCat.budget);
+        this.changeAvailable(monthCat.budget);
 
-          if (this.categoryCache[monthCat.categoryId]) {
-            this.categoryCache[monthCat.categoryId].balance -= monthCat.budget;
+        if (this.categoryCache[monthCat.categoryId]) {
+          this.categoryCache[monthCat.categoryId].balance -= monthCat.budget;
 
-            if (!this.categoryCache[monthCat.categoryId].overspending) {
-              this._changeCurrentOverspent(Math.min(0, monthCat.budget));
-            }
+          if (!this.categoryCache[monthCat.categoryId].overspending) {
+            this._changeCurrentOverspent(Math.min(0, monthCat.budget));
           }
+        }
 
-          this.cache.totalBalance -= monthCat.budget;
+        this.cache.totalBalance -= monthCat.budget;
 
-          delete this.categories[monthCat.categoryId];
+        delete this.categories[monthCat.categoryId];
 
-          // Don't call nextRollingFn quite yet since we're removing the MonthCategory
-          // upon initialization, and we'll run startRolling on the whole collection
-          // of months later
-
+        // Don't call nextRollingFn quite yet since we're removing the MonthCategory
+        // upon initialization, and we'll run startRolling on the whole collection
+        // of months later
       }
 
       /**
@@ -220,11 +237,14 @@ angular.module('financier').factory('month', MonthCategory => {
        */
       addTransaction(trans) {
         // The splits themselves are added, not the parent
-        if (trans.category === 'split') {
+        if (trans.category === "split") {
           return;
         }
 
-        if (trans.category === 'income' || trans.category === 'incomeNextMonth') {
+        if (
+          trans.category === "income" ||
+          trans.category === "incomeNextMonth"
+        ) {
           this._addIncome(trans);
         } else {
           this._addOutflow(trans);
@@ -232,7 +252,7 @@ angular.module('financier').factory('month', MonthCategory => {
       }
 
       _addIncome(trans) {
-        const valueChangeFn = val => {
+        const valueChangeFn = (val) => {
           this.cache.totalIncome += val;
           this.changeAvailable(val);
         };
@@ -245,7 +265,7 @@ angular.module('financier').factory('month', MonthCategory => {
       _addOutflow(trans) {
         this.createCategoryCacheIfEmpty(trans.category);
 
-        const valueChangeFn = val => {
+        const valueChangeFn = (val) => {
           this.categoryCache[trans.category].outflow += val;
           this.cache.totalOutflow += val;
 
@@ -254,7 +274,9 @@ angular.module('financier').factory('month', MonthCategory => {
 
           if (!this.categoryCache[trans.category].overspending) {
             this._changeCurrentOverspent(
-              0 - (Math.min(this.categoryCache[trans.category].balance, 0) - Math.min(oldBalance, 0))
+              0 -
+                (Math.min(this.categoryCache[trans.category].balance, 0) -
+                  Math.min(oldBalance, 0))
             );
           }
 
@@ -272,11 +294,14 @@ angular.module('financier').factory('month', MonthCategory => {
        */
       removeTransaction(trans) {
         // The splits themselves are added, not the parent
-        if (trans.category === 'split') {
+        if (trans.category === "split") {
           return;
         }
 
-        if (trans.category === 'income' || trans.category === 'incomeNextMonth') {
+        if (
+          trans.category === "income" ||
+          trans.category === "incomeNextMonth"
+        ) {
           this._removeIncome(trans);
         } else {
           this._removeOutflow(trans);
@@ -301,7 +326,9 @@ angular.module('financier').factory('month', MonthCategory => {
 
         if (!this.categoryCache[trans.category].overspending) {
           this._changeCurrentOverspent(
-            0 - (Math.min(this.categoryCache[trans.category].balance, 0) - Math.min(oldBalance, 0))
+            0 -
+              (Math.min(this.categoryCache[trans.category].balance, 0) -
+                Math.min(oldBalance, 0))
           );
         }
 
@@ -324,14 +351,12 @@ angular.module('financier').factory('month', MonthCategory => {
       note(catId) {
         this.createCategoryIfEmpty(catId);
 
-        return note => {
-
+        return (note) => {
           if (angular.isDefined(note)) {
             this.categories[catId].note = note;
           } else {
             return this.categories[catId].note;
           }
-
         };
       }
 
@@ -346,27 +371,34 @@ angular.module('financier').factory('month', MonthCategory => {
         this.createCategoryCacheIfEmpty(catId);
 
         if (!this.categories[catId]) {
-          this.categories[catId] = MonthCategory.from(budgetId, this.date, catId);
+          this.categories[catId] = MonthCategory.from(
+            budgetId,
+            this.date,
+            catId
+          );
 
-          this.categories[catId].subscribe(record => {
+          this.categories[catId].subscribe((record) => {
             this.saveFn(record);
           });
 
-
-          this.categories[catId].subscribeBudget(value => {
+          this.categories[catId].subscribeBudget((value) => {
             this.budgetChange(catId, value);
           });
 
-          this.categories[catId].subscribeOverspending(newO => {
+          this.categories[catId].subscribeOverspending((newO) => {
             const oldOverspending = this.categoryCache[catId].overspending;
             this.categoryCache[catId].overspending = newO;
 
             // We need to manually restore the overspent amount
             // to whatever the functionality should be (for this category)
             if (newO && !oldOverspending) {
-              this._changeCurrentOverspent(Math.min(0, this.categoryCache[catId].balance));
+              this._changeCurrentOverspent(
+                Math.min(0, this.categoryCache[catId].balance)
+              );
             } else if (!newO && oldOverspending) {
-              this._changeCurrentOverspent(-Math.min(0, this.categoryCache[catId].balance));
+              this._changeCurrentOverspent(
+                -Math.min(0, this.categoryCache[catId].balance)
+              );
             }
 
             this.startRolling(catId);
@@ -387,7 +419,7 @@ angular.module('financier').factory('month', MonthCategory => {
             rolling: 0,
             outflow: 0,
             balance: 0,
-            overspending: null
+            overspending: null,
           };
         }
       }
@@ -407,16 +439,21 @@ angular.module('financier').factory('month', MonthCategory => {
         const oldBalance = this.categoryCache[catId].balance;
         this.categoryCache[catId].balance += value;
 
-
         this.cache.totalBalance += value;
 
         if (this.categoryCache[catId].overspending) {
-          this.nextRollingFn && this.nextRollingFn(catId, this.categoryCache[catId].balance);
+          this.nextRollingFn &&
+            this.nextRollingFn(catId, this.categoryCache[catId].balance);
         } else {
-          this._changeCurrentOverspent(0 - (Math.min(this.categoryCache[catId].balance, 0) - Math.min(oldBalance, 0)));
+          this._changeCurrentOverspent(
+            0 -
+              (Math.min(this.categoryCache[catId].balance, 0) -
+                Math.min(oldBalance, 0))
+          );
 
           if (this.categoryCache[catId].balance > 0) {
-            this.nextRollingFn && this.nextRollingFn(catId, this.categoryCache[catId].balance);
+            this.nextRollingFn &&
+              this.nextRollingFn(catId, this.categoryCache[catId].balance);
           } else {
             // Your category balance is overdrawn!
             this.nextRollingFn && this.nextRollingFn(catId, 0);
@@ -434,24 +471,27 @@ angular.module('financier').factory('month', MonthCategory => {
         this.nextRollingFn = (catId, balance, overspending) => {
           nextMonth.setRolling(catId, balance, overspending);
         };
-        this.nextChangeAvailableFn = val => {
+        this.nextChangeAvailableFn = (val) => {
           nextMonth.changeAvailable(val);
         };
-        this.nextChangeOverspentFn = val => {
+        this.nextChangeOverspentFn = (val) => {
           nextMonth.changeOverspent(val);
         };
-        this.nextChangeAvailableLastMonthFn = val => {
+        this.nextChangeAvailableLastMonthFn = (val) => {
           nextMonth.changeAvailableLastMonth(val);
         };
 
         // initialize totalAvailable of next month
-        this.nextChangeAvailableFn && this.nextChangeAvailableFn(this.cache.totalAvailable);
+        this.nextChangeAvailableFn &&
+          this.nextChangeAvailableFn(this.cache.totalAvailable);
 
         // initialize totalAvailableLastMonth of next month
-        this.nextChangeAvailableLastMonthFn && this.nextChangeAvailableLastMonthFn(this.cache.totalAvailable);
+        this.nextChangeAvailableLastMonthFn &&
+          this.nextChangeAvailableLastMonthFn(this.cache.totalAvailable);
 
         // initialize totalOverspent of next month
-        this.nextChangeOverspentFn && this.nextChangeOverspentFn(this.cache.totalOverspent);
+        this.nextChangeOverspentFn &&
+          this.nextChangeOverspentFn(this.cache.totalOverspent);
       }
 
       /**
@@ -462,7 +502,8 @@ angular.module('financier').factory('month', MonthCategory => {
        */
       changeAvailable(value) {
         this.cache.totalAvailable += value;
-        this.nextChangeAvailableLastMonthFn && this.nextChangeAvailableLastMonthFn(value);
+        this.nextChangeAvailableLastMonthFn &&
+          this.nextChangeAvailableLastMonthFn(value);
         this.nextChangeAvailableFn && this.nextChangeAvailableFn(value);
       }
 
@@ -518,8 +559,11 @@ angular.module('financier').factory('month', MonthCategory => {
        * @returns {string} Month date ID
        */
       static createID(date) {
-        const twoDigitMonth = ((date.getMonth() + 1) >= 10) ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1);  
-        return date.getFullYear() + '-' + twoDigitMonth + '-01'; 
+        const twoDigitMonth =
+          date.getMonth() + 1 >= 10
+            ? date.getMonth() + 1
+            : "0" + (date.getMonth() + 1);
+        return date.getFullYear() + "-" + twoDigitMonth + "-01";
       }
 
       /**
@@ -537,7 +581,7 @@ angular.module('financier').factory('month', MonthCategory => {
        * @type {string}
        */
       static get endKey() {
-        return this.startKey + '\uffff';
+        return this.startKey + "\uffff";
       }
 
       /**

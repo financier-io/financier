@@ -1,7 +1,12 @@
 // import PouchDB from 'PouchDB';
 // PouchDB.plugin(require('pouchdb-adapter-memory'));
 
-// describe('db', function() {
+describe("db", function () {
+  // jest complains on empty spec file
+  test("mocks", () => {
+    expect(true).toBe(true);
+  });
+});
 //   let db, Budget;
 
 //   beforeEach(angular.mock.module('financier', dbProvider => {
@@ -13,7 +18,6 @@
 //     db = _db_;
 //     Budget = _Budget_;
 //   }));
-
 
 //   it('should return an object', () => {
 //     expect(typeof db).toBe('object');
@@ -27,7 +31,7 @@
 //     it('all() should return empty array', done => {
 //       db.budgets.all().then(res => {
 //         expect(Array.isArray(res)).toBe(true);
-        
+
 //         expect(res.length).toBe(0);
 
 //         done();
