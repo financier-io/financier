@@ -1,26 +1,28 @@
-angular.module('financier').directive('checkNumberInput', $rootScope => {
+angular.module("financier").directive("checkNumberInput", ($rootScope) => {
   return {
-    restrict: 'A',
+    restrict: "A",
     scope: {
-      checkNumber: '=',
-      transactions: '='
+      checkNumber: "=",
+      transactions: "=",
     },
     compile: () => {
       return {
         pre: (scope, element) => {
-          const input = element.find('input');
+          const input = element.find("input");
 
-          scope.$on('transaction:check:focus', () => {
+          scope.$on("transaction:check:focus", () => {
             input[0].focus();
           });
 
-          input.on('keydown', e => {
-            if (e.which === 13) { // enter
-              $rootScope.$broadcast('transaction:payee:focus');
+          input.on("keydown", (e) => {
+            if (e.which === 13) {
+              // enter
+              $rootScope.$broadcast("transaction:payee:focus");
 
               // go next
               $rootScope.$apply();
-            } else if (e.which === 38) { // up
+            } else if (e.which === 38) {
+              // up
               let checkNumber = getCurrentCheckNumber();
 
               if (!isNaN(checkNumber)) {
@@ -30,7 +32,8 @@ angular.module('financier').directive('checkNumberInput', $rootScope => {
               e.preventDefault();
 
               $rootScope.$apply();
-            } else if (e.which === 40) { // down
+            } else if (e.which === 40) {
+              // down
               let checkNumber = getCurrentCheckNumber();
 
               if (!isNaN(checkNumber)) {
@@ -53,7 +56,7 @@ angular.module('financier').directive('checkNumberInput', $rootScope => {
             let foundCheckNumber = 0;
 
             if (scope.transactions) {
-              scope.transactions.forEach(transaction => {
+              scope.transactions.forEach((transaction) => {
                 const checkNumber = +transaction.checkNumber;
 
                 if (!isNaN(checkNumber) && checkNumber > foundCheckNumber) {
@@ -64,8 +67,8 @@ angular.module('financier').directive('checkNumberInput', $rootScope => {
 
             return foundCheckNumber;
           }
-        }
+        },
       };
-    }
+    },
   };
 });

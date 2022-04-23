@@ -2,21 +2,35 @@
   <p>{{'HANDLE_OVERSPENDING_Q' | translate}}</p>
 
   <label>
-    <input type="radio" class="form__radio" name="overspending" ng-model="overspending" value="deny"> {{'SUBTRACT_FROM_NEXT_MONTH_NO_RIGHT_ARROW' | translate}}
+    <input
+      type="radio"
+      class="form__radio"
+      name="overspending"
+      ng-model="overspending"
+      value="deny"
+    />
+    {{'SUBTRACT_FROM_NEXT_MONTH_NO_RIGHT_ARROW' | translate}}
   </label>
 
-  <br>
+  <br />
 
   <label>
-    <input type="radio" class="form__radio" name="overspending" ng-model="overspending" value="allow"> {{'SUBTRACT_FROM_NEXT_MONTH_RIGHT_ARROW' | translate}} <i class="overspending-select__arrow fa fa-angle-double-right"></i>
+    <input
+      type="radio"
+      class="form__radio"
+      name="overspending"
+      ng-model="overspending"
+      value="allow"
+    />
+    {{'SUBTRACT_FROM_NEXT_MONTH_RIGHT_ARROW' | translate}}
+    <i class="overspending-select__arrow fa fa-angle-double-right"></i>
   </label>
 
-  <br>
-  <button class="button button--primary" ng-click="submit(overspending)"><i class="fa fa-check"></i> {{'SAVE' | translate}}</button>
+  <br />
+  <button class="button button--primary" ng-click="submit(overspending)">
+    <i class="fa fa-check"></i> {{'SAVE' | translate}}
+  </button>
   <button class="button button--link" ng-click="close()">
     {{'CANCEL' | translate}}
   </button>
 </div>
-
-
-

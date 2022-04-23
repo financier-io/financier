@@ -40,7 +40,7 @@ $triangle-size: 5px;
   }
 
   &::after {
-    content: '';
+    content: "";
     background-color: #eee;
     left: calc(50% - #{$triangle-size});
     bottom: -$triangle-size;

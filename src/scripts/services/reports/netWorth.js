@@ -1,4 +1,4 @@
-angular.module('financier').factory('netWorth', () => {
+angular.module("financier").factory("netWorth", () => {
   return function generateReport(transactions) {
     const data = [];
 
@@ -7,11 +7,11 @@ angular.module('financier').factory('netWorth', () => {
       return a.date - b.date;
     });
 
-    transactions.forEach(transaction => {
+    transactions.forEach((transaction) => {
       if (data.length === 0) {
         data.push({
           date: transaction.date,
-          accounts: {}
+          accounts: {},
         });
       } else {
         let month = data[data.length - 1].date;
@@ -21,12 +21,14 @@ angular.module('financier').factory('netWorth', () => {
 
           data.push({
             date: month,
-            accounts: angular.copy(data[data.length - 1].accounts)
+            accounts: angular.copy(data[data.length - 1].accounts),
           });
         }
       }
 
-      if (!angular.isDefined(data[data.length - 1].accounts[transaction.account])) {
+      if (
+        !angular.isDefined(data[data.length - 1].accounts[transaction.account])
+      ) {
         data[data.length - 1].accounts[transaction.account] = 0;
       }
 
@@ -38,7 +40,7 @@ angular.module('financier').factory('netWorth', () => {
       debt = [],
       netWorth = [];
 
-    data.forEach(d => {
+    data.forEach((d) => {
       months.push(d.date);
 
       let monthDebt = 0,
@@ -66,16 +68,12 @@ angular.module('financier').factory('netWorth', () => {
       assets,
       debt,
       netWorth,
-      months
+      months,
     };
-
   };
 
   function isSameMonth(a, b) {
-    return (
-      a.getFullYear() === b.getFullYear() &&
-      a.getMonth() === b.getMonth()
-    );
+    return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth();
   }
 
   function nextMonth(month) {

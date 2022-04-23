@@ -1,43 +1,73 @@
 <h3 class="dropdown__header">{{'BUDGET_CATEGORIES' | translate}}</h3>
 
-
 <div class="dropdown__scroll-container" scroll-container>
-  <div class="dropdown__empty" ng-if="!items.length" translate="NO_CATEGORIES_MATCHING" translate-values="{text: userInput}"></div>
+  <div
+    class="dropdown__empty"
+    ng-if="!items.length"
+    translate="NO_CATEGORIES_MATCHING"
+    translate-values="{text: userInput}"
+  ></div>
 
   <ul class="dropdown dropdown--padding">
     <li ng-if="!$parent.disableSplit">
-      <ul class="dropdown" ng-repeat="split in $parent.$parent.splits | filter : filterCustomFilterer">
-        <li class="dropdown__item"
-            ng-click="submit(split)"
-            ng-class="{'dropdown__item--selected': split === selected}"
-            scroll-into-view-if="split === selected"><i class="fa fa-bars"></i> {{split.name}}</li>
+      <ul
+        class="dropdown"
+        ng-repeat="split in $parent.$parent.splits | filter : filterCustomFilterer"
+      >
+        <li
+          class="dropdown__item"
+          ng-click="submit(split)"
+          ng-class="{'dropdown__item--selected': split === selected}"
+          scroll-into-view-if="split === selected"
+        >
+          <i class="fa fa-bars"></i> {{split.name}}
+        </li>
       </ul>
     </li>
     <li>
-      <div class="dropdown__header-item" ng-if="filteredIncomes.length">{{'INCOME' | translate}}</div>
-      <ul class="dropdown" ng-repeat="income in $parent.incomes | filter : filterCustomFilterer as filteredIncomes">
-        <li class="dropdown__item dropdown__item--indented"
-            ng-class="{'dropdown__item--selected': income === selected}"
-            ng-click="submit(income)"
-            scroll-into-view-if="income === selected">
+      <div class="dropdown__header-item" ng-if="filteredIncomes.length">
+        {{'INCOME' | translate}}
+      </div>
+      <ul
+        class="dropdown"
+        ng-repeat="income in $parent.incomes | filter : filterCustomFilterer as filteredIncomes"
+      >
+        <li
+          class="dropdown__item dropdown__item--indented"
+          ng-class="{'dropdown__item--selected': income === selected}"
+          ng-click="submit(income)"
+          scroll-into-view-if="income === selected"
+        >
           <div class="dropdown__item-content">{{income.name}}</div>
         </li>
       </ul>
     </li>
     <li ng-repeat="masterCategory in $parent.masterCategoriesArr">
-      <div class="dropdown__header-item" ng-if="filteredCategories.length">{{masterCategory.name}}</div>
+      <div class="dropdown__header-item" ng-if="filteredCategories.length">
+        {{masterCategory.name}}
+      </div>
       <ul class="dropdown">
-        <li class="dropdown__item dropdown__item--indented"
-            ng-repeat="category in masterCategory.categories | filter : filterCustomFilterer as filteredCategories"
-            ng-class="{'dropdown__item--selected': category === selected}"
-            ng-click="submit(category)"
-            scroll-into-view-if="category === selected">
+        <li
+          class="dropdown__item dropdown__item--indented"
+          ng-repeat="category in masterCategory.categories | filter : filterCustomFilterer as filteredCategories"
+          ng-class="{'dropdown__item--selected': category === selected}"
+          ng-click="submit(category)"
+          scroll-into-view-if="category === selected"
+        >
           <div class="dropdown__item-content">{{category.name}}</div>
-          <div class="dropdown__item-aside"
-               ng-class="{'dropdown__item-aside--negative': $parent.$parent.$parent.getCategoryBalance(category.id, $parent.$parent.$parent.transactionDate) < 0,
-                          'dropdown__item-aside--positive': $parent.$parent.$parent.getCategoryBalance(category.id, $parent.$parent.$parent.transactionDate) > 0}">{{$parent.$parent.$parent.getCategoryBalance(category.id, $parent.$parent.$parent.transactionDate) | intCurrency : true : $parent.$parent.$parent.$parent.dbCtrl.currencyDigits | currency : $parent.$parent.$parent.$parent.dbCtrl.currencySymbol : $parent.$parent.$parent.$parent.dbCtrl.currencyDigits}}</div>
+          <div
+            class="dropdown__item-aside"
+            ng-class="{'dropdown__item-aside--negative': $parent.$parent.$parent.getCategoryBalance(category.id, $parent.$parent.$parent.transactionDate) < 0,
+                          'dropdown__item-aside--positive': $parent.$parent.$parent.getCategoryBalance(category.id, $parent.$parent.$parent.transactionDate) > 0}"
+          >
+            {{$parent.$parent.$parent.getCategoryBalance(category.id,
+            $parent.$parent.$parent.transactionDate) | intCurrency : true :
+            $parent.$parent.$parent.$parent.dbCtrl.currencyDigits | currency :
+            $parent.$parent.$parent.$parent.dbCtrl.currencySymbol :
+            $parent.$parent.$parent.$parent.dbCtrl.currencyDigits}}
+          </div>
         </li>
       </ul>
     </li>
-  </ul>  
+  </ul>
 </div>

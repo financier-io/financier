@@ -1,13 +1,38 @@
 <div class="verify-email" disable-ng-animate>
   <div>
-    <div class="verify-email__text verify-email__text--loading" ng-if="verifyEmailCtrl.loading">{{'VERIFYING_YOUR_ACCOUNT' | translate}}</div>
+    <div
+      class="verify-email__text verify-email__text--loading"
+      ng-if="verifyEmailCtrl.loading"
+    >
+      {{'VERIFYING_YOUR_ACCOUNT' | translate}}
+    </div>
 
-    <div class="verify-email__text" ng-if="verifyEmailCtrl.verified">{{'VERIFIED_EXCLAMATION' | translate}}</div>
-    <div class="verify-email__subtext" ng-if="verifyEmailCtrl.verified">{{'SIGNUP_SUCCESS_MESSAGE' | translate}}</div>
-    <button ng-if="verifyEmailCtrl.verified" ng-click="verifyEmailCtrl.login()" class="verify-email__button">{{'LOGIN_TO_YOUR_ACCOUNT' | translate}}</button>
+    <div class="verify-email__text" ng-if="verifyEmailCtrl.verified">
+      {{'VERIFIED_EXCLAMATION' | translate}}
+    </div>
+    <div class="verify-email__subtext" ng-if="verifyEmailCtrl.verified">
+      {{'SIGNUP_SUCCESS_MESSAGE' | translate}}
+    </div>
+    <button
+      ng-if="verifyEmailCtrl.verified"
+      ng-click="verifyEmailCtrl.login()"
+      class="verify-email__button"
+    >
+      {{'LOGIN_TO_YOUR_ACCOUNT' | translate}}
+    </button>
 
-    <div class="verify-email__text" ng-if="verifyEmailCtrl.error">{{'PROBLEM_VERIFYING_ACCOUNT' | translate}}</div>
-    <div class="verify-email__subtext" ng-if="verifyEmailCtrl.error">{{'VERIFY_QUESTION_1' | translate}}<br>{{'VERIFY_QUESTION_2' | translate}}<br>{{'VERIFY_QUESTION_3' | translate}}</div>
-    <a ui-sref="user.budget" ng-if="verifyEmailCtrl.error" class="verify-email__button">{{'GO_TO_MY_BUDGETS' | translate}}</a>
+    <div class="verify-email__text" ng-if="verifyEmailCtrl.error">
+      {{'PROBLEM_VERIFYING_ACCOUNT' | translate}}
+    </div>
+    <div class="verify-email__subtext" ng-if="verifyEmailCtrl.error">
+      {{'VERIFY_QUESTION_1' | translate}}<br />{{'VERIFY_QUESTION_2' |
+      translate}}<br />{{'VERIFY_QUESTION_3' | translate}}
+    </div>
+    <a
+      ui-sref="user.budget"
+      ng-if="verifyEmailCtrl.error"
+      class="verify-email__button"
+      >{{'GO_TO_MY_BUDGETS' | translate}}</a
+    >
   </div>
 </div>

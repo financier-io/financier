@@ -1,3 +1,5 @@
+/* eslint-disable jest/no-commented-out-tests */
+
 // import PouchDB from 'PouchDB';
 // PouchDB.plugin(require('pouchdb-adapter-memory'));
 

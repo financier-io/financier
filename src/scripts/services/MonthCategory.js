@@ -1,10 +1,8 @@
-angular.module('financier').factory('MonthCategory', () => {
-
+angular.module("financier").factory("MonthCategory", () => {
   /**
    * Represents a MonthCategory (containing a budget cell for the intersection of a given month and category).
    */
   class MonthCategory {
-
     /**
      * Create a MonthCategory.
      *
@@ -20,15 +18,18 @@ angular.module('financier').factory('MonthCategory', () => {
           MonthCategory.from()
         `);
       }
-      const myData = angular.extend({
-        budget: 0,
-        overspending: null,
-        note: null
-      }, data);
+      const myData = angular.extend(
+        {
+          budget: 0,
+          overspending: null,
+          note: null,
+        },
+        data
+      );
 
       this._data = myData;
 
-      const s = myData._id.split('_');
+      const s = myData._id.split("_");
       this.categoryId = s[s.length - 1];
       this.monthId = s[s.length - 2];
     }
@@ -64,7 +65,7 @@ angular.module('financier').factory('MonthCategory', () => {
      */
     static from(budgetId, monthId, categoryId) {
       return new MonthCategory({
-        _id: MonthCategory._fromId(budgetId, monthId, categoryId)
+        _id: MonthCategory._fromId(budgetId, monthId, categoryId),
       });
     }
 
@@ -251,7 +252,10 @@ angular.module('financier').factory('MonthCategory', () => {
      * @private
      */
     _emitOverspendingChange(newOverspending, oldOverspending) {
-      return this.overspendingFn && this.overspendingFn(newOverspending, oldOverspending);
+      return (
+        this.overspendingFn &&
+        this.overspendingFn(newOverspending, oldOverspending)
+      );
     }
 
     /**
@@ -293,7 +297,7 @@ angular.module('financier').factory('MonthCategory', () => {
      * @returns {string} The end key
      */
     static endKey(budgetId) {
-      return this.startKey(budgetId) + '\uffff';
+      return this.startKey(budgetId) + "\uffff";
     }
 
     /**

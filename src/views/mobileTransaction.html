@@ -1,18 +1,30 @@
 <div class="mobile-transaction" ng-init="total = 0; negative = true">
-  <div class="mobile-transaction__amount"
-       ng-class="{'mobile-transaction__amount--negative': negative}">{{total | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>
+  <div
+    class="mobile-transaction__amount"
+    ng-class="{'mobile-transaction__amount--negative': negative}"
+  >
+    {{total | intCurrency : true : dbCtrl.currencyDigits | currency :
+    dbCtrl.currencySymbol : dbCtrl.currencyDigits}}
+  </div>
 
   <div class="mobile-transaction__detail">
     <div class="mobile-type">
-      <div class="mobile-type__option mobile-type__option--expense"
-           ng-class="{'mobile-type__option--selected': negative}"
-           ng-click="negative = true">Expense</div>
-      <div class="mobile-type__option mobile-type__option--income"
-           ng-class="{'mobile-type__option--selected': !negative}"
-           ng-click="negative = false">Income</div>
+      <div
+        class="mobile-type__option mobile-type__option--expense"
+        ng-class="{'mobile-type__option--selected': negative}"
+        ng-click="negative = true"
+      >
+        Expense
+      </div>
+      <div
+        class="mobile-type__option mobile-type__option--income"
+        ng-class="{'mobile-type__option--selected': !negative}"
+        ng-click="negative = false"
+      >
+        Income
+      </div>
     </div>
 
     <mobile-keypad ng-model="total"></mobile-keypad>
   </div>
-
 </div>

@@ -1,27 +1,28 @@
-angular.module('financier').factory('category', uuid => {
-  return budgetId => {
+angular.module("financier").factory("category", (uuid) => {
+  return (budgetId) => {
     /**
      * Represents a Category, contained within a MasterCategory
      */
     class Category {
-
       /**
        * Create a Category
        *
        * @param {object} [data] - The record object from the database
        */
       constructor(data) {
-        const myData = angular.extend({
-          name: 'New category',
-          masterCategory: null,
-          sort: 0,
-          _id: Category.prefix + uuid()
-        }, data);
+        const myData = angular.extend(
+          {
+            name: "New category",
+            masterCategory: null,
+            sort: 0,
+            _id: Category.prefix + uuid(),
+          },
+          data
+        );
 
-        this.id = myData._id.slice(myData._id.lastIndexOf('_') + 1);
+        this.id = myData._id.slice(myData._id.lastIndexOf("_") + 1);
 
         this._data = myData;
-
       }
 
       /**
@@ -139,7 +140,7 @@ angular.module('financier').factory('category', uuid => {
       }
 
       /**
-       * 
+       *
        */
       remove() {
         this._data._deleted = true;
@@ -151,7 +152,7 @@ angular.module('financier').factory('category', uuid => {
        *
        * @param {function} fn - This function will be invoked upon record
        * changes with the Category object as the first parameter.
-      */
+       */
       subscribe(fn) {
         this.fn = fn;
       }
@@ -160,7 +161,7 @@ angular.module('financier').factory('category', uuid => {
        * Will call the subscribed function, if it exists, with self.
        *
        * @private
-      */
+       */
       emitChange() {
         return this.fn && this.fn(this);
       }
@@ -170,7 +171,7 @@ angular.module('financier').factory('category', uuid => {
        *
        * @param {function} fn - This function will be invoked upon record
        * changes with the Category object as the first parameter.
-      */
+       */
       subscribeSortChange(fn) {
         this.sortFn = fn;
       }
@@ -180,7 +181,7 @@ angular.module('financier').factory('category', uuid => {
        *
        * @param {function} fn - This function will be invoked upon record
        * changes with the Category object as the first parameter.
-      */
+       */
       subscribeMasterCategoryChange(before, after) {
         this.masterCategoryBeforeFn = before;
         this.masterCategoryAfterFn = after;
@@ -190,7 +191,7 @@ angular.module('financier').factory('category', uuid => {
        * Will call the subscribed function, if it exists, with self.
        *
        * @private
-      */
+       */
       emitSortChange() {
         return this.sortFn && this.sortFn(this);
       }
@@ -199,7 +200,7 @@ angular.module('financier').factory('category', uuid => {
        * Will call the subscribed function, if it exists, with self.
        *
        * @private
-      */
+       */
       emitMasterCategoryChange(fn) {
         this.masterCategoryBeforeFn(this);
 
@@ -213,7 +214,7 @@ angular.module('financier').factory('category', uuid => {
        * a JSON object for sending to the database.
        *
        * @returns {object}
-      */
+       */
       toJSON() {
         return this._data;
       }
@@ -260,7 +261,7 @@ angular.module('financier').factory('category', uuid => {
        * @type {string}
        */
       static get endKey() {
-        return this.startKey + '\uffff';
+        return this.startKey + "\uffff";
       }
 
       /**

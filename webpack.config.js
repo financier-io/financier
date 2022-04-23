@@ -1,7 +1,4 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-// const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const UglifyJs = require("uglifyjs-webpack-plugin");
-// const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const OfflinePlugin = require("@lcdp/offline-plugin");
 const pJson = require("./package.json");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -184,16 +181,29 @@ module.exports = {
 
         new OfflinePlugin({
           publicPath: "/",
-          appShell: "/",
           caches: {
             main: [":rest:"],
           },
           externals: ["/"],
           ServiceWorker: {
             events: true,
-            navigateFallbackURL: "/",
           },
           AppCache: false,
+          cacheMaps: [
+            {
+              match: function (url) {
+                if (
+                  url.pathname.indexOf("/db/") === 0 ||
+                  url.pathname.indexOf("/docs/") === 0
+                ) {
+                  return;
+                }
+
+                return new URL("/", location);
+              },
+              requestTypes: ["navigate"],
+            },
+          ],
         }),
       ]);
     }

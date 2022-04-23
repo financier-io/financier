@@ -1,12 +1,15 @@
 <div class="drop__content">
   <form ng-submit="submit(name)">
-    <input type="text"
-           class="form__textarea"
-           ng-model="name"
-           placeholder="{{addLabel}}"
-           required>
-    <br>
-    <button class="button button--primary"><i class="fa fa-check"></i> {{'CREATE' | translate}}</button>
+    <input
+      type="text"
+      class="form__textarea"
+      ng-model="name"
+      placeholder="{{addLabel}}"
+      required
+    />
+    <br />
+    <button class="button button--primary">
+      <i class="fa fa-check"></i> {{'CREATE' | translate}}
+    </button>
   </form>
 </div>
-

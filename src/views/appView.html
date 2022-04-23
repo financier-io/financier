@@ -3,16 +3,23 @@
     <staging-warning></staging-warning>
     <apply-update></apply-update>
 
-      <h1 class="app-view__title">
-        <span>F</span>
-        <a ui-sref="user.budget">{{dbCtrl.budgetRecord.name}}</a>
-        <span ng-click="sidebarOpen = !sidebarOpen"><i class="fa fa-bars"></i></span>
-      </h1>
+    <h1 class="app-view__title">
+      <span>F</span>
+      <a ui-sref="user.budget">{{dbCtrl.budgetRecord.name}}</a>
+      <span ng-click="sidebarOpen = !sidebarOpen"
+        ><i class="fa fa-bars"></i
+      ></span>
+    </h1>
   </div>
 
   <div class="app-view__main">
-    <div class="app-view__sidebar" resizable r-directions="['right']" r-flex="true" r-width="dbCtrl.sidebarInitialWidth">
-
+    <div
+      class="app-view__sidebar"
+      resizable
+      r-directions="['right']"
+      r-flex="true"
+      r-width="dbCtrl.sidebarInitialWidth"
+    >
       <h1 class="app-view__title">
         <span>F</span>
         <a ui-sref="user.budget">{{dbCtrl.budgetRecord.name}}</a>
@@ -21,15 +28,33 @@
       <div class="app-view__sidebar-main">
         <ul class="app-view__links">
           <li class="app-view__link" ui-sref-active="app-view__link--active">
-            <a ui-sref="user.app.manager.view.budget"><div class="app-view__link-text"><i class="fa fa-tags"></i> {{'BUDGET' | translate}}</div></a>
+            <a ui-sref="user.app.manager.view.budget"
+              ><div class="app-view__link-text">
+                <i class="fa fa-tags"></i> {{'BUDGET' | translate}}
+              </div></a
+            >
           </li>
           <li class="app-view__link" ui-sref-active="app-view__link--active">
-            <a ui-sref="user.app.manager.view.reports"><div class="app-view__link-text"><i class="fa fa-pie-chart"></i> {{'REPORTS' | translate}}</div></a>
+            <a ui-sref="user.app.manager.view.reports"
+              ><div class="app-view__link-text">
+                <i class="fa fa-pie-chart"></i> {{'REPORTS' | translate}}
+              </div></a
+            >
           </li>
-          <li class="app-view__link" ui-sref-active="app-view__link--active" edit-all-accounts="dbCtrl.budgetRecord">
+          <li
+            class="app-view__link"
+            ui-sref-active="app-view__link--active"
+            edit-all-accounts="dbCtrl.budgetRecord"
+          >
             <a ui-sref="user.app.manager.view.account({accountId: ''})">
-              <div class="app-view__link-text"><i class="fa fa-credit-card"></i> {{'ACCOUNTS' | translate}}</div>
-              <aside>{{dbCtrl.manager.allAccounts.balance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</aside>
+              <div class="app-view__link-text">
+                <i class="fa fa-credit-card"></i> {{'ACCOUNTS' | translate}}
+              </div>
+              <aside>
+                {{dbCtrl.manager.allAccounts.balance | intCurrency : true :
+                dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol :
+                dbCtrl.currencyDigits}}
+              </aside>
             </a>
           </li>
 
@@ -37,109 +62,187 @@
         </ul>
 
         <div class="app-view__accounts">
-
-          <div class="app-view__accounts-list-border" ng-show="dbCtrl.onBudgetAccounts.length">
-            <div class="app-view__accounts-title" ng-click="dbCtrl.collapsed.onBudgetAccounts = !dbCtrl.collapsed.onBudgetAccounts">
+          <div
+            class="app-view__accounts-list-border"
+            ng-show="dbCtrl.onBudgetAccounts.length"
+          >
+            <div
+              class="app-view__accounts-title"
+              ng-click="dbCtrl.collapsed.onBudgetAccounts = !dbCtrl.collapsed.onBudgetAccounts"
+            >
               <span class="app-view__accounts-name">
-                <i class="fa fa-angle-down app-view__accounts-angle" ng-class="{'app-view__accounts-angle--collapsed': dbCtrl.collapsed.onBudgetAccounts}"></i> {{'ON_BUDGET' | translate}}
+                <i
+                  class="fa fa-angle-down app-view__accounts-angle"
+                  ng-class="{'app-view__accounts-angle--collapsed': dbCtrl.collapsed.onBudgetAccounts}"
+                ></i>
+                {{'ON_BUDGET' | translate}}
               </span>
-              <span class="app-view__accounts-value">{{dbCtrl.totalAccountsBalance(dbCtrl.onBudgetAccounts) | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
+              <span class="app-view__accounts-value"
+                >{{dbCtrl.totalAccountsBalance(dbCtrl.onBudgetAccounts) |
+                intCurrency : true : dbCtrl.currencyDigits | currency :
+                dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span
+              >
             </div>
 
-            <ul class="app-view__accounts-list"
-                ng-sortable="dbCtrl.accountSortable"
-                collapse="dbCtrl.collapsed.onBudgetAccounts"
-                touch-start="dbCtrl.accountSortable.disabled = true"
-                touch-end="dbCtrl.accountSortable.disabled = false">
-              <li class="app-view__account"
-                  ng-repeat="account in dbCtrl.onBudgetAccounts"
-                  ui-sref="user.app.manager.view.account({accountId: account.id})"
-                  ui-sref-active="app-view__account--active"
-                  edit-account="account"
-                  on-remove-account="dbCtrl.removeAccount(account)"
-                  on-account-change="dbCtrl.filterAccounts()">
+            <ul
+              class="app-view__accounts-list"
+              ng-sortable="dbCtrl.accountSortable"
+              collapse="dbCtrl.collapsed.onBudgetAccounts"
+              touch-start="dbCtrl.accountSortable.disabled = true"
+              touch-end="dbCtrl.accountSortable.disabled = false"
+            >
+              <li
+                class="app-view__account"
+                ng-repeat="account in dbCtrl.onBudgetAccounts"
+                ui-sref="user.app.manager.view.account({accountId: account.id})"
+                ui-sref-active="app-view__account--active"
+                edit-account="account"
+                on-remove-account="dbCtrl.removeAccount(account)"
+                on-account-change="dbCtrl.filterAccounts()"
+              >
                 <span class="app-view__name">{{account.name}}</span>
-                <span>{{account.cache.balance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
+                <span
+                  >{{account.cache.balance | intCurrency : true :
+                  dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol :
+                  dbCtrl.currencyDigits}}</span
+                >
               </li>
             </ul>
           </div>
 
-          <div class="app-view__accounts-list-border app-view__accounts-list-border--no-top" ng-show="dbCtrl.offBudgetAccounts.length">
-            <div class="app-view__accounts-title" ng-click="dbCtrl.collapsed.offBudgetAccounts = !dbCtrl.collapsed.offBudgetAccounts">
+          <div
+            class="app-view__accounts-list-border app-view__accounts-list-border--no-top"
+            ng-show="dbCtrl.offBudgetAccounts.length"
+          >
+            <div
+              class="app-view__accounts-title"
+              ng-click="dbCtrl.collapsed.offBudgetAccounts = !dbCtrl.collapsed.offBudgetAccounts"
+            >
               <span class="app-view__accounts-name">
-                <i class="fa fa-angle-down app-view__accounts-angle" ng-class="{'app-view__accounts-angle--collapsed': dbCtrl.collapsed.offBudgetAccounts}"></i> {{'OFF_BUDGET' | translate}}
+                <i
+                  class="fa fa-angle-down app-view__accounts-angle"
+                  ng-class="{'app-view__accounts-angle--collapsed': dbCtrl.collapsed.offBudgetAccounts}"
+                ></i>
+                {{'OFF_BUDGET' | translate}}
               </span>
-              <span class="app-view__accounts-value">{{dbCtrl.totalAccountsBalance(dbCtrl.offBudgetAccounts) | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
+              <span class="app-view__accounts-value"
+                >{{dbCtrl.totalAccountsBalance(dbCtrl.offBudgetAccounts) |
+                intCurrency : true : dbCtrl.currencyDigits | currency :
+                dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span
+              >
             </div>
 
-            <ul class="app-view__accounts-list"
-                ng-sortable="dbCtrl.accountSortable"
-                collapse="dbCtrl.collapsed.offBudgetAccounts"
-                touch-start="dbCtrl.accountSortable.disabled = true"
-                touch-end="dbCtrl.accountSortable.disabled = false">
-              <li class="app-view__account"
-                  ng-repeat="account in dbCtrl.offBudgetAccounts"
-                  ui-sref="user.app.manager.view.account({accountId: account.id})"
-                  ui-sref-active="app-view__account--active"
-                  edit-account="account"
-                  on-remove-account="dbCtrl.removeAccount(account)"
-                  on-account-change="dbCtrl.filterAccounts()">
-                <span class="app-view__name">{{account.name}}</span> <!-- <i class="app-view__edit fa fa-cog" ng-click="dbCtrl.edit($event, account)"></i> -->
-                <span>{{account.cache.balance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
+            <ul
+              class="app-view__accounts-list"
+              ng-sortable="dbCtrl.accountSortable"
+              collapse="dbCtrl.collapsed.offBudgetAccounts"
+              touch-start="dbCtrl.accountSortable.disabled = true"
+              touch-end="dbCtrl.accountSortable.disabled = false"
+            >
+              <li
+                class="app-view__account"
+                ng-repeat="account in dbCtrl.offBudgetAccounts"
+                ui-sref="user.app.manager.view.account({accountId: account.id})"
+                ui-sref-active="app-view__account--active"
+                edit-account="account"
+                on-remove-account="dbCtrl.removeAccount(account)"
+                on-account-change="dbCtrl.filterAccounts()"
+              >
+                <span class="app-view__name">{{account.name}}</span>
+                <!-- <i class="app-view__edit fa fa-cog" ng-click="dbCtrl.edit($event, account)"></i> -->
+                <span
+                  >{{account.cache.balance | intCurrency : true :
+                  dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol :
+                  dbCtrl.currencyDigits}}</span
+                >
               </li>
             </ul>
           </div>
 
-          <div class="app-view__accounts-list-border app-view__accounts-list-border--no-top" ng-show="dbCtrl.closedAccounts.length">
-            <div class="app-view__accounts-title" ng-click="dbCtrl.collapsed.closedAccounts = !dbCtrl.collapsed.closedAccounts">
+          <div
+            class="app-view__accounts-list-border app-view__accounts-list-border--no-top"
+            ng-show="dbCtrl.closedAccounts.length"
+          >
+            <div
+              class="app-view__accounts-title"
+              ng-click="dbCtrl.collapsed.closedAccounts = !dbCtrl.collapsed.closedAccounts"
+            >
               <span class="app-view__accounts-name">
-                <i class="fa fa-angle-down app-view__accounts-angle" ng-class="{'app-view__accounts-angle--collapsed': dbCtrl.collapsed.closedAccounts}"></i> {{'CLOSED' | translate}}
+                <i
+                  class="fa fa-angle-down app-view__accounts-angle"
+                  ng-class="{'app-view__accounts-angle--collapsed': dbCtrl.collapsed.closedAccounts}"
+                ></i>
+                {{'CLOSED' | translate}}
               </span>
-              <span class="app-view__accounts-value">{{dbCtrl.totalAccountsBalance(dbCtrl.closedAccounts) | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
+              <span class="app-view__accounts-value"
+                >{{dbCtrl.totalAccountsBalance(dbCtrl.closedAccounts) |
+                intCurrency : true : dbCtrl.currencyDigits | currency :
+                dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span
+              >
             </div>
 
-            <ul class="app-view__accounts-list"
-                ng-sortable="dbCtrl.accountSortable"
-                collapse="dbCtrl.collapsed.closedAccounts"
-                touch-start="dbCtrl.accountSortable.disabled = true"
-                touch-end="dbCtrl.accountSortable.disabled = false">
-              <li class="app-view__account"
-                  ng-repeat="account in dbCtrl.closedAccounts"
-                  ui-sref="user.app.manager.view.account({accountId: account.id})"
-                  ui-sref-active="app-view__account--active"
-                  edit-account="account"
-                  on-remove-account="dbCtrl.removeAccount(account)"
-                  on-account-change="dbCtrl.filterAccounts()">
-                <span class="app-view__name">{{account.name}}</span> <!-- <i class="app-view__edit fa fa-cog" ng-click="dbCtrl.edit($event, account)"></i> -->
-                <span>{{account.cache.balance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span>
+            <ul
+              class="app-view__accounts-list"
+              ng-sortable="dbCtrl.accountSortable"
+              collapse="dbCtrl.collapsed.closedAccounts"
+              touch-start="dbCtrl.accountSortable.disabled = true"
+              touch-end="dbCtrl.accountSortable.disabled = false"
+            >
+              <li
+                class="app-view__account"
+                ng-repeat="account in dbCtrl.closedAccounts"
+                ui-sref="user.app.manager.view.account({accountId: account.id})"
+                ui-sref-active="app-view__account--active"
+                edit-account="account"
+                on-remove-account="dbCtrl.removeAccount(account)"
+                on-account-change="dbCtrl.filterAccounts()"
+              >
+                <span class="app-view__name">{{account.name}}</span>
+                <!-- <i class="app-view__edit fa fa-cog" ng-click="dbCtrl.edit($event, account)"></i> -->
+                <span
+                  >{{account.cache.balance | intCurrency : true :
+                  dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol :
+                  dbCtrl.currencyDigits}}</span
+                >
               </li>
             </ul>
           </div>
 
-          <button class="app-view__add-account" ng-click="dbCtrl.createAccount()">
+          <button
+            class="app-view__add-account"
+            ng-click="dbCtrl.createAccount()"
+          >
             {{'ADD_AN_ACCOUNT' | translate}}
           </button>
 
-          <i class="fa fa-cog app-view__budget-options"
-             budget-options
-             on-export="dbCtrl.export()"
-             on-backup="dbCtrl.backup()"></i>
+          <i
+            class="fa fa-cog app-view__budget-options"
+            budget-options
+            on-export="dbCtrl.export()"
+            on-backup="dbCtrl.backup()"
+          ></i>
         </div>
       </div>
 
-      <footer ng-if="userCtrl.email"
-              class="app-view__sidebar-footer">
+      <footer ng-if="userCtrl.email" class="app-view__sidebar-footer">
         <sync-status status="userCtrl.status"></sync-status>
 
-        <div class="app-view__sidebar-footer--logged-in" logout="userCtrl.logout()" logout-and-remove="userCtrl.logoutAndRemove()">
+        <div
+          class="app-view__sidebar-footer--logged-in"
+          logout="userCtrl.logout()"
+          logout-and-remove="userCtrl.logoutAndRemove()"
+        >
           <div class="app-view__sidebar-footer-button">
             <span>{{userCtrl.email}}</span>
 
-            <img ng-if="userCtrl.email" ng-src="https://www.gravatar.com/avatar/{{userCtrl.email | gravatar}}" alt="{{email}} Gravatar">
+            <img
+              ng-if="userCtrl.email"
+              ng-src="https://www.gravatar.com/avatar/{{userCtrl.email | gravatar}}"
+              alt="{{email}} Gravatar"
+            />
           </div>
         </div>
       </footer>
-
 
       <footer ng-if="!userCtrl.email" class="app-view__sidebar-footer">
         <a class="app-view__sync" ui-sref="user.signup">
@@ -147,11 +250,16 @@
         </a>
 
         <div class="app-view__sidebar-footer-offline-warning">
-          <i class="fa fa-exclamation-triangle"></i> <strong>{{'WARNING_EXCLAMATION' | translate}}</strong> {{'OFFLINE_MODE_WARNING_EXPLANATION' | translate}}</i>
+          <i class="fa fa-exclamation-triangle"></i>
+          <strong>{{'WARNING_EXCLAMATION' | translate}}</strong>
+          {{'OFFLINE_MODE_WARNING_EXPLANATION' | translate}}
         </div>
 
         <div class="app-view__sidebar-footer--logged-in">
-          <div ng-click="userCtrl.signin()" class="app-view__sidebar-footer-button app-view__sidebar-footer-button--sign-in">
+          <div
+            ng-click="userCtrl.signin()"
+            class="app-view__sidebar-footer-button app-view__sidebar-footer-button--sign-in"
+          >
             {{'SIGN_INTO_YOUR_ACCOUNT' | translate}}
           </div>
         </div>
@@ -159,7 +267,5 @@
     </div>
 
     <div ui-view class="app-view__body"></div>
-    
   </div>
 </div>
-

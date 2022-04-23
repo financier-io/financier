@@ -28,17 +28,20 @@
   // -moz-filter: none;
 }
 
-.drop-element.drop-theme-arrows-bounce.drop-element-attached-top.drop-element-attached-center .drop-content::before {
+.drop-element.drop-theme-arrows-bounce.drop-element-attached-top.drop-element-attached-center
+  .drop-content::before {
   pointer-events: none;
 }
 
 .drop-theme--success {
-  &.drop-element.drop-theme-arrows-bounce.drop-element-attached-top.drop-element-attached-right.drop-target-attached-bottom .drop-content {
+  &.drop-element.drop-theme-arrows-bounce.drop-element-attached-top.drop-element-attached-right.drop-target-attached-bottom
+    .drop-content {
     animation: fade-to-primary 250ms ease;
     animation-fill-mode: forwards;
   }
 
-  &.drop-element.drop-theme-arrows-bounce.drop-element-attached-top.drop-element-attached-right.drop-target-attached-bottom .drop-content::before {
+  &.drop-element.drop-theme-arrows-bounce.drop-element-attached-top.drop-element-attached-right.drop-target-attached-bottom
+    .drop-content::before {
     animation: fade-to-primary-caret 250ms ease;
     animation-fill-mode: forwards;
   }

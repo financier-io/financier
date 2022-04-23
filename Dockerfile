@@ -1,4 +1,4 @@
-FROM node:8
+FROM node:18
 
 WORKDIR /financier
 RUN npm install express@^4.17.3 nocache@^3.0.3 uuid@^8.3.2 helmet-csp@^3.4.0 cheerio@^0.22.0

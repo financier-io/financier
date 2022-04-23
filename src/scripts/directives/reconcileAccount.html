@@ -2,32 +2,57 @@
   <div class="reconcile-account__center" ng-switch="screen">
     <div ng-switch-when="IS_YOUR_BALANCE">
       <h3>{{'IS_YOUR_ACTUAL_BALANCE' | translate}}</h3>
-      <h2 class="account__balance-value reconcile-account__balance-value" ng-class="{'account__balance-value--negative': reconcileAccount.cache.clearedBalance < 0}">{{reconcileAccount.cache.clearedBalance || 0 | intCurrency : true : $parent.$parent.dbCtrl.currencyDigits | currency : $parent.$parent.dbCtrl.currencySymbol : $parent.$parent.dbCtrl.currencyDigits}}?</h2>
+      <h2
+        class="account__balance-value reconcile-account__balance-value"
+        ng-class="{'account__balance-value--negative': reconcileAccount.cache.clearedBalance < 0}"
+      >
+        {{reconcileAccount.cache.clearedBalance || 0 | intCurrency : true :
+        $parent.$parent.dbCtrl.currencyDigits | currency :
+        $parent.$parent.dbCtrl.currencySymbol :
+        $parent.$parent.dbCtrl.currencyDigits}}?
+      </h2>
       <div class="reconcile-account__buttons">
-        <button type="button" class="button button--primary" ng-click="go.reconciled($event)"><i class="fa fa-check"></i> {{'YES' | translate}}</button>
-        <button type="button" class="button button--primary" ng-click="go.amount($event)"><i class="fa fa-close"></i> {{'NO' | translate}}</button>
+        <button
+          type="button"
+          class="button button--primary"
+          ng-click="go.reconciled($event)"
+        >
+          <i class="fa fa-check"></i> {{'YES' | translate}}
+        </button>
+        <button
+          type="button"
+          class="button button--primary"
+          ng-click="go.amount($event)"
+        >
+          <i class="fa fa-close"></i> {{'NO' | translate}}
+        </button>
       </div>
     </div>
     <div ng-switch-when="RECONCILED">
       <i class="fa fa-check reconcile-account__done-icon"></i>
       <h3 class="reconcile-account__all-done">{{'ALL_DONE' | translate}}</h3>
-      <br>
-      <h3 class="reconcile-account__successful-reconcile">{{'YOUR_ACCOUNT_RECONCILED' | translate}}</h3>
+      <br />
+      <h3 class="reconcile-account__successful-reconcile">
+        {{'YOUR_ACCOUNT_RECONCILED' | translate}}
+      </h3>
     </div>
     <div ng-switch-when="AMOUNT">
       <form name="actualForm" ng-submit="go.start($event)" novalidate>
         <h3>{{'WHAT_ACTUAL_BALANCE' | translate}}</h3>
-        <input name="amount"
-               required
-               on-update="val.amount = model"
-               on-validate= "val.valid = isValid"
-               view-model="val.amount"
-               calc-input
-               class="reconcile-account__input">
-        <br><br>
-        <button class="button button--primary" ng-disabled="!val.valid"><i class="fa fa-check"></i> {{'START_RECONCILIATION' | translate}}</button>
+        <input
+          name="amount"
+          required
+          on-update="val.amount = model"
+          on-validate="val.valid = isValid"
+          view-model="val.amount"
+          calc-input
+          class="reconcile-account__input"
+        />
+        <br /><br />
+        <button class="button button--primary" ng-disabled="!val.valid">
+          <i class="fa fa-check"></i> {{'START_RECONCILIATION' | translate}}
+        </button>
       </form>
     </div>
   </div>
 </div>
-

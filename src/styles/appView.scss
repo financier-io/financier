@@ -30,7 +30,6 @@
     }
   }
 
-
   width: 15em;
   position: relative;
 
@@ -143,7 +142,7 @@
       transform: translateX(0);
 
       &::after {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         right: 0;
@@ -163,7 +162,6 @@
 }
 
 .app-view__sidebar-toggle {
-
 }
 
 .app-view__title {
@@ -171,7 +169,6 @@
     .app-view__sidebar & {
       display: none;
     }
-
   }
 
   @media (min-width: 601px) {
@@ -314,7 +311,6 @@ i.app-view__accounts-angle {
   line-height: 20px;
 }
 
-
 .app-view__accounts-name {
   flex: 1;
 
@@ -344,7 +340,7 @@ i.app-view__accounts-angle {
   opacity: 0.8;
 
   &::before {
-    content: '+ ';
+    content: "+ ";
   }
 
   &:hover {
@@ -427,4 +423,3 @@ i.app-view__accounts-angle {
   flex: 1;
   padding-right: 5px;
 }
-

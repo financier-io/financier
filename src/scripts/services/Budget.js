@@ -1,25 +1,27 @@
-angular.module('financier').factory('Budget', uuid => {
+angular.module("financier").factory("Budget", (uuid) => {
   /**
    * Represents a Budget project
    */
   class Budget {
-
     /**
      * Create a Budget
      *
      * @param {object} [data] - The record object from the database
      */
     constructor(data) {
-      this._data = angular.merge({
-        hints: {
-          outflow: true
+      this._data = angular.merge(
+        {
+          hints: {
+            outflow: true,
+          },
+          name: null,
+          currency: "USD",
+          _id: "budget_" + uuid(),
+          created: new Date().toISOString(),
+          checkNumber: false,
         },
-        name: null,
-        currency: 'USD',
-        _id: 'budget_' + uuid(),
-        created: new Date().toISOString(),
-        checkNumber: false
-      }, data);
+        data
+      );
 
       const that = this;
 
@@ -30,7 +32,7 @@ angular.module('financier').factory('Budget', uuid => {
         set outflow(o) {
           that.data.hints.outflow = o;
           that.emitChange();
-        }
+        },
       };
 
       /**
@@ -41,8 +43,8 @@ angular.module('financier').factory('Budget', uuid => {
        * budget.id; // === 'ab735ea6-bd56-449c-8f03-6afcc91e2248'
        *
        * @type {string}
-      */
-      this.id = this._data._id.slice(this._data._id.lastIndexOf('_') + 1);
+       */
+      this.id = this._data._id.slice(this._data._id.lastIndexOf("_") + 1);
     }
 
     /**
@@ -162,7 +164,7 @@ angular.module('financier').factory('Budget', uuid => {
      *
      * @param {function} fn - This function will be invoked upon record
      * changes with the Budget object as the first parameter.
-    */
+     */
     subscribe(fn) {
       this.fn = fn;
     }
@@ -171,7 +173,7 @@ angular.module('financier').factory('Budget', uuid => {
      * Will call the subscribed function, if it exists, with self.
      *
      * @private
-    */
+     */
     emitChange() {
       return this.fn && this.fn(this);
     }
@@ -184,7 +186,7 @@ angular.module('financier').factory('Budget', uuid => {
      * budget._id; // === 'budget_ab735ea6-bd56-449c-8f03-6afcc91e2248'
      *
      * @type {string}
-    */
+     */
     get _id() {
       return this._data._id;
     }
@@ -197,7 +199,7 @@ angular.module('financier').factory('Budget', uuid => {
      * budget._rev = '1-A6157A5EA545C99B00FF904EEF05FD9F';
      *
      * @type {string}
-    */
+     */
     set _rev(r) {
       this._data._rev = r;
     }
@@ -207,7 +209,7 @@ angular.module('financier').factory('Budget', uuid => {
      * a JSON object for sending to the database.
      *
      * @returns {object}
-    */
+     */
     toJSON() {
       return this._data;
     }
@@ -218,7 +220,7 @@ angular.module('financier').factory('Budget', uuid => {
      * @type {string}
      */
     static get startKey() {
-      return 'budget_';
+      return "budget_";
     }
 
     /**
@@ -227,7 +229,7 @@ angular.module('financier').factory('Budget', uuid => {
      * @type {string}
      */
     static get endKey() {
-      return this.startKey + '\uffff';
+      return this.startKey + "\uffff";
     }
 
     /**

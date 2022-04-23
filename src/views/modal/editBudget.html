@@ -2,28 +2,43 @@
 
 <form name="editBudgetForm" ng-submit="editBudgetCtrl.submit()">
   <label>
-    <input type="text"
-           name="name"
-           ng-model="editBudgetCtrl.name"
-           placeholder="{{'MY_BUDGET_NAME' | translate}}"
-           ng-disabled="editBudgetCtrl.loading"
-           required>
-    <div ng-messages="editBudgetForm.name.$error"
-         ng-if="editBudgetForm.name.$dirty">
-      <div ng-message="required" class="message">{{'FIELD_REQUIRED' | translate}}</div>
+    <input
+      type="text"
+      name="name"
+      ng-model="editBudgetCtrl.name"
+      placeholder="{{'MY_BUDGET_NAME' | translate}}"
+      ng-disabled="editBudgetCtrl.loading"
+      required
+    />
+    <div
+      ng-messages="editBudgetForm.name.$error"
+      ng-if="editBudgetForm.name.$dirty"
+    >
+      <div ng-message="required" class="message">
+        {{'FIELD_REQUIRED' | translate}}
+      </div>
     </div>
   </label>
 
   <label>
     <select name="currency" ng-model="editBudgetCtrl.currency">
-      <option ng-repeat="option in editBudgetCtrl.currencies" value="{{option.code}}">{{option.name_plural}} - {{option.symbol_native}}</option>
+      <option
+        ng-repeat="option in editBudgetCtrl.currencies"
+        value="{{option.code}}"
+      >
+        {{option.name_plural}} - {{option.symbol_native}}
+      </option>
     </select>
   </label>
 
   <footer>
-    <button class="primary"
-            ladda="editBudgetCtrl.loading"
-            ng-disabed="editBudgetForm.$invalid">{{'SAVE' | translate}}</button>
+    <button
+      class="primary"
+      ladda="editBudgetCtrl.loading"
+      ng-disabed="editBudgetForm.$invalid"
+    >
+      {{'SAVE' | translate}}
+    </button>
     <button ng-click="closeThisDialog()">{{'CANCEL' | translate}}</button>
   </footer>
 </form>

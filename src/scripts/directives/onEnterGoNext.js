@@ -1,9 +1,10 @@
-angular.module('financier').directive('onEnterGoNext', () => {
+angular.module("financier").directive("onEnterGoNext", () => {
   function link(scope, element, attrs) {
-    element.on('keydown', e => {
+    element.on("keydown", (e) => {
       const els = document.querySelectorAll(`[tabindex='${attrs.tabindex}']`);
 
-      if (e.which === 13 || e.which === 40) { // enter key, down key
+      if (e.which === 13 || e.which === 40) {
+        // enter key, down key
         e.preventDefault();
 
         for (let i = 0; i < els.length; i++) {
@@ -11,7 +12,8 @@ angular.module('financier').directive('onEnterGoNext', () => {
             return findNext(els, i, i);
           }
         }
-      } else if (e.which === 38) { // up key
+      } else if (e.which === 38) {
+        // up key
         e.preventDefault();
 
         for (let i = 0; i < els.length; i++) {
@@ -62,7 +64,7 @@ angular.module('financier').directive('onEnterGoNext', () => {
        This check would be inaccurate if position is 'fixed' AND dimensions were
        intentionally set to zero. But..it is good enough for most cases.*/
       if (!el.offsetParent && el.offsetWidth === 0 && el.offsetHeight === 0) {
-          return false;
+        return false;
       }
       return true;
     }
@@ -74,7 +76,7 @@ angular.module('financier').directive('onEnterGoNext', () => {
   }
 
   return {
-    restrict: 'A',
-    link
+    restrict: "A",
+    link,
   };
 });

@@ -1,18 +1,18 @@
-angular.module('financier').directive('creditCardSpaces', () => {
+angular.module("financier").directive("creditCardSpaces", () => {
   return {
-    restrict: 'A',
+    restrict: "A",
     scope: {
-      creditCardSpaces: '=',
-      cardChanged: '='
+      creditCardSpaces: "=",
+      cardChanged: "=",
     },
     link: (scope, element) => {
-      element.on('input', function () {
+      element.on("input", function () {
         scope.cardChanged = true;
 
-        var newValue = this.value.split(' ').join('');
+        var newValue = this.value.split(" ").join("");
 
         if (newValue.length > 0) {
-          newValue = newValue.match(new RegExp('.{1,4}', 'g')).join(' ');
+          newValue = newValue.match(new RegExp(".{1,4}", "g")).join(" ");
         }
 
         this.value = newValue;
@@ -20,9 +20,9 @@ angular.module('financier').directive('creditCardSpaces', () => {
         scope.creditCardSpaces = this.value;
       });
 
-      element.on('blur', () => {
+      element.on("blur", () => {
         scope.cardChanged = true;
       });
-    }
+    },
   };
 });

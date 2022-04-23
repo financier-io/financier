@@ -1,12 +1,12 @@
-angular.module('financier').directive('scrollContainer', () => {
+angular.module("financier").directive("scrollContainer", () => {
   return {
-    restrict: 'A',
+    restrict: "A",
     scope: false,
     controller: function ($element) {
       this.element = $element[0];
 
       // Needed for scrollIntoViewIf scrollTop calculation
-      $element.css('position', 'relative');
-    }
+      $element.css("position", "relative");
+    },
   };
 });

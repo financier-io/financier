@@ -1,9 +1,15 @@
 <h2>{{'REMOVE_RECONCILED_TRANSACTIONS' | translate}}</h2>
 
-<p translate="REMOVE_RECONCILED_TRANSACTIONS_MESSAGE" translate-values="{length: length, reconciled: reconciled}"></p>
+<p
+  translate="REMOVE_RECONCILED_TRANSACTIONS_MESSAGE"
+  translate-values="{length: length, reconciled: reconciled}"
+></p>
 
 <footer>
-  <button class="danger"
-          ng-click="confirm()">{{'REMOVE_TRANSACTIONS' | translate}}</button>
-  <button ng-click="stopPropagation($event); closeThisDialog()">{{'CANCEL' | translate}}</button>
+  <button class="danger" ng-click="confirm()">
+    {{'REMOVE_TRANSACTIONS' | translate}}
+  </button>
+  <button ng-click="stopPropagation($event); closeThisDialog()">
+    {{'CANCEL' | translate}}
+  </button>
 </footer>

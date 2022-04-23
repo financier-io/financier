@@ -1,3 +1,5 @@
+/* eslint-disable jest/no-commented-out-tests */
+
 describe("category", function () {
   let monthManager, MonthManager, month, Month;
 

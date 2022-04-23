@@ -1,13 +1,13 @@
-import moment from 'moment';
+import moment from "moment";
 
-angular.module('financier').directive('heatMap', ($filter, $locale) => {
-  const dateFilter = $filter('date'),
-    currency = $filter('currency'),
-    intCurrency = $filter('intCurrency'),
-    removeDots = $filter('removeDots');
+angular.module("financier").directive("heatMap", ($filter, $locale) => {
+  const dateFilter = $filter("date"),
+    currency = $filter("currency"),
+    intCurrency = $filter("intCurrency"),
+    removeDots = $filter("removeDots");
   let FIRSTDAYOFWEEK = $locale.DATETIME_FORMATS.FIRSTDAYOFWEEK;
 
-  if ($locale.id === 'en-au') {
+  if ($locale.id === "en-au") {
     FIRSTDAYOFWEEK = 0;
   }
 
@@ -22,23 +22,21 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
   }
 
   function emit(index, e) {
-    subs[index].forEach(cb => cb(e));
+    subs[index].forEach((cb) => cb(e));
   }
-
 
   const SQUARE_SIZE = 10;
   const MONTH_LABEL_GUTTER_SIZE = 4;
   const WEEK_LABEL_OFFSET = 16;
-  const svgns = 'http://www.w3.org/2000/svg';
+  const svgns = "http://www.w3.org/2000/svg";
 
-  const range = n => Array.from(Array(n), (_, i) => i);
+  const range = (n) => Array.from(Array(n), (_, i) => i);
 
   const reduce = (arr, fn, defaultValue) => {
     if (arr && arr.length) {
       return arr.reduce(fn, defaultValue);
     }
   };
-
 
   function shiftDate(date, numDays) {
     const newDate = moment(date).toDate();
@@ -47,12 +45,12 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
   }
 
   function getBeginningTimeForDate(date) {
-    return moment(date).startOf('day').toDate();
+    return moment(date).startOf("day").toDate();
   }
 
   // obj can be a parseable string, a millisecond timestamp, or a Date object
   function convertToDate(obj) {
-    return (obj instanceof Date) ? obj : (moment(obj).toDate());
+    return obj instanceof Date ? obj : moment(obj).toDate();
   }
 
   const DAYS_IN_WEEK = 7;
@@ -96,11 +94,14 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
     }
 
     getNumEmptyDaysAtEnd() {
-      return (DAYS_IN_WEEK - 1) - this.getEndDate().getDay();
+      return DAYS_IN_WEEK - 1 - this.getEndDate().getDay();
     }
 
     getWeekCount() {
-      const numDaysRoundedToWeek = this.props.numDays + this.getNumEmptyDaysAtStart() + this.getNumEmptyDaysAtEnd();
+      const numDaysRoundedToWeek =
+        this.props.numDays +
+        this.getNumEmptyDaysAtStart() +
+        this.getNumEmptyDaysAtEnd();
       return Math.ceil(numDaysRoundedToWeek / DAYS_IN_WEEK);
     }
 
@@ -109,11 +110,20 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
     }
 
     getWidth() {
-      return (this.getWeekCount() * this.getSquareSizeWithGutter()) - this.props.gutterSize + WEEK_LABEL_OFFSET + 2;
+      return (
+        this.getWeekCount() * this.getSquareSizeWithGutter() -
+        this.props.gutterSize +
+        WEEK_LABEL_OFFSET +
+        2
+      );
     }
 
     getHeight() {
-      return this.getWeekWidth() + (this.getMonthLabelSize() - this.props.gutterSize) + 2;
+      return (
+        this.getWeekWidth() +
+        (this.getMonthLabelSize() - this.props.gutterSize) +
+        2
+      );
     }
 
     getValueCache(values) {
@@ -121,18 +131,27 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
         return {};
       }
 
-      return reduce(values, (memo, value) => {
-        const date = convertToDate(value.date);
-        const index = moment(date).diff(this.getStartDateWithEmptyDays(), 'days');
+      return reduce(
+        values,
+        (memo, value) => {
+          const date = convertToDate(value.date);
+          const index = moment(date).diff(
+            this.getStartDateWithEmptyDays(),
+            "days"
+          );
 
-        memo[index] = {
-          value,
-          fill: this.props.fill(value),
-          title: this.props.titleForValue ? this.props.titleForValue(index, value) : null,
-          tooltipDataAttrs: this.getTooltipDataAttrsForValue(value),
-        };
-        return memo;
-      }, {});
+          memo[index] = {
+            value,
+            fill: this.props.fill(value),
+            title: this.props.titleForValue
+              ? this.props.titleForValue(index, value)
+              : null,
+            tooltipDataAttrs: this.getTooltipDataAttrsForValue(value),
+          };
+          return memo;
+        },
+        {}
+      );
     }
 
     getValueForIndex(index) {
@@ -166,7 +185,7 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
     getTooltipDataAttrsForValue(value) {
       const { tooltipDataAttrs } = this.props;
 
-      if (typeof tooltipDataAttrs === 'function') {
+      if (typeof tooltipDataAttrs === "function") {
         return tooltipDataAttrs(value);
       }
       return tooltipDataAttrs;
@@ -221,7 +240,7 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
       const verticalOffset = -2;
       return [
         0,
-        ((weekIndex + 1) * this.getSquareSizeWithGutter()) + verticalOffset,
+        (weekIndex + 1) * this.getSquareSizeWithGutter() + verticalOffset,
       ];
     }
 
@@ -229,14 +248,13 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
       if (this.props.showMonthLabels) {
         return [
           8,
-          ((weekIndex + 2) * this.getSquareSizeWithGutter()) - 3 + MONTH_LABEL_GUTTER_SIZE
+          (weekIndex + 2) * this.getSquareSizeWithGutter() -
+            3 +
+            MONTH_LABEL_GUTTER_SIZE,
         ];
       }
 
-      return [
-        8,
-        ((weekIndex + 1) * this.getSquareSizeWithGutter()) - 2
-      ];
+      return [8, (weekIndex + 1) * this.getSquareSizeWithGutter() - 2];
     }
 
     handleClick(value) {
@@ -255,26 +273,26 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
       }
       const [x, y] = this.getSquareCoordinates(dayIndex);
 
-      var rect = document.createElementNS(svgns, 'rect');
+      var rect = document.createElementNS(svgns, "rect");
 
-      rect.setAttributeNS(null, 'key', index);
-      rect.setAttributeNS(null, 'width', SQUARE_SIZE);
-      rect.setAttributeNS(null, 'height', SQUARE_SIZE);
-      rect.setAttributeNS(null, 'x', x);
-      rect.setAttributeNS(null, 'y', y);
+      rect.setAttributeNS(null, "key", index);
+      rect.setAttributeNS(null, "width", SQUARE_SIZE);
+      rect.setAttributeNS(null, "height", SQUARE_SIZE);
+      rect.setAttributeNS(null, "x", x);
+      rect.setAttributeNS(null, "y", y);
 
-      const title = document.createElementNS(svgns, 'title');
+      const title = document.createElementNS(svgns, "title");
 
       rect.appendChild(title);
 
-      rect.setAttributeNS(null, 'fill', this.getFillForIndex(index));
-      rect.setAttributeNS(null, 'y', y);
+      rect.setAttributeNS(null, "fill", this.getFillForIndex(index));
+      rect.setAttributeNS(null, "y", y);
 
-      sub(index, e => {
-        if (e === 'leave') {
-          rect.setAttributeNS(null, 'class', '');
+      sub(index, (e) => {
+        if (e === "leave") {
+          rect.setAttributeNS(null, "class", "");
         } else {
-          rect.setAttributeNS(null, 'class', 'active');
+          rect.setAttributeNS(null, "class", "active");
         }
       });
 
@@ -286,20 +304,24 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
       };
 
       rect.onmouseleave = () => {
-        emit(index, 'leave');
+        emit(index, "leave");
       };
 
       return rect;
     }
 
     renderWeek(weekIndex) {
-      var rect = document.createElementNS(svgns, 'g');
+      var rect = document.createElementNS(svgns, "g");
 
-      rect.setAttributeNS(null, 'key', weekIndex);
-      rect.setAttributeNS(null, 'transform', this.getTransformForWeek(weekIndex));
+      rect.setAttributeNS(null, "key", weekIndex);
+      rect.setAttributeNS(
+        null,
+        "transform",
+        this.getTransformForWeek(weekIndex)
+      );
 
       for (let i = 0; i < DAYS_IN_WEEK; i++) {
-        var square = this.renderSquare(i, (weekIndex * DAYS_IN_WEEK) + i);
+        var square = this.renderSquare(i, weekIndex * DAYS_IN_WEEK + i);
 
         if (square) {
           rect.appendChild(square);
@@ -310,26 +332,31 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
     }
 
     renderAllWeeks() {
-      return range(this.getWeekCount()).map(weekIndex => this.renderWeek(weekIndex));
+      return range(this.getWeekCount()).map((weekIndex) =>
+        this.renderWeek(weekIndex)
+      );
     }
 
     renderMonthLabels() {
       if (!this.props.showMonthLabels) {
         return null;
       }
-      const weekRange = range(this.getWeekCount() - 1);  // don't render for last week, because label will be cut off
+      const weekRange = range(this.getWeekCount() - 1); // don't render for last week, because label will be cut off
       return weekRange.map((weekIndex) => {
-        const endOfWeek = shiftDate(this.getStartDateWithEmptyDays(), (weekIndex + 1) * DAYS_IN_WEEK);
+        const endOfWeek = shiftDate(
+          this.getStartDateWithEmptyDays(),
+          (weekIndex + 1) * DAYS_IN_WEEK
+        );
         const [x, y] = this.getMonthLabelCoordinates(weekIndex);
 
         if (endOfWeek.getDate() >= 1 && endOfWeek.getDate() <= DAYS_IN_WEEK) {
-          var text = document.createElementNS(svgns, 'text');
+          var text = document.createElementNS(svgns, "text");
 
-          text.setAttributeNS(null, 'key', weekIndex);
-          text.setAttributeNS(null, 'x', x);
-          text.setAttributeNS(null, 'y', y);
+          text.setAttributeNS(null, "key", weekIndex);
+          text.setAttributeNS(null, "x", x);
+          text.setAttributeNS(null, "y", y);
 
-          text.textContent = removeDots(dateFilter(endOfWeek, 'MMM'));
+          text.textContent = removeDots(dateFilter(endOfWeek, "MMM"));
           return text;
         }
 
@@ -341,30 +368,33 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
       if (!this.props.showWeekLabels) {
         return null;
       }
-      const weekRange = [1, 3, 5];  // don't render for last week, because label will be cut off
-      return weekRange.map(weekIndex => {
+      const weekRange = [1, 3, 5]; // don't render for last week, because label will be cut off
+      return weekRange.map((weekIndex) => {
         const [x, y] = this.getWeekLabelCoordinates(weekIndex);
 
-        var text = document.createElementNS(svgns, 'text');
+        var text = document.createElementNS(svgns, "text");
 
-        text.setAttributeNS(null, 'key', weekIndex);
-        text.setAttributeNS(null, 'x', x);
-        text.setAttributeNS(null, 'y', y);
-        text.setAttributeNS(null, 'text-anchor', 'middle');
+        text.setAttributeNS(null, "key", weekIndex);
+        text.setAttributeNS(null, "x", x);
+        text.setAttributeNS(null, "y", y);
+        text.setAttributeNS(null, "text-anchor", "middle");
 
-        text.textContent = $locale.DATETIME_FORMATS.SHORTDAY[(weekIndex + FIRSTDAYOFWEEK + 1) % 7].charAt(0);
+        text.textContent =
+          $locale.DATETIME_FORMATS.SHORTDAY[
+            (weekIndex + FIRSTDAYOFWEEK + 1) % 7
+          ].charAt(0);
         return text;
       });
     }
 
     render() {
-      var svg = document.createElementNS(svgns, 'svg');
-      svg.setAttributeNS(null, 'viewBox', this.getViewBox());
+      var svg = document.createElementNS(svgns, "svg");
+      svg.setAttributeNS(null, "viewBox", this.getViewBox());
 
-      var gLabels = document.createElementNS(svgns, 'g');
+      var gLabels = document.createElementNS(svgns, "g");
       var labels = this.getTransformForMonthLabels();
       if (labels) {
-        gLabels.setAttributeNS(null, 'transform', labels);
+        gLabels.setAttributeNS(null, "transform", labels);
       }
 
       var monthLabels = this.renderMonthLabels();
@@ -376,8 +406,8 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
         }
       }
 
-      var gWeeks = document.createElementNS(svgns, 'g');
-      gWeeks.setAttributeNS(null, 'transform', this.getTransformForAllWeeks());
+      var gWeeks = document.createElementNS(svgns, "g");
+      gWeeks.setAttributeNS(null, "transform", this.getTransformForAllWeeks());
 
       var monthWeek = this.renderAllWeeks();
       for (let i = 0; i < monthWeek.length; i++) {
@@ -386,7 +416,7 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
         }
       }
 
-      var gWeekLabels = document.createElementNS(svgns, 'g');
+      var gWeekLabels = document.createElementNS(svgns, "g");
       var weekLabels = this.renderWeekLabels();
       for (let i = 0; i < weekLabels.length; i++) {
         if (weekLabels[i]) {
@@ -398,31 +428,31 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
       svg.appendChild(gWeeks);
       svg.appendChild(gWeekLabels);
 
-      svg.setAttributeNS(null, 'class', 'heat-map');
+      svg.setAttributeNS(null, "class", "heat-map");
 
       return svg;
     }
   }
 
   return {
-    restrict: 'E',
+    restrict: "E",
     scope: {
-      data: '=',
-      hue: '=',
-      showMonthLabels: '=',
-      max: '=',
-      endDate: '='
+      data: "=",
+      hue: "=",
+      showMonthLabels: "=",
+      max: "=",
+      endDate: "=",
     },
     link: (scope, element) => {
       function rainbow(n) {
         let step = Math.abs(Math.min(Math.abs(n), scope.max) / scope.max) * 100;
 
-        return `hsl(${scope.hue},100%,${((100 - step) * 0.65) + 25}%)`;
+        return `hsl(${scope.hue},100%,${(100 - step) * 0.65 + 25}%)`;
       }
 
       let cal;
 
-      scope.$watchGroup(['data', 'endDate'], render);
+      scope.$watchGroup(["data", "endDate"], render);
 
       function render() {
         if (scope.data) {
@@ -435,43 +465,47 @@ angular.module('financier').directive('heatMap', ($filter, $locale) => {
             endDate: scope.endDate,
             gutterSize: 1,
             horizontal: true,
-            showMonthLabels: angular.isDefined(scope.showMonthLabels) ? scope.showMonthLabels : true,
+            showMonthLabels: angular.isDefined(scope.showMonthLabels)
+              ? scope.showMonthLabels
+              : true,
             showWeekLabels: true,
             showOutOfRangeDays: false,
             titleForValue: (index, value) => {
-              index = index - (scope.endDate.getDay() - 2 - (FIRSTDAYOFWEEK - 7));
-              const date = dateFilter(moment(scope.endDate).subtract(365 - index, 'days').toDate(), 'mediumDate');
+              index =
+                index - (scope.endDate.getDay() - 2 - (FIRSTDAYOFWEEK - 7));
+              const date = dateFilter(
+                moment(scope.endDate)
+                  .subtract(365 - index, "days")
+                  .toDate(),
+                "mediumDate"
+              );
               let amount = value ? value.count : 0;
 
               amount = currency(
-                intCurrency(
-                  amount,
-                  true,
-                  scope.$parent.dbCtrl.currencyDigits
-                ),
+                intCurrency(amount, true, scope.$parent.dbCtrl.currencyDigits),
                 scope.$parent.dbCtrl.currencySymbol,
                 scope.$parent.dbCtrl.currencyDigits
               );
 
               return `${date}\n${amount}`;
             },
-            fill: value => {
+            fill: (value) => {
               let step;
 
               if (value && angular.isNumber(value.count)) {
                 step = rainbow(value.count);
               } else {
-                step = '#efefef';
+                step = "#efefef";
               }
 
               return step;
             },
-            values: scope.data
+            values: scope.data,
           });
 
           element[0].appendChild(cal.render());
         }
       }
-    }
+    },
   };
 });

@@ -1,30 +1,62 @@
-<div class="outflow-tip"
-     st-table="displayedTransactions"
-     st-safe-src="transactions">
+<div
+  class="outflow-tip"
+  st-table="displayedTransactions"
+  st-safe-src="transactions"
+>
   <div class="account__thead">
     <div class="account__tr">
-      <div class="account__th" st-multi-sort="dbCtrl.customSorts.date" st-sort-default="reverse"><span><span>{{'DATE' | translate}}</span></span></div>
-      <div class="account__th" st-multi-sort="dbCtrl.customSorts.account"><span><span>{{'ACCOUNT' | translate}}</span></span></div>
-      <div class="account__th" st-multi-sort="dbCtrl.customSorts.payee"><span><span>{{'PAYEE' | translate}}</span></span></div>
-      <div class="account__th"><span><span>{{'MEMO' | translate}}</span></span></div>
-      <div class="account__th" st-multi-sort="value"><span><span>{{'AMOUNT' | translate}}</span></span></div>
+      <div
+        class="account__th"
+        st-multi-sort="dbCtrl.customSorts.date"
+        st-sort-default="reverse"
+      >
+        <span><span>{{'DATE' | translate}}</span></span>
+      </div>
+      <div class="account__th" st-multi-sort="dbCtrl.customSorts.account">
+        <span><span>{{'ACCOUNT' | translate}}</span></span>
+      </div>
+      <div class="account__th" st-multi-sort="dbCtrl.customSorts.payee">
+        <span><span>{{'PAYEE' | translate}}</span></span>
+      </div>
+      <div class="account__th">
+        <span><span>{{'MEMO' | translate}}</span></span>
+      </div>
+      <div class="account__th" st-multi-sort="value">
+        <span><span>{{'AMOUNT' | translate}}</span></span>
+      </div>
     </div>
   </div>
 
-  <div class="account__tbody account__tbody--striped virtual-list" ng-class="{'odd-total': displayedTransactions.length % 2}" vs-repeat vs-size="dbCtrl.getTransactionHeight(transaction)">
-    <div class="account__tr" ng-class="{'account__tr--stripe': ($index + startIndex) % 2}" ng-repeat="transaction in displayedTransactions track by transaction.id">
-      <div class="account__td"><span><span>{{transaction.date | date : 'shortDate'}}</span></span></div>
-      <div class="account__td" title="{{dbCtrl.manager.getAccount(transaction.account).name}}">
+  <div
+    class="account__tbody account__tbody--striped virtual-list"
+    ng-class="{'odd-total': displayedTransactions.length % 2}"
+    vs-repeat
+    vs-size="dbCtrl.getTransactionHeight(transaction)"
+  >
+    <div
+      class="account__tr"
+      ng-class="{'account__tr--stripe': ($index + startIndex) % 2}"
+      ng-repeat="transaction in displayedTransactions track by transaction.id"
+    >
+      <div class="account__td">
+        <span><span>{{transaction.date | date : 'shortDate'}}</span></span>
+      </div>
+      <div
+        class="account__td"
+        title="{{dbCtrl.manager.getAccount(transaction.account).name}}"
+      >
         <span>
-          <span>
-            {{dbCtrl.manager.getAccount(transaction.account).name}}
-          </span>
+          <span> {{dbCtrl.manager.getAccount(transaction.account).name}} </span>
         </span>
       </div>
-      <div class="account__td" title="{{dbCtrl.getAccountName(transaction.transfer.account) || dbCtrl.getSplitPayeeName(transaction)}}">
+      <div
+        class="account__td"
+        title="{{dbCtrl.getAccountName(transaction.transfer.account) || dbCtrl.getSplitPayeeName(transaction)}}"
+      >
         <span>
           <span>
-            {{dbCtrl.getAccountName(transaction.transfer.account) || dbCtrl.getSplitPayeeName(transaction)}}
+            {{dbCtrl.getAccountName(transaction.transfer.account) ||
+            dbCtrl.getSplitPayeeName(transaction)}}
             <i class="fa fa-exchange" ng-show="transaction.transfer"></i>
           </span>
         </span>
@@ -32,7 +64,14 @@
       <div class="account__td" title="{{transaction.memo}}">
         <span><span>{{transaction.memo}}</span></span>
       </div>
-      <div class="account__td"><span><span>{{transaction.value | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span></span></div>
+      <div class="account__td">
+        <span
+          ><span
+            >{{transaction.value | intCurrency : true : dbCtrl.currencyDigits |
+            currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</span
+          ></span
+        >
+      </div>
     </div>
   </div>
 </div>

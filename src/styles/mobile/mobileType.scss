@@ -33,7 +33,7 @@
   &::after {
     $size: 10px;
 
-    content: '';
+    content: "";
     position: absolute;
     top: -$size;
     left: calc(50% - #{$size});

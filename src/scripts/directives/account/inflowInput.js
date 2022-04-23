@@ -1,30 +1,30 @@
-angular.module('financier').directive('inflowInput', $rootScope => {
+angular.module("financier").directive("inflowInput", ($rootScope) => {
   return {
-    restrict: 'E',
+    restrict: "E",
     scope: {
-      ngModel: '='
+      ngModel: "=",
     },
     template: '<input type="text" transaction-value ng-model="ngModel">',
     compile: () => {
       return {
         pre: (scope, element) => {
-          const input = element.find('input');
+          const input = element.find("input");
 
-          scope.$on('transaction:inflow:focus', (e, { index } = {}) => {
+          scope.$on("transaction:inflow:focus", (e, { index } = {}) => {
             if (index === scope.$parent.splitIndex) {
               input[0].focus();
             }
           });
 
-          input.on('keydown', e => {
-            if (e.which === 13) { // enter
-              scope.$emit('submit');
+          input.on("keydown", (e) => {
+            if (e.which === 13) {
+              // enter
+              scope.$emit("submit");
               $rootScope.$apply();
             }
           });
-        }
+        },
       };
-    }
-
+    },
   };
 });

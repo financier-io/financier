@@ -2,190 +2,356 @@
   <div class="budget__table">
     <div class="budget__thead">
       <div class="budget__tr">
-        <div class="budget__td budget__category-label" resize-categories ng-style="styles"></div>
+        <div
+          class="budget__td budget__category-label"
+          resize-categories
+          ng-style="styles"
+        ></div>
         <div class="budget__td" colspan="{{budgetCtrl.showMonths * 3}}">
-          <month-selector ng-model="dbCtrl.currentMonth" show-months="budgetCtrl.showMonths"></month-selector>
+          <month-selector
+            ng-model="dbCtrl.currentMonth"
+            show-months="budgetCtrl.showMonths"
+          ></month-selector>
         </div>
       </div>
       <div class="budget__tr month-overview__row">
-        <div class="budget__th budget__category-label" resize-categories ng-style="styles"></div>
-        <div class="budget__th month-overview__month-overview"
-             colspan="3"
-             ng-repeat="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index"
-             ng-class="{
+        <div
+          class="budget__th budget__category-label"
+          resize-categories
+          ng-style="styles"
+        ></div>
+        <div
+          class="budget__th month-overview__month-overview"
+          colspan="3"
+          ng-repeat="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index"
+          ng-class="{
                          'budget__month-end': !$last,
                          'month-overview__month-overview--old': month.date < budgetCtrl.currentMonth,
                          'month-overview__month-overview--current': month.date === budgetCtrl.currentMonth
-                       }">
-          <i class="fa fa-bolt month-overview__quick-budget" quick-budget month="month" months="dbCtrl.allMonths"></i>
-          <div class="month-overview__month-text">{{month.date | date: 'MMMM yyyy'}}</div>
+                       }"
+        >
+          <i
+            class="fa fa-bolt month-overview__quick-budget"
+            quick-budget
+            month="month"
+            months="dbCtrl.allMonths"
+          ></i>
+          <div class="month-overview__month-text">
+            {{month.date | date: 'MMMM yyyy'}}
+          </div>
           <div collapse="dbCtrl.collapsed.monthOverview">
             <dl class="month-overview__month-list">
-              <dt>{{month.cache.totalAvailableLastMonth | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</dt>
+              <dt>
+                {{month.cache.totalAvailableLastMonth | intCurrency : true :
+                dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}
+              </dt>
               <dd>
                 <span ng-if="month.cache.totalAvailableLastMonth >= 0">
-                  {{'NOT_BUDGETED_IN' | translate : budgetCtrl.translationPayloads.lastMonth(month.date)}}
+                  {{'NOT_BUDGETED_IN' | translate :
+                  budgetCtrl.translationPayloads.lastMonth(month.date)}}
                 </span>
                 <span ng-if="month.cache.totalAvailableLastMonth < 0">
-                  {{'OVERBUDGETED_IN' | translate : budgetCtrl.translationPayloads.lastMonth(month.date)}}
+                  {{'OVERBUDGETED_IN' | translate :
+                  budgetCtrl.translationPayloads.lastMonth(month.date)}}
                 </span>
-              </dd>
-
-              <dt>-{{month.cache.totalOverspentLastMonth | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</dt>
-              <dd>
-                {{'OVERSPENT_IN' | translate : budgetCtrl.translationPayloads.lastMonth(month.date)}}
               </dd>
 
               <dt>
-                <span class="budget__outflow-link" outflow-tip category="income" position="{{$last ? 'bottom right' : 'bottom center'}}">
-                  <span ng-if="month.cache.totalIncome >= 0">+</span>{{month.cache.totalIncome | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}
+                -{{month.cache.totalOverspentLastMonth | intCurrency : true :
+                dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}
+              </dt>
+              <dd>
+                {{'OVERSPENT_IN' | translate :
+                budgetCtrl.translationPayloads.lastMonth(month.date)}}
+              </dd>
+
+              <dt>
+                <span
+                  class="budget__outflow-link"
+                  outflow-tip
+                  category="income"
+                  position="{{$last ? 'bottom right' : 'bottom center'}}"
+                >
+                  <span ng-if="month.cache.totalIncome >= 0">+</span
+                  >{{month.cache.totalIncome | intCurrency : true :
+                  dbCtrl.currencyDigits | currency : '' :
+                  dbCtrl.currencyDigits}}
                 </span>
               </dt>
               <dd>
-                {{'INCOME_FOR' | translate : budgetCtrl.translationPayloads.currentMonth(month.date)}}
+                {{'INCOME_FOR' | translate :
+                budgetCtrl.translationPayloads.currentMonth(month.date)}}
               </dd>
 
-              <dt>{{-month.cache.totalBudget | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</dt>
+              <dt>
+                {{-month.cache.totalBudget | intCurrency : true :
+                dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}
+              </dt>
               <dd>
-                {{'BUDGETED_IN' | translate : budgetCtrl.translationPayloads.currentMonth(month.date)}}
+                {{'BUDGETED_IN' | translate :
+                budgetCtrl.translationPayloads.currentMonth(month.date)}}
               </dd>
             </dl>
-            
           </div>
 
-          <div ng-click="dbCtrl.collapsed.monthOverview = !dbCtrl.collapsed.monthOverview" class="month-overview__month-total" ng-class="
+          <div
+            ng-click="dbCtrl.collapsed.monthOverview = !dbCtrl.collapsed.monthOverview"
+            class="month-overview__month-total"
+            ng-class="
             {
               'month-overview__month-total--negative': month.cache.totalAvailable < 0
-            }"><span ng-if="!dbCtrl.collapsed.monthOverview">= </span>{{month.cache.totalAvailable | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div>
+            }"
+          >
+            <span ng-if="!dbCtrl.collapsed.monthOverview">= </span
+            >{{month.cache.totalAvailable | intCurrency : true :
+            dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol :
+            dbCtrl.currencyDigits}}
+          </div>
           <div class="month-overview__month-total-subtext">
-            <span ng-if="month.cache.totalAvailable >= 0">{{'AVAILABLE_TO_BUDGET' | translate}}</span>
-            <span ng-if="month.cache.totalAvailable < 0">{{'OVERBUDGETED' | translate}}</span>
+            <span ng-if="month.cache.totalAvailable >= 0"
+              >{{'AVAILABLE_TO_BUDGET' | translate}}</span
+            >
+            <span ng-if="month.cache.totalAvailable < 0"
+              >{{'OVERBUDGETED' | translate}}</span
+            >
           </div>
         </div>
       </div>
       <div class="budget__tr month-overview__row" disable-ng-animate>
-        <div class="budget__th budget__month-row budget__category-label budget__category-label--expanded" resize-categories ng-style="styles">
+        <div
+          class="budget__th budget__month-row budget__category-label budget__category-label--expanded"
+          resize-categories
+          ng-style="styles"
+        >
           <div class="budget__categories-label">
-            {{'CATEGORIES' | translate}} <div class="budget__add-master-category" add-category="budgetCtrl.addMasterCategory(name)" add-label="{{'ADD_MASTER_CATEGORY' | translate}}"></div>
+            {{'CATEGORIES' | translate}}
+            <div
+              class="budget__add-master-category"
+              add-category="budgetCtrl.addMasterCategory(name)"
+              add-label="{{'ADD_MASTER_CATEGORY' | translate}}"
+            ></div>
           </div>
         </div>
-        <div class="budget__th budget__month-row month-overview__cell-head"
-             ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index">{{'BUDGETED' | translate}}<div>{{month.cache.totalBudget | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div></div>
-        <div class="budget__th budget__month-row month-overview__cell-head">{{'OUTFLOWS' | translate}}<div>{{month.cache.totalOutflow | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div></div>
-        <div class="budget__th budget__month-row month-overview__cell-head"
-            ng-class="{'budget__month-end': !$last}"
-            ng-repeat-end>{{'BALANCE' | translate}}<div>{{month.cache.totalBalance | intCurrency : true : dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol : dbCtrl.currencyDigits}}</div></div>
+        <div
+          class="budget__th budget__month-row month-overview__cell-head"
+          ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index"
+        >
+          {{'BUDGETED' | translate}}
+          <div>
+            {{month.cache.totalBudget | intCurrency : true :
+            dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol :
+            dbCtrl.currencyDigits}}
+          </div>
+        </div>
+        <div class="budget__th budget__month-row month-overview__cell-head">
+          {{'OUTFLOWS' | translate}}
+          <div>
+            {{month.cache.totalOutflow | intCurrency : true :
+            dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol :
+            dbCtrl.currencyDigits}}
+          </div>
+        </div>
+        <div
+          class="budget__th budget__month-row month-overview__cell-head"
+          ng-class="{'budget__month-end': !$last}"
+          ng-repeat-end
+        >
+          {{'BALANCE' | translate}}
+          <div>
+            {{month.cache.totalBalance | intCurrency : true :
+            dbCtrl.currencyDigits | currency : dbCtrl.currencySymbol :
+            dbCtrl.currencyDigits}}
+          </div>
+        </div>
       </div>
     </div>
-    <div class="budget__tbody overflowable"
-         ng-sortable="masterCategorySortable"
-         touch-start="masterCategorySortable.disabled = true"
-         touch-end="masterCategorySortable.disabled = false"
-         disable-ng-animate>
-      <div ng-repeat="masterCategory in budgetCtrl.masterCategoriesArray track by masterCategory.id">
+    <div
+      class="budget__tbody overflowable"
+      ng-sortable="masterCategorySortable"
+      touch-start="masterCategorySortable.disabled = true"
+      touch-end="masterCategorySortable.disabled = false"
+      disable-ng-animate
+    >
+      <div
+        ng-repeat="masterCategory in budgetCtrl.masterCategoriesArray track by masterCategory.id"
+      >
         <div class="budget__tr month-body__row month-body__row--master">
-          <div class="budget__td budget__month-row budget__category-label budget__master-category-label" resize-categories ng-style="styles">
+          <div
+            class="budget__td budget__month-row budget__category-label budget__master-category-label"
+            resize-categories
+            ng-style="styles"
+          >
             <div class="budget__category-label-container">
               <div>
-                <i class="budget__category-collapse fa fa-angle-down" ng-class="{'budget__category-collapse--closed': masterCategory.collapsed}" ng-click="masterCategory.collapsed = !masterCategory.collapsed"></i>
+                <i
+                  class="budget__category-collapse fa fa-angle-down"
+                  ng-class="{'budget__category-collapse--closed': masterCategory.collapsed}"
+                  ng-click="masterCategory.collapsed = !masterCategory.collapsed"
+                ></i>
               </div>
               <div class="budget__category-name budget__category-name--fill">
-                <span rename ng-model="masterCategory.name" on-remove="budgetCtrl.removeMasterCategory(masterCategory)">{{masterCategory.name}}</span></div>
-              <div class="budget__add-category" add-category="budgetCtrl.addCategory(name, masterCategory)" add-label="{{'ADD_CATEGORY' | translate}}"></div>
+                <span
+                  rename
+                  ng-model="masterCategory.name"
+                  on-remove="budgetCtrl.removeMasterCategory(masterCategory)"
+                  >{{masterCategory.name}}</span
+                >
+              </div>
+              <div
+                class="budget__add-category"
+                add-category="budgetCtrl.addCategory(name, masterCategory)"
+                add-label="{{'ADD_CATEGORY' | translate}}"
+              ></div>
             </div>
           </div>
-            <div class="budget__td budget__month-row month-body__cell-head"
-                ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index"
-                ng-controller="masterCategoryCtrl as masterCategoryCtrl"
-                >{{masterCategoryCtrl.budget | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</div>
-            <div class="budget__td budget__month-row month-body__cell-head"
-                ng-controller="masterCategoryCtrl as masterCategoryCtrl">{{(masterCategoryCtrl.outflow || 0) | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</div>
-            <div class="budget__td budget__month-row month-body__cell-head"
-                ng-class="{'budget__month-end': !$last}"
-                ng-controller="masterCategoryCtrl as masterCategoryCtrl"
-                ng-repeat-end>{{masterCategoryCtrl.balance | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</div>
+          <div
+            class="budget__td budget__month-row month-body__cell-head"
+            ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index"
+            ng-controller="masterCategoryCtrl as masterCategoryCtrl"
+          >
+            {{masterCategoryCtrl.budget | intCurrency : true :
+            dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}
+          </div>
+          <div
+            class="budget__td budget__month-row month-body__cell-head"
+            ng-controller="masterCategoryCtrl as masterCategoryCtrl"
+          >
+            {{(masterCategoryCtrl.outflow || 0) | intCurrency : true :
+            dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}
+          </div>
+          <div
+            class="budget__td budget__month-row month-body__cell-head"
+            ng-class="{'budget__month-end': !$last}"
+            ng-controller="masterCategoryCtrl as masterCategoryCtrl"
+            ng-repeat-end
+          >
+            {{masterCategoryCtrl.balance | intCurrency : true :
+            dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}
+          </div>
         </div>
 
-        <div class="budget__category-sortable"
-             collapse="masterCategory.collapsed"
-             ng-sortable="categorySortable"
-             ng-mouseenter="masterCategorySortable.disabled = true"
-             ng-mouseleave="masterCategorySortable.disabled = false"
-             touch-start="categorySortable.disabled = true"
-             touch-end="categorySortable.disabled = false">
-          <div class="budget__tr month-body__row"
-              ng-repeat="category in masterCategory.categories track by category.id"
-              ng-class="{'budget__month-row--last': $last}">
-            <div class="budget__td budget__month-row budget__category-label" resize-categories ng-style="styles">
-              <div class="budget__category-label-container budget__category-label-container--category" title="{{category.note}}">
+        <div
+          class="budget__category-sortable"
+          collapse="masterCategory.collapsed"
+          ng-sortable="categorySortable"
+          ng-mouseenter="masterCategorySortable.disabled = true"
+          ng-mouseleave="masterCategorySortable.disabled = false"
+          touch-start="categorySortable.disabled = true"
+          touch-end="categorySortable.disabled = false"
+        >
+          <div
+            class="budget__tr month-body__row"
+            ng-repeat="category in masterCategory.categories track by category.id"
+            ng-class="{'budget__month-row--last': $last}"
+          >
+            <div
+              class="budget__td budget__month-row budget__category-label"
+              resize-categories
+              ng-style="styles"
+            >
+              <div
+                class="budget__category-label-container budget__category-label-container--category"
+                title="{{category.note}}"
+              >
                 <div class="budget__category-name">
-                  <span rename ng-model="category.name" on-remove="budgetCtrl.removeCategory(category.id, masterCategory)">{{category.name}}</span>
+                  <span
+                    rename
+                    ng-model="category.name"
+                    on-remove="budgetCtrl.removeCategory(category.id, masterCategory)"
+                    >{{category.name}}</span
+                  >
                 </div>
                 <div>
-                  
-                <i class="budget__month-row-note budget__month-row-note--category-label fa fa-sticky-note-o"
-                   ng-class="{'budget__month-row-note--showing': category.note.length}"
-                   note
-                   ng-model="category.note"></i>
+                  <i
+                    class="budget__month-row-note budget__month-row-note--category-label fa fa-sticky-note-o"
+                    ng-class="{'budget__month-row-note--showing': category.note.length}"
+                    note
+                    ng-model="category.note"
+                  ></i>
                 </div>
               </div>
             </div>
-            <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--input"
-                ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index">
+            <div
+              class="budget__td budget__month-row month-body__cell-head budget__month-cell--input"
+              ng-repeat-start="month in dbCtrl.months | limitTo : budgetCtrl.showMonths track by $index"
+            >
+              <input
+                type="text"
+                class="budget__cell-input"
+                on-update="month.setBudget(category.id, model)"
+                view-model="month.categories[category.id].budget"
+                ng-attr-tabindex="{{$index + 2}}"
+                on-enter-go-next
+                calc-input
+                ng-focus="inputFocused = true"
+                ng-blur="inputFocused = false"
+              />
 
-              <input type="text"
-                     class="budget__cell-input"
-                     on-update="month.setBudget(category.id, model)"
-                     view-model="month.categories[category.id].budget"
-                     ng-attr-tabindex="{{$index + 2}}"
-                     on-enter-go-next
-                     calc-input
-                     ng-focus="inputFocused = true"
-                     ng-blur="inputFocused = false">
+              <i
+                class="budget__month-row-note fa fa-sticky-note-o"
+                ng-class="{'budget__month-row-note--showing': month.categories[category.id].note.length}"
+                note
+                ng-model="month.note(category.id)"
+                ng-model-options="{ getterSetter: true }"
+                title="{{month.categories[category.id].note}}"
+              ></i>
 
-              <i class="budget__month-row-note fa fa-sticky-note-o"
-                 ng-class="{'budget__month-row-note--showing': month.categories[category.id].note.length}"
-                 note
-                 ng-model="month.note(category.id)"
-                 ng-model-options="{ getterSetter: true }"
-                 title="{{month.categories[category.id].note}}"></i>
-              
-              <i class="fa fa-caret-down budget__auto-suggest"
-                 quick-budget-one
-                 month="month"
-                 months="dbCtrl.allMonths"
-                 cat-id="category.id"></i>
-
+              <i
+                class="fa fa-caret-down budget__auto-suggest"
+                quick-budget-one
+                month="month"
+                months="dbCtrl.allMonths"
+                cat-id="category.id"
+              ></i>
             </div>
-            <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--display"
-                 outflow-helper
-                 outflow-date="month.date"
-                 outflow-category="category.name"
-                 outflow-setting="dbCtrl.budgetRecord.hints.outflow"
-                 disabled="!!month.categoryCache[category.id].outflow"><span class="budget__outflow-link" outflow-tip position="{{$last ? 'bottom right' : 'bottom center'}}" constrain-to-scroll-parent="true" category="{{category.id}}" ng-if="month.categoryCache[category.id].outflow !== 0">{{month.categoryCache[category.id].outflow | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</span></div>
-            <div class="budget__td budget__month-row month-body__cell-head budget__month-cell--display"
-                 ng-class="{'budget__month-end': !$last,
+            <div
+              class="budget__td budget__month-row month-body__cell-head budget__month-cell--display"
+              outflow-helper
+              outflow-date="month.date"
+              outflow-category="category.name"
+              outflow-setting="dbCtrl.budgetRecord.hints.outflow"
+              disabled="!!month.categoryCache[category.id].outflow"
+            >
+              <span
+                class="budget__outflow-link"
+                outflow-tip
+                position="{{$last ? 'bottom right' : 'bottom center'}}"
+                constrain-to-scroll-parent="true"
+                category="{{category.id}}"
+                ng-if="month.categoryCache[category.id].outflow !== 0"
+                >{{month.categoryCache[category.id].outflow | intCurrency : true
+                : dbCtrl.currencyDigits | currency : '' :
+                dbCtrl.currencyDigits}}</span
+              >
+            </div>
+            <div
+              class="budget__td budget__month-row month-body__cell-head budget__month-cell--display"
+              ng-class="{'budget__month-end': !$last,
                             'budget__month-row--zero': !month.categoryCache[category.id].balance,
                             'budget__month-row--none': !month.categoryCache[category.id].balance && !month.categoryCache[category.id].outflow && !month.categories[category.id].budget}"
-                 overspending-select
-                 overspending-disabled="!(month.categoryCache[category.id] && month.categoryCache[category.id].balance < 0)"
-                 ng-model="month.categories[category.id].overspending"
-                 propagated-model="month.categoryCache[category.id].overspending"
-                 ng-repeat-end>
-              <span ng-class="{'budget__month-row--negative': month.categoryCache[category.id].balance < 0}">
-                {{(month.categoryCache[category.id].balance || 0) | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}
-                <i class="fa fa-angle-double-right" ng-if="month.categoryCache[category.id].balance < 0 && month.categoryCache[category.id].overspending"></i>
+              overspending-select
+              overspending-disabled="!(month.categoryCache[category.id] && month.categoryCache[category.id].balance < 0)"
+              ng-model="month.categories[category.id].overspending"
+              propagated-model="month.categoryCache[category.id].overspending"
+              ng-repeat-end
+            >
+              <span
+                ng-class="{'budget__month-row--negative': month.categoryCache[category.id].balance < 0}"
+              >
+                {{(month.categoryCache[category.id].balance || 0) | intCurrency
+                : true : dbCtrl.currencyDigits | currency : '' :
+                dbCtrl.currencyDigits}}
+                <i
+                  class="fa fa-angle-double-right"
+                  ng-if="month.categoryCache[category.id].balance < 0 && month.categoryCache[category.id].overspending"
+                ></i>
               </span>
             </div>
           </div>
         </div>
       </div>
-      
     </div>
 
-    <tfoot>
-
-    </tfoot>
-
+    <tfoot></tfoot>
   </div>
 </div>

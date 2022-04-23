@@ -1,167 +1,180 @@
-angular.module('financier').directive('autosuggest', ($timeout, $filter, inputDropSetup) => {
-  return {
-    restrict: 'E',
-    require: 'ngModel',
-    scope: {
-      items: '=',
-      focus: '@',
-      template: '=',
-      onSubmit: '&',
-      customFilter: '&?',
-      ngDisabled: '=',
-      canSubmitNew: '@'
-    },
-    template: `<div class="autosuggest">
+angular
+  .module("financier")
+  .directive("autosuggest", ($timeout, $filter, inputDropSetup) => {
+    return {
+      restrict: "E",
+      require: "ngModel",
+      scope: {
+        items: "=",
+        focus: "@",
+        template: "=",
+        onSubmit: "&",
+        customFilter: "&?",
+        ngDisabled: "=",
+        canSubmitNew: "@",
+      },
+      template: `<div class="autosuggest">
                  <div class="autosuggest__text">{{autosuggestText}}</div>
                  <input type="text" ng-model="userInput" ng-disabled="ngDisabled" class="autosuggest__input">
                </div>`,
-    link: (scope, element, attrs, ngModelCtrl) => {
-      const ngFilter = $filter('filter');
-      const input = element.find('input');
-      scope.submit = submit;
+      link: (scope, element, attrs, ngModelCtrl) => {
+        const ngFilter = $filter("filter");
+        const input = element.find("input");
+        scope.submit = submit;
 
-      let pristineInputField = true;
+        let pristineInputField = true;
 
-      let items = scope.items;
+        let items = scope.items;
 
-      const onClosed = () => {
-        pristineInputField = true;
+        const onClosed = () => {
+          pristineInputField = true;
 
-        runFilter();
+          runFilter();
 
-        scope.$digest();
-      };
+          scope.$digest();
+        };
 
-      const dropSetup = inputDropSetup(scope, input, scope.template, onClosed);
+        const dropSetup = inputDropSetup(
+          scope,
+          input,
+          scope.template,
+          onClosed
+        );
 
-      scope.$on('focus', () => {
-        dropSetup.focus();
-      });
-
-      scope.$on('$destroy', () => {
-        dropSetup.destroy();
-      });
-
-      scope.filterCustomFilterer = item => {
-        if (!scope.customFilter) {
-          return () => true;
-        }
-
-        return scope.customFilter({
-          item,
-          searchValue: scope.userInput || '',
-          pristineInputField
+        scope.$on("focus", () => {
+          dropSetup.focus();
         });
-      };
 
-      const runFilter = () => {
-        scope.items = ngFilter(items, scope.filterCustomFilterer);
-      };
+        scope.$on("$destroy", () => {
+          dropSetup.destroy();
+        });
 
-      scope.$on('autosuggest:filter', runFilter);
-
-      ngModelCtrl.$render = () => {
-        for (let i = 0; i < items.length; i++) {
-          if (items[i] === ngModelCtrl.$modelValue) {
-            scope.userInput = items[i].name;
+        scope.filterCustomFilterer = (item) => {
+          if (!scope.customFilter) {
+            return () => true;
           }
-        }
-      };
 
-      // If you change date ('Income for July' => 'Income to August')
-      scope.$on('autosuggest:updateText', () => {
+          return scope.customFilter({
+            item,
+            searchValue: scope.userInput || "",
+            pristineInputField,
+          });
+        };
+
+        const runFilter = () => {
+          scope.items = ngFilter(items, scope.filterCustomFilterer);
+        };
+
+        scope.$on("autosuggest:filter", runFilter);
+
+        ngModelCtrl.$render = () => {
+          for (let i = 0; i < items.length; i++) {
+            if (items[i] === ngModelCtrl.$modelValue) {
+              scope.userInput = items[i].name;
+            }
+          }
+        };
+
+        // If you change date ('Income for July' => 'Income to August')
+        scope.$on("autosuggest:updateText", () => {
           scope.userInput = scope.selected.name;
           scope.autosuggestText = scope.selected.name;
-      });
+        });
 
-      scope.$watch('userInput', (userInput, oldUserInput) => {
-        if (userInput !== oldUserInput) {
-          pristineInputField = false;
-        }
-
-        userInput = userInput || '';
-
-        scope.selected = null;
-
-        runFilter();
-
-        for (let i = 0; i < scope.items.length; i++) {
-          if (scope.items[i].name.toLowerCase().indexOf(userInput.toLowerCase()) === 0) {
-            scope.selected = scope.items[i];
-            break;
+        scope.$watch("userInput", (userInput, oldUserInput) => {
+          if (userInput !== oldUserInput) {
+            pristineInputField = false;
           }
-        }
 
-        if (scope.canSubmitNew && userInput !== oldUserInput) {
-          if (scope.selected && scope.selected.name === userInput) {
-            ngModelCtrl.$setViewValue(scope.selected);
-          } else {
-            ngModelCtrl.$setViewValue(userInput);
+          userInput = userInput || "";
+
+          scope.selected = null;
+
+          runFilter();
+
+          for (let i = 0; i < scope.items.length; i++) {
+            if (
+              scope.items[i].name
+                .toLowerCase()
+                .indexOf(userInput.toLowerCase()) === 0
+            ) {
+              scope.selected = scope.items[i];
+              break;
+            }
           }
-        }
 
-        if (scope.selected) {
-          scope.autosuggestText = userInput + scope.selected.name.slice(userInput.length);
-        } else {
-          scope.selected = scope.items[0];
-          scope.autosuggestText = '';
-        }
+          if (scope.canSubmitNew && userInput !== oldUserInput) {
+            if (scope.selected && scope.selected.name === userInput) {
+              ngModelCtrl.$setViewValue(scope.selected);
+            } else {
+              ngModelCtrl.$setViewValue(userInput);
+            }
+          }
 
-        $timeout(dropSetup.position);
-      });
-
-      input.on('keydown', e => {
-        if (e.which === 9) { // tab
-
-          dropSetup.close();
-
-        } else if (e.which === 13) { // enter
           if (scope.selected) {
-            submit(scope.selected);
+            scope.autosuggestText =
+              userInput + scope.selected.name.slice(userInput.length);
+          } else {
+            scope.selected = scope.items[0];
+            scope.autosuggestText = "";
+          }
+
+          $timeout(dropSetup.position);
+        });
+
+        input.on("keydown", (e) => {
+          if (e.which === 9) {
+            // tab
 
             dropSetup.close();
+          } else if (e.which === 13) {
+            // enter
+            if (scope.selected) {
+              submit(scope.selected);
+
+              dropSetup.close();
+            }
+          } else if (e.which === 40) {
+            // down
+
+            const currentIndex = scope.items.indexOf(scope.selected);
+            if (currentIndex === -1) {
+              scope.selected = scope.items[0];
+              // scope.userInput = scope.items[0].name;
+            } else if (currentIndex + 1 < scope.items.length) {
+              scope.selected = scope.items[currentIndex + 1];
+              // scope.userInput = scope.selected.name;
+            }
+
+            e.preventDefault();
+          } else if (e.which === 38) {
+            // up
+
+            const currentIndex = scope.items.indexOf(scope.selected);
+            if (currentIndex === -1) {
+              scope.selected = scope.items[0];
+              // scope.userInput = scope.items[0].name;
+            } else if (currentIndex - 1 >= 0) {
+              scope.selected = scope.items[currentIndex - 1];
+              // scope.userInput = scope.selected.name;
+            }
+
+            e.preventDefault();
           }
-        } else if (e.which === 40) { // down
 
-          const currentIndex = scope.items.indexOf(scope.selected);
-          if (currentIndex === -1) {
-            scope.selected = scope.items[0];
-            // scope.userInput = scope.items[0].name;
-          } else if (currentIndex + 1 < scope.items.length) {
-            scope.selected = scope.items[currentIndex + 1];
-            // scope.userInput = scope.selected.name;
-          }
+          scope.$apply();
+        });
 
-          e.preventDefault();
+        function submit(value) {
+          scope.selected = value;
+          scope.userInput = value.name;
 
-        } else if (e.which === 38) { // up
+          ngModelCtrl.$setViewValue(value);
 
-          const currentIndex = scope.items.indexOf(scope.selected);
-          if (currentIndex === -1) {
-            scope.selected = scope.items[0];
-            // scope.userInput = scope.items[0].name;
-          } else if (currentIndex - 1 >= 0) {
-            scope.selected = scope.items[currentIndex - 1];
-            // scope.userInput = scope.selected.name;
-          }
+          scope.onSubmit();
 
-          e.preventDefault();
-
+          dropSetup.close();
         }
-
-        scope.$apply();
-      });
-
-      function submit(value) {
-        scope.selected = value;
-        scope.userInput = value.name;
-
-        ngModelCtrl.$setViewValue(value);
-
-        scope.onSubmit();
-
-        dropSetup.close();
-      }
-    }
-  };
-});
+      },
+    };
+  });

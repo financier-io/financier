@@ -1,13 +1,11 @@
-import moment from 'moment';
+import moment from "moment";
 
-angular.module('financier').factory('splitTransaction', uuid => {
+angular.module("financier").factory("splitTransaction", (uuid) => {
   return () => {
-
     /**
      * Represents a Transaction
      */
     class SplitTransaction {
-
       /**
        * Create a Transaction.
        *
@@ -15,14 +13,17 @@ angular.module('financier').factory('splitTransaction', uuid => {
        * @param {Transaction} transaction - The transaction that the split belongs to
        */
       constructor(transaction, data) {
-        const myData = angular.merge({
-          id: uuid(),
-          value: 0,
-          category: null,
-          memo: null,
-          payee: null,
-          transfer: null
-        }, data);
+        const myData = angular.merge(
+          {
+            id: uuid(),
+            value: 0,
+            category: null,
+            memo: null,
+            payee: null,
+            transfer: null,
+          },
+          data
+        );
 
         this.transaction = transaction;
 
@@ -42,7 +43,7 @@ angular.module('financier').factory('splitTransaction', uuid => {
       }
 
       get constructorName() {
-        return 'SplitTransaction';
+        return "SplitTransaction";
       }
 
       _remove() {
@@ -102,8 +103,8 @@ angular.module('financier').factory('splitTransaction', uuid => {
       setMonth() {
         this._month = moment(this.date);
 
-        if (this.category === 'incomeNextMonth') {
-          this._month = this._month.add(1, 'month');
+        if (this.category === "incomeNextMonth") {
+          this._month = this._month.add(1, "month");
         }
 
         this._month = this._month.toDate();
@@ -124,7 +125,7 @@ angular.module('financier').factory('splitTransaction', uuid => {
       set payee(payee) {
         if (payee !== this._data.payee) {
           this._data.payee = payee;
-          
+
           this._emitChange();
         }
       }
@@ -229,7 +230,6 @@ angular.module('financier').factory('splitTransaction', uuid => {
         this.transaction._setDate(x);
         this.setMonth();
         this._emitMonthChange(this.month, splitOldMonth);
-
       }
 
       _setDateFromParent(x) {
@@ -247,7 +247,7 @@ angular.module('financier').factory('splitTransaction', uuid => {
        *
        * @param {function} fn - This function will be invoked upon record
        * changes with the Transaction object as the first parameter.
-      */
+       */
       subscribe(fn) {
         this.fn = fn;
       }
@@ -265,7 +265,8 @@ angular.module('financier').factory('splitTransaction', uuid => {
       }
 
       _emitMonthChange(newMonth, oldMonth) {
-        this.subscribeMonthChangeFn && this.subscribeMonthChangeFn(newMonth, oldMonth);
+        this.subscribeMonthChangeFn &&
+          this.subscribeMonthChangeFn(newMonth, oldMonth);
       }
 
       /**
@@ -276,7 +277,7 @@ angular.module('financier').factory('splitTransaction', uuid => {
        *
        * @param {function} fn - This function will be invoked upon value
        * changes with the amount the value has changed as the first parameter.
-      */
+       */
       subscribeValueChange(fn) {
         this.subscribeValueChangeFn = fn;
       }
@@ -287,9 +288,11 @@ angular.module('financier').factory('splitTransaction', uuid => {
       }
 
       _emitCategoryChange(fn) {
-        this.subscribeCategoryChangeBeforeFn && this.subscribeCategoryChangeBeforeFn();
+        this.subscribeCategoryChangeBeforeFn &&
+          this.subscribeCategoryChangeBeforeFn();
         fn();
-        this.subscribeCategoryChangeAfterFn && this.subscribeCategoryChangeAfterFn();
+        this.subscribeCategoryChangeAfterFn &&
+          this.subscribeCategoryChangeAfterFn();
       }
 
       /**
@@ -298,7 +301,7 @@ angular.module('financier').factory('splitTransaction', uuid => {
        * @param {function} fn - This function will be invoked upon value
        * changes with the amount the value has changed as the first parameter,
        * but only when/if the value is uncleared.
-      */
+       */
       subscribePayeeChange(fn) {
         this.subscribePayeeChangeFn = fn;
       }
@@ -313,9 +316,12 @@ angular.module('financier').factory('splitTransaction', uuid => {
        * the value has changed by.
        *
        * @private
-      */
+       */
       _emitPayeeChange(newPayee, oldPayee) {
-        return this.subscribePayeeChangeFn && this.subscribePayeeChangeFn(newPayee, oldPayee);
+        return (
+          this.subscribePayeeChangeFn &&
+          this.subscribePayeeChangeFn(newPayee, oldPayee)
+        );
       }
 
       /**
@@ -323,7 +329,7 @@ angular.module('financier').factory('splitTransaction', uuid => {
        * the value has changed by.
        *
        * @private
-      */
+       */
       _emitValueChange(val) {
         return this.subscribeValueChangeFn && this.subscribeValueChangeFn(val);
       }
@@ -333,7 +339,7 @@ angular.module('financier').factory('splitTransaction', uuid => {
        * the cleared value has changed by.
        *
        * @private
-      */
+       */
       _emitClearedValueChange(val) {
         for (let i = 0; i < this.subscribeClearedValueChangeFn.length; i++) {
           this.subscribeClearedValueChangeFn[i](val);
@@ -345,7 +351,7 @@ angular.module('financier').factory('splitTransaction', uuid => {
        * the uncleared value has changed by.
        *
        * @private
-      */
+       */
       _emitUnclearedValueChange(val) {
         for (let i = 0; i < this.subscribeUnclearedValueChangeFn.length; i++) {
           this.subscribeUnclearedValueChangeFn[i](val);
@@ -356,7 +362,7 @@ angular.module('financier').factory('splitTransaction', uuid => {
        * Will call the subscribed function, if it exists, with self.
        *
        * @private
-      */
+       */
       _emitChange() {
         return this.fn && this.fn(this.transaction);
       }
@@ -365,7 +371,7 @@ angular.module('financier').factory('splitTransaction', uuid => {
        * Gracefully remove from db by marking `_deleted`.
        *
        * Mark any linked transfer as deleted, too.
-      */
+       */
       remove() {
         if (this.transfer && !this.transfer._data._deleted) {
           this.transfer._data._deleted = true;
@@ -385,7 +391,7 @@ angular.module('financier').factory('splitTransaction', uuid => {
        * a JSON object for sending to the database.
        *
        * @returns {object}
-      */
+       */
       toJSON() {
         return this._data;
       }

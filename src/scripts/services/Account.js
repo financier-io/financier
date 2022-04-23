@@ -1,5 +1,5 @@
-angular.module('financier').factory('account', uuid => {
-  return budgetId => {
+angular.module("financier").factory("account", (uuid) => {
+  return (budgetId) => {
     /**
      * Represents an account (credit card, checking, etc)
      */
@@ -11,15 +11,18 @@ angular.module('financier').factory('account', uuid => {
        * (with `_id` and `_rev`).
        */
       constructor(data) {
-        const myData = angular.extend({
-          type: null,
-          closed: false,
-          name: null,
-          note: null,
-          sort: 0,
-          onBudget: true,
-          checkNumber: false
-        }, data);
+        const myData = angular.extend(
+          {
+            type: null,
+            closed: false,
+            name: null,
+            note: null,
+            sort: 0,
+            onBudget: true,
+            checkNumber: false,
+          },
+          data
+        );
 
         // add _id if none exists
         if (!myData._id) {
@@ -34,8 +37,8 @@ angular.module('financier').factory('account', uuid => {
          * account.id; // === 'ab735ea6-bd56-449c-8f03-6afcc91e2248'
          *
          * @type {string}
-        */
-        this.id = myData._id.slice(myData._id.lastIndexOf('_') + 1);
+         */
+        this.id = myData._id.slice(myData._id.lastIndexOf("_") + 1);
 
         this.data = myData;
         this.transactions = [];
@@ -45,28 +48,28 @@ angular.module('financier').factory('account', uuid => {
           unclearedBalance: 0,
           get balance() {
             return this.clearedBalance + this.unclearedBalance;
-          }
+          },
         };
 
-        this._clearedValueChangeFn = val => {
+        this._clearedValueChangeFn = (val) => {
           this._changeClearedBalance(val);
         };
 
-        this._unclearedValueChangeFn = val => {
+        this._unclearedValueChangeFn = (val) => {
           this._changeUnclearedBalance(val);
         };
 
-        this._transferClearedValueChangeFn = val => {
+        this._transferClearedValueChangeFn = (val) => {
           this._changeClearedBalance(-val);
         };
 
-        this._transferUnclearedValueChangeFn = val => {
+        this._transferUnclearedValueChangeFn = (val) => {
           this._changeUnclearedBalance(-val);
         };
       }
 
       get constructorName() {
-        return 'Account';
+        return "Account";
       }
 
       /**
@@ -74,9 +77,9 @@ angular.module('financier').factory('account', uuid => {
        *
        * @param {Transaction} trans The Transaction to add to the account balance, and
        * to subscribe to for future changes.
-      */
+       */
       addTransaction(trans) {
-        if (trans.constructorName === 'SplitTransaction') {
+        if (trans.constructorName === "SplitTransaction") {
           return;
         }
 
@@ -97,9 +100,9 @@ angular.module('financier').factory('account', uuid => {
        *
        * @param {Transaction} trans The Transaction to remove from the account balance, and
        * to unsubscribe from for future changes.
-      */
+       */
       removeTransaction(trans) {
-        if (trans.constructorName === 'SplitTransaction') {
+        if (trans.constructorName === "SplitTransaction") {
           return;
         }
 
@@ -124,7 +127,7 @@ angular.module('financier').factory('account', uuid => {
        * @param {currency} val The relative value to change the cleared
        * balance by.
        * @private
-      */
+       */
       _changeClearedBalance(val) {
         this.cache.clearedBalance += val;
       }
@@ -135,7 +138,7 @@ angular.module('financier').factory('account', uuid => {
        * @param {currency} val The relative value to change the uncleared
        * balance by.
        * @private
-      */
+       */
       _changeUnclearedBalance(val) {
         this.cache.unclearedBalance += val;
       }
@@ -144,7 +147,7 @@ angular.module('financier').factory('account', uuid => {
        * The current balance of the account.
        *
        * @type {currency}
-      */
+       */
       get balance() {
         return this.cache.balance;
       }
@@ -158,7 +161,7 @@ angular.module('financier').factory('account', uuid => {
        * console.log(checking.name); // 'USAA Checking 1234'
        *
        * @type {string}
-      */
+       */
       get name() {
         return this.data.name;
       }
@@ -177,7 +180,7 @@ angular.module('financier').factory('account', uuid => {
        * console.log(checking.note); // 'Something important'
        *
        * @type {string}
-      */
+       */
       get note() {
         return this.data.note;
       }
@@ -196,7 +199,7 @@ angular.module('financier').factory('account', uuid => {
        * console.log(checking.checkNumber); // true
        *
        * @type {boolean}
-      */
+       */
       get checkNumber() {
         return this.data.checkNumber;
       }
@@ -215,7 +218,7 @@ angular.module('financier').factory('account', uuid => {
        * console.log(checking.onBudget); // false
        *
        * @type {boolean}
-      */
+       */
       get onBudget() {
         return this.data.onBudget;
       }
@@ -239,7 +242,7 @@ angular.module('financier').factory('account', uuid => {
        * When set, will immediately call subscribed function.
        *
        * @type {string}
-      */
+       */
       get type() {
         return this.data.type;
       }
@@ -254,7 +257,7 @@ angular.module('financier').factory('account', uuid => {
        * When set, will immediately call subscribed function.
        *
        * @type {number}
-      */
+       */
       get sort() {
         return this.data.sort;
       }
@@ -267,15 +270,17 @@ angular.module('financier').factory('account', uuid => {
       }
 
       isCredit() {
-        return this.data.type === 'CREDIT' ||
-               this.data.type === 'OTHERCREDIT' ||
-               this.data.type === 'MORTGAGE' ||
-               this.data.type === 'LOAN';
+        return (
+          this.data.type === "CREDIT" ||
+          this.data.type === "OTHERCREDIT" ||
+          this.data.type === "MORTGAGE" ||
+          this.data.type === "LOAN"
+        );
       }
 
       /**
        * Sets _deleted on the record and calls record subscriber.
-      */
+       */
       remove() {
         this.data._deleted = true;
         return this.emitChange();
@@ -287,7 +292,7 @@ angular.module('financier').factory('account', uuid => {
        * accounts)
        *
        * @type {boolean}
-      */
+       */
       get closed() {
         return this.data.closed;
       }
@@ -306,7 +311,7 @@ angular.module('financier').factory('account', uuid => {
        *
        * @param {function} fn - This function will be invoked upon record
        * changes with the Account object as the first parameter.
-      */
+       */
       subscribe(fn) {
         this.fn = fn;
       }
@@ -315,7 +320,7 @@ angular.module('financier').factory('account', uuid => {
        * Will call the subscribed function, if it exists, with self.
        *
        * @private
-      */
+       */
       emitChange() {
         return this.fn && this.fn(this);
       }
@@ -325,7 +330,7 @@ angular.module('financier').factory('account', uuid => {
        * a JSON object for sending to the database.
        *
        * @returns {object}
-      */
+       */
       toJSON() {
         return this.data;
       }
@@ -345,7 +350,7 @@ angular.module('financier').factory('account', uuid => {
        * @type {string}
        */
       static get endKey() {
-        return this.startKey + '\uffff';
+        return this.startKey + "\uffff";
       }
 
       /**
@@ -371,7 +376,5 @@ angular.module('financier').factory('account', uuid => {
     }
 
     return Account;
-    
   };
-
 });

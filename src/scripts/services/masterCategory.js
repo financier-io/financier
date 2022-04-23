@@ -1,5 +1,5 @@
-angular.module('financier').factory('masterCategory', (category, uuid) => {
-  return budgetId => {
+angular.module("financier").factory("masterCategory", (category, uuid) => {
+  return (budgetId) => {
     // const Category = category(budgetId);
 
     /**
@@ -8,21 +8,23 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
      * @extends Category
      */
     class MasterCategory {
-
       /**
        * Create a MasterCategory
        *
        * @param {object} [data] - The record object from the database
        */
       constructor(data) {
-        const myData = angular.extend({
-          name: 'New master category',
-          _id: MasterCategory.prefix + uuid(),
-          sort: 0,
-          collapsed: false
-        }, data);
+        const myData = angular.extend(
+          {
+            name: "New master category",
+            _id: MasterCategory.prefix + uuid(),
+            sort: 0,
+            collapsed: false,
+          },
+          data
+        );
 
-        this.id = myData._id.slice(myData._id.lastIndexOf('_') + 1);
+        this.id = myData._id.slice(myData._id.lastIndexOf("_") + 1);
 
         this._data = myData;
 
@@ -78,7 +80,7 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
        * @returns {object}
        */
       toJSON() {
-        return this._data;        
+        return this._data;
       }
 
       /**
@@ -182,7 +184,7 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
        *
        * @param {function} fn - This function will be invoked upon record
        * changes with the Category object as the first parameter.
-      */
+       */
       subscribe(fn) {
         this.fn = fn;
       }
@@ -191,7 +193,7 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
        * Will call the subscribed function, if it exists, with self.
        *
        * @private
-      */
+       */
       emitChange() {
         this.fn && this.fn(this);
       }
@@ -211,7 +213,7 @@ angular.module('financier').factory('masterCategory', (category, uuid) => {
        * @type {string}
        */
       static get endKey() {
-        return this.startKey + '\uffff';
+        return this.startKey + "\uffff";
       }
 
       /**

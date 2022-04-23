@@ -1,11 +1,9 @@
-angular.module('financier').factory('payee', uuid => {
-  return budgetId => {
-
+angular.module("financier").factory("payee", (uuid) => {
+  return (budgetId) => {
     /**
      * Represents a payee
      */
     class Payee {
-
       /**
        * Create an Payee
        *
@@ -13,12 +11,15 @@ angular.module('financier').factory('payee', uuid => {
        * (with `_id` and `_rev`).
        */
       constructor(data) {
-        const myData = angular.extend({
-          name: null,
-          autosuggest: true,
-          internal: false,
-          categorySuggest: null
-        }, data);
+        const myData = angular.extend(
+          {
+            name: null,
+            autosuggest: true,
+            internal: false,
+            categorySuggest: null,
+          },
+          data
+        );
 
         // add _id if none exists
         if (!myData._id) {
@@ -33,14 +34,14 @@ angular.module('financier').factory('payee', uuid => {
          * payee.id; // === 'ab735ea6-bd56-449c-8f03-6afcc91e2248'
          *
          * @type {string}
-        */
-        this.id = myData._id.slice(myData._id.lastIndexOf('_') + 1);
+         */
+        this.id = myData._id.slice(myData._id.lastIndexOf("_") + 1);
 
         this.data = myData;
       }
 
       get constructorName() {
-        return 'Payee';
+        return "Payee";
       }
 
       /**
@@ -52,7 +53,7 @@ angular.module('financier').factory('payee', uuid => {
        * console.log(payee.name); // 'Apple Computers'
        *
        * @type {string}
-      */
+       */
       get name() {
         return this.data.name;
       }
@@ -66,7 +67,7 @@ angular.module('financier').factory('payee', uuid => {
        * If this is a "special" payee that should not be removable
        *
        * @type {boolean}
-      */
+       */
       get internal() {
         return this.data.internal;
       }
@@ -80,7 +81,7 @@ angular.module('financier').factory('payee', uuid => {
        * console.log(payee.name); // 'Apple Computers'
        *
        * @type {boolean}
-      */
+       */
       get autosuggest() {
         return this.data.autosuggest;
       }
@@ -99,7 +100,7 @@ angular.module('financier').factory('payee', uuid => {
        * console.log(payee.categorySuggest); // '123-123-123-123'
        *
        * @type {boolean}
-      */
+       */
       get categorySuggest() {
         return this.data.categorySuggest;
       }
@@ -113,10 +114,10 @@ angular.module('financier').factory('payee', uuid => {
 
       /**
        * Sets _deleted on the record and calls record subscriber.
-      */
+       */
       remove() {
         if (this.internal) {
-          throw new Error('Cannot remove internal payee!');
+          throw new Error("Cannot remove internal payee!");
         }
 
         this.data._deleted = true;
@@ -132,7 +133,7 @@ angular.module('financier').factory('payee', uuid => {
        *
        * @param {function} fn - This function will be invoked upon record
        * changes with the Payee object as the first parameter.
-      */
+       */
       subscribe(fn) {
         this.fn = fn;
       }
@@ -141,7 +142,7 @@ angular.module('financier').factory('payee', uuid => {
        * Will call the subscribed function, if it exists, with self.
        *
        * @private
-      */
+       */
       emitChange() {
         return this.fn && this.fn(this);
       }
@@ -151,7 +152,7 @@ angular.module('financier').factory('payee', uuid => {
        * a JSON object for sending to the database.
        *
        * @returns {object}
-      */
+       */
       toJSON() {
         return this.data;
       }
@@ -171,7 +172,7 @@ angular.module('financier').factory('payee', uuid => {
        * @type {string}
        */
       static get endKey() {
-        return this.startKey + '\uffff';
+        return this.startKey + "\uffff";
       }
 
       /**
@@ -197,7 +198,5 @@ angular.module('financier').factory('payee', uuid => {
     }
 
     return Payee;
-    
   };
-
 });

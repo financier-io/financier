@@ -1,4 +1,4 @@
-image: node:8
+image: node:18
 
 stages:
   - install
@@ -11,37 +11,34 @@ stages:
 install:
   stage: install
   script:
-    - apt-get -qq update
-    - apt-get -qq install -y python2.7 python2.7-dev build-essential make gcc g++ libicu-dev
-
-    - npm install
+    - yarn install
   cache:
     key: ${CI_BUILD_ID}
     paths:
       - node_modules
   artifacts:
     paths:
-     - node_modules/
+      - node_modules/
 
 lint:
   stage: lint
   script:
-    - npm run lint
+    - yarn run lint
 
 test:
   stage: test
   script:
-    - npm test
+    - yarn test
 
 build:
   stage: build
   script:
-    - npm run build
-    - npm run docs
+    - yarn run build
+    - yarn run docs
   artifacts:
     paths:
-     - dist/
-     - docs/
+      - dist/
+      - docs/
 
 deploy:
   stage: deploy
