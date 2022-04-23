@@ -194,7 +194,8 @@ module.exports = {
               match: function (url) {
                 if (
                   url.pathname.indexOf("/db/") === 0 ||
-                  url.pathname.indexOf("/docs/") === 0
+                  url.pathname.indexOf("/docs/") === 0 ||
+                  url.pathname.indexOf("/manage/") === 0
                 ) {
                   return;
                 }
