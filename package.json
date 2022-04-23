@@ -12,12 +12,13 @@
     "format": "prettier --check src/",
     "test": "jest",
     "test-watch": "jest --watch",
-    "start": "npm run server",
+    "test-coverage": "jest --coverage",
+    "start": "yarn server",
     "docs": "jsdoc --configure .jsdoc.json",
     "pull": "docker pull registry.gitlab.com/financier/financier",
     "push": "docker push registry.gitlab.com/financier/financier",
     "tag:prod": "docker tag registry.gitlab.com/financier/financier:latest registry.gitlab.com/financier/financier:production",
-    "prod": "npm run pull && npm run tag:prod && npm run push"
+    "prod": "yarn pull && yarn tag:prod && yarn push"
   },
   "repository": {
     "type": "git",
