@@ -17,7 +17,7 @@
 ### Develop
 
 ```sh
-yarn install
+yarn
 yarn start
 ```
 
