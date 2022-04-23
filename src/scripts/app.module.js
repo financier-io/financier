@@ -276,31 +276,31 @@ financier.config(function (
 
   $translateProvider.translations(
     "en",
-    require("../public/assets/translations/en.json")
+    require("../assets/translations/en.json")
   );
   $translateProvider.translations(
     "es",
-    require("../public/assets/translations/es.json")
+    require("../assets/translations/es.json")
   );
   $translateProvider.translations(
     "ru",
-    require("../public/assets/translations/ru.json")
+    require("../assets/translations/ru.json")
   );
   $translateProvider.translations(
     "ca",
-    require("../public/assets/translations/ca.json")
+    require("../assets/translations/ca.json")
   );
   $translateProvider.translations(
     "de",
-    require("../public/assets/translations/de.json")
+    require("../assets/translations/de.json")
   );
   $translateProvider.translations(
     "no",
-    require("../public/assets/translations/no.json")
+    require("../assets/translations/no.json")
   );
   $translateProvider.translations(
     "fr",
-    require("../public/assets/translations/fr.json")
+    require("../assets/translations/fr.json")
   );
 
   $translateProvider

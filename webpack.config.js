@@ -15,6 +15,7 @@ const isTest = ENV === "test" || ENV === "test-watch";
 const isProd = ENV === "build";
 const webpack = require("webpack");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   mode: isProd ? "production" : "development",
@@ -76,13 +77,17 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader", "postcss-loader"],
+        use: [
+          isProd ? MiniCssExtractPlugin.loader : "style-loader",
+          "css-loader",
+          "postcss-loader",
+        ],
       },
       {
         test: /\.s[ac]ss$/i,
         use: [
           // Creates `style` nodes from JS strings
-          "style-loader",
+          isProd ? MiniCssExtractPlugin.loader : "style-loader",
           // Translates CSS into CommonJS
           "css-loader",
           // Compiles Sass to CSS
@@ -152,12 +157,16 @@ module.exports = {
           date: `"${pJson.releaseDate}"`,
         },
       }),
+
+      new CopyPlugin({
+        patterns: [{ from: "src/public", to: "" }],
+      }),
     ];
 
     if (!isTest) {
       plugins = plugins.concat([
         new HtmlWebpackPlugin({
-          template: "./src/public/index.html",
+          template: "./src/index.html",
           inject: "body",
         }),
       ]);
@@ -173,16 +182,9 @@ module.exports = {
       plugins = plugins.concat([
         new CssMinimizerPlugin(),
 
-        // Reference: http://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin
-        // Only emit files when there are no errors
-        new webpack.NoErrorsPlugin(),
-
-        // Reference: http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
-        // Minify all javascript, switch loaders to minimizing mode
-        new UglifyJs(),
-
         new OfflinePlugin({
           publicPath: "/",
+          appShell: "/",
           caches: {
             main: [":rest:"],
           },
