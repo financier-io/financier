@@ -464,6 +464,8 @@ angular
                   if (this.value < 0) {
                     return Math.abs(this.value);
                   }
+
+                  return undefined;
                 },
                 set outflow(v) {
                   this.value = -v;
@@ -472,6 +474,8 @@ angular
                   if (this.value > 0) {
                     return this.value;
                   }
+
+                  return undefined;
                 },
                 set inflow(v) {
                   this.value = v;

@@ -184,20 +184,5 @@ Test account,,,,,,,,$0.00,$0.00,Uncleared`
 ,,,,,,,My memo,$0.00,$0.00,Uncleared`
       );
     });
-
-    it("sets memo", () => {
-      expect(
-        exportCsv._buildTransactionsCsv({
-          transactions: [
-            new Transaction({
-              memo: "My memo",
-            }),
-          ],
-        })
-      ).toEqual(
-        `Account,Flag,Date,Payee,Category Group/Category,Category Group,Category,Memo,Outflow,Inflow,Cleared\r
-,,,,,,,My memo,$0.00,$0.00,Uncleared`
-      );
-    });
   });
 });

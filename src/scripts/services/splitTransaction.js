@@ -134,6 +134,8 @@ angular.module("financier").factory("splitTransaction", (uuid) => {
         if (this.value < 0) {
           return Math.abs(this.value);
         }
+
+        return undefined;
       }
 
       set outflow(v) {
@@ -144,6 +146,8 @@ angular.module("financier").factory("splitTransaction", (uuid) => {
         if (this.value > 0) {
           return this.value;
         }
+
+        return undefined;
       }
 
       set inflow(v) {

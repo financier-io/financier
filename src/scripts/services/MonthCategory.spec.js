@@ -16,7 +16,7 @@ describe("MonthCategory", function () {
         );
       });
 
-      it("startKey", () => {
+      it("endKey", () => {
         expect(MonthCategory.endKey("111-111-111-111")).toBe(
           "b_111-111-111-111_m_category_\uffff"
         );

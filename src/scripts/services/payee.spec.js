@@ -16,7 +16,7 @@ describe("payee", function () {
         expect(Payee.startKey).toBe("b_111-111-111-111_payee_");
       });
 
-      it("startKey", () => {
+      it("endKey", () => {
         expect(Payee.endKey).toBe("b_111-111-111-111_payee_\uffff");
       });
 

@@ -17,7 +17,7 @@ describe("account", function () {
         expect(Account.startKey).toBe("b_111-111-111-111_account_");
       });
 
-      it("startKey", () => {
+      it("endKey", () => {
         expect(Account.endKey).toBe("b_111-111-111-111_account_\uffff");
       });
 

@@ -24,7 +24,7 @@ describe("transaction", function () {
       expect(Transaction.startKey).toBe("b_123-123-123-123_transaction_");
     });
 
-    it("startKey", () => {
+    it("endKey", () => {
       expect(Transaction.endKey).toBe("b_123-123-123-123_transaction_\uffff");
     });
 
@@ -702,7 +702,7 @@ describe("transaction", function () {
       expect(foo.change).toHaveBeenCalledWith(tran);
     });
 
-    it("account", () => {
+    it("account 2", () => {
       const foo = {
         change: () => {},
       };
@@ -724,7 +724,7 @@ describe("transaction", function () {
       expect(foo.change).toHaveBeenCalledWith(tran);
     });
 
-    it("memo", () => {
+    it("memo 2", () => {
       const foo = {
         change: () => {},
       };

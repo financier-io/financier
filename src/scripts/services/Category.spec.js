@@ -19,7 +19,7 @@ describe("category", function () {
       expect(Category.startKey).toBe("b_111-111-111-111_category_");
     });
 
-    it("startKey", () => {
+    it("endKey", () => {
       expect(Category.endKey).toBe("b_111-111-111-111_category_\uffff");
     });
 

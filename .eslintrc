@@ -11,7 +11,7 @@
   ],
 
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": "latest",
     "sourceType": "module"
   },
 
@@ -26,5 +26,7 @@
     "VERSION": true
   },
 
-  "rules": {}
+  "rules": {
+    "no-prototype-builtins": 0
+  }
 }

@@ -30,7 +30,7 @@ describe("masterCategory", function () {
         );
       });
 
-      it("startKey", () => {
+      it("endKey", () => {
         expect(MasterCategory.endKey).toBe(
           "b_111-111-111-111_master-category_\uffff"
         );

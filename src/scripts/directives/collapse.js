@@ -68,7 +68,7 @@ angular
                 to: getScrollFromElement(element[0]),
               })
                 .start()
-                ["finally"](expandDone);
+                .finally(expandDone);
             } else {
               $animate
                 .addClass(element, "in", {
@@ -111,7 +111,7 @@ angular
                 to: cssTo,
               })
                 .start()
-                ["finally"](collapseDone);
+                .finally(collapseDone);
             } else {
               $animate
                 .removeClass(element, "in", {

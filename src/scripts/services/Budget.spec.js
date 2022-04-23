@@ -14,7 +14,7 @@ describe("Budget", function () {
         expect(Budget.startKey).toBe("budget_");
       });
 
-      it("startKey", () => {
+      it("endKey", () => {
         expect(Budget.endKey).toBe("budget_\uffff");
       });
 

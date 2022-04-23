@@ -1,3 +1,5 @@
+/* eslint-disable jest/no-commented-out-tests */
+
 describe("budgetManager", function () {
   let db, budgetManager, month, account, Month, Account;
 

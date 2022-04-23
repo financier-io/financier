@@ -60,11 +60,11 @@ let financier = angular
       }
     });
 
-    $rootScope.$on("$stateChangeError", () => {
+    $rootScope.$on("$stateChangeError", (...args) => {
       console.log(
         "$stateChangeError - fired when an error occurs during transition."
       );
-      console.log(arguments);
+      console.log(args);
     });
 
     $rootScope.version = {
