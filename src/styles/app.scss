@@ -62,7 +62,7 @@ body {
   //   font-size: 0.8em;
   // }
 
-  -webkit-font-smoothing: subpixel-antialiased; // sass-lint:disable-line no-vendor-prefixes
+  -webkit-font-smoothing: subpixel-antialiased;
 
   font-family: "Lato", sans-serif;
 }
@@ -95,7 +95,6 @@ input {
 }
 
 ::-ms-clear {
-  // sass-lint:disable-line no-vendor-prefixes
   display: none;
 }
 

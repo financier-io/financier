@@ -1,5 +1,4 @@
 // http://www.adrenalinmedia.com.au/the-agency/insights/this-changes-everything-css-fluid-properties.aspx
-// sass-lint:disable-all
 @mixin fp(
   $property,
   $min,
@@ -25,4 +24,3 @@
   }
   #{$property}: $formula;
 }
-// sass-lint:enable-all
