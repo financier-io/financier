@@ -1,4 +1,4 @@
-import uiRouter from "angular-ui-router";
+import uiRouter from "@uirouter/angularjs";
 import ngAnimate from "angular-animate";
 import ngMessages from "angular-messages";
 import ngSanitize from "angular-sanitize";
