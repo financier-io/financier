@@ -560,7 +560,7 @@ angular.module("financier").constant("currencies", {
   LKR: {
     symbol: "SLRs",
     name: "Sri Lankan Rupee",
-    symbol_native: "SL Re",
+    symbol_native: "Rs",
     decimal_digits: 2,
     rounding: 0,
     code: "LKR",
