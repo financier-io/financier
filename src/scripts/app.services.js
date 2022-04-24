@@ -10,7 +10,6 @@ import "./services/masterCategory";
 import "./services/Month";
 import "./services/MonthCategory";
 import "./services/MonthManager";
-import "./services/offline";
 import "./services/Settings";
 import "./services/Transaction";
 import "./services/splitTransaction";

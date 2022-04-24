@@ -162,7 +162,6 @@
   "OTHER_LIABILITY": "Annan skuld",
   "LOADING_FINANCIER": "Laddar Financier",
   "CREATE": "Skapa",
-  "NEW_VERSION_AVAILABLE": "Det finns en ny version av Financier tillgänglig! För att ladda den <a href='#' ng-click='applyUpdateCtrl.applyUpdate()'>tryck här</a>. ",
   "NOTE": "Anteckning",
   "CLOSE_ACCOUNT": "Avsluta konto",
   "REOPEN": "Återöppna",

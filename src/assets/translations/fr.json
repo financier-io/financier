@@ -162,7 +162,6 @@
   "OTHER_LIABILITY": "Autres dettes",
   "LOADING_FINANCIER": "Lancement de Financier",
   "CREATE": "Créer",
-  "NEW_VERSION_AVAILABLE": "Nouvelle version de Financier disponible! Pour l'obtenir, <a href='#'ng-click='applyUpdateCtrl.applyUpdate()'> cliquez ici pour actualiser la page </a>.",
   "NOTE": "Note",
   "CLOSE_ACCOUNT": "Fermer le compte",
   "REOPEN": "Rouvrir",

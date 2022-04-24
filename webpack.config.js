@@ -1,5 +1,5 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const OfflinePlugin = require("@lcdp/offline-plugin");
+const { InjectManifest } = require("workbox-webpack-plugin");
 const pJson = require("./package.json");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
@@ -8,7 +8,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
  * Get npm lifecycle event to identify the environment
  */
 const ENV = process.env.npm_lifecycle_event;
-const isTest = ENV === "test" || ENV === "test-watch";
 const isProd = ENV === "build";
 const webpack = require("webpack");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
@@ -16,30 +15,26 @@ const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   mode: isProd ? "production" : "development",
-  entry: isTest
-    ? null
-    : {
-        app: "./src/scripts/app.js",
-      },
+  entry: {
+    app: "./src/scripts/app.js",
+  },
 
-  output: isTest
-    ? {}
-    : {
-        // Absolute output directory
-        path: __dirname + "/dist",
+  output: {
+    // Absolute output directory
+    path: __dirname + "/dist",
 
-        // Output path from the view of the page
-        // Uses webpack-dev-server in development
-        publicPath: isProd ? "/" : "http://localhost:8080/",
+    // Output path from the view of the page
+    // Uses webpack-dev-server in development
+    publicPath: isProd ? "/" : "http://localhost:8080/",
 
-        // Filename for entry points
-        // Only adds hash in build mode
-        filename: isProd ? "[name].[hash].js" : "[name].bundle.js",
+    // Filename for entry points
+    // Only adds hash in build mode
+    filename: isProd ? "[name].[contenthash].js" : "[name].bundle.js",
 
-        // Filename for non-entry points
-        // Only adds hash in build mode
-        chunkFilename: isProd ? "[name].[hash].js" : "[name].bundle.js",
-      },
+    // Filename for non-entry points
+    // Only adds hash in build mode
+    chunkFilename: isProd ? "[name].[contenthash].js" : "[name].bundle.js",
+  },
 
   module: {
     // configuration regarding modules
@@ -55,21 +50,22 @@ module.exports = {
       },
       {
         test: /\.html$/,
-
         use: [
           {
             loader: "html-loader",
-            options: {},
           },
         ],
       },
       {
-        // Capture eot, ttf, woff, and woff2
-        test: /\.(eot|ttf|woff|woff2|svg|otf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+        test: /\/public\/icons\/.*$/,
         type: "asset/resource",
+        generator: {
+          filename: "icons/[name][ext]",
+        },
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        // Capture eot, ttf, woff, and woff2
+        test: /\.(eot|ttf|woff|woff2|svg|otf|eot)(\?v=\d+\.\d+\.\d+)?$/,
         type: "asset/resource",
       },
       {
@@ -113,9 +109,6 @@ module.exports = {
   },
 
   devtool: (function () {
-    if (isTest) {
-      return "inline-source-map";
-    }
     if (isProd) {
       return "source-map";
     }
@@ -158,54 +151,20 @@ module.exports = {
       new CopyPlugin({
         patterns: [{ from: "src/public", to: "" }],
       }),
+
+      new HtmlWebpackPlugin({
+        template: "./src/index.html",
+        inject: "body",
+      }),
     ];
 
-    if (!isTest) {
+    if (isProd) {
       plugins = plugins.concat([
-        new HtmlWebpackPlugin({
-          template: "./src/index.html",
-          inject: "body",
-        }),
-      ]);
+        new MiniCssExtractPlugin({ filename: "[name].[contenthash].css" }),
 
-      if (isProd) {
-        plugins = plugins.concat([
-          new MiniCssExtractPlugin({ filename: "[name].[hash].css" }),
-        ]);
-      }
-    }
-
-    if (isProd && !isTest) {
-      plugins = plugins.concat([
         new CssMinimizerPlugin(),
 
-        new OfflinePlugin({
-          publicPath: "/",
-          caches: {
-            main: [":rest:"],
-          },
-          externals: ["/"],
-          ServiceWorker: {
-            events: true,
-          },
-          AppCache: false,
-          cacheMaps: [
-            {
-              match: function (url) {
-                if (
-                  url.pathname.indexOf("/db/") === 0 ||
-                  url.pathname.indexOf("/docs/") === 0 ||
-                  url.pathname.indexOf("/manage/") === 0
-                ) {
-                  return;
-                }
-
-                return new URL("/", location);
-              },
-              requestTypes: ["navigate"],
-            },
-          ],
-        }),
+        new InjectManifest({ swSrc: "./src/sw.js" }),
       ]);
     }
 

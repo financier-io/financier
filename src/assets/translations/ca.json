@@ -162,7 +162,6 @@
   "OTHER_LIABILITY": "Altres responsabilitats",
   "LOADING_FINANCIER": "Carregant Financier",
   "CREATE": "Crea",
-  "NEW_VERSION_AVAILABLE": "Hi ha disponible una nova versió de Financier! Per a aconseguir-la, actualitzeu la pàgina fent clic <a href='#' ng-click='applyUpdateCtrl.applyUpdate()'>aquí</a>.",
   "NOTE": "Nota",
   "CLOSE_ACCOUNT": "Tanca el compte",
   "REOPEN": "Reobri",

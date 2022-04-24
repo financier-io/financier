@@ -37,10 +37,8 @@ let financier = angular
     "ng-sortable",
     "angular-ladda-lw",
   ])
-  .run((offline, $rootScope, $timeout, $filter, $state) => {
+  .run(($rootScope, $timeout, $filter, $state) => {
     const dateFilter = $filter("date");
-
-    offline.install();
 
     $rootScope.$on("offlineStatus", (e, status) => {
       $timeout(() => {

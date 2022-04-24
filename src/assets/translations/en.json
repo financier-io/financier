@@ -162,7 +162,6 @@
   "OTHER_LIABILITY": "Other Liability",
   "LOADING_FINANCIER": "Loading Financier",
   "CREATE": "Create",
-  "NEW_VERSION_AVAILABLE": "New version of Financier available! To get it, <a href='#' ng-click='applyUpdateCtrl.applyUpdate()'>click here to refresh the page</a>.",
   "NOTE": "Note",
   "CLOSE_ACCOUNT": "Close account",
   "REOPEN": "Reopen",

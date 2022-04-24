@@ -32,7 +32,6 @@
   "devDependencies": {
     "@babel/core": "^7.17.9",
     "@babel/preset-env": "^7.16.11",
-    "@lcdp/offline-plugin": "^5.1.1",
     "angular-mocks": "^1.8.3",
     "autoprefixer": "^10.4.4",
     "babel-loader": "^8.2.5",
@@ -63,7 +62,8 @@
     "style-loader": "^3.3.1",
     "webpack": "^5.72.0",
     "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.8.1"
+    "webpack-dev-server": "^4.8.1",
+    "workbox-webpack-plugin": "^6.5.3"
   },
   "nyc": {
     "exclude": [
@@ -71,6 +71,7 @@
     ]
   },
   "dependencies": {
+    "@uirouter/angularjs": "^0.4.1",
     "angular": "^1.5.9",
     "angular-animate": "^1.5.9",
     "angular-dateParser": "^1.2.1",
@@ -86,7 +87,6 @@
     "angular-sanitize": "^1.5.9",
     "angular-smart-table": "^2.1.11",
     "angular-translate": "^2.19.0",
-    "@uirouter/angularjs": "^0.4.1",
     "angular-vs-repeat": "^1.1.7",
     "chart.js": "2.2.1",
     "cheerio": "^1.0.0-rc.10",

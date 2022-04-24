@@ -162,7 +162,6 @@
   "OTHER_LIABILITY": "Annen gjeld",
   "LOADING_FINANCIER": "Laster inn Financier",
   "CREATE": "Opprett",
-  "NEW_VERSION_AVAILABLE": "Ny versjon av Financier tilgjengelig! For å få den, <a href='#' ng-click='applyUpdateCtrl.applyUpdate()'>klikk her for å oppdatere siden</a>.",
   "NOTE": "Notat",
   "CLOSE_ACCOUNT": "Avslutt konto",
   "REOPEN": "Gjenåpne",

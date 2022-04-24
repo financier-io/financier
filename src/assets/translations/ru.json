@@ -162,7 +162,6 @@
   "OTHER_LIABILITY": "Прочие долги",
   "LOADING_FINANCIER": "Financier загружается",
   "CREATE": "Создать",
-  "NEW_VERSION_AVAILABLE": "Доступна новая версия Financier! Чтобы перейти на нее, <a href='#' ng-click='applyUpdateCtrl.applyUpdate()'>кликните здесь для обновления страницы</a>.",
   "NOTE": "Примечание",
   "CLOSE_ACCOUNT": "Закрыть счёт",
   "REOPEN": "Открыть снова",
