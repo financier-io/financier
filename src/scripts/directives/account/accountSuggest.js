@@ -1,20 +1,21 @@
-angular.module('financier').directive('accountSuggest', $rootScope => {
+angular.module("financier").directive("accountSuggest", ($rootScope) => {
   return {
-    restrict: 'E',
+    restrict: "E",
     scope: {
-      onBudgetAccounts: '=',
-      offBudgetAccounts: '=',
-      closedAccounts: '=',
-      ngModel: '=',
-      transactionPayeeId: '='
+      onBudgetAccounts: "=",
+      offBudgetAccounts: "=",
+      closedAccounts: "=",
+      ngModel: "=",
+      transactionPayeeId: "=",
     },
-    template: '<autosuggest custom-filter="itemFilter(item, searchValue)" on-submit="onSubmit()" ng-model="item" items="items" template="template"></autosuggest>',
+    template:
+      '<autosuggest custom-filter="itemFilter(item, searchValue)" on-submit="onSubmit()" ng-model="item" items="items" template="template"></autosuggest>',
     compile: () => {
       return {
-        pre: scope => {
+        pre: (scope) => {
           scope.items = [];
 
-          scope.itemFilter = item => {
+          scope.itemFilter = (item) => {
             if (item.id === scope.transactionPayeeId) {
               return false;
             }
@@ -26,13 +27,13 @@ angular.module('financier').directive('accountSuggest', $rootScope => {
             return true;
           };
 
-          scope.$watch('transactionPayeeId', () => {
-            scope.$broadcast('autosuggest:filter');
+          scope.$watch("transactionPayeeId", () => {
+            scope.$broadcast("autosuggest:filter");
           });
 
           scope.items = scope.onBudgetAccounts
-              .concat(scope.offBudgetAccounts)
-              .concat(scope.closedAccounts);
+            .concat(scope.offBudgetAccounts)
+            .concat(scope.closedAccounts);
 
           for (let i = 0; i < scope.items.length; i++) {
             if (scope.items[i].id === scope.ngModel) {
@@ -40,24 +41,23 @@ angular.module('financier').directive('accountSuggest', $rootScope => {
             }
           }
 
-          scope.$watch('item', (newItem, oldItem) => {
+          scope.$watch("item", (newItem, oldItem) => {
             if (newItem !== oldItem) {
               scope.ngModel = newItem.id;
             }
           });
 
           scope.onSubmit = () => {
-            $rootScope.$broadcast('transaction:date:focus');
+            $rootScope.$broadcast("transaction:date:focus");
           };
 
-          scope.$on('transaction:account:focus', () => {
-            scope.$broadcast('focus');
+          scope.$on("transaction:account:focus", () => {
+            scope.$broadcast("focus");
           });
 
-          scope.template = require('./accountSuggest.html');
-        }
+          scope.template = require("./accountSuggest.html").default;
+        },
       };
-    }
-
+    },
   };
 });

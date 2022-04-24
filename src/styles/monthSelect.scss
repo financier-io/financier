@@ -23,14 +23,13 @@
   }
 }
 
-
 .month-select__month--current {
   $size: 0.5em;
 
   &::after {
     border-left: $size solid transparent;
     border-top: $size solid $danger;
-    content: '';
+    content: "";
     height: 0;
     position: absolute;
     right: 0;
@@ -99,4 +98,3 @@
 .month-select__year {
   background-color: darken($primary, 30%);
 }
-

@@ -1,13 +1,14 @@
-angular.module('financier').directive('payeeSuggest', $rootScope => {
+angular.module("financier").directive("payeeSuggest", ($rootScope) => {
   return {
-    restrict: 'E',
+    restrict: "E",
     scope: {
-      accounts: '=',
-      payees: '=',
-      transactionAccountId: '=',
-      ngModel: '='
+      accounts: "=",
+      payees: "=",
+      transactionAccountId: "=",
+      ngModel: "=",
     },
-    template: '<autosuggest can-submit-new="true" on-submit="onSubmit()" custom-filter="itemFilter(item, searchValue, pristineInputField)" ng-model="ngModel" items="items" template="template"></autosuggest>',
+    template:
+      '<autosuggest can-submit-new="true" on-submit="onSubmit()" custom-filter="itemFilter(item, searchValue, pristineInputField)" ng-model="ngModel" items="items" template="template"></autosuggest>',
     compile: () => {
       return {
         pre: (scope, element) => {
@@ -26,37 +27,36 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
             return 0;
           };
 
-
           scope._accounts = scope.accounts
-          .filter(acc => acc.onBudget && !acc.closed)
-          .sort((a, b) => {
-            return a.sort - b.sort;
-          })
-          .concat(
-            scope.accounts
-            .filter(acc => !acc.onBudget && !acc.closed)
+            .filter((acc) => acc.onBudget && !acc.closed)
             .sort((a, b) => {
               return a.sort - b.sort;
             })
-          )
-          .concat(
-            scope.accounts
-            .filter(acc => acc.closed)
-            .sort((a, b) => {
-              return a.sort - b.sort;
+            .concat(
+              scope.accounts
+                .filter((acc) => !acc.onBudget && !acc.closed)
+                .sort((a, b) => {
+                  return a.sort - b.sort;
+                })
+            )
+            .concat(
+              scope.accounts
+                .filter((acc) => acc.closed)
+                .sort((a, b) => {
+                  return a.sort - b.sort;
+                })
+            );
+
+          scope._payees = Object.keys(scope.payees)
+            .map((key) => {
+              return scope.payees[key];
             })
-          );
+            .sort(byName);
 
-          scope._payees = Object.keys(scope.payees).map(key => {
-            return scope.payees[key];
-          })
-          .sort(byName);
+          scope.items = scope._accounts.concat(scope._payees);
 
-          scope.items = scope._accounts
-          .concat(scope._payees);
-
-          scope.$watch('transactionAccountId', () => {
-            scope.$broadcast('autosuggest:filter');
+          scope.$watch("transactionAccountId", () => {
+            scope.$broadcast("autosuggest:filter");
           });
 
           scope.itemFilter = (item, searchInput, pristineInputField) => {
@@ -64,7 +64,15 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
               return false;
             }
 
-            if (!(scope.ngModel && scope.ngModel.constructorName === 'Account' && scope.ngModel.closed) && item.constructorName === 'Account' && item.closed) {
+            if (
+              !(
+                scope.ngModel &&
+                scope.ngModel.constructorName === "Account" &&
+                scope.ngModel.closed
+              ) &&
+              item.constructorName === "Account" &&
+              item.closed
+            ) {
               return false;
             }
 
@@ -82,29 +90,35 @@ angular.module('financier').directive('payeeSuggest', $rootScope => {
           };
 
           scope.onSubmit = () => {
-            const account = scope.$parent.accountCtrl.manager.getAccount(scope.transactionAccountId);
+            const account = scope.$parent.accountCtrl.manager.getAccount(
+              scope.transactionAccountId
+            );
 
-            if (scope.ngModel.constructorName === 'Account' && (
-                (scope.ngModel.onBudget && account.onBudget) ||
-                (!scope.ngModel.onBudget && !account.onBudget)
-              )) {
-              $rootScope.$broadcast('transaction:memo:focus', { index: scope.$parent.splitIndex });
+            if (
+              scope.ngModel.constructorName === "Account" &&
+              ((scope.ngModel.onBudget && account.onBudget) ||
+                (!scope.ngModel.onBudget && !account.onBudget))
+            ) {
+              $rootScope.$broadcast("transaction:memo:focus", {
+                index: scope.$parent.splitIndex,
+              });
             } else {
-              $rootScope.$broadcast('transaction:category:focus', { index: scope.$parent.splitIndex });
+              $rootScope.$broadcast("transaction:category:focus", {
+                index: scope.$parent.splitIndex,
+              });
             }
           };
 
-          scope.$on('transaction:payee:focus', (e, { index } = {}) => {
+          scope.$on("transaction:payee:focus", (e, { index } = {}) => {
             if (index === scope.$parent.splitIndex) {
-              element.find('input')[0].focus();
-              scope.$broadcast('focus');
+              element.find("input")[0].focus();
+              scope.$broadcast("focus");
             }
           });
 
-          scope.template = require('./payeeSuggest.html');
-        }
+          scope.template = require("./payeeSuggest.html").default;
+        },
       };
-    }
-
+    },
   };
 });

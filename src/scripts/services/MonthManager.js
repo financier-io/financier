@@ -1,6 +1,5 @@
-angular.module('financier').factory('monthManager', (month, account) => {
-  return budgetId => {
-
+angular.module("financier").factory("monthManager", (month, account) => {
+  return (budgetId) => {
     const Month = month(budgetId);
     const Account = account(budgetId);
 
@@ -9,7 +8,6 @@ angular.module('financier').factory('monthManager', (month, account) => {
      * creating and linking Month objects together.
      */
     class MonthManager {
-
       /**
        * Create a MonthManager.
        *
@@ -37,7 +35,7 @@ angular.module('financier').factory('monthManager', (month, account) => {
         this.months = months;
         this.accounts = [];
         this.allAccounts = new Account({
-          name: 'All Accounts'
+          name: "All Accounts",
         });
         this.transactions = {};
         this.saveFn = saveFn;
@@ -54,8 +52,8 @@ angular.module('financier').factory('monthManager', (month, account) => {
 
         trans.subscribe(this.saveFn);
 
-        trans.removeTransaction = t => this.removeTransaction(t);
-        trans.addTransaction = t => this.addTransaction(t);
+        trans.removeTransaction = (t) => this.removeTransaction(t);
+        trans.addTransaction = (t) => this.addTransaction(t);
 
         trans.subscribeAccountChange((newAccountId, oldAccountId) => {
           const oldAccount = this.getAccount(oldAccountId),
@@ -70,31 +68,42 @@ angular.module('financier').factory('monthManager', (month, account) => {
             newAccount.addTransaction(trans);
           }
 
-          if ((!oldAccount || !oldAccount.onBudget) && newAccount && newAccount.onBudget) {
+          if (
+            (!oldAccount || !oldAccount.onBudget) &&
+            newAccount &&
+            newAccount.onBudget
+          ) {
             currentMonth.addTransaction(trans);
-          } else if ((oldAccount && oldAccount.onBudget) && (!newAccount || !newAccount.onBudget)) {
+          } else if (
+            oldAccount &&
+            oldAccount.onBudget &&
+            (!newAccount || !newAccount.onBudget)
+          ) {
             currentMonth.removeTransaction(trans);
           }
         });
 
         this.transactions[trans.id] = trans;
 
-        trans.subscribeCategoryChange(() => {
-          // before change
-          const month = this.getMonth(trans.month);
-          const account = this.getAccount(trans.account);
-          if (account && account.onBudget) {
-            month.removeTransaction(trans);
-            month.startRolling(trans.category);
+        trans.subscribeCategoryChange(
+          () => {
+            // before change
+            const month = this.getMonth(trans.month);
+            const account = this.getAccount(trans.account);
+            if (account && account.onBudget) {
+              month.removeTransaction(trans);
+              month.startRolling(trans.category);
+            }
+          },
+          () => {
+            // after change
+            const month = this.getMonth(trans.month);
+            const account = this.getAccount(trans.account);
+            if (account && account.onBudget) {
+              month.addTransaction(trans);
+            }
           }
-        }, () => {
-          // after change
-          const month = this.getMonth(trans.month);
-          const account = this.getAccount(trans.account);
-          if (account && account.onBudget) {
-            month.addTransaction(trans);
-          }
-        });
+        );
 
         trans.subscribeMonthChange((newMonth, oldMonth) => {
           const m = this.getMonth(newMonth);
@@ -104,7 +113,6 @@ angular.module('financier').factory('monthManager', (month, account) => {
             this.getMonth(oldMonth).removeTransaction(trans);
             m.addTransaction(trans);
           }
-
         });
 
         if (myAccount && myAccount.onBudget) {
@@ -130,10 +138,10 @@ angular.module('financier').factory('monthManager', (month, account) => {
           transactions.push(trans.transfer);
         }
 
-        transactions.forEach(transaction => {
+        transactions.forEach((transaction) => {
           if (this.transactions[transaction.id]) {
             if (transaction.splits && transaction.splits.length) {
-              transaction.splits.forEach(split => {
+              transaction.splits.forEach((split) => {
                 this.removeTransaction(split);
               });
             }
@@ -167,7 +175,9 @@ angular.module('financier').factory('monthManager', (month, account) => {
        * @param {MonthCategory} monthCat - The MonthCategory to be added.
        */
       addMonthCategory(monthCat) {
-        this.getMonth(MonthManager._dateIDToDate(monthCat.monthId)).addBudget(monthCat);
+        this.getMonth(MonthManager._dateIDToDate(monthCat.monthId)).addBudget(
+          monthCat
+        );
       }
 
       /**
@@ -217,7 +227,9 @@ angular.module('financier').factory('monthManager', (month, account) => {
             i += monthsToAdd;
             endIndex += monthsToAdd;
           } else if (diff < 1) {
-            throw new Error('Provided months are out of order or duplicates exist!');
+            throw new Error(
+              "Provided months are out of order or duplicates exist!"
+            );
           }
         }
 
@@ -233,11 +245,14 @@ angular.module('financier').factory('monthManager', (month, account) => {
        * @returns {Month} The Month in which the month represents.
        */
       getMonth(date) {
-        const diff = MonthManager._diff(MonthManager._dateIDToDate(this.months[0].date), date);
+        const diff = MonthManager._diff(
+          MonthManager._dateIDToDate(this.months[0].date),
+          date
+        );
 
-        if ((diff + 1) > this.months.length) {
+        if (diff + 1 > this.months.length) {
           // we need to append months
-          const monthsToAdd = (diff + 1) - this.months.length;
+          const monthsToAdd = diff + 1 - this.months.length;
 
           let d = this.months[this.months.length - 1].date;
 
@@ -246,13 +261,18 @@ angular.module('financier').factory('monthManager', (month, account) => {
 
             const m = new Month(d, this.saveFn);
             this.months.push(m);
-            this._linkMonths(this.months[this.months.length - 2], this.months[this.months.length - 1]);
+            this._linkMonths(
+              this.months[this.months.length - 2],
+              this.months[this.months.length - 1]
+            );
           }
 
           // this is the only case when we need to propagate rolling
           // prepended months will by definition not have any data rolling
           // into them, so we don't need to do this there
-          this._propagateRollingFromMonth(this.months[(this.months.length - 1) - monthsToAdd]);
+          this._propagateRollingFromMonth(
+            this.months[this.months.length - 1 - monthsToAdd]
+          );
 
           return this.months[this.months.length - 1];
         }
@@ -271,7 +291,6 @@ angular.module('financier').factory('monthManager', (month, account) => {
             this._linkMonths(this.months[0], this.months[1]);
           }
           return this.months[0];
-          
         }
 
         // we already have the month
@@ -387,7 +406,7 @@ angular.module('financier').factory('monthManager', (month, account) => {
        * @private
        */
       static _dateIDToDate(date) {
-        const [year, month] = date.split('-');
+        const [year, month] = date.split("-");
         return new Date(year, month - 1, 1);
       }
 
@@ -401,7 +420,7 @@ angular.module('financier').factory('monthManager', (month, account) => {
        * @private
        */
       static _nextDateID(date) {
-        const [year, month] = date.split('-');
+        const [year, month] = date.split("-");
         return Month.createID(new Date(year, month, 1));
       }
 
@@ -415,7 +434,7 @@ angular.module('financier').factory('monthManager', (month, account) => {
        * @private
        */
       static _previousDateID(date) {
-        const [year, month] = date.split('-');
+        const [year, month] = date.split("-");
         return Month.createID(new Date(year, month - 2, 1));
       }
     }

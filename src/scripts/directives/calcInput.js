@@ -1,10 +1,15 @@
-angular.module('financier').directive('calcInput', () => {
+angular.module("financier").directive("calcInput", () => {
   return function (scope, element) {
-    element.bind('keypress', event => {
+    element.bind("keypress", (event) => {
       const charCode = event.which || event.keyCode;
       const charTyped = String.fromCharCode(charCode);
 
-      if (charTyped === '+' || charTyped === '-' || charTyped === '*' || charTyped === '/') {
+      if (
+        charTyped === "+" ||
+        charTyped === "-" ||
+        charTyped === "*" ||
+        charTyped === "/"
+      ) {
         const input = element;
         const length = input[0].value.length;
 

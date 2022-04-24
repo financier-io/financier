@@ -1,31 +1,53 @@
 <h2>{{'NEW_BUDGET' | translate}}</h2>
 
-<form name="createBudgetForm" ng-submit="createBudgetCtrl.submit(name, createBudgetCtrl.currency)">
+<form
+  name="createBudgetForm"
+  ng-submit="createBudgetCtrl.submit(name, createBudgetCtrl.currency)"
+>
   <label>
-    <input type="text"
-           name="name"
-           ng-model="name"
-           placeholder="{{'MY_BUDGET_NAME' | translate}}"
-           ng-disabled="createBudgetCtrl.loading"
-           required>
-    <div ng-messages="createBudgetForm.name.$error"
-         ng-if="createBudgetForm.name.$dirty">
-      <div ng-message="required" class="message">{{'FIELD_REQUIRED' | translate}}</div>
+    <input
+      type="text"
+      name="name"
+      ng-model="name"
+      placeholder="{{'MY_BUDGET_NAME' | translate}}"
+      ng-disabled="createBudgetCtrl.loading"
+      required
+    />
+    <div
+      ng-messages="createBudgetForm.name.$error"
+      ng-if="createBudgetForm.name.$dirty"
+    >
+      <div ng-message="required" class="message">
+        {{'FIELD_REQUIRED' | translate}}
+      </div>
     </div>
   </label>
 
   <label>
     <select name="currency" ng-model="createBudgetCtrl.currency">
-      <option ng-repeat="option in createBudgetCtrl.currencies" value="{{option.code}}">{{option.name_plural}} - {{option.symbol_native}}</option>
+      <option
+        ng-repeat="option in createBudgetCtrl.currencies"
+        value="{{option.code}}"
+      >
+        {{option.name_plural}} - {{option.symbol_native}}
+      </option>
     </select>
   </label>
 
-  <small><a href="#" ng-click="createBudgetCtrl.restore()">{{'RESTORE_FROM_FILE' | translate}}</a></small>
-  
+  <small
+    ><a href="#" ng-click="createBudgetCtrl.restore()"
+      >{{'RESTORE_FROM_FILE' | translate}}</a
+    ></small
+  >
+
   <footer>
-    <button class="primary"
-            ladda="createBudgetCtrl.loading"
-            ng-disabed="createBudgetForm.$invalid">{{'CREATE_BUDGET' | translate}}</button>
+    <button
+      class="primary"
+      ladda="createBudgetCtrl.loading"
+      ng-disabed="createBudgetForm.$invalid"
+    >
+      {{'CREATE_BUDGET' | translate}}
+    </button>
     <button ng-click="closeThisDialog()">{{'CANCEL' | translate}}</button>
   </footer>
 </form>

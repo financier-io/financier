@@ -1,7 +1,7 @@
-angular.module('financier').directive('serviceWorkerStatus', () => {
+angular.module("financier").directive("serviceWorkerStatus", () => {
   return {
-    restrict: 'E',
+    restrict: "E",
     scope: false,
-    template: require('./serviceWorkerStatus.html')
+    template: require("./serviceWorkerStatus.html").default,
   };
 });

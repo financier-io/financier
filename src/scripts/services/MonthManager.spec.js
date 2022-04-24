@@ -1,64 +1,65 @@
-describe('category', function () {
+/* eslint-disable jest/no-commented-out-tests */
+
+describe("category", function () {
   let monthManager, MonthManager, month, Month;
 
-  beforeEach(angular.mock.module('financier'));
+  beforeEach(angular.mock.module("financier"));
 
   beforeEach(inject((_monthManager_, _month_) => {
     monthManager = _monthManager_;
     month = _month_;
   }));
 
-  it('is a function', () => {
-    expect(typeof monthManager).toBe('function');
+  it("is a function", () => {
+    expect(typeof monthManager).toBe("function");
   });
 
-  describe('MonthManager class', () => {
-
+  describe("MonthManager class", () => {
     beforeEach(() => {
-      MonthManager = monthManager('111-111-111-111');
-      Month = month('111-111-111-111');
+      MonthManager = monthManager("111-111-111-111");
+      Month = month("111-111-111-111");
     });
 
-    describe('static properties', () => {
-      describe('_diff', () => {
-        it('0 for same date', () => {
-          const date = new Date('1/1/16');
+    describe("static properties", () => {
+      describe("_diff", () => {
+        it("0 for same date", () => {
+          const date = new Date("1/1/16");
 
           expect(MonthManager._diff(date, date)).toBe(0);
         });
 
-        it('1 for next month', () => {
-          const first = new Date('1/1/16');
-          const second = new Date('2/1/16');
+        it("1 for next month", () => {
+          const first = new Date("1/1/16");
+          const second = new Date("2/1/16");
 
           expect(MonthManager._diff(first, second)).toBe(1);
         });
 
-        it('-1 for previous month', () => {
-          const first = new Date('2/1/16');
-          const second = new Date('1/1/16');
+        it("-1 for previous month", () => {
+          const first = new Date("2/1/16");
+          const second = new Date("1/1/16");
 
           expect(MonthManager._diff(first, second)).toBe(-1);
         });
 
-        it('1 for 2/29 => 3/1', () => {
-          const first = new Date('2/29/16');
-          const second = new Date('3/1/16');
+        it("1 for 2/29 => 3/1", () => {
+          const first = new Date("2/29/16");
+          const second = new Date("3/1/16");
 
           expect(MonthManager._diff(first, second)).toBe(1);
         });
 
-        it('26 for multiple years', () => {
-          const first = new Date('1/1/16');
-          const second = new Date('3/1/18');
+        it("26 for multiple years", () => {
+          const first = new Date("1/1/16");
+          const second = new Date("3/1/18");
 
           expect(MonthManager._diff(first, second)).toBe(26);
         });
       });
 
-      describe('_dateIDToDate', () => {
-        it('converts ID to date', () => {
-          const date = MonthManager._dateIDToDate('2016-06-07');
+      describe("_dateIDToDate", () => {
+        it("converts ID to date", () => {
+          const date = MonthManager._dateIDToDate("2016-06-07");
 
           expect(date.getFullYear()).toBe(2016);
           expect(date.getMonth()).toBe(5); // June
@@ -66,29 +67,29 @@ describe('category', function () {
         });
       });
 
-      describe('_nextDateID', () => {
-        it('Jul => Aug', () => {
-          expect(MonthManager._nextDateID('2016-06-01')).toBe('2016-07-01');
+      describe("_nextDateID", () => {
+        it("Jul => Aug", () => {
+          expect(MonthManager._nextDateID("2016-06-01")).toBe("2016-07-01");
         });
 
-        it('Dec => Jan', () => {
-          expect(MonthManager._nextDateID('2016-12-01')).toBe('2017-01-01');
+        it("Dec => Jan", () => {
+          expect(MonthManager._nextDateID("2016-12-01")).toBe("2017-01-01");
         });
       });
 
-      describe('_previousDateID', () => {
-        it('Aug => Jul', () => {
-          expect(MonthManager._previousDateID('2016-07-01')).toBe('2016-06-01');
+      describe("_previousDateID", () => {
+        it("Aug => Jul", () => {
+          expect(MonthManager._previousDateID("2016-07-01")).toBe("2016-06-01");
         });
 
-        it('Jan => Feb', () => {
-          expect(MonthManager._previousDateID('2017-01-01')).toBe('2016-12-01');
+        it("Jan => Feb", () => {
+          expect(MonthManager._previousDateID("2017-01-01")).toBe("2016-12-01");
         });
       });
     });
 
-    describe('constructor', () => {
-      it('adds one month if none provided', () => {
+    describe("constructor", () => {
+      it("adds one month if none provided", () => {
         const someFunction = () => {},
           mm = new MonthManager(undefined, someFunction);
 
@@ -97,244 +98,229 @@ describe('category', function () {
         expect(mm.saveFn).toBe(someFunction);
       });
 
-      it('fills month gaps as needed', () => {
-        spyOn(MonthManager.prototype, '_fillMonthGaps').and.callThrough();
+      it("fills month gaps as needed", () => {
+        jest.spyOn(MonthManager.prototype, "_fillMonthGaps");
 
         const mm = new MonthManager();
 
-        expect(MonthManager.prototype._fillMonthGaps).toHaveBeenCalledWith(mm.months);
+        expect(MonthManager.prototype._fillMonthGaps).toHaveBeenCalledWith(
+          mm.months
+        );
       });
 
-      it('links months properly', () => {
-        spyOn(MonthManager.prototype, '_linkMonths');
+      it("links months properly", () => {
+        const spy = jest.spyOn(MonthManager.prototype, "_linkMonths");
 
         const mm = new MonthManager([
-          new Month('2016-05-01'),
-          new Month('2016-07-01')
+          new Month("2016-05-01"),
+          new Month("2016-07-01"),
         ]);
 
-        expect(mm._linkMonths.calls.all().map(c => c.args)).toEqual([
+        expect(spy.mock.calls).toEqual([
           [mm.months[0], mm.months[1]],
-          [mm.months[1], mm.months[2]]
+          [mm.months[1], mm.months[2]],
         ]);
       });
     });
 
-    describe('_fillMonthGaps', () => {
-      it('Does not do anything with 0 items', () => {
+    describe("_fillMonthGaps", () => {
+      it("Does not do anything with 0 items", () => {
         const mm = new MonthManager();
 
         expect(mm._fillMonthGaps([]).length).toBe(0);
       });
 
-      it('Does not do anything with 1 item', () => {
+      it("Does not do anything with 1 item", () => {
         const mm = new MonthManager(),
-          myMonth = new Month('2015-01-01');
+          myMonth = new Month("2015-01-01");
 
         expect(mm._fillMonthGaps([myMonth])[0]).toBe(myMonth);
       });
 
-      it('Throws if months are out of order', () => {
+      it("Throws if months are out of order", () => {
         const mm = new MonthManager();
 
         expect(() => {
-          mm._fillMonthGaps([
-            new Month('2015-02-01'),
-            new Month('2015-01-01')
-          ]);
+          mm._fillMonthGaps([new Month("2015-02-01"), new Month("2015-01-01")]);
         }).toThrow();
       });
 
-      it('Throws if months are duplicated', () => {
+      it("Throws if months are duplicated", () => {
         const mm = new MonthManager();
 
         expect(() => {
-          mm._fillMonthGaps([
-            new Month('2015-02-01'),
-            new Month('2015-02-01')
-          ]);
+          mm._fillMonthGaps([new Month("2015-02-01"), new Month("2015-02-01")]);
         }).toThrow();
       });
 
-      describe('filling month gaps', () => {
-        it('creates appropriate months', () => {
+      describe("filling month gaps", () => {
+        it("creates appropriate months", () => {
           const mm = new MonthManager();
 
-          expect(mm._fillMonthGaps([
-            new Month('2016-05-01'),
-            new Month('2016-07-01'),
-            new Month('2016-08-01'),
-            new Month('2017-07-01')
-          ]).map(m => m.date)).toEqual([
-            '2016-05-01',
-            '2016-06-01',
-            '2016-07-01',
-            '2016-08-01',
-            '2016-09-01',
-            '2016-10-01',
-            '2016-11-01',
-            '2016-12-01',
-            '2017-01-01',
-            '2017-02-01',
-            '2017-03-01',
-            '2017-04-01',
-            '2017-05-01',
-            '2017-06-01',
-            '2017-07-01'
+          expect(
+            mm
+              ._fillMonthGaps([
+                new Month("2016-05-01"),
+                new Month("2016-07-01"),
+                new Month("2016-08-01"),
+                new Month("2017-07-01"),
+              ])
+              .map((m) => m.date)
+          ).toEqual([
+            "2016-05-01",
+            "2016-06-01",
+            "2016-07-01",
+            "2016-08-01",
+            "2016-09-01",
+            "2016-10-01",
+            "2016-11-01",
+            "2016-12-01",
+            "2017-01-01",
+            "2017-02-01",
+            "2017-03-01",
+            "2017-04-01",
+            "2017-05-01",
+            "2017-06-01",
+            "2017-07-01",
           ]);
         });
 
-        it('sets up saveFn', () => {
+        it("sets up saveFn", () => {
           const myFn = () => {},
             mm = new MonthManager(undefined, myFn);
 
-          expect(mm._fillMonthGaps([
-            new Month('2016-05-01'),
-            new Month('2016-07-01')
-          ])[1].saveFn).toBe(myFn);
+          expect(
+            mm._fillMonthGaps([
+              new Month("2016-05-01"),
+              new Month("2016-07-01"),
+            ])[1].saveFn
+          ).toBe(myFn);
         });
       });
     });
 
-    describe('getMonth', () => {
-      it('gets an existing month', () => {
-        const mo = new Month('2016-07-01'),
+    describe("getMonth", () => {
+      it("gets an existing month", () => {
+        const mo = new Month("2016-07-01"),
           mm = new MonthManager([
-            new Month('2016-05-01'),
-            new Month('2016-06-01'),
+            new Month("2016-05-01"),
+            new Month("2016-06-01"),
             mo,
-            new Month('2017-08-01')
+            new Month("2017-08-01"),
           ]);
 
-
-        expect(mm.getMonth(new Date('2016-07-02'))).toBe(mo);
-        expect(mm.getMonth(new Date('2016-07-02')).date).toEqual('2016-07-01');
+        expect(mm.getMonth(new Date("2016-07-02"))).toBe(mo);
+        expect(mm.getMonth(new Date("2016-07-02")).date).toEqual("2016-07-01");
       });
 
-      describe('gets a future month', () => {
-        it('adds months properly', () => {
-          const mm = new MonthManager([
-            new Month('2016-05-01')
-          ]);
+      describe("gets a future month", () => {
+        it("adds months properly", () => {
+          const mm = new MonthManager([new Month("2016-05-01")]);
 
-          mm.getMonth(new Date('2016-07-02'));
+          mm.getMonth(new Date("2016-07-02"));
 
-          expect(mm.months.map(m => m.date)).toEqual([
-            '2016-05-01',
-            '2016-06-01',
-            '2016-07-01'
+          expect(mm.months.map((m) => m.date)).toEqual([
+            "2016-05-01",
+            "2016-06-01",
+            "2016-07-01",
           ]);
         });
 
-        it('returns proper month', () => {
-          const mm = new MonthManager([
-            new Month('2016-05-01')
-          ]);
+        it("returns proper month", () => {
+          const mm = new MonthManager([new Month("2016-05-01")]);
 
-          expect(mm.getMonth(new Date('2016-07-02')).date).toBe('2016-07-01');
-          expect(mm.getMonth(new Date('2016-07-02'))).toBe(mm.months[2]);
+          expect(mm.getMonth(new Date("2016-07-02")).date).toBe("2016-07-01");
+          expect(mm.getMonth(new Date("2016-07-02"))).toBe(mm.months[2]);
         });
 
-        it('links months', () => {
+        it("links months", () => {
           const mm = new MonthManager([
-            new Month('2016-05-01'),
-            new Month('2016-06-01')
+            new Month("2016-05-01"),
+            new Month("2016-06-01"),
           ]);
 
-          spyOn(mm, '_linkMonths');
+          const spy = jest.spyOn(mm, "_linkMonths");
 
-          mm.getMonth(new Date('2016-09-02'));
+          mm.getMonth(new Date("2016-09-02"));
 
-          expect(mm._linkMonths.calls.all().map(c => c.args)).toEqual([
+          expect(spy.mock.calls).toEqual([
             [mm.months[1], mm.months[2]],
             [mm.months[2], mm.months[3]],
-            [mm.months[3], mm.months[4]]
+            [mm.months[3], mm.months[4]],
           ]);
         });
 
-        it('propagates rolling to new months', () => {
-          const mo = new Month('2016-06-01'),
-            mm = new MonthManager([
-            new Month('2016-05-01'),
-            mo
-          ]);
+        it("propagates rolling to new months", () => {
+          const mo = new Month("2016-06-01"),
+            mm = new MonthManager([new Month("2016-05-01"), mo]);
 
-          spyOn(mm, '_propagateRollingFromMonth');
+          jest.spyOn(mm, "_propagateRollingFromMonth");
 
-          mm.getMonth(new Date('2016-09-02'));
+          mm.getMonth(new Date("2016-09-02"));
 
           expect(mm._propagateRollingFromMonth).toHaveBeenCalledWith(mo);
         });
       });
 
-      describe('gets a past month', () => {
-        it('adds months properly', () => {
-          const mm = new MonthManager([
-            new Month('2016-05-01')
-          ]);
+      describe("gets a past month", () => {
+        it("adds months properly", () => {
+          const mm = new MonthManager([new Month("2016-05-01")]);
 
-          mm.getMonth(new Date('2016-03-02'));
+          mm.getMonth(new Date("2016-03-02"));
 
-          expect(mm.months.map(m => m.date)).toEqual([
-            '2016-03-01',
-            '2016-04-01',
-            '2016-05-01'
+          expect(mm.months.map((m) => m.date)).toEqual([
+            "2016-03-01",
+            "2016-04-01",
+            "2016-05-01",
           ]);
         });
 
-        it('returns proper month', () => {
-          const mm = new MonthManager([
-            new Month('2016-05-01')
-          ]);
+        it("returns proper month", () => {
+          const mm = new MonthManager([new Month("2016-05-01")]);
 
-          expect(mm.getMonth(new Date('2016-03-02')).date).toBe('2016-03-01');
-          expect(mm.getMonth(new Date('2016-03-02'))).toBe(mm.months[0]);
+          expect(mm.getMonth(new Date("2016-03-02")).date).toBe("2016-03-01");
+          expect(mm.getMonth(new Date("2016-03-02"))).toBe(mm.months[0]);
         });
 
-        it('links months', () => {
+        it("links months", () => {
           const mm = new MonthManager([
-            new Month('2016-05-01'),
-            new Month('2016-06-01')
+            new Month("2016-05-01"),
+            new Month("2016-06-01"),
           ]);
 
-          spyOn(mm, '_linkMonths');
+          const spy = jest.spyOn(mm, "_linkMonths");
 
-          mm.getMonth(new Date('2016-03-02'));
+          mm.getMonth(new Date("2016-03-02"));
 
-          expect(mm._linkMonths.calls.all().map(c => c.args)).toEqual([
+          expect(spy.mock.calls).toEqual([
             [mm.months[1], mm.months[2]], // 04 => 05
-            [mm.months[0], mm.months[1]]  // 03 => 04
+            [mm.months[0], mm.months[1]], // 03 => 04
           ]);
         });
 
-        it('propagates rolling to new months', () => {
-          const mo = new Month('2016-06-01'),
-            mm = new MonthManager([
-            new Month('2016-05-01'),
-            mo
-          ]);
+        it("propagates rolling to new months", () => {
+          const mo = new Month("2016-06-01"),
+            mm = new MonthManager([new Month("2016-05-01"), mo]);
 
-          spyOn(mm, '_propagateRollingFromMonth');
+          jest.spyOn(mm, "_propagateRollingFromMonth");
 
-          mm.getMonth(new Date('2016-09-02'));
+          mm.getMonth(new Date("2016-09-02"));
 
           expect(mm._propagateRollingFromMonth).toHaveBeenCalledWith(mo);
         });
       });
 
-      it('gets a past month', () => {
-        const mm = new MonthManager([
-            new Month('2016-05-01')
-          ]);
+      it("gets a past month", () => {
+        const mm = new MonthManager([new Month("2016-05-01")]);
 
-        spyOn(mm, '_linkMonths');
+        jest.spyOn(mm, "_linkMonths");
 
-        expect(mm.getMonth(new Date('2016-02-02'))).toBe(mm.months[0]);
-        expect(mm.months.map(m => m.date)).toEqual([
-          '2016-02-01',
-          '2016-03-01',
-          '2016-04-01',
-          '2016-05-01'
+        expect(mm.getMonth(new Date("2016-02-02"))).toBe(mm.months[0]);
+        expect(mm.months.map((m) => m.date)).toEqual([
+          "2016-02-01",
+          "2016-03-01",
+          "2016-04-01",
+          "2016-05-01",
         ]);
 
         expect(mm._linkMonths).toHaveBeenCalledWith(mm.months[0], mm.months[1]);
@@ -345,8 +331,6 @@ describe('category', function () {
     });
   });
 });
-
-
 
 // OLD TESTS FROM BUDGETMANAGER BELOW FOR REFERENCE
 

@@ -62,10 +62,9 @@
     padding-right: 20px;
   }
 
-
   &::after {
-    content: '\f09d';
-    font-family: 'FontAwesome';
+    content: "\f09d";
+    font-family: "FontAwesome";
     position: absolute;
     right: 10px;
     top: 0;
@@ -109,5 +108,4 @@
   text-align: center;
   width: 100%;
   padding: 0.5em;
-
 }

@@ -1,39 +1,39 @@
-describe('Settings', function () {
+describe("Settings", function () {
   let Settings;
 
-  beforeEach(angular.mock.module('financier'));
+  beforeEach(angular.mock.module("financier"));
 
-  beforeEach(inject(_Settings_ => {
+  beforeEach(inject((_Settings_) => {
     Settings = _Settings_;
   }));
 
-  describe('new Settings()', () => {
-    it('can take existing settings', () => {
+  describe("new Settings()", () => {
+    it("can take existing settings", () => {
       let sets = new Settings({
         hints: {
-          outflow: false
-        }
+          outflow: false,
+        },
       });
 
-      expect(sets.constructor.name).toBe('Settings');
+      expect(sets.constructor.name).toBe("Settings");
     });
 
-    it('can take no constructor params', () => {
+    it("can take no constructor params", () => {
       let sets = new Settings();
 
-      expect(sets.constructor.name).toBe('Settings');
+      expect(sets.constructor.name).toBe("Settings");
     });
 
-    it('exposes default settings', () => {
+    it("exposes default settings", () => {
       let sets = new Settings();
 
-      expect(sets._id).toBe('settings');
+      expect(sets._id).toBe("settings");
       expect(sets.hints.outflow).toBe(true);
     });
   });
 
-  describe('set', () => {
-    it('hints.outflow', () => {
+  describe("set", () => {
+    it("hints.outflow", () => {
       let sets = new Settings();
 
       sets.hints.outflow = false;
@@ -41,27 +41,25 @@ describe('Settings', function () {
       expect(sets.toJSON().hints.outflow).toBe(false);
     });
 
-    it('cannot set _id', () => {
+    it("cannot set _id", () => {
       let sets = new Settings();
 
-      sets._id = 123;
-      expect(sets._id).not.toBe(123);
+      expect(() => (sets._id = 123)).toThrow(TypeError);
     });
   });
 
-  describe('pub/sub', () => {
-
-    it('hints.outflow', () => {
+  describe("pub/sub", () => {
+    it("hints.outflow", () => {
       const foo = {
         change: () => {},
       };
 
-      spyOn(foo, 'change');
+      jest.spyOn(foo, "change");
 
       let sets = new Settings({
         hints: {
-          outflow: false
-        }
+          outflow: false,
+        },
       });
 
       sets.subscribe(foo.change);
@@ -72,6 +70,5 @@ describe('Settings', function () {
 
       expect(foo.change).toHaveBeenCalledWith(sets);
     });
-
   });
 });

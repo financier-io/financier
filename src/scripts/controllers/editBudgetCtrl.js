@@ -1,25 +1,26 @@
-angular.module('financier').controller('editBudgetCtrl', function (currencies, $scope, budgetRecord) {
-  this.name = budgetRecord.name;
-  this.currency = budgetRecord.currency;
+angular
+  .module("financier")
+  .controller("editBudgetCtrl", function (currencies, $scope, budgetRecord) {
+    this.name = budgetRecord.name;
+    this.currency = budgetRecord.currency;
 
-  this.currencies = currencies;
+    this.currencies = currencies;
 
-  this.submit = () => {
-    this.loading = true;
+    this.submit = () => {
+      this.loading = true;
 
-    const saveFn = budgetRecord.fn;
-    budgetRecord.fn = null;
+      const saveFn = budgetRecord.fn;
+      budgetRecord.fn = null;
 
-    budgetRecord.name = this.name;
-    budgetRecord.currency = this.currency;
+      budgetRecord.name = this.name;
+      budgetRecord.currency = this.currency;
 
-    saveFn(budgetRecord)
-    .then(() => {
-      this.loading = false;
+      saveFn(budgetRecord).then(() => {
+        this.loading = false;
 
-      $scope.closeThisDialog(true);
-    });
+        $scope.closeThisDialog(true);
+      });
 
-    budgetRecord.fn = saveFn;
-  };
-});
+      budgetRecord.fn = saveFn;
+    };
+  });

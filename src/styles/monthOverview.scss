@@ -55,7 +55,7 @@
   &::after {
     border-left: $size solid transparent;
     border-top: $size solid $danger;
-    content: '';
+    content: "";
     height: 0;
     position: absolute;
     right: 0;

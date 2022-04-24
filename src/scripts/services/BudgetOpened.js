@@ -1,17 +1,15 @@
-angular.module('financier').factory('BudgetOpened', () => {
+angular.module("financier").factory("BudgetOpened", () => {
   /**
    * Represents a BudgetOpened
    */
   class BudgetOpened {
-
     /**
      * Create a BudgetOpened
      *
      * @param {object} [data] - The record object from the database
      */
     constructor(data) {
-      this.id = data._id.slice(data._id.lastIndexOf('_') + 1);
-
+      this.id = data._id.slice(data._id.lastIndexOf("_") + 1);
 
       this._data = data;
     }
@@ -78,7 +76,7 @@ angular.module('financier').factory('BudgetOpened', () => {
      *
      * @param {function} fn - This function will be invoked upon record
      * changes with the Category object as the first parameter.
-    */
+     */
     subscribe(fn) {
       this.fn = fn;
     }
@@ -87,7 +85,7 @@ angular.module('financier').factory('BudgetOpened', () => {
      * Will call the subscribed function, if it exists, with self.
      *
      * @private
-    */
+     */
     emitChange() {
       return this.fn && this.fn(this);
     }
@@ -100,7 +98,7 @@ angular.module('financier').factory('BudgetOpened', () => {
      * budgetOpened._rev = '1-A6157A5EA545C99B00FF904EEF05FD9F';
      *
      * @type {string}
-    */
+     */
     set _rev(r) {
       this._data._rev = r;
     }
@@ -110,7 +108,7 @@ angular.module('financier').factory('BudgetOpened', () => {
      * a JSON object for sending to the database.
      *
      * @returns {object}
-    */
+     */
     toJSON() {
       return this._data;
     }
@@ -120,7 +118,7 @@ angular.module('financier').factory('BudgetOpened', () => {
      * @type {string}
      */
     static get startKey() {
-      return 'budget-opened_';
+      return "budget-opened_";
     }
 
     /**
@@ -129,7 +127,7 @@ angular.module('financier').factory('BudgetOpened', () => {
      * @type {string}
      */
     static get endKey() {
-      return this.startKey + '\uffff';
+      return this.startKey + "\uffff";
     }
 
     /**

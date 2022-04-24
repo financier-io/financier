@@ -1,36 +1,75 @@
 <div class="account__tr account__tr--editing">
-  <div class="account__td account__td--select" ng-click="accountCtrl.toggle(virtual.i, $event)">
-    <input type="checkbox" ng-model="accountCtrl.selectGetterSetter(transaction)" ng-model-options="{ getterSetter: true }">
+  <div
+    class="account__td account__td--select"
+    ng-click="accountCtrl.toggle(virtual.i, $event)"
+  >
+    <input
+      type="checkbox"
+      ng-model="accountCtrl.selectGetterSetter(transaction)"
+      ng-model-options="{ getterSetter: true }"
+    />
   </div>
   <div class="account__td account__td--large" ng-if="!accountCtrl.accountId">
-    <account-suggest ng-model="transactionCtrl.account" transaction-payee-id="transactionCtrl.transaction.transfer.account" on-budget-accounts="dbCtrl.onBudgetAccounts" off-budget-accounts="dbCtrl.offBudgetAccounts" closed-accounts="dbCtrl.closedAccounts"></account-suggest>
+    <account-suggest
+      ng-model="transactionCtrl.account"
+      transaction-payee-id="transactionCtrl.transaction.transfer.account"
+      on-budget-accounts="dbCtrl.onBudgetAccounts"
+      off-budget-accounts="dbCtrl.offBudgetAccounts"
+      closed-accounts="dbCtrl.closedAccounts"
+    ></account-suggest>
   </div>
-  <div class="account__td account__td--flag"><div class="account__flag" ng-style="{'color': transactionCtrl.flag}" flag ng-model="transactionCtrl.flag"><div></div></div></div>
+  <div class="account__td account__td--flag">
+    <div
+      class="account__flag"
+      ng-style="{'color': transactionCtrl.flag}"
+      flag
+      ng-model="transactionCtrl.flag"
+    >
+      <div></div>
+    </div>
+  </div>
   <div class="account__td account__td--date">
-    <input type="text"
-           calendar-input
-           date-parser="shortDate"
-           ng-model="transactionCtrl.date"
-           not-insane-date-validator>
+    <input
+      type="text"
+      calendar-input
+      date-parser="shortDate"
+      ng-model="transactionCtrl.date"
+      not-insane-date-validator
+    />
   </div>
-  <div class="account__td account__td--check"
-       ng-if="accountCtrl.checkNumber"
-       check-number-input
-       check-number="transactionCtrl.checkNumber"
-       transactions="transactionCtrl.accountRecord.transactions">
-    <input type="text" ng-model="transactionCtrl.checkNumber">
+  <div
+    class="account__td account__td--check"
+    ng-if="accountCtrl.checkNumber"
+    check-number-input
+    check-number="transactionCtrl.checkNumber"
+    transactions="transactionCtrl.accountRecord.transactions"
+  >
+    <input type="text" ng-model="transactionCtrl.checkNumber" />
   </div>
   <div class="account__td account__td--large">
-    <payee-suggest ng-model="transactionCtrl.payee" transaction-account-id="transactionCtrl.account" accounts="dbCtrl.accounts" payees="dbCtrl.payees"></payee-suggest>
+    <payee-suggest
+      ng-model="transactionCtrl.payee"
+      transaction-account-id="transactionCtrl.account"
+      accounts="dbCtrl.accounts"
+      payees="dbCtrl.payees"
+    ></payee-suggest>
   </div>
-  <div class="account__td account__td--large" ng-if="accountCtrl.account.onBudget">
-    <category-suggest ng-model="transactionCtrl.category"
-                      categories="dbCtrl.categories"
-                      master-categories="dbCtrl.masterCategories"
-                      transaction-date="transactionCtrl.date"></category-suggest>
+  <div
+    class="account__td account__td--large"
+    ng-if="accountCtrl.account.onBudget"
+  >
+    <category-suggest
+      ng-model="transactionCtrl.category"
+      categories="dbCtrl.categories"
+      master-categories="dbCtrl.masterCategories"
+      transaction-date="transactionCtrl.date"
+    ></category-suggest>
   </div>
   <div class="account__td account__cell-memo">
-    <memo-input ng-model="transactionCtrl.memo" category="transactionCtrl.category"></memo-input>
+    <memo-input
+      ng-model="transactionCtrl.memo"
+      category="transactionCtrl.category"
+    ></memo-input>
   </div>
   <div class="account__td account__td--small account__cell-outflow">
     <outflow-input ng-model="transactionCtrl.value.outflow"></outflow-input>
@@ -39,44 +78,73 @@
     <inflow-input ng-model="transactionCtrl.value.inflow"></inflow-input>
   </div>
   <div class="account__td account__cell-cleared">
+    <i class="fa fa-lock" ng-if="transactionCtrl.transaction.reconciled"></i>
 
-    <i class="fa fa-lock"
-       ng-if="transactionCtrl.transaction.reconciled"></i>
-
-    <div class="cleared"
-         ng-if="!transactionCtrl.transaction.reconciled"
-         ng-class="{'cleared--true': transactionCtrl.cleared}"
-         ng-click="transactionCtrl.cleared = !transactionCtrl.cleared">C</div>
+    <div
+      class="cleared"
+      ng-if="!transactionCtrl.transaction.reconciled"
+      ng-class="{'cleared--true': transactionCtrl.cleared}"
+      ng-click="transactionCtrl.cleared = !transactionCtrl.cleared"
+    >
+      C
+    </div>
   </div>
 </div>
 
-<div class="account__tr account__tr--editing" ng-repeat="split in transactionCtrl.splits" ng-init="splitIndex = $index">
+<div
+  class="account__tr account__tr--editing"
+  ng-repeat="split in transactionCtrl.splits"
+  ng-init="splitIndex = $index"
+>
   <div class="account__td account__td--select"></div>
-  <div class="account__td account__td--large" ng-if="!accountCtrl.accountId"></div>
+  <div
+    class="account__td account__td--large"
+    ng-if="!accountCtrl.accountId"
+  ></div>
   <div class="account__td account__td--flag"></div>
   <div class="account__td account__td--date">
-    <button ng-if="!accountCtrl.checkNumber" class="account__remove-split" ng-click="transactionCtrl.removeSplit(split)">
+    <button
+      ng-if="!accountCtrl.checkNumber"
+      class="account__remove-split"
+      ng-click="transactionCtrl.removeSplit(split)"
+    >
       <i class="fa fa-minus"></i>
     </button>
   </div>
   <div class="account__td account__td--check" ng-if="accountCtrl.checkNumber">
-    <button class="account__remove-split" ng-click="transactionCtrl.removeSplit(split)">
+    <button
+      class="account__remove-split"
+      ng-click="transactionCtrl.removeSplit(split)"
+    >
       <i class="fa fa-minus"></i>
     </button>
   </div>
 
   <div class="account__td account__td--large" focus-on-new-split>
-    <payee-suggest ng-model="split.payee" transaction-account-id="transactionCtrl.account" accounts="dbCtrl.accounts" payees="dbCtrl.payees"></payee-suggest>
+    <payee-suggest
+      ng-model="split.payee"
+      transaction-account-id="transactionCtrl.account"
+      accounts="dbCtrl.accounts"
+      payees="dbCtrl.payees"
+    ></payee-suggest>
   </div>
-  <div class="account__td account__td--large" ng-if="accountCtrl.account.onBudget">
-    <category-suggest ng-model="split.category"
-                      categories="dbCtrl.categories"
-                      master-categories="dbCtrl.masterCategories"
-                      transaction-date="transactionCtrl.date"
-                      disable-split></category-suggest>
+  <div
+    class="account__td account__td--large"
+    ng-if="accountCtrl.account.onBudget"
+  >
+    <category-suggest
+      ng-model="split.category"
+      categories="dbCtrl.categories"
+      master-categories="dbCtrl.masterCategories"
+      transaction-date="transactionCtrl.date"
+      disable-split
+    ></category-suggest>
   </div>
   <div class="account__td account__cell-memo">
-    <memo-input ng-model="split.memo" category="transactionCtrl.category"></memo-input>
+    <memo-input
+      ng-model="split.memo"
+      category="transactionCtrl.category"
+    ></memo-input>
   </div>
   <div class="account__td account__td--small account__cell-outflow">
     <outflow-input ng-model="split.value.outflow"></outflow-input>
@@ -88,27 +156,59 @@
   <div class="account__td account__cell-cleared"></div>
 </div>
 
-<div class="account__tr account__tr--editing" ng-if="transactionCtrl.category === 'split'" ng-controller="editSplitTransactionCtrl as editSplitTransactionCtrl">
+<div
+  class="account__tr account__tr--editing"
+  ng-if="transactionCtrl.category === 'split'"
+  ng-controller="editSplitTransactionCtrl as editSplitTransactionCtrl"
+>
   <div class="account__td account__td--select"></div>
-  <div class="account__td account__td--large" ng-if="!accountCtrl.accountId"></div>
+  <div
+    class="account__td account__td--large"
+    ng-if="!accountCtrl.accountId"
+  ></div>
   <div class="account__td account__td--flag"></div>
   <div class="account__td account__td--date"></div>
   <div class="account__td account__td--check"></div>
 
   <div class="account__td account__td--large">
-    <button class="account__add-split" ng-click="transactionCtrl.addSplit()"><i class="fa fa-plus"></i> {{'ADD_ANOTHER_SPLIT' | translate}}</button>
+    <button class="account__add-split" ng-click="transactionCtrl.addSplit()">
+      <i class="fa fa-plus"></i> {{'ADD_ANOTHER_SPLIT' | translate}}
+    </button>
   </div>
-  <div class="account__td account__td--large" ng-if="accountCtrl.account.onBudget"></div>
+  <div
+    class="account__td account__td--large"
+    ng-if="accountCtrl.account.onBudget"
+  ></div>
   <div class="account__td account__cell-memo">
     <div class="account__amount-to-assign">{{'AMOUNT_LEFT' | translate}}</div>
   </div>
-  <div class="account__td account__td--small account__cell-outflow">{{editSplitTransactionCtrl.outflow | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</div>
-  <div class="account__td account__td--small account__cell-inflow">{{editSplitTransactionCtrl.inflow | intCurrency : true : dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}</div>
+  <div class="account__td account__td--small account__cell-outflow">
+    {{editSplitTransactionCtrl.outflow | intCurrency : true :
+    dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}
+  </div>
+  <div class="account__td account__td--small account__cell-inflow">
+    {{editSplitTransactionCtrl.inflow | intCurrency : true :
+    dbCtrl.currencyDigits | currency : '' : dbCtrl.currencyDigits}}
+  </div>
 
   <div class="account__td account__cell-cleared"></div>
 </div>
 
 <ul class="account__editing-buttons">
-  <li class="account__editing-button account__editing-button--save" ng-click="transactionCtrl.submit(); accountCtrl.stopEditing()">{{'SAVE' | translate}}</li><li class="account__editing-button account__editing-button--save" ng-if="accountCtrl.newTransaction" ng-click="transactionCtrl.submitAndAddAnother()">{{'SAVE_AND_ADD_ANOTHER' | translate}}</li><li class="account__editing-button" ng-click="accountCtrl.stopEditing()">{{'CANCEL' | translate}}</li>
+  <li
+    class="account__editing-button account__editing-button--save"
+    ng-click="transactionCtrl.submit(); accountCtrl.stopEditing()"
+  >
+    {{'SAVE' | translate}}
+  </li>
+  <li
+    class="account__editing-button account__editing-button--save"
+    ng-if="accountCtrl.newTransaction"
+    ng-click="transactionCtrl.submitAndAddAnother()"
+  >
+    {{'SAVE_AND_ADD_ANOTHER' | translate}}
+  </li>
+  <li class="account__editing-button" ng-click="accountCtrl.stopEditing()">
+    {{'CANCEL' | translate}}
+  </li>
 </ul>
-

@@ -1,8 +1,8 @@
-angular.module('financier').directive('stagingWarning', () => {
+angular.module("financier").directive("stagingWarning", () => {
   let show;
 
   function controller() {
-    const isStaging = location.hostname.indexOf('staging') > -1;
+    const isStaging = location.hostname.indexOf("staging") > -1;
     this.show = angular.isDefined(show) ? show : isStaging;
 
     this.close = () => {
@@ -12,10 +12,10 @@ angular.module('financier').directive('stagingWarning', () => {
   }
 
   return {
-    restrict: 'E',
-    template: require('./stagingWarning.html'),
+    restrict: "E",
+    template: require("./stagingWarning.html").default,
     controller,
     replace: true,
-    controllerAs: 'stagingWarningCtrl'
+    controllerAs: "stagingWarningCtrl",
   };
 });

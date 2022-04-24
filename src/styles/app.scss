@@ -1,38 +1,36 @@
-@import '~normalize.css/normalize';
+@import "~normalize.css/normalize";
 
-$fa-font-path: '~font-awesome/fonts';
-@import '~font-awesome/scss/font-awesome';
+$fa-font-path: "~font-awesome/fonts";
+@import "~font-awesome/scss/font-awesome";
 
-@import '~tether-drop/dist/css/drop-theme-arrows-bounce';
+@import "~tether-drop/dist/css/drop-theme-arrows-bounce";
 
-@import '~ng-dialog/css/ngDialog';
-@import '~ng-dialog/css/ngDialog-theme-default';
+@import "~ng-dialog/css/ngDialog";
+@import "~ng-dialog/css/ngDialog-theme-default";
 
-@import '~angular-ladda-lw/dist/angular-ladda-lw';
+@import "~angular-ladda-lw/dist/angular-ladda-lw";
 
-@import '~angular/angular-csp';
+@import "~angular/angular-csp";
 
-@import 'core/variables';
-@import 'core/zindex';
-@import 'core/fp';
+@import "core/variables";
+@import "core/zindex";
+@import "core/fp";
 
-@import 'core/angular-resizable';
-@import 'core/button';
-@import 'core/form';
-@import 'core/drop';
-@import 'core/tooltip';
-@import 'core/modal';
-@import 'core/message';
-@import 'core/_ribbon';
-@import 'core/dropdown';
-@import 'core/autosuggest';
-@import 'core/calendar';
-@import 'core/alert';
-@import 'core/collapse';
-@import 'core/lato';
-@import 'core/help';
-
-
+@import "core/angular-resizable";
+@import "core/button";
+@import "core/form";
+@import "core/drop";
+@import "core/tooltip";
+@import "core/modal";
+@import "core/message";
+@import "core/_ribbon";
+@import "core/dropdown";
+@import "core/autosuggest";
+@import "core/calendar";
+@import "core/alert";
+@import "core/collapse";
+@import "core/lato";
+@import "core/help";
 
 html,
 body,
@@ -64,9 +62,9 @@ body {
   //   font-size: 0.8em;
   // }
 
-  -webkit-font-smoothing: subpixel-antialiased; // sass-lint:disable-line no-vendor-prefixes
+  -webkit-font-smoothing: subpixel-antialiased;
 
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
 }
 
 h1,
@@ -96,41 +94,39 @@ input {
   border-radius: 0;
 }
 
-::-ms-clear { // sass-lint:disable-line no-vendor-prefixes
+::-ms-clear {
   display: none;
 }
 
+@import "e404";
+@import "signup";
 
-@import 'e404';
-@import 'signup';
-
-@import 'viewTransition';
-@import 'budgets';
-@import 'budgetsHeader';
-@import 'budgetsFooter';
-@import 'appView';
-@import 'monthOverview';
-@import 'monthBody';
-@import 'budget';
-@import 'account';
-@import 'monthSelect';
-@import 'serviceWorkerStatus';
-@import 'syncStatus';
-@import 'flag';
-@import 'cleared';
-@import 'virtualList';
-@import 'reportSelect';
-@import 'reportSub';
-@import 'report';
-@import 'overspendingSelect';
-@import 'creditCard';
-@import 'verifyEmail';
-@import 'resetPassword';
-@import 'reconcileAccount';
-@import 'editAccount';
-@import 'mobileTransaction';
-@import 'mobile/mobileKeypad';
-@import 'mobile/mobileType';
-@import 'heatMap';
-@import 'outflowTip';
-
+@import "viewTransition";
+@import "budgets";
+@import "budgetsHeader";
+@import "budgetsFooter";
+@import "appView";
+@import "monthOverview";
+@import "monthBody";
+@import "budget";
+@import "account";
+@import "monthSelect";
+@import "serviceWorkerStatus";
+@import "syncStatus";
+@import "flag";
+@import "cleared";
+@import "virtualList";
+@import "reportSelect";
+@import "reportSub";
+@import "report";
+@import "overspendingSelect";
+@import "creditCard";
+@import "verifyEmail";
+@import "resetPassword";
+@import "reconcileAccount";
+@import "editAccount";
+@import "mobileTransaction";
+@import "mobile/mobileKeypad";
+@import "mobile/mobileType";
+@import "heatMap";
+@import "outflowTip";

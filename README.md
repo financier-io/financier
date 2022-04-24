@@ -17,28 +17,28 @@
 ### Develop
 
 ```sh
-npm start
-npm install
+yarn
+yarn start
 ```
 
 ### Test
 
 ```sh
-npm test
-# or continuous: `npm run test-watch`
+yarn test
+# or continuous: `yarn test-watch`
 ```
 
 ### Build (for production)
 
 ```sh
-npm run build
+yarn build
 ```
 
 ### Run locally
 
 ```sh
-gulp build
-npm run-script docs # generate jsdoc documentation
+yarn build
+yarn docs # generate jsdoc documentation
 node ./api
 ```
 
@@ -46,4 +46,4 @@ node ./api
 
 Local docs would be `http://localhost:8080/docs`.
 
-Generate with `npm run docs`.
+Generate with `yarn docs`.

@@ -1,44 +1,45 @@
-import moment from 'moment';
-import { throttle } from 'underscore';
+import moment from "moment";
+import { throttle } from "underscore";
 
-angular.module('financier').directive('monthSelector', function () {
+angular.module("financier").directive("monthSelector", function () {
   return {
-    restrict: 'E',
-    template: require('./monthSelector.html'),
-    require: 'ngModel',
+    restrict: "E",
+    template: require("./monthSelector.html").default,
+    require: "ngModel",
     scope: {
-      ngModel: '=',
-      showMonths: '='
+      ngModel: "=",
+      showMonths: "=",
     },
     link: function (scope, element, attrs, ngModelCtrl) {
       scope.months = [];
-      scope.today = moment().startOf('month');
+      scope.today = moment().startOf("month");
 
-      scope.$watchCollection(() => [
-        ngModelCtrl.$modelValue,
-        scope.showMonths
-      ], function ([newValue, showMonths]) {
-        if (angular.isDefined(newValue)) {
-          const modelMonth = moment(newValue);
+      scope.$watchCollection(
+        () => [ngModelCtrl.$modelValue, scope.showMonths],
+        function ([newValue, showMonths]) {
+          if (angular.isDefined(newValue)) {
+            const modelMonth = moment(newValue);
 
-          for (let i = 0; i < 12; i++) {
-            const month = moment(newValue).month(i);
+            for (let i = 0; i < 12; i++) {
+              const month = moment(newValue).month(i);
 
-            if (!angular.isDefined(scope.months[i])) {
-              scope.months[i] = [];
+              if (!angular.isDefined(scope.months[i])) {
+                scope.months[i] = [];
+              }
+              scope.months[i].date = month;
+              scope.months[i].view =
+                modelMonth.diff(month, "months") > -showMonths &&
+                modelMonth.diff(month, "months") <= 0;
             }
-            scope.months[i].date = month;
-            scope.months[i].view = modelMonth.diff(month, 'months') > -showMonths &&
-                                   modelMonth.diff(month, 'months') <= 0;
           }
         }
-      });
+      );
 
       scope.nextMonth = function () {
-        scope.ngModel = moment(scope.ngModel).add(1, 'month').toDate();
+        scope.ngModel = moment(scope.ngModel).add(1, "month").toDate();
       };
       scope.previousMonth = function () {
-        scope.ngModel = moment(scope.ngModel).subtract(1, 'month').toDate();
+        scope.ngModel = moment(scope.ngModel).subtract(1, "month").toDate();
       };
 
       const onResize = throttle(() => {
@@ -46,10 +47,10 @@ angular.module('financier').directive('monthSelector', function () {
         scope.$apply();
       }, 250);
 
-      window.addEventListener('resize', onResize, false);
+      window.addEventListener("resize", onResize, false);
 
-      scope.$on('$destroy', () => {
-        window.removeEventListener('resize', onResize, false);
+      scope.$on("$destroy", () => {
+        window.removeEventListener("resize", onResize, false);
       });
 
       function changeHeaderStyle() {
@@ -60,9 +61,9 @@ angular.module('financier').directive('monthSelector', function () {
         }
 
         if (document.body.clientWidth < 1484) {
-          scope.dateFormat = 'MMM';
+          scope.dateFormat = "MMM";
         } else {
-          scope.dateFormat = 'MMMM';
+          scope.dateFormat = "MMMM";
         }
       }
 
@@ -71,6 +72,6 @@ angular.module('financier').directive('monthSelector', function () {
       scope.setMonth = function (date) {
         scope.ngModel = date;
       };
-    }
+    },
   };
 });

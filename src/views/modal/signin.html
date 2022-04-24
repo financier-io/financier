@@ -1,39 +1,66 @@
 <h2>{{'SIGNIN' | translate}}</h2>
 
-<form name="signinCtrl.form" ng-submit="signinCtrl.login(signinCtrl.email, signinCtrl.password, closeThisDialog)">
+<form
+  name="signinCtrl.form"
+  ng-submit="signinCtrl.login(signinCtrl.email, signinCtrl.password, closeThisDialog)"
+>
   <label>
     {{'EMAIL' | translate}}
-    <input type="email"
-           name="email"
-           ng-model="signinCtrl.email"
-           required>
-    <div ng-messages="signinCtrl.form.email.$error"
-         ng-if="signinCtrl.form.email.$dirty">
-      <div ng-message="required" class="message">{{'FIELD_REQUIRED' | translate}}</div>
-      <div ng-message="email" class="message">{{'INVALID_EMAIL_ADDRESS' | translate}}</div>
+    <input type="email" name="email" ng-model="signinCtrl.email" required />
+    <div
+      ng-messages="signinCtrl.form.email.$error"
+      ng-if="signinCtrl.form.email.$dirty"
+    >
+      <div ng-message="required" class="message">
+        {{'FIELD_REQUIRED' | translate}}
+      </div>
+      <div ng-message="email" class="message">
+        {{'INVALID_EMAIL_ADDRESS' | translate}}
+      </div>
     </div>
   </label>
   <label>
     {{'PASSWORD' | translate}}
-    <input type="password"
-           name="password"
-           ng-model="signinCtrl.password"
-           required>
-    <div ng-messages="signinCtrl.form.password.$error"
-         ng-if="signinCtrl.form.password.$dirty">
-      <div ng-message="required" class="message">{{'FIELD_REQUIRED' | translate}}</div>
+    <input
+      type="password"
+      name="password"
+      ng-model="signinCtrl.password"
+      required
+    />
+    <div
+      ng-messages="signinCtrl.form.password.$error"
+      ng-if="signinCtrl.form.password.$dirty"
+    >
+      <div ng-message="required" class="message">
+        {{'FIELD_REQUIRED' | translate}}
+      </div>
     </div>
   </label>
 
-  <small>{{'DO_NOT_HAVE_ACCOUNT' | translate}} <a ui-sref="user.signup" ng-click="closeThisDialog()">{{'CLICK_HERE_TO_SIGNUP' | translate}}</a></small><br>
-  <small><a href="#" ng-click="signinCtrl.requestResetPassword()">{{'FORGOT_YOUR_PASSWORD' | translate}}</a></small>
+  <small
+    >{{'DO_NOT_HAVE_ACCOUNT' | translate}}
+    <a ui-sref="user.signup" ng-click="closeThisDialog()"
+      >{{'CLICK_HERE_TO_SIGNUP' | translate}}</a
+    ></small
+  ><br />
+  <small
+    ><a href="#" ng-click="signinCtrl.requestResetPassword()"
+      >{{'FORGOT_YOUR_PASSWORD' | translate}}</a
+    ></small
+  >
 
-  <div class="message message--main" ng-if="signinCtrl.error">{{signinCtrl.error.reason || 'Looks like there was a server issue.'}}</div>
+  <div class="message message--main" ng-if="signinCtrl.error">
+    {{signinCtrl.error.reason || 'Looks like there was a server issue.'}}
+  </div>
 
   <footer>
-    <button class="primary"
-            ng-disabed="signinCtrl.form.$invalid"
-            ladda="signinCtrl.loading">{{'SIGNIN' | translate}}</button>
+    <button
+      class="primary"
+      ng-disabed="signinCtrl.form.$invalid"
+      ladda="signinCtrl.loading"
+    >
+      {{'SIGNIN' | translate}}
+    </button>
     <button ng-click="closeThisDialog()">{{'CANCEL' | translate}}</button>
   </footer>
 </form>

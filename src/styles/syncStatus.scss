@@ -1,8 +1,8 @@
 @mixin loading($color, $speed: 400ms, $width: 2px) {
   animation: spin $speed linear infinite;
 
-  border:  solid $width transparent;
-  border-top-color:  $color;
+  border: solid $width transparent;
+  border-top-color: $color;
   border-left-color: $color;
   border-radius: 50%;
 }
@@ -20,7 +20,7 @@
 
     vertical-align: middle;
     display: inline-block;
-    content: '';
+    content: "";
     margin-right: 0.5em;
     height: 0.8em;
     width: 0.8em;
@@ -31,7 +31,7 @@
   &::before {
     vertical-align: middle;
     display: inline-block;
-    content: '';
+    content: "";
     margin-right: 0.1em;
     margin-bottom: 0.1em;
     height: 20px;

@@ -47,7 +47,7 @@ $budget-month-cell-padding: 2px 5px 0;
 .budget__th,
 .budget__td {
   @for $i from 1 through 18 {
-    &[colspan='#{$i}'] {
+    &[colspan="#{$i}"] {
       flex-shrink: $i;
       flex-grow: $i;
       flex-basis: 0;
@@ -112,7 +112,6 @@ i.budget__month-row-note--showing {
 }
 
 .budget__month--current {
-
 }
 
 .budget__month-row {
@@ -327,7 +326,7 @@ i.budget__month-row-note--showing {
   cursor: pointer;
 
   &::after {
-    content: '+';
+    content: "+";
   }
 }
 
@@ -352,7 +351,7 @@ i.budget__month-row-note--showing {
   cursor: pointer;
 
   &::after {
-    content: '+';
+    content: "+";
   }
 
   &.drop-enabled {

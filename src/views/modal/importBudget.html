@@ -3,23 +3,35 @@
 <form name="importBudgetForm" ng-submit="importBudgetCtrl.submit(myFile)">
   <label>
     {{'BUDGET_JSON_FILE' | translate}}
-    <input type="file"
-           accept=".json"
-           name="myFile"
-           file-read="myFile"
-           required>
-    <div ng-messages="importBudgetForm.file.$error"
-         ng-if="importBudgetForm.file.$dirty">
-      <div ng-message="required" class="message">{{'FIELD_REQUIRED' | translate}}</div>
+    <input
+      type="file"
+      accept=".json"
+      name="myFile"
+      file-read="myFile"
+      required
+    />
+    <div
+      ng-messages="importBudgetForm.file.$error"
+      ng-if="importBudgetForm.file.$dirty"
+    >
+      <div ng-message="required" class="message">
+        {{'FIELD_REQUIRED' | translate}}
+      </div>
     </div>
   </label>
 
-  <div class="message message--main" ng-if="importBudgetCtrl.error">{{'BACKUP_FILE_CORRUPTED' | translate}}</div>
-  
+  <div class="message message--main" ng-if="importBudgetCtrl.error">
+    {{'BACKUP_FILE_CORRUPTED' | translate}}
+  </div>
+
   <footer>
-    <button class="primary"
-            ng-disabed="importBudgetForm.$invalid"
-            ladda="importBudgetCtrl.loading && !importBudgetCtrl.error">{{'RESTORE_BUDGET' | translate}}</button>
+    <button
+      class="primary"
+      ng-disabed="importBudgetForm.$invalid"
+      ladda="importBudgetCtrl.loading && !importBudgetCtrl.error"
+    >
+      {{'RESTORE_BUDGET' | translate}}
+    </button>
     <button ng-click="closeThisDialog()">{{'CANCEL' | translate}}</button>
   </footer>
 </form>

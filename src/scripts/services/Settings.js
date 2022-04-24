@@ -1,12 +1,15 @@
-angular.module('financier').factory('Settings', () => {
+angular.module("financier").factory("Settings", () => {
   return class Settings {
     constructor(data) {
-      this.data = angular.merge({
-        hints: {
-          outflow: true
+      this.data = angular.merge(
+        {
+          hints: {
+            outflow: true,
+          },
+          _id: "settings",
         },
-        _id: 'settings'
-      }, data);
+        data
+      );
 
       const that = this;
 
@@ -17,7 +20,7 @@ angular.module('financier').factory('Settings', () => {
         set outflow(o) {
           that.data.hints.outflow = o;
           that.emitChange();
-        }
+        },
       };
     }
 

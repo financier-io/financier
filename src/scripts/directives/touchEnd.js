@@ -1,8 +1,8 @@
-angular.module('financier').directive('touchEnd', () => {
+angular.module("financier").directive("touchEnd", () => {
   return function (scope, element, attr) {
-    element.on('touchend', () => {
+    element.on("touchend", () => {
       scope.$apply(() => {
-        scope.$eval(attr.touchEnd); 
+        scope.$eval(attr.touchEnd);
       });
     });
   };

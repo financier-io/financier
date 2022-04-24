@@ -1,28 +1,28 @@
-angular.module('financier').directive('mobileKeypad', () => {
+angular.module("financier").directive("mobileKeypad", () => {
   return {
-    restrict: 'E',
-    require: 'ngModel',
-    template: require('./mobileKeypad.html'),
+    restrict: "E",
+    require: "ngModel",
+    template: require("./mobileKeypad.html").default,
     replace: true,
     scope: {
-      onNext: '&'
+      onNext: "&",
     },
     link: (scope, element, attrs, ngModel) => {
-      scope.addNumber = num => {
+      scope.addNumber = (num) => {
         let val = ngModel.$viewValue;
 
-        val = (val * 10) + num;
+        val = val * 10 + num;
 
         ngModel.$setViewValue(val);
       };
 
       scope.removeNumber = () => {
         let val = ngModel.$viewValue;
-        
+
         val = Math.floor(val / 10);
 
         ngModel.$setViewValue(val);
       };
-    }
+    },
   };
 });

@@ -1,12 +1,12 @@
-angular.module('financier').directive('focusOnNewSplit', () => {
+angular.module("financier").directive("focusOnNewSplit", () => {
   return {
-    restrict: 'A',
+    restrict: "A",
     link: (scope, element) => {
-      scope.$on('split:new', () => {
+      scope.$on("split:new", () => {
         if (scope.$last) {
-          element.find('input')[0].focus();
+          element.find("input")[0].focus();
         }
       });
-    }
+    },
   };
 });

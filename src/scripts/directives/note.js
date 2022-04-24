@@ -1,15 +1,14 @@
-import Drop from 'tether-drop';
+import Drop from "tether-drop";
 
-angular.module('financier').directive('note', ($compile, $timeout) => {
-
+angular.module("financier").directive("note", ($compile, $timeout) => {
   function link(scope, element, attrs, ngModelCtrl) {
-    element.on('click', () => {
-      const template = require('./note.html');
+    element.on("click", () => {
+      const template = require("./note.html").default;
 
-      const wrap = angular.element('<div></div>').append(template);
+      const wrap = angular.element("<div></div>").append(template);
       const content = $compile(wrap)(scope);
 
-      content.on('keypress keydown', e => {
+      content.on("keypress keydown", (e) => {
         if (e.which === 27) {
           dropInstance.close();
         } else if (e.which === 13 && (e.ctrlKey || e.metaKey)) {
@@ -22,25 +21,25 @@ angular.module('financier').directive('note', ($compile, $timeout) => {
       const dropInstance = new Drop({
         target: element[0],
         content: content[0],
-        classes: 'drop-theme-arrows-bounce',
-        openOn: 'click',
+        classes: "drop-theme-arrows-bounce",
+        openOn: "click",
         tetherOptions: {
-          targetOffset: '0 -19px',
+          targetOffset: "0 -19px",
           optimizations: {
-            moveElement: true
-          }
-        }
+            moveElement: true,
+          },
+        },
       });
 
-      dropInstance.on('open', () => {
+      dropInstance.on("open", () => {
         scope.myNote = ngModelCtrl.$viewValue;
-        scope.canDelete = ngModelCtrl.$viewValue &&
-                          ngModelCtrl.$viewValue.length;
+        scope.canDelete =
+          ngModelCtrl.$viewValue && ngModelCtrl.$viewValue.length;
 
-        content.find('textarea')[0].focus();
+        content.find("textarea")[0].focus();
       });
 
-      dropInstance.on('close', () => {
+      dropInstance.on("close", () => {
         scope.myNote = ngModelCtrl.$viewValue;
 
         $timeout(() => {
@@ -48,25 +47,23 @@ angular.module('financier').directive('note', ($compile, $timeout) => {
         });
       });
 
-      scope.$on('drop:close', () => {
+      scope.$on("drop:close", () => {
         dropInstance.close();
       });
 
-      scope.submit = note => {
+      scope.submit = (note) => {
         ngModelCtrl.$setViewValue(note);
 
         dropInstance.close();
       };
 
-
       dropInstance.open();
     });
-
   }
 
   return {
-    restrict: 'A',
-    require: 'ngModel',
-    link
+    restrict: "A",
+    require: "ngModel",
+    link,
   };
 });

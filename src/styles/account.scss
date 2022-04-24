@@ -95,19 +95,19 @@ $break-width: 900px;
 
   &.st-sort-descent {
     &::after {
-      content: '\f107';
+      content: "\f107";
     }
   }
 
   &.st-sort-ascent {
     &::after {
       margin-top: -1px;
-      content: '\f106';
+      content: "\f106";
     }
   }
 
   &::after {
-    font-family: 'FontAwesome';
+    font-family: "FontAwesome";
     font-size: 1.5em;
     line-height: 1.25em;
     vertical-align: middle;
@@ -130,7 +130,7 @@ $break-width: 900px;
   font-weight: 400;
 
   input {
-    &[type='text'] {
+    &[type="text"] {
       width: calc(100% + 10px);
       height: 22px;
       margin-left: -5px;
@@ -312,7 +312,6 @@ i.account__reconcile-close {
   margin-left: auto;
   margin-right: 2em;
 
-
   button {
     border: 1px solid white;
     color: white;
@@ -329,8 +328,6 @@ i.account__reconcile-close {
     &.drop-enabled {
       opacity: 1;
     }
-
-
   }
 }
 
@@ -385,7 +382,7 @@ i.account__reconcile-close {
   padding: 0;
   text-align: center;
 
-  input[type='checkbox'] {
+  input[type="checkbox"] {
     // for IE
     vertical-align: middle;
   }
@@ -489,7 +486,7 @@ i.account__reconcile-close {
   padding: 2px 5px;
   opacity: 1;
 
-  display: inline !important; //sass-lint:disable-line no-important
+  display: inline !important;
 }
 
 .account__split-arrow {
