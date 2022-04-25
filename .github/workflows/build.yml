@@ -1,6 +1,6 @@
 name: Build
 
-on: push
+on: [push, pull_request]
 
 jobs:
   build:
@@ -57,15 +57,13 @@ jobs:
         name: Checkout
         uses: actions/checkout@v2
       -
-        script:
-          - uses: actions/download-artifact@v3
-            with:
-              name: dist
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
       -
-        script:
-          - uses: actions/download-artifact@v3
-            with:
-              name: docs
+        uses: actions/download-artifact@v3
+        with:
+          name: docs
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
