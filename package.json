@@ -16,7 +16,7 @@
     "start": "yarn server",
     "docs": "jsdoc --configure .jsdoc.json",
     "pull": "docker pull registry.gitlab.com/financier/financier",
-    "push": "docker push registry.gitlab.com/financier/financier",
+    "push": "docker push registry.gitlab.com/financier/financier:production",
     "tag:prod": "docker tag registry.gitlab.com/financier/financier:latest registry.gitlab.com/financier/financier:production",
     "prod": "yarn pull && yarn tag:prod && yarn push"
   },
