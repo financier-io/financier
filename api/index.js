@@ -46,15 +46,11 @@ app.use(
         function (req, res) {
           return "'nonce-" + res.locals.nonce + "'";
         },
-        "'unsafe-inline'",
-        "http:",
-        "https:",
       ],
       styleSrc: [
         function (req, res) {
           return "'nonce-" + res.locals.nonce + "'";
         },
-        "'unsafe-inline'",
         "http:",
         "https:",
       ],
