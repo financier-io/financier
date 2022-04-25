@@ -15,20 +15,20 @@
     "test-coverage": "jest --coverage",
     "start": "yarn server",
     "docs": "jsdoc --configure .jsdoc.json",
-    "pull": "docker pull registry.gitlab.com/financier/financier",
-    "push": "docker push registry.gitlab.com/financier/financier:production",
-    "tag:prod": "docker tag registry.gitlab.com/financier/financier:latest registry.gitlab.com/financier/financier:production",
+    "pull": "docker pull ghcr.io/financier-io/financier",
+    "push": "docker push ghcr.io/financier-io/financier:production",
+    "tag:prod": "docker tag ghcr.io/financier-io/financier:latest ghcr.io/financier-io/financier:production",
     "prod": "yarn pull && yarn tag:prod && yarn push"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/financier/financier.git"
+    "url": "git+https://github.com/financier-io/financier.git"
   },
   "author": "Alexander Harding",
   "bugs": {
-    "url": "https://gitlab.com/financier/financier/issues"
+    "url": "https://github.com/financier-io/financier/issues"
   },
-  "homepage": "https://gitlab.com/financier/financier",
+  "homepage": "https://github.com/financier-io/financier",
   "devDependencies": {
     "@babel/core": "^7.17.9",
     "@babel/preset-env": "^7.16.11",

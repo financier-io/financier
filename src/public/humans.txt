@@ -20,5 +20,4 @@ Hosted on Digital Ocean.
 ___________
  THANKS TO
 ‾‾‾‾‾‾‾‾‾‾‾
- * Code, continuous integration, container image hosting and
-   static webpage hosting for free by Gitlab.
+ * The many open source contributors making Financier possible!
