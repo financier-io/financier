@@ -41,6 +41,7 @@ registerRoute(
     if (
       url.pathname.startsWith("/db/") ||
       url.pathname.startsWith("/docs/") ||
+      url.pathname === "/docs" ||
       url.pathname.startsWith("/manage/")
     ) {
       return false;
