@@ -91,6 +91,6 @@ app.all("/*", (req, res) => {
 
 const port = process.env.PORT || 8080;
 
-app.listen(process.env.PORT || 8080, () => {
+app.listen(port, () => {
   console.log(`Financier frontend listening on port ${port}!`);
 });
