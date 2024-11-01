@@ -90,6 +90,8 @@ app.all("/*", (req, res) => {
 });
 //For example in Express you may want to use: res.send(noncifiedHTML);
 
-app.listen(8080, () => {
-  console.log("Financier frontend listening on port 8080!");
+const port = process.env.PORT || 8080;
+
+app.listen(port, () => {
+  console.log(`Financier frontend listening on port ${port}!`);
 });
