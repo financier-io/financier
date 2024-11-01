@@ -17,21 +17,14 @@ env:
 jobs:
   test-and-build:
     runs-on: ubuntu-latest
-    container:
-      image: node:22
+
     steps:
       - uses: actions/checkout@v4
       - run: corepack enable
-      - name: Get pnpm cache directory path
-        id: pnpm-cache-dir-path
-        run: echo "::set-output name=dir::$(pnpm store path)"
-      - uses: actions/cache@v4
-        id: pnpm-cache
+      - uses: actions/setup-node@v4
         with:
-          path: ${{ steps.pnpm-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
+          node-version: 22
+          cache: pnpm
       - name: Install packages
         run: pnpm install --frozen-lockfile
       - name: Test

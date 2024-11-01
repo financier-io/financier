@@ -15,4 +15,4 @@ EXPOSE 8080
 
 # RUN apt-get install -y git-core
 
-CMD node ./index.js
+CMD ["node", "./index.js"]
