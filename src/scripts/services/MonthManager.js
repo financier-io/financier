@@ -102,7 +102,7 @@ angular.module("financier").factory("monthManager", (month, account) => {
             if (account && account.onBudget) {
               month.addTransaction(trans);
             }
-          }
+          },
         );
 
         trans.subscribeMonthChange((newMonth, oldMonth) => {
@@ -176,7 +176,7 @@ angular.module("financier").factory("monthManager", (month, account) => {
        */
       addMonthCategory(monthCat) {
         this.getMonth(MonthManager._dateIDToDate(monthCat.monthId)).addBudget(
-          monthCat
+          monthCat,
         );
       }
 
@@ -228,7 +228,7 @@ angular.module("financier").factory("monthManager", (month, account) => {
             endIndex += monthsToAdd;
           } else if (diff < 1) {
             throw new Error(
-              "Provided months are out of order or duplicates exist!"
+              "Provided months are out of order or duplicates exist!",
             );
           }
         }
@@ -247,7 +247,7 @@ angular.module("financier").factory("monthManager", (month, account) => {
       getMonth(date) {
         const diff = MonthManager._diff(
           MonthManager._dateIDToDate(this.months[0].date),
-          date
+          date,
         );
 
         if (diff + 1 > this.months.length) {
@@ -263,7 +263,7 @@ angular.module("financier").factory("monthManager", (month, account) => {
             this.months.push(m);
             this._linkMonths(
               this.months[this.months.length - 2],
-              this.months[this.months.length - 1]
+              this.months[this.months.length - 1],
             );
           }
 
@@ -271,7 +271,7 @@ angular.module("financier").factory("monthManager", (month, account) => {
           // prepended months will by definition not have any data rolling
           // into them, so we don't need to do this there
           this._propagateRollingFromMonth(
-            this.months[this.months.length - 1 - monthsToAdd]
+            this.months[this.months.length - 1 - monthsToAdd],
           );
 
           return this.months[this.months.length - 1];

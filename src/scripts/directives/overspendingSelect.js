@@ -1,4 +1,5 @@
 import Drop from "tether-drop";
+import overspendingSelectHtml from "./overspendingSelect.html?raw";
 
 angular
   .module("financier")
@@ -6,7 +7,7 @@ angular
     function link(scope, element, attrs, ngModelCtrl) {
       element.on("click", () => {
         if (!scope.overspendingDisabled) {
-          const template = require("./overspendingSelect.html").default;
+          const template = overspendingSelectHtml;
           let dropInstance;
 
           const wrap = angular

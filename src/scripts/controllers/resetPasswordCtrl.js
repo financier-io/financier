@@ -27,5 +27,5 @@ angular
             this.loading = false;
           });
       };
-    }
+    },
   );

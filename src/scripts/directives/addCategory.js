@@ -1,4 +1,5 @@
 import Drop from "tether-drop";
+import addCategoryHtml from "./addCategory.html?raw";
 
 angular.module("financier").directive("addCategory", ($compile, $timeout) => {
   return {
@@ -9,7 +10,7 @@ angular.module("financier").directive("addCategory", ($compile, $timeout) => {
     },
     link(scope, element) {
       element.on("click", () => {
-        const template = require("./addCategory.html").default;
+        const template = addCategoryHtml;
 
         const wrap = angular.element("<div></div>").append(template);
         const content = $compile(wrap)(scope);

@@ -120,7 +120,7 @@ describe("category", function () {
       change: () => {},
     };
 
-    jest.spyOn(foo, "change");
+    vi.spyOn(foo, "change");
 
     let cat = new Category({
       _id: "foo",
@@ -187,7 +187,7 @@ describe("category", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let cat = new Category({
         name: "My catount",
@@ -208,7 +208,7 @@ describe("category", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let cat = new Category({
         note: "first note",

@@ -1,9 +1,10 @@
 import Drop from "tether-drop";
+import flagHtml from "./flag.html?raw";
 
 angular.module("financier").directive("flag", ($compile) => {
   function link(scope, element, attrs, ngModelCtrl) {
     let dropInstance;
-    const template = require("./flag.html").default;
+    const template = flagHtml;
 
     const wrap = angular.element("<div></div>").append(template);
     const content = $compile(wrap)(scope);

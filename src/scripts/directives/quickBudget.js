@@ -1,4 +1,5 @@
 import Drop from "tether-drop";
+import quickBudgetHtml from "./quickBudget.html?raw";
 
 angular.module("financier").directive("quickBudget", ($compile, $timeout) => {
   return {
@@ -65,7 +66,7 @@ angular.module("financier").directive("quickBudget", ($compile, $timeout) => {
       };
 
       $element.on("click", () => {
-        const template = require("./quickBudget.html").default;
+        const template = quickBudgetHtml;
         let dropInstance;
 
         const wrap = angular

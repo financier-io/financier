@@ -9,7 +9,7 @@ describe("distnace", function () {
 
   it("finds distance between two points", () => {
     expect(
-      Math.round(distance(43.058189, -89.5108794, 43.0579539, -89.510815))
+      Math.round(distance(43.058189, -89.5108794, 43.0579539, -89.510815)),
     ).toBe(27);
   });
 });

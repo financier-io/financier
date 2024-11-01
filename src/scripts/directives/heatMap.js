@@ -137,7 +137,7 @@ angular.module("financier").directive("heatMap", ($filter, $locale) => {
           const date = convertToDate(value.date);
           const index = moment(date).diff(
             this.getStartDateWithEmptyDays(),
-            "days"
+            "days",
           );
 
           memo[index] = {
@@ -150,7 +150,7 @@ angular.module("financier").directive("heatMap", ($filter, $locale) => {
           };
           return memo;
         },
-        {}
+        {},
       );
     }
 
@@ -317,7 +317,7 @@ angular.module("financier").directive("heatMap", ($filter, $locale) => {
       rect.setAttributeNS(
         null,
         "transform",
-        this.getTransformForWeek(weekIndex)
+        this.getTransformForWeek(weekIndex),
       );
 
       for (let i = 0; i < DAYS_IN_WEEK; i++) {
@@ -333,7 +333,7 @@ angular.module("financier").directive("heatMap", ($filter, $locale) => {
 
     renderAllWeeks() {
       return range(this.getWeekCount()).map((weekIndex) =>
-        this.renderWeek(weekIndex)
+        this.renderWeek(weekIndex),
       );
     }
 
@@ -345,7 +345,7 @@ angular.module("financier").directive("heatMap", ($filter, $locale) => {
       return weekRange.map((weekIndex) => {
         const endOfWeek = shiftDate(
           this.getStartDateWithEmptyDays(),
-          (weekIndex + 1) * DAYS_IN_WEEK
+          (weekIndex + 1) * DAYS_IN_WEEK,
         );
         const [x, y] = this.getMonthLabelCoordinates(weekIndex);
 
@@ -477,14 +477,14 @@ angular.module("financier").directive("heatMap", ($filter, $locale) => {
                 moment(scope.endDate)
                   .subtract(365 - index, "days")
                   .toDate(),
-                "mediumDate"
+                "mediumDate",
               );
               let amount = value ? value.count : 0;
 
               amount = currency(
                 intCurrency(amount, true, scope.$parent.dbCtrl.currencyDigits),
                 scope.$parent.dbCtrl.currencySymbol,
-                scope.$parent.dbCtrl.currencyDigits
+                scope.$parent.dbCtrl.currencyDigits,
               );
 
               return `${date}\n${amount}`;

@@ -19,7 +19,7 @@ angular
 
           return numberFilter(
             intCurrencyFilter(value, true, scope.$parent.dbCtrl.currencyDigits),
-            scope.$parent.dbCtrl.currencyDigits
+            scope.$parent.dbCtrl.currencyDigits,
           );
         });
 
@@ -43,7 +43,7 @@ angular
           }
 
           return Math.round(
-            num * Math.pow(10, scope.$parent.dbCtrl.currencyDigits)
+            num * Math.pow(10, scope.$parent.dbCtrl.currencyDigits),
           );
         });
       },

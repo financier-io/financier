@@ -8,7 +8,7 @@ angular.module("financier").factory("Settings", () => {
           },
           _id: "settings",
         },
-        data
+        data,
       );
 
       const that = this;

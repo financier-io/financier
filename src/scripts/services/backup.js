@@ -18,7 +18,7 @@ angular
               delete row.doc._rev;
 
               return row.doc;
-            })
+            }),
           )
           .then((docs) => {
             return db._pouch.get(`budget-opened_${budgetId}`).then((doc) => {
@@ -76,7 +76,7 @@ angular
           doc._id.indexOf(`budget_${budgetId}`) !== 0
         ) {
           throw new Error(
-            `Doc _id '${doc._id}' does not match budgetId '${budgetId}'`
+            `Doc _id '${doc._id}' does not match budgetId '${budgetId}'`,
           );
         }
       });
@@ -102,11 +102,11 @@ angular
         doc._id = doc._id.replace(`b_${budgetId}_`, `b_${newBudgetId}_`);
         doc._id = doc._id.replace(
           `budget-opened_${budgetId}`,
-          `budget-opened_${newBudgetId}`
+          `budget-opened_${newBudgetId}`,
         );
         doc._id = doc._id.replace(
           `budget_${budgetId}`,
-          `budget_${newBudgetId}`
+          `budget_${newBudgetId}`,
         );
 
         return doc;

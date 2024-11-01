@@ -11,8 +11,8 @@ angular
 
       const minYear = Math.min(
         ...$scope.dbCtrl.manager.allAccounts.transactions.map((t) =>
-          t.date.getFullYear()
-        )
+          t.date.getFullYear(),
+        ),
       );
       const currentYear = new Date().getFullYear();
 
@@ -43,15 +43,15 @@ angular
           this.inflowHeat = generateHeatMapValues(
             transactions.filter((t) => {
               return t.value > 0 && !t.transfer;
-            })
+            }),
           );
 
           this.outflowHeat = generateHeatMapValues(
             transactions.filter((t) => {
               return t.value < 0 && !t.transfer;
-            })
+            }),
           );
-        }
+        },
       );
 
       function generateHeatMapValues(transactions) {
@@ -76,5 +76,5 @@ angular
 
         return heatMapData;
       }
-    }
+    },
   );

@@ -26,19 +26,19 @@ describe("masterCategory", function () {
     describe("static property", () => {
       it("startKey", () => {
         expect(MasterCategory.startKey).toBe(
-          "b_111-111-111-111_master-category_"
+          "b_111-111-111-111_master-category_",
         );
       });
 
       it("endKey", () => {
         expect(MasterCategory.endKey).toBe(
-          "b_111-111-111-111_master-category_\uffff"
+          "b_111-111-111-111_master-category_\uffff",
         );
       });
 
       it("prefix", () => {
         expect(MasterCategory.prefix).toBe(
-          "b_111-111-111-111_master-category_"
+          "b_111-111-111-111_master-category_",
         );
       });
 
@@ -140,7 +140,7 @@ describe("masterCategory", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let cat = new MasterCategory({
         name: "My catount",

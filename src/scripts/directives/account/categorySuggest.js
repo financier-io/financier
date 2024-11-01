@@ -1,4 +1,5 @@
 import moment from "moment";
+import categorySuggestHtml from "./categorySuggest.html?raw";
 
 angular
   .module("financier")
@@ -49,7 +50,7 @@ angular
                   moment(scope.transactionDate || new Date())
                     .add(1, "month")
                     .toDate(),
-                  "LLLL"
+                  "LLLL",
                 ),
               });
 
@@ -69,9 +70,9 @@ angular
                 .sort(
                   (a, b) =>
                     scope.masterCategories[a].sort -
-                    scope.masterCategories[b].sort
+                    scope.masterCategories[b].sort,
                 )
-                .map((id) => scope.masterCategories[id].categories)
+                .map((id) => scope.masterCategories[id].categories),
             );
 
             scope.masterCategoriesArr = Object.keys(scope.masterCategories)
@@ -124,7 +125,7 @@ angular
                 if (
                   scope.masterCategories.hasOwnProperty(id) &&
                   scope.masterCategories[id].categories.indexOf(
-                    name.id || name
+                    name.id || name,
                   ) !== -1
                 ) {
                   if (
@@ -155,7 +156,7 @@ angular
 
             scope.getCategoryBalance = (categoryId, date) => {
               const month = scope.$parent.accountCtrl.manager.getMonth(
-                date || new Date()
+                date || new Date(),
               );
 
               const categoryCache = month.categoryCache[categoryId];
@@ -183,7 +184,7 @@ angular
               }
             });
 
-            scope.template = require("./categorySuggest.html").default;
+            scope.template = categorySuggestHtml;
           },
         };
       },

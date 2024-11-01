@@ -22,7 +22,7 @@ angular.module("financier").factory("splitTransaction", (uuid) => {
             payee: null,
             transfer: null,
           },
-          data
+          data,
         );
 
         this.transaction = transaction;

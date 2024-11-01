@@ -1,9 +1,10 @@
 import Drop from "tether-drop";
+import renameHtml from "./rename.html?raw";
 
 angular.module("financier").directive("rename", ($compile, $timeout) => {
   function link(scope, element, attrs, ngModelCtrl) {
     element.on("click", () => {
-      const template = require("./rename.html").default;
+      const template = renameHtml;
 
       const wrap = angular.element("<div></div>").append(template);
       const content = $compile(wrap)(scope);

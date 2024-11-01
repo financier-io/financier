@@ -19,7 +19,7 @@ angular.module("financier").directive("scrollIntoViewIf", () => {
             // Timeout to scroll into view the first time it's loaded
             setTimeout(takeIntoView);
           }
-        }
+        },
       );
 
       function takeIntoView() {
@@ -31,7 +31,7 @@ angular.module("financier").directive("scrollIntoViewIf", () => {
           scrollContainerCtrl.scroller = scrollTo(
             container,
             element[0].offsetTop,
-            SCROLL_SPEED
+            SCROLL_SPEED,
           );
         } else if (
           element[0].offsetTop + element[0].offsetHeight >
@@ -43,7 +43,7 @@ angular.module("financier").directive("scrollIntoViewIf", () => {
             element[0].offsetTop +
               element[0].offsetHeight -
               container.offsetHeight,
-            SCROLL_SPEED
+            SCROLL_SPEED,
           );
         }
       }

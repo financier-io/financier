@@ -24,7 +24,7 @@ angular.module("financier").factory("MonthCategory", () => {
           overspending: null,
           note: null,
         },
-        data
+        data,
       );
 
       this._data = myData;

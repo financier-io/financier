@@ -28,6 +28,6 @@ angular
         if (this.form) {
           this.form.$setValidity("internalError", true);
         }
-      }
+      },
     );
   });

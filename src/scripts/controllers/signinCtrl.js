@@ -1,3 +1,5 @@
+import requestResetPasswordHtml from "../../views/modal/requestResetPassword.html?raw";
+
 angular
   .module("financier")
   .controller("signinCtrl", function (User, $scope, $rootScope, ngDialog) {
@@ -23,8 +25,7 @@ angular
       $scope.closeThisDialog();
 
       ngDialog.open({
-        template: require("../../views/modal/requestResetPassword.html")
-          .default,
+        template: requestResetPasswordHtml,
         controller: "requestResetPasswordCtrl as requestResetPasswordCtrl",
         resolve: {
           userEmail: () => this.email,

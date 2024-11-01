@@ -20,7 +20,7 @@ angular.module("financier").factory("Budget", (uuid) => {
           created: new Date().toISOString(),
           checkNumber: false,
         },
-        data
+        data,
       );
 
       const that = this;

@@ -1,3 +1,5 @@
+import removeCategoryHtml from "../../views/modal/removeCategory.html?raw";
+
 angular
   .module("financier")
   .controller(
@@ -12,7 +14,7 @@ angular
       masterCategory,
       category,
       myBudget,
-      ngDialog
+      ngDialog,
     ) {
       const Month = month($stateParams.budgetId);
       const MasterCategory = masterCategory($stateParams.budgetId);
@@ -198,11 +200,11 @@ angular
         scope.category = name;
 
         return ngDialog.openConfirm({
-          template: require("../../views/modal/removeCategory.html").default,
+          template: removeCategoryHtml,
           scope,
           className:
             "ngdialog-theme-default ngdialog-theme-default--danger modal",
         });
       }
-    }
+    },
   );

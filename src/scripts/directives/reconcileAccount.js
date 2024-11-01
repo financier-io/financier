@@ -1,4 +1,5 @@
 import Drop from "tether-drop";
+import reconcileAccountHtml from "./reconcileAccount.html?raw";
 
 angular
   .module("financier")
@@ -7,7 +8,7 @@ angular
       scope.dbCtrl = scope.$parent.dbCtrl;
 
       element.on("click", () => {
-        const template = require("./reconcileAccount.html").default;
+        const template = reconcileAccountHtml;
 
         const wrap = angular.element("<div></div>").append(template);
         const content = $compile(wrap)(scope);

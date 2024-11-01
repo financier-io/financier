@@ -1,3 +1,5 @@
+import accountSuggestHtml from "./accountSuggest.html?raw";
+
 angular.module("financier").directive("accountSuggest", ($rootScope) => {
   return {
     restrict: "E",
@@ -55,7 +57,7 @@ angular.module("financier").directive("accountSuggest", ($rootScope) => {
             scope.$broadcast("focus");
           });
 
-          scope.template = require("./accountSuggest.html").default;
+          scope.template = accountSuggestHtml;
         },
       };
     },

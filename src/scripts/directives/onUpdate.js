@@ -26,6 +26,7 @@ angular
 
           const val = Parser.evaluate(v);
           oldValue = val.toFixed(scope.$parent.dbCtrl.currencyDigits);
+          // eslint-disable-next-line no-unused-vars
         } catch (e) {
           oldValue = attrs.required ? null : 0;
         }
@@ -39,7 +40,7 @@ angular
         }
 
         const val = Math.round(
-          oldValue * Math.pow(10, scope.$parent.dbCtrl.currencyDigits)
+          oldValue * Math.pow(10, scope.$parent.dbCtrl.currencyDigits),
         );
 
         return val;
@@ -83,7 +84,7 @@ angular
       function setView(val) {
         oldValue = numberFilter(
           intCurrencyFilter(val, true, scope.$parent.dbCtrl.currencyDigits),
-          scope.$parent.dbCtrl.currencyDigits
+          scope.$parent.dbCtrl.currencyDigits,
         );
 
         if (attrs.required || val !== 0) {

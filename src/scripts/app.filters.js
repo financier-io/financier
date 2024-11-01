@@ -1,5 +1,5 @@
-import "./filters/intCurrency";
-import "./filters/lastMonth";
-import "./filters/timeAgo";
-import "./filters/absolute";
-import "./filters/removeDots";
+import "./filters/intCurrency.js";
+import "./filters/lastMonth.js";
+import "./filters/timeAgo.js";
+import "./filters/absolute.js";
+import "./filters/removeDots.js";

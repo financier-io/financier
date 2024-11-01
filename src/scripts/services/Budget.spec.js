@@ -76,7 +76,7 @@ describe("Budget", function () {
       // should compare *that* second... may cause race conditions :/
       expect(sets.created.toUTCString()).toBe(new Date().toUTCString());
       expect(new Date(sets.toJSON().created).toUTCString()).toBe(
-        new Date().toUTCString()
+        new Date().toUTCString(),
       );
     });
 
@@ -101,7 +101,7 @@ describe("Budget", function () {
       change: () => {},
     };
 
-    jest.spyOn(foo, "change");
+    vi.spyOn(foo, "change");
 
     let sets = new Budget();
 
@@ -152,7 +152,7 @@ describe("Budget", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let sets = new Budget({
         hints: {
@@ -174,7 +174,7 @@ describe("Budget", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let sets = new Budget({
         name: "foobar",

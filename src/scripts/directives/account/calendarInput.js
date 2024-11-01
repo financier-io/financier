@@ -1,4 +1,5 @@
 import moment from "moment";
+import calendarInputHtml from "./calendarInput.html?raw";
 
 angular
   .module("financier")
@@ -23,7 +24,7 @@ angular
       controllerAs: "calendarCtrl",
       controller: function ($scope, $element) {
         const input = $element,
-          template = require("./calendarInput.html").default;
+          template = calendarInputHtml;
 
         const dropSetup = inputDropSetup($scope, input, template);
 
@@ -40,7 +41,7 @@ angular
               $scope.thisMonth = m;
               $scope.month = $scope.generateMonth(m, m);
             }
-          }
+          },
         );
 
         $scope.datesAreEqualToMonth = (d1, d2) => {

@@ -17,7 +17,7 @@ angular.module("financier").factory("category", (uuid) => {
             sort: 0,
             _id: Category.prefix + uuid(),
           },
-          data
+          data,
         );
 
         this.id = myData._id.slice(myData._id.lastIndexOf("_") + 1);

@@ -1,10 +1,11 @@
 import Drop from "tether-drop";
+import outflowHelperHtml from "./outflowHelper.html?raw";
 
 angular.module("financier").directive("outflowHelper", ($compile, $timeout) => {
   function link(scope, element) {
     element.on("click", () => {
       if (scope.outflowSetting && !scope.disabled) {
-        const template = require("./outflowHelper.html").default;
+        const template = outflowHelperHtml;
         let dropInstance;
 
         const wrap = angular

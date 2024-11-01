@@ -14,7 +14,7 @@ angular
       return _package(
         _buildTransactionsCsv(payload),
         _buildBudgetCsv(payload),
-        payload.budgetName
+        payload.budgetName,
       ).then((contents) => {
         const date = urlFriendlyDateFilter(new Date());
 
@@ -22,8 +22,8 @@ angular
           contents,
           `${$translate.instant("FINANCIER_EXPORT")} - ${$translate.instant(
             "MY_BUDGET_AS_OF",
-            { date, budgetName: payload.budgetName }
-          )}.zip`
+            { date, budgetName: payload.budgetName },
+          )}.zip`,
         );
       });
     }
@@ -57,12 +57,12 @@ angular
             return !trans.splits || !trans.splits.length;
           })
           .sort(
-            (a, b) => b.date.getTime() + b.value - (a.date.getTime() + a.value)
+            (a, b) => b.date.getTime() + b.value - (a.date.getTime() + a.value),
           )
           .map((trans) => {
             const account = _getAccount(trans.account, accounts);
             const flag = _getFlagColor(
-              trans.transaction ? trans.transaction.flag : trans.flag
+              trans.transaction ? trans.transaction.flag : trans.flag,
             );
             const date = dateFilter(trans.date, "shortDate");
 
@@ -81,7 +81,7 @@ angular
             const masterCategory = _getMasterCategory(
               trans,
               masterCategories,
-              categories
+              categories,
             );
 
             let categoryCombo;
@@ -107,13 +107,13 @@ angular
             const outflow = currency(
               intCurrency(trans.outflow, false, currencyDigits) || 0,
               currencySymbol,
-              currencyDigits
+              currencyDigits,
             );
 
             const inflow = currency(
               intCurrency(trans.inflow, false, currencyDigits) || 0,
               currencySymbol,
-              currencyDigits
+              currencyDigits,
             );
 
             const cleared = trans.transaction
@@ -121,15 +121,15 @@ angular
                   trans.transaction.reconciled
                     ? "RECONCILED"
                     : trans.transaction.cleared
-                    ? "CLEARED"
-                    : "UNCLEARED"
+                      ? "CLEARED"
+                      : "UNCLEARED",
                 )
               : $translate.instant(
                   trans.reconciled
                     ? "RECONCILED"
                     : trans.cleared
-                    ? "CLEARED"
-                    : "UNCLEARED"
+                      ? "CLEARED"
+                      : "UNCLEARED",
                 );
 
             return [
@@ -181,10 +181,10 @@ angular
                 intCurrency(
                   months[i].categories[catId].budget,
                   false,
-                  currencyDigits
+                  currencyDigits,
                 ) || 0,
                 currencySymbol,
-                currencyDigits
+                currencyDigits,
               );
             } else {
               budget = currency(0, currencySymbol, currencyDigits);
@@ -195,19 +195,19 @@ angular
                 intCurrency(
                   months[i].categoryCache[catId].outflow,
                   false,
-                  currencyDigits
+                  currencyDigits,
                 ) || 0,
                 currencySymbol,
-                currencyDigits
+                currencyDigits,
               );
               balance = currency(
                 intCurrency(
                   months[i].categoryCache[catId].balance,
                   false,
-                  currencyDigits
+                  currencyDigits,
                 ) || 0,
                 currencySymbol,
-                currencyDigits
+                currencyDigits,
               );
             } else {
               outflow = currency(0, currencySymbol, currencyDigits);
@@ -251,14 +251,14 @@ angular
           date,
           budgetName,
         })} - ${$translate.instant("REGISTER")}.csv`,
-        transactionsCsv
+        transactionsCsv,
       );
       zip.file(
         `${$translate.instant("MY_BUDGET_AS_OF", {
           date,
           budgetName,
         })} - ${$translate.instant("BUDGET")}.csv`,
-        budgetCsv
+        budgetCsv,
       );
 
       return zip.generateAsync({ type: "blob" });

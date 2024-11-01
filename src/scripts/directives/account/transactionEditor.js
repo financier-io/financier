@@ -1,4 +1,9 @@
 import moment from "moment";
+import transactionEditorHtml from "./transactionEditor.html?raw";
+import splitNotEqualHtml from "../../../views/modal/splitNotEqual.html?raw";
+import noChangeValueSplitTransferHtml from "../../../views/modal/noChangeValueSplitTransfer.html?raw";
+import noChangePayeeSplitTransferHtml from "../../../views/modal/noChangePayeeSplitTransfer.html?raw";
+import noTransferAndSplitHtml from "../../../views/modal/noTransferAndSplit.html?raw";
 
 angular
   .module("financier")
@@ -12,10 +17,10 @@ angular
       $stateParams,
       splitTransaction,
       ngDialog,
-      Hotkeys
+      Hotkeys,
     ) => {
       return {
-        template: require("./transactionEditor.html").default,
+        template: transactionEditorHtml,
         bindToController: {
           transaction: "=",
         },
@@ -28,7 +33,7 @@ angular
           this.$onInit = function () {
             // Make completely new copy of split transactions for editing
             this.splits = this.transaction.splits.map((s) =>
-              initializeSplitEditor(s)
+              initializeSplitEditor(s),
             );
 
             this.account = this.transaction.account;
@@ -43,11 +48,11 @@ angular
               (newAccount) => {
                 this.accountRecord =
                   $scope.accountCtrl.manager.getAccount(newAccount);
-              }
+              },
             );
             if (this.transaction.transfer) {
               this.payee = $scope.accountCtrl.manager.getAccount(
-                this.transaction.transfer.account
+                this.transaction.transfer.account,
               );
             }
 
@@ -63,7 +68,7 @@ angular
                     }
                   }
                 }
-              }
+              },
             );
 
             $scope.$watch(
@@ -76,16 +81,16 @@ angular
                       new SplitTransaction(this.transaction).toJSON(),
                     ];
                     this.splits[0].value = createValueGetterSetter(
-                      this.splits[0].value
+                      this.splits[0].value,
                     );
                     this.splits[1].value = createValueGetterSetter(
-                      this.splits[1].value
+                      this.splits[1].value,
                     );
                   } else {
                     this.splits = [];
                   }
                 }
-              }
+              },
             );
 
             this.memo = this.transaction.memo;
@@ -98,8 +103,7 @@ angular
                 !validateSplits(this.value.value, this.splits)
               ) {
                 ngDialog.open({
-                  template: require("../../../views/modal/splitNotEqual.html")
-                    .default,
+                  template: splitNotEqualHtml,
                   controller: "cancelClickCtrl",
                 });
 
@@ -112,9 +116,7 @@ angular
               ) {
                 if (this.value.value !== this.transaction.value) {
                   ngDialog.open({
-                    template:
-                      require("../../../views/modal/noChangeValueSplitTransfer.html")
-                        .default,
+                    template: noChangeValueSplitTransferHtml,
                     controller: "cancelClickCtrl",
                   });
 
@@ -123,9 +125,7 @@ angular
 
                 if (this.payee.id !== this.transaction.transfer.account) {
                   ngDialog.open({
-                    template:
-                      require("../../../views/modal/noChangePayeeSplitTransfer.html")
-                        .default,
+                    template: noChangePayeeSplitTransferHtml,
                     controller: "cancelClickCtrl",
                   });
 
@@ -136,9 +136,7 @@ angular
               if (this.splits.length) {
                 if (this.payee.constructorName === "Account") {
                   ngDialog.open({
-                    template:
-                      require("../../../views/modal/noTransferAndSplit.html")
-                        .default,
+                    template: noTransferAndSplitHtml,
                     controller: "cancelClickCtrl",
                   });
 
@@ -148,10 +146,10 @@ angular
 
               // Attempt reference to account and transferAccount
               const account = $scope.accountCtrl.manager.getAccount(
-                this.account
+                this.account,
               );
               const transferAccount = $scope.accountCtrl.manager.getAccount(
-                this.payee.id
+                this.payee.id,
               );
 
               // Remove the emit change handle to prevent 409 conflicts
@@ -178,7 +176,7 @@ angular
                 this.transaction,
                 this.category,
                 account,
-                transferAccount
+                transferAccount,
               );
 
               this.transaction.memo = this.memo;
@@ -192,7 +190,7 @@ angular
               this.transaction.splits = this.splits.map((s) => {
                 return createSplitTransaction(
                   new SplitTransaction(this.transaction),
-                  s
+                  s,
                 );
               });
 
@@ -247,7 +245,7 @@ angular
               transaction,
               category,
               account,
-              transferAccount
+              transferAccount,
             ) {
               if (!account || account.onBudget) {
                 if (transferAccount && transferAccount.onBudget) {
@@ -305,7 +303,7 @@ angular
                   transaction.transfer.transfer = transaction;
 
                   $scope.accountCtrl.manager.addTransaction(
-                    transaction.transfer
+                    transaction.transfer,
                   );
                 }
               } else if (!payee) {
@@ -361,7 +359,7 @@ angular
 
               if (split.transfer) {
                 data.payee = $scope.accountCtrl.manager.getAccount(
-                  split.transfer.account
+                  split.transfer.account,
                 );
               }
 
@@ -385,10 +383,10 @@ angular
 
               // Attempt reference to account and transferAccount
               const account = $scope.accountCtrl.manager.getAccount(
-                split.account
+                split.account,
               );
               const transferAccount = $scope.accountCtrl.manager.getAccount(
-                data.payee.id
+                data.payee.id,
               );
 
               saveCategory(split, data.category, account, transferAccount);
@@ -411,7 +409,7 @@ angular
 
             function removePayee(transaction) {
               const transactions = Object.keys(
-                $scope.accountCtrl.manager.transactions
+                $scope.accountCtrl.manager.transactions,
               ).map((k) => {
                 return $scope.accountCtrl.manager.transactions[k];
               });
@@ -443,7 +441,7 @@ angular
                 transaction.transfer.transfer = null;
 
                 $scope.accountCtrl.manager.removeTransaction(
-                  transaction.transfer
+                  transaction.transfer,
                 );
                 transaction.transfer.remove();
 
@@ -506,5 +504,5 @@ angular
           };
         },
       };
-    }
+    },
   );

@@ -16,13 +16,13 @@ angular.module("financier").directive("syncStatus", function ($translate) {
           if (angular.isString(status)) {
             if (status.indexOf("sync") === -1) {
               this.textStatus = $translate.instant(
-                `SYNC_${status.toUpperCase()}`
+                `SYNC_${status.toUpperCase()}`,
               );
             } else {
               this.textStatus = $translate.instant(status.toUpperCase());
             }
           }
-        }
+        },
       );
 
       $scope.$watch("userCtrl.status", (newStatus, oldStatus) => {

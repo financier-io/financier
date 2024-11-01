@@ -1,4 +1,5 @@
 import Drop from "tether-drop";
+import editAccountHtml from "./editAccount.html?raw";
 
 angular
   .module("financier")
@@ -18,7 +19,7 @@ angular
           $rootScope.$broadcast("account:deselectTransactions");
           $rootScope.$broadcast("drop:close");
 
-          const template = require("./editAccount.html").default;
+          const template = editAccountHtml;
 
           const wrap = angular.element("<div></div>").append(template);
           const content = $compile(wrap)($scope);

@@ -26,9 +26,9 @@ describe("exportCsv", function () {
           ._buildTransactionsCsv({
             transactions: [],
           })
-          .trim()
+          .trim(),
       ).toEqual(
-        `Account,Flag,Date,Payee,Category Group/Category,Category Group,Category,Memo,Outflow,Inflow,Cleared`
+        `Account,Flag,Date,Payee,Category Group/Category,Category Group,Category,Memo,Outflow,Inflow,Cleared`,
       );
     });
 
@@ -40,10 +40,10 @@ describe("exportCsv", function () {
               value: 123,
             }),
           ],
-        })
+        }),
       ).toEqual(
         `Account,Flag,Date,Payee,Category Group/Category,Category Group,Category,Memo,Outflow,Inflow,Cleared\r
-,,,,,,,,$0.00,$1.23,Uncleared`
+,,,,,,,,$0.00,$1.23,Uncleared`,
       );
     });
 
@@ -56,10 +56,10 @@ describe("exportCsv", function () {
               cleared: true,
             }),
           ],
-        })
+        }),
       ).toEqual(
         `Account,Flag,Date,Payee,Category Group/Category,Category Group,Category,Memo,Outflow,Inflow,Cleared\r
-,,,,,,,,$0.00,$1.23,Cleared`
+,,,,,,,,$0.00,$1.23,Cleared`,
       );
     });
 
@@ -73,10 +73,10 @@ describe("exportCsv", function () {
               reconciled: true,
             }),
           ],
-        })
+        }),
       ).toEqual(
         `Account,Flag,Date,Payee,Category Group/Category,Category Group,Category,Memo,Outflow,Inflow,Cleared\r
-,,,,,,,,$0.00,$1.23,Reconciled`
+,,,,,,,,$0.00,$1.23,Reconciled`,
       );
     });
 
@@ -92,10 +92,10 @@ describe("exportCsv", function () {
           ],
           currencySymbol: "#",
           currencyDigits: 1,
-        })
+        }),
       ).toEqual(
         `Account,Flag,Date,Payee,Category Group/Category,Category Group,Category,Memo,Outflow,Inflow,Cleared\r
-,,,,,,,,#0.0,#12.3,Reconciled`
+,,,,,,,,#0.0,#12.3,Reconciled`,
       );
     });
 
@@ -107,10 +107,10 @@ describe("exportCsv", function () {
               flag: "#ff0000",
             }),
           ],
-        })
+        }),
       ).toEqual(
         `Account,Flag,Date,Payee,Category Group/Category,Category Group,Category,Memo,Outflow,Inflow,Cleared\r
-,Red,,,,,,,$0.00,$0.00,Uncleared`
+,Red,,,,,,,$0.00,$0.00,Uncleared`,
       );
     });
 
@@ -128,10 +128,10 @@ describe("exportCsv", function () {
               name: "Test account",
             },
           ],
-        })
+        }),
       ).toEqual(
         `Account,Flag,Date,Payee,Category Group/Category,Category Group,Category,Memo,Outflow,Inflow,Cleared\r
-Test account,,,,,,,,$0.00,$0.00,Uncleared`
+Test account,,,,,,,,$0.00,$0.00,Uncleared`,
       );
     });
 
@@ -143,10 +143,10 @@ Test account,,,,,,,,$0.00,$0.00,Uncleared`
               date: "2012-12-12",
             }),
           ],
-        })
+        }),
       ).toEqual(
         `Account,Flag,Date,Payee,Category Group/Category,Category Group,Category,Memo,Outflow,Inflow,Cleared\r
-,,12/12/12,,,,,,$0.00,$0.00,Uncleared`
+,,12/12/12,,,,,,$0.00,$0.00,Uncleared`,
       );
     });
 
@@ -163,10 +163,10 @@ Test account,,,,,,,,$0.00,$0.00,Uncleared`
               name: "New payee",
             },
           },
-        })
+        }),
       ).toEqual(
         `Account,Flag,Date,Payee,Category Group/Category,Category Group,Category,Memo,Outflow,Inflow,Cleared\r
-,,,New payee,,,,,$0.00,$0.00,Uncleared`
+,,,New payee,,,,,$0.00,$0.00,Uncleared`,
       );
     });
 
@@ -178,10 +178,10 @@ Test account,,,,,,,,$0.00,$0.00,Uncleared`
               memo: "My memo",
             }),
           ],
-        })
+        }),
       ).toEqual(
         `Account,Flag,Date,Payee,Category Group/Category,Category Group,Category,Memo,Outflow,Inflow,Cleared\r
-,,,,,,,My memo,$0.00,$0.00,Uncleared`
+,,,,,,,My memo,$0.00,$0.00,Uncleared`,
       );
     });
   });

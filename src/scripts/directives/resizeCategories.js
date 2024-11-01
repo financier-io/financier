@@ -17,7 +17,7 @@ angular.module("financier").directive("resizeCategories", () => {
       }
 
       const handle = angular.element(
-        '<div class="budget__category-resize-handle"></div>'
+        '<div class="budget__category-resize-handle"></div>',
       );
 
       handle.on("mousedown", (evt) => {

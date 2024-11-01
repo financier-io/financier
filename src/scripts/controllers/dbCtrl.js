@@ -1,4 +1,6 @@
 import moment from "moment";
+import accountRemoveHasTransactionsHtml from "../../views/modal/accountRemoveHasTransactions.html?raw";
+import createAccountHtml from "../../views/modal/createAccount.html?raw";
 
 angular
   .module("financier")
@@ -28,7 +30,7 @@ angular
       $state,
       $translate,
       $filter,
-      backup
+      backup,
     ) {
       const that = this;
 
@@ -56,7 +58,7 @@ angular
       this.export = () => {
         exportCsv.create({
           transactions: Object.keys(this.manager.transactions).map(
-            (id) => this.manager.transactions[id]
+            (id) => this.manager.transactions[id],
           ),
           accounts: this.accounts,
           masterCategories: this.masterCategories,
@@ -89,7 +91,7 @@ angular
           return str
             .replace(
               /([#0-9]\u20E3)|[\xA9\xAE\u203C\u2047-\u2049\u2122\u2139\u3030\u303D\u3297\u3299][\uFE00-\uFEFF]?|[\u2190-\u21FF][\uFE00-\uFEFF]?|[\u2300-\u23FF][\uFE00-\uFEFF]?|[\u2460-\u24FF][\uFE00-\uFEFF]?|[\u25A0-\u25FF][\uFE00-\uFEFF]?|[\u2600-\u27BF][\uFE00-\uFEFF]?|[\u2900-\u297F][\uFE00-\uFEFF]?|[\u2B00-\u2BF0][\uFE00-\uFEFF]?|(?:\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDEFF])[\uFE00-\uFEFF]?/g,
-              ""
+              "",
             )
             .trim();
         }
@@ -111,7 +113,7 @@ angular
         category(transaction) {
           return (
             _removeEmojis(
-              that.getCategoryName(transaction.category, transaction.date)
+              that.getCategoryName(transaction.category, transaction.date),
             ) || ""
           );
         },
@@ -119,7 +121,7 @@ angular
           return (
             (transaction.transfer
               ? _removeEmojis(
-                  $scope.dbCtrl.getAccountName(transaction.transfer.account)
+                  $scope.dbCtrl.getAccountName(transaction.transfer.account),
                 )
               : _removeEmojis(that.getPayeeName(transaction.payee))) || ""
           );
@@ -175,9 +177,7 @@ angular
           s.totalTransactions = account.transactions.length;
 
           ngDialog.open({
-            template:
-              require("../../views/modal/accountRemoveHasTransactions.html")
-                .default,
+            template: accountRemoveHasTransactionsHtml,
             scope: s,
           });
 
@@ -225,7 +225,7 @@ angular
         set offBudgetAccounts(s) {
           localStorage.setItem("offBudgetAccountsCollapsed", s);
           this._offBudgetAccountsCollapsed = localStorage.getItem(
-            "offBudgetAccountsCollapsed"
+            "offBudgetAccountsCollapsed",
           );
         },
         get closedAccounts() {
@@ -234,7 +234,7 @@ angular
         set closedAccounts(s) {
           localStorage.setItem("closedAccountsCollapsed", s);
           this._closedAccountsCollapsed = localStorage.getItem(
-            "closedAccountsCollapsed"
+            "closedAccountsCollapsed",
           );
         },
         get monthOverview() {
@@ -243,20 +243,20 @@ angular
         set monthOverview(s) {
           localStorage.setItem("monthOverviewCollapsed", s);
           this._monthOverviewCollapsed = localStorage.getItem(
-            "monthOverviewCollapsed"
+            "monthOverviewCollapsed",
           );
         },
       };
 
       this.collapsed._onBudgetAccountsCollapsed = false;
       this.collapsed._offBudgetAccountsCollapsed = localStorage.getItem(
-        "offBudgetAccountsCollapsed"
+        "offBudgetAccountsCollapsed",
       );
       this.collapsed._closedAccountsCollapsed = localStorage.getItem(
-        "closedAccountsCollapsed"
+        "closedAccountsCollapsed",
       );
       this.collapsed._monthOverviewCollapsed = localStorage.getItem(
-        "monthOverviewCollapsed"
+        "monthOverviewCollapsed",
       );
 
       this.filterAccounts();
@@ -267,7 +267,7 @@ angular
       budgetOpenedRecord.open();
 
       const lastMonth = localStorage.getItem(
-        `lastBudgetMonth_${$stateParams.budgetId}`
+        `lastBudgetMonth_${$stateParams.budgetId}`,
       );
 
       if (lastMonth) {
@@ -306,7 +306,7 @@ angular
           return $translate.instant("INCOME_FOR", {
             month: dateFilter(
               moment(transactionDate).add(1, "month").toDate(),
-              "MMMM"
+              "MMMM",
             ),
           });
         } else if (id === "split") {
@@ -351,15 +351,15 @@ angular
         (currentMonth) => {
           if (angular.isDefined(currentMonth)) {
             this.months = getView(
-              currentMonth.toDate ? currentMonth.toDate() : currentMonth
+              currentMonth.toDate ? currentMonth.toDate() : currentMonth,
             );
 
             localStorage.setItem(
               `lastBudgetMonth_${$stateParams.budgetId}`,
-              currentMonth.toDate ? currentMonth.toDate() : currentMonth
+              currentMonth.toDate ? currentMonth.toDate() : currentMonth,
             );
           }
-        }
+        },
       );
 
       this.removeCategory = (cat) => {
@@ -377,7 +377,7 @@ angular
           },
           (cat) => {
             this.addCategory(cat);
-          }
+          },
         );
 
         let masterCat, sort;
@@ -386,7 +386,7 @@ angular
         if (!cat.masterCategory) {
           Object.keys(this.masterCategories).forEach((catId) => {
             const index = this.masterCategories[catId]._data.categories.indexOf(
-              cat.id
+              cat.id,
             );
             if (this.masterCategories[catId]._data.categories && index !== -1) {
               masterCat = this.masterCategories[catId];
@@ -419,7 +419,7 @@ angular
             cat.masterCategory = masterCat.id;
           } else {
             console.log(
-              `Couldn't find master category with ID ${cat.masterCategory}!`
+              `Couldn't find master category with ID ${cat.masterCategory}!`,
             );
           }
         }
@@ -428,7 +428,7 @@ angular
           masterCat.addCategory(cat);
         } else {
           console.log(
-            `Couldn't find master category with ID ${cat.masterCategory}!`
+            `Couldn't find master category with ID ${cat.masterCategory}!`,
           );
         }
       };
@@ -457,7 +457,7 @@ angular
 
       this.createAccount = (account) => {
         ngDialog.open({
-          template: require("../../views/modal/createAccount.html").default,
+          template: createAccountHtml,
           controller: "createAccountCtrl",
           controllerAs: "createAccountCtrl",
           resolve: {
@@ -579,7 +579,7 @@ angular
           if (change.deleted) {
             const moCat = new MonthCategory(change.doc);
             const mo = manager.getMonth(
-              MonthManager._dateIDToDate(moCat.monthId)
+              MonthManager._dateIDToDate(moCat.monthId),
             );
 
             if (mo.categories[moCat.categoryId]) {
@@ -589,7 +589,7 @@ angular
           } else {
             const moCat = new MonthCategory(change.doc);
             const mo = manager.getMonth(
-              MonthManager._dateIDToDate(moCat.monthId)
+              MonthManager._dateIDToDate(moCat.monthId),
             );
 
             if (mo.categories[moCat.categoryId]) {
@@ -702,5 +702,5 @@ angular
           doChange.payee(change);
         }
       });
-    }
+    },
   );

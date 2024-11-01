@@ -1,3 +1,5 @@
+import payeeSuggestHtml from "./payeeSuggest.html?raw";
+
 angular.module("financier").directive("payeeSuggest", ($rootScope) => {
   return {
     restrict: "E",
@@ -37,14 +39,14 @@ angular.module("financier").directive("payeeSuggest", ($rootScope) => {
                 .filter((acc) => !acc.onBudget && !acc.closed)
                 .sort((a, b) => {
                   return a.sort - b.sort;
-                })
+                }),
             )
             .concat(
               scope.accounts
                 .filter((acc) => acc.closed)
                 .sort((a, b) => {
                   return a.sort - b.sort;
-                })
+                }),
             );
 
           scope._payees = Object.keys(scope.payees)
@@ -91,7 +93,7 @@ angular.module("financier").directive("payeeSuggest", ($rootScope) => {
 
           scope.onSubmit = () => {
             const account = scope.$parent.accountCtrl.manager.getAccount(
-              scope.transactionAccountId
+              scope.transactionAccountId,
             );
 
             if (
@@ -116,7 +118,7 @@ angular.module("financier").directive("payeeSuggest", ($rootScope) => {
             }
           });
 
-          scope.template = require("./payeeSuggest.html").default;
+          scope.template = payeeSuggestHtml;
         },
       };
     },

@@ -1,3 +1,6 @@
+import noDeleteSplitTransferHtml from "../../views/modal/noDeleteSplitTransfer.html?raw";
+import removeTransactionConfirmHtml from "../../views/modal/removeTransactionsConfirm.html?raw";
+
 angular
   .module("financier")
   .controller(
@@ -12,8 +15,7 @@ angular
             transactions[i].transfer.constructorName === "SplitTransaction"
           ) {
             return ngDialog.open({
-              template: require("../../views/modal/noDeleteSplitTransfer.html")
-                .default,
+              template: noDeleteSplitTransferHtml,
               controller: "cancelClickCtrl",
             });
           }
@@ -31,9 +33,7 @@ angular
 
           ngDialog
             .openConfirm({
-              template:
-                require("../../views/modal/removeTransactionsConfirm.html")
-                  .default,
+              template: removeTransactionConfirmHtml,
               scope,
               className:
                 "ngdialog-theme-default ngdialog-theme-default--danger modal",
@@ -61,7 +61,7 @@ angular
 
       function removePayee(transaction) {
         const transactions = Object.keys($scope.manager.transactions).map(
-          (k) => $scope.manager.transactions[k]
+          (k) => $scope.manager.transactions[k],
         );
 
         for (let i = 0; i < transactions.length; i++) {
@@ -81,5 +81,5 @@ angular
           delete $scope.payees[transaction.payee];
         }
       }
-    }
+    },
   );

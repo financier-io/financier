@@ -23,13 +23,13 @@ angular.module("financier").controller("signupCtrl", function ($scope, User) {
     () => this.email,
     () => {
       this.form.email.$setValidity("duplicate", true);
-    }
+    },
   );
 
   $scope.$watch(
     () => `${this.email}${this.password}`,
     () => {
       this.form.$setValidity("internalError", true);
-    }
+    },
   );
 });
