@@ -1,5 +1,5 @@
 describe("db", function () {
-  let db, Budget;
+  let db /*, Budget */;
 
   beforeEach(
     angular.mock.module("financier", (dbProvider) => {
@@ -7,9 +7,9 @@ describe("db", function () {
     }),
   );
 
-  beforeEach(inject((_db_, _Budget_) => {
+  beforeEach(inject((_db_ /* _Budget_ */) => {
     db = _db_;
-    Budget = _Budget_;
+    // Budget = _Budget_;
   }));
 
   it("should return an object", () => {
