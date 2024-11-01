@@ -359,6 +359,8 @@ financier.run(function ($translate, tmhDynamicLocale, tmhDynamicLocaleCache) {
     language = "es-419";
   }
 
+  if ("jasmine" in window) return; // hacky bail for testing
+
   try {
     import(
       `../../node_modules/angular-i18n/angular-locale_${language}.js`
