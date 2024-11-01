@@ -82,7 +82,7 @@ describe("month", function () {
       expect(
         angular.equals(mo.data, {
           _id: "b_111-111-111-111_month_2015-01-01",
-        })
+        }),
       ).toBe(true);
     });
 
@@ -93,7 +93,7 @@ describe("month", function () {
 
     it("should serialize to JSON", () => {
       expect(JSON.stringify(new Month(defaultMonth()))).toBe(
-        '{"_id":"b_111-111-111-111_month_2015-01-01"}'
+        '{"_id":"b_111-111-111-111_month_2015-01-01"}',
       );
     });
 
@@ -105,7 +105,7 @@ describe("month", function () {
       const mo = new Month(defaultMonth(), () => {});
 
       mo.budgetChange = () => {};
-      jest.spyOn(mo, "budgetChange");
+      vi.spyOn(mo, "budgetChange");
 
       mo.setBudget(123, 1200);
 
@@ -120,7 +120,7 @@ describe("month", function () {
       const mo = new Month(defaultMonth(), () => {});
 
       mo.nextRollingFn = () => {};
-      jest.spyOn(mo, "nextRollingFn");
+      vi.spyOn(mo, "nextRollingFn");
 
       mo.setRolling(123, 1200, true);
 
@@ -183,7 +183,7 @@ describe("month", function () {
           cat = MonthCategory.from(
             "111-111-111-111",
             mo.date,
-            "333-333-333-333"
+            "333-333-333-333",
           );
 
         mo.addBudget(cat);
@@ -196,13 +196,13 @@ describe("month", function () {
           change: () => {},
         };
 
-        jest.spyOn(foo, "change");
+        vi.spyOn(foo, "change");
 
         const mo = new Month(defaultMonth(), foo.change),
           cat = MonthCategory.from(
             "111-111-111-111",
             mo.date,
-            "333-333-333-333"
+            "333-333-333-333",
           );
 
         mo.addBudget(cat);
@@ -219,7 +219,7 @@ describe("month", function () {
           change: () => {},
         };
 
-        jest.spyOn(foo, "change");
+        vi.spyOn(foo, "change");
 
         const mo = new Month(defaultMonth(), foo.change),
           cat = new MonthCategory({
@@ -237,7 +237,7 @@ describe("month", function () {
           change: () => {},
         };
 
-        jest.spyOn(foo, "change");
+        vi.spyOn(foo, "change");
 
         const mo = new Month(defaultMonth(), foo.change),
           cat = new MonthCategory({
@@ -255,7 +255,7 @@ describe("month", function () {
           change: () => {},
         };
 
-        jest.spyOn(foo, "change");
+        vi.spyOn(foo, "change");
 
         const mo = new Month(defaultMonth(), foo.change),
           cat = new MonthCategory({
@@ -273,7 +273,7 @@ describe("month", function () {
           change: () => {},
         };
 
-        jest.spyOn(foo, "change");
+        vi.spyOn(foo, "change");
 
         const mo = new Month(defaultMonth(), foo.change),
           cat = new MonthCategory({
@@ -294,7 +294,7 @@ describe("month", function () {
           });
 
         mo.nextChangeAvailableFn = () => {};
-        jest.spyOn(mo, "nextChangeAvailableFn");
+        vi.spyOn(mo, "nextChangeAvailableFn");
 
         mo.addBudget(cat);
 
@@ -306,7 +306,7 @@ describe("month", function () {
           saveFn: () => {},
         };
 
-        jest.spyOn(foo, "saveFn");
+        vi.spyOn(foo, "saveFn");
 
         const mo = new Month(defaultMonth(), foo.saveFn),
           cat = new MonthCategory({
@@ -330,7 +330,7 @@ describe("month", function () {
             budget: 300,
           });
 
-        jest.spyOn(mo, "budgetChange");
+        vi.spyOn(mo, "budgetChange");
 
         mo.addBudget(cat);
 
@@ -349,7 +349,7 @@ describe("month", function () {
               budget: 300,
             });
 
-          jest.spyOn(mo, "_changeCurrentOverspent");
+          vi.spyOn(mo, "_changeCurrentOverspent");
 
           mo.addBudget(cat);
 
@@ -363,7 +363,7 @@ describe("month", function () {
               budget: -300,
             });
 
-          jest.spyOn(mo, "_changeCurrentOverspent");
+          vi.spyOn(mo, "_changeCurrentOverspent");
 
           mo.addBudget(cat);
 
@@ -444,12 +444,12 @@ describe("month", function () {
           {
             _id: Month.createID(new Date("1/1/15")),
           },
-          () => {}
+          () => {},
         );
 
         mo.setBudget("123", 333);
 
-        jest.spyOn(mo, "setRolling");
+        vi.spyOn(mo, "setRolling");
 
         mo.startRolling(123);
 
@@ -485,7 +485,7 @@ describe("month", function () {
         mo.createCategoryCacheIfEmpty("333-333-333-333");
 
         mo.nextChangeAvailableFn = () => {};
-        jest.spyOn(mo, "nextChangeAvailableFn");
+        vi.spyOn(mo, "nextChangeAvailableFn");
 
         mo.budgetChange("333-333-333-333", -100);
 
@@ -508,7 +508,7 @@ describe("month", function () {
 
           mo.createCategoryCacheIfEmpty("333-333-333-333");
 
-          jest.spyOn(mo, "_changeCurrentOverspent");
+          vi.spyOn(mo, "_changeCurrentOverspent");
 
           mo.budgetChange("333-333-333-333", 50);
 
@@ -520,7 +520,7 @@ describe("month", function () {
 
           mo.createCategoryCacheIfEmpty("333-333-333-333");
 
-          jest.spyOn(mo, "_changeCurrentOverspent");
+          vi.spyOn(mo, "_changeCurrentOverspent");
 
           mo.budgetChange("333-333-333-333", -50);
 
@@ -552,7 +552,7 @@ describe("month", function () {
         const mo = new Month(defaultMonth());
 
         mo.nextChangeAvailableFn = () => {};
-        jest.spyOn(mo, "nextChangeAvailableFn");
+        vi.spyOn(mo, "nextChangeAvailableFn");
 
         expect(mo.nextChangeAvailableFn).not.toHaveBeenCalled();
 
@@ -575,7 +575,7 @@ describe("month", function () {
         const mo = new Month(defaultMonth());
 
         mo.nextChangeOverspentFn = () => {};
-        jest.spyOn(mo, "nextChangeOverspentFn");
+        vi.spyOn(mo, "nextChangeOverspentFn");
 
         expect(mo.nextChangeOverspentFn).not.toHaveBeenCalled();
 
@@ -598,7 +598,7 @@ describe("month", function () {
         const mo = new Month(defaultMonth());
 
         mo.changeAvailable = () => {};
-        jest.spyOn(mo, "changeAvailable");
+        vi.spyOn(mo, "changeAvailable");
 
         expect(mo.changeAvailable).not.toHaveBeenCalled();
 
@@ -614,7 +614,7 @@ describe("month", function () {
           {
             _id: Month.createID(new Date("1/1/15")),
           },
-          () => {}
+          () => {},
         );
 
         mo.startRolling(123);
@@ -627,7 +627,7 @@ describe("month", function () {
           {
             _id: Month.createID(new Date("1/1/15")),
           },
-          () => {}
+          () => {},
         );
 
         const moCat = MonthCategory.from("111-111-111-111", "201501", "123");
@@ -643,13 +643,13 @@ describe("month", function () {
           {
             _id: Month.createID(new Date("1/1/15")),
           },
-          () => {}
+          () => {},
         );
         const mo2 = new Month(
           {
             _id: Month.createID(new Date("2/1/15")),
           },
-          () => {}
+          () => {},
         );
 
         mo1.subscribeNextMonth(mo2);
@@ -671,13 +671,13 @@ describe("month", function () {
           {
             _id: Month.createID(new Date("1/1/15")),
           },
-          () => {}
+          () => {},
         );
         const mo2 = new Month(
           {
             _id: Month.createID(new Date("2/1/15")),
           },
-          () => {}
+          () => {},
         );
 
         mo1.subscribeNextMonth(mo2);
@@ -700,7 +700,7 @@ describe("month", function () {
           {
             _id: Month.createID(new Date("1/1/15")),
           },
-          () => {}
+          () => {},
         );
 
         const moCat = MonthCategory.from("111-111-111-111", "201501", "123");
@@ -718,13 +718,13 @@ describe("month", function () {
           {
             _id: Month.createID(new Date("1/1/15")),
           },
-          () => {}
+          () => {},
         );
         const mo2 = new Month(
           {
             _id: Month.createID(new Date("2/1/15")),
           },
-          () => {}
+          () => {},
         );
 
         mo1.subscribeNextMonth(mo2);
@@ -747,13 +747,13 @@ describe("month", function () {
           {
             _id: Month.createID(new Date("1/1/15")),
           },
-          () => {}
+          () => {},
         );
         const mo2 = new Month(
           {
             _id: Month.createID(new Date("2/1/15")),
           },
-          () => {}
+          () => {},
         );
 
         mo1.subscribeNextMonth(mo2);
@@ -776,13 +776,13 @@ describe("month", function () {
           {
             _id: Month.createID(new Date("1/1/15")),
           },
-          () => {}
+          () => {},
         );
         const mo2 = new Month(
           {
             _id: Month.createID(new Date("2/1/15")),
           },
-          () => {}
+          () => {},
         );
 
         mo1.subscribeNextMonth(mo2);
@@ -810,13 +810,13 @@ describe("month", function () {
           {
             _id: Month.createID(new Date("1/1/15")),
           },
-          () => {}
+          () => {},
         );
         const mo2 = new Month(
           {
             _id: Month.createID(new Date("2/1/15")),
           },
-          () => {}
+          () => {},
         );
 
         mo1.subscribeNextMonth(mo2);
@@ -844,13 +844,13 @@ describe("month", function () {
           {
             _id: Month.createID(new Date("1/1/15")),
           },
-          () => {}
+          () => {},
         );
         const mo2 = new Month(
           {
             _id: Month.createID(new Date("2/1/15")),
           },
-          () => {}
+          () => {},
         );
 
         mo1.subscribeNextMonth(mo2);
@@ -875,13 +875,13 @@ describe("month", function () {
           {
             _id: Month.createID(new Date("1/1/15")),
           },
-          () => {}
+          () => {},
         );
         const mo2 = new Month(
           {
             _id: Month.createID(new Date("2/1/15")),
           },
-          () => {}
+          () => {},
         );
 
         mo1.subscribeNextMonth(mo2);
@@ -906,13 +906,13 @@ describe("month", function () {
           {
             _id: Month.createID(new Date("1/1/15")),
           },
-          () => {}
+          () => {},
         );
         const mo2 = new Month(
           {
             _id: Month.createID(new Date("2/1/15")),
           },
-          () => {}
+          () => {},
         );
 
         mo1.subscribeNextMonth(mo2);
@@ -937,13 +937,13 @@ describe("month", function () {
           {
             _id: Month.createID(new Date("1/1/15")),
           },
-          () => {}
+          () => {},
         );
         const mo2 = new Month(
           {
             _id: Month.createID(new Date("2/1/15")),
           },
-          () => {}
+          () => {},
         );
 
         mo1.subscribeNextMonth(mo2);
@@ -966,19 +966,19 @@ describe("month", function () {
           {
             _id: Month.createID(new Date("1/1/15")),
           },
-          () => {}
+          () => {},
         );
         const mo2 = new Month(
           {
             _id: Month.createID(new Date("2/1/15")),
           },
-          () => {}
+          () => {},
         );
         const mo3 = new Month(
           {
             _id: Month.createID(new Date("3/1/15")),
           },
-          () => {}
+          () => {},
         );
 
         mo1.subscribeNextMonth(mo2);

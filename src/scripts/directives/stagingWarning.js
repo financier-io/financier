@@ -1,3 +1,5 @@
+import stagingWarningHtml from "./stagingWarning.html?raw";
+
 angular.module("financier").directive("stagingWarning", () => {
   let show;
 
@@ -13,7 +15,7 @@ angular.module("financier").directive("stagingWarning", () => {
 
   return {
     restrict: "E",
-    template: require("./stagingWarning.html").default,
+    template: stagingWarningHtml,
     controller,
     replace: true,
     controllerAs: "stagingWarningCtrl",

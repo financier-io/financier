@@ -175,7 +175,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       const tran = new Transaction();
 
@@ -218,7 +218,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       const tran = new Transaction();
 
@@ -237,7 +237,7 @@ describe("transaction", function () {
       change: () => {},
     };
 
-    jest.spyOn(foo, "change");
+    vi.spyOn(foo, "change");
 
     let tran = new Transaction({
       _id: "foo",
@@ -266,7 +266,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.subscribeValueChange(foo.change);
@@ -291,7 +291,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.subscribeValueChange(foo.change);
@@ -320,7 +320,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.cleared = true;
@@ -339,7 +339,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.cleared = true;
@@ -356,7 +356,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.cleared = false;
@@ -373,7 +373,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.cleared = false;
@@ -393,8 +393,8 @@ describe("transaction", function () {
         change2: () => {},
       };
 
-      jest.spyOn(foo, "change1");
-      jest.spyOn(foo, "change2");
+      vi.spyOn(foo, "change1");
+      vi.spyOn(foo, "change2");
 
       let tran = new Transaction();
       tran.cleared = true;
@@ -416,7 +416,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.cleared = true;
@@ -450,7 +450,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.cleared = false;
@@ -469,7 +469,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.cleared = true;
@@ -486,7 +486,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.cleared = false;
@@ -503,7 +503,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.cleared = true;
@@ -523,8 +523,8 @@ describe("transaction", function () {
         change2: () => {},
       };
 
-      jest.spyOn(foo, "change1");
-      jest.spyOn(foo, "change2");
+      vi.spyOn(foo, "change1");
+      vi.spyOn(foo, "change2");
 
       let tran = new Transaction();
       tran.cleared = false;
@@ -546,7 +546,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.cleared = false;
@@ -580,7 +580,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.subscribe(foo.change);
@@ -600,7 +600,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.subscribe(foo.change);
@@ -620,7 +620,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.subscribe(foo.change);
@@ -640,7 +640,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.subscribe(foo.change);
@@ -664,7 +664,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.subscribe(foo.change);
@@ -685,7 +685,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.subscribe(foo.change);
@@ -707,7 +707,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.subscribe(foo.change);
@@ -729,7 +729,7 @@ describe("transaction", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let tran = new Transaction();
       tran.subscribe(foo.change);
@@ -831,7 +831,7 @@ describe("transaction", function () {
       const split = new SplitTransaction(trans);
       const split1id = split.id;
 
-      jest.spyOn(split, "_emitValueChange");
+      vi.spyOn(split, "_emitValueChange");
 
       const split1dupe = new SplitTransaction(trans, {
         id: split1id,

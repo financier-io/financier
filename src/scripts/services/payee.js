@@ -18,7 +18,7 @@ angular.module("financier").factory("payee", (uuid) => {
             internal: false,
             categorySuggest: null,
           },
-          data
+          data,
         );
 
         // add _id if none exists

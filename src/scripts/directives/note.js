@@ -1,9 +1,10 @@
 import Drop from "tether-drop";
+import noteHtml from "./note.html?raw";
 
 angular.module("financier").directive("note", ($compile, $timeout) => {
   function link(scope, element, attrs, ngModelCtrl) {
     element.on("click", () => {
-      const template = require("./note.html").default;
+      const template = noteHtml;
 
       const wrap = angular.element("<div></div>").append(template);
       const content = $compile(wrap)(scope);

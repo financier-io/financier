@@ -1,5 +1,6 @@
 import Drop from "tether-drop";
 import moment from "moment";
+import dateRangeHtml from "./dateRange.html?raw";
 
 angular
   .module("financier")
@@ -57,7 +58,7 @@ angular
         };
 
         element.on("click", () => {
-          const template = require("./dateRange.html").default;
+          const template = dateRangeHtml;
 
           const wrap = angular.element("<div></div>").append(template);
           const content = $compile(wrap)(scope);

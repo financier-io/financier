@@ -1,4 +1,5 @@
 import Drop from "tether-drop";
+import bulkEditTransactionsHtml from "./bulkEditTransactions.html?raw";
 
 angular
   .module("financier")
@@ -7,7 +8,7 @@ angular
       element.on("click", (event) => {
         event.stopPropagation();
 
-        const template = require("./bulkEditTransactions.html").default;
+        const template = bulkEditTransactionsHtml;
 
         const wrap = angular.element("<div></div>").append(template);
         const content = $compile(wrap)(scope);

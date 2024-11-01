@@ -1,4 +1,6 @@
 import moment from "moment";
+import removeLocalDataHtml from "../../views/modal/removeLocalData.html?raw";
+import signinHtml from "../../views/modal/signin.html?raw";
 
 angular
   .module("financier")
@@ -162,7 +164,7 @@ angular
       this.removeLocalData = () => {
         return ngDialog
           .openConfirm({
-            template: require("../../views/modal/removeLocalData.html").default,
+            template: removeLocalDataHtml,
             className:
               "ngdialog-theme-default ngdialog-theme-default--danger modal",
           })
@@ -182,7 +184,7 @@ angular
 
       this.signin = () => {
         ngDialog.open({
-          template: require("../../views/modal/signin.html").default,
+          template: signinHtml,
           controller: "signinCtrl as signinCtrl",
         });
       };
@@ -201,5 +203,5 @@ angular
       $rootScope.$on("login", (e, status) => {
         this.status = status;
       });
-    }
+    },
   );

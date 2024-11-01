@@ -21,7 +21,7 @@ angular.module("financier").factory("account", (uuid) => {
             onBudget: true,
             checkNumber: false,
           },
-          data
+          data,
         );
 
         // add _id if none exists

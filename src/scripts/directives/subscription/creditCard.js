@@ -1,9 +1,11 @@
+import creditCardHtml from "./creditCard.html?raw";
+
 angular
   .module("financier")
   .directive("creditCard", ($q, User, stripeLazyLoader) => {
     return {
       restrict: "E",
-      template: require("./creditCard.html").default,
+      template: creditCardHtml,
       bindToController: {
         addToken: "&",
       },
@@ -17,7 +19,7 @@ angular
             this.cardForm.$setValidity("stripeError", true);
             this.cardForm.$setValidity("internalError", true);
           },
-          true
+          true,
         );
 
         this.submit = () => {
@@ -38,7 +40,7 @@ angular
                     this.stripeError = response.error;
                     this.cardForm.$setValidity(
                       "stripeError",
-                      !this.stripeError
+                      !this.stripeError,
                     );
 
                     if (response.error) {
@@ -46,7 +48,7 @@ angular
                     } else {
                       resolve(response.id);
                     }
-                  }
+                  },
                 );
               });
             })

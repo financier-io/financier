@@ -15,28 +15,28 @@
 ### Develop
 
 ```sh
-yarn
-yarn start
+pnpm
+pnpm start
 ```
 
 ### Test
 
 ```sh
-yarn test
-# or continuous: `yarn test-watch`
+pnpm test
+# or continuous: `pnpm test-watch`
 ```
 
 ### Build (for production)
 
 ```sh
-yarn build
+pnpm build
 ```
 
 ### Run locally
 
 ```sh
-yarn build
-yarn docs # generate jsdoc documentation
+pnpm build
+pnpm run docs # generate jsdoc documentation
 node ./api
 ```
 
@@ -44,4 +44,4 @@ node ./api
 
 Local docs would be `http://localhost:8080/docs`.
 
-Generate with `yarn docs`.
+Generate with `pnpm run docs`.

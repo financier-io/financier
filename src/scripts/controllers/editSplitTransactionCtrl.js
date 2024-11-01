@@ -23,6 +23,6 @@ angular
       ([inflow, outflow]) => {
         this.inflow = inflow;
         this.outflow = outflow;
-      }
+      },
     );
   });

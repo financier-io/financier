@@ -1,4 +1,5 @@
 import Drop from "tether-drop";
+import quickBudgetOneHtml from "./quickBudgetOne.html?raw";
 
 angular
   .module("financier")
@@ -29,7 +30,7 @@ angular
           }
 
           this.month.categories[this.catId].budget = Math.round(
-            accumulator / 3
+            accumulator / 3,
           );
         };
 
@@ -47,7 +48,7 @@ angular
         });
 
         $element.on("click", () => {
-          const template = require("./quickBudgetOne.html").default;
+          const template = quickBudgetOneHtml;
           let dropInstance;
 
           const wrap = angular

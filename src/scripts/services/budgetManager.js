@@ -14,7 +14,7 @@ angular
       $q,
       $translate,
       MonthCategory,
-      defaultCategories
+      defaultCategories,
     ) => {
       return (pouch, budgetId) => {
         const Month = month(budgetId);
@@ -51,7 +51,7 @@ angular
                     _rev: row.doc._rev,
                     _deleted: true,
                   };
-                })
+                }),
               );
             });
         }
@@ -191,7 +191,7 @@ angular
             for (let j = 0; j < defaultCategories[i].categories.length; j++) {
               const cat = new Category({
                 name: $translate.instant(
-                  defaultCategories[i].categories[j].name
+                  defaultCategories[i].categories[j].name,
                 ),
                 sort: j,
                 masterCategory: masterCat.id,
@@ -311,5 +311,5 @@ angular
           return all;
         }
       };
-    }
+    },
   );

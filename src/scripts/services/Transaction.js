@@ -30,7 +30,7 @@ angular.module("financier").factory("transaction", (uuid, splitTransaction) => {
             splits: [],
             checkNumber: null,
           },
-          data
+          data,
         );
 
         // Ensure whole number

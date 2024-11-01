@@ -21,5 +21,5 @@ angular
           $rootScope.$broadcast("signin");
         });
       };
-    }
+    },
   );

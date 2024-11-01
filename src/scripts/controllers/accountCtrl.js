@@ -17,7 +17,7 @@ angular
       payee,
       myBudget,
       budgetRecord,
-      Hotkeys
+      Hotkeys,
     ) {
       const that = this;
 
@@ -314,7 +314,7 @@ angular
                 return i;
               }
             }
-          }
+          },
         );
 
         if (
@@ -349,7 +349,7 @@ angular
         }
 
         that.selectedTransactions = that.selectedTransactionIndexes.map(
-          (i) => $scope.displayedTransactions[i]
+          (i) => $scope.displayedTransactions[i],
         );
 
         $rootScope.$broadcast("vsRepeatTrigger");
@@ -419,7 +419,7 @@ angular
         var unselectOnlyOneRow = 1;
         that.selectedTransactionIndexes.splice(
           rowIndexInSelectedRowsList,
-          unselectOnlyOneRow
+          unselectOnlyOneRow,
         );
       }
 
@@ -438,13 +438,13 @@ angular
                 return i;
               }
             }
-          }
+          },
         );
 
         changeSelectionStatus(index);
 
         that.selectedTransactions = that.selectedTransactionIndexes.map(
-          (i) => $scope.displayedTransactions[i]
+          (i) => $scope.displayedTransactions[i],
         );
       };
 
@@ -469,5 +469,5 @@ angular
       $scope.$on("$destroy", () => {
         Hotkeys.deregisterHotkey(clearedHotkeys);
       });
-    }
+    },
   );

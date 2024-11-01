@@ -1,8 +1,10 @@
+import mobileKeypadHtml from "./mobileKeypad.html?raw";
+
 angular.module("financier").directive("mobileKeypad", () => {
   return {
     restrict: "E",
     require: "ngModel",
-    template: require("./mobileKeypad.html").default,
+    template: mobileKeypadHtml,
     replace: true,
     scope: {
       onNext: "&",

@@ -1,5 +1,6 @@
 import Drop from "tether-drop";
 import moment from "moment";
+import outflowTipHtml from "./outflowTip.html?raw";
 
 angular.module("financier").directive("outflowTip", ($compile, $timeout) => {
   function link(scope, element, attrs) {
@@ -17,7 +18,7 @@ angular.module("financier").directive("outflowTip", ($compile, $timeout) => {
           );
         });
 
-      const template = require("./outflowTip.html").default;
+      const template = outflowTipHtml;
       let dropInstance;
 
       const wrap = angular.element("<div></div>").append(template);

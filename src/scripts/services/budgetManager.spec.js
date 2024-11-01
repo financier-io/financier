@@ -1,4 +1,4 @@
-/* eslint-disable jest/no-commented-out-tests */
+/* eslint-disable vitest/no-commented-out-tests */
 
 describe("budgetManager", function () {
   let db, budgetManager, month, account, Month, Account;
@@ -9,7 +9,7 @@ describe("budgetManager", function () {
   beforeEach(
     angular.mock.module("financier", (dbProvider) => {
       dbProvider.adapter = "memory";
-    })
+    }),
   );
 
   beforeEach(inject((_db_, _budgetManager_, _month_, _account_) => {
@@ -102,7 +102,7 @@ describe("budgetManager", function () {
             new Account({
               name: "myNewAccount",
               type: "CREDIT",
-            })
+            }),
           )
           .then(() => {
             return budget.accounts.all().then((accounts) => {
@@ -110,7 +110,7 @@ describe("budgetManager", function () {
               expect(accounts[0].type).toBe("CREDIT");
               expect(accounts[0].data._id).toBeDefined();
               expect(
-                accounts[0].data._id.indexOf("b_555-555-555-555_account_")
+                accounts[0].data._id.indexOf("b_555-555-555-555_account_"),
               ).toBe(0);
             });
           });

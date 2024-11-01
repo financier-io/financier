@@ -1,11 +1,12 @@
 import Drop from "tether-drop";
+import logoutHtml from "./logout.html?raw";
 
 angular.module("financier").directive("logout", ($compile, $timeout) => {
   return {
     restrict: "A",
     controller: function ($scope, $element, $attrs) {
       $element.on("click", () => {
-        const template = require("./logout.html").default;
+        const template = logoutHtml;
         let dropInstance;
 
         const wrap = angular

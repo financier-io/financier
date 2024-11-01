@@ -113,7 +113,7 @@ describe("payee", function () {
       change: () => {},
     };
 
-    jest.spyOn(foo, "change");
+    vi.spyOn(foo, "change");
 
     let payee = new Payee();
 
@@ -160,7 +160,7 @@ describe("payee", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let payee = new Payee({
         name: "My payee",
@@ -180,7 +180,7 @@ describe("payee", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let payee = new Payee({
         autosuggest: true,

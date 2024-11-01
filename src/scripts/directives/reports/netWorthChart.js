@@ -104,7 +104,7 @@ angular
                       currency(
                         tooltipItems.yLabel,
                         scope.$parent.dbCtrl.currencySymbol,
-                        scope.$parent.dbCtrl.currencyDigits
+                        scope.$parent.dbCtrl.currencyDigits,
                       )
                     );
                   },
@@ -153,7 +153,7 @@ angular
                         return currency(
                           amount,
                           scope.$parent.dbCtrl.currencySymbol,
-                          scope.$parent.dbCtrl.currencyDigits
+                          scope.$parent.dbCtrl.currencyDigits,
                         );
                       },
                     },

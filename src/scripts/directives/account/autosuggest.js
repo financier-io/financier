@@ -38,7 +38,7 @@ angular
           scope,
           input,
           scope.template,
-          onClosed
+          onClosed,
         );
 
         scope.$on("focus", () => {

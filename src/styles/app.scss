@@ -1,16 +1,16 @@
-@import "~normalize.css/normalize";
+@import "normalize.css/normalize";
 
-$fa-font-path: "~font-awesome/fonts";
-@import "~font-awesome/scss/font-awesome";
+$fa-font-path: "font-awesome/fonts";
+@import "font-awesome/scss/font-awesome";
 
-@import "~tether-drop/dist/css/drop-theme-arrows-bounce";
+@import "tether-drop/dist/css/drop-theme-arrows-bounce";
 
-@import "~ng-dialog/css/ngDialog";
-@import "~ng-dialog/css/ngDialog-theme-default";
+@import "ng-dialog/css/ngDialog";
+@import "ng-dialog/css/ngDialog-theme-default";
 
-@import "~angular-ladda-lw/dist/angular-ladda-lw";
+@import "angular-ladda-lw/dist/angular-ladda-lw";
 
-@import "~angular/angular-csp";
+@import "angular/angular-csp";
 
 @import "core/variables";
 @import "core/zindex";
@@ -29,7 +29,6 @@ $fa-font-path: "~font-awesome/fonts";
 @import "core/calendar";
 @import "core/alert";
 @import "core/collapse";
-@import "core/lato";
 @import "core/help";
 
 html,
@@ -64,7 +63,9 @@ body {
 
   -webkit-font-smoothing: subpixel-antialiased;
 
-  font-family: "Lato", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
 }
 
 h1,

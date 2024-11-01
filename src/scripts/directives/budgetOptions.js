@@ -1,11 +1,12 @@
 import Drop from "tether-drop";
+import budgetOptionsHtml from "./budgetOptions.html?raw";
 
 angular.module("financier").directive("budgetOptions", ($compile, $timeout) => {
   return {
     restrict: "A",
     controller: function ($scope, $element, $attrs) {
       $element.on("click", () => {
-        const template = require("./budgetOptions.html").default;
+        const template = budgetOptionsHtml;
         let dropInstance;
 
         const wrap = angular

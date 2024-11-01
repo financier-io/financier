@@ -18,33 +18,34 @@ jobs:
   test-and-build:
     runs-on: ubuntu-latest
     container:
-      image: node:18
+      image: node:22
     steps:
       - uses: actions/checkout@v3
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - run: corepack enable
+      - name: Get pnpm cache directory path
+        id: pnpm-cache-dir-path
+        run: echo "::set-output name=dir::$(pnpm store path)"
       - uses: actions/cache@v3
-        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        id: pnpm-cache
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          path: ${{ steps.pnpm-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-pnpm-
       - name: Install packages
-        run: yarn install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
       - name: Test
-        run: yarn test
+        run: pnpm test
       - name: Check formatting
-        run: yarn lint
+        run: pnpm lint
       - name: Build dist
-        run: yarn run build
+        run: pnpm build
       - uses: actions/upload-artifact@v3
         with:
           name: dist
           path: dist/
       - name: Build docs
-        run: yarn run docs
+        run: pnpm run docs
       - uses: actions/upload-artifact@v3
         with:
           name: docs

@@ -28,6 +28,6 @@ angular.module("financier").controller("masterCategoryCtrl", function ($scope) {
       this.budget = budget;
       this.outflow = outflow;
       this.balance = balance;
-    }
+    },
   );
 });

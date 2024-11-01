@@ -1,7 +1,8 @@
-FROM node:18
+FROM node:22
 
 WORKDIR /financier
-RUN yarn add express@^4.17.3 nocache@^3.0.3 uuid@^8.3.2 helmet-csp@^3.4.0 cheerio@^0.22.0
+RUN corepack enable
+RUN pnpm install express@^4.17.3 nocache@^4.0.0 uuid@^11.0.0 helmet@^8.0.0 cheerio@^1.0.0
 
 ADD ./dist /financier/dist
 ADD ./docs /financier/docs

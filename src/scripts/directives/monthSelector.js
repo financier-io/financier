@@ -1,10 +1,11 @@
 import moment from "moment";
 import { throttle } from "underscore";
+import monthSelectorHtml from "./monthSelector.html?raw";
 
 angular.module("financier").directive("monthSelector", function () {
   return {
     restrict: "E",
-    template: require("./monthSelector.html").default,
+    template: monthSelectorHtml,
     require: "ngModel",
     scope: {
       ngModel: "=",
@@ -32,7 +33,7 @@ angular.module("financier").directive("monthSelector", function () {
                 modelMonth.diff(month, "months") <= 0;
             }
           }
-        }
+        },
       );
 
       scope.nextMonth = function () {

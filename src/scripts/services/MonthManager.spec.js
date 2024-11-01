@@ -1,4 +1,4 @@
-/* eslint-disable jest/no-commented-out-tests */
+/* eslint-disable vitest/no-commented-out-tests */
 
 describe("category", function () {
   let monthManager, MonthManager, month, Month;
@@ -99,17 +99,17 @@ describe("category", function () {
       });
 
       it("fills month gaps as needed", () => {
-        jest.spyOn(MonthManager.prototype, "_fillMonthGaps");
+        vi.spyOn(MonthManager.prototype, "_fillMonthGaps");
 
         const mm = new MonthManager();
 
         expect(MonthManager.prototype._fillMonthGaps).toHaveBeenCalledWith(
-          mm.months
+          mm.months,
         );
       });
 
       it("links months properly", () => {
-        const spy = jest.spyOn(MonthManager.prototype, "_linkMonths");
+        const spy = vi.spyOn(MonthManager.prototype, "_linkMonths");
 
         const mm = new MonthManager([
           new Month("2016-05-01"),
@@ -165,7 +165,7 @@ describe("category", function () {
                 new Month("2016-08-01"),
                 new Month("2017-07-01"),
               ])
-              .map((m) => m.date)
+              .map((m) => m.date),
           ).toEqual([
             "2016-05-01",
             "2016-06-01",
@@ -193,7 +193,7 @@ describe("category", function () {
             mm._fillMonthGaps([
               new Month("2016-05-01"),
               new Month("2016-07-01"),
-            ])[1].saveFn
+            ])[1].saveFn,
           ).toBe(myFn);
         });
       });
@@ -239,7 +239,7 @@ describe("category", function () {
             new Month("2016-06-01"),
           ]);
 
-          const spy = jest.spyOn(mm, "_linkMonths");
+          const spy = vi.spyOn(mm, "_linkMonths");
 
           mm.getMonth(new Date("2016-09-02"));
 
@@ -254,7 +254,7 @@ describe("category", function () {
           const mo = new Month("2016-06-01"),
             mm = new MonthManager([new Month("2016-05-01"), mo]);
 
-          jest.spyOn(mm, "_propagateRollingFromMonth");
+          vi.spyOn(mm, "_propagateRollingFromMonth");
 
           mm.getMonth(new Date("2016-09-02"));
 
@@ -288,7 +288,7 @@ describe("category", function () {
             new Month("2016-06-01"),
           ]);
 
-          const spy = jest.spyOn(mm, "_linkMonths");
+          const spy = vi.spyOn(mm, "_linkMonths");
 
           mm.getMonth(new Date("2016-03-02"));
 
@@ -302,7 +302,7 @@ describe("category", function () {
           const mo = new Month("2016-06-01"),
             mm = new MonthManager([new Month("2016-05-01"), mo]);
 
-          jest.spyOn(mm, "_propagateRollingFromMonth");
+          vi.spyOn(mm, "_propagateRollingFromMonth");
 
           mm.getMonth(new Date("2016-09-02"));
 
@@ -313,7 +313,7 @@ describe("category", function () {
       it("gets a past month", () => {
         const mm = new MonthManager([new Month("2016-05-01")]);
 
-        jest.spyOn(mm, "_linkMonths");
+        vi.spyOn(mm, "_linkMonths");
 
         expect(mm.getMonth(new Date("2016-02-02"))).toBe(mm.months[0]);
         expect(mm.months.map((m) => m.date)).toEqual([
@@ -325,9 +325,6 @@ describe("category", function () {
 
         expect(mm._linkMonths).toHaveBeenCalledWith(mm.months[0], mm.months[1]);
       });
-
-      // describe('addMonthCategory', () => {
-      // });
     });
   });
 });

@@ -1,3 +1,5 @@
+import editBudgetHtml from "../../views/modal/editBudget.html?raw";
+
 angular
   .module("financier")
   .controller(
@@ -11,7 +13,7 @@ angular
       $scope,
       $http,
       db,
-      ngDialog
+      ngDialog,
     ) {
       this.budgets = myBudgets;
       this.budgetsOpened = myBudgetsOpened;
@@ -21,7 +23,7 @@ angular
           ([budgets, budgetsOpened]) => {
             this.budgets = budgets;
             this.budgetsOpened = budgetsOpened;
-          }
+          },
         );
       };
 
@@ -118,12 +120,12 @@ angular
         e.stopPropagation();
 
         ngDialog.open({
-          template: require("../../views/modal/editBudget.html").default,
+          template: editBudgetHtml,
           controller: "editBudgetCtrl as editBudgetCtrl",
           resolve: {
             budgetRecord: () => budget,
           },
         });
       };
-    }
+    },
   );

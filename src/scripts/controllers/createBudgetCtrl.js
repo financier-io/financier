@@ -12,7 +12,7 @@ angular
       Budget,
       BudgetOpened,
       payee,
-      currencies
+      currencies,
     ) {
       this.currencies = currencies;
 
@@ -55,5 +55,5 @@ angular
       this.restore = () => {
         $state.go("user.budget.import");
       };
-    }
+    },
   );

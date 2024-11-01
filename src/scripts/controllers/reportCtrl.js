@@ -12,8 +12,8 @@ angular.module("financier").controller("reportCtrl", function ($scope) {
       this.transactions = $scope.dbCtrl.manager.allAccounts.transactions.filter(
         (t) => {
           return t.date >= startDate && t.date <= endDate;
-        }
+        },
       );
-    }
+    },
   );
 });

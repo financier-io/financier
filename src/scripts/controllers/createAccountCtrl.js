@@ -24,7 +24,7 @@ angular
       filterAccounts,
       onBudgetAccounts,
       offBudgetAccounts,
-      $translate
+      $translate,
     ) {
       const Transaction = transaction($stateParams.budgetId);
       const Category = category($stateParams.budgetId);
@@ -142,7 +142,7 @@ angular
         const monthCat = MonthCategory.from(
           $stateParams.budgetId,
           Month.createID(this.startingBalanceDate),
-          cat.id
+          cat.id,
         );
         monthCat.overspending = true;
 
@@ -168,7 +168,7 @@ angular
             account: myAccount.id,
             payee: "initial-balance",
           },
-          myBudg.put
+          myBudg.put,
         );
 
         manager.addAccount(myAccount);
@@ -187,5 +187,5 @@ angular
           });
         });
       };
-    }
+    },
   );

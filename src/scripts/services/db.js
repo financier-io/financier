@@ -58,7 +58,7 @@ angular.module("financier").provider("db", function () {
         sync = PouchDB.replicate(
           `https://${host}/db/${dbName}`,
           db,
-          options
+          options,
         ).on("paused", function () {
           $rootScope.$apply(() => {
             // user went offline
@@ -194,7 +194,7 @@ angular.module("financier").provider("db", function () {
       function all() {
         return db
           .allDocs({
-            include_docs: true /* eslint camelcase:0 */,
+            include_docs: true,
             startkey: BudgetOpened.startKey,
             endkey: BudgetOpened.endKey,
           })

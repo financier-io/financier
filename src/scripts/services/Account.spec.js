@@ -120,7 +120,7 @@ describe("account", function () {
       change: () => {},
     };
 
-    jest.spyOn(foo, "change");
+    vi.spyOn(foo, "change");
 
     let acc = new Account({
       type: "CREDIT",
@@ -165,7 +165,7 @@ describe("account", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let acc = new Account({
         name: "My account",
@@ -185,7 +185,7 @@ describe("account", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let acc = new Account({
         type: "CREDIT",

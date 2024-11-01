@@ -54,7 +54,7 @@ describe("Settings", function () {
         change: () => {},
       };
 
-      jest.spyOn(foo, "change");
+      vi.spyOn(foo, "change");
 
       let sets = new Settings({
         hints: {

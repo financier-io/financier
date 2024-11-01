@@ -12,19 +12,19 @@ describe("MonthCategory", function () {
     describe("static property", () => {
       it("startKey", () => {
         expect(MonthCategory.startKey("111-111-111-111")).toBe(
-          "b_111-111-111-111_m_category_"
+          "b_111-111-111-111_m_category_",
         );
       });
 
       it("endKey", () => {
         expect(MonthCategory.endKey("111-111-111-111")).toBe(
-          "b_111-111-111-111_m_category_\uffff"
+          "b_111-111-111-111_m_category_\uffff",
         );
       });
 
       it("prefix", () => {
         expect(MonthCategory.prefix("111-111-111-111")).toBe(
-          "b_111-111-111-111_m_category_"
+          "b_111-111-111-111_m_category_",
         );
       });
 
@@ -33,11 +33,11 @@ describe("MonthCategory", function () {
           let moCat = MonthCategory.from(
             "111-111-111-111",
             "201501",
-            "333-333-333-333"
+            "333-333-333-333",
           );
 
           expect(
-            MonthCategory.contains("111-111-111-111", moCat.data._id)
+            MonthCategory.contains("111-111-111-111", moCat.data._id),
           ).toBe(true);
         });
 
@@ -45,11 +45,11 @@ describe("MonthCategory", function () {
           let moCat = MonthCategory.from(
             "111-111-111-111",
             "201501",
-            "333-333-333-333"
+            "333-333-333-333",
           );
 
           expect(
-            MonthCategory.contains("222-222-222-222", moCat.data._id)
+            MonthCategory.contains("222-222-222-222", moCat.data._id),
           ).toBe(false);
         });
 
@@ -58,7 +58,7 @@ describe("MonthCategory", function () {
             trans = new Transaction();
 
           expect(
-            MonthCategory.contains("111-111-111-111", trans.data._id)
+            MonthCategory.contains("111-111-111-111", trans.data._id),
           ).toBe(false);
         });
 
@@ -77,7 +77,7 @@ describe("MonthCategory", function () {
       let sets = MonthCategory.from(
         "111-111-111-111",
         "201501",
-        "333-333-333-333"
+        "333-333-333-333",
       );
 
       expect(sets.constructor.name).toBe("MonthCategory");
@@ -87,11 +87,11 @@ describe("MonthCategory", function () {
       let sets = MonthCategory.from(
         "111-111-111-111",
         "201501",
-        "333-333-333-333"
+        "333-333-333-333",
       );
 
       expect(sets._id).toBe(
-        "b_111-111-111-111_m_category_201501_333-333-333-333"
+        "b_111-111-111-111_m_category_201501_333-333-333-333",
       );
     });
   });
@@ -154,8 +154,8 @@ describe("MonthCategory", function () {
         bdgSub: () => {},
       };
 
-      jest.spyOn(foo, "sub");
-      jest.spyOn(foo, "bdgSub");
+      vi.spyOn(foo, "sub");
+      vi.spyOn(foo, "bdgSub");
 
       let sets = new MonthCategory({
         _id: "b_111-111_m_201501_month-category_222-222",
@@ -180,8 +180,8 @@ describe("MonthCategory", function () {
         bdgSub: () => {},
       };
 
-      jest.spyOn(foo, "sub");
-      jest.spyOn(foo, "bdgSub");
+      vi.spyOn(foo, "sub");
+      vi.spyOn(foo, "bdgSub");
 
       let sets = new MonthCategory({
         _id: "b_111-111_m_201501_month-category_222-222",
@@ -206,8 +206,8 @@ describe("MonthCategory", function () {
         bdgSub: () => {},
       };
 
-      jest.spyOn(foo, "sub");
-      jest.spyOn(foo, "bdgSub");
+      vi.spyOn(foo, "sub");
+      vi.spyOn(foo, "bdgSub");
 
       let sets = new MonthCategory({
         _id: "b_111-111_m_201501_month-category_222-222",
@@ -232,8 +232,8 @@ describe("MonthCategory", function () {
         bdgSub: () => {},
       };
 
-      jest.spyOn(foo, "sub");
-      jest.spyOn(foo, "bdgSub");
+      vi.spyOn(foo, "sub");
+      vi.spyOn(foo, "bdgSub");
 
       let sets = new MonthCategory({
         _id: "b_111-111_m_201501_month-category_222-222",
