@@ -46,6 +46,7 @@
     "vite": "^5.4.10",
     "vite-plugin-babel": "^1.2.0",
     "vite-plugin-pwa": "^0.20.5",
+    "vite-plugin-webfont-dl": "^3.9.5",
     "vitest": "^2.1.4",
     "vitest-angular-mocks": "github:aeharding/vitest-angular-mocks"
   },

@@ -3,10 +3,21 @@ import babelPlugin from "vite-plugin-babel";
 import { VitePWA } from "vite-plugin-pwa";
 
 import pJson from "./package.json" with { type: "json" };
+import { webfontDownload } from "vite-plugin-webfont-dl";
 
 export default defineConfig({
   assetsInclude: ["src/**/*.html"],
   plugins: [
+    {
+      name: "wrap-i18n-as-module-plugin",
+      enforce: "pre",
+      async transform(code, id) {
+        if (!isAngularLocaleFile(id)) return code;
+
+        return `export default function() {\n${code}\n};`;
+      },
+    },
+    webfontDownload(),
     babelPlugin(),
     VitePWA({
       registerType: "autoUpdate",
@@ -29,6 +40,7 @@ export default defineConfig({
         display: "standalone",
       },
       workbox: {
+        globPatterns: ["**/*.{js,css,html,woff2,woff,ttf,svg,eot}"],
         navigateFallbackDenylist: [/^\/(api|docs|manage|db)\//, /^\/_/, /^_/],
       },
     }),
@@ -58,7 +70,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes("/angular-locale_")) return "i18n";
+          if (isAngularLocaleFile(id)) return "i18n";
         },
       },
     },
@@ -69,3 +81,7 @@ export default defineConfig({
     globals: true,
   },
 });
+
+function isAngularLocaleFile(file) {
+  return file.includes("/angular-locale_");
+}

@@ -362,7 +362,9 @@ financier.run(function ($translate, tmhDynamicLocale, tmhDynamicLocaleCache) {
   try {
     import(
       `../../node_modules/angular-i18n/angular-locale_${language}.js`
-    ).then(() => {
+    ).then(({ default: run }) => {
+      run();
+
       tmhDynamicLocaleCache.put(language, getInjectedLocale());
 
       tmhDynamicLocale.set(language);
@@ -372,7 +374,9 @@ financier.run(function ($translate, tmhDynamicLocale, tmhDynamicLocaleCache) {
     console.error(e);
 
     import("../../node_modules/angular-i18n/angular-locale_en-us.js").then(
-      () => {
+      ({ default: run }) => {
+        run();
+
         tmhDynamicLocaleCache.put("en-us", getInjectedLocale());
 
         tmhDynamicLocale.set("en-us");
