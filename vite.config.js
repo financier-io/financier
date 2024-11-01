@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import babelPlugin from "vite-plugin-babel";
 import { VitePWA } from "vite-plugin-pwa";
+import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 import pJson from "./package.json" with { type: "json" };
 import { webfontDownload } from "vite-plugin-webfont-dl";
@@ -18,6 +19,7 @@ export default defineConfig({
       },
     },
     webfontDownload(),
+    nodePolyfills({ include: ["events"] }), // https://github.com/vitejs/vite/issues/9238
     babelPlugin(),
     VitePWA({
       registerType: "autoUpdate",
