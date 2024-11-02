@@ -1,0 +1,18 @@
+{
+  "name": "financier-api",
+  "private": "true",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Financier production API",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "express": "^4.21.1",
+    "helmet": "^8.0.0",
+    "nocache": "^4.0.0",
+    "uuid": "^11.0.2"
+  }
+}
