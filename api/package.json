@@ -9,6 +9,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "api": "^6.1.2",
     "cheerio": "^1.0.0",
     "express": "^4.21.1",
     "helmet": "^8.0.0",

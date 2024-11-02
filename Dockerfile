@@ -7,11 +7,10 @@ WORKDIR /financier
 ADD ./dist /financier/dist
 ADD ./docs /financier/docs
 ADD ./api /financier/api
-ADD ./package.json /financier/package.json
 
 WORKDIR /financier/api
 
-RUN pnpm install --production
+RUN pnpm install --prod --frozen-lockfile
 
 EXPOSE 8080
 
