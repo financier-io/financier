@@ -14,7 +14,7 @@
     "test-coverage": "vitest --coverage",
     "start": "vite",
     "docs": "jsdoc --configure .jsdoc.json",
-    "pull": "docker pull ghcr.io/financier-io/financier",
+    "pull": "docker pull --platform=linux/amd64 ghcr.io/financier-io/financier",
     "push": "docker push ghcr.io/financier-io/financier:production",
     "tag:prod": "docker tag ghcr.io/financier-io/financier:latest ghcr.io/financier-io/financier:production",
     "prod": "pnpm pull && pnpm tag:prod && pnpm push"
