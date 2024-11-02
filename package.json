@@ -2,8 +2,8 @@
   "name": "financier",
   "private": true,
   "type": "module",
-  "version": "1.9.2",
-  "releaseDate": "2024-11-01",
+  "version": "1.9.3",
+  "releaseDate": "2024-11-02",
   "description": "Straightforward budgeting",
   "main": "index.js",
   "scripts": {
