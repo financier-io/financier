@@ -34,7 +34,6 @@
     "@vitest/eslint-plugin": "^1.6.20",
     "autoprefixer": "^10.5.0",
     "babel-plugin-angularjs-annotate": "^0.10.0",
-    "esbuild": "^0.28.1",
     "eslint": "^10.5.0",
     "financier-docdash": "^0.7.0",
     "globals": "^17.6.0",

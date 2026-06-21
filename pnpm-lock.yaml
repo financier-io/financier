@@ -120,9 +120,6 @@ importers:
       babel-plugin-angularjs-annotate:
         specifier: ^0.10.0
         version: 0.10.0
-      esbuild:
-        specifier: ^0.28.1
-        version: 0.28.1
       eslint:
         specifier: ^10.5.0
         version: 10.5.0(jiti@1.21.6)
@@ -6633,6 +6630,7 @@ snapshots:
       '@esbuild/win32-arm64': 0.28.1
       '@esbuild/win32-ia32': 0.28.1
       '@esbuild/win32-x64': 0.28.1
+    optional: true
 
   escalade@3.2.0: {}
 

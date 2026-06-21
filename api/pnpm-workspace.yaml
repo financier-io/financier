@@ -1,13 +1,2 @@
-# Build-script policy for the standalone production install in Docker.
-#
-# The image copies only ./api (a self-contained deploy unit, enabled by the
-# per-package lockfile from shared-workspace-lockfile=false), so the root
-# pnpm-workspace.yaml and its allowBuilds approvals aren't present here.
-# Without this file, pnpm 10+ hard-fails with ERR_PNPM_IGNORED_BUILDS on
-# es5-ext's (transitive) build script -- denied below because it only prints a
-# funding message and builds nothing.
-#
-# Intentionally no `packages:` key: that would make pnpm treat the container as
-# a workspace root and look for a workspace-level lockfile that isn't shipped.
 allowBuilds:
   es5-ext: false
