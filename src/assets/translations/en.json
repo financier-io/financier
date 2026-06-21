@@ -314,7 +314,9 @@
   "CHANGE_EMAIL_QUESTION_2": "Has it been more than 2 hours since you requested the change?",
   "CHANGE_EMAIL_QUESTION_3": "Has the new email address already been taken?",
   "DELETE_ACCOUNT": "Delete account",
-  "DELETE_ACCOUNT_EXPLANATION": "Permanently deletes your account and synced data from our servers. Your budgets remain on this device.",
+  "DELETE_ACCOUNT_EXPLANATION": "Permanently deletes your account and synced data from our servers. Your budgets remain on this device until cleared.",
   "CONFIRM_DELETE_ACCOUNT": "Permanently delete your account?",
-  "DELETE_ACCOUNT_DESCRIPTION": "Are you sure you want to permanently delete your account? This cancels your subscription and permanently deletes your synced data from our servers. This cannot be undone. Your budgets will remain on this device."
+  "DELETE_ACCOUNT_DESCRIPTION": "Are you sure you want to permanently delete your account? This cancels your subscription and permanently deletes your synced data from our servers. This cannot be undone. Your budgets will remain on this device until cleared.",
+  "DELETE_ACCOUNT_TYPE_TO_CONFIRM": "To confirm, type \"{{phrase}}\" below.",
+  "DELETE_ACCOUNT_CONFIRM_PHRASE": "delete my account"
 }

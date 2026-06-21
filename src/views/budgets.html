@@ -250,11 +250,6 @@
     <div ng-if="userCtrl.email">
       <div class="budgets__title">{{'MANAGE_ACCOUNT' | translate}}</div>
 
-      <p
-        translate="CURRENT_EMAIL_IS"
-        translate-values="{email: userCtrl.email}"
-      ></p>
-
       <button class="button" ng-click="userCtrl.changeEmail()">
         {{'CHANGE_EMAIL' | translate}}
       </button>
