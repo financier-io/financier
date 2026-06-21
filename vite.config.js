@@ -19,7 +19,11 @@ export default defineConfig({
       },
     },
     webfontDownload(),
-    nodePolyfills({ include: ["events"] }), // https://github.com/vitejs/vite/issues/9238
+    nodePolyfills({
+      include: ["events"], // https://github.com/vitejs/vite/issues/9238
+      // globals injection breaks IIFE-bundled deps (angular-dateParser); `global` set via define instead
+      globals: { Buffer: false, global: false, process: false },
+    }),
     babelPlugin(),
     VitePWA({
       registerType: "autoUpdate",
@@ -66,6 +70,7 @@ export default defineConfig({
     },
   },
   define: {
+    global: "globalThis",
     VERSION: {
       number: pJson.version,
       date: pJson.releaseDate,
