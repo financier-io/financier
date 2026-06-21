@@ -1,2 +1,25 @@
 packages:
   - api
+
+allowBuilds:
+  '@parcel/watcher': true
+  es5-ext: false
+  esbuild: true
+
+allowedDeprecatedVersions:
+  angular: ^1.5.9
+  angular-animate: ^1.5.9
+  angular-i18n: ^1.5.9
+  angular-sanitize: ^1.5.9
+  angular-translate: ^2.19.0
+
+updateConfig:
+  ignoreDependencies:
+    - angular
+    - angular-animate
+    - angular-i18n
+    - angular-sanitize
+    - angular-translate
+    - "@uirouter/angularjs"
+    - angular-vs-repeat
+    - chart.js

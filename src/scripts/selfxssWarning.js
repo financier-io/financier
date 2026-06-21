@@ -1,4 +1,4 @@
-if (process.env.NODE_ENV === "production") {
+if (import.meta.env.PROD) {
   console.log(
     "%c ⚠️ Stop!",
     "color: red; font-size: 50px; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;",
