@@ -246,6 +246,32 @@
         </div>
       </div>
     </div>
+
+    <div ng-if="userCtrl.email">
+      <div class="budgets__title">{{'MANAGE_ACCOUNT' | translate}}</div>
+
+      <p
+        translate="CURRENT_EMAIL_IS"
+        translate-values="{email: userCtrl.email}"
+      ></p>
+
+      <button class="button" ng-click="userCtrl.changeEmail()">
+        {{'CHANGE_EMAIL' | translate}}
+      </button>
+
+      <p>
+        <button
+          class="button danger"
+          ladda="userCtrl.deleteAccountLoading"
+          ng-click="userCtrl.deleteAccount()"
+        >
+          {{'DELETE_ACCOUNT' | translate}}
+        </button>
+      </p>
+      <p>
+        <small>{{'DELETE_ACCOUNT_EXPLANATION' | translate}}</small>
+      </p>
+    </div>
   </div>
 
   <div class="budgets-footer">

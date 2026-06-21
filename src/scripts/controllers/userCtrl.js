@@ -1,6 +1,8 @@
 import moment from "moment";
 import removeLocalDataHtml from "../../views/modal/removeLocalData.html?raw";
 import signinHtml from "../../views/modal/signin.html?raw";
+import requestChangeEmailHtml from "../../views/modal/requestChangeEmail.html?raw";
+import deleteAccountHtml from "../../views/modal/deleteAccount.html?raw";
 
 angular
   .module("financier")
@@ -169,6 +171,38 @@ angular
               "ngdialog-theme-default ngdialog-theme-default--danger modal",
           })
           .then(removeLocalData);
+      };
+
+      this.changeEmail = () => {
+        ngDialog.open({
+          template: requestChangeEmailHtml,
+          controller: "requestChangeEmailCtrl as requestChangeEmailCtrl",
+          resolve: {
+            currentEmail: () => this.email,
+          },
+        });
+      };
+
+      this.deleteAccount = () => {
+        return ngDialog
+          .openConfirm({
+            template: deleteAccountHtml,
+            className:
+              "ngdialog-theme-default ngdialog-theme-default--danger modal",
+          })
+          .then(() => {
+            this.deleteAccountLoading = true;
+
+            // Once the backend deletes the account its remote database and
+            // session are gone, so we tear down sync and clear the session
+            // locally via logout(), dropping back to offline/free mode. Local
+            // budgets are intentionally left on the device.
+            return User.deleteAccount()
+              .then(() => this.logout())
+              .finally(() => {
+                this.deleteAccountLoading = false;
+              });
+          });
       };
 
       this.logoutAndRemove = () => {

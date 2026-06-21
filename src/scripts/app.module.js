@@ -20,6 +20,7 @@ import moment from "moment";
 
 import verifyEmailHtml from "../views/verifyEmail.html?raw";
 import resetPasswordHtml from "../views/resetPassword.html?raw";
+import changeEmailHtml from "../views/changeEmail.html?raw";
 import signupHtml from "../views/signup.html?raw";
 import budgetsHtml from "../views/budgets.html?raw";
 import createBudgetHtml from "../views/modal/createBudget.html?raw";
@@ -128,6 +129,11 @@ financier.config(
         url: "/user/forgot?token&email",
         template: resetPasswordHtml,
         controller: "resetPasswordCtrl as resetPasswordCtrl",
+      })
+      .state("user.changeEmail", {
+        url: "/user/change-email?token",
+        template: changeEmailHtml,
+        controller: "changeEmailCtrl as changeEmailCtrl",
       })
       .state("user.signup", {
         url: "/signup",
