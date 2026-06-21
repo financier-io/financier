@@ -1,7 +1,7 @@
 // @ts-check
 
 import globals from "globals";
-import vitest from "eslint-plugin-vitest";
+import vitest from "@vitest/eslint-plugin";
 import js from "@eslint/js";
 
 export default [

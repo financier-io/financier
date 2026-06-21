@@ -81,7 +81,7 @@ const styles = $("style");
 const links = $('link[rel="stylesheet"]');
 const scripts = $("script");
 
-app.all("/*", (req, res) => {
+app.all("/{*splat}", (req, res) => {
   styles.attr("nonce", res.locals.nonce);
   links.attr("nonce", res.locals.nonce);
   scripts.attr("nonce", res.locals.nonce);

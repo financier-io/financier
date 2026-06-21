@@ -1,2 +1,27 @@
 packages:
   - api
+
+# Native build scripts that pnpm v10+ blocks by default until approved.
+allowBuilds:
+  '@parcel/watcher': true # native fs watcher used by Vite's dev server
+  es5-ext: false # postinstall only prints a funding message; no build needed
+  esbuild: true # links the prebuilt platform binary used for CSS minification
+
+# Moved from the package.json "pnpm" field, which pnpm v10+ no longer reads.
+allowedDeprecatedVersions:
+  angular: ^1.5.9
+  angular-animate: ^1.5.9
+  angular-i18n: ^1.5.9
+  angular-sanitize: ^1.5.9
+  angular-translate: ^2.19.0
+
+updateConfig:
+  ignoreDependencies:
+    - angular
+    - angular-animate
+    - angular-i18n
+    - angular-sanitize
+    - angular-translate
+    - "@uirouter/angularjs"
+    - angular-vs-repeat
+    - chart.js

@@ -26,7 +26,7 @@ angular.module("financier").directive("checkNumberInput", ($rootScope) => {
               let checkNumber = getCurrentCheckNumber();
 
               if (!isNaN(checkNumber)) {
-                scope.checkNumber = ++checkNumber;
+                scope.checkNumber = checkNumber + 1;
               }
 
               e.preventDefault();
@@ -37,7 +37,7 @@ angular.module("financier").directive("checkNumberInput", ($rootScope) => {
               let checkNumber = getCurrentCheckNumber();
 
               if (!isNaN(checkNumber)) {
-                scope.checkNumber = --checkNumber;
+                scope.checkNumber = checkNumber - 1;
               }
 
               e.preventDefault();

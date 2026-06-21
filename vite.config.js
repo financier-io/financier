@@ -57,7 +57,6 @@ export default defineConfig({
           "slash-div",
           "global-builtin",
           "color-functions",
-          "mixed-decls",
           "legacy-js-api",
         ],
       },
@@ -70,6 +69,10 @@ export default defineConfig({
     },
   },
   build: {
+    // Vite 8 defaults CSS minification to lightningcss, which rejects the
+    // legacy IE `*zoom` star-hack in vendored CSS (e.g. ng-dialog). esbuild
+    // (the pre-v8 default) silently ignores it, so keep using it.
+    cssMinify: "esbuild",
     rollupOptions: {
       output: {
         manualChunks(id) {
