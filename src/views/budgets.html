@@ -250,13 +250,15 @@
     <div ng-if="userCtrl.email">
       <div class="budgets__title">{{'MANAGE_ACCOUNT' | translate}}</div>
 
-      <button class="button" ng-click="userCtrl.changeEmail()">
-        {{'CHANGE_EMAIL' | translate}}
-      </button>
+      <p>
+        <button class="button" ng-click="userCtrl.changeEmail()">
+          {{'CHANGE_EMAIL' | translate}}
+        </button>
+      </p>
 
       <p>
         <button
-          class="button danger"
+          class="button button--danger"
           ladda="userCtrl.deleteAccountLoading"
           ng-click="userCtrl.deleteAccount()"
         >
