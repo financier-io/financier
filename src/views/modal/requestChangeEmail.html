@@ -66,11 +66,11 @@
 </form>
 
 <div ng-if="requestChangeEmailCtrl.success">
-  <div
-    class="message message--main message--success"
+  <p
+    class="message--main message--success"
     translate="CHANGE_EMAIL_CONFIRMATION_SENT"
     translate-values="{email: requestChangeEmailCtrl.newEmail}"
-  ></div>
+  ></p>
 
   <footer>
     <button class="primary" ng-click="closeThisDialog()">
