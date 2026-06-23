@@ -43,6 +43,7 @@ angular
       updateCategories(); // run to start
 
       $scope.categorySortable = {
+        supportPointer: false,
         animation: 200,
         group: "categories",
         ghostClass: "budget__month-row--ghost",
@@ -60,6 +61,7 @@ angular
       };
 
       $scope.masterCategorySortable = {
+        supportPointer: false,
         animation: 200,
         ghostClass: "budget__month-row--ghost",
         onSort: (e) => {
