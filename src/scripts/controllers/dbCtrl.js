@@ -282,6 +282,7 @@ angular
       this.currencyDigits = currencies[budgetRecord.currency].decimal_digits;
 
       this.accountSortable = {
+        supportPointer: false,
         animation: 200,
         ghostClass: "app-view__account--ghost",
         onSort: (e) => {
