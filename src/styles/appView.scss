@@ -17,19 +17,6 @@
 }
 
 .app-view__sidebar {
-  @media (max-width: 600px) {
-    min-width: 250px; // ignore configured sidebar width
-    max-width: 250px; // ignore configured sidebar width
-
-    transform: translateX(-250px);
-
-    transition: transform 250ms ease;
-
-    .app-view--sidebar-open & {
-      transform: translateX(0);
-    }
-  }
-
   width: 15em;
   position: relative;
 
@@ -44,6 +31,19 @@
 
   a {
     text-decoration: none;
+  }
+
+  @media (max-width: 600px) {
+    min-width: 250px; // ignore configured sidebar width
+    max-width: 250px; // ignore configured sidebar width
+
+    transform: translateX(-250px);
+
+    transition: transform 250ms ease;
+
+    .app-view--sidebar-open & {
+      transform: translateX(0);
+    }
   }
 }
 
