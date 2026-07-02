@@ -16,6 +16,8 @@ import "./controllers/verifyEmailCtrl.js";
 import "./controllers/editBudgetCtrl.js";
 import "./controllers/resetPasswordCtrl.js";
 import "./controllers/requestResetPasswordCtrl.js";
+import "./controllers/changeEmailCtrl.js";
+import "./controllers/requestChangeEmailCtrl.js";
 import "./controllers/splitTransactionCtrl.js";
 import "./controllers/editSplitTransactionCtrl.js";
 import "./controllers/cancelClickCtrl.js";

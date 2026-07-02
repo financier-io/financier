@@ -1,0 +1,80 @@
+<h2>{{'CHANGE_EMAIL' | translate}}</h2>
+
+<form
+  name="requestChangeEmailCtrl.form"
+  ng-submit="requestChangeEmailCtrl.submit(requestChangeEmailCtrl.email)"
+  ng-if="!requestChangeEmailCtrl.success"
+>
+  <p
+    translate="CURRENT_EMAIL_IS"
+    translate-values="{email: requestChangeEmailCtrl.currentEmail}"
+  ></p>
+
+  <label>
+    {{'NEW_EMAIL' | translate}}
+    <input
+      type="email"
+      name="email"
+      ng-model="requestChangeEmailCtrl.email"
+      ng-disabled="requestChangeEmailCtrl.formDisabled"
+      required
+    />
+    <div
+      ng-messages="requestChangeEmailCtrl.form.email.$error"
+      ng-if="requestChangeEmailCtrl.form.email.$dirty"
+    >
+      <div ng-message="required" class="message">
+        {{'FIELD_REQUIRED' | translate}}
+      </div>
+      <div ng-message="email" class="message">
+        {{'INVALID_EMAIL_ADDRESS' | translate}}
+      </div>
+    </div>
+  </label>
+
+  <div class="message message--main" ng-if="requestChangeEmailCtrl.error">
+    <span
+      ng-if="requestChangeEmailCtrl.error === 'existingEmail'"
+      translate="EMAIL_ADDRESS_ALREADY_REGISTERED"
+    ></span>
+    <span
+      ng-if="requestChangeEmailCtrl.error === 'sameEmail'"
+      translate="EMAIL_SAME_AS_CURRENT"
+    ></span>
+    <span
+      ng-if="requestChangeEmailCtrl.error === 'invalidEmail'"
+      translate="INVALID_EMAIL_ADDRESS"
+    ></span>
+    <span
+      ng-if="requestChangeEmailCtrl.error === 'GENERAL'"
+      translate="INTERNAL_ERROR"
+    ></span>
+  </div>
+
+  <footer>
+    <button
+      class="primary"
+      ng-disabled="requestChangeEmailCtrl.form.$invalid || requestChangeEmailCtrl.formDisabled"
+      ladda="requestChangeEmailCtrl.loading"
+    >
+      {{'REQUEST_EMAIL_CHANGE' | translate}}
+    </button>
+    <button type="button" ng-click="closeThisDialog()">
+      {{'CANCEL' | translate}}
+    </button>
+  </footer>
+</form>
+
+<div ng-if="requestChangeEmailCtrl.success">
+  <p
+    class="message--main message--success"
+    translate="CHANGE_EMAIL_CONFIRMATION_SENT"
+    translate-values="{email: requestChangeEmailCtrl.newEmail}"
+  ></p>
+
+  <footer>
+    <button class="primary" ng-click="closeThisDialog()">
+      {{'CLOSE' | translate}}
+    </button>
+  </footer>
+</div>

@@ -1,0 +1,38 @@
+<div class="verify-email" disable-ng-animate>
+  <div>
+    <div
+      class="verify-email__text verify-email__text--loading"
+      ng-if="changeEmailCtrl.loading"
+    >
+      {{'CHANGING_YOUR_EMAIL' | translate}}
+    </div>
+
+    <div class="verify-email__text" ng-if="changeEmailCtrl.changed">
+      {{'EMAIL_CHANGED_EXCLAMATION' | translate}}
+    </div>
+    <div class="verify-email__subtext" ng-if="changeEmailCtrl.changed">
+      {{'EMAIL_CHANGED_MESSAGE' | translate}}
+    </div>
+    <button
+      ng-if="changeEmailCtrl.changed"
+      ng-click="changeEmailCtrl.login()"
+      class="verify-email__button"
+    >
+      {{'LOGIN_TO_YOUR_ACCOUNT' | translate}}
+    </button>
+
+    <div class="verify-email__text" ng-if="changeEmailCtrl.error">
+      {{'PROBLEM_CHANGING_EMAIL' | translate}}
+    </div>
+    <div class="verify-email__subtext" ng-if="changeEmailCtrl.error">
+      {{'CHANGE_EMAIL_QUESTION_1' | translate}}<br />{{'CHANGE_EMAIL_QUESTION_2'
+      | translate}}<br />{{'CHANGE_EMAIL_QUESTION_3' | translate}}
+    </div>
+    <a
+      ui-sref="user.budget"
+      ng-if="changeEmailCtrl.error"
+      class="verify-email__button"
+      >{{'GO_TO_MY_BUDGETS' | translate}}</a
+    >
+  </div>
+</div>

@@ -60,5 +60,20 @@ angular.module("financier").factory("User", ($http) => {
         .post("/manage/users/forgot/reset", { token, password })
         .then((d) => d.data);
     },
+    requestChangeEmail: (email) => {
+      return $http
+        .post("/manage/users/account/change-email", {
+          email: email.toLowerCase(),
+        })
+        .then((d) => d.data);
+    },
+    confirmChangeEmail: (token) => {
+      return $http
+        .post("/manage/users/account/change-email/confirm", { token })
+        .then((d) => d.data);
+    },
+    deleteAccount: () => {
+      return $http.delete("/manage/users/account").then((d) => d.data);
+    },
   };
 });

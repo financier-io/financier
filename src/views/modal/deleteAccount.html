@@ -1,0 +1,35 @@
+<h2>{{'CONFIRM_DELETE_ACCOUNT' | translate}}</h2>
+<p translate="DELETE_ACCOUNT_DESCRIPTION"></p>
+
+<form
+  name="deleteAccountForm"
+  ng-submit="confirmText === ('DELETE_ACCOUNT_CONFIRM_PHRASE' | translate) && confirm()"
+>
+  <label>
+    <span
+      translate="DELETE_ACCOUNT_TYPE_TO_CONFIRM"
+      translate-values="{phrase: ('DELETE_ACCOUNT_CONFIRM_PHRASE' | translate)}"
+    ></span>
+    <input
+      type="text"
+      ng-model="confirmText"
+      ng-trim="false"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+      spellcheck="false"
+    />
+  </label>
+
+  <footer>
+    <button
+      class="danger"
+      ng-disabled="confirmText !== ('DELETE_ACCOUNT_CONFIRM_PHRASE' | translate)"
+    >
+      {{'DELETE_ACCOUNT' | translate}}
+    </button>
+    <button type="button" ng-click="closeThisDialog()">
+      {{'CANCEL' | translate}}
+    </button>
+  </footer>
+</form>
