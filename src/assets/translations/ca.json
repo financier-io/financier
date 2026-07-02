@@ -313,7 +313,6 @@
   "CHANGE_EMAIL_QUESTION_2": "Han passat més de 2 hores des que vau sol·licitar el canvi?",
   "CHANGE_EMAIL_QUESTION_3": "Ja s'ha ocupat la nova adreça de correu?",
   "DELETE_ACCOUNT": "Suprimeix el compte",
-  "DELETE_ACCOUNT_EXPLANATION": "Suprimeix permanentment el vostre compte i les dades sincronitzades dels nostres servidors. Els vostres pressupostos es mantindran en aquest dispositiu fins que els esborreu.",
   "CONFIRM_DELETE_ACCOUNT": "Voleu suprimir permanentment el vostre compte?",
   "DELETE_ACCOUNT_DESCRIPTION": "Segur que voleu suprimir permanentment el vostre compte? Això cancel·la la vostra subscripció i suprimeix permanentment les vostres dades sincronitzades dels nostres servidors. Aquesta acció no es pot desfer. Els vostres pressupostos es mantindran en aquest dispositiu fins que els esborreu.",
   "DELETE_ACCOUNT_TYPE_TO_CONFIRM": "Per confirmar-ho, escriviu \"{{phrase}}\" a continuació.",

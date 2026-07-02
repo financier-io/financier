@@ -309,7 +309,6 @@
   "CHANGE_EMAIL_QUESTION_2": "Sind seit deiner Anfrage mehr als 2 Stunden vergangen?",
   "CHANGE_EMAIL_QUESTION_3": "Ist die neue E-Mail-Adresse bereits vergeben?",
   "DELETE_ACCOUNT": "Account löschen",
-  "DELETE_ACCOUNT_EXPLANATION": "Löscht deinen Account und die synchronisierten Daten dauerhaft von unseren Servern. Deine Budgets bleiben auf diesem Gerät, bis sie gelöscht werden.",
   "CONFIRM_DELETE_ACCOUNT": "Account dauerhaft löschen?",
   "DELETE_ACCOUNT_DESCRIPTION": "Möchtest du deinen Account wirklich dauerhaft löschen? Dadurch wird dein Abonnement gekündigt und deine synchronisierten Daten werden dauerhaft von unseren Servern gelöscht. Dies kann nicht rückgängig gemacht werden. Deine Budgets bleiben auf diesem Gerät, bis sie gelöscht werden.",
   "DELETE_ACCOUNT_TYPE_TO_CONFIRM": "Gib zur Bestätigung \"{{phrase}}\" unten ein.",

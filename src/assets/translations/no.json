@@ -314,7 +314,6 @@
   "CHANGE_EMAIL_QUESTION_2": "Er det mer enn 2 timer siden du ba om endringen?",
   "CHANGE_EMAIL_QUESTION_3": "Er den nye e-postadressen allerede i bruk?",
   "DELETE_ACCOUNT": "Slett konto",
-  "DELETE_ACCOUNT_EXPLANATION": "Sletter kontoen din og de synkroniserte dataene permanent fra serverne våre. Budsjettene dine blir værende på denne enheten til de fjernes.",
   "CONFIRM_DELETE_ACCOUNT": "Slette kontoen din permanent?",
   "DELETE_ACCOUNT_DESCRIPTION": "Er du sikker på at du vil slette kontoen din permanent? Dette avslutter abonnementet ditt og sletter de synkroniserte dataene dine permanent fra serverne våre. Dette kan ikke angres. Budsjettene dine blir værende på denne enheten til de fjernes.",
   "DELETE_ACCOUNT_TYPE_TO_CONFIRM": "For å bekrefte, skriv \"{{phrase}}\" nedenfor.",

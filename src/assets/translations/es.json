@@ -314,7 +314,6 @@
   "CHANGE_EMAIL_QUESTION_2": "¿Han pasado más de 2 horas desde que solicitaste el cambio?",
   "CHANGE_EMAIL_QUESTION_3": "¿La nueva dirección de correo ya está en uso?",
   "DELETE_ACCOUNT": "Eliminar cuenta",
-  "DELETE_ACCOUNT_EXPLANATION": "Elimina permanentemente tu cuenta y los datos sincronizados de nuestros servidores. Tus presupuestos permanecerán en este dispositivo hasta que los borres.",
   "CONFIRM_DELETE_ACCOUNT": "¿Eliminar permanentemente tu cuenta?",
   "DELETE_ACCOUNT_DESCRIPTION": "¿Seguro que quieres eliminar permanentemente tu cuenta? Esto cancela tu suscripción y elimina permanentemente tus datos sincronizados de nuestros servidores. Esta acción no se puede deshacer. Tus presupuestos permanecerán en este dispositivo hasta que los borres.",
   "DELETE_ACCOUNT_TYPE_TO_CONFIRM": "Para confirmar, escribe \"{{phrase}}\" a continuación.",

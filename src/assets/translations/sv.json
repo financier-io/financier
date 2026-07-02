@@ -313,7 +313,6 @@
   "CHANGE_EMAIL_QUESTION_2": "Har det gått mer än 2 timmar sedan du begärde ändringen?",
   "CHANGE_EMAIL_QUESTION_3": "Är den nya e-mailadressen redan upptagen?",
   "DELETE_ACCOUNT": "Ta bort konto",
-  "DELETE_ACCOUNT_EXPLANATION": "Tar bort ditt konto och synkroniserade data permanent från våra servrar. Dina budgetar finns kvar på den här enheten tills de rensas.",
   "CONFIRM_DELETE_ACCOUNT": "Ta bort ditt konto permanent?",
   "DELETE_ACCOUNT_DESCRIPTION": "Är du säker på att du vill ta bort ditt konto permanent? Detta avslutar din prenumeration och tar permanent bort dina synkroniserade data från våra servrar. Detta kan inte ångras. Dina budgetar finns kvar på den här enheten tills de rensas.",
   "DELETE_ACCOUNT_TYPE_TO_CONFIRM": "Bekräfta genom att skriva \"{{phrase}}\" nedan.",
