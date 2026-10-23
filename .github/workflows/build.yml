@@ -23,7 +23,7 @@ jobs:
       - run: corepack enable
       - uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version: "24.22.1"
           cache: pnpm
       - name: Install packages
         run: pnpm install --frozen-lockfile
@@ -80,6 +80,7 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
+          pull: true
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
