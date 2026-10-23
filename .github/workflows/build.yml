@@ -20,10 +20,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v7
-      - run: corepack enable
+      - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
-          node-version: "24.22.1"
+          node-version: "26.12.1"
           cache: pnpm
       - name: Install packages
         run: pnpm install --frozen-lockfile
@@ -76,6 +76,11 @@ jobs:
         uses: docker/metadata-action@v6
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=tag
+            type=ref,event=pr
+            type=raw,value=latest,enable={{is_default_branch}}
       - name: Build and push
         uses: docker/build-push-action@v7
         with:
@@ -88,6 +93,7 @@ jobs:
   deploy-staging-if-needed:
     runs-on: ubuntu-latest
     needs: build-and-push-image
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Trigger staging to redeploy
         env:

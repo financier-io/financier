@@ -61,7 +61,7 @@
     "angular-hotkeys-light": "^1.1.1",
     "angular-i18n": "^1.5.9",
     "angular-ladda-lw": "^0.4.3",
-    "angular-legacy-sortablejs-maintained": "github:OzzieOrca/angular-legacy-sortablejs#fix-sortablejs-import",
+    "angular-legacy-sortablejs-maintained": "0.6.2",
     "angular-md5": "^0.1.10",
     "angular-messages": "^1.8.3",
     "angular-resizable": "^1.2.0",

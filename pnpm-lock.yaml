@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  angular-legacy-sortablejs-maintained@0.6.2: 357ff46b8cb8571b0c782c9589006f42ca76e994ec629aede4deed39e1341780
+
 importers:
 
   .:
@@ -36,8 +39,8 @@ importers:
         specifier: ^0.4.3
         version: 0.4.3
       angular-legacy-sortablejs-maintained:
-        specifier: github:OzzieOrca/angular-legacy-sortablejs#fix-sortablejs-import
-        version: https://codeload.github.com/OzzieOrca/angular-legacy-sortablejs/tar.gz/13f0a45b894672f4fdfa0f5904bb21e3113b6a34(sortablejs@1.15.7)
+        specifier: 0.6.2
+        version: 0.6.2(patch_hash=357ff46b8cb8571b0c782c9589006f42ca76e994ec629aede4deed39e1341780)(sortablejs@1.15.7)
       angular-md5:
         specifier: ^0.1.10
         version: 0.1.10
@@ -1546,9 +1549,8 @@ packages:
   angular-ladda-lw@0.4.3:
     resolution: {integrity: sha512-vFhkE63O5Iz+tFFbW5COz4kbJDIJMG7RlZSJDHuwDqL1Mf7eJuao04S+g8W2B8JZcT09EY/GVjAsMevdfSuCXg==}
 
-  angular-legacy-sortablejs-maintained@https://codeload.github.com/OzzieOrca/angular-legacy-sortablejs/tar.gz/13f0a45b894672f4fdfa0f5904bb21e3113b6a34:
-    resolution: {gitHosted: true, integrity: sha512-QpLHjjFkF2y/bjvktdJizl6XcXShwcTmtb7PDn/64J/etxxNmcp94H6z0BSxx9Fwlj4kd+Te22BGa9TI9yaHGw==, tarball: https://codeload.github.com/OzzieOrca/angular-legacy-sortablejs/tar.gz/13f0a45b894672f4fdfa0f5904bb21e3113b6a34}
-    version: 0.6.2
+  angular-legacy-sortablejs-maintained@0.6.2:
+    resolution: {integrity: sha512-rZA9LImEc+Q/OUYK8apg2iN7KCslrU6Dctk4hwY0ZDfFsWLzybHbMx97lqXK4J2crv41MQictW4D0PIIk4YfFA==}
     peerDependencies:
       sortablejs: '>=1.5.x'
 
@@ -5820,7 +5822,7 @@ snapshots:
 
   angular-ladda-lw@0.4.3: {}
 
-  angular-legacy-sortablejs-maintained@https://codeload.github.com/OzzieOrca/angular-legacy-sortablejs/tar.gz/13f0a45b894672f4fdfa0f5904bb21e3113b6a34(sortablejs@1.15.7):
+  angular-legacy-sortablejs-maintained@0.6.2(patch_hash=357ff46b8cb8571b0c782c9589006f42ca76e994ec629aede4deed39e1341780)(sortablejs@1.15.7):
     dependencies:
       sortablejs: 1.15.7
 

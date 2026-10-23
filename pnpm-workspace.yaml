@@ -1,6 +1,9 @@
 packages:
   - api
 
+patchedDependencies:
+  angular-legacy-sortablejs-maintained@0.6.2: patches/angular-legacy-sortablejs-maintained@0.6.2.patch
+
 allowBuilds:
   '@parcel/watcher': true
   es5-ext: false

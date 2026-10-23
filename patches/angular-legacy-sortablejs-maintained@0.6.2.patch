@@ -1,0 +1,11 @@
+--- a/angular-legacy-sortable.js
++++ b/angular-legacy-sortable.js
+@@ -20,6 +20,8 @@
+ })(function (angular, Sortable) {
+ 	'use strict';
+ 
++	// Use default import if available
++	Sortable = Sortable.default || Sortable;
+ 
+ 	/**
+ 	 * @typedef   {Object}        ngSortEvent
