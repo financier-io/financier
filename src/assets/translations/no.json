@@ -317,5 +317,6 @@
   "CONFIRM_DELETE_ACCOUNT": "Slette kontoen din permanent?",
   "DELETE_ACCOUNT_DESCRIPTION": "Er du sikker på at du vil slette kontoen din permanent? Dette avslutter abonnementet ditt og sletter de synkroniserte dataene dine permanent fra serverne våre. Dette kan ikke angres. Budsjettene dine blir værende på denne enheten til de fjernes.",
   "DELETE_ACCOUNT_TYPE_TO_CONFIRM": "For å bekrefte, skriv \"{{phrase}}\" nedenfor.",
-  "DELETE_ACCOUNT_CONFIRM_PHRASE": "slett kontoen min"
+  "DELETE_ACCOUNT_CONFIRM_PHRASE": "slett kontoen min",
+  "TOO_MANY_ACCOUNT_REQUESTS": "For mange forespørsler. Prøv igjen senere."
 }

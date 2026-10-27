@@ -317,5 +317,6 @@
   "CONFIRM_DELETE_ACCOUNT": "Permanently delete your account?",
   "DELETE_ACCOUNT_DESCRIPTION": "Are you sure you want to permanently delete your account? This cancels your subscription and permanently deletes your synced data from our servers. This cannot be undone. Your budgets will remain on this device until cleared.",
   "DELETE_ACCOUNT_TYPE_TO_CONFIRM": "To confirm, type \"{{phrase}}\" below.",
-  "DELETE_ACCOUNT_CONFIRM_PHRASE": "delete my account"
+  "DELETE_ACCOUNT_CONFIRM_PHRASE": "delete my account",
+  "TOO_MANY_ACCOUNT_REQUESTS": "Too many requests. Please try again later."
 }

@@ -317,5 +317,6 @@
   "CONFIRM_DELETE_ACCOUNT": "Supprimer définitivement votre compte?",
   "DELETE_ACCOUNT_DESCRIPTION": "Êtes-vous certain de vouloir supprimer définitivement votre compte? Cela annule votre abonnement et supprime définitivement vos données synchronisées de nos serveurs. Cette action est irréversible. Vos budgets resteront sur cet appareil jusqu'à ce qu'ils soient effacés.",
   "DELETE_ACCOUNT_TYPE_TO_CONFIRM": "Pour confirmer, saisissez \"{{phrase}}\" ci-dessous.",
-  "DELETE_ACCOUNT_CONFIRM_PHRASE": "supprimer mon compte"
+  "DELETE_ACCOUNT_CONFIRM_PHRASE": "supprimer mon compte",
+  "TOO_MANY_ACCOUNT_REQUESTS": "Trop de demandes. Veuillez réessayer plus tard."
 }

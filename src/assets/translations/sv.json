@@ -316,5 +316,6 @@
   "CONFIRM_DELETE_ACCOUNT": "Ta bort ditt konto permanent?",
   "DELETE_ACCOUNT_DESCRIPTION": "Är du säker på att du vill ta bort ditt konto permanent? Detta avslutar din prenumeration och tar permanent bort dina synkroniserade data från våra servrar. Detta kan inte ångras. Dina budgetar finns kvar på den här enheten tills de rensas.",
   "DELETE_ACCOUNT_TYPE_TO_CONFIRM": "Bekräfta genom att skriva \"{{phrase}}\" nedan.",
-  "DELETE_ACCOUNT_CONFIRM_PHRASE": "ta bort mitt konto"
+  "DELETE_ACCOUNT_CONFIRM_PHRASE": "ta bort mitt konto",
+  "TOO_MANY_ACCOUNT_REQUESTS": "För många förfrågningar. Försök igen senare."
 }
