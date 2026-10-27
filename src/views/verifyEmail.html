@@ -7,6 +7,53 @@
       {{'VERIFYING_YOUR_ACCOUNT' | translate}}
     </div>
 
+    <form
+      name="verifyEmailCtrl.form"
+      class="verify-email__form"
+      ng-if="verifyEmailCtrl.requiresPassword && !verifyEmailCtrl.verified"
+      ng-submit="verifyEmailCtrl.submit()"
+    >
+      <div class="verify-email__text">
+        {{'SET_PASSWORD_TO_ACTIVATE' | translate}}
+      </div>
+      <p class="verify-email__subtext">
+        {{'ACTIVATION_PASSWORD_DESCRIPTION' | translate}}
+      </p>
+      <label class="verify-email__label">
+        {{'NEW_PASSWORD' | translate}}<br />
+        <input
+          type="password"
+          name="password"
+          class="verify-email__input"
+          ng-model="verifyEmailCtrl.password"
+          ng-disabled="verifyEmailCtrl.loading"
+          autocomplete="new-password"
+          required
+          ng-minlength="6"
+        />
+        <div
+          ng-messages="verifyEmailCtrl.form.password.$error"
+          ng-if="verifyEmailCtrl.form.password.$touched"
+        >
+          <div ng-message="required" class="message">
+            {{'FIELD_REQUIRED' | translate}}
+          </div>
+          <div ng-message="minlength" class="message">
+            {{'PASSWORD_MINIMUM_LENGTH' | translate}}
+          </div>
+        </div>
+      </label>
+      <p ng-if="verifyEmailCtrl.serverError" class="message" role="alert">
+        {{verifyEmailCtrl.serverError | translate}}
+      </p>
+      <button
+        class="verify-email__button"
+        ng-disabled="verifyEmailCtrl.loading || verifyEmailCtrl.form.$invalid"
+      >
+        {{'SUBMIT' | translate}}
+      </button>
+    </form>
+
     <div class="verify-email__text" ng-if="verifyEmailCtrl.verified">
       {{'VERIFIED_EXCLAMATION' | translate}}
     </div>
@@ -24,10 +71,28 @@
     <div class="verify-email__text" ng-if="verifyEmailCtrl.error">
       {{'PROBLEM_VERIFYING_ACCOUNT' | translate}}
     </div>
-    <div class="verify-email__subtext" ng-if="verifyEmailCtrl.error">
+    <div
+      class="verify-email__subtext"
+      ng-if="verifyEmailCtrl.error && !verifyEmailCtrl.serverError"
+    >
       {{'VERIFY_QUESTION_1' | translate}}<br />{{'VERIFY_QUESTION_2' |
       translate}}<br />{{'VERIFY_QUESTION_3' | translate}}
     </div>
+    <div
+      class="verify-email__subtext"
+      ng-if="verifyEmailCtrl.error && verifyEmailCtrl.serverError"
+      role="alert"
+    >
+      {{verifyEmailCtrl.serverError | translate}}
+    </div>
+    <button
+      ng-if="verifyEmailCtrl.error && verifyEmailCtrl.canRetry"
+      ng-click="verifyEmailCtrl.retry()"
+      ng-disabled="verifyEmailCtrl.loading"
+      class="verify-email__button"
+    >
+      {{'TRY_AGAIN' | translate}}
+    </button>
     <a
       ui-sref="user.budget"
       ng-if="verifyEmailCtrl.error"

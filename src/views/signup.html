@@ -146,10 +146,8 @@
             ></span>
           </button>
 
-          <div ng-messages="signupCtrl.form.$error">
-            <div ng-message="internalError" class="message">
-              {{'INTERNAL_ERROR' | translate}}
-            </div>
+          <div ng-if="signupCtrl.serverError" class="message" role="alert">
+            {{signupCtrl.serverError | translate}}
           </div>
         </div>
 

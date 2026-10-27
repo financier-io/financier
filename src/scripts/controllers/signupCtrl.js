@@ -1,6 +1,7 @@
 angular.module("financier").controller("signupCtrl", function ($scope, User) {
   this.submit = (email, password) => {
     if (this.loading) return;
+    this.serverError = null;
     this.loading = true;
 
     User.create(email, password)
@@ -9,10 +10,11 @@ angular.module("financier").controller("signupCtrl", function ($scope, User) {
         document.activeElement.blur();
       })
       .catch((e) => {
-        if (e.data?.errorMessage === "existingEmail") {
+        if (e?.data?.errorMessage === "existingEmail") {
           this.form.email.$setValidity("duplicate", false);
         } else {
-          this.form.$setValidity("internalError", false);
+          this.serverError =
+            e?.status === 429 ? "TOO_MANY_ACCOUNT_REQUESTS" : "INTERNAL_ERROR";
         }
       })
       .finally(() => {
@@ -30,7 +32,7 @@ angular.module("financier").controller("signupCtrl", function ($scope, User) {
   $scope.$watch(
     () => `${this.email}${this.password}`,
     () => {
-      this.form.$setValidity("internalError", true);
+      this.serverError = null;
     },
   );
 });

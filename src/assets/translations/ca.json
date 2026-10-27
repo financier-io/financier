@@ -316,5 +316,9 @@
   "CONFIRM_DELETE_ACCOUNT": "Voleu suprimir permanentment el vostre compte?",
   "DELETE_ACCOUNT_DESCRIPTION": "Segur que voleu suprimir permanentment el vostre compte? Això cancel·la la vostra subscripció i suprimeix permanentment les vostres dades sincronitzades dels nostres servidors. Aquesta acció no es pot desfer. Els vostres pressupostos es mantindran en aquest dispositiu fins que els esborreu.",
   "DELETE_ACCOUNT_TYPE_TO_CONFIRM": "Per confirmar-ho, escriviu \"{{phrase}}\" a continuació.",
-  "DELETE_ACCOUNT_CONFIRM_PHRASE": "suprimeix el meu compte"
+  "DELETE_ACCOUNT_CONFIRM_PHRASE": "suprimeix el meu compte",
+  "SET_PASSWORD_TO_ACTIVATE": "Establiu la contrasenya per activar el compte",
+  "ACTIVATION_PASSWORD_DESCRIPTION": "Introduïu la contrasenya que voleu utilitzar. Aquesta contrasenya s’establirà quan activeu el compte.",
+  "TOO_MANY_ACCOUNT_REQUESTS": "Massa sol·licituds. Reviseu la safata d’entrada i torneu-ho a provar més tard.",
+  "TRY_AGAIN": "Torneu-ho a provar"
 }

@@ -312,5 +312,9 @@
   "CONFIRM_DELETE_ACCOUNT": "Account dauerhaft löschen?",
   "DELETE_ACCOUNT_DESCRIPTION": "Möchtest du deinen Account wirklich dauerhaft löschen? Dadurch wird dein Abonnement gekündigt und deine synchronisierten Daten werden dauerhaft von unseren Servern gelöscht. Dies kann nicht rückgängig gemacht werden. Deine Budgets bleiben auf diesem Gerät, bis sie gelöscht werden.",
   "DELETE_ACCOUNT_TYPE_TO_CONFIRM": "Gib zur Bestätigung \"{{phrase}}\" unten ein.",
-  "DELETE_ACCOUNT_CONFIRM_PHRASE": "meinen account löschen"
+  "DELETE_ACCOUNT_CONFIRM_PHRASE": "meinen account löschen",
+  "SET_PASSWORD_TO_ACTIVATE": "Lege dein Passwort fest, um dein Konto zu aktivieren",
+  "ACTIVATION_PASSWORD_DESCRIPTION": "Gib das Passwort ein, das du verwenden möchtest. Dieses Passwort wird bei der Aktivierung deines Kontos festgelegt.",
+  "TOO_MANY_ACCOUNT_REQUESTS": "Zu viele Anfragen. Prüfe deinen Posteingang und versuche es später erneut.",
+  "TRY_AGAIN": "Erneut versuchen"
 }

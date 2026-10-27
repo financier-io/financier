@@ -38,6 +38,24 @@
   margin-bottom: 1em;
 }
 
+.verify-email__form {
+  max-width: 28rem;
+  padding: 1rem;
+}
+
+.verify-email__label {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.verify-email__input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid white;
+  color: white;
+  font-size: 1.3em;
+  max-width: 100%;
+}
+
 .verify-email__text,
 .verify-email__subtext,
 .verify-email__button {
