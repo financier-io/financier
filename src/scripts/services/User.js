@@ -40,13 +40,8 @@ angular.module("financier").factory("User", ($http) => {
     getStripePublishableKey: () => {
       return $http.get("/manage/billing/stripeKey").then((d) => d.data);
     },
-    verifyEmail: (token, password) => {
-      return $http
-        .post("/manage/users/verify", {
-          token,
-          ...(password !== undefined ? { password } : {}),
-        })
-        .then((d) => d.data);
+    verifyEmail: (token) => {
+      return $http.post("/manage/users/verify", { token }).then((d) => d.data);
     },
     requestResetPassword: (email) => {
       return $http

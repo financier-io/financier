@@ -13,27 +13,12 @@ describe("User verification requests", () => {
     $httpBackend.verifyNoOutstandingRequest();
   });
 
-  it("omits a password on the initial compatibility request", () => {
+  it("verifies with the email token alone", () => {
     $httpBackend
       .expectPOST("/manage/users/verify", { token: "mailbox-token" })
-      .respond(422, { errorMessage: "passwordRequired" });
-    let error;
-    User.verifyEmail("mailbox-token").catch((response) => {
-      error = response;
-    });
-    $httpBackend.flush();
-    expect(error.data.errorMessage).toBe("passwordRequired");
-  });
-
-  it("sends the mailbox owner's chosen password for account activation", () => {
-    $httpBackend
-      .expectPOST("/manage/users/verify", {
-        token: "mailbox-token",
-        password: "owner-password",
-      })
       .respond(200, "OK");
     let result;
-    User.verifyEmail("mailbox-token", "owner-password").then((response) => {
+    User.verifyEmail("mailbox-token").then((response) => {
       result = response;
     });
     $httpBackend.flush();

@@ -317,8 +317,5 @@
   "DELETE_ACCOUNT_DESCRIPTION": "Är du säker på att du vill ta bort ditt konto permanent? Detta avslutar din prenumeration och tar permanent bort dina synkroniserade data från våra servrar. Detta kan inte ångras. Dina budgetar finns kvar på den här enheten tills de rensas.",
   "DELETE_ACCOUNT_TYPE_TO_CONFIRM": "Bekräfta genom att skriva \"{{phrase}}\" nedan.",
   "DELETE_ACCOUNT_CONFIRM_PHRASE": "ta bort mitt konto",
-  "SET_PASSWORD_TO_ACTIVATE": "Välj lösenord för att aktivera ditt konto",
-  "ACTIVATION_PASSWORD_DESCRIPTION": "Ange lösenordet du vill använda. Detta lösenord sparas när du aktiverar ditt konto.",
-  "TOO_MANY_ACCOUNT_REQUESTS": "För många förfrågningar. Kontrollera din inkorg och försök igen senare.",
-  "TRY_AGAIN": "Försök igen"
+  "TOO_MANY_ACCOUNT_REQUESTS": "För många förfrågningar. Försök igen senare."
 }

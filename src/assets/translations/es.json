@@ -318,8 +318,5 @@
   "DELETE_ACCOUNT_DESCRIPTION": "¿Seguro que quieres eliminar permanentemente tu cuenta? Esto cancela tu suscripción y elimina permanentemente tus datos sincronizados de nuestros servidores. Esta acción no se puede deshacer. Tus presupuestos permanecerán en este dispositivo hasta que los borres.",
   "DELETE_ACCOUNT_TYPE_TO_CONFIRM": "Para confirmar, escribe \"{{phrase}}\" a continuación.",
   "DELETE_ACCOUNT_CONFIRM_PHRASE": "eliminar mi cuenta",
-  "SET_PASSWORD_TO_ACTIVATE": "Establece tu contraseña para activar tu cuenta",
-  "ACTIVATION_PASSWORD_DESCRIPTION": "Introduce la contraseña que quieras utilizar. Esta contraseña se establecerá cuando actives tu cuenta.",
-  "TOO_MANY_ACCOUNT_REQUESTS": "Demasiadas solicitudes. Revisa tu bandeja de entrada e inténtalo de nuevo más tarde.",
-  "TRY_AGAIN": "Volver a intentar"
+  "TOO_MANY_ACCOUNT_REQUESTS": "Demasiadas solicitudes. Inténtalo de nuevo más tarde."
 }

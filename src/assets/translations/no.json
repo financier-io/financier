@@ -318,8 +318,5 @@
   "DELETE_ACCOUNT_DESCRIPTION": "Er du sikker på at du vil slette kontoen din permanent? Dette avslutter abonnementet ditt og sletter de synkroniserte dataene dine permanent fra serverne våre. Dette kan ikke angres. Budsjettene dine blir værende på denne enheten til de fjernes.",
   "DELETE_ACCOUNT_TYPE_TO_CONFIRM": "For å bekrefte, skriv \"{{phrase}}\" nedenfor.",
   "DELETE_ACCOUNT_CONFIRM_PHRASE": "slett kontoen min",
-  "SET_PASSWORD_TO_ACTIVATE": "Velg passord for å aktivere kontoen din",
-  "ACTIVATION_PASSWORD_DESCRIPTION": "Skriv inn passordet du vil bruke. Dette passordet blir satt når du aktiverer kontoen din.",
-  "TOO_MANY_ACCOUNT_REQUESTS": "For mange forespørsler. Sjekk innboksen din og prøv igjen senere.",
-  "TRY_AGAIN": "Prøv igjen"
+  "TOO_MANY_ACCOUNT_REQUESTS": "For mange forespørsler. Prøv igjen senere."
 }

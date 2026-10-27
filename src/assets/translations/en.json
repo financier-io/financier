@@ -318,8 +318,5 @@
   "DELETE_ACCOUNT_DESCRIPTION": "Are you sure you want to permanently delete your account? This cancels your subscription and permanently deletes your synced data from our servers. This cannot be undone. Your budgets will remain on this device until cleared.",
   "DELETE_ACCOUNT_TYPE_TO_CONFIRM": "To confirm, type \"{{phrase}}\" below.",
   "DELETE_ACCOUNT_CONFIRM_PHRASE": "delete my account",
-  "SET_PASSWORD_TO_ACTIVATE": "Set your password to activate your account",
-  "ACTIVATION_PASSWORD_DESCRIPTION": "Enter the password you want to use. This password will be set when you activate your account.",
-  "TOO_MANY_ACCOUNT_REQUESTS": "Too many requests. Check your inbox and try again later.",
-  "TRY_AGAIN": "Try again"
+  "TOO_MANY_ACCOUNT_REQUESTS": "Too many requests. Please try again later."
 }
