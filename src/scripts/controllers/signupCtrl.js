@@ -1,5 +1,6 @@
 angular.module("financier").controller("signupCtrl", function ($scope, User) {
   this.submit = (email, password) => {
+    if (this.loading) return;
     this.loading = true;
 
     User.create(email, password)
@@ -8,7 +9,7 @@ angular.module("financier").controller("signupCtrl", function ($scope, User) {
         document.activeElement.blur();
       })
       .catch((e) => {
-        if (e.data.errorMessage === "existingEmail") {
+        if (e.data?.errorMessage === "existingEmail") {
           this.form.email.$setValidity("duplicate", false);
         } else {
           this.form.$setValidity("internalError", false);

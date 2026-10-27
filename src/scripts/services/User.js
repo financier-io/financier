@@ -1,13 +1,8 @@
+import { submitSignup } from "./signupChallenge.js";
+
 angular.module("financier").factory("User", ($http) => {
   return {
-    create: (email, password) => {
-      return $http
-        .post("/manage/users", {
-          email: email.toLowerCase(),
-          password,
-        })
-        .then((d) => d.data);
-    },
+    create: (email, password) => submitSignup($http, email, password),
     login: (email, password) => {
       return $http
         .post("/db/_session", {
